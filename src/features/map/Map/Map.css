@@ -1,0 +1,8 @@
+.mapboxgl-ctrl-attrib-inner, .mapboxgl-control-container {
+    display: none;
+}
+
+.mapboxgl-map {
+    box-shadow: 0.25em 0.25em 0.5em rgba(128, 128, 128, 0.35);
+    margin-bottom: 2em;
+}

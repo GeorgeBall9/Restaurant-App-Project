@@ -9,11 +9,16 @@ import {
 import './style/index.css';
 import Home from "./routes/Home/Home";
 import reportWebVitals from './reportWebVitals';
+import MapView from "./routes/MapView/MapView";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Home/>,
+    },
+    {
+        path: "/map",
+        element: <MapView/>,
     },
 ]);
 

@@ -8,8 +8,12 @@ import {
 
 import './style/index.css';
 import Home from "./routes/Home/Home";
-import reportWebVitals from './reportWebVitals';
 import MapView from "./routes/MapView/MapView";
+
+import store from './app/store'
+import { Provider } from 'react-redux'
+
+import reportWebVitals from './reportWebVitals';
 
 const router = createBrowserRouter([
     {
@@ -25,7 +29,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+          <RouterProvider router={router} />
+      </Provider>
   </React.StrictMode>
 );
 

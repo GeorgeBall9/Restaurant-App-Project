@@ -46,8 +46,6 @@ const Map = () => {
             throw Error("No id provided");
         }
 
-        console.log("marker clicked")
-
         if (!displayedRestaurant) {
             const restaurantToDisplay = restaurants.find(restaurant => restaurant.id === id);
             dispatch(displayRestaurant(restaurantToDisplay));

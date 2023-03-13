@@ -20,7 +20,8 @@ const initialState = {
                 ["12:00-14:30, 17:30-21:00"],
                 ["12:00-14:30, 17:30-22:00"]
             ],
-            cuisines: [
+            primaryCuisine: "European",
+            allCuisines: [
                 {key: "10654", name: "European"},
                 {key: "10662", name: "British"},
                 {key: "10665", name: "Vegetarian Friendly"},

@@ -1,7 +1,7 @@
 import "./Map.css";
 
-import ReactMapGl, {Marker} from "react-map-gl";
-import {useState} from "react";
+import ReactMapGl, {Layer, Marker, Source} from "react-map-gl";
+import {useEffect, useState} from "react";
 
 import {useSelector, useDispatch} from "react-redux";
 
@@ -9,7 +9,7 @@ import {
     selectUserPosition,
     selectRestaurantPositions,
     selectDisplayedRestaurant,
-    displayRestaurant,
+    displayRestaurant, selectRouteCoordinates,
 } from "../mapSlice";
 
 const Map = () => {
@@ -20,6 +20,8 @@ const Map = () => {
     const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
 
+    const [map, setMap] = useState(null);
+
     const [viewState, setViewState] = useState({
         latitude: userPosition.latitude,
         longitude: userPosition.longitude,
@@ -28,6 +30,10 @@ const Map = () => {
 
     const handleMapMove = (e) => {
         setViewState(e.viewState);
+    }
+
+    const handleMapLoad = ({target}) => {
+        setMap(target);
     }
 
     const handleMarkerClick = (id) => {
@@ -55,12 +61,77 @@ const Map = () => {
         dispatch(displayRestaurant(restaurantToDisplay));
     }
 
+    // useEffect(() => {
+    //     if (!displayedRestaurant || !userPosition) return;
+    //
+    //     const {latitude: uLat, longitude: uLon} = userPosition;
+    //     const {latitude: rLat, longitude: rLon} = displayedRestaurant;
+    //
+    //     const query = "https://api.mapbox.com/directions/v5/mapbox/walking/" +
+    //         uLon + "," + uLat + ";" + rLon + "," + rLat +
+    //         "?alternatives=true&continue_straight=true&geometries=geojson&language=en&overview=simplified&steps=true&" +
+    //         "access_token=pk.eyJ1IjoicnloaGlsbDE5OTgiLCJhIjoiY2xmNGRvcXd0MGpzOTN0b2Nkenl5cGtxayJ9.tRUD5Dr7vNkkb3l5qDLK-Q";
+    //
+    //     console.log(query)
+    //     fetch(query)
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw Error("The requested resource is not available");
+    //             }
+    //
+    //             return response.json();
+    //         })
+    //         .then(data => {
+    //             setRouteCoordinates(data.routes[0].geometry.coordinates);
+    //             console.log(data.routes[0].geometry.coordinates)
+    //         })
+    // }, [displayedRestaurant]);
+    //
+    // const [routeCoordinates, setRouteCoordinates] = useState(null);
+
+    const routeCoordinates = useSelector(selectRouteCoordinates);
+
+    const geojson = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": routeCoordinates
+                }
+            }
+        ]
+    };
+
+    const layerStyle = {
+        id: 'lineLayer',
+        type: 'line',
+        layout: {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        paint: {
+            "line-color": "rgba(3, 170, 238, 0.5)",
+            "line-width": 5
+        }
+    };
+
+    useEffect(() => {
+        if (!displayedRestaurant || !routeCoordinates) return;
+
+        const routeCentre = routeCoordinates[routeCoordinates.length / 2];
+
+        map.flyTo({center: routeCentre})
+    }, [displayedRestaurant, routeCoordinates]);
+
     return (
         <ReactMapGl
             {...viewState}
             style={{width: "100vw", height: "100vh"}}
             mapStyle="mapbox://styles/mapbox/streets-v12"
             onMove={handleMapMove}
+            onLoad={handleMapLoad}
             mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         >
             <Marker longitude={userPosition.longitude} latitude={userPosition.latitude} anchor="bottom"></Marker>
@@ -87,6 +158,10 @@ const Map = () => {
                 >
                 </Marker>
             )}
+
+            {displayedRestaurant && routeCoordinates && <Source id="my-data" type="geojson" data={geojson}>
+                <Layer {...layerStyle} />
+            </Source>}
         </ReactMapGl>
     );
 };

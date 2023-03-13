@@ -51,15 +51,15 @@ export const mapSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(fetchRoute.pending, (state, action) => {
-                state.status = "pending";
+                state.route.status = "pending";
             })
             .addCase(fetchRoute.fulfilled, (state, action) => {
-                state.status = "success";
+                state.route.status = "success";
                 state.route.coordinates = action.payload.routes[0].geometry.coordinates;
             })
             .addCase(fetchRoute.rejected, (state, action) => {
-                state.status = "fail";
-                state.error = action.error.message;
+                state.route.status = "fail";
+                state.route.error = action.error.message;
             })
     }
 });

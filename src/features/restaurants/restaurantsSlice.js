@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     restaurants: [
@@ -10,6 +10,7 @@ const initialState = {
             photoUrl: "https://media-cdn.tripadvisor.com/media/photo-o/0d/54/fa/01/restaurant.jpg",
             distance: 0.01,
             rating: 4.5,
+            price: "Unknown",
             hours: [
                 ["12:00-17:00"],
                 ["Closed"],
@@ -35,6 +36,7 @@ const initialState = {
             photoUrl: "https://media-cdn.tripadvisor.com/media/photo-o/25/af/32/d0/logo.jpg",
             distance: 0.31,
             rating: 5.0,
+            price: "£129 - £142",
             hours: [
                 ["Closed"],
                 ["Closed"],
@@ -57,6 +59,7 @@ const initialState = {
             photoUrl: "https://media-cdn.tripadvisor.com/media/photo-m/1280/27/4d/29/bd/craft-beer-cocktails.jpg",
             distance: 0.31,
             rating: 5.0,
+            price: "Unknown",
             hours: [
                 ["12:00-22:00"],
                 ["16:00-00:00"],
@@ -71,15 +74,51 @@ const initialState = {
             ]
         },
     ],
+    status: "idle", // idle, pending, success, fail
+    error: null
 };
 
+const fetchUrl = "http://localhost:8000/data";
 
+export const fetchRestaurants = createAsyncThunk(
+    "restaurants/fetchRestaurants",
+    async () => {
+        const response = await fetch(fetchUrl);
+        return await response.json();
+    }
+)
+
+const filterData = (data) => {
+    return data;
+}
+
+const formatData = (data) => {
+    return data;
+}
+
+const processData = (data) => {
+    const filteredData = filterData(data);
+    return formatData(filteredData);
+}
 
 export const restaurantsSlice = createSlice({
     name: 'restaurants',
     initialState,
     reducers: {},
-    extraReducers: {}
+    extraReducers: builder => {
+        builder
+            .addCase(fetchRestaurants.pending, (state, action) => {
+                state.status = "pending";
+            })
+            .addCase(fetchRestaurants.fulfilled, (state, action) => {
+                state.status = "success";
+                state.restaurants = processData(action.payload);
+            })
+            .addCase(fetchRestaurants.rejected, (state, action) => {
+                state.status = "fail";
+                state.error = action.error.message;
+            })
+    }
 });
 
 export const selectRestaurants = state => state.restaurants.restaurants;

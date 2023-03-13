@@ -8,7 +8,7 @@ import {
 
 import './style/index.css';
 import Home from "./routes/Home/Home";
-import MapView from "./routes/MapView/MapView";
+import MapPage from "./routes/MapPage/MapPage";
 
 import store from './app/store'
 import { Provider } from 'react-redux'
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/map",
-        element: <MapView/>,
+        element: <MapPage/>,
     },
 ]);
 

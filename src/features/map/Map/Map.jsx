@@ -1,6 +1,6 @@
 import "./Map.css";
 
-import ReactMapGl, {Layer, Marker, Source} from "react-map-gl";
+import ReactMapGl from "react-map-gl";
 import {useEffect, useState} from "react";
 
 import {useSelector, useDispatch} from "react-redux";
@@ -8,14 +8,22 @@ import {useSelector, useDispatch} from "react-redux";
 import {
     selectUserPosition,
     selectDisplayedRestaurant,
-    displayRestaurant, selectRouteCoordinates, resetDisplayedRestaurant, setRouteCoordinates
+    displayRestaurant,
+    selectRouteCoordinates,
+    resetDisplayedRestaurant,
+    setRouteCoordinates
 } from "../mapSlice";
 
-const Map = ({restaurants}) => {
+import {selectRestaurants} from "../../restaurants/restaurantsSlice";
+import MapMarker from "./MapMarker/MapMarker";
+import Route from "./Route/Route";
+
+const Map = () => {
 
     const dispatch = useDispatch();
 
     const userPosition = useSelector(selectUserPosition);
+    const restaurants = useSelector(selectRestaurants);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
 
     const [map, setMap] = useState(null);
@@ -39,15 +47,12 @@ const Map = ({restaurants}) => {
             throw Error("No id provided");
         }
 
-        const restaurantToDisplay = restaurants.find(restaurant => restaurant.id === id);
-        dispatch(displayRestaurant(restaurantToDisplay));
-
-        // if (displayedRestaurant?.id !== id) {
-        //     const restaurantToDisplay = restaurants.find(restaurant => restaurant.id === id);
-        //     dispatch(displayRestaurant(restaurantToDisplay));
-        // } else {
-        //     dispatch(resetDisplayedRestaurant);
-        // }
+        if (displayedRestaurant?.id !== id) {
+            const restaurantToDisplay = restaurants.find(restaurant => restaurant.id === id);
+            dispatch(displayRestaurant(restaurantToDisplay));
+        } else {
+            dispatch(resetDisplayedRestaurant());
+        }
     }
 
     useEffect(() => {
@@ -76,38 +81,12 @@ const Map = ({restaurants}) => {
 
     const routeCoordinates = useSelector(selectRouteCoordinates);
 
-    const geojson = {
-        "type": "FeatureCollection",
-        "features": [
-            {
-                "type": "Feature",
-                "geometry": {
-                    "type": "LineString",
-                    "coordinates": routeCoordinates
-                }
-            }
-        ]
-    };
-
-    const layerStyle = {
-        id: 'lineLayer',
-        type: 'line',
-        layout: {
-            "line-join": "round",
-            "line-cap": "round"
-        },
-        paint: {
-            "line-color": "rgba(3, 170, 238, 0.5)",
-            "line-width": 5
-        }
-    };
-
     useEffect(() => {
         if (!displayedRestaurant || !routeCoordinates) return;
 
-        // const routeCentre = routeCoordinates[Math.floor(routeCoordinates.length / 2)];
+        const routeCentre = routeCoordinates[Math.floor(routeCoordinates.length / 2)];
 
-        map.flyTo({zoom: 13.5})
+        map.flyTo({center: routeCentre, zoom: 13.5})
     }, [displayedRestaurant, routeCoordinates]);
 
     return (
@@ -119,23 +98,24 @@ const Map = ({restaurants}) => {
             onLoad={handleMapLoad}
             mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         >
-            <Marker longitude={userPosition.longitude} latitude={userPosition.latitude} color="red" anchor="bottom"></Marker>
+            <MapMarker
+                longitude={userPosition.longitude}
+                latitude={userPosition.latitude}
+                type="user"
+            />
 
-            {restaurants && restaurants.map(restaurant => (
-                <Marker
-                    color="#0E8388"
-                    key={restaurant.id}
-                    latitude={restaurant.latitude}
-                    longitude={restaurant.longitude}
-                    onClick={() => handleMarkerClick(restaurant.id)}
-                    anchor="bottom"
-                >
-                </Marker>
+            {restaurants && restaurants.map(({id, longitude, latitude}) => (
+                <MapMarker
+                    key={id}
+                    id={id}
+                    longitude={longitude}
+                    latitude={latitude}
+                    handleClick={handleMarkerClick}
+                    type="restaurant"
+                />
             ))}
 
-            {displayedRestaurant && routeCoordinates && <Source id="my-data" type="geojson" data={geojson}>
-                <Layer {...layerStyle} />
-            </Source>}
+            {routeCoordinates && <Route routeCoordinates={routeCoordinates}/>}
         </ReactMapGl>
     );
 };

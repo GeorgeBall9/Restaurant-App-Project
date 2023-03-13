@@ -10,8 +10,7 @@ import {
     selectDisplayedRestaurant,
     displayRestaurant,
     selectRouteCoordinates,
-    resetDisplayedRestaurant,
-    setRouteCoordinates
+    resetDisplayedRestaurant, fetchRoute,
 } from "../mapSlice";
 
 import {selectRestaurants} from "../../restaurants/restaurantsSlice";
@@ -42,6 +41,7 @@ const Map = () => {
         setMap(target);
     }
 
+
     const handleMarkerClick = (id) => {
         if (!id) {
             throw Error("No id provided");
@@ -58,36 +58,23 @@ const Map = () => {
     useEffect(() => {
         if (!displayedRestaurant || !userPosition) return;
 
-        const {latitude: uLat, longitude: uLon} = userPosition;
+        const coordinates1 = userPosition;
+
         const {latitude: rLat, longitude: rLon} = displayedRestaurant;
+        const coordinates2 = {latitude: rLat, longitude: rLon};
 
-        const query = "https://api.mapbox.com/directions/v5/mapbox/walking/" +
-            uLon + "," + uLat + ";" + rLon + "," + rLat +
-            "?alternatives=true&continue_straight=true&geometries=geojson&language=en&overview=simplified&steps=true&" +
-            "access_token=" + process.env.REACT_APP_MAPBOX_TOKEN;
-
-        fetch(query)
-            .then(response => {
-                if (!response.ok) {
-                    throw Error("The requested resource is not available");
-                }
-
-                return response.json();
-            })
-            .then(data => {
-                dispatch(setRouteCoordinates(data.routes[0].geometry.coordinates));
-            })
+        dispatch(fetchRoute({coordinates1, coordinates2}))
     }, [displayedRestaurant]);
 
     const routeCoordinates = useSelector(selectRouteCoordinates);
 
     useEffect(() => {
-        if (!displayedRestaurant || !routeCoordinates) return;
+        if (!routeCoordinates) return;
 
         const routeCentre = routeCoordinates[Math.floor(routeCoordinates.length / 2)];
 
         map.flyTo({center: routeCentre, zoom: 13.5})
-    }, [displayedRestaurant, routeCoordinates]);
+    }, [routeCoordinates]);
 
     return (
         <ReactMapGl
@@ -110,8 +97,8 @@ const Map = () => {
                     id={id}
                     longitude={longitude}
                     latitude={latitude}
-                    handleClick={handleMarkerClick}
                     type="restaurant"
+                    handleClick={handleMarkerClick}
                 />
             ))}
 

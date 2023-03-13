@@ -71,12 +71,15 @@ const initialState = {
             ]
         },
     ],
-}
+};
+
+
 
 export const restaurantsSlice = createSlice({
     name: 'restaurants',
     initialState,
-    reducers: {}
+    reducers: {},
+    extraReducers: {}
 });
 
 export const selectRestaurants = state => state.restaurants.restaurants;

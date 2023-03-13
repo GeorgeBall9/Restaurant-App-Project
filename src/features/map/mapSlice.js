@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     userPosition: {
@@ -6,8 +6,30 @@ const initialState = {
         longitude: -1.599240
     },
     restaurantDisplayed: null,
-    routeCoordinates: null
-}
+    route: {
+        coordinates: null,
+        status: "idle", // idle, pending, success, fail
+        error: null
+    }
+};
+
+const fetchRouteUrl = "https://api.mapbox.com/directions/v5/mapbox/walking/";
+
+export const fetchRoute = createAsyncThunk(
+    "map/fetchRoute",
+    async (data) => {
+        const {coordinates1, coordinates2} = data;
+        const {latitude: lat1, longitude: lon1} = coordinates1;
+        const {latitude: lat2, longitude: lon2} = coordinates2;
+
+        const query = fetchRouteUrl + lon1 + "," + lat1 + ";" + lon2 + "," + lat2 +
+            "?alternatives=true&continue_straight=true&geometries=geojson&language=en&overview=simplified&steps=true&" +
+            "access_token=" + process.env.REACT_APP_MAPBOX_TOKEN;
+
+        const response = await fetch(query);
+        return await response.json();
+    }
+);
 
 export const mapSlice = createSlice({
     name: 'map',
@@ -18,15 +40,32 @@ export const mapSlice = createSlice({
         },
         resetDisplayedRestaurant: state => {
             state.restaurantDisplayed = null;
+            state.route.coordinates = null;
+            state.route.status = "idle";
+            state.route.error = null;
         },
         setRouteCoordinates: (state, action) => {
             state.routeCoordinates = action.payload;
         }
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(fetchRoute.pending, (state, action) => {
+                state.status = "pending";
+            })
+            .addCase(fetchRoute.fulfilled, (state, action) => {
+                state.status = "success";
+                state.route.coordinates = action.payload.routes[0].geometry.coordinates;
+            })
+            .addCase(fetchRoute.rejected, (state, action) => {
+                state.status = "fail";
+                state.error = action.error.message;
+            })
     }
 });
 
 export const {displayRestaurant, resetDisplayedRestaurant, setRouteCoordinates} = mapSlice.actions;
 export const selectUserPosition = state => state.map.userPosition;
 export const selectDisplayedRestaurant = state => state.map.restaurantDisplayed;
-export const selectRouteCoordinates = state => state.map.routeCoordinates;
+export const selectRouteCoordinates = state => state.map.route.coordinates;
 export default mapSlice.reducer

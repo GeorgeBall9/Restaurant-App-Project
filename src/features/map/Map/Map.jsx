@@ -122,7 +122,7 @@ const Map = () => {
 
         const routeCentre = routeCoordinates[routeCoordinates.length / 2];
 
-        map.flyTo({center: routeCentre})
+        map.flyTo({center: routeCentre, zoom: 14.5})
     }, [displayedRestaurant, routeCoordinates]);
 
     return (

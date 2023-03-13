@@ -1,6 +1,6 @@
 import "./Map.css";
 
-import ReactMapGl from "react-map-gl";
+import ReactMapGl, {Popup} from "react-map-gl";
 import {useEffect, useState} from "react";
 
 import {useSelector, useDispatch} from "react-redux";
@@ -10,7 +10,7 @@ import {
     selectDisplayedRestaurant,
     displayRestaurant,
     selectRouteCoordinates,
-    resetDisplayedRestaurant, fetchRoute,
+    resetDisplayedRestaurant, fetchRoute, selectTravelTime,
 } from "../mapSlice";
 
 import {selectRestaurants} from "../../restaurants/restaurantsSlice";
@@ -41,13 +41,14 @@ const Map = () => {
         setMap(target);
     }
 
-
     const handleMarkerClick = (id) => {
         if (!id) {
             throw Error("No id provided");
         }
 
-        if (displayedRestaurant?.id !== id) {
+        console.log("marker clicked")
+
+        if (!displayedRestaurant) {
             const restaurantToDisplay = restaurants.find(restaurant => restaurant.id === id);
             dispatch(displayRestaurant(restaurantToDisplay));
         } else {
@@ -67,13 +68,12 @@ const Map = () => {
     }, [displayedRestaurant]);
 
     const routeCoordinates = useSelector(selectRouteCoordinates);
+    const travelTime = Math.round(useSelector(selectTravelTime));
 
     useEffect(() => {
         if (!routeCoordinates) return;
 
-        const routeCentre = routeCoordinates[Math.floor(routeCoordinates.length / 2)];
-
-        map.flyTo({center: routeCentre, zoom: 13.5})
+        map.flyTo({zoom: 13})
     }, [routeCoordinates]);
 
     return (
@@ -91,7 +91,7 @@ const Map = () => {
                 type="user"
             />
 
-            {restaurants && restaurants.map(({id, longitude, latitude}) => (
+            {!displayedRestaurant && restaurants && restaurants.map(({id, longitude, latitude}) => (
                 <MapMarker
                     key={id}
                     id={id}
@@ -101,6 +101,29 @@ const Map = () => {
                     handleClick={handleMarkerClick}
                 />
             ))}
+
+            {displayedRestaurant && (
+                <>
+                    <MapMarker
+                        key={displayedRestaurant.id}
+                        id={displayedRestaurant.id}
+                        longitude={displayedRestaurant.longitude}
+                        latitude={displayedRestaurant.latitude}
+                        type="restaurant"
+                        handleClick={handleMarkerClick}
+                    />
+                    <Popup longitude={displayedRestaurant.longitude} latitude={displayedRestaurant.latitude}
+                           anchor="bottom"
+                           closeButton={false}
+                           closeOnClick={false}
+                           offset={50}
+                    >
+                        <p>{displayedRestaurant.name}</p>
+                        <p>{displayedRestaurant.distance} km</p>
+                        <p>{travelTime} mins</p>
+                    </Popup>
+                </>
+            )}
 
             {routeCoordinates && <Route routeCoordinates={routeCoordinates}/>}
         </ReactMapGl>

@@ -6,8 +6,10 @@ const initialState = {
         longitude: -1.599240
     },
     restaurantDisplayed: null,
+    popupDisplayed: false,
     route: {
         coordinates: null,
+        travelTime: 0,
         status: "idle", // idle, pending, success, fail
         error: null
     }
@@ -56,6 +58,7 @@ export const mapSlice = createSlice({
             .addCase(fetchRoute.fulfilled, (state, action) => {
                 state.route.status = "success";
                 state.route.coordinates = action.payload.routes[0].geometry.coordinates;
+                state.route.travelTime = action.payload.routes[0].duration / 60;
             })
             .addCase(fetchRoute.rejected, (state, action) => {
                 state.route.status = "fail";
@@ -64,8 +67,9 @@ export const mapSlice = createSlice({
     }
 });
 
-export const {displayRestaurant, resetDisplayedRestaurant, setRouteCoordinates} = mapSlice.actions;
+export const {displayRestaurant, resetDisplayedRestaurant} = mapSlice.actions;
 export const selectUserPosition = state => state.map.userPosition;
 export const selectDisplayedRestaurant = state => state.map.restaurantDisplayed;
 export const selectRouteCoordinates = state => state.map.route.coordinates;
+export const selectTravelTime = state => state.map.route.travelTime;
 export default mapSlice.reducer

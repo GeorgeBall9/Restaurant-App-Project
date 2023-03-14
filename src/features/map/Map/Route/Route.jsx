@@ -1,3 +1,10 @@
+/*
+Description: Route component to be displayed on Map component - consists of route between markers and a popup
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// dependencies
 import {Layer, Popup, Source} from "react-map-gl";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -5,6 +12,7 @@ import {faLocationArrow, faPersonWalking} from "@fortawesome/free-solid-svg-icon
 
 const Route = ({displayedRestaurant, routeCoordinates, travelTime}) => {
 
+    // geojson configuration
     const geojson = {
         "type": "FeatureCollection",
         "features": [
@@ -18,6 +26,7 @@ const Route = ({displayedRestaurant, routeCoordinates, travelTime}) => {
         ]
     };
 
+    // layer style configuration
     const layerStyle = {
         id: 'lineLayer',
         type: 'line',
@@ -31,6 +40,7 @@ const Route = ({displayedRestaurant, routeCoordinates, travelTime}) => {
         }
     };
 
+    // deconstruct properties from displayedRestaurant object
     const {name, longitude, latitude, distance} = displayedRestaurant;
 
     return (

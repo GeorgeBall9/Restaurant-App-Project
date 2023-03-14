@@ -1,3 +1,9 @@
+/*
+Description: Map stylesheet to style the Map component
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
 .mapboxgl-ctrl-attrib-inner, .mapboxgl-control-container {
     display: none;
 }

@@ -1,4 +1,13 @@
+/*
+Description: Restaurant card component
+Author: George Ball
+Contact: georgeball14@hotmail.com
+*/
+
+// styles file
 import "./RestaurantCard.css";
+
+// FontAwesome icons
 import {faLocationArrow, faStar, faStarHalfStroke, faSterlingSign, faUtensils} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 

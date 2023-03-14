@@ -1,3 +1,9 @@
+/*
+Description: Restaurant card stylesheet to style the RestaurantCard component
+Author: George Ball
+Contact: georgeball14@hotmail.com
+*/
+
 .restaurant-card-container {
     display: flex;
     align-items: center;

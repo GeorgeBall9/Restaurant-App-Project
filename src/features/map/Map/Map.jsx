@@ -1,6 +1,6 @@
 import "./Map.css";
 
-import ReactMapGl, {Popup} from "react-map-gl";
+import ReactMapGl from "react-map-gl";
 import {useEffect, useState} from "react";
 
 import {useSelector, useDispatch} from "react-redux";
@@ -9,25 +9,29 @@ import {
     selectUserPosition,
     selectDisplayedRestaurant,
     displayRestaurant,
-    selectRouteCoordinates,
-    resetDisplayedRestaurant, fetchRoute, selectTravelTime,
+    resetDisplayedRestaurant,
+    fetchRoute,
+    selectRouteDetails
 } from "../mapSlice";
 
 import {selectRestaurants} from "../../restaurants/restaurantsSlice";
+
 import MapMarker from "./MapMarker/MapMarker";
 import Route from "./Route/Route";
-import {faLocationArrow, faPersonWalking, faShoePrints} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const Map = () => {
-
-    // pull from fork test
 
     const dispatch = useDispatch();
 
     const userPosition = useSelector(selectUserPosition);
     const restaurants = useSelector(selectRestaurants);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
+    const {
+        coordinates: routeCoordinates,
+        travelTime,
+        status: routeStatus,
+        error: routeError
+    } = useSelector(selectRouteDetails);
 
     const [map, setMap] = useState(null);
 
@@ -39,15 +43,15 @@ const Map = () => {
 
     const handleMapMove = (e) => {
         setViewState(e.viewState);
-    }
+    };
 
     const handleMapLoad = ({target}) => {
         setMap(target);
-    }
+    };
 
     const handleMarkerClick = (id) => {
         if (!id) {
-            throw Error("No id provided");
+            throw new Error("No id provided");
         }
 
         if (!displayedRestaurant) {
@@ -56,27 +60,31 @@ const Map = () => {
         } else {
             dispatch(resetDisplayedRestaurant());
         }
-    }
+    };
 
     useEffect(() => {
-        if (!displayedRestaurant || !userPosition) return;
+        if (!displayedRestaurant) return;
 
         const coordinates1 = userPosition;
 
         const {latitude: rLat, longitude: rLon} = displayedRestaurant;
         const coordinates2 = {latitude: rLat, longitude: rLon};
 
-        dispatch(fetchRoute({coordinates1, coordinates2}))
+        dispatch(fetchRoute({coordinates1, coordinates2}));
     }, [displayedRestaurant]);
-
-    const routeCoordinates = useSelector(selectRouteCoordinates);
-    const travelTime = Math.round(useSelector(selectTravelTime));
 
     useEffect(() => {
         if (!routeCoordinates) return;
 
         map.flyTo({zoom: 13})
     }, [routeCoordinates]);
+
+    useEffect(() => {
+        if (routeError) {
+            console.error(routeError);
+            dispatch(resetDisplayedRestaurant());
+        }
+    }, [routeError]);
 
     return (
         <ReactMapGl
@@ -93,7 +101,9 @@ const Map = () => {
                 type="user"
             />
 
-            {!displayedRestaurant && restaurants && restaurants.map(({id, longitude, latitude}) => (
+            {restaurants && restaurants
+                .filter(restaurant => !displayedRestaurant || restaurant.id === displayedRestaurant.id)
+                .map(({id, longitude, latitude}) => (
                 <MapMarker
                     key={id}
                     id={id}
@@ -104,36 +114,13 @@ const Map = () => {
                 />
             ))}
 
-            {displayedRestaurant && (
-                <>
-                    <MapMarker
-                        key={displayedRestaurant.id}
-                        id={displayedRestaurant.id}
-                        longitude={displayedRestaurant.longitude}
-                        latitude={displayedRestaurant.latitude}
-                        type="restaurant"
-                        handleClick={handleMarkerClick}
-                    />
-                    <Popup longitude={displayedRestaurant.longitude} latitude={displayedRestaurant.latitude}
-                           anchor="bottom"
-                           closeButton={false}
-                           closeOnClick={false}
-                           offset={50}
-                    >
-                        <p>{displayedRestaurant.name}</p>
-                        <p>
-                            <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
-                            {displayedRestaurant.distance} km
-                        </p>
-                        <p>
-                            <FontAwesomeIcon icon={faPersonWalking} className="icon"/>
-                            {travelTime} mins
-                        </p>
-                    </Popup>
-                </>
+            {routeCoordinates && (
+                <Route
+                    displayedRestaurant={displayedRestaurant}
+                    routeCoordinates={routeCoordinates}
+                    travelTime={travelTime}
+                />
             )}
-
-            {routeCoordinates && <Route routeCoordinates={routeCoordinates}/>}
         </ReactMapGl>
     );
 };

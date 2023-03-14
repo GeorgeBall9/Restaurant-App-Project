@@ -3,7 +3,6 @@ const MapPage = () => {
 
     return (
         <div className="mapview-container">
-
             <Map/>
         </div>
     );

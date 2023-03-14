@@ -32,6 +32,11 @@ export const fetchRoute = createAsyncThunk(
             "access_token=" + process.env.REACT_APP_MAPBOX_TOKEN;
 
         const response = await fetch(query);
+
+        if (!response.ok) {
+            throw new Error("The requested resource is not available. Check the URL is correct.");
+        }
+
         return await response.json();
     }
 );
@@ -79,6 +84,5 @@ export const mapSlice = createSlice({
 export const {displayRestaurant, resetDisplayedRestaurant} = mapSlice.actions;
 export const selectUserPosition = state => state.map.userPosition;
 export const selectDisplayedRestaurant = state => state.map.restaurantDisplayed;
-export const selectRouteCoordinates = state => state.map.route.coordinates;
-export const selectTravelTime = state => state.map.route.travelTime;
+export const selectRouteDetails = state => state.map.route;
 export default mapSlice.reducer

@@ -8,7 +8,7 @@ Contact: georgeball14@hotmail.com
 import "./RestaurantCard.css";
 
 // FontAwesome icons
-import {faLocationArrow, faStar, faStarHalfStroke, faSterlingSign, faUtensils} from "@fortawesome/free-solid-svg-icons";
+import {faLocationArrow, faStar, faStarHalfStroke, faSterlingSign} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 

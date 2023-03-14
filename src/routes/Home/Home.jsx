@@ -2,6 +2,7 @@ import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCar
 
 import {useSelector} from "react-redux";
 import {selectRestaurants} from "../../features/restaurants/restaurantsSlice";
+import SearchBar from "../../common/components/SearchBar/SearchBar";
 
 const Home = () => {
 
@@ -11,6 +12,8 @@ const Home = () => {
     return (
         <div className="home">
             <h1>Restaurant App</h1>
+
+            <SearchBar/>
 
             <RestaurantCard {...testRestaurant}/>
         </div>

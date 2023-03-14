@@ -1,6 +1,15 @@
+/*
+Description: restaurantsSlice redux store used to store app state information regarding restaurants
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// dependencies
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
+// initial state configuration
 const initialState = {
+    // dummy data for restaurants
     restaurants: [
         {
             id: 1,
@@ -79,29 +88,40 @@ const initialState = {
     error: null
 };
 
+// url to fetch restaurants data - held on json server atm - must later be changed to API endpoint
 const fetchUrl = "http://localhost:8000/data";
 
+// async function to fetch restaurants data
 export const fetchRestaurants = createAsyncThunk(
     "restaurants/fetchRestaurants",
     async () => {
         const response = await fetch(fetchUrl);
+
+        if (!response.ok) {
+            throw new Error("The requested resource is not available. Check the URL is correct.");
+        }
+
         return await response.json();
     }
 )
 
+// function to filter data returned by API
 const filterData = (data) => {
     return data;
 }
 
+// function to format the filtered data
 const formatData = (data) => {
     return data;
 }
 
+// function to process the data returned by the API by filtering and formatting it
 const processData = (data) => {
     const filteredData = filterData(data);
     return formatData(filteredData);
 }
 
+// restaurants slice
 export const restaurantsSlice = createSlice({
     name: 'restaurants',
     initialState,
@@ -109,15 +129,16 @@ export const restaurantsSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(fetchRestaurants.pending, (state, action) => {
-                state.status = "pending";
+                state.status = "pending"; // indicates fetch request has begun
+                state.error = null; // reset error
             })
             .addCase(fetchRestaurants.fulfilled, (state, action) => {
-                state.status = "success";
-                state.restaurants = processData(action.payload);
+                state.status = "success"; // indicates fetch was successful
+                state.restaurants = processData(action.payload); // set restaurants to data returned
             })
             .addCase(fetchRestaurants.rejected, (state, action) => {
-                state.status = "fail";
-                state.error = action.error.message;
+                state.status = "fail"; // indicates fetch failed
+                state.error = action.error.message; // sets error to error message returned
             })
     }
 });

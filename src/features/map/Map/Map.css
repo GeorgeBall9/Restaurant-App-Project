@@ -1,8 +1,41 @@
+/*
+Description: Map stylesheet to style the Map component
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
 .mapboxgl-ctrl-attrib-inner, .mapboxgl-control-container {
     display: none;
 }
 
-.mapboxgl-map {
+.mapboxgl-map, .mapboxgl-popup-content {
     box-shadow: 0.25em 0.25em 0.5em rgba(128, 128, 128, 0.35);
+}
+
+.mapboxgl-map {
     margin-bottom: 2em;
+}
+
+.mapboxgl-popup-content {
+    max-width: 150px;
+}
+
+.mapboxgl-popup-content p {
+    margin-bottom: 0.25em;
+}
+
+.mapboxgl-popup-content p:last-child {
+    margin-bottom: 0;
+}
+
+.mapboxgl-popup-content p:first-child {
+    font-weight: 600;
+}
+
+.mapboxgl-popup-content p:first-child, .mapboxgl-popup-content .icon {
+    color: #0E8388;
+}
+
+.mapboxgl-popup-content .icon {
+    margin-right: 0.5em;
 }

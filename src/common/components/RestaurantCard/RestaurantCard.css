@@ -59,6 +59,7 @@ Contact: georgeball14@hotmail.com
 
   .restaurant-card-distance svg {
     color: #999;
+    padding-right: 2px;
   }
   
   .restaurant-card-price {

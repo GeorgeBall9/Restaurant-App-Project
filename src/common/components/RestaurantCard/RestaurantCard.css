@@ -57,8 +57,9 @@
   }
   
   .restaurant-card-cuisine {
-    margin-left: 10px;
     color: #999;
+    font-size: 14px;
+    position: relative;
   }
   
   .restaurant-card-location {
@@ -66,3 +67,4 @@
     text-align: right;
     font-size: 24px;
   }
+  

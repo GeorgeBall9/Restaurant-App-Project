@@ -6,9 +6,8 @@ Contact: georgeball14@hotmail.com
 
 .restaurant-card-container {
     display: flex;
-    align-items: center;
-    margin: 5px;
-    padding: 20px;
+    margin: 14px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -42,20 +41,25 @@ Contact: georgeball14@hotmail.com
   .restaurant-card-rating {
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
+    font-size: 12px
   }
   
   .restaurant-card-rating svg {
-    color: #f5a623;
-    font-size: 16px;
+    color: rgb(29, 119, 255);
     margin-right: 1px;
   }
   
   .restaurant-card-distance {
-    color: #999;
+    color: #5a5a5a;
     font-size: 12px;
     white-space: nowrap;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
+  }
+
+  .restaurant-card-distance svg {
+    color: #999;
+    padding-right: 2px;
   }
   
   .restaurant-card-price {
@@ -65,8 +69,9 @@ Contact: georgeball14@hotmail.com
   }
   
   .restaurant-card-cuisine {
-    color: #999;
+    color: #5a5a5a;
     font-size: 12px;
+    margin-bottom: 2px;
   }
   
   .restaurant-card-cuisine::before {
@@ -79,4 +84,5 @@ Contact: georgeball14@hotmail.com
     flex: 1;
     text-align: right;
     font-size: 24px;
+    color: rgb(29, 119, 255);
   }

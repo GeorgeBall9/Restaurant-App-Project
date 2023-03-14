@@ -9,7 +9,7 @@ import "./RestaurantCard.css";
 
 // FontAwesome icons
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faLocationArrow, faStar, faStarHalfStroke, faSterlingSign} from "@fortawesome/free-solid-svg-icons";
+import {faLocationArrow, faMapLocationDot, faStar, faStarHalfStroke, faSterlingSign} from "@fortawesome/free-solid-svg-icons";
 import {faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
 
 // do not display id in the dom - it is just there in case we want to add a click function
@@ -22,7 +22,8 @@ const RestaurantCard = ({id, name, rating, distance, price, primaryCuisine, phot
     const fullStars = Math.floor(starRating);
     const halfStar = starRating - fullStars > 0;
     const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-
+    
+    
     // Render the component
     return (
         <div className="restaurant-card-container">

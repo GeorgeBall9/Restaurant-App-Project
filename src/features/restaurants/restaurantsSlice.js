@@ -96,6 +96,11 @@ export const fetchRestaurants = createAsyncThunk(
     "restaurants/fetchRestaurants",
     async () => {
         const response = await fetch(fetchUrl);
+
+        if (!response.ok) {
+            throw new Error("The requested resource is not available. Check the URL is correct.");
+        }
+
         return await response.json();
     }
 )
@@ -124,15 +129,16 @@ export const restaurantsSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(fetchRestaurants.pending, (state, action) => {
-                state.status = "pending";
+                state.status = "pending"; // indicates fetch request has begun
+                state.error = null; // reset error
             })
             .addCase(fetchRestaurants.fulfilled, (state, action) => {
-                state.status = "success";
-                state.restaurants = processData(action.payload);
+                state.status = "success"; // indicates fetch was successful
+                state.restaurants = processData(action.payload); // set restaurants to data returned
             })
             .addCase(fetchRestaurants.rejected, (state, action) => {
-                state.status = "fail";
-                state.error = action.error.message;
+                state.status = "fail"; // indicates fetch failed
+                state.error = action.error.message; // sets error to error message returned
             })
     }
 });

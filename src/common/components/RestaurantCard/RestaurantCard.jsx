@@ -8,7 +8,7 @@ Contact: georgeball14@hotmail.com
 import "./RestaurantCard.css";
 
 // FontAwesome icons
-import {faLocationArrow, faStar, faStarHalfStroke, faSterlingSign} from "@fortawesome/free-solid-svg-icons";
+import {faLocationArrow, faMapLocationDot, faStar, faStarHalfStroke, faSterlingSign} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
@@ -37,7 +37,7 @@ const RestaurantCard = ({id, name, rating, distance, price, primaryCuisine, phot
         starIcons.push(<FontAwesomeIcon key={i + fullStars + (halfStar ? 1 : 0)} icon={faStar} regular="true" />);
     }
 
-    // Create the price display if the price is unknown
+    // Create the price display if the price is not unknown
     const priceDisplay = price !== "Unknown" ? (
         <div className="restaurant-card-price">
           <FontAwesomeIcon icon={faSterlingSign}></FontAwesomeIcon>
@@ -65,7 +65,7 @@ const RestaurantCard = ({id, name, rating, distance, price, primaryCuisine, phot
           </div>
         </div>
         <div className="restaurant-card-location">
-          <FontAwesomeIcon icon={faLocationArrow} />
+          <FontAwesomeIcon icon={faMapLocationDot} />
         </div>
         <div className="restaurant-card-image-container">
           <img src={photoUrl} alt={name} className="restaurant-card-image" />

@@ -1,6 +1,7 @@
 .restaurant-card-container {
     display: flex;
     align-items: center;
+    margin: 5px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -9,8 +10,9 @@
   }
   
   .restaurant-card-image-container {
-    flex: 1;
-    margin-right: 20px;
+    width: 125px;
+    height: 90px;
+    margin-left: 10px;
   }
   
   .restaurant-card-image {
@@ -21,45 +23,50 @@
   }
   
   .restaurant-card-details {
-    flex: 2;
+    display: flex;
+    flex-direction: column;
   }
   
   .restaurant-card-name {
     font-size: 20px;
     margin: 0;
-    margin-bottom: 10px;
+    
   }
   
   .restaurant-card-rating {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
   
   .restaurant-card-rating svg {
     color: #f5a623;
     font-size: 16px;
-  }
-  
-  .restaurant-card-rating span {
-    margin-left: 5px;
+    margin-right: 1px;
   }
   
   .restaurant-card-distance {
-    margin-left: 10px;
     color: #999;
+    font-size: 12px;
+    white-space: nowrap;
+    margin-bottom: 5px;
   }
   
   .restaurant-card-price {
     display: flex;
     align-items: center;
-    font-size: 16px;
+    font-size: 12px;
   }
   
   .restaurant-card-cuisine {
     color: #999;
-    font-size: 14px;
-    position: relative;
+    font-size: 12px;
+  }
+  
+  .restaurant-card-cuisine::before {
+    content: "\2022";
+    margin-right: 4px;
+    margin-left: 4px;
   }
   
   .restaurant-card-location {
@@ -67,4 +74,3 @@
     text-align: right;
     font-size: 24px;
   }
-  

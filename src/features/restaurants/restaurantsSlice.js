@@ -1,6 +1,15 @@
+/*
+Description: restaurantsSlice redux store used to store app state information regarding restaurants
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// dependencies
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
+// initial state configuration
 const initialState = {
+    // dummy data for restaurants
     restaurants: [
         {
             id: 1,
@@ -79,8 +88,10 @@ const initialState = {
     error: null
 };
 
+// url to fetch restaurants data - held on json server atm - must later be changed to API endpoint
 const fetchUrl = "http://localhost:8000/data";
 
+// async function to fetch restaurants data
 export const fetchRestaurants = createAsyncThunk(
     "restaurants/fetchRestaurants",
     async () => {
@@ -89,19 +100,23 @@ export const fetchRestaurants = createAsyncThunk(
     }
 )
 
+// function to filter data returned by API
 const filterData = (data) => {
     return data;
 }
 
+// function to format the filtered data
 const formatData = (data) => {
     return data;
 }
 
+// function to process the data returned by the API by filtering and formatting it
 const processData = (data) => {
     const filteredData = filterData(data);
     return formatData(filteredData);
 }
 
+// restaurants slice
 export const restaurantsSlice = createSlice({
     name: 'restaurants',
     initialState,

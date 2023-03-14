@@ -1,3 +1,10 @@
+/*
+Description: mapSlice redux store used to store app state information regarding the map
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// dependencies
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 // initial state configuration
@@ -17,9 +24,10 @@ const initialState = {
     }
 };
 
-// fetch route async function setup
+// url to fetch route data between two markers on the map
 const fetchRouteUrl = "https://api.mapbox.com/directions/v5/mapbox/walking/";
 
+// async function to fetch route data
 export const fetchRoute = createAsyncThunk(
     "map/fetchRoute",
     async (data) => {

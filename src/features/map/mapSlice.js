@@ -63,6 +63,7 @@ export const mapSlice = createSlice({
         builder
             .addCase(fetchRoute.pending, (state, action) => {
                 state.route.status = "pending"; // indicates fetch request has begun
+                state.route.error = null;
             })
             .addCase(fetchRoute.fulfilled, (state, action) => {
                 state.route.status = "success"; // indicates fetch request was successful

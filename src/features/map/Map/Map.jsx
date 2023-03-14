@@ -16,6 +16,8 @@ import {
 import {selectRestaurants} from "../../restaurants/restaurantsSlice";
 import MapMarker from "./MapMarker/MapMarker";
 import Route from "./Route/Route";
+import {faLocationArrow, faPersonWalking, faShoePrints} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const Map = () => {
 
@@ -119,8 +121,14 @@ const Map = () => {
                            offset={50}
                     >
                         <p>{displayedRestaurant.name}</p>
-                        <p>{displayedRestaurant.distance} km</p>
-                        <p>{travelTime} mins</p>
+                        <p>
+                            <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
+                            {displayedRestaurant.distance} km
+                        </p>
+                        <p>
+                            <FontAwesomeIcon icon={faPersonWalking} className="icon"/>
+                            {travelTime} mins
+                        </p>
                     </Popup>
                 </>
             )}

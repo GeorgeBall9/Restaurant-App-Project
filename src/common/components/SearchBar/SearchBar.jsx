@@ -4,9 +4,10 @@ import {faMagnifyingGlass, faSliders} from "@fortawesome/free-solid-svg-icons";
 
 const SearchBar = () => {
     return (
-        <div className="search-bar-container">
+        <div className="search-container">
             <FontAwesomeIcon icon={faMagnifyingGlass}/>
-            <FontAwesomeIcon icon={faSliders}/>
+            {/* <FontAwesomeIcon icon={faSliders}/> */}
+            <input type="search" className="box" placeholder="Search" />
         </div>
     );
 };

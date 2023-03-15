@@ -120,10 +120,30 @@ const filterData = (data) => {
 /*
 Function to format the filtered data from the API
 Must include id, name, latitude, longitude, photoUrl, distance, rating, price, hours, primaryCuisine, cuisines
+Must return array of restuarant objects like the one defined in initial state
+Function takes in entire data array from db.json
+primaryCuisine is obtained by selecting the name of the first element in the cuisine array
 */
 const formatData = (data) => {
-    return data;
-}
+    return data.map(restaurant => {
+        return {
+            id: restaurant.id,
+            name: restaurant.name,
+            latitude: restaurant.latitude,
+            longitude: restaurant.longitude,
+            photoUrl: restaurant.photoUrl,
+            distance: restaurant.distance,
+            rating: restaurant.rating,
+            price: restaurant.price,
+            hours: formatHours(restaurant.hours),
+            primaryCuisine: restaurant.cuisines.length > 0 ? restaurant.cuisines[0].name : null,
+            cuisines: restaurant.cuisines.map(cuisine => ({
+                key: cuisine.key,
+                name: cuisine.name
+            }))
+        };
+    });
+};
 
 // function to process the data returned by the API by filtering and formatting it
 const processData = (data) => {

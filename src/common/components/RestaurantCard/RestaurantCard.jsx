@@ -10,6 +10,7 @@ import "./RestaurantCard.css";
 // FontAwesome icons
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
+    faClock,
     faLocationArrow,
     faMapLocationDot,
     faStar,
@@ -21,7 +22,7 @@ import {faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
 // do not display id in the dom - it is just there in case we want to add a click function
 
 // A card component for displaying restaurant information
-const RestaurantCard = ({id, name, rating, distance, price, primaryCuisine, photoUrl}) => {
+const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, photoUrl}) => {
 
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
@@ -32,7 +33,7 @@ const RestaurantCard = ({id, name, rating, distance, price, primaryCuisine, phot
 
     // Render the component
     return (
-        <div className="restaurant-card-container">
+        <div className="restaurant-card">
             <div className="details-container">
                 <h3>{name}</h3>
 
@@ -50,19 +51,14 @@ const RestaurantCard = ({id, name, rating, distance, price, primaryCuisine, phot
                     <span>{starRating}</span>
                 </div>
 
-                <div className="distance-container">
-                    <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
-                    {distance} km
+                <div className="hours-container">
+                    <FontAwesomeIcon icon={faClock} className="icon"/>
+                    {openingHours}
                 </div>
 
                 <div className="price-cuisine-container">
 
-                    {price !== "Unknown" && (
-                        <div className="price-container">
-                            <FontAwesomeIcon icon={faSterlingSign} className="icon"/>
-                            {price}
-                        </div>
-                    )}
+                    {price !== "Unknown" && <p>{price}</p>}
 
                     <span className="cuisine">{primaryCuisine}</span>
                 </div>

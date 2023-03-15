@@ -120,10 +120,25 @@ const filterData = (data) => {
 /*
 Function to format the filtered data from the API
 Must include id, name, latitude, longitude, photoUrl, distance, rating, price, hours, primaryCuisine, cuisines
+
 */
 const formatData = (data) => {
-    return data;
-}
+    return data.map(restaurant => {
+        const {id, name, latitude, longitude, photoUrl, distance, rating, price, hours, primaryCuisine, cuisines} = restaurant;
+        return {
+            id,
+            name,
+            latitude,
+            longitude,
+            photoUrl,
+            distance,
+            rating,
+            price,
+            hours: formatHours(hours),
+            primaryCuisine: cuisines.length > 0 ? cuisines[0].name : null,
+        };
+    });
+};
 
 // function to process the data returned by the API by filtering and formatting it
 const processData = (data) => {

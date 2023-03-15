@@ -1,0 +1,11 @@
+.mapview-container {
+    position: relative;
+}
+
+.restaurant-card-container {
+    position: absolute;
+    bottom: 0;
+    padding: 1em;
+    width: 100%;
+    z-index: 10;
+}

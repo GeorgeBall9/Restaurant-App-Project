@@ -107,12 +107,20 @@ export const fetchRestaurants = createAsyncThunk(
     }
 )
 
-// function to filter data returned by API
+/*
+Function to filter data return by API
+Must remove all entries that do not contain id, name, latitude, longitude, photoUrl, distance, cuisine
+Must check that all entries have the above fields in the correct format
+Must remove all entries with the same location_id
+*/
 const filterData = (data) => {
     return data;
 }
 
-// function to format the filtered data
+/*
+Function to format the filtered data from the API
+Must include id, name, latitude, longitude, photoUrl, distance, rating, price, hours, primaryCuisine, cuisines
+*/
 const formatData = (data) => {
     return data;
 }
@@ -123,36 +131,34 @@ const processData = (data) => {
     return formatData(filteredData);
 }
 
-// function to format the open hours of restaurant data returned by API  
+// function to format the open hours of restaurant data returned by API
+const formatHours = (hours) => {
 
-function formatHours(hours) {
-    // get the current day of the week (0 = Sunday, 1 = Monday, etc.)
-    const currentDayOfWeek = new Date().getDay();
-  
-    // get the opening hours for the current day of the week
-    const currentDayHours = hours.week_ranges[currentDayOfWeek];
+    if (!hours) return null;
 
-    // if the restaurant is closed on the current day, return "Closed"
-    if (currentDayHours.length === 0) {
-        return `Closed`;
-    } else {
-        // format the opening and closing times for the current day
-        const formattedHours = currentDayHours.map(({ open_time, close_time }) => {
-            // helper function to format a time string to a "hh:mm" format
-            const formatTime = (time) => {
-                const wrappedTime = time % 1440;
-                const hours = Math.floor(wrappedTime / 60);
-                const minutes = wrappedTime % 60;
+    const {week_ranges: weekRanges} = hours;
 
-                return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-            };
-            return `${formatTime(open_time)} - ${formatTime(close_time)}`;
-        }).join(', '); // join the formatted opening and closing times with a comma separator
+    if (!weekRanges || weekRanges.length !== 7) return null;
 
-        // return the formatted opening hours for the current day
-        return formattedHours;
-    }
-}
+    return weekRanges.map(range => {
+        if (range.length === 0) return "Closed";
+
+        return range
+            .map(({open_time, close_time}) => `${formatTime(open_time)} - ${formatTime(close_time)}`)
+            .join(', ');
+    });
+};
+
+// helper function to format a time string to a "hh:mm" format
+const formatTime = (time) => {
+    if (!time) return "N/A";
+
+    const wrappedTime = time % 1440;
+    const hours = Math.floor(wrappedTime / 60);
+    const minutes = wrappedTime % 60;
+
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+};
 
   
 // restaurants slice

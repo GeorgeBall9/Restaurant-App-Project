@@ -45,11 +45,13 @@ const Route = ({displayedRestaurant, routeCoordinates, travelTime}) => {
 
     return (
         <>
-            <Popup longitude={longitude} latitude={latitude}
-                   anchor="bottom"
-                   closeButton={false}
-                   closeOnClick={false}
-                   offset={50}
+            <Popup
+                longitude={longitude}
+                latitude={latitude}
+                anchor="bottom"
+                closeButton={false}
+                closeOnClick={false}
+                offset={50}
             >
                 <p>
                     <FontAwesomeIcon icon={faLocationArrow} className="icon"/>

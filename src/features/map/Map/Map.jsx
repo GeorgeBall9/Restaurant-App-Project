@@ -8,7 +8,7 @@ Contact: ryan.henzell-hill@outlook.com
 import "./Map.css";
 
 // dependencies
-import ReactMapGl from "react-map-gl";
+import ReactMapGl, {Popup} from "react-map-gl";
 
 // react hooks
 import {useEffect, useState} from "react";
@@ -131,18 +131,28 @@ const Map = () => {
                 type="user"
             />
 
+            <Popup
+                longitude={userPosition.longitude}
+                latitude={userPosition.latitude}
+                anchor="bottom"
+                closeButton={false}
+                offset={50}
+            >
+                You are here
+            </Popup>
+
             {restaurants && restaurants
                 .filter(restaurant => !displayedRestaurant || restaurant.id === displayedRestaurant.id)
                 .map(({id, longitude, latitude}) => (
-                <MapMarker
-                    key={id}
-                    id={id}
-                    longitude={longitude}
-                    latitude={latitude}
-                    type="restaurant"
-                    handleClick={handleMarkerClick}
-                />
-            ))}
+                    <MapMarker
+                        key={id}
+                        id={id}
+                        longitude={longitude}
+                        latitude={latitude}
+                        type="restaurant"
+                        handleClick={handleMarkerClick}
+                    />
+                ))}
 
             {routeCoordinates && (
                 <Route

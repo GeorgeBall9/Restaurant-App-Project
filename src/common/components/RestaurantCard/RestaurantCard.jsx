@@ -11,11 +11,9 @@ import "./RestaurantCard.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faClock,
-    faLocationArrow,
     faMapLocationDot,
     faStar,
     faStarHalfStroke,
-    faSterlingSign
 } from "@fortawesome/free-solid-svg-icons";
 import {faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
 

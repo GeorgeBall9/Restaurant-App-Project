@@ -1,3 +1,10 @@
+/*
+Description: mapSlice redux store used to store app state information regarding the map
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// dependencies
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 // initial state configuration
@@ -17,9 +24,10 @@ const initialState = {
     }
 };
 
-// fetch route async function setup
+// url to fetch route data between two markers on the map
 const fetchRouteUrl = "https://api.mapbox.com/directions/v5/mapbox/walking/";
 
+// async function to fetch route data
 export const fetchRoute = createAsyncThunk(
     "map/fetchRoute",
     async (data) => {
@@ -32,6 +40,11 @@ export const fetchRoute = createAsyncThunk(
             "access_token=" + process.env.REACT_APP_MAPBOX_TOKEN;
 
         const response = await fetch(query);
+
+        if (!response.ok) {
+            throw new Error("The requested resource is not available. Check the URL is correct.");
+        }
+
         return await response.json();
     }
 );
@@ -58,6 +71,7 @@ export const mapSlice = createSlice({
         builder
             .addCase(fetchRoute.pending, (state, action) => {
                 state.route.status = "pending"; // indicates fetch request has begun
+                state.route.error = null; // reset error
             })
             .addCase(fetchRoute.fulfilled, (state, action) => {
                 state.route.status = "success"; // indicates fetch request was successful
@@ -79,6 +93,5 @@ export const mapSlice = createSlice({
 export const {displayRestaurant, resetDisplayedRestaurant} = mapSlice.actions;
 export const selectUserPosition = state => state.map.userPosition;
 export const selectDisplayedRestaurant = state => state.map.restaurantDisplayed;
-export const selectRouteCoordinates = state => state.map.route.coordinates;
-export const selectTravelTime = state => state.map.route.travelTime;
+export const selectRouteDetails = state => state.map.route;
 export default mapSlice.reducer

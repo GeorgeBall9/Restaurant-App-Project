@@ -126,21 +126,18 @@ primaryCuisine is obtained by selecting the name of the first element in the cui
 */
 const formatData = (data) => {
     return data.map(restaurant => {
+        const {id, name, latitude, longitude, photoUrl, distance, rating, price, hours, primaryCuisine, cuisines} = restaurant;
         return {
-            id: restaurant.id,
-            name: restaurant.name,
-            latitude: restaurant.latitude,
-            longitude: restaurant.longitude,
-            photoUrl: restaurant.photoUrl,
-            distance: restaurant.distance,
-            rating: restaurant.rating,
-            price: restaurant.price,
-            hours: formatHours(restaurant.hours),
-            primaryCuisine: restaurant.cuisines.length > 0 ? restaurant.cuisines[0].name : null,
-            cuisines: restaurant.cuisines.map(cuisine => ({
-                key: cuisine.key,
-                name: cuisine.name
-            }))
+            id,
+            name,
+            latitude,
+            longitude,
+            photoUrl,
+            distance,
+            rating,
+            price,
+            hours: formatHours(hours),
+            primaryCuisine: cuisines.length > 0 ? cuisines[0].name : null,
         };
     });
 };

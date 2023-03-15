@@ -22,7 +22,7 @@ import {faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
 // do not display id in the dom - it is just there in case we want to add a click function
 
 // A card component for displaying restaurant information
-const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, photoUrl}) => {
+const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, photoUrl, view}) => {
 
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
@@ -65,7 +65,9 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
             </div>
 
             <div className="container-rhs">
-                <FontAwesomeIcon icon={faMapLocationDot} className="icon"/>
+                {view !== "map" && (
+                    <FontAwesomeIcon icon={faMapLocationDot} className="icon"/>
+                )}
 
                 <div className="image-container">
                     <img src={photoUrl} alt={name}/>

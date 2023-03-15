@@ -1,3 +1,11 @@
+.search-bar-container {
+    position: absolute;
+    top: 0;
+    padding: 1em;
+    width: 100%;
+    z-index: 10;
+}
+
 .mapview-container {
     position: relative;
 }

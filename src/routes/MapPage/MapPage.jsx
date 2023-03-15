@@ -15,6 +15,7 @@ import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCar
 import {useSelector} from "react-redux";
 import {selectDisplayedRestaurant} from "../../features/map/mapSlice";
 import {useEffect} from "react";
+import SearchBar from "../../common/components/SearchBar/SearchBar";
 
 const MapPage = () => {
 
@@ -22,6 +23,10 @@ const MapPage = () => {
 
     return (
         <div className="mapview-container">
+            <div className="search-bar-container">
+                <SearchBar/>
+            </div>
+
             <Map/>
 
             <div className="restaurant-card-container">

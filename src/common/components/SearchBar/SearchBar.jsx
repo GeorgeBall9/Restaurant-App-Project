@@ -6,8 +6,12 @@ const SearchBar = () => {
     return (
         <div className="search-bar">
             <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
+
             <input type="text" className="search-input" placeholder="Search"/>
-            <FontAwesomeIcon className="icon" icon={faSliders}/>
+
+            <button className="filter-button">
+                <FontAwesomeIcon className="icon" icon={faSliders}/>
+            </button>
         </div>
     );
 };

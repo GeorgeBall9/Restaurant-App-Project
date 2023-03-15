@@ -2,18 +2,22 @@
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0.3em 0.75em;
     background: white;
     border-radius: 8px;
     box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
 }
 
-.search-bar .icon:first-child {
+.search-bar > .icon:first-child {
     margin-right: 0.75em;
 }
 
-.search-bar .icon:last-child {
+.search-bar .filter-button {
     margin-left: 0.75em;
+    border: none;
+    cursor: pointer;
+    background-color: white;
 }
 
 .search-bar .icon {

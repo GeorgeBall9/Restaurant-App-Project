@@ -56,6 +56,7 @@ const initialState = {
                 "12:00-13:30, 19:00-20:30",
                 "09:00-20:30"
             ],
+            primaryCuisine: "British",
             cuisines: [
                 {key: "10662", name: "British"},
                 {key: "10669", name: "Contemporary"}
@@ -79,6 +80,7 @@ const initialState = {
                 "16:00-02:00",
                 "16:00-02:00",
             ],
+            primaryCuisine: "Pizza",
             cuisines: [
                 {key: "10641", name: "Pizza"}
             ]

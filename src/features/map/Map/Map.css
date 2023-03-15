@@ -20,22 +20,11 @@ Contact: ryan.henzell-hill@outlook.com
     max-width: 150px;
 }
 
-.mapboxgl-popup-content p {
-    margin-bottom: 0.25em;
-}
-
-.mapboxgl-popup-content p:last-child {
-    margin-bottom: 0;
-}
-
 .mapboxgl-popup-content p:first-child {
-    font-weight: 600;
-}
-
-.mapboxgl-popup-content p:first-child, .mapboxgl-popup-content .icon {
-    color: #0E8388;
+    margin-bottom: 0.25em;
 }
 
 .mapboxgl-popup-content .icon {
     margin-right: 0.5em;
+    color: #0E8388;
 }

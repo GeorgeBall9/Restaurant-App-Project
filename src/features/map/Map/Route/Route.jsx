@@ -51,7 +51,6 @@ const Route = ({displayedRestaurant, routeCoordinates, travelTime}) => {
                    closeOnClick={false}
                    offset={50}
             >
-                <p>{name}</p>
                 <p>
                     <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
                     {distance} km

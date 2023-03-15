@@ -63,7 +63,7 @@ const RestaurantCard = ({id, name, rating, distance, price, primaryCuisine, phot
             </div>
 
             <div className="restaurant-card-location">
-                <FontAwesomeIcon icon={faLocationArrow}/>
+                <FontAwesomeIcon icon={faMapLocationDot}/>
             </div>
 
             <div className="restaurant-card-image-container">

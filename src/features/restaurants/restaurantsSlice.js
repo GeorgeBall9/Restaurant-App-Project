@@ -109,7 +109,7 @@ export const fetchRestaurants = createAsyncThunk(
 
 /*
 Function to filter data return by API
-Must remove all entries that do not contain id, name, latitude, longitude, photoUrl, distance, cuisine
+Must remove all entries that do not contain id, name, latitude, longitude, photo Url, distance, cuisine
 Must check that all entries have the above fields in the correct format
 Must remove all entries with the same location_id
 */
@@ -119,23 +119,36 @@ const filterData = (data) => {
 
 /*
 Function to format the filtered data from the API
-Must include id, name, latitude, longitude, photoUrl, distance, rating, price, hours, primaryCuisine, cuisines
-
+Must include id, name, latitude, longitude, photoUrl, rating, distance, cuisine
+Other fields of price, hours, primaryCuisine can be null if they do not exist
 */
 const formatData = (data) => {
     return data.map(restaurant => {
-        const {id, name, latitude, longitude, photoUrl, distance, rating, price, hours, primaryCuisine, cuisines} = restaurant;
-        return {
+        const {
             id,
             name,
             latitude,
             longitude,
-            photoUrl,
+            photo,
             distance,
             rating,
             price,
+            hours,
+            cuisine
+        } = restaurant;
+
+        return {
+            id,
+            name,
+            latitude: +latitude,
+            longitude: +longitude,
+            photoUrl: photo.images.original.url,
+            distance: Math.round(distance * 10) / 10,
+            rating: +rating,
+            price: price ? price : null,
             hours: formatHours(hours),
-            primaryCuisine: cuisines.length > 0 ? cuisines[0].name : null,
+            primaryCuisine: cuisine.length > 0 ? cuisine[0].name : null,
+            cuisines: cuisine
         };
     });
 };

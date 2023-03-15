@@ -1,9 +1,24 @@
 .search-bar-container {
+    display: flex;
     position: absolute;
     top: 0;
+    right: 0;
+    left: 0;
     padding: 1em;
+    gap: 0.25em;
     width: 100%;
     z-index: 10;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.back-button {
+    padding: 0 0.75em;
+    background-color: white;
+    border: none;
+    box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
+    border-radius: 8px;
+    cursor: pointer;
 }
 
 .mapview-container {
@@ -16,4 +31,6 @@
     padding: 1em;
     width: 100%;
     z-index: 10;
+    max-width: 500px;
+    margin: 0 auto;
 }

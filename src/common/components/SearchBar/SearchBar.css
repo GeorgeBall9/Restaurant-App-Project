@@ -6,8 +6,6 @@
     background: white;
     border-radius: 8px;
     box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
-    max-width: 500px;
-    margin: 0 auto;
 }
 
 .search-bar .icon:first-child {

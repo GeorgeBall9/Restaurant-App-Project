@@ -123,6 +123,38 @@ const processData = (data) => {
     return formatData(filteredData);
 }
 
+// function to format the open hours of restaurant data returned by API  
+
+function formatHours(hours) {
+    // get the current day of the week (0 = Sunday, 1 = Monday, etc.)
+    const currentDayOfWeek = new Date().getDay();
+  
+    // get the opening hours for the current day of the week
+    const currentDayHours = hours.week_ranges[currentDayOfWeek];
+
+    // if the restaurant is closed on the current day, return "Closed"
+    if (currentDayHours.length === 0) {
+        return `Closed`;
+    } else {
+        // format the opening and closing times for the current day
+        const formattedHours = currentDayHours.map(({ open_time, close_time }) => {
+            // helper function to format a time string to a "hh:mm" format
+            const formatTime = (time) => {
+                const wrappedTime = time % 1440;
+                const hours = Math.floor(wrappedTime / 60);
+                const minutes = wrappedTime % 60;
+
+                return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            };
+            return `${formatTime(open_time)} - ${formatTime(close_time)}`;
+        }).join(', '); // join the formatted opening and closing times with a comma separator
+
+        // return the formatted opening hours for the current day
+        return formattedHours;
+    }
+}
+
+  
 // restaurants slice
 export const restaurantsSlice = createSlice({
     name: 'restaurants',

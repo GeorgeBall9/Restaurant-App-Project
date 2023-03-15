@@ -26,5 +26,14 @@ Contact: ryan.henzell-hill@outlook.com
 
 .mapboxgl-popup-content .icon {
     margin-right: 0.5em;
-    color: #ffb100;
+    color: #F49D1A;
+    font-size: 1rem;
+}
+
+.marker-image {
+    width: 64px;
+}
+
+.mapboxgl-marker svg {
+    width: 70px;
 }

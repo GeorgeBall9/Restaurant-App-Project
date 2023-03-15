@@ -15,7 +15,7 @@ const Home = () => {
 
             <SearchBar/>
 
-            <RestaurantCard {...testRestaurant}/>
+            <RestaurantCard {...testRestaurant} openingHours={testRestaurant.hours[0]} view="home"/>
         </div>
     );
 }

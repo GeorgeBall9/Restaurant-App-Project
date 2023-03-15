@@ -18,7 +18,7 @@ const MapMarker = ({id, longitude, latitude, type, handleClick}) => {
                 longitude={longitude}
                 latitude={latitude}
                 anchor={anchor}
-                color="red"
+                color="#ffb100"
             >
             </Marker>
         );
@@ -30,7 +30,7 @@ const MapMarker = ({id, longitude, latitude, type, handleClick}) => {
             longitude={longitude}
             latitude={latitude}
             anchor={anchor}
-            color="#ffb100"
+            color="red"
             onClick={() => handleClick(id)}
         >
         </Marker>

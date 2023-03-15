@@ -14,16 +14,26 @@ import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCar
 // redux imports
 import {useSelector} from "react-redux";
 import {selectDisplayedRestaurant} from "../../features/map/mapSlice";
-import {useEffect} from "react";
+
 import SearchBar from "../../common/components/SearchBar/SearchBar";
+import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useNavigate} from "react-router-dom";
 
 const MapPage = () => {
 
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
+    const navigate = useNavigate();
+
+    const handleBackButtonClick = () => navigate("/");
 
     return (
         <div className="mapview-container">
             <div className="search-bar-container">
+                <button className="back-button" onClick={handleBackButtonClick}>
+                    <FontAwesomeIcon className="icon" icon={faChevronLeft}/>
+                </button>
+
                 <SearchBar/>
             </div>
 

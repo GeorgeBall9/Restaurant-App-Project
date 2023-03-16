@@ -166,5 +166,6 @@ export const restaurantsSlice = createSlice({
 
 export const {filterRestaurantResultsByCuisine, resetRestaurantResults} = restaurantsSlice.actions;
 export const selectRestaurants = state => state.restaurants.restaurantResults;
+export const selectAllRestaurants = state => state.restaurants.allRestaurants;
 export const selectRestaurantsFetchStatus = state => state.restaurants.status;
 export default restaurantsSlice.reducer

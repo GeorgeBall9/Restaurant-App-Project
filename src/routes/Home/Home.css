@@ -1,14 +1,23 @@
-.home {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25em;
-}
-
 .home .search-bar-container {
     display: flex;
     gap: 0.25em;
+    margin-bottom: 0.5em;
 }
 
 .home .search-bar-container .back-button {
     margin-bottom: 0.15em;
+    border: 1px solid lightgrey;
+    padding: 0 0.75em;
+    background-color: white;
+    box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.home .restaurant-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    height: 90vh;
+    overflow: scroll;
 }

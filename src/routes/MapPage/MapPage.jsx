@@ -39,7 +39,7 @@ const MapPage = () => {
 
             <Map/>
 
-            <div className="restaurant-card-container">
+            <div className="restaurant-cards-container">
                 {displayedRestaurant && (
                     <RestaurantCard {...displayedRestaurant} openingHours={displayedRestaurant.hours[6]} view="map"/>
                 )}

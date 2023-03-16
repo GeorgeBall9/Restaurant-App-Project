@@ -63,9 +63,9 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
             </div>
 
             <div className="container-rhs">
-                {view !== "map" && (
-                    <FontAwesomeIcon icon={faMapLocationDot} className="icon"/>
-                )}
+                {/*{view !== "map" && (*/}
+                {/*    <FontAwesomeIcon icon={faMapLocationDot} className="icon"/>*/}
+                {/*)}*/}
 
                 <div className="image-container">
                     <img src={photoUrl} alt={name}/>

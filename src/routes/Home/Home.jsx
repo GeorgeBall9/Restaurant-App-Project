@@ -7,12 +7,12 @@ import {
     selectRestaurantsFetchStatus
 } from "../../features/restaurants/restaurantsSlice";
 import SearchBar from "../../common/components/SearchBar/SearchBar";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
 import "./Home.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronLeft, faLocationDot} from "@fortawesome/free-solid-svg-icons";
+import {faMap, faMapLocationDot} from "@fortawesome/free-solid-svg-icons";
 
 const Home = () => {
 
@@ -35,15 +35,22 @@ const Home = () => {
         <div className="home container">
             <div className="search-bar-container">
                 <button className="back-button" onClick={handleGoToMapClicked}>
-                    <FontAwesomeIcon className="icon" icon={faLocationDot}/>
+                    <FontAwesomeIcon className="icon" icon={faMapLocationDot}/>
                 </button>
 
                 <SearchBar/>
             </div>
 
-            {restaurants && restaurants.map(restaurant => (
-                <RestaurantCard key={restaurant.id} {...restaurant} openingHours={restaurant.hours[0]} view="home"/>
-            ))}
+            <div className="restaurant-cards-container">
+                {restaurants && restaurants.map(restaurant => (
+                    <RestaurantCard
+                        key={restaurant.id}
+                        {...restaurant}
+                        openingHours={restaurant.hours[0]}
+                        view="home"
+                    />
+                ))}
+            </div>
         </div>
     );
 }

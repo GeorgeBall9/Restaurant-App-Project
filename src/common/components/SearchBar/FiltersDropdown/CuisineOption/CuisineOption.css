@@ -8,14 +8,26 @@
     justify-content: space-between;
     gap: 0.5em;
     flex-direction: column;
+    cursor: pointer;
 }
 
 #Any-option {
     justify-content: center;
+    background-color: rgba(244, 157, 26, 0.2);
 }
 
 .cuisine-option-name {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: grey;
+}
+
+#Any-option .cuisine-option-name {
+    color: #F49D1A;
+}
+
+.cuisine-option .icon {
+    color: grey;
 }
 
 .cuisine-option .cuisine-icon {

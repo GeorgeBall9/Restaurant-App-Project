@@ -11,13 +11,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import EuropeanImageSrc from "../../../../images/icons-yellow/European.png";
-import JapaneseImageSrc from "../../../../images/icons-yellow/Japanese.png";
-import MexicanImageSrc from "../../../../images/icons-yellow/Mexican.png";
-import SpanishImageSrc from "../../../../images/icons-yellow/Spanish.png";
-import SteakImageSrc from "../../../../images/icons-yellow/Steak.png";
-import SushiImageSrc from "../../../../images/icons-yellow/Sushi.png";
-import ThaiImageSrc from "../../../../images/icons-yellow/Thai.png";
+import EuropeanImageSrc from "../../../../images/icons-grey/European.png";
+import JapaneseImageSrc from "../../../../images/icons-grey/Japanese.png";
+import MexicanImageSrc from "../../../../images/icons-grey/Mexican.png";
+import SpanishImageSrc from "../../../../images/icons-grey/Spanish.png";
+import SteakImageSrc from "../../../../images/icons-grey/Steak.png";
+import SushiImageSrc from "../../../../images/icons-grey/Sushi.png";
+import ThaiImageSrc from "../../../../images/icons-grey/Thai.png";
 
 const iconsMap = {
     British: faUtensils,

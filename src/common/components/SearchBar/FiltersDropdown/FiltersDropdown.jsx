@@ -4,6 +4,7 @@ import {faLocationArrow, faLocationCrosshairs} from "@fortawesome/free-solid-svg
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useDispatch} from "react-redux";
 import {updateUserPosition} from "../../../../features/map/mapSlice";
+import {useState} from "react";
 
 const cuisineOptions = [
     "Any",
@@ -43,7 +44,11 @@ const FiltersDropdown = () => {
         } else {
             console.log("location not available")
         }
-    }
+    };
+
+    const [selectedCuisine, setSelectedCuisine] = useState("Any");
+
+    const handleCuisineOptionClick = (name) => setSelectedCuisine(name);
 
     return (
         <div className="filters-dropdown">
@@ -68,7 +73,12 @@ const FiltersDropdown = () => {
 
                 <div className="cuisine-options-container">
                     {cuisineOptions.map((name, i) => (
-                        <CuisineOption key={i} name={name}/>
+                        <CuisineOption
+                            key={i}
+                            name={name}
+                            selected={selectedCuisine}
+                            handleClick={handleCuisineOptionClick}
+                        />
                     ))}
                 </div>
             </div>

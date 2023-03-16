@@ -13,17 +13,20 @@
 
 #Any-option {
     justify-content: center;
+}
+
+.cuisine-option.selected {
     background-color: rgba(244, 157, 26, 0.2);
+}
+
+.cuisine-option.selected .icon, .cuisine-option.selected .cuisine-option-name {
+    color: #F49D1A;
 }
 
 .cuisine-option-name {
     font-size: 0.75rem;
     font-weight: 500;
     color: grey;
-}
-
-#Any-option .cuisine-option-name {
-    color: #F49D1A;
 }
 
 .cuisine-option .icon {

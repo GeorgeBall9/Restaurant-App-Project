@@ -1,0 +1,14 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+}
+
+.home .search-bar-container {
+    display: flex;
+    gap: 0.25em;
+}
+
+.home .search-bar-container .back-button {
+    margin-bottom: 0.15em;
+}

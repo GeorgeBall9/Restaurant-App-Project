@@ -28,7 +28,7 @@ const MapPage = () => {
     const handleBackButtonClick = () => navigate("/");
 
     return (
-        <div className="mapview-container">
+        <div className="map-page-container">
             <div className="search-bar-container">
                 <button className="back-button" onClick={handleBackButtonClick}>
                     <FontAwesomeIcon className="icon" icon={faChevronLeft}/>

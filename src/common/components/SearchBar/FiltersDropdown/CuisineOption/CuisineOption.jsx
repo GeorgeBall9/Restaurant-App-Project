@@ -6,7 +6,6 @@ import {
     faBeerMugEmpty,
     faPizzaSlice,
     faPepperHot,
-    faBowlFood,
     faBowlRice
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";

@@ -24,7 +24,7 @@ const Home = () => {
         if (restaurantsStatus !== "idle") return;
 
         dispatch(fetchRestaurants());
-    }, []);
+    });
 
     const restaurants = useSelector(selectRestaurants);
 

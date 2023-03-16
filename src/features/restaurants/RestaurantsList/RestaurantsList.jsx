@@ -16,14 +16,10 @@ const RestaurantsList = () => {
     });
 
     const restaurants = useSelector(selectRestaurants);
-    const cuisineFilter = useSelector(selectCuisineFilter);
 
     return (
         <>
-            {restaurants && restaurants
-                .filter(restaurant => cuisineFilter === "Any" || restaurant.cuisines
-                    .find(cuisine => cuisine.name === cuisineFilter))
-                .map(restaurant => (
+            {restaurants && restaurants.map(restaurant => (
                 <RestaurantCard
                     key={restaurant.id}
                     {...restaurant}

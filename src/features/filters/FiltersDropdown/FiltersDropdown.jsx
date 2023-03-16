@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {selectCuisineFilter, updateCuisineFilter, resetCuisineFilter} from "../filtersSlice";
 import {updateUserPosition} from "../../map/mapSlice";
+import {filterRestaurantResultsByCuisine} from "../../restaurants/restaurantsSlice";
 
 const cuisineOptions = [
     "Any",
@@ -55,6 +56,7 @@ const FiltersDropdown = () => {
             dispatch(resetCuisineFilter());
         } else {
             dispatch(updateCuisineFilter(name));
+            dispatch(filterRestaurantResultsByCuisine(name));
         }
     };
 

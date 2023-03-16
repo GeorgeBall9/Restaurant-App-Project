@@ -2,13 +2,16 @@ import "./SearchBar.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass, faSliders} from "@fortawesome/free-solid-svg-icons";
 import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
-import {useState} from "react";
+
+import {useDispatch, useSelector} from "react-redux";
+import {selectDropdownFilterVisible, toggleFiltersDropdown} from "../../../features/filters/filtersSlice";
 
 const SearchBar = () => {
 
-    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const dispatch = useDispatch();
+    const dropdownVisible = useSelector(selectDropdownFilterVisible);
 
-    const handleFilterButtonClicked = () => setDropdownVisible(dropdownVisible => !dropdownVisible);
+    const handleFilterButtonClicked = () => dispatch(toggleFiltersDropdown());
 
     return (
         <div className="search-and-filters">

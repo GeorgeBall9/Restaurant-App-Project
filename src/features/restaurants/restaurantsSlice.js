@@ -10,7 +10,8 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 // initial state configuration
 const initialState = {
     // dummy data for restaurants
-    restaurants: null,
+    allRestaurants: null,
+    restaurantResults: null,
     status: "idle", // idle, pending, success, fail
     error: null
 };
@@ -132,7 +133,15 @@ const formatTime = (time) => {
 export const restaurantsSlice = createSlice({
     name: 'restaurants',
     initialState,
-    reducers: {},
+    reducers: {
+        filterRestaurantResultsByCuisine: (state, action) => {
+            const cuisineFilter = action.payload;
+
+            state.restaurantResults = state.allRestaurants
+                .filter(restaurant => cuisineFilter === "Any" || restaurant.cuisines
+                .find(cuisine => cuisine.name === cuisineFilter));
+        }
+    },
     extraReducers: builder => {
         builder
             .addCase(fetchRestaurants.pending, (state, action) => {
@@ -141,7 +150,9 @@ export const restaurantsSlice = createSlice({
             })
             .addCase(fetchRestaurants.fulfilled, (state, action) => {
                 state.status = "success"; // indicates fetch was successful
-                state.restaurants = processData(action.payload); // set restaurants to data returned
+                const processedData = processData(action.payload);
+                state.allRestaurants = processedData; // set restaurants to data returned
+                state.restaurantResults = processedData;
             })
             .addCase(fetchRestaurants.rejected, (state, action) => {
                 state.status = "fail"; // indicates fetch failed
@@ -150,6 +161,7 @@ export const restaurantsSlice = createSlice({
     }
 });
 
-export const selectRestaurants = state => state.restaurants.restaurants;
+export const {filterRestaurantResultsByCuisine} = restaurantsSlice.actions;
+export const selectRestaurants = state => state.restaurants.restaurantResults;
 export const selectRestaurantsFetchStatus = state => state.restaurants.status;
 export default restaurantsSlice.reducer

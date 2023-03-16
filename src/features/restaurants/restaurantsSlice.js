@@ -127,7 +127,6 @@ const formatTime = (time) => {
 
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 };
-
   
 // restaurants slice
 export const restaurantsSlice = createSlice({

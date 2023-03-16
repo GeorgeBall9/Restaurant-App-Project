@@ -28,6 +28,8 @@
 .restaurant-card-container {
     position: absolute;
     bottom: 0;
+    left: 0;
+    right: 0;
     padding: 1em;
     width: 100%;
     z-index: 10;

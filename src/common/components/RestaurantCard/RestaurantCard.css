@@ -14,6 +14,7 @@ Contact: georgeball14@hotmail.com
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     background-color: white;
+    overflow: hidden;
 }
 
 /* details container */
@@ -93,13 +94,15 @@ Contact: georgeball14@hotmail.com
 
 /* restaurant image container */
 .restaurant-card .container-rhs .image-container {
-    width: 125px;
+    width: 100px;
+    height: 90px;
     margin-left: 0.75em;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 /* restaurant image */
 .restaurant-card .container-rhs .image-container img {
     width: 100%;
     height: 100%;
-    border-radius: 8px;
 }

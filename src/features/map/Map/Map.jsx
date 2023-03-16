@@ -100,13 +100,6 @@ const Map = () => {
         dispatch(fetchRoute({coordinates1, coordinates2}));
     }, [displayedRestaurant]);
 
-    // runs when route coordinates are updated - if they exist, map zooms to the initial zoom value
-    useEffect(() => {
-        if (!routeCoordinates) return; // if route coordinates do not exist, do not zoom map
-
-        map.flyTo({zoom: 13}); // reset zoom in case user changed this to show route better
-    }, [routeCoordinates]);
-
     // runs when the route error is updated - only occurs when the route starts fetching or when the fetch fails
     useEffect(() => {
         if (!routeError) return; // if there is no route error, do nothing

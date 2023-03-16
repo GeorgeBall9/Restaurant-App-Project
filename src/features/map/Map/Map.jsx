@@ -8,7 +8,7 @@ Contact: ryan.henzell-hill@outlook.com
 import "./Map.css";
 
 // dependencies
-import ReactMapGl, {Popup} from "react-map-gl";
+import ReactMapGl from "react-map-gl";
 
 // react hooks
 import {useEffect, useState} from "react";

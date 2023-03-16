@@ -1,0 +1,10 @@
+.cuisine-option {
+    border: solid 1px lightgrey;
+    padding: 0.5em 1em;
+    text-align: center;
+    width: 25%;
+}
+
+.cuisine-option-name {
+    font-size: 0.7rem;
+}

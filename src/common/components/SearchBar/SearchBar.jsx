@@ -1,7 +1,7 @@
 import "./SearchBar.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass, faSliders} from "@fortawesome/free-solid-svg-icons";
-import FiltersDropdown from "./FiltersDropdown/FiltersDropdown";
+import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
 import {useState} from "react";
 
 const SearchBar = () => {

@@ -3,7 +3,7 @@ import CuisineOption from "./CuisineOption/CuisineOption";
 import {faLocationArrow, faLocationCrosshairs} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useDispatch} from "react-redux";
-import {updateUserPosition} from "../../../../features/map/mapSlice";
+import {updateUserPosition} from "../../map/mapSlice";
 import {useState} from "react";
 
 const cuisineOptions = [
@@ -48,7 +48,15 @@ const FiltersDropdown = () => {
 
     const [selectedCuisine, setSelectedCuisine] = useState("Any");
 
-    const handleCuisineOptionClick = (name) => setSelectedCuisine(name);
+    const handleCuisineOptionClick = (name) => {
+        setSelectedCuisine(selectedCuisine => {
+            if (selectedCuisine === name) {
+                return "Any";
+            } else {
+                return name;
+            }
+        });
+    }
 
     return (
         <div className="filters-dropdown">

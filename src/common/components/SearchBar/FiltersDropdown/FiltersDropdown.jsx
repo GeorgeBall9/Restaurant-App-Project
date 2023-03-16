@@ -1,7 +1,9 @@
 import "./FiltersDropdown.css";
 import CuisineOption from "./CuisineOption/CuisineOption";
-import {faClock, faLocationArrow, faLocationCrosshairs, faSignsPost} from "@fortawesome/free-solid-svg-icons";
+import {faLocationArrow, faLocationCrosshairs} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useDispatch} from "react-redux";
+import {updateUserPosition} from "../../../../features/map/mapSlice";
 
 const cuisineOptions = [
     "Any",
@@ -23,13 +25,33 @@ const cuisineOptions = [
 ]
 
 const FiltersDropdown = () => {
+
+    const dispatch = useDispatch();
+
+    const handleUseLocationClick = () => {
+        const success = (position) => {
+            const {longitude, latitude} = position.coords;
+            dispatch(updateUserPosition({latitude, longitude}));
+        };
+
+        const error = (error) => {
+            console.error(error);
+        }
+
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+            console.log("location not available")
+        }
+    }
+
     return (
         <div className="filters-dropdown">
             <div className="location-filters">
                 <h3>Location</h3>
 
                 <div className="location-options-container">
-                    <button className="use-geolocation-button">
+                    <button className="use-geolocation-button" onClick={handleUseLocationClick}>
                         <FontAwesomeIcon icon={faLocationCrosshairs} className="icon"/>
                         Use location
                     </button>

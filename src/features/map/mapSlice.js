@@ -65,6 +65,11 @@ export const mapSlice = createSlice({
             state.route.coordinates = null;
             state.route.status = "idle";
             state.route.error = null;
+        },
+        updateUserPosition: (state, action) => {
+            const {longitude, latitude} = action.payload;
+            state.userPosition.longitude = longitude;
+            state.userPosition.latitude = latitude;
         }
     },
     extraReducers: builder => {
@@ -90,7 +95,7 @@ export const mapSlice = createSlice({
     }
 });
 
-export const {displayRestaurant, resetDisplayedRestaurant} = mapSlice.actions;
+export const {displayRestaurant, resetDisplayedRestaurant, updateUserPosition} = mapSlice.actions;
 export const selectUserPosition = state => state.map.userPosition;
 export const selectDisplayedRestaurant = state => state.map.restaurantDisplayed;
 export const selectRouteDetails = state => state.map.route;

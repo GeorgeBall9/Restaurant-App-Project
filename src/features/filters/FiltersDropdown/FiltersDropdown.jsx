@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 
 import {useSelector, useDispatch} from "react-redux";
 import {selectCuisineFilter, updateCuisineFilter, resetCuisineFilter, toggleFiltersDropdown} from "../filtersSlice";
-import {updateUserPosition} from "../../map/mapSlice";
+import {resetDisplayedRestaurant, updateUserPosition} from "../../map/mapSlice";
 import {filterRestaurantResultsByCuisine, resetRestaurantResults} from "../../restaurants/restaurantsSlice";
 
 const cuisineOptions = [
@@ -49,6 +49,9 @@ const FiltersDropdown = () => {
         } else {
             console.log("location not available")
         }
+
+        dispatch(resetDisplayedRestaurant());
+        dispatch(toggleFiltersDropdown());
     };
 
     const handleCuisineOptionClick = (name) => {
@@ -60,6 +63,7 @@ const FiltersDropdown = () => {
             dispatch(filterRestaurantResultsByCuisine(name));
         }
 
+        dispatch(resetDisplayedRestaurant());
         dispatch(toggleFiltersDropdown());
     };
 
@@ -69,7 +73,7 @@ const FiltersDropdown = () => {
 
     const handlePostcodeSubmit = ({code}) => {
         if (code !== "Enter") return;
-        console.log(postcode)
+
         fetch("https://api.postcodes.io/postcodes/" + postcode)
             .then(response => {
                 if (!response.ok) {
@@ -83,6 +87,9 @@ const FiltersDropdown = () => {
                 dispatch(updateUserPosition({longitude, latitude}));
             })
             .catch(error => console.error(error));
+
+        dispatch(resetDisplayedRestaurant());
+        dispatch(toggleFiltersDropdown());
     }
 
     return (

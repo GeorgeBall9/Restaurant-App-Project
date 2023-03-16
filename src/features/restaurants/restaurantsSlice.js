@@ -135,11 +135,14 @@ export const restaurantsSlice = createSlice({
     initialState,
     reducers: {
         filterRestaurantResultsByCuisine: (state, action) => {
-            const cuisineFilter = action.payload;
+            const cuisineFilter = action.payload.toLowerCase();
 
             state.restaurantResults = state.allRestaurants
-                .filter(restaurant => cuisineFilter === "Any" || restaurant.cuisines
-                .find(cuisine => cuisine.name === cuisineFilter));
+                .filter(restaurant => cuisineFilter === "any" || restaurant.cuisines
+                .find(cuisine => cuisine.name.toLowerCase().includes(cuisineFilter)));
+        },
+        resetRestaurantResults: state => {
+            state.restaurantResults = state.allRestaurants;
         }
     },
     extraReducers: builder => {
@@ -161,7 +164,7 @@ export const restaurantsSlice = createSlice({
     }
 });
 
-export const {filterRestaurantResultsByCuisine} = restaurantsSlice.actions;
+export const {filterRestaurantResultsByCuisine, resetRestaurantResults} = restaurantsSlice.actions;
 export const selectRestaurants = state => state.restaurants.restaurantResults;
 export const selectRestaurantsFetchStatus = state => state.restaurants.status;
 export default restaurantsSlice.reducer

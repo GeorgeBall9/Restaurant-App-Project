@@ -5,9 +5,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
 
 import {useSelector, useDispatch} from "react-redux";
-import {selectCuisineFilter, updateCuisineFilter, resetCuisineFilter} from "../filtersSlice";
+import {selectCuisineFilter, updateCuisineFilter, resetCuisineFilter, toggleFiltersDropdown} from "../filtersSlice";
 import {updateUserPosition} from "../../map/mapSlice";
-import {filterRestaurantResultsByCuisine} from "../../restaurants/restaurantsSlice";
+import {filterRestaurantResultsByCuisine, resetRestaurantResults} from "../../restaurants/restaurantsSlice";
 
 const cuisineOptions = [
     "Any",
@@ -54,10 +54,13 @@ const FiltersDropdown = () => {
     const handleCuisineOptionClick = (name) => {
         if (name === cuisineFilter) {
             dispatch(resetCuisineFilter());
+            dispatch(resetRestaurantResults());
         } else {
             dispatch(updateCuisineFilter(name));
             dispatch(filterRestaurantResultsByCuisine(name));
         }
+
+        dispatch(toggleFiltersDropdown());
     };
 
     const [postcode, setPostcode] = useState("");

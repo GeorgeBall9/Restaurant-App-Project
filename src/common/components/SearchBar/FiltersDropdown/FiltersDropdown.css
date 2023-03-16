@@ -14,7 +14,7 @@
     border: solid 1px lightgrey;
     border-radius: 8px;
     overflow: hidden;
-    margin-top: 0.5em;
+    margin-top: 0.75em;
 }
 
 .cuisine-options-container .cuisine-option:first-child {

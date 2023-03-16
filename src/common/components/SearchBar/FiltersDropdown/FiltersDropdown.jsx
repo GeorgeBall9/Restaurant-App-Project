@@ -26,8 +26,8 @@ const FiltersDropdown = () => {
             <h3>Cuisine</h3>
 
             <div className="cuisine-options-container">
-                {cuisineOptions.map(option => (
-                    <CuisineOption/>
+                {cuisineOptions.map(name => (
+                    <CuisineOption name={name}/>
                 ))}
             </div>
         </div>

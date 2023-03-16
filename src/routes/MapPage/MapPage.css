@@ -7,8 +7,6 @@
     padding: 1em;
     gap: 0.25em;
     z-index: 10;
-    max-width: 500px;
-    margin: 0 auto;
 }
 
 .back-button {
@@ -34,6 +32,4 @@
     padding: 1em;
     width: 100%;
     z-index: 10;
-    max-width: 500px;
-    margin: 0 auto;
 }

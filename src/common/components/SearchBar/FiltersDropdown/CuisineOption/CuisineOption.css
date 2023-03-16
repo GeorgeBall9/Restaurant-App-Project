@@ -3,8 +3,21 @@
     padding: 0.5em 1em;
     text-align: center;
     width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5em;
+    flex-direction: column;
+}
+
+#Any-option {
+    justify-content: center;
 }
 
 .cuisine-option-name {
     font-size: 0.7rem;
+}
+
+.cuisine-option .cuisine-icon {
+    width: 20px;
 }

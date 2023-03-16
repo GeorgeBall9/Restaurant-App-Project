@@ -15,6 +15,8 @@ Contact: georgeball14@hotmail.com
     cursor: pointer;
     background-color: white;
     overflow: hidden;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 /* details container */

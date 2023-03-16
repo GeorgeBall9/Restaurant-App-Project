@@ -5,6 +5,7 @@ import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDr
 
 import {useDispatch, useSelector} from "react-redux";
 import {selectDropdownFilterVisible, toggleFiltersDropdown} from "../../../features/filters/filtersSlice";
+import {selectAllRestaurants} from "../../../features/restaurants/restaurantsSlice";
 
 const SearchBar = () => {
 
@@ -12,6 +13,15 @@ const SearchBar = () => {
     const dropdownVisible = useSelector(selectDropdownFilterVisible);
 
     const handleFilterButtonClicked = () => dispatch(toggleFiltersDropdown());
+
+    // use this restaurants array inside the get search results function
+    const restaurants = useSelector(selectAllRestaurants);
+
+    /*
+    Function takes in the search query entered into the search bar and filters the list of restaurants
+    Returns a new array (does not alter original restaurants array) that is filtered
+    */
+    const getSearchResults = (searchQuery) => {};
 
     return (
         <div className="search-and-filters">

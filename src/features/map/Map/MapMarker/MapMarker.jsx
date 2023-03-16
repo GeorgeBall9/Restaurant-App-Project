@@ -7,7 +7,7 @@ Contact: ryan.henzell-hill@outlook.com
 // dependencies
 import {Marker, Popup} from "react-map-gl";
 
-const MapMarker = ({id, name, longitude, latitude, type, handleClick}) => {
+const MapMarker = ({id, longitude, latitude, type, handleClick}) => {
 
     const anchor = "bottom";
 

@@ -6,8 +6,11 @@ import {useEffect, useState} from "react";
 
 import {useSelector, useDispatch} from "react-redux";
 import {selectCuisineFilter, updateCuisineFilter, resetCuisineFilter, toggleFiltersDropdown} from "../filtersSlice";
-import {resetDisplayedRestaurant, updateUserPosition} from "../../map/mapSlice";
-import {filterRestaurantResultsByCuisine, resetRestaurantResults} from "../../restaurants/restaurantsSlice";
+import {resetDisplayedRestaurant, selectUserPosition, updateUserPosition} from "../../map/mapSlice";
+import {
+    filterRestaurantResultsByCuisine,
+    resetRestaurantResults
+} from "../../restaurants/restaurantsSlice";
 
 const cuisineOptions = [
     "Any",
@@ -33,6 +36,7 @@ const FiltersDropdown = () => {
     const dispatch = useDispatch();
 
     const cuisineFilter = useSelector(selectCuisineFilter);
+    const userPosition = useSelector(selectUserPosition);
 
     const handleUseLocationClick = () => {
         const success = (position) => {

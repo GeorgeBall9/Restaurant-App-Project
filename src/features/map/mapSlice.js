@@ -11,8 +11,8 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 const initialState = {
     // user position will be updated when user changes location
     userPosition: {
-        latitude: 54.971860,
-        longitude: -1.599240
+        latitude: 54.972,
+        longitude: -1.605
     },
     restaurantDisplayed: null,
     popupDisplayed: false,

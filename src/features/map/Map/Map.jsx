@@ -32,6 +32,7 @@ import {selectRestaurants} from "../../restaurants/restaurantsSlice";
 // imported components
 import MapMarker from "./MapMarker/MapMarker";
 import Route from "./Route/Route";
+import useFetchRestaurants from "../../../common/hooks/useFetchRestaurants";
 
 const Map = () => {
 
@@ -52,6 +53,8 @@ const Map = () => {
     // select all relevant information from restaurants slice
     const restaurants = useSelector(selectRestaurants);
 
+    useFetchRestaurants();
+
     // component state
     // to keep reference for map once it is loaded
     const [map, setMap] = useState(null);
@@ -60,7 +63,7 @@ const Map = () => {
     const [viewState, setViewState] = useState({
         latitude: userPosition.latitude,
         longitude: userPosition.longitude,
-        zoom: 13
+        zoom: 14
     });
 
     // handler functions
@@ -113,7 +116,7 @@ const Map = () => {
         if (!userPosition || !map) return;
 
         const {longitude, latitude} = userPosition;
-        map.flyTo({center: [longitude, latitude]});
+        map.flyTo({center: [longitude, latitude], zoom: 14});
     }, [userPosition]);
 
     // component returned to MapPage route
@@ -134,11 +137,10 @@ const Map = () => {
 
             {restaurants && restaurants
                 .filter(restaurant => !displayedRestaurant || restaurant.id === displayedRestaurant.id)
-                .map(({id, name, longitude, latitude}) => (
+                .map(({id, longitude, latitude}) => (
                     <MapMarker
                         key={id}
                         id={id}
-                        name={name}
                         longitude={longitude}
                         latitude={latitude}
                         type="restaurant"

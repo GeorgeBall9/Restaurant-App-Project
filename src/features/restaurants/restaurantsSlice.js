@@ -9,29 +9,54 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 // initial state configuration
 const initialState = {
-    // dummy data for restaurants
     allRestaurants: null,
     restaurantResults: null,
     status: "idle", // idle, pending, success, fail
-    error: null
+    error: null,
+    lastPositionQueried: {
+        longitude: null,
+        latitude: null
+    }
 };
 
 // url to fetch restaurants data - held on json server atm - must later be changed to API endpoint
 const fetchUrl = "http://localhost:8000/data";
+// const fetchUrl = "https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng";
+//
+// const options = {
+//     method: 'GET',
+//     headers: {
+//         'X-RapidAPI-Key': process.env.REACT_APP_TRAVEL_ADVISOR_API_KEY,
+//         'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
+//     }
+// };
 
 // async function to fetch restaurants data
 export const fetchRestaurants = createAsyncThunk(
     "restaurants/fetchRestaurants",
-    async () => {
+    async (data) => {
+        const {latitude, longitude} = data;
+
+        // const query = fetchUrl + "?latitude=" + latitude + "&longitude=" + longitude +
+        //     "&limit=20&currency=GBP&distance=1&open_now=true&lunit=km&lang=en_US";
+        //
+        // const response = await fetch(query, options);
+
+        console.log("fetching restaurant data")
+
         const response = await fetch(fetchUrl);
 
         if (!response.ok) {
             throw new Error("The requested resource is not available. Check the URL is correct.");
         }
 
-        return await response.json();
+        const jsonData = await response.json();
+        return {
+            data: jsonData,
+            position: {longitude, latitude},
+        }
     }
-)
+);
 
 /*
 Function to filter data return by API
@@ -44,9 +69,9 @@ const filterData = (data) => {
     const locationIds = new Set();
 
     return data.filter(entry => {
-        const keepEntry = entry.location_id && !locationIds.has(entry.location_id) && entry.id && entry.name
-            && entry.longitude && entry.latitude && entry.photo?.images?.original?.url && entry.distance
-            && entry.cuisine && entry.rating && entry.hours?.week_ranges?.length === 7;
+        const keepEntry = entry.location_id && !locationIds.has(entry.location_id) && entry.name
+            && entry.latitude && entry.longitude && entry.photo?.images?.original?.url && entry.rating
+            && entry.distance && entry.hours?.week_ranges?.length === 7 && entry.cuisine;
 
         if (!keepEntry) return false;
 
@@ -66,7 +91,7 @@ Primary cuisine is the first cuisine in list
 const formatData = (data) => {
     return data.map(entry => {
         const {
-            id,
+            location_id: id,
             name,
             latitude,
             longitude,
@@ -153,9 +178,14 @@ export const restaurantsSlice = createSlice({
             })
             .addCase(fetchRestaurants.fulfilled, (state, action) => {
                 state.status = "success"; // indicates fetch was successful
-                const processedData = processData(action.payload);
+
+                const {data, position} = action.payload;
+                const processedData = processData(data);
+
                 state.allRestaurants = processedData; // set restaurants to data returned
                 state.restaurantResults = processedData;
+                state.status = "idle";
+                state.lastPositionQueried = position;
             })
             .addCase(fetchRestaurants.rejected, (state, action) => {
                 state.status = "fail"; // indicates fetch failed
@@ -168,4 +198,5 @@ export const {filterRestaurantResultsByCuisine, resetRestaurantResults} = restau
 export const selectRestaurants = state => state.restaurants.restaurantResults;
 export const selectAllRestaurants = state => state.restaurants.allRestaurants;
 export const selectRestaurantsFetchStatus = state => state.restaurants.status;
+export const selectLastPositionQueried = state => state.restaurants.lastPositionQueried;
 export default restaurantsSlice.reducer

@@ -13,6 +13,7 @@ import {useNavigate} from "react-router-dom";
 import "./Home.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMap, faMapLocationDot} from "@fortawesome/free-solid-svg-icons";
+import Navigation from "../../common/components/Navigation/Navigation";
 
 const Home = () => {
 
@@ -33,13 +34,7 @@ const Home = () => {
 
     return (
         <div className="home container">
-            <div className="search-bar-container">
-                <button className="back-button" onClick={handleGoToMapClicked}>
-                    <FontAwesomeIcon className="icon" icon={faMapLocationDot}/>
-                </button>
-
-                <SearchBar/>
-            </div>
+            <Navigation handleButtonClick={handleGoToMapClicked} view="home"/>
 
             <div className="restaurant-cards-container">
                 {restaurants && restaurants.map(restaurant => (

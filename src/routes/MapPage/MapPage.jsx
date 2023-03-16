@@ -15,10 +15,8 @@ import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCar
 import {useSelector} from "react-redux";
 import {selectDisplayedRestaurant} from "../../features/map/mapSlice";
 
-import SearchBar from "../../common/components/SearchBar/SearchBar";
-import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate} from "react-router-dom";
+import Navigation from "../../common/components/Navigation/Navigation";
 
 const MapPage = () => {
 
@@ -29,13 +27,7 @@ const MapPage = () => {
 
     return (
         <div className="map-page-container">
-            <div className="search-bar-container">
-                <button className="back-button" onClick={handleBackButtonClick}>
-                    <FontAwesomeIcon className="icon" icon={faChevronLeft}/>
-                </button>
-
-                <SearchBar/>
-            </div>
+            <Navigation handleButtonClick={handleBackButtonClick} view="map"/>
 
             <Map/>
 

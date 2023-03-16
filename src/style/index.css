@@ -8,6 +8,10 @@
     font-weight: 400;
 }
 
+body {
+    background-color: rgba(244, 157, 26, 0.4);
+}
+
 .icon {
     color: #F49D1A;
 }

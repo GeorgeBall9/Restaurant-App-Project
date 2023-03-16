@@ -2,9 +2,11 @@ import "./FiltersDropdown.css";
 import CuisineOption from "./CuisineOption/CuisineOption";
 import {faLocationArrow, faLocationCrosshairs} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useDispatch} from "react-redux";
+import {useEffect, useState} from "react";
+
+import {useSelector, useDispatch} from "react-redux";
+import {selectCuisineFilter, updateCuisineFilter, resetCuisineFilter} from "../filtersSlice";
 import {updateUserPosition} from "../../map/mapSlice";
-import {useState} from "react";
 
 const cuisineOptions = [
     "Any",
@@ -29,6 +31,12 @@ const FiltersDropdown = () => {
 
     const dispatch = useDispatch();
 
+    const cuisineFilter = useSelector(selectCuisineFilter);
+
+    useEffect(() => {
+        console.log(cuisineFilter)
+    }, [cuisineFilter]);
+
     const handleUseLocationClick = () => {
         const success = (position) => {
             const {longitude, latitude} = position.coords;
@@ -46,17 +54,13 @@ const FiltersDropdown = () => {
         }
     };
 
-    const [selectedCuisine, setSelectedCuisine] = useState("Any");
-
     const handleCuisineOptionClick = (name) => {
-        setSelectedCuisine(selectedCuisine => {
-            if (selectedCuisine === name) {
-                return "Any";
-            } else {
-                return name;
-            }
-        });
-    }
+        if (name === cuisineFilter) {
+            dispatch(resetCuisineFilter());
+        } else {
+            dispatch(updateCuisineFilter(name));
+        }
+    };
 
     return (
         <div className="filters-dropdown">
@@ -84,7 +88,7 @@ const FiltersDropdown = () => {
                         <CuisineOption
                             key={i}
                             name={name}
-                            selected={selectedCuisine}
+                            selected={cuisineFilter}
                             handleClick={handleCuisineOptionClick}
                         />
                     ))}

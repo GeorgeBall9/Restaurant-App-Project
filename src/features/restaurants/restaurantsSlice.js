@@ -22,7 +22,6 @@ const fetchUrl = "http://localhost:8000/data";
 export const fetchRestaurants = createAsyncThunk(
     "restaurants/fetchRestaurants",
     async () => {
-        console.log("fetching restaurants")
         const response = await fetch(fetchUrl);
 
         if (!response.ok) {

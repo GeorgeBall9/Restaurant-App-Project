@@ -108,6 +108,14 @@ const Map = () => {
         dispatch(resetDisplayedRestaurant()); // remove displayed restaurant since route fetch failed
     }, [routeError]);
 
+    // fly to new marker if user updates their position
+    useEffect(() => {
+        if (!userPosition || !map) return;
+
+        const {longitude, latitude} = userPosition;
+        map.flyTo({center: [longitude, latitude]});
+    }, [userPosition]);
+
     // component returned to MapPage route
     return (
         <ReactMapGl

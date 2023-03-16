@@ -33,10 +33,6 @@ const FiltersDropdown = () => {
 
     const cuisineFilter = useSelector(selectCuisineFilter);
 
-    useEffect(() => {
-        console.log(cuisineFilter)
-    }, [cuisineFilter]);
-
     const handleUseLocationClick = () => {
         const success = (position) => {
             const {longitude, latitude} = position.coords;
@@ -62,6 +58,28 @@ const FiltersDropdown = () => {
         }
     };
 
+    const [postcode, setPostcode] = useState("");
+
+    const handlePostCodeChange = ({target}) => setPostcode(target.value.toUpperCase());
+
+    const handlePostcodeSubmit = ({code}) => {
+        if (code !== "Enter") return;
+        console.log(postcode)
+        fetch("https://api.postcodes.io/postcodes/" + postcode)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("The requested resource is not available.");
+                }
+
+                return response.json();
+            })
+            .then(data => {
+                const {longitude, latitude} = data.result;
+                dispatch(updateUserPosition({longitude, latitude}));
+            })
+            .catch(error => console.error(error));
+    }
+
     return (
         <div className="filters-dropdown">
             <div className="location-filters">
@@ -75,7 +93,13 @@ const FiltersDropdown = () => {
 
                     <label className="postcode-input-container">
                         <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
-                        <input type="text" placeholder="Enter postcode"/>
+                        <input
+                            type="text"
+                            placeholder="Enter postcode"
+                            value={postcode}
+                            onChange={handlePostCodeChange}
+                            onKeyDown={handlePostcodeSubmit}
+                        />
                     </label>
                 </div>
             </div>

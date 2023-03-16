@@ -40,11 +40,12 @@
     padding: 0.25em 0.5em;
     display: flex;
     align-items: center;
+    max-width: 130px;
 }
 
 .filters-dropdown .location-filters .location-options-container .postcode-input-container input {
     border: none;
-    max-width: 95px;
+    width: 100%;
     font-size: 0.75rem;
 }
 

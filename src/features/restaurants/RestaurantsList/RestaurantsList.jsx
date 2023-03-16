@@ -2,6 +2,7 @@ import RestaurantCard from "../../../common/components/RestaurantCard/Restaurant
 import {useDispatch, useSelector} from "react-redux";
 import {fetchRestaurants, selectRestaurants, selectRestaurantsFetchStatus} from "../restaurantsSlice";
 import {useEffect} from "react";
+import {selectCuisineFilter} from "../../filters/filtersSlice";
 
 const RestaurantsList = () => {
 
@@ -15,10 +16,14 @@ const RestaurantsList = () => {
     });
 
     const restaurants = useSelector(selectRestaurants);
+    const cuisineFilter = useSelector(selectCuisineFilter);
 
     return (
         <>
-            {restaurants && restaurants.map(restaurant => (
+            {restaurants && restaurants
+                .filter(restaurant => cuisineFilter === "Any" || restaurant.cuisines
+                    .find(cuisine => cuisine.name === cuisineFilter))
+                .map(restaurant => (
                 <RestaurantCard
                     key={restaurant.id}
                     {...restaurant}

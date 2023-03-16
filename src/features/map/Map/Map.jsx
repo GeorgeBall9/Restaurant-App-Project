@@ -124,22 +124,13 @@ const Map = () => {
                 type="user"
             />
 
-            <Popup
-                longitude={userPosition.longitude}
-                latitude={userPosition.latitude}
-                anchor="bottom"
-                closeButton={false}
-                offset={50}
-            >
-                You are here
-            </Popup>
-
             {restaurants && restaurants
                 .filter(restaurant => !displayedRestaurant || restaurant.id === displayedRestaurant.id)
-                .map(({id, longitude, latitude}) => (
+                .map(({id, name, longitude, latitude}) => (
                     <MapMarker
                         key={id}
                         id={id}
+                        name={name}
                         longitude={longitude}
                         latitude={latitude}
                         type="restaurant"

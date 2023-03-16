@@ -1,0 +1,39 @@
+.cuisine-option {
+    border: solid 1px lightgrey;
+    padding: 0.5em 1em;
+    text-align: center;
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5em;
+    flex-direction: column;
+    cursor: pointer;
+    background-color: rgba(211, 211, 211, 0.3);
+}
+
+#Any-option {
+    justify-content: center;
+}
+
+.cuisine-option.selected {
+    background-color: rgba(244, 157, 26, 0.2);
+}
+
+.cuisine-option.selected .icon, .cuisine-option.selected .cuisine-option-name {
+    color: #F49D1A;
+}
+
+.cuisine-option-name {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: grey;
+}
+
+.cuisine-option .icon {
+    color: grey;
+}
+
+.cuisine-option .cuisine-icon {
+    width: 20px;
+}

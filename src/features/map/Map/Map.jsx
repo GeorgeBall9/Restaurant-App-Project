@@ -8,7 +8,7 @@ Contact: ryan.henzell-hill@outlook.com
 import "./Map.css";
 
 // dependencies
-import ReactMapGl, {Popup} from "react-map-gl";
+import ReactMapGl from "react-map-gl";
 
 // react hooks
 import {useEffect, useState} from "react";
@@ -108,6 +108,14 @@ const Map = () => {
         dispatch(resetDisplayedRestaurant()); // remove displayed restaurant since route fetch failed
     }, [routeError]);
 
+    // fly to new marker if user updates their position
+    useEffect(() => {
+        if (!userPosition || !map) return;
+
+        const {longitude, latitude} = userPosition;
+        map.flyTo({center: [longitude, latitude]});
+    }, [userPosition]);
+
     // component returned to MapPage route
     return (
         <ReactMapGl
@@ -124,22 +132,13 @@ const Map = () => {
                 type="user"
             />
 
-            <Popup
-                longitude={userPosition.longitude}
-                latitude={userPosition.latitude}
-                anchor="bottom"
-                closeButton={false}
-                offset={50}
-            >
-                You are here
-            </Popup>
-
             {restaurants && restaurants
                 .filter(restaurant => !displayedRestaurant || restaurant.id === displayedRestaurant.id)
-                .map(({id, longitude, latitude}) => (
+                .map(({id, name, longitude, latitude}) => (
                     <MapMarker
                         key={id}
                         id={id}
+                        name={name}
                         longitude={longitude}
                         latitude={latitude}
                         type="restaurant"

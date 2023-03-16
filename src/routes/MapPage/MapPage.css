@@ -1,18 +1,23 @@
-.search-bar-container {
+.map-page-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+.map-page-container .navigation-container {
     display: flex;
     position: absolute;
     top: 0;
     right: 0;
     left: 0;
-    padding: 1em;
+    padding: 0.5em;
     gap: 0.25em;
-    width: 100%;
     z-index: 10;
     max-width: 500px;
     margin: 0 auto;
 }
 
-.back-button {
+.map-page-container .search-bar-container .back-button {
     padding: 0 0.75em;
     background-color: white;
     border: none;
@@ -21,16 +26,12 @@
     cursor: pointer;
 }
 
-.mapview-container {
-    position: relative;
-}
-
-.restaurant-card-container {
+.map-page-container .restaurant-cards-container {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 1em;
+    padding: 0.5em;
     width: 100%;
     z-index: 10;
     max-width: 500px;

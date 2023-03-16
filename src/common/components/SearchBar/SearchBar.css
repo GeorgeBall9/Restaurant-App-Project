@@ -1,12 +1,18 @@
-.search-bar {
+.search-and-filters {
+    position: relative;
     width: 100%;
+}
+
+.search-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0.3em 0.75em;
     background: white;
     border-radius: 8px;
+    border: 1px solid lightgrey;
     box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
+    margin-bottom: 0.15em;
 }
 
 .search-bar > .icon:first-child {

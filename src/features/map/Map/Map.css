@@ -8,7 +8,7 @@ Contact: ryan.henzell-hill@outlook.com
     display: none;
 }
 
-.mapboxgl-map, .mapboxgl-popup-content {
+.mapboxgl-map, .user-location-popup .mapboxgl-popup-content {
     box-shadow: 0.25em 0.25em 0.5em rgba(128, 128, 128, 0.35);
 }
 
@@ -28,12 +28,4 @@ Contact: ryan.henzell-hill@outlook.com
     margin-right: 0.5em;
     color: #F49D1A;
     font-size: 1rem;
-}
-
-.marker-image {
-    width: 64px;
-}
-
-.mapboxgl-marker svg {
-    width: 70px;
 }

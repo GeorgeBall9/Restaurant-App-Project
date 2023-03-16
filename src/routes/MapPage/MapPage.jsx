@@ -15,10 +15,8 @@ import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCar
 import {useSelector} from "react-redux";
 import {selectDisplayedRestaurant} from "../../features/map/mapSlice";
 
-import SearchBar from "../../common/components/SearchBar/SearchBar";
-import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate} from "react-router-dom";
+import Navigation from "../../common/components/Navigation/Navigation";
 
 const MapPage = () => {
 
@@ -28,18 +26,12 @@ const MapPage = () => {
     const handleBackButtonClick = () => navigate("/");
 
     return (
-        <div className="mapview-container">
-            <div className="search-bar-container">
-                <button className="back-button" onClick={handleBackButtonClick}>
-                    <FontAwesomeIcon className="icon" icon={faChevronLeft}/>
-                </button>
-
-                <SearchBar/>
-            </div>
+        <div className="map-page-container">
+            <Navigation handleButtonClick={handleBackButtonClick} view="map"/>
 
             <Map/>
 
-            <div className="restaurant-card-container">
+            <div className="restaurant-cards-container">
                 {displayedRestaurant && (
                     <RestaurantCard {...displayedRestaurant} openingHours={displayedRestaurant.hours[6]} view="map"/>
                 )}

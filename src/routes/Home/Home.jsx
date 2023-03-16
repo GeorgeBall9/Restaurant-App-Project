@@ -1,13 +1,26 @@
 import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCard";
 
-import {useSelector} from "react-redux";
-import {selectRestaurants} from "../../features/restaurants/restaurantsSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    fetchRestaurants,
+    selectRestaurants,
+    selectRestaurantsFetchStatus
+} from "../../features/restaurants/restaurantsSlice";
 import SearchBar from "../../common/components/SearchBar/SearchBar";
+import {useEffect, useState} from "react";
 
 const Home = () => {
 
+    const restaurantsStatus = useSelector(selectRestaurantsFetchStatus);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (restaurantsStatus !== "idle") return;
+
+        dispatch(fetchRestaurants());
+    }, []);
+
     const restaurants = useSelector(selectRestaurants);
-    const testRestaurant = restaurants[0];
 
     return (
         <div className="home">
@@ -15,7 +28,9 @@ const Home = () => {
 
             <SearchBar/>
 
-            <RestaurantCard {...testRestaurant} openingHours={testRestaurant.hours[0]} view="home"/>
+            {restaurants && restaurants.map(restaurant => (
+                <RestaurantCard {...restaurant} openingHours={restaurant.hours[0]} view="home"/>
+            ))}
         </div>
     );
 }

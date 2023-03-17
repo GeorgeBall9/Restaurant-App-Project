@@ -6,6 +6,7 @@ import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDr
 import {useDispatch, useSelector} from "react-redux";
 import {selectDropdownFilterVisible, toggleFiltersDropdown} from "../../../features/filters/filtersSlice";
 import {selectAllRestaurants} from "../../../features/restaurants/restaurantsSlice";
+import { useState } from "react";
 
 const SearchBar = () => {
 
@@ -16,6 +17,8 @@ const SearchBar = () => {
 
     // use this restaurants array inside the get search results function
     const restaurants = useSelector(selectAllRestaurants);
+
+    const [searchQuery, setSearchQuery] = useState('');
 
     /*
     Function takes in the search query entered into the search bar and filters the list of restaurants
@@ -40,23 +43,28 @@ const SearchBar = () => {
         return searchResults;
     };
 
-    const handleInputChange = (event) => {
-        const searchQuery = event.target.value;
-        const searchResults = getSearchResults(searchQuery);
-        console.log(searchResults); // log the search results for now
-    };
+
+    // Not sure i need this
+    // const handleInputChange = (event) => {
+    //     const searchQuery = event.target.value;
+    //     const searchResults = getSearchResults(searchQuery);
+    //     console.log(searchResults); // log the search results for now
+    // };
 
     return (
         <div className="search-and-filters">
             <div className="search-bar">
                 <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
 
-                <input type="text" className="search-input" placeholder="Search" onChange={handleInputChange}/>
+                <input type="text" className="search-input" placeholder="Search" onChange={(event) => setSearchQuery(event.target.value)}/>
 
                 <button className="filter-button" onClick={handleFilterButtonClicked}>
                     <FontAwesomeIcon className="icon" icon={faSliders}/>
                 </button>
             </div>
+
+            {/* **** FOR TESTING **** Display the search query on the screen */}
+            <div>Current search query: {searchQuery}</div>
 
             {dropdownVisible && <FiltersDropdown/>}
         </div>

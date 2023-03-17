@@ -40,8 +40,8 @@ const Map = () => {
 
     // select all relevant information from map slice
     const userPosition = useSelector(selectUserPosition);
-
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
+
     const {
         coordinates: routeCoordinates,
         travelTime,
@@ -76,29 +76,9 @@ const Map = () => {
             throw new Error("No id provided");
         }
 
-        // checks if there is already a displayed restaurant
-        if (!displayedRestaurant) {
-            const restaurantToDisplay = restaurants.find(restaurant => restaurant.id === id);
-            dispatch(displayRestaurant(restaurantToDisplay));
-        } else {
-            // removes displayed restaurant so that route can be shown on click and hidden if clicked again
-            dispatch(resetDisplayedRestaurant());
-        }
+        const restaurantToDisplay = restaurants.find(restaurant => restaurant.id === id);
+        dispatch(displayRestaurant(restaurantToDisplay));
     };
-
-    // use effect functions - only executed when dependencies change
-    // runs when displayed restaurant is updated and fetches the route to the restaurant from the user
-    useEffect(() => {
-        if (!displayedRestaurant) return; // if there is no displayed restaurant, route is not requested
-
-        const coordinates1 = userPosition;
-
-        const {latitude: rLat, longitude: rLon} = displayedRestaurant;
-        const coordinates2 = {latitude: rLat, longitude: rLon};
-
-        // fetches route from redux map slice
-        dispatch(fetchRoute({coordinates1, coordinates2}));
-    }, [displayedRestaurant]);
 
     // runs when the route error is updated - only occurs when the route starts fetching or when the fetch fails
     useEffect(() => {
@@ -133,24 +113,48 @@ const Map = () => {
             />
 
             {restaurants && restaurants
-                .filter(restaurant => !displayedRestaurant || restaurant.id === displayedRestaurant.id)
+                .filter(({id}) => !routeCoordinates && id !== displayedRestaurant?.id)
                 .map(({id, longitude, latitude}) => (
-                    <MapMarker
-                        key={id}
-                        id={id}
-                        longitude={longitude}
-                        latitude={latitude}
-                        type="restaurant"
-                        handleClick={handleMarkerClick}
-                    />
-                ))}
+                <MapMarker
+                    key={id}
+                    id={id}
+                    longitude={longitude}
+                    latitude={latitude}
+                    type="restaurant"
+                    handleClick={handleMarkerClick}
+                />
+            ))}
+
+            {displayedRestaurant && !routeCoordinates && (
+                <MapMarker
+                    key={displayedRestaurant.id}
+                    id={displayedRestaurant.id}
+                    longitude={displayedRestaurant.longitude}
+                    latitude={displayedRestaurant.latitude}
+                    type="restaurant"
+                    handleClick={handleMarkerClick}
+                    selected={true}
+                />
+            )}
 
             {routeCoordinates && (
-                <Route
-                    displayedRestaurant={displayedRestaurant}
-                    routeCoordinates={routeCoordinates}
-                    travelTime={travelTime}
-                />
+                <>
+                    <Route
+                        displayedRestaurant={displayedRestaurant}
+                        routeCoordinates={routeCoordinates}
+                        travelTime={travelTime}
+                    />
+
+                    <MapMarker
+                        key={displayedRestaurant.id}
+                        id={displayedRestaurant.id}
+                        longitude={displayedRestaurant.longitude}
+                        latitude={displayedRestaurant.latitude}
+                        type="restaurant"
+                        handleClick={handleMarkerClick}
+                        selected={false}
+                    />
+                </>
             )}
         </ReactMapGl>
     );

@@ -11,16 +11,25 @@ import "./RestaurantCard.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faClock,
-    faMapLocationDot,
+    faMapLocationDot, faRoute,
     faStar,
     faStarHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
 import {faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
+import {fetchRoute, selectDisplayedRestaurant, selectUserPosition} from "../../../features/map/mapSlice";
+import {useDispatch, useSelector} from "react-redux";
 
 // do not display id in the dom - it is just there in case we want to add a click function
 
 // A card component for displaying restaurant information
 const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, photoUrl, view}) => {
+
+    // used to access reducer functions inside map slice
+    const dispatch = useDispatch();
+
+    // select all relevant information from map slice
+    const userPosition = useSelector(selectUserPosition);
+    const displayedRestaurant = useSelector(selectDisplayedRestaurant);
 
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
@@ -28,6 +37,17 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
     const halfStar = starRating - fullStars > 0;
     const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
 
+    const handleRouteButtonClick = () => {
+        if (!displayedRestaurant) return;
+
+        const coordinates1 = userPosition;
+
+        const {latitude: rLat, longitude: rLon} = displayedRestaurant;
+        const coordinates2 = {latitude: rLat, longitude: rLon};
+
+        // fetches route from redux map slice
+        dispatch(fetchRoute({coordinates1, coordinates2}));
+    }
 
     // Render the component
     return (
@@ -63,9 +83,9 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
             </div>
 
             <div className="container-rhs">
-                {/*{view !== "map" && (*/}
-                {/*    <FontAwesomeIcon icon={faMapLocationDot} className="icon"/>*/}
-                {/*)}*/}
+                {view === "map" && (
+                    <FontAwesomeIcon icon={faRoute} className="icon" onClick={handleRouteButtonClick}/>
+                )}
 
                 <div className="image-container">
                     <img src={photoUrl} alt={name}/>

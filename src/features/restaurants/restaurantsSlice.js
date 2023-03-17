@@ -160,14 +160,15 @@ export const restaurantsSlice = createSlice({
     initialState,
     reducers: {
         sortRestaurants: (state, action) => {
-            const sortBy = action.payload.toLowerCase();
-            const results = [...state.restaurantResults];
+            const sortBy = action.payload?.toLowerCase();
+            const results = state.restaurantResults;
 
             if (sortBy === "rating") {
                 state.restaurantResults = results.sort((a, b) => b.rating - a.rating);
             } else if (sortBy === "distance") {
-                console.log("filtering restaurants by distance")
                 state.restaurantResults = results.sort((a, b) => a.distance - b.distance);
+            } else if (sortBy === "price") {
+                console.log("sorting by price");
             }
         },
         filterRestaurantResultsByCuisine: (state, action) => {

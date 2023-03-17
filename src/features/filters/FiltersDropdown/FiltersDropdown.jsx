@@ -41,6 +41,7 @@ const FiltersDropdown = () => {
     const dispatch = useDispatch();
 
     const cuisineFilter = useSelector(selectCuisineFilter);
+    const sortByFilter = useSelector(selectSortFilter);
 
     const handleCuisineOptionClick = (name) => {
         if (name === cuisineFilter) {
@@ -52,12 +53,11 @@ const FiltersDropdown = () => {
         }
 
         dispatch(resetDisplayedRestaurant());
+        dispatch(sortRestaurants(sortByFilter));
         dispatch(toggleFiltersDropdown());
     };
 
     const sortByOptions = ["Distance", "Rating", "Price"];
-
-    const sortByFilter = useSelector(selectSortFilter);
 
     const handleSortButtonClick = (name) => {
         if (name === sortByFilter) {
@@ -69,6 +69,7 @@ const FiltersDropdown = () => {
         }
 
         dispatch(resetDisplayedRestaurant());
+        dispatch(filterRestaurantResultsByCuisine(cuisineFilter))
         dispatch(toggleFiltersDropdown());
     };
 

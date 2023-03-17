@@ -37,12 +37,12 @@ export const fetchRestaurants = createAsyncThunk(
     async (data) => {
         const {latitude, longitude} = data;
 
+        console.log("fetching restaurant data")
+
         // const query = fetchUrl + "?latitude=" + latitude + "&longitude=" + longitude +
         //     "&limit=20&currency=GBP&distance=1&open_now=true&lunit=km&lang=en_US";
         //
         // const response = await fetch(query, options);
-
-        console.log("fetching restaurant data")
 
         const response = await fetch(fetchUrl);
 
@@ -51,6 +51,7 @@ export const fetchRestaurants = createAsyncThunk(
         }
 
         const jsonData = await response.json();
+
         return {
             data: jsonData,
             position: {longitude, latitude},

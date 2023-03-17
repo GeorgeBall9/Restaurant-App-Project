@@ -47,13 +47,13 @@ const FiltersDropdown = () => {
         if (name === cuisineFilter) {
             dispatch(resetCuisineFilter());
             dispatch(resetRestaurantResults());
+            dispatch(sortRestaurants(sortByFilter));
         } else {
             dispatch(updateCuisineFilter(name));
             dispatch(filterRestaurantResultsByCuisine(name));
         }
 
         dispatch(resetDisplayedRestaurant());
-        dispatch(sortRestaurants(sortByFilter));
         dispatch(toggleFiltersDropdown());
     };
 
@@ -63,13 +63,13 @@ const FiltersDropdown = () => {
         if (name === sortByFilter) {
             dispatch(resetSortFilter());
             dispatch(resetRestaurantResults());
+            dispatch(filterRestaurantResultsByCuisine(cuisineFilter))
         } else {
             dispatch(updateSortFilter(name));
             dispatch(sortRestaurants(name));
         }
 
         dispatch(resetDisplayedRestaurant());
-        dispatch(filterRestaurantResultsByCuisine(cuisineFilter))
         dispatch(toggleFiltersDropdown());
     };
 

@@ -1,9 +1,14 @@
 import "./FiltersDropdown.css";
 import CuisineOption from "./CuisineOption/CuisineOption";
-import {useState} from "react";
 
 import {useSelector, useDispatch} from "react-redux";
-import {selectCuisineFilter, updateCuisineFilter, resetCuisineFilter, toggleFiltersDropdown} from "../filtersSlice";
+import {
+    selectCuisineFilter,
+    updateCuisineFilter,
+    resetCuisineFilter,
+    toggleFiltersDropdown,
+    selectSortFilter, updateSortFilter
+} from "../filtersSlice";
 import {resetDisplayedRestaurant} from "../../map/mapSlice";
 import {
     filterRestaurantResultsByCuisine,
@@ -52,14 +57,25 @@ const FiltersDropdown = () => {
 
     const sortByOptions = ["Distance", "Rating", "Price"];
 
+    const sortByFilter = useSelector(selectSortFilter);
+
+    const handleSortButtonClick = (name) => {
+        dispatch(updateSortFilter(name));
+    };
+
     return (
         <div className="filters-dropdown">
             <div className="sort-options-container">
                 <h3>Sort by</h3>
 
                 <div className="buttons-container">
-                    {sortByOptions.map(name => (
-                        <SortButton name={name}/>
+                    {sortByOptions.map((name, i) => (
+                        <SortButton
+                            key={i}
+                            name={name}
+                            selected={sortByFilter === name}
+                            handleClick={handleSortButtonClick}
+                        />
                     ))}
                 </div>
             </div>
@@ -78,7 +94,7 @@ const FiltersDropdown = () => {
                         <CuisineOption
                             key={i}
                             name={name}
-                            selected={cuisineFilter}
+                            selected={cuisineFilter === name}
                             handleClick={handleCuisineOptionClick}
                         />
                     ))}

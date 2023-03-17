@@ -8,12 +8,12 @@ const iconsMap = {
     Price: faSterlingSign
 };
 
-const SortButton = ({name}) => {
+const SortButton = ({name, selected, handleClick}) => {
 
     const icon = iconsMap[name];
 
     return (
-        <button className="sort-button">
+        <button className={`sort-button ${selected ? "selected" : ""}`} onClick={() => handleClick(name)}>
             <FontAwesomeIcon icon={icon} className="icon"/>
             {name}
         </button>

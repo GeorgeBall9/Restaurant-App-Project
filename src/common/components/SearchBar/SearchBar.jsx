@@ -4,8 +4,8 @@ import {faMagnifyingGlass, faSliders} from "@fortawesome/free-solid-svg-icons";
 import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
 
 import {useDispatch, useSelector} from "react-redux";
-import {selectDropdownFilterVisible, toggleFiltersDropdown} from "../../../features/filters/filtersSlice";
-import {selectAllRestaurants} from "../../../features/restaurants/restaurantsSlice";
+import {selectDropdownFilterVisible, selectSearchQuery, toggleFiltersDropdown, updateSearchQuery} from "../../../features/filters/filtersSlice";
+import {filterResultsBySearchQuery, selectAllRestaurants} from "../../../features/restaurants/restaurantsSlice";
 import { useState } from "react";
 
 const SearchBar = () => {
@@ -18,13 +18,14 @@ const SearchBar = () => {
     // use this restaurants array inside the get search results function
     const restaurants = useSelector(selectAllRestaurants);
 
-    const [searchQuery, setSearchQuery] = useState('');
-
     /*
     Function takes in the search query entered into the search bar and filters the list of restaurants
     Returns a new array (does not alter original restaurants array) that is filtered
     */
     const getSearchResults = (searchQuery) => {
+        if(!searchQuery) {
+            return
+        }
         // Convert searchQuery to lowercase for case-insensitive comparison
         const lowerCaseSearchQuery = searchQuery.toLowerCase();
     
@@ -43,28 +44,40 @@ const SearchBar = () => {
         return searchResults;
     };
 
+    const searchQuery = useSelector(selectSearchQuery)
+    
+    const handleInputChange = ({target}) => {
+        const searchQuery = target.value;
+        const searchResults = getSearchResults(searchQuery);
+        dispatch(updateSearchQuery(searchQuery))
+        console.log(searchResults); // log the search results for now
+    };
 
-    // Not sure i need this
-    // const handleInputChange = (event) => {
-    //     const searchQuery = event.target.value;
-    //     const searchResults = getSearchResults(searchQuery);
-    //     console.log(searchResults); // log the search results for now
-    // };
+    const handleEnterPress = ({code}) => {
+        if(code !== 'Enter'){
+            return
+        }
+        dispatch(filterResultsBySearchQuery(searchQuery));
+    }
 
     return (
         <div className="search-and-filters">
             <div className="search-bar">
                 <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
 
-                <input type="text" className="search-input" placeholder="Search" onChange={(event) => setSearchQuery(event.target.value)}/>
+                <input 
+                    type="text" 
+                    className="search-input" 
+                    placeholder="Search" 
+                    onChange={handleInputChange}
+                    onKeyDown={handleEnterPress}
+                    value={searchQuery}
+                    />
 
                 <button className="filter-button" onClick={handleFilterButtonClicked}>
                     <FontAwesomeIcon className="icon" icon={faSliders}/>
                 </button>
             </div>
-
-            {/* **** FOR TESTING **** Display the search query on the screen */}
-            <div>Current search query: {searchQuery}</div>
 
             {dropdownVisible && <FiltersDropdown/>}
         </div>

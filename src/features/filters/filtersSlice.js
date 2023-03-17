@@ -4,6 +4,7 @@ const initialState = {
     dropdownVisible: false,
     sortBy: null,
     cuisine: "Any",
+    searchQuery: ''
 };
 
 export const filtersSlice = createSlice({
@@ -15,6 +16,12 @@ export const filtersSlice = createSlice({
         },
         resetSortFilter: state => {
             state.sortBy = null;
+        },
+        updateSearchQuery: (state, action) => {
+            state.searchQuery = action.payload;
+        },
+        resetSearchQuery: state => {
+            state.searchQuery = null;
         },
         updateCuisineFilter: (state, action) => {
             state.cuisine = action.payload;
@@ -33,9 +40,12 @@ export const {
     resetSortFilter,
     updateCuisineFilter,
     resetCuisineFilter,
-    toggleFiltersDropdown
+    toggleFiltersDropdown,
+    updateSearchQuery,
+    resetSearchQuery
 } = filtersSlice.actions;
 export const selectSortFilter = state => state.filters.sortBy;
 export const selectCuisineFilter = state => state.filters.cuisine;
+export const selectSearchQuery = state => state.filters.searchQuery;
 export const selectDropdownFilterVisible = state => state.filters.dropdownVisible;
 export default filtersSlice.reducer;

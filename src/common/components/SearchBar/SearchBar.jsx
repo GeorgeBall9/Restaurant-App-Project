@@ -21,14 +21,37 @@ const SearchBar = () => {
     Function takes in the search query entered into the search bar and filters the list of restaurants
     Returns a new array (does not alter original restaurants array) that is filtered
     */
-    const getSearchResults = (searchQuery) => {};
+    const getSearchResults = (searchQuery) => {
+        // Convert searchQuery to lowercase for case-insensitive comparison
+        const lowerCaseSearchQuery = searchQuery.toLowerCase();
+    
+        // Filter restaurants based on the searchQuery
+        const searchResults = restaurants.filter((restaurant) => {
+            const nameMatch = restaurant.name.toLowerCase().includes(lowerCaseSearchQuery);
+    
+            const cuisineMatch = restaurant.cuisines.some(cuisine => 
+                cuisine.name.toLowerCase().includes(lowerCaseSearchQuery)
+            );
+                /* Ask for help on how to filter dietary requirements Think need to be implemented in restaurant slice*/
+    
+            return nameMatch || cuisineMatch;
+        });
+    
+        return searchResults;
+    };
+
+    const handleInputChange = (event) => {
+        const searchQuery = event.target.value;
+        const searchResults = getSearchResults(searchQuery);
+        console.log(searchResults); // log the search results for now
+    };
 
     return (
         <div className="search-and-filters">
             <div className="search-bar">
                 <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
 
-                <input type="text" className="search-input" placeholder="Search"/>
+                <input type="text" className="search-input" placeholder="Search" onChange={handleInputChange}/>
 
                 <button className="filter-button" onClick={handleFilterButtonClicked}>
                     <FontAwesomeIcon className="icon" icon={faSliders}/>

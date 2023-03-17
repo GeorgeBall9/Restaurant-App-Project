@@ -1,15 +1,28 @@
 import "./Slider.css";
 import RestaurantsList from "../../restaurants/RestaurantsList/RestaurantsList";
+import {useDispatch, useSelector} from "react-redux";
+import {changeSlide, selectActiveSlide} from "../sliderSlice";
+import {useEffect} from "react";
 
 const Slider = () => {
 
+    const dispatch = useDispatch();
+
     const handleBackClick = () => {
-        console.log("back")
+        dispatch(changeSlide("backward"));
     };
 
     const handleNextClick = () => {
-        console.log("next")
+        dispatch(changeSlide("forward"));
     };
+
+    const activeSlide = useSelector(selectActiveSlide);
+
+    useEffect(() => {
+        if (!activeSlide) return;
+
+        console.log(activeSlide)
+    }, [activeSlide]);
 
     return (
         <div className="slider">

@@ -18,6 +18,8 @@ import {
 import {faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
 import {fetchRoute, selectDisplayedRestaurant, selectUserPosition} from "../../../features/map/mapSlice";
 import {useDispatch, useSelector} from "react-redux";
+import {selectActiveSlide} from "../../../features/slider/sliderSlice";
+import {useEffect, useState} from "react";
 
 // do not display id in the dom - it is just there in case we want to add a click function
 
@@ -30,6 +32,7 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
     // select all relevant information from map slice
     const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
+    const activeSlide = useSelector(selectActiveSlide);
 
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
@@ -47,9 +50,19 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
 
         // fetches route from redux map slice
         dispatch(fetchRoute({coordinates1, coordinates2}));
-    }
+    };
 
-    const position = {left: index * 101 + "%"};
+    const [position, setPosition] = useState({left: index * 101 + "%"});
+
+    useEffect(() => {
+        console.log(activeSlide)
+
+        setPosition((position) => {
+            const updatedPosition = {...position};
+            updatedPosition.left = 101 * (index - activeSlide) + "%";
+            return updatedPosition;
+        });
+    }, [activeSlide]);
 
     // Render the component
     return (

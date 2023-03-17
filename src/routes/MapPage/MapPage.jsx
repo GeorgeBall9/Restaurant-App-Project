@@ -21,11 +21,14 @@ import useFetchRestaurants from "../../common/hooks/useFetchRestaurants";
 import useFilterRestaurants from "../../common/hooks/useFilterRestaurants";
 import RestaurantsList from "../../features/restaurants/RestaurantsList/RestaurantsList";
 import Slider from "../../features/slider/Slider/Slider";
+import useInitialiseSlider from "../../common/hooks/useInitialiseSlider";
+import {useEffect} from "react";
 
 const MapPage = () => {
 
     useFetchRestaurants();
     useFilterRestaurants();
+    useInitialiseSlider();
 
     const dispatch = useDispatch();
 

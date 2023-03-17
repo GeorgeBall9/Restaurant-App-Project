@@ -168,6 +168,28 @@ const getAveragePrice = (priceString) => {
     return (+priceBounds[0] + +priceBounds[1]) / 2;
 };
   
+const getSearchResults = (searchQuery, restaurants) => {
+    if(!searchQuery) {
+        return
+    }
+    // Convert searchQuery to lowercase for case-insensitive comparison
+    const lowerCaseSearchQuery = searchQuery.toLowerCase();
+
+    // Filter restaurants based on the searchQuery
+    const searchResults = restaurants.filter((restaurant) => {
+        const nameMatch = restaurant.name.toLowerCase().includes(lowerCaseSearchQuery);
+
+        const cuisineMatch = restaurant.cuisines.some(cuisine => 
+            cuisine.name.toLowerCase().includes(lowerCaseSearchQuery)
+        );
+            /* Ask for help on how to filter dietary requirements. Think need to be implemented in restaurant slice*/
+
+        return nameMatch || cuisineMatch;
+    });
+
+    return searchResults;
+};
+
 // restaurants slice
 export const restaurantsSlice = createSlice({
     name: 'restaurants',
@@ -196,6 +218,10 @@ export const restaurantsSlice = createSlice({
         },
         resetRestaurantResults: state => {
             state.restaurantResults = state.allRestaurants;
+        },
+        filterResultsBySearchQuery: (state, action) => {
+            const results = getSearchResults(action.payload, state.allRestaurants);
+            state.restaurantResults = results;
         }
     },
     extraReducers: builder => {
@@ -222,7 +248,7 @@ export const restaurantsSlice = createSlice({
     }
 });
 
-export const {sortRestaurants, filterRestaurantResultsByCuisine, resetRestaurantResults} = restaurantsSlice.actions;
+export const {sortRestaurants, filterRestaurantResultsByCuisine, resetRestaurantResults, filterResultsBySearchQuery} = restaurantsSlice.actions;
 export const selectRestaurants = state => state.restaurants.restaurantResults;
 export const selectAllRestaurants = state => state.restaurants.allRestaurants;
 export const selectRestaurantsFetchStatus = state => state.restaurants.status;

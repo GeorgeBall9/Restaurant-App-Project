@@ -1,17 +1,16 @@
 import "./FiltersDropdown.css";
 import CuisineOption from "./CuisineOption/CuisineOption";
-import {faLocationArrow, faLocationCrosshairs,} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useState} from "react";
 
 import {useSelector, useDispatch} from "react-redux";
 import {selectCuisineFilter, updateCuisineFilter, resetCuisineFilter, toggleFiltersDropdown} from "../filtersSlice";
-import {resetDisplayedRestaurant, selectUserPosition, updateUserPosition} from "../../map/mapSlice";
+import {resetDisplayedRestaurant} from "../../map/mapSlice";
 import {
     filterRestaurantResultsByCuisine,
     resetRestaurantResults
 } from "../../restaurants/restaurantsSlice";
 import SortButton from "./SortButton/SortButton";
+import LocationOptions from "./LocationOptions/LocationOptions";
 
 const cuisineOptions = [
     "Any",
@@ -38,26 +37,6 @@ const FiltersDropdown = () => {
 
     const cuisineFilter = useSelector(selectCuisineFilter);
 
-    const handleUseLocationClick = () => {
-        const success = (position) => {
-            const {longitude, latitude} = position.coords;
-            dispatch(updateUserPosition({latitude, longitude}));
-        };
-
-        const error = (error) => {
-            console.error(error);
-        }
-
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(success, error);
-        } else {
-            console.log("location not available")
-        }
-
-        dispatch(resetDisplayedRestaurant());
-        dispatch(toggleFiltersDropdown());
-    };
-
     const handleCuisineOptionClick = (name) => {
         if (name === cuisineFilter) {
             dispatch(resetCuisineFilter());
@@ -70,31 +49,6 @@ const FiltersDropdown = () => {
         dispatch(resetDisplayedRestaurant());
         dispatch(toggleFiltersDropdown());
     };
-
-    const [postcode, setPostcode] = useState("");
-
-    const handlePostCodeChange = ({target}) => setPostcode(target.value.toUpperCase());
-
-    const handlePostcodeSubmit = ({code}) => {
-        if (code !== "Enter") return;
-
-        fetch("https://api.postcodes.io/postcodes/" + postcode)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("The requested resource is not available.");
-                }
-
-                return response.json();
-            })
-            .then(data => {
-                const {longitude, latitude} = data.result;
-                dispatch(updateUserPosition({longitude, latitude}));
-            })
-            .catch(error => console.error(error));
-
-        dispatch(resetDisplayedRestaurant());
-        dispatch(toggleFiltersDropdown());
-    }
 
     const sortByOptions = ["Distance", "Rating", "Price"];
 
@@ -113,23 +67,7 @@ const FiltersDropdown = () => {
             <div className="location-filters">
                 <h3>Location</h3>
 
-                <div className="location-options-container">
-                    <button className="use-geolocation-button" onClick={handleUseLocationClick}>
-                        <FontAwesomeIcon icon={faLocationCrosshairs} className="icon"/>
-                        Use location
-                    </button>
-
-                    <label className="postcode-input-container">
-                        <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
-                        <input
-                            type="text"
-                            placeholder="Enter postcode"
-                            value={postcode}
-                            onChange={handlePostCodeChange}
-                            onKeyDown={handlePostcodeSubmit}
-                        />
-                    </label>
-                </div>
+                <LocationOptions/>
             </div>
 
             <div className="cuisine-filters">

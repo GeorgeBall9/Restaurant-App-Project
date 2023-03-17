@@ -159,6 +159,17 @@ export const restaurantsSlice = createSlice({
     name: 'restaurants',
     initialState,
     reducers: {
+        sortRestaurants: (state, action) => {
+            const sortBy = action.payload.toLowerCase();
+            const results = [...state.restaurantResults];
+
+            if (sortBy === "rating") {
+                state.restaurantResults = results.sort((a, b) => b.rating - a.rating);
+            } else if (sortBy === "distance") {
+                console.log("filtering restaurants by distance")
+                state.restaurantResults = results.sort((a, b) => a.distance - b.distance);
+            }
+        },
         filterRestaurantResultsByCuisine: (state, action) => {
             const cuisineFilter = action.payload.toLowerCase();
 
@@ -194,7 +205,7 @@ export const restaurantsSlice = createSlice({
     }
 });
 
-export const {filterRestaurantResultsByCuisine, resetRestaurantResults} = restaurantsSlice.actions;
+export const {sortRestaurants, filterRestaurantResultsByCuisine, resetRestaurantResults} = restaurantsSlice.actions;
 export const selectRestaurants = state => state.restaurants.restaurantResults;
 export const selectAllRestaurants = state => state.restaurants.allRestaurants;
 export const selectRestaurantsFetchStatus = state => state.restaurants.status;

@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     dropdownVisible: false,
-    sortBy: "Distance",
+    sortBy: null,
     cuisine: "Any",
 };
 
@@ -14,7 +14,7 @@ export const filtersSlice = createSlice({
             state.sortBy = action.payload;
         },
         resetSortFilter: state => {
-            state.sortBy = "Distance";
+            state.sortBy = null;
         },
         updateCuisineFilter: (state, action) => {
             state.cuisine = action.payload;

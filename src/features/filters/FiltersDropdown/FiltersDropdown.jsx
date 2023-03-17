@@ -7,12 +7,12 @@ import {
     updateCuisineFilter,
     resetCuisineFilter,
     toggleFiltersDropdown,
-    selectSortFilter, updateSortFilter
+    selectSortFilter, updateSortFilter, resetSortFilter
 } from "../filtersSlice";
 import {resetDisplayedRestaurant} from "../../map/mapSlice";
 import {
     filterRestaurantResultsByCuisine,
-    resetRestaurantResults
+    resetRestaurantResults, sortRestaurants
 } from "../../restaurants/restaurantsSlice";
 import SortButton from "./SortButton/SortButton";
 import LocationOptions from "./LocationOptions/LocationOptions";
@@ -60,7 +60,16 @@ const FiltersDropdown = () => {
     const sortByFilter = useSelector(selectSortFilter);
 
     const handleSortButtonClick = (name) => {
-        dispatch(updateSortFilter(name));
+        if (name === sortByFilter) {
+            dispatch(resetSortFilter());
+            dispatch(resetRestaurantResults());
+        } else {
+            dispatch(updateSortFilter(name));
+            dispatch(sortRestaurants(name));
+        }
+
+        dispatch(resetDisplayedRestaurant());
+        dispatch(toggleFiltersDropdown());
     };
 
     return (

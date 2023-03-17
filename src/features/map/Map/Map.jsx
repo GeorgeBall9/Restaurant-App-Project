@@ -32,7 +32,6 @@ import {selectRestaurants} from "../../restaurants/restaurantsSlice";
 // imported components
 import MapMarker from "./MapMarker/MapMarker";
 import Route from "./Route/Route";
-import useFetchRestaurants from "../../../common/hooks/useFetchRestaurants";
 
 const Map = () => {
 
@@ -52,8 +51,6 @@ const Map = () => {
 
     // select all relevant information from restaurants slice
     const restaurants = useSelector(selectRestaurants);
-
-    useFetchRestaurants();
 
     // component state
     // to keep reference for map once it is loaded

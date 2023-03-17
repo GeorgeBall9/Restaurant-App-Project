@@ -20,6 +20,7 @@ import Navigation from "../../common/components/Navigation/Navigation";
 import useFetchRestaurants from "../../common/hooks/useFetchRestaurants";
 import useFilterRestaurants from "../../common/hooks/useFilterRestaurants";
 import RestaurantsList from "../../features/restaurants/RestaurantsList/RestaurantsList";
+import Slider from "../../features/slider/Slider/Slider";
 
 const MapPage = () => {
 
@@ -38,14 +39,6 @@ const MapPage = () => {
         dispatch(resetDisplayedRestaurant());
     };
 
-    const handleBackClick = () => {
-        console.log("back")
-    };
-
-    const handleNextClick = () => {
-        console.log("next")
-    };
-
     return (
         <div className="map-page-container">
             <div className="nav-and-back-button">
@@ -55,16 +48,7 @@ const MapPage = () => {
 
             <Map/>
 
-            <div className="restaurant-cards-container">
-                <div className="buttons-container">
-                    <button onClick={handleBackClick}>Back</button>
-                    <button onClick={handleNextClick}>Next</button>
-                </div>
-
-                <div className="display-container">
-                    <RestaurantsList/>
-                </div>
-            </div>
+            <Slider/>
         </div>
     );
 };

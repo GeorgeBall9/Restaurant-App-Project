@@ -51,14 +51,9 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
 
     const position = {left: index * 101 + "%"};
 
-    const handleDrag = (event) => {
-        event.preventDefault();
-        console.log(event.dataTransfer);
-    }
-
     // Render the component
     return (
-        <div className={`restaurant-card position-${index}`} style={position} onDragStart={handleDrag}>
+        <div className="restaurant-card" style={position}>
             <div className="details-container">
                 <h3>{name}</h3>
 

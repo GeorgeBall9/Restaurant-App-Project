@@ -1,14 +1,8 @@
 import "./FiltersDropdown.css";
 import CuisineOption from "./CuisineOption/CuisineOption";
-import {
-    faLocationArrow,
-    faLocationCrosshairs,
-    faPersonWalking,
-    faStar,
-    faSterlingSign
-} from "@fortawesome/free-solid-svg-icons";
+import {faLocationArrow, faLocationCrosshairs,} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 import {useSelector, useDispatch} from "react-redux";
 import {selectCuisineFilter, updateCuisineFilter, resetCuisineFilter, toggleFiltersDropdown} from "../filtersSlice";
@@ -17,6 +11,7 @@ import {
     filterRestaurantResultsByCuisine,
     resetRestaurantResults
 } from "../../restaurants/restaurantsSlice";
+import SortButton from "./SortButton/SortButton";
 
 const cuisineOptions = [
     "Any",
@@ -42,7 +37,6 @@ const FiltersDropdown = () => {
     const dispatch = useDispatch();
 
     const cuisineFilter = useSelector(selectCuisineFilter);
-    const userPosition = useSelector(selectUserPosition);
 
     const handleUseLocationClick = () => {
         const success = (position) => {
@@ -102,24 +96,17 @@ const FiltersDropdown = () => {
         dispatch(toggleFiltersDropdown());
     }
 
+    const sortByOptions = ["Distance", "Rating", "Price"];
+
     return (
         <div className="filters-dropdown">
             <div className="sort-options-container">
                 <h3>Sort by</h3>
 
                 <div className="buttons-container">
-                    <button>
-                        <FontAwesomeIcon icon={faPersonWalking} className="icon"/>
-                        Distance
-                    </button>
-                    <button>
-                        <FontAwesomeIcon icon={faStar} className="icon"/>
-                        Rating
-                    </button>
-                    <button>
-                        <FontAwesomeIcon icon={faSterlingSign} className="icon"/>
-                        Price
-                    </button>
+                    {sortByOptions.map(name => (
+                        <SortButton name={name}/>
+                    ))}
                 </div>
             </div>
 

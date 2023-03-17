@@ -1,0 +1,14 @@
+.sort-button {
+    flex-basis: 100%;
+    border: none;
+    background-color: rgba(211, 211, 211, 0.3);
+    padding: 0.25em 0;
+    font-size: 0.75rem;
+    color: grey;
+    font-weight: 500;
+}
+
+.sort-button .icon {
+    margin-right: 0.5em;
+    color: grey;
+}

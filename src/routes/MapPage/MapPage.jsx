@@ -12,8 +12,8 @@ import Map from "../../features/map/Map/Map";
 import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCard";
 
 // redux imports
-import {useSelector} from "react-redux";
-import {selectDisplayedRestaurant} from "../../features/map/mapSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {resetDisplayedRestaurant, selectDisplayedRestaurant, selectRouteDetails} from "../../features/map/mapSlice";
 
 import {useNavigate} from "react-router-dom";
 import Navigation from "../../common/components/Navigation/Navigation";
@@ -25,14 +25,25 @@ const MapPage = () => {
     useFetchRestaurants();
     useFilterRestaurants();
 
+    const dispatch = useDispatch();
+
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
+    const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
+
     const navigate = useNavigate();
 
     const handleBackButtonClick = () => navigate("/");
 
+    const handleShowAllClick = () => {
+        dispatch(resetDisplayedRestaurant());
+    };
+
     return (
         <div className="map-page-container">
-            <Navigation handleButtonClick={handleBackButtonClick} view="map"/>
+            <div className="nav-and-back-button">
+                <Navigation handleButtonClick={handleBackButtonClick} view="map"/>
+                {routeCoordinates && <button onClick={handleShowAllClick}>Show All</button>}
+            </div>
 
             <Map/>
 

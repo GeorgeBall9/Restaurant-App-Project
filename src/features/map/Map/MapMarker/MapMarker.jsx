@@ -7,7 +7,7 @@ Contact: ryan.henzell-hill@outlook.com
 // dependencies
 import {Marker, Popup} from "react-map-gl";
 
-const MapMarker = ({id, longitude, latitude, type, handleClick}) => {
+const MapMarker = ({id, longitude, latitude, type, handleClick, selected}) => {
 
     const anchor = "bottom";
 
@@ -45,6 +45,7 @@ const MapMarker = ({id, longitude, latitude, type, handleClick}) => {
             anchor={anchor}
             color="red"
             onClick={() => handleClick(id)}
+            scale={selected ? 1.25 : 1}
         >
         </Marker>
     );

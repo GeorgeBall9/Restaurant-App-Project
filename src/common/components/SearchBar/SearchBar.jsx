@@ -35,7 +35,7 @@ const SearchBar = () => {
             const cuisineMatch = restaurant.cuisines.some(cuisine => 
                 cuisine.name.toLowerCase().includes(lowerCaseSearchQuery)
             );
-                /* Ask for help on how to filter dietary requirements Think need to be implemented in restaurant slice*/
+                /* Ask for help on how to filter dietary requirements. Think need to be implemented in restaurant slice*/
     
             return nameMatch || cuisineMatch;
         });

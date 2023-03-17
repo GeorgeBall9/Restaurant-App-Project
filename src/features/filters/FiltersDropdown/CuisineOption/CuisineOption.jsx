@@ -60,14 +60,13 @@ const yellowImageSrcMap = {
 
 const CuisineOption = ({name, selected, handleClick}) => {
 
-    const isSelected = name === selected;
     const icon = iconsMap[name];
-    const imgSrc = isSelected ? yellowImageSrcMap[name] : greyImageSrcMap[name];
+    const imgSrc = selected ? yellowImageSrcMap[name] : greyImageSrcMap[name];
 
     return (
         <div
             id={`${name}-option`}
-            className={`cuisine-option ${isSelected ? "selected" : ""}`}
+            className={`cuisine-option ${selected ? "selected" : ""}`}
             onClick={() => handleClick(name)}
         >
             {icon && <FontAwesomeIcon className="icon cuisine-icon" icon={icon}/>}

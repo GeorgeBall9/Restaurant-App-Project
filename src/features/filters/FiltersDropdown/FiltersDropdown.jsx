@@ -1,13 +1,21 @@
 import "./FiltersDropdown.css";
 import CuisineOption from "./CuisineOption/CuisineOption";
-import {faLocationArrow, faLocationCrosshairs} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useEffect, useState} from "react";
 
 import {useSelector, useDispatch} from "react-redux";
-import {selectCuisineFilter, updateCuisineFilter, resetCuisineFilter, toggleFiltersDropdown} from "../filtersSlice";
-import {resetDisplayedRestaurant, updateUserPosition} from "../../map/mapSlice";
-import {filterRestaurantResultsByCuisine, resetRestaurantResults} from "../../restaurants/restaurantsSlice";
+import {
+    selectCuisineFilter,
+    updateCuisineFilter,
+    resetCuisineFilter,
+    toggleFiltersDropdown,
+    selectSortFilter, updateSortFilter, resetSortFilter
+} from "../filtersSlice";
+import {resetDisplayedRestaurant} from "../../map/mapSlice";
+import {
+    filterRestaurantResultsByCuisine,
+    resetRestaurantResults, sortRestaurants
+} from "../../restaurants/restaurantsSlice";
+import SortButton from "./SortButton/SortButton";
+import LocationOptions from "./LocationOptions/LocationOptions";
 
 const cuisineOptions = [
     "Any",
@@ -33,26 +41,7 @@ const FiltersDropdown = () => {
     const dispatch = useDispatch();
 
     const cuisineFilter = useSelector(selectCuisineFilter);
-
-    const handleUseLocationClick = () => {
-        const success = (position) => {
-            const {longitude, latitude} = position.coords;
-            dispatch(updateUserPosition({latitude, longitude}));
-        };
-
-        const error = (error) => {
-            console.error(error);
-        }
-
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(success, error);
-        } else {
-            console.log("location not available")
-        }
-
-        dispatch(resetDisplayedRestaurant());
-        dispatch(toggleFiltersDropdown());
-    };
+    const sortByFilter = useSelector(selectSortFilter);
 
     const handleCuisineOptionClick = (name) => {
         if (name === cuisineFilter) {
@@ -63,57 +52,48 @@ const FiltersDropdown = () => {
             dispatch(filterRestaurantResultsByCuisine(name));
         }
 
+        dispatch(sortRestaurants(sortByFilter));
         dispatch(resetDisplayedRestaurant());
         dispatch(toggleFiltersDropdown());
     };
 
-    const [postcode, setPostcode] = useState("");
+    const sortByOptions = ["Distance", "Rating", "Price"];
 
-    const handlePostCodeChange = ({target}) => setPostcode(target.value.toUpperCase());
-
-    const handlePostcodeSubmit = ({code}) => {
-        if (code !== "Enter") return;
-
-        fetch("https://api.postcodes.io/postcodes/" + postcode)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("The requested resource is not available.");
-                }
-
-                return response.json();
-            })
-            .then(data => {
-                const {longitude, latitude} = data.result;
-                dispatch(updateUserPosition({longitude, latitude}));
-            })
-            .catch(error => console.error(error));
+    const handleSortButtonClick = (name) => {
+        if (name === sortByFilter) {
+            dispatch(resetSortFilter());
+            dispatch(resetRestaurantResults());
+            dispatch(filterRestaurantResultsByCuisine(cuisineFilter))
+        } else {
+            dispatch(updateSortFilter(name));
+            dispatch(sortRestaurants(name));
+        }
 
         dispatch(resetDisplayedRestaurant());
         dispatch(toggleFiltersDropdown());
-    }
+    };
 
     return (
         <div className="filters-dropdown">
+            <div className="sort-options-container">
+                <h3>Sort by</h3>
+
+                <div className="buttons-container">
+                    {sortByOptions.map((name, i) => (
+                        <SortButton
+                            key={i}
+                            name={name}
+                            selected={sortByFilter === name}
+                            handleClick={handleSortButtonClick}
+                        />
+                    ))}
+                </div>
+            </div>
+
             <div className="location-filters">
                 <h3>Location</h3>
 
-                <div className="location-options-container">
-                    <button className="use-geolocation-button" onClick={handleUseLocationClick}>
-                        <FontAwesomeIcon icon={faLocationCrosshairs} className="icon"/>
-                        Use location
-                    </button>
-
-                    <label className="postcode-input-container">
-                        <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
-                        <input
-                            type="text"
-                            placeholder="Enter postcode"
-                            value={postcode}
-                            onChange={handlePostCodeChange}
-                            onKeyDown={handlePostcodeSubmit}
-                        />
-                    </label>
-                </div>
+                <LocationOptions/>
             </div>
 
             <div className="cuisine-filters">
@@ -124,7 +104,7 @@ const FiltersDropdown = () => {
                         <CuisineOption
                             key={i}
                             name={name}
-                            selected={cuisineFilter}
+                            selected={cuisineFilter === name}
                             handleClick={handleCuisineOptionClick}
                         />
                     ))}

@@ -110,7 +110,7 @@ const formatData = (data) => {
             latitude: +latitude,
             longitude: +longitude,
             photoUrl: photo.images.original.url,
-            distance: Math.round(distance * 10) / 10,
+            distance,
             rating: +rating,
             price: price ? price : null,
             hours: formatHours(hours),

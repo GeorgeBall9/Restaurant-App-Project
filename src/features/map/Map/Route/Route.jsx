@@ -55,7 +55,7 @@ const Route = ({displayedRestaurant, routeCoordinates, travelTime}) => {
             >
                 <p>
                     <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
-                    {distance} km
+                    {Math.round(distance * 10) / 10} km
                 </p>
                 <p>
                     <FontAwesomeIcon icon={faPersonWalking} className="icon"/>

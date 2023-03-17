@@ -1,8 +1,7 @@
 import "./Slider.css";
 import RestaurantsList from "../../restaurants/RestaurantsList/RestaurantsList";
-import {useDispatch, useSelector} from "react-redux";
-import {changeSlide, selectActiveSlide} from "../sliderSlice";
-import {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {changeSlide} from "../sliderSlice";
 
 const Slider = () => {
 
@@ -15,8 +14,6 @@ const Slider = () => {
     const handleNextClick = () => {
         dispatch(changeSlide("forward"));
     };
-
-    const activeSlide = useSelector(selectActiveSlide);
 
     return (
         <div className="slider">

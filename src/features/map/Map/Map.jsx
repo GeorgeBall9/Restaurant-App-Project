@@ -31,6 +31,7 @@ import {selectRestaurants} from "../../restaurants/restaurantsSlice";
 // imported components
 import MapMarker from "./MapMarker/MapMarker";
 import Route from "./Route/Route";
+import {setActiveSlide} from "../../slider/sliderSlice";
 
 const Map = () => {
 
@@ -77,6 +78,7 @@ const Map = () => {
 
         const restaurantToDisplay = restaurants.find(restaurant => restaurant.id === id);
         dispatch(displayRestaurant(restaurantToDisplay));
+        dispatch(setActiveSlide(restaurants.indexOf(restaurantToDisplay)));
     };
 
     // runs when the route error is updated - only occurs when the route starts fetching or when the fetch fails

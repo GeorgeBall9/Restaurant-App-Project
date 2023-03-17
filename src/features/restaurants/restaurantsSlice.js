@@ -154,6 +154,19 @@ const formatTime = (time) => {
 
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 };
+
+const getAveragePrice = (priceString) => {
+    if (!priceString) return null;
+
+    const priceBounds = priceString
+        .replaceAll("£", "")
+        .replace(/\s+/g, "")
+        .split("-");
+
+    if (priceBounds.length === 1) return priceBounds[0];
+
+    return (+priceBounds[0] + +priceBounds[1]) / 2;
+};
   
 // restaurants slice
 export const restaurantsSlice = createSlice({
@@ -169,7 +182,9 @@ export const restaurantsSlice = createSlice({
             } else if (sortBy === "distance") {
                 state.restaurantResults = results.sort((a, b) => a.distance - b.distance);
             } else if (sortBy === "price") {
-                console.log("sorting by price");
+                state.restaurantResults = results.sort(({price: a}, {price: b}) => (
+                    getAveragePrice(b) - getAveragePrice(a)
+                ));
             }
         },
         filterRestaurantResultsByCuisine: (state, action) => {

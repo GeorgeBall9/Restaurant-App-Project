@@ -22,7 +22,7 @@ import {useDispatch, useSelector} from "react-redux";
 // do not display id in the dom - it is just there in case we want to add a click function
 
 // A card component for displaying restaurant information
-const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, photoUrl, view}) => {
+const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, photoUrl, view, index}) => {
 
     // used to access reducer functions inside map slice
     const dispatch = useDispatch();
@@ -49,9 +49,16 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
         dispatch(fetchRoute({coordinates1, coordinates2}));
     }
 
+    const position = {left: index * 101 + "%"};
+
+    const handleDrag = (event) => {
+        event.preventDefault();
+        console.log(event.dataTransfer);
+    }
+
     // Render the component
     return (
-        <div className="restaurant-card">
+        <div className={`restaurant-card position-${index}`} style={position} onDragStart={handleDrag}>
             <div className="details-container">
                 <h3>{name}</h3>
 

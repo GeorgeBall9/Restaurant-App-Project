@@ -8,12 +8,13 @@ const RestaurantsList = () => {
 
     return (
         <>
-            {restaurants && restaurants.map(restaurant => (
+            {restaurants && restaurants.map((restaurant, i) => (
                 <RestaurantCard
                     key={restaurant.id}
                     {...restaurant}
                     openingHours={restaurant.hours[0]}
                     view="home"
+                    index={i}
                 />
             ))}
         </>

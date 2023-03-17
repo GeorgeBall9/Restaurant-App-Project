@@ -19,6 +19,7 @@ import {useNavigate} from "react-router-dom";
 import Navigation from "../../common/components/Navigation/Navigation";
 import useFetchRestaurants from "../../common/hooks/useFetchRestaurants";
 import useFilterRestaurants from "../../common/hooks/useFilterRestaurants";
+import RestaurantsList from "../../features/restaurants/RestaurantsList/RestaurantsList";
 
 const MapPage = () => {
 
@@ -27,7 +28,6 @@ const MapPage = () => {
 
     const dispatch = useDispatch();
 
-    const displayedRestaurant = useSelector(selectDisplayedRestaurant);
     const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
 
     const navigate = useNavigate();
@@ -36,6 +36,14 @@ const MapPage = () => {
 
     const handleShowAllClick = () => {
         dispatch(resetDisplayedRestaurant());
+    };
+
+    const handleBackClick = () => {
+        console.log("back")
+    };
+
+    const handleNextClick = () => {
+        console.log("next")
     };
 
     return (
@@ -48,9 +56,14 @@ const MapPage = () => {
             <Map/>
 
             <div className="restaurant-cards-container">
-                {displayedRestaurant && (
-                    <RestaurantCard {...displayedRestaurant} openingHours={displayedRestaurant.hours[6]} view="map"/>
-                )}
+                <div className="buttons-container">
+                    <button onClick={handleBackClick}>Back</button>
+                    <button onClick={handleNextClick}>Next</button>
+                </div>
+
+                <div className="display-container">
+                    <RestaurantsList/>
+                </div>
             </div>
         </div>
     );

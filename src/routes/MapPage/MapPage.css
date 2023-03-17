@@ -43,9 +43,37 @@
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 0.5em;
     width: 100%;
     z-index: 10;
     max-width: 500px;
     margin: 0 auto;
+    padding: 0.5em;
+}
+
+.map-page-container .restaurant-cards-container .buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.map-page-container .restaurant-cards-container .buttons-container button {
+    border: none;
+    border-radius: 8px;
+    padding: 0.5em 0.75em;
+    font-weight: 500;
+    background-color: white;
+    color: #F49D1A;
+    box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
+
+}
+
+.map-page-container .restaurant-cards-container .display-container {
+    position: relative;
+    display: flex;
+    height: 140px;
+}
+
+.map-page-container .restaurant-cards-container .display-container .restaurant-card {
+    /*visibility: hidden;*/
+    position: absolute;
+    bottom: 0;
 }

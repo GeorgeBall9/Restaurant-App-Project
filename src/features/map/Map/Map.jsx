@@ -22,7 +22,6 @@ import {
     selectDisplayedRestaurant,
     displayRestaurant,
     resetDisplayedRestaurant,
-    fetchRoute,
     selectRouteDetails
 } from "../mapSlice";
 

@@ -1,6 +1,12 @@
 import "./FiltersDropdown.css";
 import CuisineOption from "./CuisineOption/CuisineOption";
-import {faLocationArrow, faLocationCrosshairs} from "@fortawesome/free-solid-svg-icons";
+import {
+    faLocationArrow,
+    faLocationCrosshairs,
+    faPersonWalking,
+    faStar,
+    faSterlingSign
+} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
 
@@ -98,6 +104,25 @@ const FiltersDropdown = () => {
 
     return (
         <div className="filters-dropdown">
+            <div className="sort-options-container">
+                <h3>Sort by</h3>
+
+                <div className="buttons-container">
+                    <button>
+                        <FontAwesomeIcon icon={faPersonWalking} className="icon"/>
+                        Distance
+                    </button>
+                    <button>
+                        <FontAwesomeIcon icon={faStar} className="icon"/>
+                        Rating
+                    </button>
+                    <button>
+                        <FontAwesomeIcon icon={faSterlingSign} className="icon"/>
+                        Price
+                    </button>
+                </div>
+            </div>
+
             <div className="location-filters">
                 <h3>Location</h3>
 

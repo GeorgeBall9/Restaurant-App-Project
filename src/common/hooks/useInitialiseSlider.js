@@ -1,7 +1,8 @@
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {selectRestaurants} from "../../features/restaurants/restaurantsSlice";
-import {resetActiveSlide, setLastSlide} from "../../features/slider/sliderSlice";
+import {setActiveSlide, setLastSlide} from "../../features/slider/sliderSlice";
+import {displayRestaurant} from "../../features/map/mapSlice";
 
 const useInitialiseSlider = () => {
 
@@ -12,9 +13,8 @@ const useInitialiseSlider = () => {
     useEffect(() => {
         if (!restaurants) return;
 
-        console.log("resetting slides")
-
-        dispatch(resetActiveSlide());
+        dispatch(displayRestaurant(restaurants[0]));
+        dispatch(setActiveSlide(0));
         dispatch(setLastSlide(restaurants.length));
     }, [restaurants]);
 };

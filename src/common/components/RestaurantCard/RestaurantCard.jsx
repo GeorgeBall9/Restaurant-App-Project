@@ -16,7 +16,12 @@ import {
     faStarHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
 import {faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
-import {fetchRoute, selectDisplayedRestaurant, selectUserPosition} from "../../../features/map/mapSlice";
+import {
+    displayRestaurant,
+    fetchRoute,
+    selectDisplayedRestaurant,
+    selectUserPosition
+} from "../../../features/map/mapSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {selectActiveSlide} from "../../../features/slider/sliderSlice";
 import {useEffect, useState} from "react";
@@ -25,7 +30,9 @@ import {selectRestaurants} from "../../../features/restaurants/restaurantsSlice"
 // do not display id in the dom - it is just there in case we want to add a click function
 
 // A card component for displaying restaurant information
-const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, photoUrl, view, index}) => {
+const RestaurantCard = ({restaurant, openingHours, view, index}) => {
+
+    const {name, rating, price, primaryCuisine, photoUrl} = restaurant;
 
     // used to access reducer functions inside map slice
     const dispatch = useDispatch();
@@ -62,9 +69,12 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
         setPosition((position) => {
             const updatedPosition = {...position};
             updatedPosition.left = 101 * (index - activeSlide) + "%";
-            console.log("updated position:", updatedPosition.left)
             return updatedPosition;
         });
+
+        if (index === activeSlide) {
+            dispatch(displayRestaurant(restaurant));
+        }
     }, [activeSlide, restaurants]);
 
     // Render the component

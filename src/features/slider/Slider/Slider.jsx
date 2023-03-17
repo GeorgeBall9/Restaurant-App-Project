@@ -18,12 +18,6 @@ const Slider = () => {
 
     const activeSlide = useSelector(selectActiveSlide);
 
-    useEffect(() => {
-        if (!activeSlide) return;
-
-        console.log(activeSlide)
-    }, [activeSlide]);
-
     return (
         <div className="slider">
             <div className="buttons-container">
@@ -32,7 +26,7 @@ const Slider = () => {
             </div>
 
             <div className="restaurant-cards-container">
-                <RestaurantsList/>
+                <RestaurantsList view="map"/>
             </div>
         </div>
     );

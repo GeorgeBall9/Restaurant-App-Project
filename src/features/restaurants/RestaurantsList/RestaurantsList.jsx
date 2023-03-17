@@ -2,7 +2,7 @@ import RestaurantCard from "../../../common/components/RestaurantCard/Restaurant
 import {useSelector} from "react-redux";
 import {selectRestaurants} from "../restaurantsSlice";
 
-const RestaurantsList = () => {
+const RestaurantsList = ({view}) => {
 
     const restaurants = useSelector(selectRestaurants);
 
@@ -11,9 +11,9 @@ const RestaurantsList = () => {
             {restaurants && restaurants.map((restaurant, i) => (
                 <RestaurantCard
                     key={restaurant.id}
-                    {...restaurant}
+                    restaurant={restaurant}
                     openingHours={restaurant.hours[0]}
-                    view="home"
+                    view={view}
                     index={i}
                 />
             ))}

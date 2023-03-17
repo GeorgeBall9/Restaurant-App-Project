@@ -9,8 +9,8 @@ export const sliderSlice = createSlice({
     name: 'slider',
     initialState,
     reducers: {
-        resetActiveSlide: state => {
-            state.activeSlide = 0;
+        setActiveSlide: (state, action) => {
+            state.activeSlide = action.payload;
         },
         setLastSlide: (state, action) => {
             state.lastSlide = action.payload - 1;
@@ -31,6 +31,6 @@ export const sliderSlice = createSlice({
     }
 })
 
-export const {resetActiveSlide, setLastSlide, changeSlide} = sliderSlice.actions
+export const {setActiveSlide, setLastSlide, changeSlide} = sliderSlice.actions
 export const selectActiveSlide = state => state.slider.activeSlide;
 export default sliderSlice.reducer

@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     dropdownVisible: false,
+    sortBy: null,
     cuisine: "Any",
 };
 
@@ -9,6 +10,12 @@ export const filtersSlice = createSlice({
     name: 'filters',
     initialState,
     reducers: {
+        updateSortFilter: (state, action) => {
+            state.sortBy = action.payload;
+        },
+        resetSortFilter: state => {
+            state.sortBy = null;
+        },
         updateCuisineFilter: (state, action) => {
             state.cuisine = action.payload;
         },
@@ -21,7 +28,14 @@ export const filtersSlice = createSlice({
     }
 });
 
-export const {updateCuisineFilter, resetCuisineFilter, toggleFiltersDropdown} = filtersSlice.actions;
+export const {
+    updateSortFilter,
+    resetSortFilter,
+    updateCuisineFilter,
+    resetCuisineFilter,
+    toggleFiltersDropdown
+} = filtersSlice.actions;
+export const selectSortFilter = state => state.filters.sortBy;
 export const selectCuisineFilter = state => state.filters.cuisine;
 export const selectDropdownFilterVisible = state => state.filters.dropdownVisible;
 export default filtersSlice.reducer;

@@ -1,19 +1,8 @@
 import RestaurantCard from "../../../common/components/RestaurantCard/RestaurantCard";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchRestaurants, selectRestaurants, selectRestaurantsFetchStatus} from "../restaurantsSlice";
-import {useEffect} from "react";
-import {selectCuisineFilter} from "../../filters/filtersSlice";
+import {useSelector} from "react-redux";
+import {selectRestaurants} from "../restaurantsSlice";
 
 const RestaurantsList = () => {
-
-    const restaurantsStatus = useSelector(selectRestaurantsFetchStatus);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (restaurantsStatus !== "idle") return;
-
-        dispatch(fetchRestaurants());
-    });
 
     const restaurants = useSelector(selectRestaurants);
 

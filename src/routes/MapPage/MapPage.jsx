@@ -17,8 +17,13 @@ import {selectDisplayedRestaurant} from "../../features/map/mapSlice";
 
 import {useNavigate} from "react-router-dom";
 import Navigation from "../../common/components/Navigation/Navigation";
+import useFetchRestaurants from "../../common/hooks/useFetchRestaurants";
+import useFilterRestaurants from "../../common/hooks/useFilterRestaurants";
 
 const MapPage = () => {
+
+    useFetchRestaurants();
+    useFilterRestaurants();
 
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
     const navigate = useNavigate();

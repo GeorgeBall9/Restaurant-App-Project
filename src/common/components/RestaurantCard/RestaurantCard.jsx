@@ -20,6 +20,7 @@ import {fetchRoute, selectDisplayedRestaurant, selectUserPosition} from "../../.
 import {useDispatch, useSelector} from "react-redux";
 import {selectActiveSlide} from "../../../features/slider/sliderSlice";
 import {useEffect, useState} from "react";
+import {selectRestaurants} from "../../../features/restaurants/restaurantsSlice";
 
 // do not display id in the dom - it is just there in case we want to add a click function
 
@@ -33,6 +34,7 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
     const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
     const activeSlide = useSelector(selectActiveSlide);
+    const restaurants = useSelector(selectRestaurants);
 
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
@@ -55,14 +57,15 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
     const [position, setPosition] = useState({left: index * 101 + "%"});
 
     useEffect(() => {
-        console.log(activeSlide)
+        console.log("active slide:", activeSlide)
 
         setPosition((position) => {
             const updatedPosition = {...position};
             updatedPosition.left = 101 * (index - activeSlide) + "%";
+            console.log("updated position:", updatedPosition.left)
             return updatedPosition;
         });
-    }, [activeSlide]);
+    }, [activeSlide, restaurants]);
 
     // Render the component
     return (

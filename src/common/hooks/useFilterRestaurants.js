@@ -11,14 +11,14 @@ const useFilterRestaurants = () => {
     const dispatch = useDispatch();
 
     const allRestaurants = useSelector(selectAllRestaurants);
-    const sortByFilter = useSelector(selectSortFilter);
     const cuisineFilter = useSelector(selectCuisineFilter);
+    const sortByFilter = useSelector(selectSortFilter);
 
     useEffect(() => {
-        if (!allRestaurants || !sortByFilter || !cuisineFilter) return;
+        if (!allRestaurants || !cuisineFilter || !sortByFilter) return;
 
-        dispatch(sortRestaurants(sortByFilter));
         dispatch(filterRestaurantResultsByCuisine(cuisineFilter));
+        dispatch(sortRestaurants(sortByFilter));
     }, [allRestaurants]);
 };
 

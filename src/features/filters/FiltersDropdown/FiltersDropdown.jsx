@@ -47,12 +47,12 @@ const FiltersDropdown = () => {
         if (name === cuisineFilter) {
             dispatch(resetCuisineFilter());
             dispatch(resetRestaurantResults());
-            dispatch(sortRestaurants(sortByFilter));
         } else {
             dispatch(updateCuisineFilter(name));
             dispatch(filterRestaurantResultsByCuisine(name));
         }
 
+        dispatch(sortRestaurants(sortByFilter));
         dispatch(resetDisplayedRestaurant());
         dispatch(toggleFiltersDropdown());
     };

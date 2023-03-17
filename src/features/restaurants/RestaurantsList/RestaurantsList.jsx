@@ -1,6 +1,7 @@
 import RestaurantCard from "../../../common/components/RestaurantCard/RestaurantCard";
 import {useSelector} from "react-redux";
 import {selectRestaurants} from "../restaurantsSlice";
+import {useEffect} from "react";
 
 const RestaurantsList = () => {
 

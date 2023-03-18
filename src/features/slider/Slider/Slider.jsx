@@ -3,6 +3,7 @@ import RestaurantsList from "../../restaurants/RestaurantsList/RestaurantsList";
 import {useDispatch, useSelector} from "react-redux";
 import {changeSlide, selectActiveSlide, selectLastSlide} from "../sliderSlice";
 import {selectRouteDetails} from "../../map/mapSlice";
+import {useState} from "react";
 
 const Slider = () => {
 
@@ -12,13 +13,9 @@ const Slider = () => {
     const activeSlide = useSelector(selectActiveSlide);
     const lastSlide = useSelector(selectLastSlide);
 
-    const handleBackClick = () => {
-        dispatch(changeSlide("backward"));
-    };
+    const handleBackClick = () => {dispatch(changeSlide("backward"))};
 
-    const handleNextClick = () => {
-        dispatch(changeSlide("forward"));
-    };
+    const handleNextClick = () => {dispatch(changeSlide("forward"))};
 
     const backVisibility = {visibility: activeSlide === 0 ? "hidden" : "visible"};
 

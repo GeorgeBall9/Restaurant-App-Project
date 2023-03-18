@@ -31,7 +31,8 @@ Contact: ryan.henzell-hill@outlook.com
 }
 
 .restaurant-marker, .location-marker {
-    width: 35px;
+    width: 30px;
+    transition: all 0.4s;
 }
 
 .restaurant-marker.selected {

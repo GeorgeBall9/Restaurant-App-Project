@@ -1,14 +1,15 @@
 .filters-dropdown {
     position: absolute;
     width: 100%;
-    background-color: white;
     padding: 0.75em;
+    background-color: white;
     color: #F49D1A;
     box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     gap: 1.2em;
+    z-index: 20;
 }
 
 .filters-dropdown h3 {

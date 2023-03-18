@@ -15,14 +15,24 @@ import {
     faStar,
     faStarHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
-import {faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
-import {fetchRoute, selectDisplayedRestaurant, selectUserPosition} from "../../../features/map/mapSlice";
+import {faBookmark, faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
+import {
+    displayRestaurant,
+    fetchRoute,
+    selectDisplayedRestaurant, selectRouteDetails,
+    selectUserPosition
+} from "../../../features/map/mapSlice";
 import {useDispatch, useSelector} from "react-redux";
+import {selectActiveSlide} from "../../../features/slider/sliderSlice";
+import {useEffect, useState} from "react";
+import {selectRestaurants} from "../../../features/restaurants/restaurantsSlice";
 
 // do not display id in the dom - it is just there in case we want to add a click function
 
 // A card component for displaying restaurant information
-const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, photoUrl, view}) => {
+const RestaurantCard = ({restaurant, openingHours, view, index}) => {
+
+    const {name, rating, price, primaryCuisine, photoUrl} = restaurant;
 
     // used to access reducer functions inside map slice
     const dispatch = useDispatch();
@@ -30,6 +40,8 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
     // select all relevant information from map slice
     const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
+    const activeSlide = useSelector(selectActiveSlide);
+    const restaurants = useSelector(selectRestaurants);
 
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
@@ -47,13 +59,43 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
 
         // fetches route from redux map slice
         dispatch(fetchRoute({coordinates1, coordinates2}));
-    }
+    };
+
+    const [position, setPosition] = useState({left: index * 101 + "%"});
+
+    useEffect(() => {
+        setPosition((position) => {
+            const updatedPosition = {...position};
+            updatedPosition.left = 101 * (index - activeSlide) + "%";
+            return updatedPosition;
+        });
+
+        if (index === activeSlide) {
+            dispatch(displayRestaurant(restaurant));
+        }
+    }, [activeSlide, restaurants]);
+
+    const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
+
+    useEffect(() => {
+        const hidden = routeCoordinates && index !== activeSlide;
+
+        setPosition((position) => {
+            const updatedPosition = {...position};
+            updatedPosition.visibility = hidden ? "hidden" : "visible";
+            return updatedPosition;
+        });
+    }, [routeCoordinates]);
+
+    const icon = view === "map" ? faRoute : faBookmark;
+
+    const displayedName = name.substring(0, 30).trim() + (name.length > 30 ? "..." : "");
 
     // Render the component
     return (
-        <div className="restaurant-card">
+        <div className="restaurant-card" style={position}>
             <div className="details-container">
-                <h3>{name}</h3>
+                <h3>{displayedName}</h3>
 
                 <div className="rating-container">
                     {[...Array(fullStars)].map((star, i) => (
@@ -83,9 +125,7 @@ const RestaurantCard = ({id, name, rating, openingHours, price, primaryCuisine, 
             </div>
 
             <div className="container-rhs">
-                {view === "map" && (
-                    <FontAwesomeIcon icon={faRoute} className="icon" onClick={handleRouteButtonClick}/>
-                )}
+                <FontAwesomeIcon icon={icon} className="icon" onClick={handleRouteButtonClick}/>
 
                 <div className="image-container">
                     <img src={photoUrl} alt={name}/>

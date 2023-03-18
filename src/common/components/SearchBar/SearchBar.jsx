@@ -11,6 +11,7 @@ import {
     updateSearchQuery
 } from "../../../features/filters/filtersSlice";
 import {filterResultsBySearchQuery} from "../../../features/restaurants/restaurantsSlice";
+import { selectRestaurants } from "../../../features/restaurants/restaurantsSlice";
 
 const SearchBar = () => {
 
@@ -18,6 +19,8 @@ const SearchBar = () => {
     const dropdownVisible = useSelector(selectDropdownFilterVisible);
 
     const handleFilterButtonClicked = () => dispatch(toggleFiltersDropdown());
+
+    const restaurantResults = useSelector(selectRestaurants);
 
     const searchQuery = useSelector(selectSearchQuery);
 
@@ -45,6 +48,15 @@ const SearchBar = () => {
             </div>
 
             {dropdownVisible && <FiltersDropdown/>}
+
+            {searchQuery.length > 0 && restaurantResults.length === 0 && (
+                <div className="no-matches-container">
+                    <p className="no-matches-message">Oops! We didn't find a match</p>
+                    <p className="try-something-else-message">
+                        Why not try searching for something else?
+                    </p>
+                </div>
+            )}
         </div>
     );
 };

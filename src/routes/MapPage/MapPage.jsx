@@ -13,21 +13,30 @@ import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCar
 
 // redux imports
 import {useDispatch, useSelector} from "react-redux";
-import {resetDisplayedRestaurant, selectDisplayedRestaurant, selectRouteDetails} from "../../features/map/mapSlice";
+import {
+    resetDisplayedRestaurant,
+    resetRoute,
+    selectDisplayedRestaurant,
+    selectRouteDetails
+} from "../../features/map/mapSlice";
 
 import {useNavigate} from "react-router-dom";
 import Navigation from "../../common/components/Navigation/Navigation";
 import useFetchRestaurants from "../../common/hooks/useFetchRestaurants";
 import useFilterRestaurants from "../../common/hooks/useFilterRestaurants";
+import RestaurantsList from "../../features/restaurants/RestaurantsList/RestaurantsList";
+import Slider from "../../features/slider/Slider/Slider";
+import useInitialiseSlider from "../../common/hooks/useInitialiseSlider";
+import {useEffect} from "react";
 
 const MapPage = () => {
 
     useFetchRestaurants();
     useFilterRestaurants();
+    useInitialiseSlider();
 
     const dispatch = useDispatch();
 
-    const displayedRestaurant = useSelector(selectDisplayedRestaurant);
     const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
 
     const navigate = useNavigate();
@@ -35,7 +44,7 @@ const MapPage = () => {
     const handleBackButtonClick = () => navigate("/");
 
     const handleShowAllClick = () => {
-        dispatch(resetDisplayedRestaurant());
+        dispatch(resetRoute());
     };
 
     return (
@@ -47,11 +56,7 @@ const MapPage = () => {
 
             <Map/>
 
-            <div className="restaurant-cards-container">
-                {displayedRestaurant && (
-                    <RestaurantCard {...displayedRestaurant} openingHours={displayedRestaurant.hours[6]} view="map"/>
-                )}
-            </div>
+            <Slider/>
         </div>
     );
 };

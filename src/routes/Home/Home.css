@@ -1,7 +1,8 @@
 .home .restaurant-cards-container {
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 1em;
     height: 90vh;
     overflow: scroll;
+    padding: 0.5em 1em;
 }

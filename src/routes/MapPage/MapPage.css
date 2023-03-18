@@ -21,7 +21,8 @@
 .map-page-container .nav-and-back-button > button {
     padding: 0.25em 0.5em;
     background-color: white;
-    color: #F49D1A;
+    color: #C23B22;
+    font-weight: 500;
     border: none;
     box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
     border-radius: 8px;
@@ -36,16 +37,4 @@
     box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
     border-radius: 8px;
     cursor: pointer;
-}
-
-.map-page-container .restaurant-cards-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0.5em;
-    width: 100%;
-    z-index: 10;
-    max-width: 500px;
-    margin: 0 auto;
 }

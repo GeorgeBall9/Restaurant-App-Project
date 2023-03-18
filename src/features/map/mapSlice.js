@@ -61,6 +61,8 @@ export const mapSlice = createSlice({
         // resets the state of the reducer to the initial state (except user position)
         resetDisplayedRestaurant: state => {
             state.restaurantDisplayed = null;
+        },
+        resetRoute: state => {
             state.popupDisplayed = false;
             state.route.coordinates = null;
             state.route.status = "idle";
@@ -95,7 +97,7 @@ export const mapSlice = createSlice({
     }
 });
 
-export const {displayRestaurant, resetDisplayedRestaurant, updateUserPosition} = mapSlice.actions;
+export const {displayRestaurant, resetDisplayedRestaurant, resetRoute, updateUserPosition} = mapSlice.actions;
 export const selectUserPosition = state => state.map.userPosition;
 export const selectDisplayedRestaurant = state => state.map.restaurantDisplayed;
 export const selectRouteDetails = state => state.map.route;

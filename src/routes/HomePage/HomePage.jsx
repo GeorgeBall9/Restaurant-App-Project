@@ -12,7 +12,7 @@ const HomePage = () => {
             <Spinner/>
 
             <div className="restaurant-cards-container">
-                <RestaurantsList/>
+                <RestaurantsList view="home"/>
             </div>
         </div>
     );

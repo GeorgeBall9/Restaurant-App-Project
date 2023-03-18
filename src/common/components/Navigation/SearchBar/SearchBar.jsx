@@ -11,7 +11,7 @@ import {
     updateSearchQuery
 } from "../../../../features/filters/filtersSlice";
 
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import {filterResultsBySearchQuery, selectHasMatches} from "../../../../features/restaurants/restaurantsSlice";
 
 const SearchBar = () => {
@@ -64,16 +64,15 @@ const SearchBar = () => {
                 </button>
 
                 {searchQuery.length > 0 && !hasMatches && (
-                <div className={`no-matches-container ${noMatchesVisible ? "" : "fade-out"}`}>
-                    <p className="no-matches-message">Oops! We didn't find a match</p>
-                    <p className="try-something-else-message">
-                        Why not try searching for something else?
-                    </p>
-                </div>
-            )}
+                    <div className={`no-matches-container ${noMatchesVisible ? "" : "fade-out"}`}>
+                        <p className="no-matches-message">Oops! We didn't find a match</p>
+                        <p className="try-something-else-message">
+                            Why not try searching for something else?
+                        </p>
+                    </div>
+                )}
             </div>
 
-            
 
             {dropdownVisible && <FiltersDropdown/>}
         </div>

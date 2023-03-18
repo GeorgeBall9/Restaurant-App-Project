@@ -1,93 +1,16 @@
 import "./FiltersDropdown.css";
-import CuisineOption from "./CuisineOption/CuisineOption";
-
-import {useSelector, useDispatch} from "react-redux";
-import {
-    selectCuisineFilter,
-    updateCuisineFilter,
-    resetCuisineFilter,
-    toggleFiltersDropdown,
-    selectSortFilter, updateSortFilter, resetSortFilter
-} from "../filtersSlice";
-import {resetDisplayedRestaurant} from "../../map/mapSlice";
-import {
-    filterRestaurantResultsByCuisine,
-    resetRestaurantResults, sortRestaurants
-} from "../../restaurants/restaurantsSlice";
-import SortButton from "./SortButton/SortButton";
 import LocationOptions from "./LocationOptions/LocationOptions";
-
-const cuisineOptions = [
-    "Any",
-    "British",
-    "Chinese",
-    "European",
-    "Burger",
-    "Indian",
-    "Italian",
-    "Japanese",
-    "Mexican",
-    "Pizza",
-    "Pub",
-    "Bar",
-    "Spanish",
-    "Steak",
-    "Sushi",
-    "Thai"
-]
+import SortByOptions from "./SortByOptions/SortByOptions";
+import CuisineOptions from "./CuisineOptions/CuisineOptions";
 
 const FiltersDropdown = () => {
-
-    const dispatch = useDispatch();
-
-    const cuisineFilter = useSelector(selectCuisineFilter);
-    const sortByFilter = useSelector(selectSortFilter);
-
-    const handleCuisineOptionClick = (name) => {
-        if (name === cuisineFilter) {
-            dispatch(resetCuisineFilter());
-            dispatch(resetRestaurantResults());
-        } else {
-            dispatch(updateCuisineFilter(name));
-            dispatch(filterRestaurantResultsByCuisine(name));
-        }
-
-        dispatch(sortRestaurants(sortByFilter));
-        dispatch(resetDisplayedRestaurant());
-        dispatch(toggleFiltersDropdown());
-    };
-
-    const sortByOptions = ["Distance", "Rating", "Price"];
-
-    const handleSortButtonClick = (name) => {
-        if (name === sortByFilter) {
-            dispatch(resetSortFilter());
-            dispatch(resetRestaurantResults());
-            dispatch(filterRestaurantResultsByCuisine(cuisineFilter))
-        } else {
-            dispatch(updateSortFilter(name));
-            dispatch(sortRestaurants(name));
-        }
-
-        dispatch(resetDisplayedRestaurant());
-        dispatch(toggleFiltersDropdown());
-    };
 
     return (
         <div className="filters-dropdown">
             <div className="sort-options-container">
                 <h3>Sort by</h3>
 
-                <div className="buttons-container">
-                    {sortByOptions.map((name, i) => (
-                        <SortButton
-                            key={i}
-                            name={name}
-                            selected={sortByFilter === name}
-                            handleClick={handleSortButtonClick}
-                        />
-                    ))}
-                </div>
+                <SortByOptions/>
             </div>
 
             <div className="location-filters">
@@ -99,16 +22,7 @@ const FiltersDropdown = () => {
             <div className="cuisine-filters">
                 <h3>Cuisine</h3>
 
-                <div className="cuisine-options-container">
-                    {cuisineOptions.map((name, i) => (
-                        <CuisineOption
-                            key={i}
-                            name={name}
-                            selected={cuisineFilter === name}
-                            handleClick={handleCuisineOptionClick}
-                        />
-                    ))}
-                </div>
+                <CuisineOptions/>
             </div>
         </div>
     );

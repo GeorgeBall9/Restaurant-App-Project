@@ -4,7 +4,7 @@ import {
     selectLastPositionQueried,
     selectRestaurantsFetchStatus
 } from "../../features/restaurants/restaurantsSlice";
-import {selectUserPosition} from "../../features/map/mapSlice";
+import {resetDisplayedRestaurant, selectUserPosition} from "../../features/map/mapSlice";
 import {useEffect} from "react";
 
 const useFetchRestaurants = () => {
@@ -18,6 +18,7 @@ const useFetchRestaurants = () => {
         if (restaurantsStatus !== "idle" || !userPosition
             || positionsAreEqual(userPosition, lastPositionQueried)) return;
 
+        dispatch(resetDisplayedRestaurant());
         dispatch(fetchRestaurants(userPosition));
     }, [userPosition]);
 

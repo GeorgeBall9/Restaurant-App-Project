@@ -15,7 +15,7 @@ import {
     faStar,
     faStarHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
-import {faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
+import {faBookmark, faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
 import {
     displayRestaurant,
     fetchRoute,
@@ -87,6 +87,8 @@ const RestaurantCard = ({restaurant, openingHours, view, index}) => {
         });
     }, [routeCoordinates]);
 
+    const icon = view === "map" ? faRoute : faBookmark;
+
     // Render the component
     return (
         <div className="restaurant-card" style={position}>
@@ -121,9 +123,7 @@ const RestaurantCard = ({restaurant, openingHours, view, index}) => {
             </div>
 
             <div className="container-rhs">
-                {view === "map" && (
-                    <FontAwesomeIcon icon={faRoute} className="icon" onClick={handleRouteButtonClick}/>
-                )}
+                <FontAwesomeIcon icon={icon} className="icon" onClick={handleRouteButtonClick}/>
 
                 <div className="image-container">
                     <img src={photoUrl} alt={name}/>

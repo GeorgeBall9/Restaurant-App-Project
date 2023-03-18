@@ -21,7 +21,8 @@
 .map-page-container .nav-and-back-button > button {
     padding: 0.25em 0.5em;
     background-color: white;
-    color: #F49D1A;
+    color: #C23B22;
+    font-weight: 500;
     border: none;
     box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
     border-radius: 8px;

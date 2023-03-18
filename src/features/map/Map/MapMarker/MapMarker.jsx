@@ -8,7 +8,7 @@ Contact: ryan.henzell-hill@outlook.com
 import {Marker, Popup} from "react-map-gl";
 
 import locationMarkerImgSrc from "../../../../common/images/location2.png";
-import restaurantMarkerImgSrc from "../../../../common/images/restaurant3.png";
+import restaurantMarkerImgSrc from "../../../../common/images/restaurant4.png";
 
 const MapMarker = ({id, longitude, latitude, type, handleClick, selected}) => {
 

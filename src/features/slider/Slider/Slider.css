@@ -7,7 +7,7 @@
     z-index: 5;
     max-width: 500px;
     margin: 0 auto;
-    padding: 0.5em;
+    padding: 0.5em 1em;
 }
 
 .slider .buttons-container {
@@ -21,7 +21,7 @@
     padding: 0.5em 0.75em;
     font-weight: 500;
     background-color: white;
-    color: #F49D1A;
+    color: #C23B22;
     box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
 
 }
@@ -30,6 +30,7 @@
     position: relative;
     display: flex;
     height: 140px;
+    margin-top: 0.5em;
 }
 
 .slider .restaurant-cards-container .restaurant-card {

@@ -4,7 +4,12 @@ import {faMagnifyingGlass, faSliders} from "@fortawesome/free-solid-svg-icons";
 import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
 
 import {useDispatch, useSelector} from "react-redux";
-import {selectDropdownFilterVisible, selectSearchQuery, toggleFiltersDropdown, updateSearchQuery} from "../../../features/filters/filtersSlice";
+import {
+    selectDropdownFilterVisible,
+    selectSearchQuery,
+    toggleFiltersDropdown,
+    updateSearchQuery
+} from "../../../features/filters/filtersSlice";
 import {filterResultsBySearchQuery} from "../../../features/restaurants/restaurantsSlice";
 
 const SearchBar = () => {
@@ -29,14 +34,14 @@ const SearchBar = () => {
             <div className="search-bar">
                 <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
 
-                <input 
-                    type="text" 
-                    className="search-input" 
-                    placeholder="Search" 
+                <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Search"
                     onChange={handleInputChange}
                     onKeyDown={handleEnterPress}
                     value={searchQuery + ""}
-                    />
+                />
 
                 <button className="filter-button" onClick={handleFilterButtonClicked}>
                     <FontAwesomeIcon className="icon" icon={faSliders}/>

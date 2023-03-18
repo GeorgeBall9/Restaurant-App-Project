@@ -10,8 +10,9 @@ import {
     toggleFiltersDropdown,
     updateSearchQuery
 } from "../../../features/filters/filtersSlice";
-import {filterResultsBySearchQuery} from "../../../features/restaurants/restaurantsSlice";
+import {filterResultsBySearchQuery, selectHasMatches} from "../../../features/restaurants/restaurantsSlice";
 import { selectRestaurants } from "../../../features/restaurants/restaurantsSlice";
+import React, { useState, useEffect } from "react";
 
 const SearchBar = () => {
 
@@ -20,7 +21,7 @@ const SearchBar = () => {
 
     const handleFilterButtonClicked = () => dispatch(toggleFiltersDropdown());
 
-    const restaurantResults = useSelector(selectRestaurants);
+    const hasMatches = useSelector(selectHasMatches);
 
     const searchQuery = useSelector(selectSearchQuery);
 
@@ -28,6 +29,22 @@ const SearchBar = () => {
         dispatch(updateSearchQuery(target.value));
         dispatch(filterResultsBySearchQuery(target.value));
     };
+
+    // Add a state for the visibility of the no-matches-container
+    const [noMatchesVisible, setNoMatchesVisible] = useState(false);
+
+    // Use the useEffect hook to handle the fadeout effect
+    useEffect(() => {
+        if (!hasMatches && searchQuery.length > 0 && !noMatchesVisible) {
+            setNoMatchesVisible(true);
+
+            const timeout = setTimeout(() => {
+                setNoMatchesVisible(false);
+            }, 4000); // The fadeout duration can be adjusted
+
+            return () => clearTimeout(timeout);
+        }
+    }, [hasMatches, searchQuery, noMatchesVisible]);
 
     return (
         <div className="search-and-filters">
@@ -45,18 +62,23 @@ const SearchBar = () => {
                 <button className="filter-button" onClick={handleFilterButtonClicked}>
                     <FontAwesomeIcon className="icon" icon={faSliders}/>
                 </button>
-            </div>
 
-            {dropdownVisible && <FiltersDropdown/>}
-
-            {searchQuery.length > 0 && restaurantResults.length === 0 && (
-                <div className="no-matches-container">
+                {searchQuery.length > 0 && !hasMatches && (
+                <div className={`no-matches-container ${
+                    noMatchesVisible ? "" : "fade-out" 
+                }`}
+                >
                     <p className="no-matches-message">Oops! We didn't find a match</p>
                     <p className="try-something-else-message">
                         Why not try searching for something else?
                     </p>
                 </div>
             )}
+            </div>
+
+            
+
+            {dropdownVisible && <FiltersDropdown/>}
         </div>
     );
 };

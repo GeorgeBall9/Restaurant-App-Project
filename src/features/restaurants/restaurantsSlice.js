@@ -11,6 +11,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 const initialState = {
     allRestaurants: null,
     restaurantResults: null,
+    hasMatches: true,
     status: "idle", // idle, pending, success, fail
     error: null,
     lastPositionQueried: {
@@ -218,8 +219,10 @@ export const restaurantsSlice = createSlice({
             state.restaurantResults = state.allRestaurants;
         },
         filterResultsBySearchQuery: (state, action) => {
-            const results = getSearchResults(action.payload, state.allRestaurants);
-            state.restaurantResults = results;
+            const query = action.payload.trim(); // removes all spaces from the search query
+            const results = getSearchResults(query, state.allRestaurants);
+            state.hasMatches = results.length > 0;
+            state.restaurantResults = results.length > 0 ? results : state.allRestaurants;
         }
     },
     extraReducers: builder => {
@@ -249,6 +252,7 @@ export const restaurantsSlice = createSlice({
 export const {sortRestaurants, filterRestaurantResultsByCuisine, resetRestaurantResults, filterResultsBySearchQuery} = restaurantsSlice.actions;
 export const selectRestaurants = state => state.restaurants.restaurantResults;
 export const selectAllRestaurants = state => state.restaurants.allRestaurants;
+export const selectHasMatches = state => state.restaurants.hasMatches;
 export const selectRestaurantsFetchStatus = state => state.restaurants.status;
 export const selectLastPositionQueried = state => state.restaurants.lastPositionQueried;
 export default restaurantsSlice.reducer

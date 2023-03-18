@@ -13,7 +13,12 @@ import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCar
 
 // redux imports
 import {useDispatch, useSelector} from "react-redux";
-import {resetDisplayedRestaurant, selectDisplayedRestaurant, selectRouteDetails} from "../../features/map/mapSlice";
+import {
+    resetDisplayedRestaurant,
+    resetRoute,
+    selectDisplayedRestaurant,
+    selectRouteDetails
+} from "../../features/map/mapSlice";
 
 import {useNavigate} from "react-router-dom";
 import Navigation from "../../common/components/Navigation/Navigation";
@@ -39,7 +44,7 @@ const MapPage = () => {
     const handleBackButtonClick = () => navigate("/");
 
     const handleShowAllClick = () => {
-        dispatch(resetDisplayedRestaurant());
+        dispatch(resetRoute());
     };
 
     return (

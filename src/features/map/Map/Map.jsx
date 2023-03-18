@@ -114,29 +114,18 @@ const Map = () => {
             />
 
             {restaurants && restaurants
-                .filter(({id}) => !routeCoordinates && id !== displayedRestaurant?.id)
+                .filter(({id}) => !routeCoordinates || id === displayedRestaurant.id)
                 .map(({id, longitude, latitude}) => (
-                <MapMarker
-                    key={id}
-                    id={id}
-                    longitude={longitude}
-                    latitude={latitude}
-                    type="restaurant"
-                    handleClick={handleMarkerClick}
-                />
-            ))}
-
-            {displayedRestaurant && !routeCoordinates && (
-                <MapMarker
-                    key={displayedRestaurant.id}
-                    id={displayedRestaurant.id}
-                    longitude={displayedRestaurant.longitude}
-                    latitude={displayedRestaurant.latitude}
-                    type="restaurant"
-                    handleClick={handleMarkerClick}
-                    selected={true}
-                />
-            )}
+                    <MapMarker
+                        key={id}
+                        id={id}
+                        longitude={longitude}
+                        latitude={latitude}
+                        type="restaurant"
+                        handleClick={handleMarkerClick}
+                        selected={!routeCoordinates && id === displayedRestaurant?.id}
+                    />
+                ))}
 
             {routeCoordinates && (
                 <>

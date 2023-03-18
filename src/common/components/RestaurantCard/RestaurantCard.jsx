@@ -19,7 +19,7 @@ import {faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
 import {
     displayRestaurant,
     fetchRoute,
-    selectDisplayedRestaurant,
+    selectDisplayedRestaurant, selectRouteDetails,
     selectUserPosition
 } from "../../../features/map/mapSlice";
 import {useDispatch, useSelector} from "react-redux";
@@ -64,8 +64,6 @@ const RestaurantCard = ({restaurant, openingHours, view, index}) => {
     const [position, setPosition] = useState({left: index * 101 + "%"});
 
     useEffect(() => {
-        console.log("active slide:", activeSlide)
-
         setPosition((position) => {
             const updatedPosition = {...position};
             updatedPosition.left = 101 * (index - activeSlide) + "%";
@@ -76,6 +74,18 @@ const RestaurantCard = ({restaurant, openingHours, view, index}) => {
             dispatch(displayRestaurant(restaurant));
         }
     }, [activeSlide, restaurants]);
+
+    const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
+
+    useEffect(() => {
+        const hidden = routeCoordinates && index !== activeSlide;
+
+        setPosition((position) => {
+            const updatedPosition = {...position};
+            updatedPosition.visibility = hidden ? "hidden" : "visible";
+            return updatedPosition;
+        });
+    }, [routeCoordinates]);
 
     // Render the component
     return (

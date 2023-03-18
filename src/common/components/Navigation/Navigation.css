@@ -14,3 +14,7 @@
     cursor: pointer;
     width: 10%;
 }
+
+.navigation-container .button .icon {
+    color: #B01E68;
+}

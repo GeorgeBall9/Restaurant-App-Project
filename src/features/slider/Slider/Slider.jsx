@@ -1,11 +1,14 @@
 import "./Slider.css";
 import RestaurantsList from "../../restaurants/RestaurantsList/RestaurantsList";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {changeSlide} from "../sliderSlice";
+import {selectRouteDetails} from "../../map/mapSlice";
 
 const Slider = () => {
 
     const dispatch = useDispatch();
+
+    const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
 
     const handleBackClick = () => {
         dispatch(changeSlide("backward"));
@@ -17,10 +20,10 @@ const Slider = () => {
 
     return (
         <div className="slider">
-            <div className="buttons-container">
+            {!routeCoordinates && <div className="buttons-container">
                 <button onClick={handleBackClick}>Back</button>
                 <button onClick={handleNextClick}>Next</button>
-            </div>
+            </div>}
 
             <div className="restaurant-cards-container">
                 <RestaurantsList view="map"/>

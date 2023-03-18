@@ -7,6 +7,9 @@ Contact: ryan.henzell-hill@outlook.com
 // dependencies
 import {Marker, Popup} from "react-map-gl";
 
+import locationMarkerImgSrc from "../../../../common/images/location2.png";
+import restaurantMarkerImgSrc from "../../../../common/images/restaurant3.png";
+
 const MapMarker = ({id, longitude, latitude, type, handleClick, selected}) => {
 
     const anchor = "bottom";
@@ -19,8 +22,11 @@ const MapMarker = ({id, longitude, latitude, type, handleClick, selected}) => {
                     longitude={longitude}
                     latitude={latitude}
                     anchor={anchor}
-                    color="#ffb100"
                 >
+                    <img
+                        className="location-marker"
+                        src={locationMarkerImgSrc}
+                    />
                 </Marker>
 
                 <Popup
@@ -43,10 +49,14 @@ const MapMarker = ({id, longitude, latitude, type, handleClick, selected}) => {
             longitude={longitude}
             latitude={latitude}
             anchor={anchor}
-            color="red"
-            onClick={() => handleClick(id)}
-            scale={selected ? 1.25 : 1}
         >
+            <div>
+                <img
+                    className={`restaurant-marker ${selected ? "selected" : ""}`}
+                    src={restaurantMarkerImgSrc}
+                    onClick={() => handleClick(id)}
+                />
+            </div>
         </Marker>
     );
 };

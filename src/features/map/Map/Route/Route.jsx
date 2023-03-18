@@ -41,7 +41,7 @@ const Route = ({displayedRestaurant, routeCoordinates, travelTime}) => {
     };
 
     // deconstruct properties from displayedRestaurant object
-    const {name, longitude, latitude, distance} = displayedRestaurant;
+    const {longitude, latitude, distance} = displayedRestaurant;
 
     return (
         <>

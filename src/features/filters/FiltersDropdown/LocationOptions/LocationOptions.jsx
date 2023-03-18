@@ -1,7 +1,7 @@
 import "./LocationOptions.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationArrow, faLocationCrosshairs} from "@fortawesome/free-solid-svg-icons";
-import {resetDisplayedRestaurant, updateUserPosition} from "../../../map/mapSlice";
+import {updateUserPosition} from "../../../map/mapSlice";
 import {toggleFiltersDropdown} from "../../filtersSlice";
 import {useDispatch} from "react-redux";
 import {useState} from "react";
@@ -26,7 +26,6 @@ const LocationOptions = () => {
             console.log("location not available")
         }
 
-        dispatch(resetDisplayedRestaurant());
         dispatch(toggleFiltersDropdown());
     };
 
@@ -51,7 +50,6 @@ const LocationOptions = () => {
             })
             .catch(error => console.error(error));
 
-        dispatch(resetDisplayedRestaurant());
         dispatch(toggleFiltersDropdown());
     };
 

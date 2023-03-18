@@ -21,7 +21,6 @@ import {
     selectUserPosition,
     selectDisplayedRestaurant,
     displayRestaurant,
-    resetDisplayedRestaurant,
     selectRouteDetails
 } from "../mapSlice";
 
@@ -81,14 +80,6 @@ const Map = () => {
         dispatch(setActiveSlide(restaurants.indexOf(restaurantToDisplay)));
     };
 
-    // runs when the route error is updated - only occurs when the route starts fetching or when the fetch fails
-    useEffect(() => {
-        if (!routeError) return; // if there is no route error, do nothing
-
-        console.error(routeError); // displayed error in console for debugging purposes
-        dispatch(resetDisplayedRestaurant()); // remove displayed restaurant since route fetch failed
-    }, [routeError]);
-
     // fly to new marker if user updates their position
     useEffect(() => {
         if (!userPosition || !map) return;
@@ -128,23 +119,11 @@ const Map = () => {
                 ))}
 
             {routeCoordinates && (
-                <>
-                    <Route
-                        displayedRestaurant={displayedRestaurant}
-                        routeCoordinates={routeCoordinates}
-                        travelTime={travelTime}
-                    />
-
-                    <MapMarker
-                        key={displayedRestaurant.id}
-                        id={displayedRestaurant.id}
-                        longitude={displayedRestaurant.longitude}
-                        latitude={displayedRestaurant.latitude}
-                        type="restaurant"
-                        handleClick={handleMarkerClick}
-                        selected={false}
-                    />
-                </>
+                <Route
+                    displayedRestaurant={displayedRestaurant}
+                    routeCoordinates={routeCoordinates}
+                    travelTime={travelTime}
+                />
             )}
         </ReactMapGl>
     );

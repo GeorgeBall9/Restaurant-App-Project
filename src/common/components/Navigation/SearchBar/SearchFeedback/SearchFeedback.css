@@ -16,7 +16,11 @@
     transition: opacity 1s ease-in-out;
   }
 
-  .no-matches-container.fade-out {
+  .fade-in {
+    opacity: 1;
+  }
+
+  .fade-out {
     opacity: 0;
   }
   

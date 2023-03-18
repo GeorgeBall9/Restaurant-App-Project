@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 import './style/index.css';
-import Home from "./routes/Home/Home";
+import HomePage from "./routes/HomePage/HomePage";
 import MapPage from "./routes/MapPage/MapPage";
 
 import store from './app/store'
@@ -18,7 +18,7 @@ import reportWebVitals from './reportWebVitals';
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Home/>,
+        element: <HomePage/>,
     },
     {
         path: "/map",

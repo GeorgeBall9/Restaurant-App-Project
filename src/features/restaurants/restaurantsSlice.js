@@ -170,7 +170,7 @@ const getAveragePrice = (priceString) => {
   
 const getSearchResults = (searchQuery, restaurants) => {
     if(!searchQuery) {
-        return
+        return restaurants;
     }
     // Convert searchQuery to lowercase for case-insensitive comparison
     const lowerCaseSearchQuery = searchQuery.toLowerCase();
@@ -178,12 +178,10 @@ const getSearchResults = (searchQuery, restaurants) => {
     // Filter restaurants based on the searchQuery
     const searchResults = restaurants.filter((restaurant) => {
         const nameMatch = restaurant.name.toLowerCase().includes(lowerCaseSearchQuery);
-
         const cuisineMatch = restaurant.cuisines.some(cuisine => 
             cuisine.name.toLowerCase().includes(lowerCaseSearchQuery)
         );
-            /* Ask for help on how to filter dietary requirements. Think need to be implemented in restaurant slice*/
-
+            /*Potentially add dietary restrictions into search filter*/
         return nameMatch || cuisineMatch;
     });
 

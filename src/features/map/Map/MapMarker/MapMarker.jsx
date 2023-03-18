@@ -10,7 +10,9 @@ import {Marker, Popup} from "react-map-gl";
 import locationMarkerImgSrc from "../../../../common/images/location2.png";
 import restaurantMarkerImgSrc from "../../../../common/images/restaurant4.png";
 
-const MapMarker = ({id, longitude, latitude, type, handleClick, selected}) => {
+// TODO - change this component to two separate components: userMarker and restaurantMarker
+
+const MapMarker = ({photoUrl, longitude, latitude, type, handleClick, selected}) => {
 
     const anchor = "bottom";
 
@@ -50,12 +52,14 @@ const MapMarker = ({id, longitude, latitude, type, handleClick, selected}) => {
             latitude={latitude}
             anchor={anchor}
         >
-            <div>
-                <img
-                    className={`restaurant-marker ${selected ? "selected" : ""}`}
-                    src={restaurantMarkerImgSrc}
-                    onClick={() => handleClick(id)}
-                />
+            {/*<img*/}
+            {/*    className={`restaurant-marker ${selected ? "selected" : ""}`}*/}
+            {/*    src={restaurantMarkerImgSrc}*/}
+            {/*    onClick={() => handleClick(id)}*/}
+            {/*/>*/}
+
+            <div className="marker-image-container">
+                <img src={photoUrl}/>
             </div>
         </Marker>
     );

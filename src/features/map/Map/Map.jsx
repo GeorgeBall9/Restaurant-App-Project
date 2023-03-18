@@ -88,6 +88,23 @@ const Map = () => {
         map.flyTo({center: [longitude, latitude], zoom: 14});
     }, [userPosition]);
 
+    const [markerScale, setMarkerScale] = useState(1);
+    const [previousZoom, setPreviousZoom] = useState(14);
+
+    useEffect(() => {
+        const {zoom} = viewState;
+        const zoomChange = Math.abs(zoom - previousZoom);
+
+        if (zoomChange > 1) {
+            setMarkerScale(markerScale => markerScale * zoom / previousZoom);
+            setPreviousZoom(zoom);
+        }
+    }, [viewState]);
+
+    useEffect(() => {
+        console.log("marker scale:", markerScale);
+    }, [markerScale]);
+
     // component returned to MapPage route
     return (
         <ReactMapGl
@@ -106,10 +123,10 @@ const Map = () => {
 
             {restaurants && restaurants
                 .filter(({id}) => !routeCoordinates || id === displayedRestaurant.id)
-                .map(({id, longitude, latitude}) => (
+                .map(({id, longitude, latitude, photoUrl}) => (
                     <MapMarker
                         key={id}
-                        id={id}
+                        photoUrl={photoUrl}
                         longitude={longitude}
                         latitude={latitude}
                         type="restaurant"

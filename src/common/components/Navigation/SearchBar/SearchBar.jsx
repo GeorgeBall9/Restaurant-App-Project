@@ -1,7 +1,7 @@
 import "./SearchBar.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass, faSliders} from "@fortawesome/free-solid-svg-icons";
-import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
+import FiltersDropdown from "../../../../features/filters/FiltersDropdown/FiltersDropdown";
 
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -9,10 +9,10 @@ import {
     selectSearchQuery,
     toggleFiltersDropdown,
     updateSearchQuery
-} from "../../../features/filters/filtersSlice";
-import {filterResultsBySearchQuery, selectHasMatches} from "../../../features/restaurants/restaurantsSlice";
-import { selectRestaurants } from "../../../features/restaurants/restaurantsSlice";
+} from "../../../../features/filters/filtersSlice";
+
 import React, { useState, useEffect } from "react";
+import {filterResultsBySearchQuery, selectHasMatches} from "../../../../features/restaurants/restaurantsSlice";
 
 const SearchBar = () => {
 
@@ -64,10 +64,7 @@ const SearchBar = () => {
                 </button>
 
                 {searchQuery.length > 0 && !hasMatches && (
-                <div className={`no-matches-container ${
-                    noMatchesVisible ? "" : "fade-out" 
-                }`}
-                >
+                <div className={`no-matches-container ${noMatchesVisible ? "" : "fade-out"}`}>
                     <p className="no-matches-message">Oops! We didn't find a match</p>
                     <p className="try-something-else-message">
                         Why not try searching for something else?

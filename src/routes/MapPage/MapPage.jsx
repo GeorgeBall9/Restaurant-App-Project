@@ -14,6 +14,7 @@ import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCar
 // redux imports
 import {useDispatch, useSelector} from "react-redux";
 import {
+    displayRestaurant,
     resetDisplayedRestaurant,
     resetRoute,
     selectDisplayedRestaurant,
@@ -28,11 +29,10 @@ import RestaurantsList from "../../features/restaurants/RestaurantsList/Restaura
 import Slider from "../../features/slider/Slider/Slider";
 import useInitialiseSlider from "../../common/hooks/useInitialiseSlider";
 import {useEffect} from "react";
+import {selectActiveSlide} from "../../features/slider/sliderSlice";
 
 const MapPage = () => {
 
-    useFetchRestaurants();
-    useFilterRestaurants();
     useInitialiseSlider();
 
     const dispatch = useDispatch();

@@ -2,8 +2,9 @@ import "./Slider.css";
 import RestaurantsList from "../../restaurants/RestaurantsList/RestaurantsList";
 import {useDispatch, useSelector} from "react-redux";
 import {changeSlide, selectActiveSlide, selectLastSlide} from "../sliderSlice";
-import {selectRouteDetails} from "../../map/mapSlice";
+import {selectDisplayedRestaurant, selectRouteDetails} from "../../map/mapSlice";
 import {useState} from "react";
+import RestaurantCard from "../../../common/components/RestaurantCard/RestaurantCard";
 
 const Slider = () => {
 

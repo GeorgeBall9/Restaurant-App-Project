@@ -1,7 +1,7 @@
 import "./Navigation.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faChevronLeft, faMapLocationDot} from "@fortawesome/free-solid-svg-icons";
-import SearchBar from "../SearchBar/SearchBar";
+import {faArrowLeft, faMapLocationDot} from "@fortawesome/free-solid-svg-icons";
+import SearchBar from "./SearchBar/SearchBar";
 
 const Navigation = ({handleButtonClick, view}) => {
 

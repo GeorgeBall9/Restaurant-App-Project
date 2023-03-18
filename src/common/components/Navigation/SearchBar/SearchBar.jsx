@@ -1,7 +1,7 @@
 import "./SearchBar.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass, faSliders} from "@fortawesome/free-solid-svg-icons";
-import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
+import FiltersDropdown from "../../../../features/filters/FiltersDropdown/FiltersDropdown";
 
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -9,9 +9,9 @@ import {
     selectSearchQuery,
     toggleFiltersDropdown,
     updateSearchQuery
-} from "../../../features/filters/filtersSlice";
-import {filterResultsBySearchQuery} from "../../../features/restaurants/restaurantsSlice";
-import { selectRestaurants } from "../../../features/restaurants/restaurantsSlice";
+} from "../../../../features/filters/filtersSlice";
+import {filterResultsBySearchQuery} from "../../../../features/restaurants/restaurantsSlice";
+import { selectRestaurants } from "../../../../features/restaurants/restaurantsSlice";
 
 const SearchBar = () => {
 

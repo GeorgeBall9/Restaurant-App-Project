@@ -1,4 +1,4 @@
-import "./CuisineOption.css";
+import "./CuisineButton.css";
 import {
     faUtensils,
     faGlassMartini,
@@ -25,7 +25,6 @@ import YellowSpanishImageSrc from "../../../../../common/images/icons-yellow/Spa
 import YellowSteakImageSrc from "../../../../../common/images/icons-yellow/Steak.png";
 import YellowSushiImageSrc from "../../../../../common/images/icons-yellow/Sushi.png";
 import YellowThaiImageSrc from "../../../../../common/images/icons-yellow/Thai.png";
-import {useState} from "react";
 
 const iconsMap = {
     British: faUtensils,
@@ -58,7 +57,7 @@ const yellowImageSrcMap = {
     Thai: YellowThaiImageSrc
 };
 
-const CuisineOption = ({name, selected, handleClick}) => {
+const CuisineButton = ({name, selected, handleClick}) => {
 
     const icon = iconsMap[name];
     const imgSrc = selected ? yellowImageSrcMap[name] : greyImageSrcMap[name];
@@ -76,4 +75,4 @@ const CuisineOption = ({name, selected, handleClick}) => {
     );
 };
 
-export default CuisineOption;
+export default CuisineButton;

@@ -1,5 +1,5 @@
 import "./CuisineOptions.css";
-import CuisineOption from "./CuisineOption/CuisineOption";
+import CuisineButton from "./CuisineButton/CuisineButton";
 import {useDispatch, useSelector} from "react-redux";
 import {
     resetCuisineFilter,
@@ -58,7 +58,7 @@ const CuisineOptions = () => {
     return (
         <div className="cuisine-options-container">
             {cuisineOptions.map((name, i) => (
-                <CuisineOption
+                <CuisineButton
                     key={i}
                     name={name}
                     selected={cuisineFilter === name}

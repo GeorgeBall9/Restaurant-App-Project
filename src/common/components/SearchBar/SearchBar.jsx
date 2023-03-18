@@ -21,12 +21,9 @@ const SearchBar = () => {
 
     const searchQuery = useSelector(selectSearchQuery);
 
-    const handleInputChange = ({target}) => dispatch(updateSearchQuery(target.value));
-
-    const handleEnterPress = ({code}) => {
-        if (code !== 'Enter') return;
-
-        dispatch(filterResultsBySearchQuery(searchQuery));
+    const handleInputChange = ({target}) => {
+        dispatch(updateSearchQuery(target.value));
+        dispatch(filterResultsBySearchQuery(target.value));
     };
 
     return (
@@ -39,7 +36,6 @@ const SearchBar = () => {
                     className="search-input"
                     placeholder="Search"
                     onChange={handleInputChange}
-                    onKeyDown={handleEnterPress}
                     value={searchQuery + ""}
                 />
 

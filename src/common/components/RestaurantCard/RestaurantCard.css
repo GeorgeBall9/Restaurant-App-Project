@@ -89,6 +89,20 @@ Contact: georgeball14@hotmail.com
 /* container on rhs of card */
 .restaurant-card .container-rhs {
     display: flex;
+    height: fit-content;
+}
+
+.restaurant-card .container-rhs > div:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.restaurant-card .container-rhs .icons-container {
+    display: flex;
+    gap: 1em;
+    align-items: flex-start;
 }
 
 /* map location icon */

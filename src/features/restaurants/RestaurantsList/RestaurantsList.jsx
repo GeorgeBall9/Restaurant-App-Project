@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {selectRestaurants} from "../restaurantsSlice";
 import useFetchRestaurants from "../../../common/hooks/useFetchRestaurants";
 import useFilterRestaurants from "../../../common/hooks/useFilterRestaurants";
-import MapRestaurantCard from "../../../common/components/MapRestaurantCard/MapRestaurantCard";
+import MapRestaurantCard from "../../slider/Slider/MapRestaurantCard/MapRestaurantCard";
 
 const RestaurantsList = ({view}) => {
 

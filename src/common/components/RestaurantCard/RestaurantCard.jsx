@@ -9,7 +9,7 @@ import "./RestaurantCard.css";
 
 // FontAwesome icons
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock, faRoute} from "@fortawesome/free-solid-svg-icons";
+import {faClock, faEllipsis, faRoute} from "@fortawesome/free-solid-svg-icons";
 import {faBookmark} from "@fortawesome/free-regular-svg-icons";
 import StarRating from "./StarRating/StarRating";
 
@@ -45,7 +45,16 @@ const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) =>
             </div>
 
             <div className="container-rhs">
-                <FontAwesomeIcon icon={icon} className="icon" onClick={handleClick}/>
+                <div>
+                    <div className="icons-container">
+                        <FontAwesomeIcon icon={faEllipsis} className="icon"/>
+                        <FontAwesomeIcon icon={faBookmark} className="icon"/>
+                    </div>
+
+                    {view === "map" && (
+                        <FontAwesomeIcon icon={faRoute} className="icon" onClick={handleClick}/>
+                    )}
+                </div>
 
                 <div className="image-container">
                     <img src={photoUrl} alt={name}/>

@@ -1,13 +1,13 @@
-import RestaurantCard from "../RestaurantCard/RestaurantCard";
+import RestaurantCard from "../../../../common/components/RestaurantCard/RestaurantCard";
 import {
     displayRestaurant,
     fetchRoute,
     selectDisplayedRestaurant, selectRouteDetails,
     selectUserPosition
-} from "../../../features/map/mapSlice";
+} from "../../../map/mapSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {selectActiveSlide} from "../../../features/slider/sliderSlice";
-import {selectRestaurants} from "../../../features/restaurants/restaurantsSlice";
+import {selectActiveSlide} from "../../sliderSlice";
+import {selectRestaurants} from "../../../restaurants/restaurantsSlice";
 import {useEffect, useState} from "react";
 
 const MapRestaurantCard = ({restaurant, index}) => {

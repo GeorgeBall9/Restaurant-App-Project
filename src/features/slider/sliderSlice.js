@@ -33,4 +33,5 @@ export const sliderSlice = createSlice({
 
 export const {setActiveSlide, setLastSlide, changeSlide} = sliderSlice.actions
 export const selectActiveSlide = state => state.slider.activeSlide;
+export const selectLastSlide = state => state.slider.lastSlide;
 export default sliderSlice.reducer

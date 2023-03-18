@@ -89,11 +89,13 @@ const RestaurantCard = ({restaurant, openingHours, view, index}) => {
 
     const icon = view === "map" ? faRoute : faBookmark;
 
+    const displayedName = name.substring(0, 30).trim() + (name.length > 30 ? "..." : "");
+
     // Render the component
     return (
         <div className="restaurant-card" style={position}>
             <div className="details-container">
-                <h3>{name}</h3>
+                <h3>{displayedName}</h3>
 
                 <div className="rating-container">
                     {[...Array(fullStars)].map((star, i) => (

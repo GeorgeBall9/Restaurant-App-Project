@@ -40,7 +40,7 @@ const SearchBar = () => {
 
             const timeout = setTimeout(() => {
                 setNoMatchesVisible(false);
-            }, 4000); // The fadeout duration can be adjusted, here it's set to 3 seconds
+            }, 4000); // The fadeout duration can be adjusted
 
             return () => clearTimeout(timeout);
         }

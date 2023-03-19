@@ -7,12 +7,13 @@ Contact: ryan.henzell-hill@outlook.com
 // dependencies
 import {Marker, Popup} from "react-map-gl";
 
-import locationMarkerImgSrc from "../../../../common/images/location2.png";
-import restaurantMarkerImgSrc from "../../../../common/images/restaurant4.png";
+import {faLocationArrow} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import React from "react";
 
 // TODO - change this component to two separate components: userMarker and restaurantMarker
 
-const MapMarker = ({id, name, photoUrl, longitude, latitude, type, handleClick, selected, scale}) => {
+const MapMarker = ({id, name, photoUrl, longitude, latitude, type, handleClick, selected, visibile}) => {
 
     const anchor = "bottom";
 
@@ -25,10 +26,7 @@ const MapMarker = ({id, name, photoUrl, longitude, latitude, type, handleClick, 
                     latitude={latitude}
                     anchor={anchor}
                 >
-                    <img
-                        className="location-marker"
-                        src={locationMarkerImgSrc}
-                    />
+                    <FontAwesomeIcon className="location-marker-icon" icon={faLocationArrow}/>
                 </Marker>
 
                 <Popup
@@ -45,19 +43,26 @@ const MapMarker = ({id, name, photoUrl, longitude, latitude, type, handleClick, 
         );
     }
 
+    const style = {visibility: visibile ? "visible" : "hidden"};
+
     // return marker to indicate restaurant position on map
     return (
         <Marker
             longitude={longitude}
             latitude={latitude}
             anchor={anchor}
+            style={style}
         >
 
             <div
-                className={`restaurant-marker ${selected ? "selected" : ""}`}
+                className={`restaurant-marker-container ${selected ? "selected" : ""}`}
                 onClick={() => handleClick(id)}
             >
-                <img src={photoUrl} alt={`${name} marker`}/>
+                <div className="marker">
+                    <img src={photoUrl} alt={`${name} marker`}/>
+                </div>
+
+                <div className="triangle"></div>
             </div>
         </Marker>
     );

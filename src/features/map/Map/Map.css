@@ -30,55 +30,60 @@ Contact: ryan.henzell-hill@outlook.com
     font-size: 1rem;
 }
 
-.restaurant-marker, .location-marker {
-    width: 30px;
-    transition: all 0.4s;
+.location-marker-icon {
+    color: #F6F1F1;
+    background-color: #19A7CE;
+    padding: 0.5em;
+    border-radius: 50%;
+    border: solid 3px #F6F1F1;
+    box-shadow: 0.5em 0.5em 1em rgba(128, 128, 128, 0.7);
 }
 
-.restaurant-marker {
+.restaurant-marker-container {
+    position: relative;
+}
+
+.restaurant-marker-container .marker {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     border: solid 5px white;
+    background-color: white;
     box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
-    position: relative;
+
+    transition-property: height, width;
+    transition-duration: 0.4s;
 }
 
-.restaurant-marker.selected {
-    width: 70px;
-    height: 70px;
+.restaurant-marker-container.selected .marker {
+    width: 75px;
+    height: 75px;
 }
 
-.restaurant-marker img {
+.restaurant-marker-container .marker img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    position: relative;
     z-index: 5;
+    position: relative;
 }
 
-.restaurant-marker::after {
+.restaurant-marker-container .triangle::after {
     content: "";
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
     position: absolute;
     background-color: white;
-    bottom: -8px;
-    left: 40%;
+    bottom: -2px;
+    left: 42%;
     transform: rotate(45deg);
     box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
     z-index: 0;
+    border-radius: 2px;
+    transition-duration: 0s;
+    transition: all 0.4s;
 }
 
-.restaurant-marker.selected::after {
-    content: "";
-    width: 14px;
-    height: 14px;
-    position: absolute;
-    background-color: white;
-    bottom: -11.2px;
-    left: 40%;
-    transform: rotate(45deg);
-    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
-    z-index: 0;
+.restaurant-marker-container.selected .triangle::after {
+    left: 45%;
 }

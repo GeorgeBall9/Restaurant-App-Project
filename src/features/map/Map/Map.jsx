@@ -105,7 +105,6 @@ const Map = () => {
             />
 
             {restaurants && restaurants
-                .filter(({id}) => !routeCoordinates || id === displayedRestaurant.id)
                 .map(({id, name, longitude, latitude, photoUrl}) => (
                     <MapMarker
                         key={id}
@@ -117,6 +116,7 @@ const Map = () => {
                         type="restaurant"
                         handleClick={handleMarkerClick}
                         selected={!routeCoordinates && id === displayedRestaurant?.id}
+                        visibile={!routeCoordinates || id === displayedRestaurant?.id}
                     />
                 ))}
 

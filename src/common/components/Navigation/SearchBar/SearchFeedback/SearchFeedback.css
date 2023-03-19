@@ -6,7 +6,7 @@
     position: absolute;
     top: calc(100% + 0.15em);
     left: 0;
-    width: 100%;
+    width: 90%;
     padding: 1rem;
     background-color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

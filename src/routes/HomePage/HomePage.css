@@ -6,3 +6,9 @@
     overflow: scroll;
     padding: 0.5em 1em;
 }
+
+.align-spinner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

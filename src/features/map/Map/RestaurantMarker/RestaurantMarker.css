@@ -1,0 +1,53 @@
+.restaurant-marker-container .marker {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: solid 5px white;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
+    transition-property: width, height;
+    transition-duration: 0.5s;
+}
+
+.restaurant-marker-container.selected .marker {
+    height: 85px;
+    width: 85px;
+}
+
+.restaurant-marker-container .marker img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    z-index: 5;
+    position: relative;
+}
+
+.restaurant-marker-container .triangle::after {
+    content: "";
+    width: 7px;
+    height: 7px;
+    position: absolute;
+    background-color: white;
+    bottom: -2px;
+    left: 42%;
+    transform: rotate(45deg);
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
+    z-index: 0;
+    border-radius: 2px;
+}
+
+.restaurant-marker-container.selected .triangle::after {
+    left: 44.8%;
+}
+
+/* ANIMATIONS */
+@keyframes grow {
+    0% {
+        width: 50px;
+        height: 50px;
+    }
+    100% {
+        width: 75px;
+        height: 75px;
+    }
+}

@@ -1,0 +1,11 @@
+.sort-buttons-container {
+    display: flex;
+    border: solid 1px lightgrey;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.sort-buttons-container button:first-child,
+.sort-buttons-container button:nth-child(2) {
+    border-right: solid 1px lightgrey;
+}

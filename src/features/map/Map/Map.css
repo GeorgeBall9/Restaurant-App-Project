@@ -29,12 +29,3 @@ Contact: ryan.henzell-hill@outlook.com
     color: #F49D1A;
     font-size: 1rem;
 }
-
-.restaurant-marker, .location-marker {
-    width: 30px;
-    transition: all 0.4s;
-}
-
-.restaurant-marker.selected {
-    width: 45px;
-}

@@ -4,7 +4,7 @@ const initialState = {
     dropdownVisible: false,
     sortBy: null,
     cuisine: "Any",
-    searchQuery: ''
+    searchQuery: ""
 };
 
 export const filtersSlice = createSlice({

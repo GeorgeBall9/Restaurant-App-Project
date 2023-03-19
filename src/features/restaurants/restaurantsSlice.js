@@ -177,16 +177,14 @@ const getSearchResults = (searchQuery, restaurants) => {
     const lowerCaseSearchQuery = searchQuery.toLowerCase();
 
     // Filter restaurants based on the searchQuery
-    const searchResults = restaurants.filter((restaurant) => {
+    return restaurants.filter((restaurant) => {
         const nameMatch = restaurant.name.toLowerCase().includes(lowerCaseSearchQuery);
-        const cuisineMatch = restaurant.cuisines.some(cuisine => 
+        const cuisineMatch = restaurant.cuisines.some(cuisine =>
             cuisine.name.toLowerCase().includes(lowerCaseSearchQuery)
         );
-            /*Potentially add dietary restrictions into search filter*/
+        /*Potentially add dietary restrictions into search filter*/
         return nameMatch || cuisineMatch;
     });
-
-    return searchResults;
 };
 
 // restaurants slice
@@ -221,8 +219,9 @@ export const restaurantsSlice = createSlice({
         filterResultsBySearchQuery: (state, action) => {
             const query = action.payload.trim(); // removes all spaces from the search query
             const results = getSearchResults(query, state.allRestaurants);
-            state.hasMatches = results.length > 0;
-            state.restaurantResults = results.length > 0 ? results : state.allRestaurants;
+            const hasMatches = results.length > 0;
+            state.hasMatches = hasMatches;
+            state.restaurantResults = hasMatches ? results : state.allRestaurants;
         }
     },
     extraReducers: builder => {

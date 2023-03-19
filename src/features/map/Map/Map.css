@@ -35,10 +35,6 @@ Contact: ryan.henzell-hill@outlook.com
     transition: all 0.4s;
 }
 
-.restaurant-marker.selected {
-    width: 45px;
-}
-
 .restaurant-marker {
     width: 50px;
     height: 50px;
@@ -46,6 +42,11 @@ Contact: ryan.henzell-hill@outlook.com
     border: solid 5px white;
     box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
     position: relative;
+}
+
+.restaurant-marker.selected {
+    width: 70px;
+    height: 70px;
 }
 
 .restaurant-marker img {
@@ -63,6 +64,19 @@ Contact: ryan.henzell-hill@outlook.com
     position: absolute;
     background-color: white;
     bottom: -8px;
+    left: 40%;
+    transform: rotate(45deg);
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;
+    z-index: 0;
+}
+
+.restaurant-marker.selected::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    background-color: white;
+    bottom: -11.2px;
     left: 40%;
     transform: rotate(45deg);
     box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px;

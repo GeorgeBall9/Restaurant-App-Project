@@ -1,4 +1,12 @@
+/*
+Description: SearchFeedback component
+Author: George Ball
+Contact: georgeball14@hotmail.com
+*/
+
+
 import "./SearchFeedback.css";
+
 import React, { useState, useEffect } from "react";
 
 

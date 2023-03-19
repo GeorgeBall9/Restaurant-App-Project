@@ -12,7 +12,7 @@ import restaurantMarkerImgSrc from "../../../../common/images/restaurant4.png";
 
 // TODO - change this component to two separate components: userMarker and restaurantMarker
 
-const MapMarker = ({photoUrl, longitude, latitude, type, handleClick, selected}) => {
+const MapMarker = ({id, name, photoUrl, longitude, latitude, type, handleClick, selected}) => {
 
     const anchor = "bottom";
 
@@ -58,8 +58,11 @@ const MapMarker = ({photoUrl, longitude, latitude, type, handleClick, selected})
             {/*    onClick={() => handleClick(id)}*/}
             {/*/>*/}
 
-            <div className="marker-image-container">
-                <img src={photoUrl}/>
+            <div
+                className={`restaurant-marker ${selected ? "selected" : ""}`}
+                onClick={() => handleClick(id)}
+            >
+                <img src={photoUrl} alt={`${name} marker`}/>
             </div>
         </Marker>
     );

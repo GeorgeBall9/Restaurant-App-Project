@@ -123,9 +123,10 @@ const Map = () => {
 
             {restaurants && restaurants
                 .filter(({id}) => !routeCoordinates || id === displayedRestaurant.id)
-                .map(({id, longitude, latitude, photoUrl}) => (
+                .map(({id, name, longitude, latitude, photoUrl}) => (
                     <MapMarker
                         key={id}
+                        name={name}
                         photoUrl={photoUrl}
                         longitude={longitude}
                         latitude={latitude}

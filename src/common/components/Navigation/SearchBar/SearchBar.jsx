@@ -45,7 +45,7 @@ const SearchBar = () => {
                     <FontAwesomeIcon className="icon" icon={faSliders}/>
                 </button>
 
-                <SearchFeedback hasMatches={hasMatches} searchQuery={searchQuery}/>
+                {hasMatches && <SearchFeedback hasMatches={hasMatches} searchQuery={searchQuery}/>}
             </div>
 
             {dropdownVisible && <FiltersDropdown/>}

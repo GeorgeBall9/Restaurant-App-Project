@@ -9,6 +9,7 @@ import "./Map.css";
 
 // dependencies
 import ReactMapGl from "react-map-gl";
+import mapboxgl from "mapbox-gl";
 
 // react hooks
 import {useEffect, useState} from "react";
@@ -26,6 +27,9 @@ import {selectRestaurants} from "../../restaurants/restaurantsSlice";
 import Route from "./Route/Route";
 import RestaurantMarker from "./RestaurantMarker/RestaurantMarker";
 import LocationMarker from "./LocationMarker/LocationMarker";
+
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 const Map = () => {
 

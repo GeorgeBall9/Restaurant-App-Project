@@ -74,7 +74,7 @@ const Map = () => {
     useEffect(() => {
         if (token) return;
 
-        fetch("/api/v1/accounts/ryhhill1998/env/TRAVEL_ADVISOR_API_KEY")
+        fetch("/api/v1/accounts/ryhhill1998/env/MAPBOX_TOKEN")
             .then(response => {
                 console.log(response);
                 setToken(response);

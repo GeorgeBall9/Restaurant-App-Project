@@ -29,31 +29,31 @@ export const fetchRestaurants = createAsyncThunk(
     async (data) => {
         const {latitude, longitude} = data;
 
-        const key = await fetch("/api/v1/accounts/ryhhill1998/env/TRAVEL_ADVISOR_API_KEY");
+        console.log(process.env.MAPBOX_TOKEN)
 
-        const options = {
-            method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': key,
-                'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
-            }
-        };
-
-        const query = fetchUrl + "?latitude=" + latitude + "&longitude=" + longitude +
-            "&limit=20&currency=GBP&distance=1&open_now=true&lunit=km&lang=en_US";
-
-        const response = await fetch(query, options);
-
-        if (!response.ok) {
-            throw new Error("The requested resource is not available. Check the URL is correct.");
-        }
-
-        const jsonData = await response.json();
-
-        return {
-            data: jsonData.data,
-            position: {longitude, latitude},
-        }
+        // const options = {
+        //     method: 'GET',
+        //     headers: {
+        //         'X-RapidAPI-Key': key,
+        //         'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
+        //     }
+        // };
+        //
+        // const query = fetchUrl + "?latitude=" + latitude + "&longitude=" + longitude +
+        //     "&limit=20&currency=GBP&distance=1&open_now=true&lunit=km&lang=en_US";
+        //
+        // const response = await fetch(query, options);
+        //
+        // if (!response.ok) {
+        //     throw new Error("The requested resource is not available. Check the URL is correct.");
+        // }
+        //
+        // const jsonData = await response.json();
+        //
+        // return {
+        //     data: jsonData.data,
+        //     position: {longitude, latitude},
+        // }
     }
 );
 

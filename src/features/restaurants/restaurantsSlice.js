@@ -29,7 +29,8 @@ export const fetchRestaurants = createAsyncThunk(
     async (data) => {
         const {latitude, longitude} = data;
 
-        console.log(process.env.MAPBOX_TOKEN)
+        console.log("blue")
+        console.log(process.env.REACT_APP_MAPBOX_TOKEN)
 
         // const options = {
         //     method: 'GET',

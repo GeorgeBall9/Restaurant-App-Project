@@ -18,7 +18,6 @@ const SearchFeedback = ({ hasMatches, searchQuery }) => {
 
 
     return (
-        
         <div className={`no-matches-container ${noMatchesVisible ? "fade-in" : "fade-out"}`}>
             <p className="no-matches-message">Oops! We didn't find a match</p>
             <p className="try-something-else-message">
@@ -26,6 +25,15 @@ const SearchFeedback = ({ hasMatches, searchQuery }) => {
             </p>
         </div>
     );
+
+    // return noMatchesVisible ? (
+    //     <div className="no-matches-container">
+    //         <p className="no-matches-message">Oops! We didn't find a match</p>
+    //         <p className="try-something-else-message">
+    //             Why not try searching for something else?
+    //         </p>
+    //     </div>
+    // ) : null
 };
 
 export default SearchFeedback;

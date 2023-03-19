@@ -14,28 +14,20 @@ import ReactMapGl from "react-map-gl";
 import {useEffect, useState} from "react";
 
 // redux hooks
-import {useSelector, useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
 
 // map reducer functions
-import {
-    selectUserPosition,
-    selectDisplayedRestaurant,
-    displayRestaurant,
-    selectRouteDetails
-} from "../mapSlice";
+import {selectUserPosition, selectDisplayedRestaurant, selectRouteDetails} from "../mapSlice";
 
 // restaurants reducer functions
 import {selectRestaurants} from "../../restaurants/restaurantsSlice";
 
 // imported components
-import MapMarker from "./MapMarker/MapMarker";
 import Route from "./Route/Route";
-import {setActiveSlide} from "../../slider/sliderSlice";
+import RestaurantMarker from "./RestaurantMarker/RestaurantMarker";
+import LocationMarker from "./LocationMarker/LocationMarker";
 
 const Map = () => {
-
-    // used to access reducer functions inside map slice
-    const dispatch = useDispatch();
 
     // select all relevant information from map slice
     const userPosition = useSelector(selectUserPosition);
@@ -69,17 +61,6 @@ const Map = () => {
     // handler function to set the map held in the component state to the map when it is loaded
     const handleMapLoad = ({target}) => setMap(target);
 
-    // handler function to display the restaurant associated with the marker that is clicked by the user
-    const handleMarkerClick = (id) => {
-        if (!id) {
-            throw new Error("No id provided");
-        }
-
-        const restaurantToDisplay = restaurants.find(restaurant => restaurant.id === id);
-        dispatch(displayRestaurant(restaurantToDisplay));
-        dispatch(setActiveSlide(restaurants.indexOf(restaurantToDisplay)));
-    };
-
     // fly to new marker if user updates their position
     useEffect(() => {
         if (!userPosition || !map) return;
@@ -98,25 +79,18 @@ const Map = () => {
             onLoad={handleMapLoad}
             mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         >
-            <MapMarker
+            <LocationMarker
                 longitude={userPosition.longitude}
                 latitude={userPosition.latitude}
-                type="user"
             />
 
             {restaurants && restaurants
-                .map(({id, name, longitude, latitude, photoUrl}) => (
-                    <MapMarker
-                        key={id}
-                        id={id}
-                        name={name}
-                        photoUrl={photoUrl}
-                        longitude={longitude}
-                        latitude={latitude}
-                        type="restaurant"
-                        handleClick={handleMarkerClick}
-                        selected={!routeCoordinates && id === displayedRestaurant?.id}
-                        visibile={!routeCoordinates || id === displayedRestaurant?.id}
+                .map(restaurant => (
+                    <RestaurantMarker
+                        key={restaurant.id}
+                        {...restaurant}
+                        selected={!routeCoordinates && restaurant.id === displayedRestaurant?.id}
+                        visible={!routeCoordinates || restaurant.id === displayedRestaurant?.id}
                     />
                 ))}
 

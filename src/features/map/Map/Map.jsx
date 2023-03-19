@@ -69,22 +69,6 @@ const Map = () => {
         map.flyTo({center: [longitude, latitude], zoom: 14});
     }, [userPosition]);
 
-    const [token, setToken] = useState(null);
-
-    useEffect(() => {
-        if (token) return;
-
-        fetch("/api/v1/accounts/ryhhill1998/env/MAPBOX_TOKEN")
-            .then(response => {
-                console.log(response);
-                setToken(response);
-            });
-    }, []);
-
-    if (!token) {
-        return <div>Loading...</div>;
-    }
-
     // component returned to MapPage route
     return (
         <ReactMapGl
@@ -93,7 +77,7 @@ const Map = () => {
             mapStyle="mapbox://styles/mapbox/streets-v12"
             onMove={handleMapMove}
             onLoad={handleMapLoad}
-            mapboxAccessToken={token}
+            mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         >
             <LocationMarker
                 longitude={userPosition.longitude}

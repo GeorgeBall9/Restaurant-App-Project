@@ -61,13 +61,13 @@ Contact: georgeball14@hotmail.com
 }
 
 /* hours container */
-.restaurant-card .details-container .hours-container {
+.restaurant-card .details-container .distance-container {
     color: #5a5a5a;
     font-size: 0.75rem;
 }
 
 /* distance icon */
-.restaurant-card .details-container .hours-container .icon {
+.restaurant-card .details-container .distance-container .icon {
     color: #999;
     padding-right: 0.25em;
 }

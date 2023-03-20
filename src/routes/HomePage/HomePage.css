@@ -13,17 +13,11 @@
     display: flex;
     flex-direction: column;
     gap: 1em;
-<<<<<<< HEAD
-    padding: 0.5em;
-=======
-    height: 90vh;
-    overflow: scroll;
     padding: 0.5em;
 }
 
 .align-spinner {
-    display: flex;
+    display: none; /* change to flex when needs to appear */
     justify-content: center;
     align-items: center;
->>>>>>> upstream/main
 }

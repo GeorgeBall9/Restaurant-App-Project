@@ -1,5 +1,6 @@
 .map-page-container {
     position: relative;
+    overflow: hidden;
 }
 
 .map-page-container .nav-and-back-button {

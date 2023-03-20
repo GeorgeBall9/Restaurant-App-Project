@@ -74,18 +74,22 @@ const Map = () => {
         map.flyTo({center: [longitude, latitude], zoom: 14});
     }, [userPosition]);
 
-    const height = use100vh();
+    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+
+    useEffect(() => {
+        setWindowHeight(window.innerHeight)
+    }, [window.innerHeight]);
 
     // component returned to MapPage route
     return (
         <ReactMapGl
             {...viewState}
-            style={{width: "100vw", height}}
+            style={{width: "100vw", height: windowHeight}}
             mapStyle="mapbox://styles/mapbox/streets-v12"
             onMove={handleMapMove}
             onLoad={handleMapLoad}
             mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-            onRender={(event) => event.target.resize()}
+            onRender={({target}) => target.resize()}
         >
             <LocationMarker
                 longitude={userPosition.longitude}

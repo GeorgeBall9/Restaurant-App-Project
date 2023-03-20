@@ -18,10 +18,10 @@
 =======
     height: 90vh;
     overflow: scroll;
-    padding: 0.5em 1em;
+    padding: 0.5em;
 }
 
-.align-spinner{
+.align-spinner {
     display: flex;
     justify-content: center;
     align-items: center;

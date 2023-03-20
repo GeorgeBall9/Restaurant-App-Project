@@ -16,7 +16,7 @@ import RouteButton from "./RouteButton/RouteButton";
 import BookmarkButton from "./BookmarkButton/BookmarkButton";
 
 // A card component for displaying restaurant information
-const RestaurantCard = ({restaurant, view, style}) => {
+const RestaurantCard = ({restaurant, view, style, ranking}) => {
 
     const {name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
 
@@ -27,7 +27,13 @@ const RestaurantCard = ({restaurant, view, style}) => {
     return (
         <div className="restaurant-card" style={style}>
             <div className="details-container">
-                <h3>{name}</h3>
+                <h3>
+                    {ranking && (
+                        <div className="ranking">{ranking}</div>
+                    )}
+
+                    <div>{name}</div>
+                </h3>
 
                 <StarRating rating={starRating}/>
 

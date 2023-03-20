@@ -36,4 +36,5 @@
 
 .location-options-container .postcode-input-container input::placeholder {
     font-size: 0.75rem;
+    color: grey;
 }

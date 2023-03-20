@@ -10,10 +10,31 @@
     flex-direction: column;
     gap: 1.2em;
     z-index: 20;
+    /*border-bottom: solid 7px #C23B22;*/
 }
 
 .filters-dropdown h3 {
     font-size: 0.9rem;
     font-weight: 500;
     margin-bottom: 0.75em;
+}
+
+.filters-dropdown .action-buttons-container {
+    align-self: flex-end;
+    display: flex;
+    gap: 1em;
+}
+
+.filters-dropdown .action-buttons-container button {
+    padding: 0.75em 1em;
+    border-radius: 8px;
+    font-weight: 500;
+    border: solid 2px #C23B22;
+    color: #C23B22;
+    background: none;
+}
+
+.filters-dropdown .action-buttons-container button:first-child {
+    color: white;
+    background-color: #C23B22;
 }

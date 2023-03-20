@@ -9,13 +9,11 @@ import "./SearchFeedback.css";
 
 import React, { useState, useEffect } from "react";
 
-
-const SearchFeedback = ({ hasMatches, searchQuery }) => {
+const SearchFeedback = ({hasMatches, searchQuery}) => {
     // Add a state for the visibility of the no-matches-container
     const [noMatchesVisible, setNoMatchesVisible] = useState(false);
 
-
-     // Use the useEffect hook to handle the fadeout effect
+    // Use the useEffect hook to handle the fadeout effect
     useEffect(() => {
         if (!hasMatches && searchQuery.length > 0) {
             setNoMatchesVisible(true);
@@ -23,7 +21,6 @@ const SearchFeedback = ({ hasMatches, searchQuery }) => {
             setNoMatchesVisible(false);
         }
     }, [hasMatches, searchQuery]);
-
 
     return (
         <div className={`no-matches-container ${noMatchesVisible ? "fade-in" : "fade-out"}`}>

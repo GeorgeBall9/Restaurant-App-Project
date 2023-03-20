@@ -12,7 +12,9 @@ const LocationMarker = ({longitude, latitude}) => {
                 latitude={latitude}
                 anchor="bottom"
             >
-                <FontAwesomeIcon className="location-marker-icon" icon={faLocationArrow}/>
+                <div className="location-marker-container">
+                    <FontAwesomeIcon className="icon" icon={faLocationArrow}/>
+                </div>
             </Marker>
 
             {/*<Popup*/}

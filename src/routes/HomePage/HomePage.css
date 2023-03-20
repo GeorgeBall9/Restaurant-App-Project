@@ -1,7 +1,21 @@
+.home .navigation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0.5em;
+}
+
 .home .restaurant-cards-container {
+    margin-top: 3em;
     display: flex;
     flex-direction: column;
     gap: 1em;
+<<<<<<< HEAD
+    padding: 0.5em;
+=======
     height: 90vh;
     overflow: scroll;
     padding: 0.5em;
@@ -11,4 +25,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
+>>>>>>> upstream/main
 }

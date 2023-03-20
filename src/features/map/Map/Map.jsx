@@ -9,6 +9,7 @@ import "./Map.css";
 
 // dependencies
 import ReactMapGl from "react-map-gl";
+import mapboxgl from "mapbox-gl";
 
 // react hooks
 import {useEffect, useState} from "react";
@@ -26,6 +27,9 @@ import {selectRestaurants} from "../../restaurants/restaurantsSlice";
 import Route from "./Route/Route";
 import RestaurantMarker from "./RestaurantMarker/RestaurantMarker";
 import LocationMarker from "./LocationMarker/LocationMarker";
+
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 const Map = () => {
 
@@ -69,15 +73,22 @@ const Map = () => {
         map.flyTo({center: [longitude, latitude], zoom: 14});
     }, [userPosition]);
 
+    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+
+    useEffect(() => {
+        setWindowHeight(window.innerHeight)
+    }, [window.innerHeight]);
+
     // component returned to MapPage route
     return (
         <ReactMapGl
             {...viewState}
-            style={{width: "100vw", height: "100vh"}}
+            style={{width: "100vw", height: windowHeight}}
             mapStyle="mapbox://styles/mapbox/streets-v12"
             onMove={handleMapMove}
             onLoad={handleMapLoad}
             mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+            onRender={({target}) => target.resize()}
         >
             <LocationMarker
                 longitude={userPosition.longitude}

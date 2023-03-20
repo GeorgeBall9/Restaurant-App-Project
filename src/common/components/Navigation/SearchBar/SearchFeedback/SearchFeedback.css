@@ -27,7 +27,7 @@
   
   .no-matches-message,
   .try-something-else-message {
-    pointer-events: auto;
+    pointer-events: none;
   }
 
   .no-matches-message {

@@ -97,7 +97,7 @@ Contact: georgeball14@hotmail.com
     display: flex;
     height: fit-content;
     width: 100%;
-    justify-content: right;
+    justify-content: flex-end;
 }
 
 .restaurant-card .container-rhs .icons-container {

@@ -1,0 +1,32 @@
+.spin-container {
+    position: relative;
+}
+
+.spin {
+    border: 3px solid #C23B22;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    animation: rotate 2s cubic-bezier(0.26, 1.36, 0.74, -0.29) infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateZ(-360deg)
+    }
+
+    100% {
+        transform: rotateZ(0deg)
+    }
+}
+
+#text {
+    color: #f49d1a;
+    font-family: Arial;
+    font-size: 15px;
+    position: absolute;
+    top: 95px;
+    left: 60px;
+}

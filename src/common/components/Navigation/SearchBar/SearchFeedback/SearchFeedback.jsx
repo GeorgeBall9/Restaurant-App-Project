@@ -1,5 +1,13 @@
+/*
+Description: SearchFeedback component
+Author: George Ball
+Contact: georgeball14@hotmail.com
+*/
+
+
 import "./SearchFeedback.css";
-import {useState, useEffect} from "react";
+
+import React, { useState, useEffect } from "react";
 
 const SearchFeedback = ({hasMatches, searchQuery}) => {
     // Add a state for the visibility of the no-matches-container

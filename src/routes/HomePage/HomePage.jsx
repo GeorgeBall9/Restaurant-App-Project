@@ -8,12 +8,14 @@ const HomePage = () => {
 
     return (
         <div className="home container">
-            <Navigation view="home"/>
+            <Navigation view="home" />
 
-            <Spinner/>
-
+            <div className="align-spinner">
+                <Spinner />
+            </div>
+            
             <div className="restaurant-cards-container">
-                <RestaurantsList view="home"/>
+                <RestaurantsList />
             </div>
         </div>
     );

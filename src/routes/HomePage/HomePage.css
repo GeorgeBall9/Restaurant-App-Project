@@ -13,5 +13,17 @@
     display: flex;
     flex-direction: column;
     gap: 1em;
+<<<<<<< HEAD
     padding: 0.5em;
+=======
+    height: 90vh;
+    overflow: scroll;
+    padding: 0.5em 1em;
+}
+
+.align-spinner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+>>>>>>> upstream/main
 }

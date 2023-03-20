@@ -9,20 +9,16 @@ import "./RestaurantCard.css";
 
 // FontAwesome icons
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock} from "@fortawesome/free-solid-svg-icons";
+import {faLocationArrow} from "@fortawesome/free-solid-svg-icons";
 
 import StarRating from "./StarRating/StarRating";
 import RouteButton from "./RouteButton/RouteButton";
 import BookmarkButton from "./BookmarkButton/BookmarkButton";
 
 // A card component for displaying restaurant information
-const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) => {
+const RestaurantCard = ({restaurant, view, style}) => {
 
-    if (openingHours.split(",").length > 1) {
-        openingHours = "multiple";
-    }
-
-    const {name, rating, price, primaryCuisine, photoUrl} = restaurant;
+    const {name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
 
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
@@ -36,8 +32,8 @@ const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) =>
                 <StarRating rating={starRating}/>
 
                 <div className="hours-container">
-                    <FontAwesomeIcon icon={faClock} className="icon"/>
-                    {openingHours}
+                    <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
+                    {Math.round(distance * 10) / 10} Km
                 </div>
 
                 <div className="price-cuisine-container">

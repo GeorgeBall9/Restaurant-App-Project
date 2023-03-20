@@ -2,8 +2,39 @@ import "./FiltersDropdown.css";
 import LocationOptions from "./LocationOptions/LocationOptions";
 import SortByOptions from "./SortByOptions/SortByOptions";
 import CuisineOptions from "./CuisineOptions/CuisineOptions";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    resetCuisineFilter,
+    resetSortFilter,
+    selectCuisineFilter,
+    selectSortFilter,
+    toggleFiltersDropdown
+} from "../filtersSlice";
+import {
+    filterRestaurantResultsByCuisine,
+    resetRestaurantResults,
+    sortRestaurants
+} from "../../restaurants/restaurantsSlice";
 
 const FiltersDropdown = () => {
+
+    const dispatch = useDispatch();
+
+    const sortFilter = useSelector(selectSortFilter);
+    const cuisineFilter = useSelector(selectCuisineFilter);
+
+    const handleApplyClick = () => {
+        dispatch(filterRestaurantResultsByCuisine(cuisineFilter));
+        dispatch(sortRestaurants(sortFilter));
+        dispatch(toggleFiltersDropdown());
+    };
+
+    const handleResetClick = () => {
+        dispatch(resetSortFilter());
+        dispatch(resetCuisineFilter());
+        dispatch(resetRestaurantResults());
+        dispatch(toggleFiltersDropdown());
+    };
 
     return (
         <div className="filters-dropdown">
@@ -26,8 +57,8 @@ const FiltersDropdown = () => {
             </div>
 
             <div className="action-buttons-container">
-                <button>Apply</button>
-                <button>Reset</button>
+                <button onClick={handleApplyClick}>Apply</button>
+                <button onClick={handleResetClick}>Reset</button>
             </div>
         </div>
     );

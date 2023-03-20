@@ -11,17 +11,17 @@ export const filtersSlice = createSlice({
     name: 'filters',
     initialState,
     reducers: {
-        updateSortFilter: (state, action) => {
-            state.sortBy = action.payload;
-        },
-        resetSortFilter: state => {
-            state.sortBy = null;
-        },
         updateSearchQuery: (state, action) => {
             state.searchQuery = action.payload;
         },
         resetSearchQuery: state => {
             state.searchQuery = null;
+        },
+        updateSortFilter: (state, action) => {
+            state.sortBy = action.payload;
+        },
+        resetSortFilter: state => {
+            state.sortBy = null;
         },
         updateCuisineFilter: (state, action) => {
             state.cuisine = action.payload;

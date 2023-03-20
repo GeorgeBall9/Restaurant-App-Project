@@ -9,12 +9,16 @@ import "./RestaurantCard.css";
 
 // FontAwesome icons
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock, faEllipsis, faRoute} from "@fortawesome/free-solid-svg-icons";
+import {faClock, faRoute} from "@fortawesome/free-solid-svg-icons";
 import {faBookmark} from "@fortawesome/free-regular-svg-icons";
 import StarRating from "./StarRating/StarRating";
 
 // A card component for displaying restaurant information
 const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) => {
+
+    if (openingHours.split(",").length > 1) {
+        openingHours = "multiple";
+    }
 
     const {name, rating, price, primaryCuisine, photoUrl} = restaurant;
 

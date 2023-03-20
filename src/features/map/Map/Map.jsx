@@ -8,7 +8,6 @@ Contact: ryan.henzell-hill@outlook.com
 import "./Map.css";
 
 // dependencies
-import { use100vh } from 'react-div-100vh'
 import ReactMapGl from "react-map-gl";
 import mapboxgl from "mapbox-gl";
 

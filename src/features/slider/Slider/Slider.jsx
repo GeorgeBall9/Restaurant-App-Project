@@ -14,9 +14,9 @@ const Slider = () => {
     const activeSlide = useSelector(selectActiveSlide);
     const lastSlide = useSelector(selectLastSlide);
 
-    const handleBackClick = () => {dispatch(changeSlide("backward"))};
+    const handleBackClick = () => dispatch(changeSlide("backward"));
 
-    const handleNextClick = () => {dispatch(changeSlide("forward"))};
+    const handleNextClick = () => dispatch(changeSlide("forward"));
 
     const backVisibility = {visibility: activeSlide === 0 ? "hidden" : "visible"};
 

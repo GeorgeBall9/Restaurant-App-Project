@@ -28,7 +28,6 @@ const RestaurantsList = ({view}) => {
                         <RestaurantCard
                             key={restaurant.id}
                             restaurant={restaurant}
-                            openingHours={restaurant.hours[0]}
                         />
                     )
                 }

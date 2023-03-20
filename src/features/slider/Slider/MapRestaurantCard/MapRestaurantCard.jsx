@@ -45,7 +45,6 @@ const MapRestaurantCard = ({restaurant, index}) => {
     return (
         <RestaurantCard
             restaurant={restaurant}
-            openingHours={restaurant.hours[0]}
             view="map"
             style={style}
         />

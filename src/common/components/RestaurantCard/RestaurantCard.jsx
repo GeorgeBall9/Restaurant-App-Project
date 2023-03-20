@@ -43,8 +43,8 @@ const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) =>
             <div className="container-rhs">
                 <div>
                     <div className="icons-container">
-                        <FontAwesomeIcon icon={faEllipsis} className="icon"/>
                         <FontAwesomeIcon icon={faBookmark} className="icon"/>
+                        <FontAwesomeIcon icon={faEllipsis} className="icon"/>
                     </div>
 
                     {view === "map" && (

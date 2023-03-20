@@ -107,8 +107,10 @@ Contact: georgeball14@hotmail.com
 
 .restaurant-card .container-rhs .icons-container {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     gap: 0.75em;
-    align-items: flex-start;
+    align-items: center;
 }
 
 /* map location icon */

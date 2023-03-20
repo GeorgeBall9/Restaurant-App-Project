@@ -12,10 +12,6 @@ Contact: ryan.henzell-hill@outlook.com
     box-shadow: 0.25em 0.25em 0.5em rgba(128, 128, 128, 0.35);
 }
 
-.mapboxgl-map {
-    margin-bottom: 2em;
-}
-
 .mapboxgl-popup-content {
     max-width: 150px;
 }

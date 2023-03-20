@@ -8,7 +8,7 @@ Contact: georgeball14@hotmail.com
 .restaurant-card {
     display: flex;
     gap: 0.5em;
-    justify-content: space-between;
+    align-items: flex-start;
     padding: 0.75em;
     border: 1px solid lightgrey;
     border-radius: 8px;
@@ -16,7 +16,7 @@ Contact: georgeball14@hotmail.com
     cursor: pointer;
     background-color: white;
     width: 100%;
-    height: 140px;
+    height: 145px;
     border-bottom: solid 6px #C23B22;
     transition-property: left;
     transition-duration: 0.5s;
@@ -27,6 +27,7 @@ Contact: georgeball14@hotmail.com
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+    width: 100%;
 }
 
 /* restaurant name */
@@ -63,7 +64,6 @@ Contact: georgeball14@hotmail.com
 .restaurant-card .details-container .hours-container {
     color: #5a5a5a;
     font-size: 0.75rem;
-    white-space: nowrap;
 }
 
 /* distance icon */
@@ -96,19 +96,16 @@ Contact: georgeball14@hotmail.com
 .restaurant-card .container-rhs {
     display: flex;
     height: fit-content;
-}
-
-.restaurant-card .container-rhs > div:first-child {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: space-between;
+    width: 100%;
+    justify-content: flex-end;
 }
 
 .restaurant-card .container-rhs .icons-container {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     gap: 0.75em;
-    align-items: flex-start;
+    align-items: center;
 }
 
 /* map location icon */
@@ -119,12 +116,11 @@ Contact: georgeball14@hotmail.com
 
 /* restaurant image container */
 .restaurant-card .container-rhs .image-container {
-    width: 100px;
-    height: 90px;
+    width: 90px;
+    height: 80px;
     margin-left: 0.75em;
     border-radius: 8px;
     overflow: hidden;
-    /*border: solid 4px #C23B22;*/
 }
 
 /* restaurant image */

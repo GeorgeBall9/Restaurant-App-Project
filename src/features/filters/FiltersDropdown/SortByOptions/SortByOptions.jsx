@@ -22,20 +22,13 @@ const SortByOptions = () => {
     const dispatch = useDispatch();
 
     const sortByFilter = useSelector(selectSortFilter);
-    const cuisineFilter = useSelector(selectCuisineFilter);
 
     const handleSortButtonClick = (name) => {
         if (name === sortByFilter) {
             dispatch(resetSortFilter());
-            dispatch(resetRestaurantResults());
-            dispatch(filterRestaurantResultsByCuisine(cuisineFilter))
         } else {
             dispatch(updateSortFilter(name));
-            dispatch(sortRestaurants(name));
         }
-
-        dispatch(resetDisplayedRestaurant());
-        dispatch(toggleFiltersDropdown());
     };
 
     return (

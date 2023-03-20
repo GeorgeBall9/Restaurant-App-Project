@@ -168,9 +168,9 @@ const getAveragePrice = (priceString) => {
 
     return (+priceBounds[0] + +priceBounds[1]) / 2;
 };
-  
+
 const getSearchResults = (searchQuery, restaurants) => {
-    if(!searchQuery) {
+    if (!searchQuery) {
         return restaurants;
     }
     // Convert searchQuery to lowercase for case-insensitive comparison
@@ -202,7 +202,7 @@ export const restaurantsSlice = createSlice({
                 state.restaurantResults = results.sort((a, b) => a.distance - b.distance);
             } else if (sortBy === "price") {
                 state.restaurantResults = results.sort(({price: a}, {price: b}) => (
-                    getAveragePrice(b) - getAveragePrice(a)
+                    getAveragePrice(a) - getAveragePrice(b)
                 ));
             }
         },
@@ -211,10 +211,7 @@ export const restaurantsSlice = createSlice({
 
             state.restaurantResults = state.allRestaurants
                 .filter(restaurant => cuisineFilter === "any" || restaurant.cuisines
-                .find(cuisine => cuisine.name.toLowerCase().includes(cuisineFilter)));
-        },
-        resetRestaurantResults: state => {
-            state.restaurantResults = state.allRestaurants;
+                    .find(cuisine => cuisine.name.toLowerCase().includes(cuisineFilter)));
         },
         filterResultsBySearchQuery: (state, action) => {
             const query = action.payload.trim(); // removes all spaces from the search query
@@ -222,6 +219,9 @@ export const restaurantsSlice = createSlice({
             const hasMatches = results.length > 0;
             state.hasMatches = hasMatches;
             state.restaurantResults = hasMatches ? results : state.allRestaurants;
+        },
+        resetRestaurantResults: state => {
+            state.restaurantResults = state.allRestaurants;
         }
     },
     extraReducers: builder => {
@@ -248,7 +248,12 @@ export const restaurantsSlice = createSlice({
     }
 });
 
-export const {sortRestaurants, filterRestaurantResultsByCuisine, resetRestaurantResults, filterResultsBySearchQuery} = restaurantsSlice.actions;
+export const {
+    sortRestaurants,
+    filterRestaurantResultsByCuisine,
+    resetRestaurantResults,
+    filterResultsBySearchQuery
+} = restaurantsSlice.actions;
 export const selectRestaurants = state => state.restaurants.restaurantResults;
 export const selectAllRestaurants = state => state.restaurants.allRestaurants;
 export const selectHasMatches = state => state.restaurants.hasMatches;

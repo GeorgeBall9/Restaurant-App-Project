@@ -1,14 +1,23 @@
+.home .navigation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0.5em;
+}
+
 .home .restaurant-cards-container {
+    margin-top: 3em;
     display: flex;
     flex-direction: column;
     gap: 1em;
-    height: 90vh;
-    overflow: scroll;
-    padding: 0.5em 1em;
+    padding: 0.5em;
 }
 
-.align-spinner{
-    display: flex;
+.align-spinner {
+    display: none; /* change to flex when needs to appear */
     justify-content: center;
     align-items: center;
 }

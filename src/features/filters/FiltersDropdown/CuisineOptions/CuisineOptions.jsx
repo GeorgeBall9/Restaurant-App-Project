@@ -39,20 +39,13 @@ const CuisineOptions = () => {
     const dispatch = useDispatch();
 
     const cuisineFilter = useSelector(selectCuisineFilter);
-    const sortByFilter = useSelector(selectSortFilter);
 
     const handleCuisineOptionClick = (name) => {
         if (name === cuisineFilter) {
             dispatch(resetCuisineFilter());
-            dispatch(resetRestaurantResults());
         } else {
             dispatch(updateCuisineFilter(name));
-            dispatch(filterRestaurantResultsByCuisine(name));
         }
-
-        dispatch(sortRestaurants(sortByFilter));
-        dispatch(resetDisplayedRestaurant());
-        dispatch(toggleFiltersDropdown());
     };
 
     return (

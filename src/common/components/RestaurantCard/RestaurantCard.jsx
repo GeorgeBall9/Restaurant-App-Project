@@ -9,14 +9,16 @@ import "./RestaurantCard.css";
 
 // FontAwesome icons
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock, faEllipsis, faRoute} from "@fortawesome/free-solid-svg-icons";
-import {faBookmark} from "@fortawesome/free-regular-svg-icons";
+import {faLocationArrow} from "@fortawesome/free-solid-svg-icons";
+
 import StarRating from "./StarRating/StarRating";
+import RouteButton from "./RouteButton/RouteButton";
+import BookmarkButton from "./BookmarkButton/BookmarkButton";
 
 // A card component for displaying restaurant information
-const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) => {
+const RestaurantCard = ({restaurant, view, style}) => {
 
-    const {name, rating, price, primaryCuisine, photoUrl} = restaurant;
+    const {name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
 
     const displayOpeningHours = openingHours.length > 13 ? "Multiple" : openingHours;
     
@@ -33,8 +35,8 @@ const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) =>
                 <StarRating rating={starRating}/>
 
                 <div className="hours-container">
-                    <FontAwesomeIcon icon={faClock} className="icon"/>
-                    {displayOpeningHours}
+                    <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
+                    {Math.round(distance * 10) / 10} Km
                 </div>
 
                 <div className="price-cuisine-container">
@@ -44,15 +46,9 @@ const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) =>
             </div>
 
             <div className="container-rhs">
-                <div>
-                    <div className="icons-container">
-                        <FontAwesomeIcon icon={faEllipsis} className="icon"/>
-                        <FontAwesomeIcon icon={faBookmark} className="icon"/>
-                    </div>
-
-                    {view === "map" && (
-                        <FontAwesomeIcon icon={faRoute} className="icon" onClick={handleClick}/>
-                    )}
+                <div className="icons-container">
+                    <BookmarkButton/>
+                    {view === "map" && <RouteButton/>}
                 </div>
 
                 <div className="image-container">

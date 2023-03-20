@@ -41,12 +41,8 @@ const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) =>
             </div>
 
             <div className="container-rhs">
-                <div>
-                    <div className="icons-container">
-                        <FontAwesomeIcon icon={faBookmark} className="icon"/>
-                        <FontAwesomeIcon icon={faEllipsis} className="icon"/>
-                    </div>
-
+                <div className="icons-container">
+                    <FontAwesomeIcon icon={faBookmark} className="icon"/>
                     {view === "map" && (
                         <FontAwesomeIcon icon={faRoute} className="icon" onClick={handleClick}/>
                     )}

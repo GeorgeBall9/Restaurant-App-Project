@@ -18,6 +18,9 @@ const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) =>
 
     const {name, rating, price, primaryCuisine, photoUrl} = restaurant;
 
+    const displayOpeningHours = openingHours.length > 13 ? "Multiple" : openingHours;
+    
+
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
 
@@ -31,7 +34,7 @@ const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) =>
 
                 <div className="hours-container">
                     <FontAwesomeIcon icon={faClock} className="icon"/>
-                    {openingHours}
+                    {displayOpeningHours}
                 </div>
 
                 <div className="price-cuisine-container">

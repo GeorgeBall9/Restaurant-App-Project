@@ -8,6 +8,7 @@ Contact: ryan.henzell-hill@outlook.com
 import "./Map.css";
 
 // dependencies
+import { use100vh } from 'react-div-100vh'
 import ReactMapGl from "react-map-gl";
 import mapboxgl from "mapbox-gl";
 
@@ -73,15 +74,18 @@ const Map = () => {
         map.flyTo({center: [longitude, latitude], zoom: 14});
     }, [userPosition]);
 
+    const height = use100vh();
+
     // component returned to MapPage route
     return (
         <ReactMapGl
             {...viewState}
-            style={{width: "100vw", height: "100vh"}}
+            style={{width: "100vw", height}}
             mapStyle="mapbox://styles/mapbox/streets-v12"
             onMove={handleMapMove}
             onLoad={handleMapLoad}
             mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+            onRender={(event) => event.target.resize()}
         >
             <LocationMarker
                 longitude={userPosition.longitude}

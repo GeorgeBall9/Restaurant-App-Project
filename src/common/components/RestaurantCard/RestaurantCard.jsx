@@ -9,9 +9,11 @@ import "./RestaurantCard.css";
 
 // FontAwesome icons
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClock, faRoute} from "@fortawesome/free-solid-svg-icons";
-import {faBookmark} from "@fortawesome/free-regular-svg-icons";
+import {faClock} from "@fortawesome/free-solid-svg-icons";
+
 import StarRating from "./StarRating/StarRating";
+import RouteButton from "./RouteButton/RouteButton";
+import BookmarkButton from "./BookmarkButton/BookmarkButton";
 
 // A card component for displaying restaurant information
 const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) => {
@@ -46,10 +48,8 @@ const RestaurantCard = ({restaurant, openingHours, view, style, handleClick}) =>
 
             <div className="container-rhs">
                 <div className="icons-container">
-                    <FontAwesomeIcon icon={faBookmark} className="icon"/>
-                    {view === "map" && (
-                        <FontAwesomeIcon icon={faRoute} className="icon" onClick={handleClick}/>
-                    )}
+                    <BookmarkButton/>
+                    {view === "map" && <RouteButton/>}
                 </div>
 
                 <div className="image-container">

@@ -47,6 +47,7 @@ const MapRestaurantCard = ({restaurant, index}) => {
             restaurant={restaurant}
             view="map"
             style={style}
+            ranking={index + 1}
         />
     );
 };

@@ -1,32 +1,28 @@
 import "./RestaurantMarker.css";
 import {Marker} from "react-map-gl";
-import React from "react";
 import {displayRestaurant} from "../../mapSlice";
 import {setActiveSlide} from "../../../slider/sliderSlice";
-import {useDispatch, useSelector} from "react-redux";
-import {selectRestaurants} from "../../../restaurants/restaurantsSlice";
+import {useDispatch} from "react-redux";
 
-const RestaurantMarker = ({id, name, longitude, latitude, photoUrl, selected, visible}) => {
+const RestaurantMarker = ({restaurant, index, selected, visible}) => {
+
+    const {id, name, longitude, latitude, photoUrl} = restaurant;
 
     const dispatch = useDispatch();
-
-    const restaurants = useSelector(selectRestaurants);
 
     const style = {
         visibility: visible ? "visible" : "hidden",
         zIndex: selected ? 10 : 0,
     };
 
-
     // handler function to display the restaurant associated with the marker that is clicked by the user
-    const handleClick = (event, id) => {
+    const handleClick = (id) => {
         if (!id) {
             throw new Error("No id provided");
         }
 
-        const restaurantToDisplay = restaurants.find(restaurant => restaurant.id === id);
-        dispatch(displayRestaurant(restaurantToDisplay));
-        dispatch(setActiveSlide(restaurants.indexOf(restaurantToDisplay)));
+        dispatch(displayRestaurant(restaurant));
+        dispatch(setActiveSlide(index));
     };
 
     return (
@@ -38,7 +34,7 @@ const RestaurantMarker = ({id, name, longitude, latitude, photoUrl, selected, vi
         >
             <div
                 className={`restaurant-marker-container ${selected ? "selected" : ""}`}
-                onClick={(event) => handleClick(event, id)}
+                onClick={() => handleClick(id)}
             >
                 <div className="marker">
                     <img src={photoUrl} alt={`${name} marker`}/>

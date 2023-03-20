@@ -96,10 +96,11 @@ const Map = () => {
             />
 
             {restaurants && restaurants
-                .map(restaurant => (
+                .map((restaurant, index) => (
                     <RestaurantMarker
                         key={restaurant.id}
-                        {...restaurant}
+                        restaurant={restaurant}
+                        index={index}
                         selected={!routeCoordinates && restaurant.id === displayedRestaurant?.id}
                         visible={!routeCoordinates || restaurant.id === displayedRestaurant?.id}
                     />

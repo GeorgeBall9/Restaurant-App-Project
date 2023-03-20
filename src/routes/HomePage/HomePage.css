@@ -17,7 +17,7 @@
 }
 
 .align-spinner {
-    display: flex;
+    display: none; /* change to flex when needs to appear */
     justify-content: center;
     align-items: center;
 }

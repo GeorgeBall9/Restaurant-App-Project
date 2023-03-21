@@ -24,26 +24,26 @@ const Navigation = ({view}) => {
     const handleFilterButtonClicked = () => dispatch(toggleFiltersDropdown());
 
     return (
-        <div className="navigation container">
-            <button className="button" onClick={handleNavigateButtonClick}>
-                <FontAwesomeIcon className="icon" icon={icon}/>
-            </button>
-
-            <div className="search-and-filters">
-                <SearchBox/>
-
-                <button className="button filter-button" onClick={handleFilterButtonClicked}>
-                    <FontAwesomeIcon className="icon" icon={faSliders}/>
+        <div className="navigation-container">
+            <div className="navigation">
+                <button className="button" onClick={handleNavigateButtonClick}>
+                    <FontAwesomeIcon className="icon" icon={icon}/>
                 </button>
 
-                {dropdownVisible && <FiltersDropdown/>}
+                <div className="search-and-filters">
+                    <SearchBox/>
+
+                    <button className="button filter-button" onClick={handleFilterButtonClicked}>
+                        <FontAwesomeIcon className="icon" icon={faSliders}/>
+                    </button>
+
+                    {dropdownVisible && <FiltersDropdown/>}
+                </div>
+
+                <button className="button">
+                    <FontAwesomeIcon className="icon" icon={faUser}/>
+                </button>
             </div>
-
-            <button className="button">
-                <FontAwesomeIcon className="icon" icon={faUser}/>
-            </button>
-
-
         </div>
     );
 };

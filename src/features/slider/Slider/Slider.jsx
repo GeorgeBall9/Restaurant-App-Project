@@ -2,8 +2,8 @@ import "./Slider.css";
 import RestaurantsList from "../../restaurants/RestaurantsList/RestaurantsList";
 import {useDispatch, useSelector} from "react-redux";
 import {changeSlide, selectActiveSlide, selectLastSlide} from "../sliderSlice";
-import {selectDisplayedRestaurant, selectRouteDetails} from "../../map/mapSlice";
-import {useState} from "react";
+import {resetRoute, selectDisplayedRestaurant, selectRouteDetails} from "../../map/mapSlice";
+import {useEffect, useState} from "react";
 import RestaurantCard from "../../../common/components/RestaurantCard/RestaurantCard";
 
 const Slider = () => {
@@ -18,16 +18,26 @@ const Slider = () => {
 
     const handleNextClick = () => dispatch(changeSlide("forward"));
 
-    const backVisibility = {visibility: activeSlide === 0 ? "hidden" : "visible"};
+    const handleShowAllClick = () => dispatch(resetRoute());
 
-    const forwardVisibility = {visibility: activeSlide === lastSlide ? "hidden" : "visible"}
+    const backVisibility = {visibility: routeCoordinates || activeSlide === 0 ? "hidden" : "visible"};
+
+    const showAllVisibility = {visibility: !routeCoordinates ? "hidden" : "visible"};
+
+    const forwardVisibility = {visibility: routeCoordinates || activeSlide === lastSlide ? "hidden" : "visible"};
+
+    useEffect(() => {
+        console.log(routeCoordinates !== null)
+        console.log(showAllVisibility)
+    }, [routeCoordinates]);
 
     return (
         <div className="slider">
-            {!routeCoordinates && <div className="buttons-container">
+            <div className="buttons-container">
                 <button style={backVisibility} onClick={handleBackClick}>Back</button>
+                <button style={showAllVisibility} onClick={handleShowAllClick}>Show All</button>
                 <button style={forwardVisibility} onClick={handleNextClick}>Next</button>
-            </div>}
+            </div>
 
             <div className="restaurant-cards-container">
                 <RestaurantsList view="map"/>

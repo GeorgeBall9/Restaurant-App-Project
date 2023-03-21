@@ -35,24 +35,9 @@ const MapPage = () => {
 
     useInitialiseSlider();
 
-    const dispatch = useDispatch();
-
-    const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
-
-    const navigate = useNavigate();
-
-    const handleBackButtonClick = () => navigate("/");
-
-    const handleShowAllClick = () => {
-        dispatch(resetRoute());
-    };
-
     return (
         <div className="map-page-container">
-            <div className="nav-and-back-button">
-                <Navigation handleButtonClick={handleBackButtonClick} view="map"/>
-                {routeCoordinates && <button onClick={handleShowAllClick}>Show All</button>}
-            </div>
+            <Navigation view="map"/>
 
             <Map/>
 

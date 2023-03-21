@@ -1,6 +1,7 @@
 .search-box {
     position: relative;
-    width: 100%;
+    width: 80%;
+    max-width: 300px;
 }
 
 .search-box .input-container {

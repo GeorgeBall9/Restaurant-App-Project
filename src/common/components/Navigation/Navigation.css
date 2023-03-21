@@ -1,8 +1,19 @@
-.navigation {
-    display: flex;
-    justify-content: space-between;
+.navigation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
     background-color: white;
+}
+
+.navigation {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0.75em 1em;
+    display: flex;
+    justify-content: space-between;
     gap: 0.5em;
     position: relative;
     z-index: 100;

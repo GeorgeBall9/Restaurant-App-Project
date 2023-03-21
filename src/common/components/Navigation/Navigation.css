@@ -1,17 +1,32 @@
 .navigation {
     display: flex;
-    align-items: center;
-    gap: 0.25em;
+    justify-content: space-between;
+    box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
+    background-color: white;
+    gap: 0.5em;
+    position: relative;
+    z-index: 100;
+}
+
+.navigation .search-and-filters {
+    display: flex;
+    justify-content: center;
     width: 100%;
 }
 
-.navigation .button {
-    border: 1px solid lightgrey;
-    background-color: white;
-    /*box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);*/
+.navigation > .button {
+    background-color: rgba(211, 211, 211, 0.3);
+    border: none;
     border-radius: 8px;
     cursor: pointer;
     color: #F49D1A;
     font-size: 1rem;
-    padding: 0.5em 0.75em;
+    padding: 0 0.5em;
+}
+
+.navigation .filter-button {
+    background: none;
+    border: none;
+    padding: 0 0.5em;
+    font-size: 1rem;
 }

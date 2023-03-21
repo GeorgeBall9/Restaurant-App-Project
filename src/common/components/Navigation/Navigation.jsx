@@ -1,6 +1,13 @@
 import "./Navigation.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faLocationDot, faMapLocationDot, faSliders, faUser} from "@fortawesome/free-solid-svg-icons";
+import {
+    faArrowLeft,
+    faLocationDot,
+    faMapLocationDot,
+    faSliders,
+    faUser,
+    faXmark
+} from "@fortawesome/free-solid-svg-icons";
 import SearchBox from "./SearchBox/SearchBox";
 import {useNavigate} from "react-router-dom";
 import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
@@ -37,8 +44,6 @@ const Navigation = ({view}) => {
                         <button className="button filter-button" onClick={handleFilterButtonClicked}>
                             <FontAwesomeIcon className="icon" icon={faSliders}/>
                         </button>
-
-                        {dropdownVisible && <FiltersDropdown/>}
                     </div>
 
                     <button className="button">
@@ -51,7 +56,16 @@ const Navigation = ({view}) => {
                         <FontAwesomeIcon className="icon" icon={faLocationDot}/>
                         Newcastle Upon Tyne
                     </button>
+
+                    <div className="sort-filter-selected">
+                        <button className="close-button">
+                            <FontAwesomeIcon className="icon" icon={faXmark}/>
+                        </button>
+                        Cuisine
+                    </div>
                 </div>
+
+                {dropdownVisible && <FiltersDropdown/>}
             </div>
         </div>
     );

@@ -34,13 +34,17 @@ const SearchBar = () => {
 
             <div className="search-bar">
                 <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
-                <input
-                    type="text"
-                    className="search-input"
-                    placeholder="Search"
-                    onChange={handleInputChange}
-                    value={searchQuery + ""}
-                />
+
+                <div className="input-container">
+                    <input
+                        type="text"
+                        className="search-input"
+                        placeholder="Search"
+                        onChange={handleInputChange}
+                        value={searchQuery + ""}
+                    />
+                </div>
+
                 <button className="filter-button" onClick={handleFilterButtonClicked}>
                     <FontAwesomeIcon className="icon" icon={faSliders}/>
                 </button>

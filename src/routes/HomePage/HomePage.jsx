@@ -8,7 +8,9 @@ const HomePage = () => {
 
     return (
         <div className="home container">
-            <Navigation view="home" />
+            <div className="navigation-container">
+                <Navigation view="home" />
+            </div>
 
             <div className="align-spinner">
                 <Spinner />

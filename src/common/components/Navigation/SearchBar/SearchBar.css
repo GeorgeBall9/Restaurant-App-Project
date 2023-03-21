@@ -7,20 +7,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.3em 0.75em;
+    /*padding: 0.3em 0.75em;*/
     background: white;
     border-radius: 8px;
     border: 1px solid lightgrey;
-    box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
-    margin-bottom: 0.15em;
-}
-
-.search-bar > .icon:first-child {
-    margin-right: 0.75em;
+    /*box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);*/
 }
 
 .search-bar .filter-button {
-    margin-left: 0.75em;
     border: none;
     cursor: pointer;
     background-color: white;
@@ -28,6 +22,13 @@
 
 .search-bar .icon {
     color: #F49D1A;
+    font-size: 1rem;
+    padding: 0.5em 0.75em;
+}
+
+.search-bar .input-container {
+    padding: 0.35em 0;
+    width: 100%;
 }
 
 input::placeholder {
@@ -47,5 +48,6 @@ input:focus::placeholder {
     border-radius: 8px;
     background-color: #e2e2e2;
     outline: none;
+    font-size: 0.9rem;
 }
 

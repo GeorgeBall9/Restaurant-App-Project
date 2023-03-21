@@ -16,7 +16,7 @@ const Navigation = ({view}) => {
     };
 
     return (
-        <div className="navigation-container">
+        <div className="navigation">
             <button className="button" onClick={handleButtonClick}>
                 <FontAwesomeIcon className="icon" icon={icon}/>
             </button>

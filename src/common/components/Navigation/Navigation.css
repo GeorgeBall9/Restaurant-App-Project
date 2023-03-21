@@ -1,16 +1,16 @@
-.navigation-container {
+.navigation {
     display: flex;
     gap: 0.25em;
-    margin-bottom: 0.5em;
+    width: 100%;
 }
 
-.navigation-container .button {
-    margin-bottom: 0.15em;
+.navigation .button {
     border: 1px solid lightgrey;
-    padding: 0 0.75em;
     background-color: white;
-    box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
+    /*box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);*/
     border-radius: 8px;
     cursor: pointer;
-    width: 10%;
+    color: #F49D1A;
+    font-size: 1rem;
+    padding: 0.5em 0.75em;
 }

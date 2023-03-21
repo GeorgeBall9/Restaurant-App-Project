@@ -2,15 +2,3 @@
     position: relative;
     overflow: hidden;
 }
-
-.map-page-container .nav-and-back-button > button {
-    align-self: center;
-    margin-top: 0.5em;
-    padding: 0.25em 0.5em;
-    color: #C23B22;
-    background-color: white;
-    border-radius: 8px;
-    border: none;
-    font-weight: 500;
-    box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
-}

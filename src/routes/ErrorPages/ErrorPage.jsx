@@ -1,3 +1,10 @@
+/*
+Description: ErrorPage component
+Author: George Ball
+Contact: georgeball14@hotmail.com
+*/
+
+
 import React from 'react';
 import './ErrorPage.css';
 import { Link, useRouteError } from 'react-router-dom';

@@ -1,7 +1,7 @@
 import "./Navigation.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faMapLocationDot} from "@fortawesome/free-solid-svg-icons";
-import SearchBar from "./SearchBar/SearchBar";
+import SearchBox from "./SearchBox/SearchBox";
 import {useNavigate} from "react-router-dom";
 
 const Navigation = ({view}) => {
@@ -21,7 +21,7 @@ const Navigation = ({view}) => {
                 <FontAwesomeIcon className="icon" icon={icon}/>
             </button>
 
-            <SearchBar/>
+            <SearchBox/>
         </div>
     );
 };

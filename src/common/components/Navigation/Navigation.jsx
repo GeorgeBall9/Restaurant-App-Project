@@ -62,9 +62,9 @@ const Navigation = ({view}) => {
                 <div className="lower">
                     <button className="location-button">
                         <FontAwesomeIcon className="icon" icon={faLocationDot}/>
-                        Newcastle Upon Tyne
+                        <span>Newcastle Upon Tyne</span>
                     </button>
-                    
+
                     {appliedSortFilter && <AppliedFilterButton type={"sortBy"} filter={appliedSortFilter}/>}
 
                     {appliedCuisineFilter && <AppliedFilterButton type={"cuisine"} filter={appliedCuisineFilter}/>}

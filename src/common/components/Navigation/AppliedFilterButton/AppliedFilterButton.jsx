@@ -3,7 +3,11 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {removedAppliedFilter, selectCuisineFilter, selectSortFilter} from "../../../../features/filters/filtersSlice";
-import {filterRestaurantResultsByCuisine, sortRestaurants} from "../../../../features/restaurants/restaurantsSlice";
+import {
+    filterRestaurantResultsByCuisine,
+    resetRestaurantResults,
+    sortRestaurants
+} from "../../../../features/restaurants/restaurantsSlice";
 
 const AppliedFilterButton = ({type, filter}) => {
 
@@ -17,7 +21,7 @@ const AppliedFilterButton = ({type, filter}) => {
         if (type === "sortBy") {
             dispatch(filterRestaurantResultsByCuisine(cuisineFilter));
         } else {
-            dispatch(filterRestaurantResultsByCuisine("Any"));
+            dispatch(resetRestaurantResults());
             dispatch(sortRestaurants(sortFilter));
         }
     };

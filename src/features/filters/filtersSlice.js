@@ -48,6 +48,12 @@ export const filtersSlice = createSlice({
                 state.appliedCuisineFilter = null;
                 state.cuisine = "Any";
             }
+        },
+        resetFilters: state => {
+            state.sortBy = null;
+            state.appliedSortByFilter = null;
+            state.cuisine = "Any";
+            state.appliedCuisineFilter = null;
         }
     }
 });
@@ -61,7 +67,8 @@ export const {
     updateSearchQuery,
     resetSearchQuery,
     applyFilters,
-    removedAppliedFilter
+    removedAppliedFilter,
+    resetFilters
 } = filtersSlice.actions;
 export const selectSortFilter = state => state.filters.sortBy;
 export const selectCuisineFilter = state => state.filters.cuisine;

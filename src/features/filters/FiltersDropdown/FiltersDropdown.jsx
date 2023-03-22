@@ -4,9 +4,7 @@ import SortByOptions from "./SortByOptions/SortByOptions";
 import CuisineOptions from "./CuisineOptions/CuisineOptions";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    applyFilters,
-    resetCuisineFilter,
-    resetSortFilter,
+    applyFilters, resetFilters,
     selectCuisineFilter,
     selectSortFilter,
     toggleFiltersDropdown
@@ -32,8 +30,7 @@ const FiltersDropdown = () => {
     };
 
     const handleResetClick = () => {
-        dispatch(resetSortFilter());
-        dispatch(resetCuisineFilter());
+        dispatch(resetFilters());
         dispatch(resetRestaurantResults());
         dispatch(toggleFiltersDropdown());
     };

@@ -12,7 +12,13 @@ import SearchBox from "./SearchBox/SearchBox";
 import {useNavigate} from "react-router-dom";
 import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
 import {useDispatch, useSelector} from "react-redux";
-import {selectDropdownFilterVisible, toggleFiltersDropdown} from "../../../features/filters/filtersSlice";
+import {
+    selectAppliedCuisineFilter,
+    selectAppliedSortFilter,
+    selectDropdownFilterVisible,
+    toggleFiltersDropdown
+} from "../../../features/filters/filtersSlice";
+import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
 
 const Navigation = ({view}) => {
 
@@ -20,6 +26,8 @@ const Navigation = ({view}) => {
     const navigate = useNavigate();
 
     const dropdownVisible = useSelector(selectDropdownFilterVisible);
+    const appliedSortFilter = useSelector(selectAppliedSortFilter);
+    const appliedCuisineFilter = useSelector(selectAppliedCuisineFilter);
 
     const icon = view === "home" ? faMapLocationDot : faArrowLeft;
 
@@ -57,12 +65,9 @@ const Navigation = ({view}) => {
                         Newcastle Upon Tyne
                     </button>
 
-                    <div className="sort-filter-selected">
-                        <button className="close-button">
-                            <FontAwesomeIcon className="icon" icon={faXmark}/>
-                        </button>
-                        Cuisine
-                    </div>
+                    {appliedSortFilter && <AppliedFilterButton type={"sortBy"} filter={appliedSortFilter}/>}
+
+                    {appliedCuisineFilter && <AppliedFilterButton type={"cuisine"} filter={appliedCuisineFilter}/>}
                 </div>
 
                 {dropdownVisible && <FiltersDropdown/>}

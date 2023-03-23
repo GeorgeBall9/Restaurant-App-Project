@@ -9,6 +9,7 @@ import {
 import './style/index.css';
 import HomePage from "./routes/HomePage/HomePage";
 import MapPage from "./routes/MapPage/MapPage";
+import ErrorPage from './routes/ErrorPages/ErrorPage';
 
 import store from './app/store'
 import { Provider } from 'react-redux'
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <HomePage/>,
+        errorElement: <ErrorPage />
     },
     {
         path: "/map",

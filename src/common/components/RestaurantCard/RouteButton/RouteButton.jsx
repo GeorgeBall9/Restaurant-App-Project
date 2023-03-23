@@ -1,7 +1,8 @@
 import "./RouteButton.css";
 import {faRoute} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {fetchRoute, selectDisplayedRestaurant, selectUserPosition} from "../../../../features/map/mapSlice";
+import {fetchRoute, selectDisplayedRestaurant} from "../../../../features/map/mapSlice";
+import {selectUserPosition} from "../../../../features/location/locationSlice";
 import {useDispatch, useSelector} from "react-redux";
 
 const RouteButton = () => {

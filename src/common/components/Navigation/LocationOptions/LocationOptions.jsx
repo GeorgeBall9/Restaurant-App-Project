@@ -1,8 +1,7 @@
 import "./LocationOptions.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faLocationArrow, faLocationCrosshairs} from "@fortawesome/free-solid-svg-icons";
-import {updateUserPosition} from "../../../map/mapSlice";
-import {toggleFiltersDropdown} from "../../filtersSlice";
+import {faLocationArrow, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
+import {toggleLocationOptions, updateUserPosition} from "../../../../features/location/locationSlice";
 import {useDispatch} from "react-redux";
 import {useState} from "react";
 
@@ -26,7 +25,7 @@ const LocationOptions = () => {
             console.log("location not available")
         }
 
-        dispatch(toggleFiltersDropdown());
+        dispatch(toggleLocationOptions());
     };
 
     const [postcode, setPostcode] = useState("");
@@ -50,18 +49,13 @@ const LocationOptions = () => {
             })
             .catch(error => console.error(error));
 
-        dispatch(toggleFiltersDropdown());
+        dispatch(toggleLocationOptions());
     };
 
     return (
-        <div className="location-options-container">
-            <button className="use-geolocation-button" onClick={handleUseLocationClick}>
-                <FontAwesomeIcon icon={faLocationCrosshairs} className="icon"/>
-                Use location
-            </button>
-
+        <div className="location-options">
             <label className="postcode-input-container">
-                <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
+                <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
                 <input
                     type="text"
                     placeholder="Enter postcode"
@@ -70,6 +64,11 @@ const LocationOptions = () => {
                     onKeyDown={handlePostcodeSubmit}
                 />
             </label>
+
+            <button className="use-geolocation-button" onClick={handleUseLocationClick}>
+                <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
+                Current location
+            </button>
         </div>
     );
 };

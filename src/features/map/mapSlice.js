@@ -9,11 +9,6 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 // initial state configuration
 const initialState = {
-    // user position will be updated when user changes location
-    userPosition: {
-        latitude: 54.972,
-        longitude: -1.605
-    },
     restaurantDisplayed: null,
     popupDisplayed: false,
     route: {
@@ -67,11 +62,6 @@ export const mapSlice = createSlice({
             state.route.coordinates = null;
             state.route.status = "idle";
             state.route.error = null;
-        },
-        updateUserPosition: (state, action) => {
-            const {longitude, latitude} = action.payload;
-            state.userPosition.longitude = longitude;
-            state.userPosition.latitude = latitude;
         }
     },
     extraReducers: builder => {
@@ -97,8 +87,7 @@ export const mapSlice = createSlice({
     }
 });
 
-export const {displayRestaurant, resetDisplayedRestaurant, resetRoute, updateUserPosition} = mapSlice.actions;
-export const selectUserPosition = state => state.map.userPosition;
+export const {displayRestaurant, resetDisplayedRestaurant, resetRoute} = mapSlice.actions;
 export const selectDisplayedRestaurant = state => state.map.restaurantDisplayed;
 export const selectRouteDetails = state => state.map.route;
 export default mapSlice.reducer

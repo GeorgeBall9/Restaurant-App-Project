@@ -1,16 +1,78 @@
 .navigation-container {
-    display: flex;
-    gap: 0.25em;
-    margin-bottom: 0.5em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: var(--box-shadow);
+    background-color: white;
 }
 
-.navigation-container .button {
-    margin-bottom: 0.15em;
-    border: 1px solid lightgrey;
-    padding: 0 0.75em;
-    background-color: white;
-    box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
-    border-radius: 8px;
+.navigation {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+    max-width: var(--max-width-content);
+    padding: var(--padding-content);
+    margin: var(--margin-align-center);
+}
+
+.navigation .upper {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 100;
+}
+
+.navigation .upper .search-and-filters {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.navigation .upper > .button {
+    background-color: var(--background-theme);
+    border: none;
+    border-radius: var(--border-radius);
     cursor: pointer;
-    width: 10%;
+    font-size: 1rem;
+    padding: 0 0.5em;
+}
+
+.navigation .upper .filter-button {
+    background: none;
+    border: none;
+    padding: 0 0.5em;
+    font-size: 1rem;
+}
+
+.navigation .lower {
+    display: flex;
+    gap: 0.75em;
+}
+
+.navigation .lower .location-button {
+    border-radius: 8px;
+    border: solid 1px lightgrey;
+    background-color: white;
+    padding: 0.5em 0.75em;
+    font-size: 0.75rem;
+    color: grey;
+    display: flex;
+    align-items: center;
+}
+
+.navigation .lower .location-button span {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.navigation .lower .location-button .icon {
+    margin-right: 0.5em;
 }

@@ -1,23 +1,14 @@
-import "./SearchBar.css";
+import "./SearchBox.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMagnifyingGlass, faSliders} from "@fortawesome/free-solid-svg-icons";
-import FiltersDropdown from "../../../../features/filters/FiltersDropdown/FiltersDropdown";
+import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import SearchFeedback from "./SearchFeedback/SearchFeedback";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    selectDropdownFilterVisible,
-    selectSearchQuery,
-    toggleFiltersDropdown,
-    updateSearchQuery
-} from "../../../../features/filters/filtersSlice";
+import {selectSearchQuery, updateSearchQuery} from "../../../../features/filters/filtersSlice";
 import {filterResultsBySearchQuery, selectHasMatches} from "../../../../features/restaurants/restaurantsSlice";
 
-const SearchBar = () => {
+const SearchBox = () => {
 
     const dispatch = useDispatch();
-    const dropdownVisible = useSelector(selectDropdownFilterVisible);
-
-    const handleFilterButtonClicked = () => dispatch(toggleFiltersDropdown());
 
     const hasMatches = useSelector(selectHasMatches);
 
@@ -28,11 +19,9 @@ const SearchBar = () => {
         dispatch(filterResultsBySearchQuery(target.value));
     };
 
-
     return (
-        <div className="search-and-filters">
-
-            <div className="search-bar">
+        <div className="search-box">
+            <div className="input-container">
                 <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
                 <input
                     type="text"
@@ -41,16 +30,11 @@ const SearchBar = () => {
                     onChange={handleInputChange}
                     value={searchQuery + ""}
                 />
-                <button className="filter-button" onClick={handleFilterButtonClicked}>
-                    <FontAwesomeIcon className="icon" icon={faSliders}/>
-                </button>
-
-                <SearchFeedback hasMatches={hasMatches} searchQuery={searchQuery}/>
             </div>
 
-            {dropdownVisible && <FiltersDropdown/>}
+            <SearchFeedback hasMatches={hasMatches} searchQuery={searchQuery}/>
         </div>
     );
 };
 
-export default SearchBar;
+export default SearchBox;

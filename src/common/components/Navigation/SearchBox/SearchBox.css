@@ -1,0 +1,38 @@
+.search-box {
+    position: relative;
+    width: 80%;
+    max-width: 300px;
+}
+
+.search-box .input-container {
+    padding: 0.35em 0.75em;
+    border-radius: var(--border-radius);
+    background-color:  #e8e8e8;
+    display: flex;
+    align-items: center;
+}
+
+.search-box .input-container .icon {
+    color: grey;
+    font-size: 1rem;
+    margin-right: 0.5em;
+}
+
+.search-box .input-container input::placeholder {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: grey;
+}
+
+.search-box .input-container input:focus::placeholder {
+    visibility: hidden;
+}
+
+.search-box .input-container .search-input {
+    border: none;
+    outline: none;
+    font-size: 0.9rem;
+    background: none;
+    color: grey;
+}
+

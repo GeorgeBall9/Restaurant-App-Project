@@ -1,0 +1,22 @@
+.filter-selected {
+    color: white;
+    font-weight: 500;
+    font-size: 0.75rem;
+    background-color: var(--primary-theme);
+    padding: 0.4em 0.75em;
+    border-radius: 8px;
+    border: solid 1px var(--primary-theme);
+    display: flex;
+    align-items: center;
+}
+
+.filter-selected .close-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-right: 0.5em;
+}
+
+.filter-selected .icon {
+    color: white;
+}

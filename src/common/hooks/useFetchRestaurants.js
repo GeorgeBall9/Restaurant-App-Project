@@ -4,7 +4,8 @@ import {
     selectLastPositionQueried,
     selectRestaurantsFetchStatus
 } from "../../features/restaurants/restaurantsSlice";
-import {resetDisplayedRestaurant, selectUserPosition} from "../../features/map/mapSlice";
+import {resetDisplayedRestaurant} from "../../features/map/mapSlice";
+import {selectUserPosition} from "../../features/location/locationSlice";
 import {useEffect} from "react";
 
 const useFetchRestaurants = () => {

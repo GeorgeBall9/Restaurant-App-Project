@@ -18,10 +18,12 @@ import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 
 // map reducer functions
-import {selectUserPosition, selectDisplayedRestaurant, selectRouteDetails} from "../mapSlice";
+import {selectDisplayedRestaurant, selectRouteDetails} from "../mapSlice";
 
 // restaurants reducer functions
 import {selectRestaurants} from "../../restaurants/restaurantsSlice";
+
+import {selectUserPosition} from "../../location/locationSlice";
 
 // imported components
 import Route from "./Route/Route";

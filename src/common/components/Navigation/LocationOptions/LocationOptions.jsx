@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationArrow, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import {toggleLocationOptions, updateUserPosition} from "../../../../features/location/locationSlice";
 import {useDispatch} from "react-redux";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 const LocationOptions = () => {
 
@@ -17,6 +17,7 @@ const LocationOptions = () => {
 
         const error = (error) => {
             console.error(error);
+            setShowErrorPopup(true);
         }
 
         if ("geolocation" in navigator) {
@@ -29,6 +30,7 @@ const LocationOptions = () => {
     };
 
     const [postcode, setPostcode] = useState("");
+    const [showErrorPopup, setShowErrorPopup] = useState(false);
 
     const handlePostCodeChange = ({target}) => setPostcode(target.value.toUpperCase());
 
@@ -52,8 +54,26 @@ const LocationOptions = () => {
         dispatch(toggleLocationOptions());
     };
 
+    const closeErrorPopup = () => {
+        setShowErrorPopup(false);
+    };
+
+    useEffect(() => {
+        return () => {
+            setShowErrorPopup(false);
+        };
+    }, []);
+
     return (
         <div className="location-options">
+            {showErrorPopup && (
+                <div className="location-error-popup">
+                    <p className="location-error-title">Unable to retrieve your location.</p>
+                    <p className="location-error-message">Please try again or enter a postcode manually.</p>
+                    <button onClick={closeErrorPopup}>Close</button>
+                </div>
+            )}
+            
             <label className="postcode-input-container">
                 <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
                 <input

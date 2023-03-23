@@ -46,3 +46,51 @@
     color: var(--secondary-theme);
     font-weight: 400;
 }
+
+/* Location error popup */
+.location-error-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: var(--padding-content);
+    border: solid 2px var(--secondary-theme);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-width: 300px;
+    text-align: center;
+  }
+  
+  .location-error-popup p {
+    margin-bottom: 15px;
+    
+  }
+
+  .location-error-popup .location-error-title {
+    color: var(--secondary-theme);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .location-error-popup .location-error-message {
+    color: grey;
+    font-size: 0.75rem;
+  }
+  
+  .location-error-popup button {
+    background-color: var(--secondary-theme);
+    color: #fff;
+    border: none;
+    padding: var(--padding-content);
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s;
+  }
+
+  .location-error-popup button:hover {
+    background-color: var(--primary-theme);
+  }
+  

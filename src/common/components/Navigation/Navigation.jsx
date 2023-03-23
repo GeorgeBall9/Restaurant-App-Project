@@ -19,8 +19,8 @@ import {
     toggleFiltersDropdown
 } from "../../../features/filters/filtersSlice";
 import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
-import LocationButton from "./LocationButton/LocationButton";
-import LocationOptions from "./LocationOptions/LocationOptions";
+import LocationButton from "../../../features/location/LocationButton/LocationButton";
+import LocationOptions from "../../../features/location/LocationOptions/LocationOptions";
 import {selectLocationOptionsOpen} from "../../../features/location/locationSlice";
 
 const Navigation = ({view}) => {

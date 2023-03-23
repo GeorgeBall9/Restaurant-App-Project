@@ -1,5 +1,5 @@
 import "./FiltersDropdown.css";
-import LocationOptions from "./LocationOptions/LocationOptions";
+import LocationOptions from "../../../common/components/Navigation/LocationOptions/LocationOptions";
 import SortByOptions from "./SortByOptions/SortByOptions";
 import CuisineOptions from "./CuisineOptions/CuisineOptions";
 import {useDispatch, useSelector} from "react-redux";
@@ -37,12 +37,6 @@ const FiltersDropdown = () => {
 
     return (
         <div className="filters-dropdown">
-            <div className="location-filters">
-                <h3>Location</h3>
-
-                <LocationOptions/>
-            </div>
-
             <div className="sort-options-container">
                 <h3>Sort by</h3>
 

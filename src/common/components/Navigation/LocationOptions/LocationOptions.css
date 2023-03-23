@@ -1,0 +1,45 @@
+.location-options .use-geolocation-button {
+    border: none;
+    background-color: white;
+    padding: 10px 8px 0 8px;
+    font-size: 0.75rem;
+    text-align: left;
+    color: grey;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.location-options .use-geolocation-button .icon {
+    color: grey;
+}
+
+.location-options .icon {
+    margin-right: 0.4em;
+    font-size: 1rem;
+}
+
+.location-options .postcode-input-container {
+    border: solid 1px lightgrey;
+    border-left: none;
+    border-right: none;
+    padding: 10px 8px;
+    display: flex;
+    align-items: center;
+    color: var(--secondary-theme);
+}
+
+.location-options .postcode-input-container input {
+    border: none;
+    width: 100%;
+    font-size: 0.75rem;
+}
+
+.location-options .postcode-input-container input:focus {
+    outline: none;
+}
+
+.location-options .postcode-input-container input::placeholder {
+    font-size: 0.75rem;
+    color: var(--secondary-theme);
+}

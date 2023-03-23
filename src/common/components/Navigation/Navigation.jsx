@@ -19,6 +19,8 @@ import {
     toggleFiltersDropdown
 } from "../../../features/filters/filtersSlice";
 import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
+import LocationButton from "./LocationButton/LocationButton";
+import LocationOptions from "./LocationOptions/LocationOptions";
 
 const Navigation = ({view}) => {
 
@@ -60,10 +62,7 @@ const Navigation = ({view}) => {
                 </div>
 
                 <div className="lower">
-                    <button className="location-button">
-                        <FontAwesomeIcon className="icon" icon={faLocationDot}/>
-                        <span>Newcastle Upon Tyne</span>
-                    </button>
+                    <LocationButton/>
 
                     {appliedSortFilter && <AppliedFilterButton type={"sortBy"} filter={appliedSortFilter}/>}
 
@@ -71,6 +70,8 @@ const Navigation = ({view}) => {
                 </div>
 
                 {dropdownVisible && <FiltersDropdown/>}
+
+                <LocationOptions/>
             </div>
         </div>
     );

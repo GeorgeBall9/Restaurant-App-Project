@@ -5,11 +5,13 @@ import {changeSlide, selectActiveSlide, selectLastSlide} from "../sliderSlice";
 import {resetRoute, selectDisplayedRestaurant, selectRouteDetails} from "../../map/mapSlice";
 import {useEffect, useState} from "react";
 import RestaurantCard from "../../../common/components/RestaurantCard/RestaurantCard";
+import {selectRestaurants} from "../../restaurants/restaurantsSlice";
 
 const Slider = () => {
 
     const dispatch = useDispatch();
 
+    const restaurants = useSelector(selectRestaurants);
     const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
     const activeSlide = useSelector(selectActiveSlide);
     const lastSlide = useSelector(selectLastSlide);
@@ -20,16 +22,12 @@ const Slider = () => {
 
     const handleShowAllClick = () => dispatch(resetRoute());
 
-    const backVisibility = {visibility: routeCoordinates || activeSlide === 0 ? "hidden" : "visible"};
+    const backVisibility = {visibility: restaurants && (routeCoordinates || activeSlide === 0) ? "hidden" : "visible"};
 
-    const showAllVisibility = {visibility: !routeCoordinates ? "hidden" : "visible"};
+    const showAllVisibility = {visibility: restaurants && !routeCoordinates ? "hidden" : "visible"};
 
-    const forwardVisibility = {visibility: routeCoordinates || activeSlide === lastSlide ? "hidden" : "visible"};
-
-    useEffect(() => {
-        console.log(routeCoordinates !== null)
-        console.log(showAllVisibility)
-    }, [routeCoordinates]);
+    const forwardVisibility = {visibility: restaurants &&
+        (routeCoordinates || activeSlide === lastSlide) ? "hidden" : "visible"};
 
     return (
         <div className="slider">

@@ -4,19 +4,24 @@ import {faLocationArrow, faMagnifyingGlass} from "@fortawesome/free-solid-svg-ic
 import {toggleLocationOptions, updateUserPosition} from "../../../../features/location/locationSlice";
 import {useDispatch} from "react-redux";
 import {useState} from "react";
+import {hideSpinner, showSpinner} from "../../../../features/spinner/spinnerSlice";
 
 const LocationOptions = () => {
 
     const dispatch = useDispatch();
 
     const handleUseLocationClick = () => {
+        dispatch(showSpinner());
+
         const success = (position) => {
             const {longitude, latitude} = position.coords;
             dispatch(updateUserPosition({latitude, longitude}));
+            dispatch(hideSpinner());
         };
 
         const error = (error) => {
             console.error(error);
+            dispatch(hideSpinner());
         }
 
         if ("geolocation" in navigator) {

@@ -1,10 +1,9 @@
 import "./LocationOptions.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationArrow, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
-import {updateUserPosition} from "../../../../features/map/mapSlice";
+import {toggleLocationOptions, updateUserPosition} from "../../../../features/location/locationSlice";
 import {useDispatch} from "react-redux";
 import {useState} from "react";
-import {faCircleXmark} from "@fortawesome/free-regular-svg-icons";
 
 const LocationOptions = () => {
 
@@ -25,6 +24,8 @@ const LocationOptions = () => {
         } else {
             console.log("location not available")
         }
+
+        dispatch(toggleLocationOptions());
     };
 
     const [postcode, setPostcode] = useState("");
@@ -47,6 +48,8 @@ const LocationOptions = () => {
                 dispatch(updateUserPosition({longitude, latitude}));
             })
             .catch(error => console.error(error));
+
+        dispatch(toggleLocationOptions());
     };
 
     return (

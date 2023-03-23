@@ -12,10 +12,10 @@ export const locationSlice = createSlice({
     name: 'location',
     initialState,
     reducers: {
-        updateLocation: (state, action) => {
+        updateUserPosition: (state, action) => {
             const {longitude, latitude} = action.payload;
-            state.longitude = longitude;
-            state.latitude = latitude;
+            state.userPosition.longitude = longitude;
+            state.userPosition.latitude = latitude;
         },
         toggleLocationOptions: state => {
             state.locationOptionsOpen = !state.locationOptionsOpen;
@@ -24,7 +24,7 @@ export const locationSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const {updateLocation, toggleLocationOptions} = locationSlice.actions
+export const {updateUserPosition, toggleLocationOptions} = locationSlice.actions
 export const selectUserPosition = state => state.location.userPosition;
 export const selectLocationOptionsOpen = state => state.location.locationOptionsOpen;
 export default locationSlice.reducer

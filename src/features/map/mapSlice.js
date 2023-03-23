@@ -87,7 +87,7 @@ export const mapSlice = createSlice({
     }
 });
 
-export const {displayRestaurant, resetDisplayedRestaurant, resetRoute, updateUserPosition} = mapSlice.actions;
+export const {displayRestaurant, resetDisplayedRestaurant, resetRoute} = mapSlice.actions;
 export const selectDisplayedRestaurant = state => state.map.restaurantDisplayed;
 export const selectRouteDetails = state => state.map.route;
 export default mapSlice.reducer

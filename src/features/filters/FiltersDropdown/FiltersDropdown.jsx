@@ -1,5 +1,5 @@
 import "./FiltersDropdown.css";
-import LocationOptions from "../../../common/components/Navigation/LocationOptions/LocationOptions";
+import LocationOptions from "../../location/LocationOptions/LocationOptions";
 import SortByOptions from "./SortByOptions/SortByOptions";
 import CuisineOptions from "./CuisineOptions/CuisineOptions";
 import {useDispatch, useSelector} from "react-redux";

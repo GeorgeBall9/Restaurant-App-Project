@@ -1,6 +1,17 @@
+.spinner-overlay {
+    position: absolute;
+    background-color: rgba(128, 128, 128, 0.6);
+    z-index: 100000;
+    width: 100%;
+    height: 100%;
+}
+
 .spin-container {
-    margin-top: 7em;
-    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .spin {
@@ -10,7 +21,10 @@
     border-radius: 50%;
     border-left-color: transparent;
     border-right-color: transparent;
-    position: relative;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
     z-index: 10;
     animation: rotate 2s cubic-bezier(0.26, 1.36, 0.74, -0.29) infinite;
 }
@@ -26,17 +40,15 @@
 }
 
 #text {
+
     background-color: white;
     width: 125px;
     height: 125px;
     border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     color: var(--secondary-theme);
     font-weight: 600;
     font-size: 1rem;
-    position: absolute;
-    z-index: 0;
-    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

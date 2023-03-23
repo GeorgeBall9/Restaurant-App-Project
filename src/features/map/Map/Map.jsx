@@ -15,13 +15,13 @@ import mapboxgl from "mapbox-gl";
 import {useEffect, useState} from "react";
 
 // redux hooks
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 // map reducer functions
 import {selectDisplayedRestaurant, selectRouteDetails} from "../mapSlice";
 
 // restaurants reducer functions
-import {selectRestaurants} from "../../restaurants/restaurantsSlice";
+import {selectRestaurants, selectRestaurantsFetchStatus} from "../../restaurants/restaurantsSlice";
 
 import {selectUserPosition} from "../../location/locationSlice";
 
@@ -29,15 +29,20 @@ import {selectUserPosition} from "../../location/locationSlice";
 import Route from "./Route/Route";
 import RestaurantMarker from "./RestaurantMarker/RestaurantMarker";
 import LocationMarker from "./LocationMarker/LocationMarker";
+import {hideSpinner, selectSpinnerIsVisible, showSpinner} from "../../spinner/spinnerSlice";
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 const Map = () => {
 
+    const dispatch = useDispatch();
+
     // select all relevant information from map slice
     const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
+    const restaurantsFetchStatus = useSelector(selectRestaurantsFetchStatus);
+    const spinnerIsVisible = useSelector(selectSpinnerIsVisible);
 
     const {
         coordinates: routeCoordinates,
@@ -65,7 +70,13 @@ const Map = () => {
     const handleMapMove = (e) => setViewState(e.viewState);
 
     // handler function to set the map held in the component state to the map when it is loaded
-    const handleMapLoad = ({target}) => setMap(target);
+    const handleMapLoad = ({target}) => {
+        setMap(target);
+
+        if (restaurantsFetchStatus !== "pending") {
+            dispatch(hideSpinner());
+        }
+    };
 
     // fly to new marker if user updates their position
     useEffect(() => {
@@ -81,41 +92,51 @@ const Map = () => {
         setWindowHeight(window.innerHeight)
     }, [window.innerHeight]);
 
+    useEffect(() => {
+        if (restaurantsFetchStatus === "pending") {
+            dispatch(showSpinner());
+        } else if (map) {
+            dispatch(hideSpinner());
+        }
+    }, [restaurantsFetchStatus]);
+
     // component returned to MapPage route
     return (
-        <ReactMapGl
-            {...viewState}
-            style={{width: "100vw", height: windowHeight}}
-            mapStyle="mapbox://styles/mapbox/streets-v12"
-            onMove={handleMapMove}
-            onLoad={handleMapLoad}
-            mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-            onRender={({target}) => target.resize()}
-        >
-            <LocationMarker
-                longitude={userPosition.longitude}
-                latitude={userPosition.latitude}
-            />
-
-            {restaurants && restaurants
-                .map((restaurant, index) => (
-                    <RestaurantMarker
-                        key={restaurant.id}
-                        restaurant={restaurant}
-                        index={index}
-                        selected={!routeCoordinates && restaurant.id === displayedRestaurant?.id}
-                        visible={!routeCoordinates || restaurant.id === displayedRestaurant?.id}
-                    />
-                ))}
-
-            {routeCoordinates && (
-                <Route
-                    displayedRestaurant={displayedRestaurant}
-                    routeCoordinates={routeCoordinates}
-                    travelTime={travelTime}
+        <div className="map-container">
+            <ReactMapGl
+                {...viewState}
+                style={{width: "100vw", height: windowHeight}}
+                mapStyle="mapbox://styles/mapbox/streets-v12"
+                onMove={handleMapMove}
+                onLoad={handleMapLoad}
+                mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+                onRender={({target}) => target.resize()}
+            >
+                <LocationMarker
+                    longitude={userPosition.longitude}
+                    latitude={userPosition.latitude}
                 />
-            )}
-        </ReactMapGl>
+
+                {restaurants && restaurants
+                    .map((restaurant, index) => (
+                        <RestaurantMarker
+                            key={restaurant.id}
+                            restaurant={restaurant}
+                            index={index}
+                            selected={!routeCoordinates && restaurant.id === displayedRestaurant?.id}
+                            visible={!routeCoordinates || restaurant.id === displayedRestaurant?.id}
+                        />
+                    ))}
+
+                {routeCoordinates && (
+                    <Route
+                        displayedRestaurant={displayedRestaurant}
+                        routeCoordinates={routeCoordinates}
+                        travelTime={travelTime}
+                    />
+                )}
+            </ReactMapGl>
+        </div>
     );
 };
 

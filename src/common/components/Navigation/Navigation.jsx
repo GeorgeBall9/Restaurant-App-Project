@@ -21,6 +21,7 @@ import {
 import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
 import LocationButton from "./LocationButton/LocationButton";
 import LocationOptions from "./LocationOptions/LocationOptions";
+import {selectLocationOptionsOpen} from "../../../features/location/locationSlice";
 
 const Navigation = ({view}) => {
 
@@ -30,6 +31,7 @@ const Navigation = ({view}) => {
     const dropdownVisible = useSelector(selectDropdownFilterVisible);
     const appliedSortFilter = useSelector(selectAppliedSortFilter);
     const appliedCuisineFilter = useSelector(selectAppliedCuisineFilter);
+    const locationOptionsOpen = useSelector(selectLocationOptionsOpen);
 
     const icon = view === "home" ? faMapLocationDot : faArrowLeft;
 
@@ -71,7 +73,7 @@ const Navigation = ({view}) => {
 
                 {dropdownVisible && <FiltersDropdown/>}
 
-                <LocationOptions/>
+                {locationOptionsOpen && <LocationOptions/>}
             </div>
         </div>
     );

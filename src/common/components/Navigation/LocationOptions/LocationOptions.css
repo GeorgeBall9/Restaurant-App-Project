@@ -26,13 +26,15 @@
     padding: 10px 8px;
     display: flex;
     align-items: center;
-    color: var(--secondary-theme);
+    width: 100%;
 }
 
 .location-options .postcode-input-container input {
     border: none;
     width: 100%;
     font-size: 0.75rem;
+    color: var(--secondary-theme);
+    font-weight: 500;
 }
 
 .location-options .postcode-input-container input:focus {
@@ -42,4 +44,5 @@
 .location-options .postcode-input-container input::placeholder {
     font-size: 0.75rem;
     color: var(--secondary-theme);
+    font-weight: 400;
 }

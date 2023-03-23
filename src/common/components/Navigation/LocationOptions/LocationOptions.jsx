@@ -1,9 +1,10 @@
 import "./LocationOptions.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleChevronUp, faLocationArrow, faMagnifyingGlass, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faLocationArrow, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import {updateUserPosition} from "../../../../features/map/mapSlice";
 import {useDispatch} from "react-redux";
 import {useState} from "react";
+import {faCircleXmark} from "@fortawesome/free-regular-svg-icons";
 
 const LocationOptions = () => {
 

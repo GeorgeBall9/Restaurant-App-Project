@@ -103,6 +103,10 @@ const Map = () => {
         }
     }, [restaurantsFetchStatus]);
 
+    useEffect(() => {
+        dispatch(showSpinner());
+    }, []);
+
     // component returned to MapPage route
     return (
         <div className="map-container">

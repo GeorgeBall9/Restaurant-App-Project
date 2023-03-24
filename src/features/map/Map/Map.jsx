@@ -29,7 +29,7 @@ import {selectUserPosition} from "../../location/locationSlice";
 import Route from "./Route/Route";
 import RestaurantMarker from "./RestaurantMarker/RestaurantMarker";
 import LocationMarker from "./LocationMarker/LocationMarker";
-import {hideSpinner, selectSpinnerIsVisible, showSpinner} from "../../spinner/spinnerSlice";
+import {hideSpinner, showSpinner} from "../../spinner/spinnerSlice";
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
@@ -42,7 +42,6 @@ const Map = () => {
     const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
     const restaurantsFetchStatus = useSelector(selectRestaurantsFetchStatus);
-    const spinnerIsVisible = useSelector(selectSpinnerIsVisible);
 
     const {
         coordinates: routeCoordinates,
@@ -74,6 +73,7 @@ const Map = () => {
         setMap(target);
 
         if (restaurantsFetchStatus !== "pending") {
+            console.log("hiding spinner after map load")
             dispatch(hideSpinner());
         }
     };
@@ -93,9 +93,12 @@ const Map = () => {
     }, [window.innerHeight]);
 
     useEffect(() => {
+        console.log("running")
         if (restaurantsFetchStatus === "pending") {
+            console.log("showing spinner")
             dispatch(showSpinner());
         } else if (map) {
+            console.log("hiding spinner")
             dispatch(hideSpinner());
         }
     }, [restaurantsFetchStatus]);

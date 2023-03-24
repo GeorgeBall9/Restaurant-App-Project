@@ -76,22 +76,24 @@ const LocationOptions = () => {
     };
 
     return (
-        <div className="location-options">
-            <label className="postcode-input-container">
-                <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
-                <input
-                    type="text"
-                    placeholder="Enter postcode"
-                    value={postcode}
-                    onChange={handlePostCodeChange}
-                    onKeyDown={handlePostcodeSubmit}
-                />
-            </label>
+        <div className="location-options-container">
+            <div className="location-options">
+                <label className="postcode-input-container">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
+                    <input
+                        type="text"
+                        placeholder="Enter postcode"
+                        value={postcode}
+                        onChange={handlePostCodeChange}
+                        onKeyDown={handlePostcodeSubmit}
+                    />
+                </label>
 
-            <button className="use-geolocation-button" onClick={handleUseLocationClick}>
-                <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
-                Current location
-            </button>
+                <button className="use-geolocation-button" onClick={handleUseLocationClick}>
+                    <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
+                    Current location
+                </button>
+            </div>
         </div>
     );
 };

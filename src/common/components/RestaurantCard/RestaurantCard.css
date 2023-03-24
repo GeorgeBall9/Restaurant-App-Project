@@ -7,9 +7,9 @@ Contact: georgeball14@hotmail.com
 /* restaurant card container */
 .restaurant-card {
     display: flex;
-    gap: 0.5em;
+    gap: 0.65em;
     align-items: flex-start;
-    padding: 0.7em;
+    padding: 0.65em;
     border: 1px solid lightgrey;
     border-radius: 8px;
     box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);

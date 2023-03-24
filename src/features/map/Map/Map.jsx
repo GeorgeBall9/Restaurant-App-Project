@@ -43,6 +43,8 @@ const Map = () => {
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
     const restaurantsFetchStatus = useSelector(selectRestaurantsFetchStatus);
 
+    const [map, setMap] = useState(null);
+
     const {
         coordinates: routeCoordinates,
         travelTime,
@@ -52,10 +54,6 @@ const Map = () => {
 
     // select all relevant information from restaurants slice
     const restaurants = useSelector(selectRestaurants);
-
-    // component state
-    // to keep reference for map once it is loaded
-    const [map, setMap] = useState(null);
 
     // view state of map - will change as user moves the map
     const [viewState, setViewState] = useState({

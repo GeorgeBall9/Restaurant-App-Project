@@ -36,15 +36,14 @@ const LocationOptions = () => {
             dispatch(hideSpinner());
             setShowErrorPopup(true);
         }
-        error({message: "Simulated error"});
 
-        // if ("geolocation" in navigator) {
-        //     navigator.geolocation.getCurrentPosition(success, error);
-        // } else {
-        //     console.log("location not available")
-        // }
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+            console.log("location not available")
+        }
 
-        // dispatch(toggleLocationOptions());
+        dispatch(toggleLocationOptions());
     };
 
     const [postcode, setPostcode] = useState("");

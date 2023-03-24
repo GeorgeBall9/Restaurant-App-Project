@@ -7,7 +7,7 @@ Contact: georgeball14@hotmail.com
 // styles file
 import "./RestaurantCard.css";
 
-import { Link } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 // FontAwesome icons
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -25,10 +25,19 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
 
+    const navigate = useNavigate();
+
+    const handleClick = (event) => {
+        const containerRhs = event.currentTarget.querySelector('.container-rhs')
+        if(containerRhs.contains(event.target)) {
+            return
+        }
+        navigate(`/details/${restaurant.id}`)
+    };
+
     // Render the component
     return (
-        <Link to={`/details/${restaurant.id}`} className="restaurant-card-link">
-        <div className="restaurant-card" style={style}>
+        <div className="restaurant-card" style={style} onClick={handleClick}>
             <div className="details-container">
                 <h3>
                     {ranking && (
@@ -50,7 +59,6 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
                     <span className="cuisine">{primaryCuisine}</span>
                 </div>
             </div>
-
             <div className="container-rhs">
                 <div className="icons-container">
                     <BookmarkButton/>
@@ -62,7 +70,6 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
                 </div>
             </div>
         </div>
-        </Link>
     );
 };
 

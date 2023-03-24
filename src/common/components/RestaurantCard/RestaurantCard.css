@@ -21,11 +21,6 @@ Contact: georgeball14@hotmail.com
     transition-property: left;
     transition-duration: 0.5s;
 }
-
-.restaurant-card-link {
-    text-decoration: none;
-    color: inherit;
-  }
   
 /* details container */
 .restaurant-card .details-container {

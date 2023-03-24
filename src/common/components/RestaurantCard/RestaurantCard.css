@@ -115,7 +115,7 @@ Contact: georgeball14@hotmail.com
 /* container on rhs of card */
 .restaurant-card .container-rhs {
     display: flex;
-    gap: 0.5em;
+    gap: 0.65em;
     height: fit-content;
     width: 40%;
     justify-content: flex-end;

@@ -2,12 +2,13 @@
     border: none;
     background-color: white;
     padding: 10px 8px 0 8px;
-    font-size: 0.75rem;
+    font-size: var(--font-size-smaller);
     text-align: left;
     color: grey;
     display: flex;
     align-items: center;
     width: 100%;
+    font-weight: 500;
 }
 
 .location-options .use-geolocation-button .icon {
@@ -16,7 +17,7 @@
 
 .location-options .icon {
     margin-right: 0.4em;
-    font-size: 1rem;
+    font-size: var(--font-size-icon-small);
 }
 
 .location-options .postcode-input-container {
@@ -32,7 +33,7 @@
 .location-options .postcode-input-container input {
     border: none;
     width: 100%;
-    font-size: 0.75rem;
+    font-size: var(--font-size-smaller);
     color: var(--secondary-theme);
     font-weight: 500;
 }
@@ -42,7 +43,7 @@
 }
 
 .location-options .postcode-input-container input::placeholder {
-    font-size: 0.75rem;
+    font-size: var(--font-size-smaller);
     color: var(--secondary-theme);
     font-weight: 400;
 }

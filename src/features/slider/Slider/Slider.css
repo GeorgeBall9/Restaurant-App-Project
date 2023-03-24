@@ -20,6 +20,7 @@
     border-radius: 8px;
     padding: 0.5em 0.75em;
     font-weight: 500;
+    font-size: var(--font-size-sub-heading);
     background-color: white;
     color: #C23B22;
     box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
@@ -29,7 +30,7 @@
 .slider .restaurant-cards-container {
     position: relative;
     display: flex;
-    height: 145px;
+    height: 150px;
     margin-top: 0.5em;
 }
 

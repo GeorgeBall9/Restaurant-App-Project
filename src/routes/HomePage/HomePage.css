@@ -1,12 +1,6 @@
 .home .restaurant-cards-container {
-    margin-top: 6em;
+    margin-top: 6.5em;
     display: flex;
     flex-direction: column;
     gap: 1em;
-}
-
-.align-spinner {
-    display: none; /* change to flex when needs to appear */
-    justify-content: center;
-    align-items: center;
 }

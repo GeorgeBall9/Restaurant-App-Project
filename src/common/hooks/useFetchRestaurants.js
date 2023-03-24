@@ -7,6 +7,7 @@ import {
 import {resetDisplayedRestaurant} from "../../features/map/mapSlice";
 import {selectUserPosition} from "../../features/location/locationSlice";
 import {useEffect} from "react";
+import {hideSpinner} from "../../features/spinner/spinnerSlice";
 
 const useFetchRestaurants = () => {
     const dispatch = useDispatch();
@@ -17,7 +18,11 @@ const useFetchRestaurants = () => {
 
     useEffect(() => {
         if (restaurantsStatus !== "idle" || !userPosition
-            || positionsAreEqual(userPosition, lastPositionQueried)) return;
+            || positionsAreEqual(userPosition, lastPositionQueried)) {
+            console.log("hiding spinner after position change")
+            dispatch(hideSpinner());
+            return;
+        }
 
         dispatch(resetDisplayedRestaurant());
         dispatch(fetchRestaurants(userPosition));

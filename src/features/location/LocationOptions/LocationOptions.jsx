@@ -1,23 +1,39 @@
 import "./LocationOptions.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationArrow, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
-import {toggleLocationOptions, updateUserPosition} from "../../../../features/location/locationSlice";
-import {useDispatch} from "react-redux";
-import {useState, useEffect} from "react";
+import {
+    selectUsingCurrentLocation, setUsingCurrentLocation, setUsingCustomLocation,
+    toggleLocationOptions,
+    updateUserPosition,
+    useCurrentLocation, useCustomLocation
+} from "../locationSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {useState} from "react";
+import {hideSpinner, showSpinner} from "../../spinner/spinnerSlice";
 
 const LocationOptions = () => {
 
     const dispatch = useDispatch();
 
+    const usingCurrentLocation = useSelector(selectUsingCurrentLocation);
+
     const handleUseLocationClick = () => {
+        if (usingCurrentLocation) {
+            dispatch(toggleLocationOptions());
+            return;
+        }
+
+        dispatch(showSpinner());
+
         const success = (position) => {
             const {longitude, latitude} = position.coords;
             dispatch(updateUserPosition({latitude, longitude}));
+            dispatch(setUsingCurrentLocation());
         };
 
         const error = (error) => {
             console.error(error);
-            setShowErrorPopup(true);
+            dispatch(hideSpinner());
         }
 
         if ("geolocation" in navigator) {
@@ -30,12 +46,13 @@ const LocationOptions = () => {
     };
 
     const [postcode, setPostcode] = useState("");
-    const [showErrorPopup, setShowErrorPopup] = useState(false);
 
     const handlePostCodeChange = ({target}) => setPostcode(target.value.toUpperCase());
 
     const handlePostcodeSubmit = ({code}) => {
         if (code !== "Enter") return;
+
+        dispatch(showSpinner());
 
         fetch("https://api.postcodes.io/postcodes/" + postcode)
             .then(response => {
@@ -48,32 +65,18 @@ const LocationOptions = () => {
             .then(data => {
                 const {longitude, latitude} = data.result;
                 dispatch(updateUserPosition({longitude, latitude}));
+                dispatch(setUsingCustomLocation());
             })
-            .catch(error => console.error(error));
+            .catch(error => {
+                console.error(error);
+                dispatch(hideSpinner());
+            });
 
         dispatch(toggleLocationOptions());
     };
 
-    const closeErrorPopup = () => {
-        setShowErrorPopup(false);
-    };
-
-    useEffect(() => {
-        return () => {
-            setShowErrorPopup(false);
-        };
-    }, []);
-
     return (
         <div className="location-options">
-            {showErrorPopup && (
-                <div className="location-error-popup">
-                    <p className="location-error-title">Unable to retrieve your location.</p>
-                    <p className="location-error-message">Please try again or enter a postcode manually.</p>
-                    <button onClick={closeErrorPopup}>Close</button>
-                </div>
-            )}
-            
             <label className="postcode-input-container">
                 <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
                 <input
@@ -92,5 +95,3 @@ const LocationOptions = () => {
         </div>
     );
 };
-
-export default LocationOptions;

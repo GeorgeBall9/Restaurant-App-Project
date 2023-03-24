@@ -12,19 +12,26 @@ import MapPage from "./routes/MapPage/MapPage";
 import ErrorPage from './routes/ErrorPages/ErrorPage';
 
 import store from './app/store'
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
 
 import reportWebVitals from './reportWebVitals';
+import Root from "./routes/Root";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <HomePage/>,
-        errorElement: <ErrorPage />
-    },
-    {
-        path: "/map",
-        element: <MapPage/>,
+        element: <Root />,
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: "/",
+                element: <HomePage/>,
+            },
+            {
+                path: "/map",
+                element: <MapPage/>,
+            },
+        ],
     },
 ]);
 

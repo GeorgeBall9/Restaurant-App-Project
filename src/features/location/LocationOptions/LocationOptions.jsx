@@ -8,7 +8,7 @@ import {
     useCurrentLocation, useCustomLocation
 } from "../locationSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {hideSpinner, showSpinner} from "../../spinner/spinnerSlice";
 
 const LocationOptions = () => {
@@ -34,6 +34,7 @@ const LocationOptions = () => {
         const error = (error) => {
             console.error(error);
             dispatch(hideSpinner());
+            setShowErrorPopup(true);
         }
 
         if ("geolocation" in navigator) {
@@ -46,6 +47,7 @@ const LocationOptions = () => {
     };
 
     const [postcode, setPostcode] = useState("");
+    const [showErrorPopup, setShowErrorPopup] = useState(false);
 
     const handlePostCodeChange = ({target}) => setPostcode(target.value.toUpperCase());
 
@@ -75,9 +77,29 @@ const LocationOptions = () => {
         dispatch(toggleLocationOptions());
     };
 
+    const closeErrorPopup = () => {
+        setShowErrorPopup(false);
+    };
+    
+    useEffect(() => {
+        return () => {
+            setShowErrorPopup(false);
+        };
+    }, []);
+
     return (
         <div className="location-options-container">
             <div className="location-options">
+            {showErrorPopup && (
+                <>  
+                    <div className="error-grey-overlay"></div>
+                    <div className="location-error-popup">
+                        <p className="location-error-title">Unable to retrieve your location.</p>
+                        <p className="location-error-message">Please try again or enter a postcode manually.</p>
+                        <button onClick={closeErrorPopup}>Close</button>
+                    </div>
+                </>
+            )}
                 <label className="postcode-input-container">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
                     <input
@@ -97,5 +119,4 @@ const LocationOptions = () => {
         </div>
     );
 };
-
 export default LocationOptions;

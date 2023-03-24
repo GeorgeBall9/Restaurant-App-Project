@@ -7,6 +7,8 @@ Contact: georgeball14@hotmail.com
 // styles file
 import "./RestaurantCard.css";
 
+import { Link } from 'react-router-dom';
+
 // FontAwesome icons
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationArrow} from "@fortawesome/free-solid-svg-icons";
@@ -25,6 +27,7 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
 
     // Render the component
     return (
+        <Link to={`/details/${restaurant.id}`} className="restaurant-card-link">
         <div className="restaurant-card" style={style}>
             <div className="details-container">
                 <h3>
@@ -59,6 +62,7 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
                 </div>
             </div>
         </div>
+        </Link>
     );
 };
 

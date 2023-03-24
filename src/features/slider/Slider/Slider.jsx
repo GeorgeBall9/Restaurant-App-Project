@@ -22,11 +22,13 @@ const Slider = () => {
 
     const handleShowAllClick = () => dispatch(resetRoute());
 
-    const backVisibility = {visibility: !restaurants || routeCoordinates || activeSlide === 0 ? "hidden" : "visible"};
+    const backVisibility = {visibility: !restaurants || !restaurants.length || routeCoordinates ||
+        activeSlide === 0 ? "hidden" : "visible"};
 
-    const showAllVisibility = {visibility: !restaurants || !routeCoordinates ? "hidden" : "visible"};
+    const showAllVisibility = {visibility: !restaurants || !restaurants.length ||
+        !routeCoordinates ? "hidden" : "visible"};
 
-    const forwardVisibility = {visibility: !restaurants || routeCoordinates ||
+    const forwardVisibility = {visibility: !restaurants || !restaurants.length || routeCoordinates ||
         activeSlide === lastSlide ? "hidden" : "visible"};
 
     return (

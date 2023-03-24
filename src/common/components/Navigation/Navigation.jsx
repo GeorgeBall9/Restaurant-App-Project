@@ -70,8 +70,6 @@ const Navigation = ({view}) => {
 
                     {appliedCuisineFilter && <AppliedFilterButton type={"cuisine"} filter={appliedCuisineFilter}/>}
                 </div>
-
-                {dropdownVisible && <FiltersDropdown/>}
             </div>
 
             {locationOptionsOpen && <LocationOptions/>}

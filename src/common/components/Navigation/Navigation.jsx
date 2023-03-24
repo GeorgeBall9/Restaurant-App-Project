@@ -72,9 +72,9 @@ const Navigation = ({view}) => {
                 </div>
 
                 {dropdownVisible && <FiltersDropdown/>}
-
-                {locationOptionsOpen && <LocationOptions/>}
             </div>
+
+            {locationOptionsOpen && <LocationOptions/>}
         </div>
     );
 };

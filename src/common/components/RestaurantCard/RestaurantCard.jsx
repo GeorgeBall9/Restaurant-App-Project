@@ -37,8 +37,7 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
 
     // Render the component
     return (
-        /* Need to add Link to details page */
-        <div className="restaurant-card" style={style}>
+        <div className="restaurant-card" style={style} onClick={handleClick}>
             <div className="details-container">
                 <h3> 
                     {ranking && (

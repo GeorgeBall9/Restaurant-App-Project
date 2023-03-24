@@ -1,11 +1,8 @@
 .details-page-restaurant-details-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: auto auto auto;
-  gap: 1em;
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
   max-width: var(--max-width-content);
-  border: var(--border);
   border-radius: var(--border-radius);
   padding: 1rem;
   box-shadow: var(--box-shadow);
@@ -13,23 +10,18 @@
 }
 
 .back-button {
+  font-size: 1.5rem;
   text-decoration: none;
   color: var(--secondary-theme);
   border: none;
+  background-color: var(--background-theme);
 }
 
-.back-button-icon {
-  color: black;
-
-}
-
-/* Added grid positioning */
 .details-page-image-container {
-  grid-column: 1;
-  grid-row: 1;
+  flex-basis: 180px;
   width: 180px;
   height: 170px;
-  padding: 16px;
+  padding: 0.5rem;
   overflow: hidden;
 }
 
@@ -40,19 +32,34 @@
   border-radius: 4px;
 }
 
-.details-page h2 {
+.details-page-restaurant-details-container h2 {
+  font-weight: 600;
   color: var(--primary-theme);
+  padding-bottom: 0.5rem;
+}
+
+.details-page-restaurant-details-container p {
+  font-size: var(--font-size-smaller);
+  font-weight: 500;
+  padding-bottom: 0.5rem;
+}
+
+.details-page-restaurant-details-container a {
+  font-size: var(--font-size-smaller);
+  font-weight: 500;
+  text-decoration: none;
+  color: black;
+  padding-bottom: 0.5rem;
 }
 
 .details-page-main-info {
-  grid-column: 2;
-  grid-row: 1;
+  flex-basis: calc(100% - 180px);
   display: flex;
   flex-direction: column;
   font-size: var(--font-size-smaller);
   align-items: flex-start;
+  padding: 0.5rem;
 }
-
 
 .details-page-opening-times {
   display: flex;
@@ -70,40 +77,31 @@
   margin-top: 5px;
 }
 
-.show-more-button {
+.show-more-button,
+.hide-button {
   background-color: #f1f1f1;
   border: none;
-  padding: 5px 10px;
+  padding: 0.5px 0.5rem;
   font-size: 14px;
   cursor: pointer;
   border-radius: 4px;
-  margin-top: 5px;
+  margin-bottom: 0.5rem;
 }
 
 .show-more-button:hover {
   background-color: #e0e0e0;
 }
 
-.address {
-  grid-column: 1 / span 2;
-  grid-row: 2;
+.address,
+.reservation,
+.pictures,
+.description {
+  flex-basis: 100%;
   padding: 1rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid #B8AFAF;
+  border-bottom: 1px solid #b8afaf;
 }
 
-.reservation {
-  grid-column: 1 / span 2;
-  grid-row: 3;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #B8AFAF;
-}
-
-.pictures {
-  grid-column: 1 / span 2;
-  grid-row: 4;
-  padding: 1rem;
-  margin-bottom: 1rem;
+.description {
   border-bottom: none;
 }

@@ -39,7 +39,7 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
     return (
         <div className="restaurant-card" style={style} onClick={handleClick}>
             <div className="details-container">
-                <h3>
+                <h3> 
                     {ranking && (
                         <div className="ranking">{ranking}</div>
                     )}

@@ -7,9 +7,6 @@ import MapRestaurantCard from "../../slider/Slider/MapRestaurantCard/MapRestaura
 
 const RestaurantsList = ({view}) => {
 
-    useFetchRestaurants();
-    useFilterRestaurants();
-
     const restaurants = useSelector(selectRestaurants);
 
     return (

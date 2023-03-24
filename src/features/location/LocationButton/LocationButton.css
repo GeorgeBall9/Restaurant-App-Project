@@ -1,0 +1,25 @@
+.navigation .lower .location-button {
+    border-radius: 8px;
+    border: solid 1px lightgrey;
+    background-color: white;
+    padding: 0.5em 0.75em;
+    font-size: var(--font-size-smaller);
+    color: grey;
+    display: flex;
+    align-items: center;
+}
+
+.navigation .lower .location-button span {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.navigation .lower .location-button .icon {
+    margin-right: 0.5em;
+    font-size: var(--font-size-icon-small);
+}

@@ -15,7 +15,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     selectAppliedCuisineFilter,
     selectAppliedSortFilter,
-    selectDropdownFilterVisible,
+    selectDropdownFilterVisible, selectFiltersAreVisible, showFilters,
     toggleFiltersDropdown
 } from "../../../features/filters/filtersSlice";
 import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
@@ -28,7 +28,6 @@ const Navigation = ({view}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const dropdownVisible = useSelector(selectDropdownFilterVisible);
     const appliedSortFilter = useSelector(selectAppliedSortFilter);
     const appliedCuisineFilter = useSelector(selectAppliedCuisineFilter);
     const locationOptionsOpen = useSelector(selectLocationOptionsOpen);
@@ -40,7 +39,7 @@ const Navigation = ({view}) => {
         navigate("/" + route);
     };
 
-    const handleFilterButtonClicked = () => dispatch(toggleFiltersDropdown());
+    const handleFilterButtonClicked = () => dispatch(showFilters());
 
     return (
         <div className="navigation-container">

@@ -5,7 +5,7 @@ import {selectSpinnerIsVisible} from "../features/spinner/spinnerSlice";
 import useFetchRestaurants from "../common/hooks/useFetchRestaurants";
 import useFilterRestaurants from "../common/hooks/useFilterRestaurants";
 import FiltersDropdown from "../features/filters/FiltersDropdown/FiltersDropdown";
-import {selectDropdownFilterVisible} from "../features/filters/filtersSlice";
+import {selectFiltersAreVisible} from "../features/filters/filtersSlice";
 
 const Root = () => {
 
@@ -13,13 +13,12 @@ const Root = () => {
     useFilterRestaurants();
 
     const spinnerIsVisible = useSelector(selectSpinnerIsVisible);
-    const dropdownVisible = useSelector(selectDropdownFilterVisible);
+    const filtersVisible = useSelector(selectFiltersAreVisible);
 
     return (
         <>
             {spinnerIsVisible && <Spinner/>}
-            <FiltersDropdown/>
-            {dropdownVisible && <FiltersDropdown/>}
+            {filtersVisible && <FiltersDropdown/>}
             <Outlet/>
         </>
     );

@@ -4,7 +4,7 @@ import SortByOptions from "./SortByOptions/SortByOptions";
 import CuisineOptions from "./CuisineOptions/CuisineOptions";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    applyFilters, resetFilters,
+    applyFilters, hideFilters, resetFilters,
     selectCuisineFilter,
     selectSortFilter,
     toggleFiltersDropdown
@@ -29,6 +29,7 @@ const FiltersDropdown = () => {
         dispatch(filterRestaurantResultsByCuisine(cuisineFilter));
         dispatch(sortRestaurants(sortFilter));
         dispatch(applyFilters());
+        dispatch(hideFilters());
     };
 
     const handleResetClick = () => {
@@ -36,13 +37,14 @@ const FiltersDropdown = () => {
         dispatch(resetRestaurantResults());
     };
 
+    const handleBackClick = () => dispatch(hideFilters());
+
     const [filtersAppliedCount, setFiltersAppliedCount] = useState(0);
 
     useEffect(() => {
         let count = 0;
 
         if (sortFilter) count++;
-
         if (cuisineFilter !== "Any") count++;
 
         setFiltersAppliedCount(count);
@@ -53,7 +55,7 @@ const FiltersDropdown = () => {
         <div className="filters-dropdown-container">
             <div className="filters-dropdown">
                 <div className="action-buttons-container">
-                    <button onClick={handleResetClick}>
+                    <button onClick={handleBackClick}>
                         <FontAwesomeIcon icon={faArrowLeft} className="icon"/>
                         Back
                     </button>

@@ -4,12 +4,12 @@
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     left: 0;
     right: 0;
     z-index: 10000;
     padding: var(--padding-content);
-    background-color: lightgrey;
+    background-color: rgba(211, 211, 211, 0.75);
 }
 
 .filters-dropdown {

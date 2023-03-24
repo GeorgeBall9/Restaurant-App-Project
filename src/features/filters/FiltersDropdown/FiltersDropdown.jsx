@@ -4,7 +4,7 @@ import SortByOptions from "./SortByOptions/SortByOptions";
 import CuisineOptions from "./CuisineOptions/CuisineOptions";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    applyFilters, resetFilters,
+    applyFilters, hideFilters, resetFilters,
     selectCuisineFilter,
     selectSortFilter,
     toggleFiltersDropdown
@@ -14,6 +14,9 @@ import {
     resetRestaurantResults,
     sortRestaurants
 } from "../../restaurants/restaurantsSlice";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
+import {useEffect, useState} from "react";
 
 const FiltersDropdown = () => {
 
@@ -25,33 +28,62 @@ const FiltersDropdown = () => {
     const handleApplyClick = () => {
         dispatch(filterRestaurantResultsByCuisine(cuisineFilter));
         dispatch(sortRestaurants(sortFilter));
-        dispatch(toggleFiltersDropdown());
         dispatch(applyFilters());
+        dispatch(hideFilters());
     };
 
     const handleResetClick = () => {
         dispatch(resetFilters());
         dispatch(resetRestaurantResults());
-        dispatch(toggleFiltersDropdown());
     };
 
+    const handleBackClick = () => dispatch(hideFilters());
+
+    const [filtersAppliedCount, setFiltersAppliedCount] = useState(0);
+
+    useEffect(() => {
+        let count = 0;
+
+        if (sortFilter) count++;
+        if (cuisineFilter !== "Any") count++;
+
+        setFiltersAppliedCount(count);
+
+    }, [sortFilter, cuisineFilter]);
+
     return (
-        <div className="filters-dropdown">
-            <div className="sort-options-container">
-                <h3>Sort by</h3>
+        <div className="filters-dropdown-container">
+            <div className="filters-dropdown">
+                <div className="action-buttons-container">
+                    <button onClick={handleBackClick}>
+                        <FontAwesomeIcon icon={faArrowLeft} className="icon"/>
+                        Back
+                    </button>
 
-                <SortByOptions/>
-            </div>
+                    <button onClick={handleResetClick}>
+                        <FontAwesomeIcon icon={faBan} className="icon"/>
+                        Reset
+                    </button>
+                </div>
 
-            <div className="cuisine-filters">
-                <h3>Cuisine</h3>
+                <div className="sort-options-container">
+                    <h3>Sort by</h3>
 
-                <CuisineOptions/>
-            </div>
+                    <SortByOptions/>
+                </div>
 
-            <div className="action-buttons-container">
-                <button onClick={handleApplyClick}>Apply</button>
-                <button onClick={handleResetClick}>Reset</button>
+                <div className="cuisine-filters">
+                    <h3>Cuisine</h3>
+
+                    <CuisineOptions/>
+                </div>
+
+                <button className="apply-button" onClick={handleApplyClick}>
+                    Apply
+                    {filtersAppliedCount > 0 && (
+                        <span className="filters-applied-count">({filtersAppliedCount})</span>
+                    )}
+                </button>
             </div>
         </div>
     );

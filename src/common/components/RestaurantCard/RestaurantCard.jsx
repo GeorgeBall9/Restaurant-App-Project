@@ -27,7 +27,7 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
 
     // Render the component
     return (
-        <Link to={`/details/${restaurant.id}`} className="restaurant-card-link">
+        /* Need to add Link to details page */
         <div className="restaurant-card" style={style}>
             <div className="details-container">
                 <h3>
@@ -62,7 +62,6 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
                 </div>
             </div>
         </div>
-        </Link>
     );
 };
 

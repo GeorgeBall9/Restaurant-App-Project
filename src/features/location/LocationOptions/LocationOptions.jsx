@@ -5,7 +5,6 @@ import {
     selectUsingCurrentLocation, setUsingCurrentLocation, setUsingCustomLocation,
     toggleLocationOptions,
     updateUserPosition,
-    useCurrentLocation, useCustomLocation
 } from "../locationSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
@@ -80,6 +79,7 @@ const LocationOptions = () => {
             <div className="location-options">
                 <label className="postcode-input-container">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
+
                     <input
                         type="text"
                         placeholder="Enter postcode"

@@ -2,10 +2,9 @@ import "./Slider.css";
 import RestaurantsList from "../../restaurants/RestaurantsList/RestaurantsList";
 import {useDispatch, useSelector} from "react-redux";
 import {changeSlide, selectActiveSlide, selectLastSlide} from "../sliderSlice";
-import {resetRoute, selectDisplayedRestaurant, selectRouteDetails} from "../../map/mapSlice";
-import {useEffect, useState} from "react";
-import RestaurantCard from "../../../common/components/RestaurantCard/RestaurantCard";
+import {resetRoute, selectRouteDetails} from "../../map/mapSlice";
 import {selectRestaurants} from "../../restaurants/restaurantsSlice";
+import {useSwipeable} from "react-swipeable";
 
 const Slider = () => {
 
@@ -31,8 +30,23 @@ const Slider = () => {
     const forwardVisibility = {visibility: !restaurants || !restaurants.length || routeCoordinates ||
         activeSlide === lastSlide ? "hidden" : "visible"};
 
+    const handlers = useSwipeable({
+        onSwipedLeft: () => dispatch(changeSlide("forward")),
+        onSwipedRight: () => dispatch(changeSlide("backward")),
+        // onSwiping: ({deltaX, dir}) => {
+        //     setStyle((style) => {
+        //         const updatedStyle = { ...style };
+        //         const translateX = (dir === "Left" ? -deltaX : deltaX) / window.innerWidth;
+        //         updatedStyle.transform = `translateX(${translateX * 100}%)`;
+        //         return updatedStyle;
+        //     });
+        // },
+        // onSwipeStart: ({ deltaX }) => setStartX(deltaX),
+        preventScrollOnSwipe: true
+    });
+
     return (
-        <div className="slider">
+        <div className="slider" {...handlers}>
             <div className="buttons-container">
                 <button style={backVisibility} onClick={handleBackClick}>Back</button>
                 <button style={showAllVisibility} onClick={handleShowAllClick}>Show All</button>

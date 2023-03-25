@@ -14,6 +14,9 @@ import {faLocationArrow} from "@fortawesome/free-solid-svg-icons";
 import StarRating from "./StarRating/StarRating";
 import RouteButton from "./RouteButton/RouteButton";
 import BookmarkButton from "./BookmarkButton/BookmarkButton";
+import {useSwipeable} from "react-swipeable";
+import {changeSlide} from "../../../features/slider/sliderSlice";
+import {useDispatch} from "react-redux";
 
 // A card component for displaying restaurant information
 const RestaurantCard = ({restaurant, view, style, ranking}) => {

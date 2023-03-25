@@ -1,0 +1,9 @@
+.map-restaurant-card-container {
+    position: absolute;
+    bottom: 0;
+    padding: var(--padding-content);
+    width: 100%;
+    max-width: 500px;
+    transition-property: left;
+    transition-duration: 0.5s;
+}

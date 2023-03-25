@@ -5,14 +5,16 @@
     right: 0;
     width: 100%;
     z-index: 100;
-    max-width: 500px;
     margin: 0 auto;
-    padding: 0.5em 0.75em;
 }
 
 .slider .buttons-container {
     display: flex;
     justify-content: space-between;
+    padding: var(--padding-content);
+    width: 100%;
+    max-width: 500px;
+    margin: var(--margin-align-center);
 }
 
 .slider .buttons-container button {
@@ -32,9 +34,4 @@
     display: flex;
     height: 150px;
     margin-top: 0.5em;
-}
-
-.slider .restaurant-cards-container .restaurant-card {
-    position: absolute;
-    bottom: 0;
 }

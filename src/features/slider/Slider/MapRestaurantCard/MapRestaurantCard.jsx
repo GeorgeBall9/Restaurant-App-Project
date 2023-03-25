@@ -1,9 +1,12 @@
 import RestaurantCard from "../../../../common/components/RestaurantCard/RestaurantCard";
 import {displayRestaurant, selectRouteDetails} from "../../../map/mapSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {selectActiveSlide} from "../../sliderSlice";
+import {changeSlide, selectActiveSlide} from "../../sliderSlice";
 import {selectRestaurants} from "../../../restaurants/restaurantsSlice";
 import {useEffect, useState} from "react";
+import {useSwipeable} from "react-swipeable";
+
+import "./MapRestaurantCard.css";
 
 const MapRestaurantCard = ({restaurant, index}) => {
 
@@ -15,15 +18,18 @@ const MapRestaurantCard = ({restaurant, index}) => {
     const restaurants = useSelector(selectRestaurants);
     const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
 
+    const position = window.innerWidth > 500 ? 500 : window.innerWidth;
+    const offset = (window.innerWidth - position) / 2;
+
     const [style, setStyle] = useState({
-        left: index * 101 + "%",
+        left: offset + (index * (position - 26)) + "px",
         visibility: "visible"
     });
 
     useEffect(() => {
         setStyle(style => {
             const updatedStyle = {...style};
-            updatedStyle.left = 101 * (index - activeSlide) + "%";
+            updatedStyle.left = offset + ((position - 26) * (index - activeSlide)) + "px";
             return updatedStyle;
         });
 
@@ -43,12 +49,13 @@ const MapRestaurantCard = ({restaurant, index}) => {
     }, [routeCoordinates]);
 
     return (
-        <RestaurantCard
-            restaurant={restaurant}
-            view="map"
-            style={style}
-            ranking={index + 1}
-        />
+        <div className="map-restaurant-card-container" style={style}>
+            <RestaurantCard
+                restaurant={restaurant}
+                view="map"
+                ranking={index + 1}
+            />
+        </div>
     );
 };
 

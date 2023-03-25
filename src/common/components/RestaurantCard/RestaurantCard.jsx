@@ -19,7 +19,7 @@ import {changeSlide} from "../../../features/slider/sliderSlice";
 import {useDispatch} from "react-redux";
 
 // A card component for displaying restaurant information
-const RestaurantCard = ({restaurant, view, style, ranking}) => {
+const RestaurantCard = ({restaurant, view, ranking, active}) => {
 
     const {name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
 
@@ -28,7 +28,7 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
 
     // Render the component
     return (
-        <div className="restaurant-card" style={style}>
+        <div className="restaurant-card">
             <div className="details-container">
                 <h3>
                     {ranking && (
@@ -54,7 +54,7 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
             <div className="container-rhs">
                 <div className="icons-container">
                     <BookmarkButton/>
-                    {view === "map" && <RouteButton/>}
+                    {view === "map" && active && <RouteButton/>}
                 </div>
 
                 <div className="image-container">

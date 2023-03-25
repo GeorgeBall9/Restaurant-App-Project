@@ -1,7 +1,7 @@
 import "./RouteButton.css";
-import {faRoute} from "@fortawesome/free-solid-svg-icons";
+import {faCircleXmark, faRoute} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {fetchRoute, selectDisplayedRestaurant} from "../../../../features/map/mapSlice";
+import {fetchRoute, resetRoute, selectDisplayedRestaurant, selectRouteDetails} from "../../../../features/map/mapSlice";
 import {selectUserPosition} from "../../../../features/location/locationSlice";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -9,12 +9,11 @@ const RouteButton = () => {
 
     const dispatch = useDispatch();
 
+    const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
     const userPosition = useSelector(selectUserPosition);
 
-    const handleClick = () => {
-        if (!displayedRestaurant) return;
-
+    const handleRouteClick = () => {
         const coordinates1 = userPosition;
 
         const {latitude: rLat, longitude: rLon} = displayedRestaurant;
@@ -24,8 +23,15 @@ const RouteButton = () => {
         dispatch(fetchRoute({coordinates1, coordinates2}));
     };
 
+    const handleCloseClick = () => {
+        dispatch(resetRoute());
+    };
+
     return (
-        <FontAwesomeIcon icon={faRoute} className="icon" onClick={handleClick}/>
+        <>
+            {!routeCoordinates && <FontAwesomeIcon icon={faRoute} className="icon" onClick={handleRouteClick}/>}
+            {routeCoordinates && <FontAwesomeIcon icon={faCircleXmark} className="icon" onClick={handleCloseClick}/>}
+        </>
     );
 };
 

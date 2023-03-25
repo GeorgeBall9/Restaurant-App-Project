@@ -5,14 +5,16 @@
     right: 0;
     width: 100%;
     z-index: 100;
-    max-width: 500px;
     margin: 0 auto;
-    padding: 0.5em 0.75em;
+    padding: 0.5em 0;
+    transition-property: transform;
+    transition-duration: 0.5s;
 }
 
 .slider .buttons-container {
     display: flex;
     justify-content: space-between;
+    padding: var(--padding-content);
 }
 
 .slider .buttons-container button {
@@ -28,13 +30,11 @@
 }
 
 .slider .restaurant-cards-container {
-    position: relative;
     display: flex;
+    width: 100%;
     height: 150px;
-    margin-top: 0.5em;
 }
 
-.slider .restaurant-cards-container .restaurant-card {
-    position: absolute;
-    bottom: 0;
+.slider .restaurant-cards-container > * {
+    flex-shrink: 0;
 }

@@ -18,8 +18,6 @@ Contact: georgeball14@hotmail.com
     width: 100%;
     height: 150px;
     border-bottom: solid 6px #C23B22;
-    transition-property: left;
-    transition-duration: 0.5s;
 }
   
 /* details container */

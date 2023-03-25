@@ -6,11 +6,13 @@ import useFetchRestaurants from "../common/hooks/useFetchRestaurants";
 import useFilterRestaurants from "../common/hooks/useFilterRestaurants";
 import FiltersDropdown from "../features/filters/FiltersDropdown/FiltersDropdown";
 import {selectFiltersAreVisible} from "../features/filters/filtersSlice";
+import useInitialiseSlider from "../common/hooks/useInitialiseSlider";
 
 const Root = () => {
 
     useFetchRestaurants();
     useFilterRestaurants();
+    useInitialiseSlider();
 
     const spinnerIsVisible = useSelector(selectSpinnerIsVisible);
     const filtersVisible = useSelector(selectFiltersAreVisible);

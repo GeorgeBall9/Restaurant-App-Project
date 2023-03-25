@@ -16,9 +16,11 @@ import {faLocationArrow} from "@fortawesome/free-solid-svg-icons";
 import StarRating from "./StarRating/StarRating";
 import RouteButton from "./RouteButton/RouteButton";
 import BookmarkButton from "./BookmarkButton/BookmarkButton";
+import {useSwipeable} from "react-swipeable";
+import {changeSlide} from "../../../features/slider/sliderSlice";
 
 // A card component for displaying restaurant information
-const RestaurantCard = ({restaurant, view, style, ranking}) => {
+const RestaurantCard = ({restaurant, view, ranking}) => {
 
     const {name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
 
@@ -27,18 +29,18 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
 
     const navigate = useNavigate();
 
-    const handleClick = (event) => {
-        const containerRhs = event.currentTarget.querySelector('.container-rhs')
-        if(containerRhs.contains(event.target)) {
-            return
-        }
-        navigate(`/details/${restaurant.id}`)
-    };
+    const showRestaurantDetails = () => navigate(`/details/${restaurant.id}`);
+
+    const handlers = useSwipeable({
+        onTap: () => showRestaurantDetails(),
+        preventScrollOnSwipe: true,
+        trackMouse: true
+    });
 
     // Render the component
     return (
-        <div className="restaurant-card" style={style} onClick={handleClick}>
-            <div className="details-container">
+        <div className="restaurant-card">
+            <div className="details-container" {...handlers}>
                 <h3> 
                     {ranking && (
                         <div className="ranking">{ranking}</div>
@@ -59,6 +61,7 @@ const RestaurantCard = ({restaurant, view, style, ranking}) => {
                     <span className="cuisine">{primaryCuisine}</span>
                 </div>
             </div>
+
             <div className="container-rhs">
                 <div className="icons-container">
                     <BookmarkButton/>

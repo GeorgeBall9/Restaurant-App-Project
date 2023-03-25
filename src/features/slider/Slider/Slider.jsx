@@ -16,9 +16,19 @@ const Slider = () => {
     const position = window.innerWidth > 500 ? 500 : window.innerWidth;
     const offset = (window.innerWidth - position) / 2;
 
+    const [xPosition, setXPosition] = useState(offset);
+
     const handlers = useSwipeable({
         onSwipedLeft: () => dispatch(changeSlide("forward")),
         onSwipedRight: () => dispatch(changeSlide("backward")),
+        onSwiping: ({deltaX}) => {
+            setStyle(style => {
+                const updatedStyle = {...style};
+                const translateX = xPosition + deltaX;
+                updatedStyle.transform = `translateX(${translateX}px)`;
+                return updatedStyle;
+            });
+        },
         preventScrollOnSwipe: true,
         trackMouse: true
     });
@@ -26,7 +36,9 @@ const Slider = () => {
     useEffect(() => {
         setStyle(style => {
             const updatedStyle = {...style};
-            updatedStyle.transform = `translateX(${offset - (activeSlide * position)}px)`;
+            const translateX = offset - (activeSlide * position);
+            updatedStyle.transform = `translateX(${translateX}px)`;
+            setXPosition(translateX);
             return updatedStyle;
         });
 

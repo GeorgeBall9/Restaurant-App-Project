@@ -12,10 +12,8 @@ const MapRestaurantCard = ({restaurant, index}) => {
 
     const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
 
-    const isActive = index === activeSlide;
-
     const style = {
-        visibility: !routeCoordinates || isActive ? "visible" : "hidden"
+        visibility: !routeCoordinates || index === activeSlide ? "visible" : "hidden"
     };
 
     return (
@@ -24,7 +22,6 @@ const MapRestaurantCard = ({restaurant, index}) => {
                 restaurant={restaurant}
                 view="map"
                 ranking={index + 1}
-                active={isActive}
             />
         </div>
     );

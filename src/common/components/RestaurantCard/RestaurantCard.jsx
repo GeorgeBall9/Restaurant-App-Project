@@ -7,6 +7,8 @@ Contact: georgeball14@hotmail.com
 // styles file
 import "./RestaurantCard.css";
 
+import {useNavigate} from 'react-router-dom';
+
 // FontAwesome icons
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationArrow} from "@fortawesome/free-solid-svg-icons";
@@ -14,9 +16,6 @@ import {faLocationArrow} from "@fortawesome/free-solid-svg-icons";
 import StarRating from "./StarRating/StarRating";
 import RouteButton from "./RouteButton/RouteButton";
 import BookmarkButton from "./BookmarkButton/BookmarkButton";
-import {useSwipeable} from "react-swipeable";
-import {changeSlide} from "../../../features/slider/sliderSlice";
-import {useDispatch} from "react-redux";
 
 // A card component for displaying restaurant information
 const RestaurantCard = ({restaurant, view, ranking}) => {
@@ -26,11 +25,21 @@ const RestaurantCard = ({restaurant, view, ranking}) => {
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
 
+    const navigate = useNavigate();
+
+    const handleClick = (event) => {
+        const containerRhs = event.currentTarget.querySelector('.container-rhs')
+        if(containerRhs.contains(event.target)) {
+            return
+        }
+        navigate(`/details/${restaurant.id}`)
+    };
+
     // Render the component
     return (
-        <div className="restaurant-card">
+        <div className="restaurant-card" onClick={handleClick}>
             <div className="details-container">
-                <h3>
+                <h3> 
                     {ranking && (
                         <div className="ranking">{ranking}</div>
                     )}
@@ -50,7 +59,6 @@ const RestaurantCard = ({restaurant, view, ranking}) => {
                     <span className="cuisine">{primaryCuisine}</span>
                 </div>
             </div>
-
             <div className="container-rhs">
                 <div className="icons-container">
                     <BookmarkButton/>

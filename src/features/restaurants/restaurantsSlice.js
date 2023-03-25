@@ -102,7 +102,16 @@ const formatData = (data) => {
             rating,
             price,
             hours,
-            cuisine
+            cuisine,
+            description,
+            website,
+            phone,
+            address_obj: {
+                street1,
+                street2,
+                city,
+                postalcode,
+            }
         } = entry;
 
         return {
@@ -116,7 +125,16 @@ const formatData = (data) => {
             price: price ? price : null,
             hours: formatHours(hours),
             primaryCuisine: cuisine.length > 0 ? cuisine[0].name : null,
-            cuisines: cuisine
+            cuisines: cuisine,
+            description,
+            website,
+            phone,
+            address: {
+                street1,
+                street2,
+                city,
+                postalcode
+            }
         };
     });
 };

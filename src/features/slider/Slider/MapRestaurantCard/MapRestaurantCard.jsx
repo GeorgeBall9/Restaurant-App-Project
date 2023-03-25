@@ -18,38 +18,8 @@ const MapRestaurantCard = ({restaurant, index}) => {
     const restaurants = useSelector(selectRestaurants);
     const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
 
-    const position = window.innerWidth > 500 ? 500 : window.innerWidth;
-    const offset = (window.innerWidth - position) / 2;
-
-    const [style, setStyle] = useState({
-        left: offset + (index * (position - 26)) + "px",
-        visibility: "visible"
-    });
-
-    useEffect(() => {
-        setStyle(style => {
-            const updatedStyle = {...style};
-            updatedStyle.left = offset + ((position - 26) * (index - activeSlide)) + "px";
-            return updatedStyle;
-        });
-
-        if (index === activeSlide) {
-            dispatch(displayRestaurant(restaurant));
-        }
-    }, [activeSlide, restaurants]);
-
-    useEffect(() => {
-        const hidden = routeCoordinates && index !== activeSlide;
-
-        setStyle(style => {
-            const updatedStyle = {...style};
-            updatedStyle.visibility = hidden ? "hidden" : "visible";
-            return updatedStyle;
-        });
-    }, [routeCoordinates]);
-
     return (
-        <div className="map-restaurant-card-container" style={style}>
+        <div className="map-restaurant-card-container">
             <RestaurantCard
                 restaurant={restaurant}
                 view="map"

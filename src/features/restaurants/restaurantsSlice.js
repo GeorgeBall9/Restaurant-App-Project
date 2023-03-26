@@ -72,7 +72,7 @@ const filterData = (data) => {
 
     return data.filter(entry => {
         const keepEntry = entry.location_id && !locationIds.has(entry.location_id) && entry.name
-            && entry.latitude && entry.longitude && entry.photo?.images?.original?.url && entry.rating
+            && entry.latitude && entry.longitude && entry.photo?.images?.medium?.url && entry.rating
             && entry.distance && entry.hours?.week_ranges?.length === 7 && entry.cuisine;
 
         if (!keepEntry) return false;
@@ -119,7 +119,7 @@ const formatData = (data) => {
             name,
             latitude: +latitude,
             longitude: +longitude,
-            photoUrl: photo.images.original.url,
+            photoUrl: photo.images.medium.url,
             distance,
             rating: +rating,
             price: price ? price : null,

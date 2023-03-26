@@ -37,7 +37,7 @@ const Slider = () => {
         onSwiping: ({deltaX}) => {
             setStyle(style => {
                 const updatedStyle = {...style};
-                const translateX = xPosition + deltaX;
+                const translateX = xPosition + 1.25 * deltaX;
                 setOffsetX(deltaX);
                 updatedStyle.transform = `translateX(${translateX}px)`;
                 return updatedStyle;
@@ -48,9 +48,9 @@ const Slider = () => {
 
             if (!sliderIsActive || activeSlide === 0 && offsetX > 0 || activeSlide === lastSlide && offsetX < 0) {
                 updateStyle();
-            } else if (offsetX < 0 && magnitude > 0.25 * positionRef.current) {
+            } else if (offsetX < 0 && magnitude > 0.33 * positionRef.current) {
                 dispatch(changeSlide("forward"));
-            } else if (magnitude > 0.25 * positionRef.current) {
+            } else if (magnitude > 0.33 * positionRef.current) {
                 dispatch(changeSlide("backward"));
             } else {
                 updateStyle();

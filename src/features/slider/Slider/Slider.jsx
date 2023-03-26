@@ -45,7 +45,6 @@ const Slider = () => {
         },
         onSwiped: ({ velocity, dir }) => {
             const magnitude = Math.abs(offsetX);
-            console.log(velocity)
             const isQuickForwardSwipe = dir === "Left" && Math.abs(velocity) > 0.4;
             const isQuickBackwardSwipe = dir === "Right" && Math.abs(velocity) > 0.4;
 

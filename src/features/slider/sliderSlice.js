@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     activeSlide: 0,
-    lastSlide: 0
+    lastSlide: 0,
+    isActive: true,
 };
 
 export const sliderSlice = createSlice({
@@ -27,11 +28,18 @@ export const sliderSlice = createSlice({
                     state.activeSlide = state.activeSlide - 1;
                 }
             }
+        },
+        activateSlider: state => {
+            state.isActive = true;
+        },
+        deactivateSlider: state => {
+            state.isActive = false;
         }
     }
 })
 
-export const {setActiveSlide, setLastSlide, changeSlide} = sliderSlice.actions
+export const {setActiveSlide, setLastSlide, changeSlide, activateSlider, deactivateSlider} = sliderSlice.actions
 export const selectActiveSlide = state => state.slider.activeSlide;
 export const selectLastSlide = state => state.slider.lastSlide;
+export const selectSliderIsActive = state => state.slider.isActive;
 export default sliderSlice.reducer

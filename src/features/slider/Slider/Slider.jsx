@@ -1,7 +1,7 @@
 import "./Slider.css";
 import RestaurantsList from "../../restaurants/RestaurantsList/RestaurantsList";
 import {useSwipeable} from "react-swipeable";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {changeSlide, selectActiveSlide, selectLastSlide} from "../sliderSlice";
 import {displayRestaurant} from "../../map/mapSlice";
@@ -14,21 +14,22 @@ const Slider = () => {
     const lastSlide = useSelector(selectLastSlide);
     const restaurants = useSelector(selectRestaurants);
 
-    const position = window.innerWidth > 500 ? 500 : window.innerWidth;
-    const offset = (window.innerWidth - position) / 2;
+    const positionRef = useRef(window.innerWidth > 500 ? 500 : window.innerWidth);
+    const offsetRef = useRef((window.innerWidth - positionRef.current) / 2);
 
-    const [xPosition, setXPosition] = useState(offset);
+    const [xPosition, setXPosition] = useState(offsetRef.current);
     const [offsetX, setOffsetX] = useState(0);
+    const [style, setStyle] = useState({});
 
-    const updateStyle = () => {
+    const updateStyle = useCallback(() => {
         setStyle(style => {
             const updatedStyle = {...style};
-            const translateX = offset - (activeSlide * position);
+            const translateX = offsetRef.current - (activeSlide * positionRef.current);
             updatedStyle.transform = `translateX(${translateX}px)`;
             setXPosition(translateX);
             return updatedStyle;
         });
-    }
+    }, [activeSlide, positionRef.current, offsetRef.current]);
 
     const handlers = useSwipeable({
         onSwiping: ({deltaX}) => {
@@ -45,9 +46,9 @@ const Slider = () => {
 
             if (activeSlide === 0 && offsetX > 0 || activeSlide === lastSlide && offsetX < 0) {
                 updateStyle();
-            } else if (offsetX < 0 && magnitude > 0.25 * position) {
+            } else if (offsetX < 0 && magnitude > 0.25 * positionRef.current) {
                 dispatch(changeSlide("forward"));
-            } else if (magnitude > 0.25 * position) {
+            } else if (magnitude > 0.25 * positionRef.current) {
                 dispatch(changeSlide("backward"));
             } else {
                 updateStyle();
@@ -64,8 +65,6 @@ const Slider = () => {
 
         dispatch(displayRestaurant(restaurants[activeSlide]));
     }, [activeSlide]);
-
-    const [style, setStyle] = useState({});
 
     return (
         <div className="slider" {...handlers} style={style}>

@@ -50,9 +50,9 @@ const Slider = () => {
 
             if (!sliderIsActive || activeSlide === 0 && offsetX > 0 || activeSlide === lastSlide && offsetX < 0) {
                 updateStyle();
-            } else if (isQuickForwardSwipe || (offsetX < 0 && magnitude >= 0.5 * positionRef.current)) {
+            } else if (isQuickForwardSwipe || (offsetX < 0 && magnitude >= 0.4 * positionRef.current)) {
                 dispatch(changeSlide("forward"));
-            } else if (isQuickBackwardSwipe || magnitude >= 0.5 * positionRef.current) {
+            } else if (isQuickBackwardSwipe || magnitude >= 0.4 * positionRef.current) {
                 dispatch(changeSlide("backward"));
             } else {
                 updateStyle();

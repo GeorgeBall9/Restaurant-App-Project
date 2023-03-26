@@ -43,14 +43,18 @@ const Slider = () => {
                 return updatedStyle;
             });
         },
-        onTouchEndOrOnMouseUp: () => {
+        onSwiped: ({ velocity, dir }) => {
             const magnitude = Math.abs(offsetX);
+            const isQuickForwardSwipe = dir === "Left" && Math.abs(velocity) > 0.4;
+            const isQuickBackwardSwipe = dir === "Right" && Math.abs(velocity) > 0.4;
+
+            console.log(magnitude)
 
             if (!sliderIsActive || activeSlide === 0 && offsetX > 0 || activeSlide === lastSlide && offsetX < 0) {
                 updateStyle();
-            } else if (offsetX < 0 && magnitude > 0.33 * positionRef.current) {
+            } else if (isQuickForwardSwipe || (offsetX < 0 && magnitude >= 0.4 * positionRef.current)) {
                 dispatch(changeSlide("forward"));
-            } else if (magnitude > 0.33 * positionRef.current) {
+            } else if (isQuickBackwardSwipe || magnitude >= 0.4 * positionRef.current) {
                 dispatch(changeSlide("backward"));
             } else {
                 updateStyle();
@@ -59,7 +63,8 @@ const Slider = () => {
             setOffsetX(0);
         },
         preventScrollOnSwipe: true,
-        trackMouse: true
+        trackMouse: true,
+        trackTouch: true
     });
 
     useEffect(() => {

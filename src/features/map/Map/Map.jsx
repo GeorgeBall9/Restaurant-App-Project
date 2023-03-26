@@ -71,7 +71,6 @@ const Map = () => {
         setMap(target);
 
         if (restaurantsFetchStatus !== "pending") {
-            console.log("hiding spinner after map load")
             dispatch(hideSpinner());
         }
     };
@@ -91,12 +90,9 @@ const Map = () => {
     }, [window.innerHeight]);
 
     useEffect(() => {
-        console.log("running")
         if (restaurantsFetchStatus === "pending") {
-            console.log("showing spinner")
             dispatch(showSpinner());
         } else if (map) {
-            console.log("hiding spinner")
             dispatch(hideSpinner());
         }
     }, [restaurantsFetchStatus]);

@@ -68,7 +68,7 @@ const DetailsPage = () => {
 
     const today = new Date().getDay();
     const displayedHours = showAllHours ? groupDaysWithSameHours(hours) : [hours[today]];
-    const isOpen = displayedHours[0] !== "Closed";
+    const isOpen = hours[today] !== "Closed";
 
     return (
         <div className="container">

@@ -30,7 +30,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/details/:id",
-                element: <DetailsPage/>
+                element: <DetailsPage/>,
             },
             {
                 path: "/map",

@@ -1,108 +1,115 @@
-.details-page-restaurant-details-container {
-  display: flex;
-  flex-wrap: wrap;
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
   width: 100%;
-  max-width: var(--max-width-content);
-  border-radius: var(--border-radius);
-  padding: 1rem;
-  box-shadow: var(--box-shadow);
-  background-color: #fff;
+  z-index: -1;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 
-.back-button {
-  font-size: 1.5rem;
-  text-decoration: none;
-  color: var(--secondary-theme);
-  border: none;
-  background-color: var(--background-theme);
-}
-
-.details-page-image-container {
-  flex-basis: 180px;
-  width: 180px;
-  height: 170px;
-  padding: 0.5rem;
+.details-page-restaurant-image-container {
+  position: relative;
+  height: 40vh;
   overflow: hidden;
 }
 
-.details-page-image-container img {
+.details-page-restaurant-image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 4px;
 }
 
-.details-page-restaurant-details-container h2 {
-  font-weight: 600;
-  color: var(--primary-theme);
-  padding-bottom: 0.5rem;
+.details-page-restaurant-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 20px;
 }
 
-.details-page-restaurant-details-container p {
-  font-size: var(--font-size-smaller);
-  font-weight: 500;
-  padding-bottom: 0.5rem;
-  line-height: 1.5;
-}
-
-.details-page-restaurant-details-container a {
-  font-size: var(--font-size-smaller);
-  font-weight: 500;
-  text-decoration: none;
-  color: black;
-  padding-bottom: 0.5rem;
-}
-
-.details-page-main-info {
-  flex-basis: calc(100% - 180px);
-  display: flex;
-  flex-direction: column;
-  font-size: var(--font-size-smaller);
-  align-items: flex-start;
-  padding: 0.5rem;
-}
-
-.details-page-opening-times {
-  display: flex;
-  gap: 0.25rem;
-  flex-direction: column;
-}
-
-.details-page-opening-times p {
-  margin-top: 5px;
-}
-
-.open-status {
-  font-weight: bold;
-  color: green;
-  margin-top: 5px;
-}
-
-.show-more-button,
-.hide-button {
-  background-color: #f1f1f1;
-  border: none;
-  padding: 0.5px 0.5rem;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 4px;
+.restaurant-name {
   margin-bottom: 0.5rem;
 }
 
-.show-more-button:hover {
-  background-color: #e0e0e0;
+.restaurant-name h1 {
+  font-size: var(--font-size-heading);
+  font-weight: var(--font-weight-bold-2);
+  margin-bottom: 0.25rem;
 }
 
-.address,
-.reservation,
-.pictures,
-.description {
-  flex-basis: 100%;
-  padding: 1rem;
+.restaurant-address {
+  margin-bottom: 10px;
+}
+
+.restaurant-address p {
+  font-size: var(--font-size-sub-heading);
+  font-weight: var(--font-weight-bold-2);
+}
+
+.open-status {
+  font-size: var(--font-size-sub-heading);
+  font-weight: var(--font-weight-bold-2);
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background-color: transparent;
+  border: none;
+  color: var(--primary-theme);
+  font-size: var(--font-size-sub-heading);
+  font-weight: var(--font-weight-bold-2);
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: var(--primary-theme);
+  color: white;
+}
+
+.back-button .icon {
+  margin-right: 8px;
+  font-size: var(--font-size-icon-large);
+}
+.details-page-main-info {
+  padding: 50px 0;
+  text-align: center;
+}
+
+.details-page-main-info > div:not(:last-child) {
+  border-bottom: 1px solid grey;
+  padding-bottom: 1rem;
+}
+
+.details-page-main-info h2 {
+  color: var(--primary-theme);
+  font-size: var(--font-size-heading);
+  font-weight: var(--font-weight-bold-2);
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+.details-page-main-info p {
+  font-size: var(--font-size-sub-heading);
+  font-weight: var(--font-weight-bold-1);
+  margin: 0;
+}
+
+.website, .description, .pictures, .hours {
   margin-bottom: 1rem;
-  border-bottom: 1px solid #b8afaf;
 }
 
-.description {
-  border-bottom: none;
+.website p, .description p, .hours p{
+  font-size: var(--font-size-sub-heading);
+  margin: 0;
 }
+

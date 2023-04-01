@@ -6,14 +6,14 @@ import { selectAllRestaurants } from '../../features/restaurants/restaurantsSlic
 import StarRating from '../../common/components/RestaurantCard/StarRating/StarRating';
 import { useState, useEffect } from 'react';
 
-import { faChevronLeft, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const DetailsPage = () => {
     const { id } = useParams();
     const allRestaurants = useSelector(selectAllRestaurants);
     const [restaurant, setRestaurant] = useState(null);
-    const [showAllHours, setShowAllHours] = useState(false);
+    const [showAllHours, setShowAllHours] = useState(true);
     
     const navigate = useNavigate();
 
@@ -38,10 +38,6 @@ const DetailsPage = () => {
     const {name, photoUrl, rating, hours, website, description, phone} = restaurant;
     const { street1, city, postalcode } = restaurant.address;
     const starRating = Math.round(rating * 2) / 2;
-
-    const toggleShowAllHours = () => {
-        setShowAllHours(!showAllHours);
-    };
 
     const groupDaysWithSameHours = (hours) => {
         const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -77,57 +73,49 @@ const DetailsPage = () => {
     const displayedHours = showAllHours ? groupDaysWithSameHours(hours) : [hours[today]];
     const isOpen = hours[today] !== "Closed";
 
-    return (
+  return (
         <div className="container">
-            <button className="back-button" onClick={() => navigate(-1)}>
-                <FontAwesomeIcon icon={faChevronLeft} className="icon"></FontAwesomeIcon>Back</button>
-            <div className="details-page-restaurant-details-container">
-                <div className="details-page-image-container">
-                    <img src={photoUrl} alt={name}/>
-                </div>
-
-                <div className="details-page-main-info">
-                    <h2>{name}</h2>
-                    <StarRating rating={starRating}/>
-                    <div className="details-page-opening-times">
-                    {isOpen && <div className="open-status">Open</div>}
-                        {displayedHours.map((hour, index) => (
-                            <p key={index}>{hour}</p>
-                        ))}
-                    </div>
-                    {!showAllHours && (
-                        <button className="show-more-button" onClick={toggleShowAllHours}>
-                            Show more
-                        </button>
-                    )}
-                    {showAllHours &&(
-                        <button className="hide-button" onClick={toggleShowAllHours}>Hide</button>
-                    )}
-                    <p>{phone}</p>
-                </div>
-
-                <div className="address">
-                    <h2>Address</h2>
-                    <p>{street1}, {city}, {postalcode}</p>
-                </div>
-
-                <div className="reservation">
-                    <h2>Reservation</h2>
-                    <a href={website}>{website}</a>
-
-                </div>
-
-                <div className="pictures">
-                    <h2>Pictures</h2>            
-                </div>
-
-                <div className="description">
-                    <h2>Description</h2>
-                    <p>{description}</p>
-                </div>
+          <div className="details-page-restaurant-image-container">
+            <div className="backdrop" style={{ backgroundImage: `url(${photoUrl})` }}></div>
+            <div className="details-page-restaurant-info">
+              <div className="restaurant-name">
+                <h1>{name}</h1>
+                <StarRating rating={starRating} />
+              </div>
+              <div className="restaurant-address">
+                <p>{street1}, {city}</p>
+              </div>
+              <div className="open-status">{isOpen ? 'Open Now' : 'Closed'}</div>
             </div>
-        </div>
-    );
-  };
+          </div>
+          <div className="details-page-restaurant-details-container">
+            <button className="back-button" onClick={() => navigate(-1)}>
+              <FontAwesomeIcon icon={faChevronLeft} className="icon" />
+              Back
+            </button>
+            <div className="details-page-main-info">
+              <div className="website">
+                <h2>Website</h2>
+                <p>{website}</p>
+              </div>
+              <div className="description">
+                <h2>About</h2>
+                <p>{description}</p>
+              </div>
+              <div className="pictures">
+                <h2>Photos</h2>
+                <p>No photos available.</p>
+              </div>
+              <div className="hours">
+                <h2>Opening Times</h2>
+                {displayedHours.map((hour, index) => (
+                  <p key={index}>{hour}</p>
+                ))}
+              </div>
+            </div>
+      </div>
+    </div>
+  );
+};
   
   export default DetailsPage;

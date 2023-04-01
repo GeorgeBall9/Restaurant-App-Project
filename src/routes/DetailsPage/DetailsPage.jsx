@@ -26,7 +26,7 @@ const DetailsPage = () => {
 
     useEffect(() => {
       if (restaurant === undefined) {
-        navigate('/error', {replace: true });
+        navigate('/error', {replace: true});
       }
     }, [restaurant, navigate]);
 

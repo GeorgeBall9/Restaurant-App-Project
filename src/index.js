@@ -31,16 +31,11 @@ const router = createBrowserRouter([
             {
                 path: "/details/:id",
                 element: <DetailsPage/>,
-                errorElement: <ErrorPage/>,
             },
             {
                 path: "/map",
                 element: <MapPage/>,
             },
-            {
-                path: "/error",
-                element: <ErrorPage />,
-            }
         ],
     },
 ]);

@@ -12,7 +12,7 @@
 
 .details-page-restaurant-image-container {
   position: relative;
-  height: 40vh;
+  height: 300px;
   overflow: hidden;
 }
 
@@ -45,11 +45,11 @@
   margin-bottom: 0.25rem;
 }
 
-.restaurant-address {
+.restaurant-address, .restaurant-phone {
   margin-bottom: 10px;
 }
 
-.restaurant-address p {
+.restaurant-address p, .restaurant-phone p {
   font-size: var(--font-size-sub-heading);
   font-weight: var(--font-weight-bold-2);
 }
@@ -111,5 +111,9 @@
 .website p, .description p, .hours p{
   font-size: var(--font-size-sub-heading);
   margin: 0;
+}
+
+.website p {
+  text-decoration: none;
 }
 

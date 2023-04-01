@@ -6,7 +6,7 @@ import { selectAllRestaurants } from '../../features/restaurants/restaurantsSlic
 import StarRating from '../../common/components/RestaurantCard/StarRating/StarRating';
 import { useState, useEffect } from 'react';
 
-import { faChevronLeft, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const DetailsPage = () => {
@@ -83,7 +83,10 @@ const DetailsPage = () => {
                 <StarRating rating={starRating} />
               </div>
               <div className="restaurant-address">
-                <p>{street1}, {city}</p>
+                <p><FontAwesomeIcon icon={faLocationDot} /> {street1}, {city}, {postalcode}</p>
+              </div>
+              <div className="restaurant-phone">
+                <p><FontAwesomeIcon icon={faPhone} />{phone}</p>
               </div>
               <div className="open-status">{isOpen ? 'Open Now' : 'Closed'}</div>
             </div>
@@ -113,9 +116,9 @@ const DetailsPage = () => {
                 ))}
               </div>
             </div>
-      </div>
+          </div>
     </div>
   );
 };
   
-  export default DetailsPage;
+export default DetailsPage;

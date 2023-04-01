@@ -1,6 +1,6 @@
 import './DetailsPage.css';
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAllRestaurants } from '../../features/restaurants/restaurantsSlice';
 import StarRating from '../../common/components/RestaurantCard/StarRating/StarRating';
@@ -24,10 +24,17 @@ const DetailsPage = () => {
         }
       }, [allRestaurants, id]);
 
+    useEffect(() => {
+      if (restaurant === undefined) {
+        navigate('/error', {replace: true });
+      }
+    }, [restaurant, navigate]);
+
     if (!restaurant) {
-      return <div>Restaurant not found.</div>;
+      return null;
     }
-    
+
+
     const {name, photoUrl, rating, hours, website, description, phone} = restaurant;
     const { street1, city, postalcode } = restaurant.address;
     const starRating = Math.round(rating * 2) / 2;

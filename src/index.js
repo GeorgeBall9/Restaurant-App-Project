@@ -30,12 +30,17 @@ const router = createBrowserRouter([
             },
             {
                 path: "/details/:id",
-                element: <DetailsPage/>
+                element: <DetailsPage/>,
+                errorElement: <ErrorPage/>,
             },
             {
                 path: "/map",
                 element: <MapPage/>,
             },
+            {
+                path: "/error",
+                element: <ErrorPage />,
+            }
         ],
     },
 ]);

@@ -1,3 +1,15 @@
+.details-page-banner {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  width: 100%;
+  transition: all 0.3s ease;
+  box-shadow: none;
+}
+
 .backdrop {
   position: absolute;
   top: 0;
@@ -14,6 +26,8 @@
   position: relative;
   height: 300px;
   overflow: hidden;
+  z-index: 1;
+  filter: bluer(3px);
 }
 
 .details-page-restaurant-image-container img {
@@ -27,12 +41,12 @@
 
 .details-page-restaurant-info {
   position: absolute;
+  width: 100%;
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
   padding: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .restaurant-name {
@@ -40,21 +54,18 @@
 }
 
 .restaurant-name h1 {
+  color: white;
   font-size: var(--font-size-heading);
   font-weight: var(--font-weight-bold-2);
   margin-bottom: 0.25rem;
 }
 
-.restaurant-address, .restaurant-phone {
+.restaurant-address, .restaurant-phone, .restaurant-price {
   margin-bottom: 10px;
 }
 
-.restaurant-address p, .restaurant-phone p {
-  font-size: var(--font-size-sub-heading);
-  font-weight: var(--font-weight-bold-2);
-}
-
-.open-status {
+.restaurant-address p, .restaurant-phone p, .restaurant-price p, .open-status {
+  color: white;
   font-size: var(--font-size-sub-heading);
   font-weight: var(--font-weight-bold-2);
 }
@@ -65,20 +76,16 @@
   padding: 8px;
   background-color: transparent;
   border: none;
-  color: var(--primary-theme);
+  color: var(--secondary-theme);
   font-size: var(--font-size-sub-heading);
   font-weight: var(--font-weight-bold-2);
   cursor: pointer;
 }
 
-.back-button:hover {
-  background-color: var(--primary-theme);
-  color: white;
-}
-
 .back-button .icon {
   margin-right: 8px;
   font-size: var(--font-size-icon-large);
+  color: var(--secondary-theme);
 }
 .details-page-main-info {
   padding: 50px 0;

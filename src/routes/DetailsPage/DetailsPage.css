@@ -1,3 +1,9 @@
+.details-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .details-page-banner {
   position: sticky;
   top: 0;
@@ -25,9 +31,9 @@
 .details-page-restaurant-image-container {
   position: relative;
   height: 300px;
+  width: 100%;
   overflow: hidden;
   z-index: 1;
-  filter: bluer(3px);
 }
 
 .details-page-restaurant-image-container img {
@@ -87,9 +93,19 @@
   font-size: var(--font-size-icon-large);
   color: var(--secondary-theme);
 }
+
+.details-page-restaurant-details-container {
+  max-width: var(--max-width-content);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+}
 .details-page-main-info {
-  padding: 50px 0;
+  padding: 1rem;
   text-align: center;
+  width: 100%;
+  background-color: white;
 }
 
 .details-page-main-info > div:not(:last-child) {

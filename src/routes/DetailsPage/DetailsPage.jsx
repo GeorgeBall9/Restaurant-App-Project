@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAllRestaurants } from '../../features/restaurants/restaurantsSlice';
 import StarRating from '../../common/components/RestaurantCard/StarRating/StarRating';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { faChevronLeft, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,6 +16,9 @@ const DetailsPage = () => {
   const [showAllHours, setShowAllHours] = useState(true);
 
   const navigate = useNavigate();
+
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const scrollRef = useRef();
 
   useEffect(() => {
     if (allRestaurants) {
@@ -29,6 +32,18 @@ const DetailsPage = () => {
       navigate('/error', { replace: true });
     }
   }, [restaurant, navigate]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   if (!restaurant) {
     return null;
@@ -75,13 +90,18 @@ const DetailsPage = () => {
 
   return (
     <div className="details-page-wrapper">
-      <div className="details-page-restaurant-image-container">
-        <div className="backdrop" style={{ backgroundImage: `url(${photoUrl})` }}></div>
-        <div className="details-page-banner">
+      <div className="details-page-banner" style={
+        scrollPosition > 20
+          ? { position: 'fixed', backgroundColor: 'rgba(255, 255, 255, 0.9)' }
+          : { position: 'absolute', backgroundColor: 'transparent' }
+      }>
           <button className="back-button" onClick={() => navigate(-1)}>
             <FontAwesomeIcon icon={faChevronLeft} className="icon" />Back
           </button>
-        </div>  
+      </div>
+      <div className="details-page-restaurant-image-container">
+        <div className="backdrop" style={{ backgroundImage: `url(${photoUrl})` }}></div>
+          
         <div className="details-page-restaurant-info">
         <div className="restaurant-name">
           <h1>{name}</h1>

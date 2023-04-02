@@ -1,23 +1,33 @@
-import './AuthPage.css';
-import('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200&display=swap');
+import "./AuthPage.css";
+import(
+  "https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200&display=swap"
+);
 
 function App() {
   return (
     <div className="App">
-      <h1>Sign in</h1>
-      <h5 className='grey'>Email</h5>
-      <input type="text" className='textBar' />
-      <h5 className='grey'>Password</h5>
-      <input type="password" className='textBar' />
-      <h5>Do not have an account?</h5>
-      <a href="#" className='link'>Sign up now!</a>
+      <h1 className="Heading">Sign in</h1>
+      <div className="grey">Email</div>
+      <input type="text" className="textBar" />
+      <div className="grey">Password</div>
+      <input type="password" className="textBar" />
+      <div className="Heading">
+        <span>Do not have an account?</span>
+        <span className="link">Sign up now!</span>
+      </div>
+      <p className="grey">OR</p>
       <div>
-        <span className='grey'>OR</span>
+        <button className="auth-button">
+          <img src="/google.png" />
+          <span className="Google">Sign in with Google</span>
+        </button>
       </div>
       <div>
-        <button className='button'><span className='Google'>Sign in with Google</span></button>
+        <button className="auth-button">
+          <img src="/facebook.png" />
+          <span className="Facebook">Sign in with Facebook</span>
+        </button>
       </div>
-      <div><button className='button'><span className='Facebook'>Sign in with Facebook</span></button></div>
     </div>
   );
 }

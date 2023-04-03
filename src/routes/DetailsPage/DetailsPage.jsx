@@ -57,7 +57,7 @@ const DetailsPage = () => {
   const starRating = Math.round(rating * 2) / 2;
 
   const groupDaysWithSameHours = (hours) => {
-    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let groupedHours = [];
     let currentGroup = [daysOfWeek[0]];
     let currentHours = hours[0];

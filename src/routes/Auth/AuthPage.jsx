@@ -1,7 +1,4 @@
 import "./AuthPage.css";
-import(
-  "https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200&display=swap"
-);
 
 function App() {
   return (

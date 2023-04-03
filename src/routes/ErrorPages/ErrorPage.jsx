@@ -8,7 +8,7 @@ Contact: georgeball14@hotmail.com
 import React from 'react';
 import './ErrorPage.css';
 import { Link, useRouteError } from 'react-router-dom';
-import errorImage from './errorImage.png';
+import errorImage from '../../common/images/errorImage.png';
 
 
 const ErrorPage = () => {

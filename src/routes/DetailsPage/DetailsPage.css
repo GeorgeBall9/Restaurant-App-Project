@@ -1,3 +1,9 @@
+.details-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .details-page-banner {
   position: sticky;
   top: 0;
@@ -25,9 +31,9 @@
 .details-page-restaurant-image-container {
   position: relative;
   height: 300px;
+  width: 100%;
   overflow: hidden;
   z-index: 1;
-  filter: bluer(3px);
 }
 
 .details-page-restaurant-image-container img {
@@ -87,9 +93,21 @@
   font-size: var(--font-size-icon-large);
   color: var(--secondary-theme);
 }
+
+.details-page-restaurant-details-container {
+  max-width: var(--max-width-content);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+}
 .details-page-main-info {
-  padding: 50px 0;
+  padding: 1rem;
   text-align: center;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  width: 100%;
+  background-color: white;
 }
 
 .details-page-main-info > div:not(:last-child) {
@@ -115,12 +133,38 @@
   margin-bottom: 1rem;
 }
 
-.website p, .description p, .hours p{
+.website a {
+  text-decoration: none;
+  color: black;
   font-size: var(--font-size-sub-heading);
+  font-weight: var(--font-weight-bold-1);
   margin: 0;
 }
 
-.website p {
+.read-more-button {
+  border: none;
+  border-bottom: 2px solid var(--primary-theme);
+  background-color: transparent;
+  color: var(--primary-theme);
+  font-size: var(--font-size-sub-heading);
+  font-weight: var(--font-weight-bold-1);
+  cursor: pointer;
+  padding: 0.25rem 0;
   text-decoration: none;
+  outline: none;
+}
+
+.more-details {
+  text-align: left;
+}
+
+.more-details span {
+  font-size: var(--font-size-sub-heading);
+  font-weight: var(--font-weight-bold-2);
+  padding: 0 0.5rem;
+}
+
+.more-details p {
+  padding: 0.25rem 1.75rem;
 }
 

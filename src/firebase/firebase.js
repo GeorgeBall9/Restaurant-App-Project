@@ -8,7 +8,10 @@ import {getFirestore} from "firebase/firestore";
 import {
     getAuth,
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    FacebookAuthProvider,
+    signInWithPopup
 } from "firebase/auth";
 
 // firebase config
@@ -36,3 +39,13 @@ export const createAuthUserFromEmailAndPassword = async (email, password) => {
 // sign in authenticated user from email and password after sign in
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 };
+
+// sign in with Google popup
+const googleAuthProvider = new GoogleAuthProvider();
+
+export const signInWithGooglePopup = () => {};
+
+// sign in with Facebook popup
+const facebookAuthProvider = new FacebookAuthProvider();
+
+export const signInWithFacebookPopup = () => {};

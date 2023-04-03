@@ -149,7 +149,7 @@ const DetailsPage = () => {
           {website &&  (
             <div className="website">
             <h2>Website</h2>
-            <p>{getDomainName(website)}</p>
+            <a href={website}>{getDomainName(website)}</a>
           </div>
           )}
           {description && (

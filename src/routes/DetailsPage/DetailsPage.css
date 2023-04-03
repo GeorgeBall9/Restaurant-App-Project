@@ -104,6 +104,8 @@
 .details-page-main-info {
   padding: 1rem;
   text-align: center;
+  overflow-wrap: break-word;
+  word-break: break-word;
   width: 100%;
   background-color: white;
 }
@@ -138,5 +140,32 @@
 
 .website p {
   text-decoration: none;
+}
+
+.read-more-button {
+  border: none;
+  border-bottom: 2px solid var(--primary-theme);
+  background-color: transparent;
+  color: var(--primary-theme);
+  font-size: var(--font-size-sub-heading);
+  font-weight: var(--font-weight-bold-1);
+  cursor: pointer;
+  padding: 0.25rem 0;
+  text-decoration: none;
+  outline: none;
+}
+
+.more-details {
+  text-align: left;
+}
+
+.more-details span {
+  font-size: var(--font-size-sub-heading);
+  font-weight: var(--font-weight-bold-2);
+  padding: 0 0.5rem;
+}
+
+.more-details p {
+  padding: 0.25rem 1.75rem;
 }
 

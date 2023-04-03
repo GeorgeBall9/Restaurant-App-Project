@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200&display=swap');
+
 .AuthPage .textBar {
   border-width: 2px;
   border-color: #797979;
@@ -26,9 +28,9 @@
 }
 
 .AuthPage .Google::before {
-  content: url(google.png);
+  content: url(../../common/images/google.png);
 }
 
 .AuthPage .Facebook::before {
-  content: url(Facebook.png)
+  content: url(../../common/images/Facebook.png)
 }

@@ -17,6 +17,7 @@ import {Provider} from 'react-redux'
 
 import reportWebVitals from './reportWebVitals';
 import Root from "./routes/Root";
+import AuthPage from "./routes/AuthPage/AuthPage";
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             {
                 path: "/map",
                 element: <MapPage/>,
+            },
+            {
+                path: "/auth",
+                element: <AuthPage/>,
             },
         ],
     },

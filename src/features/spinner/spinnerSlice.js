@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    visible: true,
+    visible: false,
 };
 
 export const spinnerSlice = createSlice({
@@ -15,7 +15,7 @@ export const spinnerSlice = createSlice({
             state.visible = true;
         }
     }
-})
+});
 
 // Action creators are generated for each case reducer function
 export const {hideSpinner, showSpinner} = spinnerSlice.actions

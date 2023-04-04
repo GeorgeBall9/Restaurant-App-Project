@@ -1,0 +1,92 @@
+.profile-container {
+    padding: 1em 1.25em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    background-color: white;
+    height: 100vh;
+}
+
+.profile-container button {
+    font-size: 0.8rem;
+}
+
+.profile-container header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1em;
+    border-bottom: solid 1px #B2B2B2;
+}
+
+.profile-container header button .icon {
+    font-size: 1rem;
+}
+
+.profile-container header h1 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.profile-container button {
+    border: none;
+    background: none;
+    color: #EBB02D;
+}
+
+.profile-container section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+/* CHANGE ICON */
+.profile-container .change-icon-section {
+    align-items: center;
+    position: relative;
+    padding: 1em 0;
+}
+
+.profile-container .change-icon-section .icon {
+    margin-left: 0.5em;
+}
+
+.profile-container .change-icon-section button {
+    font-weight: 600;
+}
+
+/* CHANGE DETAILS */
+.profile-container label:first-child {
+    padding-top: 1em;
+    border-top: solid 1px #B2B2B2;
+}
+
+.profile-container label {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 2em;
+    padding-bottom: 1em;
+    border-bottom: solid 1px #B2B2B2;
+}
+
+.profile-container label input {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.profile-container .sign-out-button {
+    color: var(--primary-theme);
+    font-weight: 500;
+    align-self: flex-start;
+    margin-top: 0.5em;
+}
+
+.profile-container .sign-out-button .icon {
+    margin-right: 0.5em;
+    transform: rotate(180deg);
+    color: var(--primary-theme);
+}

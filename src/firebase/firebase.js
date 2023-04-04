@@ -2,7 +2,7 @@
 import {initializeApp} from "firebase/app";
 
 // db imports
-import {getFirestore} from "firebase/firestore";
+import {getFirestore, doc, getDoc, setDoc} from "firebase/firestore";
 
 // auth imports
 import {
@@ -33,12 +33,16 @@ const db = getFirestore(app);
 // auth functions
 const auth = getAuth();
 
-// create authenticated user from email and password after sign up
-export const createAuthUserFromEmailAndPassword = async (email, password) => {
+// sign up with email and password
+export const signUpAuthUserWithEmailAndPassword = async (email, password) => {
+    const credential = await createUserWithEmailAndPassword(auth, email, password);
+    return credential.user;
 };
 
-// sign in authenticated user from email and password after sign in
+// sign in with email and password
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+    const credential = await signInWithEmailAndPassword(auth, email, password);
+    return credential.user;
 };
 
 // sign in with Google popup
@@ -55,4 +59,22 @@ const facebookAuthProvider = new FacebookAuthProvider();
 export const signInWithFacebookPopup = async () => {
     const result = await signInWithPopup(auth, facebookAuthProvider);
     return result.user;
+};
+
+// database functions
+
+// check if user doc already exists
+export const userDocExists = async (userId) => {
+    const docRef = doc(db, "users", userId);
+    const docSnap = await getDoc(docRef);
+    return docSnap.exists();
+};
+
+// create user doc - userData param includes displayName, email
+export const createUserDoc = async (userData, userId) => {
+    const userDocRef = doc(db, "users", userId);
+
+    await setDoc(userDocRef, {...userData}, {merge: true});
+
+    console.log("User document written with ID: ", userDocRef.id);
 };

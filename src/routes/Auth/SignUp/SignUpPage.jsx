@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import "./SignUpPage.css";
 import { Link } from "react-router-dom";
 
+import {signUpAuthUserWithEmailAndPassword} from "../../../firebase/firebase";
+
 function SignUpPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("")
 
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
         // Implement sign up functionality here
     };
 

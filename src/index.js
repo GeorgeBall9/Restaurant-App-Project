@@ -18,6 +18,7 @@ import {Provider} from 'react-redux'
 
 import reportWebVitals from './reportWebVitals';
 import Root from "./routes/Root";
+import ProfilePage from "./routes/ProfilePage/ProfilePage";
 import SignUpPage from './routes/Auth/SignUp/SignUpPage';
 
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
             {
                 path: "/login",
                 element: <AuthPage/>,
+            },
+            {
+                path: "/profile",
+                element: <ProfilePage/>,
             },
             {
                 path: "/signup",

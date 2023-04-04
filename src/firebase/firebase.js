@@ -53,5 +53,6 @@ export const signInWithGooglePopup = async () => {
 const facebookAuthProvider = new FacebookAuthProvider();
 
 export const signInWithFacebookPopup = async () => {
-
+    const result = await signInWithPopup(auth, facebookAuthProvider);
+    return result.user;
 };

@@ -6,6 +6,7 @@ import filtersReducer from "../features/filters/filtersSlice";
 import sliderReducer from "../features/slider/sliderSlice";
 import locationReducer from "../features/location/locationSlice";
 import spinnerReducer from "../features/spinner/spinnerSlice";
+import userReducer from  "../routes/Auth/userSlice";
 
 export default configureStore({
     reducer: {
@@ -15,5 +16,6 @@ export default configureStore({
         slider: sliderReducer,
         location: locationReducer,
         spinner: spinnerReducer,
+        user: userReducer,
     }
 });

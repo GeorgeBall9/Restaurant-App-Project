@@ -88,13 +88,13 @@ const DetailsPage = () => {
 
   const getDomainName = (url) => {
     try {
-      const {hostname} = new URL(url);
+      const { hostname } = new URL(url);
       return hostname;
     } catch (error) {
-      console.error('Error parsing URLL', error);
+      console.error('Error parsing URL', error);
       return url;
     }
-  }
+  };
 
   const today = new Date().getDay();
   const displayedHours = showAllHours ? groupDaysWithSameHours(hours) : [hours[today]];
@@ -146,11 +146,11 @@ const DetailsPage = () => {
       </div>
       <div className="details-page-restaurant-details-container">
         <div className="details-page-main-info">
-          {website &&  (
+          {website && (
             <div className="website">
-            <h2>Website</h2>
-            <a href={website}>{getDomainName(website)}</a>
-          </div>
+              <h2>Website</h2>
+              <a href={website}>{getDomainName(website)}</a>
+            </div>
           )}
           {description && (
             <div className="description">
@@ -176,27 +176,27 @@ const DetailsPage = () => {
           <div className="more-details">
             <h2>More Details</h2>
             <div className="details-map-location">
-            <FontAwesomeIcon icon={faLocationDot} />
-            <span>Location</span>
-            <p> {street1}, {city}, {postalcode}</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faMoneyBillWave} />
-            <span>Price</span>
-            <p> {price || priceLevel || 'N/A'}</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faUtensils} />
-            <span> Cuisine</span>
-            <p> {primaryCuisine || 'N/A'}</p>
-          </div>
-          {dietaryRestrictions && (
-            <div>
-              <FontAwesomeIcon icon={faLeaf} />
-              <span>Dietary Restrictions</span>
-              <p> {dietaryRestrictions.join(', ')}</p>
+              <FontAwesomeIcon icon={faLocationDot} />
+              <span>Location</span>
+              <p> {street1}, {city}, {postalcode}</p>
             </div>
-          )}
+            <div>
+              <FontAwesomeIcon icon={faMoneyBillWave} />
+              <span>Price</span>
+              <p> {price || priceLevel || 'N/A'}</p>
+            </div>
+            <div>
+              <FontAwesomeIcon icon={faUtensils} />
+              <span> Cuisine</span>
+              <p> {primaryCuisine || 'N/A'}</p>
+            </div>
+            {dietaryRestrictions && (
+              <div>
+                <FontAwesomeIcon icon={faLeaf} />
+                <span>Dietary Restrictions</span>
+                <p> {dietaryRestrictions.join(', ')}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

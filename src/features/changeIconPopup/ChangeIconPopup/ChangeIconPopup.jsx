@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {hideChangeIconPopup} from "../changeIconPopupSlice";
 import UserIcon from "../../../common/components/UserIcon/UserIcon";
+import UserIconButton from "./UserIconButton/UserIconButton";
 
 const ChangeIconPopup = () => {
 
@@ -84,7 +85,13 @@ const ChangeIconPopup = () => {
 
             <div className="icons-container">
                 {iconButtons.map((button, i) => (
-                    <UserIcon size="large" colour="#c23b22"/>
+                    <UserIconButton
+                        key={i}
+                        colour={button.colour}
+                        index={i}
+                        selected={button.selected}
+                        handleClick={handleIconButtonClick}
+                    />
                 ))}
             </div>
 

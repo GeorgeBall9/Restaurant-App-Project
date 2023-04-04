@@ -33,12 +33,16 @@ const db = getFirestore(app);
 // auth functions
 const auth = getAuth();
 
-// create authenticated user from email and password after sign up
-export const createAuthUserFromEmailAndPassword = async (email, password) => {
+// sign up with email and password
+export const signUpAuthUserWithEmailAndPassword = async (email, password) => {
+    const credential = await createUserWithEmailAndPassword(auth, email, password);
+    return credential.user;
 };
 
-// sign in authenticated user from email and password after sign in
+// sign in with email and password
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+    const credential = await signInWithEmailAndPassword(auth, email, password);
+    return credential.user;
 };
 
 // sign in with Google popup
@@ -55,12 +59,6 @@ const facebookAuthProvider = new FacebookAuthProvider();
 export const signInWithFacebookPopup = async () => {
     const result = await signInWithPopup(auth, facebookAuthProvider);
     return result.user;
-};
-
-// sign up with email and password
-export const signUpAuthUserWithEmailAndPassword = async (email, password) => {
-    const credential = await createUserWithEmailAndPassword(auth, email, password);
-    return credential.user;
 };
 
 // database functions

@@ -11,9 +11,10 @@ const sizesMap = {
 const UserIcon = ({size, colour}) => {
 
     const dimensions = sizesMap[size];
+    let backgroundColor = colour ? colour : "#C23B22";
 
     return (
-        <div className="user-icon" style={{height: dimensions, width: dimensions, backgroundColor: colour}}>
+        <div className="user-icon" style={{height: dimensions, width: dimensions, backgroundColor}}>
             <img src={userIconImageSrc} alt="user-icon" loading="lazy"/>
         </div>
     );

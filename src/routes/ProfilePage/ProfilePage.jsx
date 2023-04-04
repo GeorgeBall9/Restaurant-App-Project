@@ -84,7 +84,7 @@ const ProfilePage = () => {
             </header>
 
             <section className="change-icon-section">
-                <UserIcon size="xLarge" colour="#c23b22"/>
+                <UserIcon size="xLarge" colour={iconColour}/>
 
                 <button onClick={handleChangeIconClick}>
                     Change icon

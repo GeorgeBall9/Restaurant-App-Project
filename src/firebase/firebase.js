@@ -2,7 +2,7 @@
 import {initializeApp} from "firebase/app";
 
 // db imports
-import {getFirestore, doc, getDoc, setDoc} from "firebase/firestore";
+import {getFirestore, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 
 // auth imports
 import {
@@ -104,4 +104,24 @@ const getRandomColour = () => {
 
     const randomIndex = Math.floor(Math.random() * colours.length);
     return colours[randomIndex];
+};
+
+// update user display name
+export const updateUserDisplayName = async (userId, displayName) => {
+    try {
+        const docSnap = await doc(db, "users", userId);
+        await updateDoc(docSnap, {displayName});
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
+};
+
+// update user icon colour
+export const updateUserIconColour = async (userId, iconColour) => {
+    try {
+        const docSnap = await doc(db, "users", userId);
+        await updateDoc(docSnap, {iconColour});
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
 };

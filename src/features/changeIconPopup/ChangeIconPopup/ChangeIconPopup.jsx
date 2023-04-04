@@ -1,10 +1,11 @@
 import "./ChangeIconPopup.css";
-import {selectIconColour, selectUserId} from "../../user/userSlice";
+import {selectIconColour, selectUserId, setIconColour} from "../../user/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {hideChangeIconPopup} from "../changeIconPopupSlice";
 import UserIcon from "../../../common/components/UserIcon/UserIcon";
 import UserIconButton from "./UserIconButton/UserIconButton";
+import {updateUserIconColour} from "../../../firebase/firebase";
 
 const ChangeIconPopup = () => {
 
@@ -32,7 +33,7 @@ const ChangeIconPopup = () => {
             const updatedIconButtons = [...iconButtons];
             updatedIconButtons.find(button => button.colour === iconColour).selected = true;
             return updatedIconButtons;
-        })
+        });
     }, [iconColour]);
 
     const handleIconButtonClick = (index) => {
@@ -61,15 +62,17 @@ const ChangeIconPopup = () => {
         });
     };
 
-    const handleSavePopupClick = () => {
+    const handleSavePopupClick = async () => {
         const newIconColour = iconButtons.find(button => button.selected).colour;
 
-        // if (newIconColour !== iconColour) {
-        //     updateUserIconColour(userId, newIconColour)
-        //         .then(() => {
-        //             dispatch(setIconColour(newIconColour));
-        //         });
-        // }
+        if (newIconColour !== iconColour) {
+            try {
+                await updateUserIconColour(userId, newIconColour);
+                dispatch(setIconColour(newIconColour));
+            } catch (error) {
+                console.error("Error updating user icon colour:", error);
+            }
+        }
 
         handleClosePopupClick();
     };

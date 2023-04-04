@@ -3,6 +3,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+    background-color: white;
+    height: 100vh;
 }
 
 .profile-container button {
@@ -13,6 +15,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 1em;
+    border-bottom: solid 1px #B2B2B2;
 }
 
 .profile-container header button .icon {
@@ -35,26 +39,35 @@
     display: flex;
     flex-direction: column;
     gap: 1em;
-    border-bottom: solid 1px #434242;
-    padding: 1em 0;
 }
 
 /* CHANGE ICON */
 .profile-container .change-icon-section {
     align-items: center;
-    border-top: solid 1px #434242;
     position: relative;
+    padding: 1em 0;
 }
 
 .profile-container .change-icon-section .icon {
     margin-left: 0.5em;
 }
 
+.profile-container .change-icon-section button {
+    font-weight: 600;
+}
+
 /* CHANGE DETAILS */
+.profile-container label:first-child {
+    padding-top: 1em;
+    border-top: solid 1px #B2B2B2;
+}
+
 .profile-container label {
     font-size: 0.9rem;
     display: flex;
     gap: 2em;
+    padding-bottom: 1em;
+    border-bottom: solid 1px #B2B2B2;
 }
 
 .profile-container label input {
@@ -66,7 +79,8 @@
 }
 
 .profile-container .sign-out-button {
-    color: red;
+    color: var(--primary-theme);
+    font-weight: 500;
     align-self: flex-start;
     margin-top: 0.5em;
 }
@@ -74,4 +88,5 @@
 .profile-container .sign-out-button .icon {
     margin-right: 0.5em;
     transform: rotate(180deg);
+    color: var(--primary-theme);
 }

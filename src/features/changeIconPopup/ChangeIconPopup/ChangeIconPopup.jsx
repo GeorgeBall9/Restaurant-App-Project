@@ -84,13 +84,7 @@ const ChangeIconPopup = () => {
 
             <div className="icons-container">
                 {iconButtons.map((button, i) => (
-                    <UserIcon
-                        key={i}
-                        colour={button.colour}
-                        index={i}
-                        selected={button.selected}
-                        handleClick={handleIconButtonClick}
-                    />
+                    <UserIcon size="large" colour="#c23b22"/>
                 ))}
             </div>
 

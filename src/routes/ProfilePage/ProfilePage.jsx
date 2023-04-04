@@ -84,7 +84,7 @@ const ProfilePage = () => {
             </header>
 
             <section className="change-icon-section">
-                <UserIcon/>
+                <UserIcon size="xLarge" colour="#c23b22"/>
 
                 <button onClick={handleChangeIconClick}>
                     Change icon
@@ -97,6 +97,11 @@ const ProfilePage = () => {
             <section className="change-details-section">
                 <label>
                     Display name
+                    <input type="text" value={name} onChange={handleDisplayNameChange}/>
+                </label>
+
+                <label>
+                    Email
                     <input type="text" value={name} onChange={handleDisplayNameChange}/>
                 </label>
             </section>

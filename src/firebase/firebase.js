@@ -31,6 +31,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // auth functions
+const auth = getAuth();
 
 // create authenticated user from email and password after sign up
 export const createAuthUserFromEmailAndPassword = async (email, password) => {
@@ -43,9 +44,14 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 // sign in with Google popup
 const googleAuthProvider = new GoogleAuthProvider();
 
-export const signInWithGooglePopup = () => {};
+export const signInWithGooglePopup = async () => {
+    const result = await signInWithPopup(auth, googleAuthProvider);
+    return result.user;
+};
 
 // sign in with Facebook popup
 const facebookAuthProvider = new FacebookAuthProvider();
 
-export const signInWithFacebookPopup = () => {};
+export const signInWithFacebookPopup = async () => {
+
+};

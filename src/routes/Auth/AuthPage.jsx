@@ -6,7 +6,7 @@ import {
     signInWithGooglePopup,
     signInWithFacebookPopup
 } from "../../firebase/firebase";
-import { setUser } from "./userSlice";
+import { setUserId } from "../../features/user/userSlice";
 
 function App() {
     const dispatch = useDispatch();
@@ -17,7 +17,7 @@ function App() {
     const handleGoogleSignInClick = async () => {
         try {
             const user = await signInWithGooglePopup();
-            dispatch(setUser({ userId: user.uid }));
+            dispatch(setUserId({ userId: user.uid }));
         } catch (error) {
             console.error("Error signing in with Google: ", error);
         }
@@ -26,7 +26,7 @@ function App() {
     const handleFacebookSignInClick = async () => {
         try {
             const user = await signInWithFacebookPopup();
-            dispatch(setUser({ userId: user.uid }));
+            dispatch(setUserId({ userId: user.uid }));
         } catch (error) {
             console.error("Error signing up with Facebook: ", error);
         }

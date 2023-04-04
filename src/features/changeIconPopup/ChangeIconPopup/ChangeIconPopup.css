@@ -1,0 +1,54 @@
+.profile-container .change-icon-popup {
+    border-radius: 8px;
+    position: absolute;
+    background-color: #434242;
+    padding: 0.75em 1.5em;
+    max-width: 275px;
+    z-index: 10;
+}
+
+.profile-container .change-icon-popup .popup-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-container .change-icon-popup h2 {
+    font-size: 0.9rem;
+    text-align: center;
+    border-bottom: solid 1px #B2B2B2;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+}
+
+.profile-container .change-icon-popup .icons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75em;
+    justify-content: center;
+    border-bottom: solid 1px #B2B2B2;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+}
+
+.profile-container .change-icon-popup .icons-container .selected .user-icon {
+    border: solid 2px white;
+}
+
+.profile-container .change-icon-popup .apply-button {
+    margin: 0 auto;
+    width: 100%;
+    padding: 0.75em 1em;
+    border-radius: 8px;
+    background-color: #EBB02D;
+    font-weight: 700;
+    letter-spacing: 0.05rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #222222;
+}
+
+.profile-container .change-icon-popup .apply-button:hover {
+    color: white;
+}

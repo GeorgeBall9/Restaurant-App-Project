@@ -18,11 +18,8 @@ import {Provider} from 'react-redux'
 
 import reportWebVitals from './reportWebVitals';
 import Root from "./routes/Root";
-<<<<<<< HEAD
 import ProfilePage from "./routes/ProfilePage/ProfilePage";
-=======
 import SignUpPage from './routes/Auth/SignUp/SignUpPage';
->>>>>>> upstream/main
 
 const router = createBrowserRouter([
     {
@@ -47,15 +44,13 @@ const router = createBrowserRouter([
                 element: <AuthPage/>,
             },
             {
-<<<<<<< HEAD
                 path: "/profile",
                 element: <ProfilePage/>,
             },
-=======
+            {
                 path: "/signup",
                 element: <SignUpPage/>
             }
->>>>>>> upstream/main
         ],
     },
 ]);

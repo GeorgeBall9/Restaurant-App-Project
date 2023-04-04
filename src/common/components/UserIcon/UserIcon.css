@@ -1,0 +1,16 @@
+.user-icon {
+    background-color: #FF2E63;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-icon img {
+    height: 80%;
+    width: 80%;
+    border-radius: 50%;
+}

@@ -3,7 +3,6 @@ import {selectIconColour, selectUserId, setIconColour} from "../../user/userSlic
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {hideChangeIconPopup} from "../changeIconPopupSlice";
-import UserIcon from "../../../common/components/UserIcon/UserIcon";
 import UserIconButton from "./UserIconButton/UserIconButton";
 import {updateUserIconColour} from "../../../firebase/firebase";
 
@@ -20,7 +19,7 @@ const ChangeIconPopup = () => {
         {colour: "#AA77FF", selected: false},
         {colour: "#19A7CE", selected: false},
         {colour: "#FE6244", selected: false},
-        {colour: "#FCFFA6", selected: false},
+        {colour: "#FFDD83", selected: false},
         {colour: "#E6A4B4", selected: false},
         {colour: "#5D9C59", selected: false},
         {colour: "#E21818", selected: false},

@@ -6,8 +6,9 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectChangeIconPopupIsVisible, showChangeIconPopup} from "../../features/changeIconPopup/changeIconPopupSlice";
 import ChangeIconPopup from "../../features/changeIconPopup/ChangeIconPopup/ChangeIconPopup";
-import {selectDisplayName, selectIconColour, selectUserId} from "../../features/user/userSlice";
+import {selectDisplayName, selectIconColour, selectUserId, setDisplayName} from "../../features/user/userSlice";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
+import {signOutAuthUser, updateUserDisplayName} from "../../firebase/firebase";
 
 const ProfilePage = () => {
 
@@ -16,7 +17,6 @@ const ProfilePage = () => {
     const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
-    console.log(userId)
     const currentDisplayName = useSelector(selectDisplayName);
     const iconColour = useSelector(selectIconColour);
 
@@ -29,30 +29,32 @@ const ProfilePage = () => {
         setName(currentDisplayName);
     }, [currentDisplayName]);
 
+    const setSaveButtonVisibility = (visibility) => {
+        setSaveButtonStyle(saveButtonStyle => {
+            const updatedStyle = {...saveButtonStyle};
+            updatedStyle.visibility = visibility;
+            return updatedStyle;
+        });
+    };
+
     useEffect(() => {
         if (!currentDisplayName) return;
 
         if (name === currentDisplayName) {
-            setSaveButtonStyle(saveButtonStyle => {
-                const updatedStyle = {...saveButtonStyle};
-                updatedStyle.visibility = "hidden";
-                return updatedStyle;
-            });
+            setSaveButtonVisibility("hidden");
         } else {
-            setSaveButtonStyle(saveButtonStyle => {
-                const updatedStyle = {...saveButtonStyle};
-                updatedStyle.visibility = "visible";
-                return updatedStyle;
-            });
+            setSaveButtonVisibility("visible");
         }
     }, [currentDisplayName, name]);
 
     const handleBackClick = () => {
-        navigate("/");
+        navigate(-1);
     };
 
-    const handleSaveClick = () => {
+    const handleSaveClick = async () => {
         // update user doc to have new display name
+        await updateUserDisplayName(userId, name);
+        dispatch(setDisplayName(name));
     };
 
     const handleDisplayNameChange = ({target}) => {
@@ -62,6 +64,7 @@ const ProfilePage = () => {
 
     const handleSignOutClick = async () => {
         // sign out user
+        await signOutAuthUser();
     };
 
     const popupVisible = useSelector(selectChangeIconPopupIsVisible);

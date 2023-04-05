@@ -11,7 +11,8 @@ import {
     signInWithEmailAndPassword,
     GoogleAuthProvider,
     FacebookAuthProvider,
-    signInWithPopup
+    signInWithPopup,
+    signOut
 } from "firebase/auth";
 
 // firebase config
@@ -61,6 +62,11 @@ export const signInWithFacebookPopup = async () => {
     return await createNewUserInDatabase(user);
 };
 
+// sign out auth user
+export const signOutAuthUser = async () => {
+    await signOut(auth);
+};
+
 // database functions
 
 // check if user doc already exists
@@ -99,7 +105,7 @@ export const createNewUserInDatabase = async (user) => {
 
 // helper function to generate random icon colour for user
 const getRandomColour = () => {
-    const colours = ["#FF2E63", "#B3E5BE", "#AA77FF", "#19A7CE", "#FE6244", "#FCFFA6", "#E6A4B4", "#5D9C59",
+    const colours = ["#FF2E63", "#B3E5BE", "#AA77FF", "#19A7CE", "#FE6244", "#FFDD83", "#E6A4B4", "#5D9C59",
         "#E21818"];
 
     const randomIndex = Math.floor(Math.random() * colours.length);

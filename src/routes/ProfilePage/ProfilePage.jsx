@@ -16,6 +16,7 @@ const ProfilePage = () => {
     const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
+    console.log(userId)
     const currentDisplayName = useSelector(selectDisplayName);
     const iconColour = useSelector(selectIconColour);
 

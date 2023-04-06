@@ -42,8 +42,11 @@ export const signUpAuthUserWithEmailAndPassword = async (displayName, email, pas
 
 // sign in with email and password
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
-    const {user} = await signInWithEmailAndPassword(auth, email, password);
-    return await createNewUserInDatabase(user);
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+        throw new Error("User not found");
+    }
 };
 
 // sign in with Google popup
@@ -69,14 +72,6 @@ export const signOutAuthUser = async () => {
 
 // database functions
 
-// check if user doc already exists
-export const userDocExists = async (userId) => {
-    const docRef = doc(db, "users", userId);
-    const docSnap = await getDoc(docRef);
-
-    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
-};
-
 // create user doc - userData param includes displayName, email
 export const createUserDoc = async (userData, userId) => {
     const userDocRef = doc(db, "users", userId);
@@ -89,7 +84,7 @@ export const createUserDoc = async (userData, userId) => {
 // create user doc in db after successful sign up
 export const createNewUserInDatabase = async (user) => {
     const {uid, displayName, email} = user;
-    const userData = await userDocExists(uid);
+    const userData = await getUserFromUserId(uid);
 
     if (userData) {
         return userData;
@@ -117,11 +112,7 @@ export const getUserFromUserId = async (userId) => {
     const docRef = doc(db, "users", userId);
     const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-        return ({id: docSnap.id, ...docSnap.data()});
-    } else {
-        console.log("No such document!");
-    }
+    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
 };
 
 // update user display name

@@ -1,6 +1,7 @@
 import "./SignInPage.css";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import {
     signInAuthUserWithEmailAndPassword,
     signInWithGooglePopup,
@@ -11,11 +12,10 @@ import { useState } from "react";
 import {Link} from "react-router-dom";
 
 const SignInPage = () => {
-
     const dispatch = useDispatch();
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleEmailAndPasswordSignIn = async () => {
         try {
@@ -45,27 +45,66 @@ const SignInPage = () => {
     };
 
     return (
-        <div className="App">
-            <h1 className="Heading">Sign in</h1>
-            <div className="grey">Email</div>
-            <input type="text" className="textBar"/>
-            <div className="grey">Password</div>
-            <input type="password" className="textBar"/>
-            <div className="Heading">
-                <span>Do not have an account?</span>
-                <Link to="/sign-up" className="link">Sign up now!</Link>
+        <div className="signin-container">
+            <h1>Sign In</h1>
+
+            <form onSubmit={handleEmailAndPasswordSignIn} className="signin-form">
+                <div className="signin-field">
+                    <label htmlFor="email" className="signin-label">
+                        Email
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        className="signin-input"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                </div>
+
+                <div className="signin-field">
+                    <label htmlFor="password" className="signin-label">
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        className="signin-input"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </div>
+                {errorMessage && <div className="signin-error-message">{errorMessage}</div>}
+
+                <button className="signin-button" onClick={handleEmailAndPasswordSignIn}>
+                    Sign in
+                </button>
+            </form>
+
+            <div className="signin-page-signup">
+                <p>Don't have an account?
+                    <Link to="/sign-up" className="signup-link"> Sign up.</Link>
+                </p>
             </div>
-            <p className="grey">OR</p>
-            <div>
-                <button className="auth-button" onClick={handleGoogleSignInClick}>
-                    <img src="/google.png"/>
-                    <span className="Google">Sign in with Google</span>
+
+            <div className="signin-page-separator">
+                <span>OR</span>
+                
+            </div>
+
+            <div className="signin-google">
+                <button className="auth-button-google" onClick={handleGoogleSignInClick}>
+                    <img src="/google.png" alt="Google logo"/>
+                    <span className="google">Sign in with Google</span>
                 </button>
             </div>
-            <div>
-                <button className="auth-button" onClick={handleFacebookSignInClick}>
-                    <img src="/facebook.png"/>
-                    <span className="Facebook">Sign in with Facebook</span>
+
+            <div className="signin-facebook">
+                <button className="auth-button-facebook" onClick={handleFacebookSignInClick}>
+                    <img src="/facebook.png" alt="Facebook logo"/>
+                    <span>Sign in with Facebook</span>
                 </button>
             </div>
         </div>

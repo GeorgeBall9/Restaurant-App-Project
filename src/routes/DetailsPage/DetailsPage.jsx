@@ -1,16 +1,23 @@
 import './DetailsPage.css';
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectAllRestaurants } from '../../features/restaurants/restaurantsSlice';
+import {useNavigate, useParams} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
 import StarRating from '../../common/components/RestaurantCard/StarRating/StarRating';
-import { useState, useEffect, useRef } from 'react';
+import {useState, useEffect, useRef} from 'react';
 
-import { faChevronLeft, faLocationDot, faPhone, faUtensils, faMoneyBillWave, faLeaf } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faChevronLeft,
+    faLocationDot,
+    faPhone,
+    faUtensils,
+    faMoneyBillWave,
+    faLeaf
+} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 const DetailsPage = () => {
-    const { id } = useParams();
+    const {id} = useParams();
     const allRestaurants = useSelector(selectAllRestaurants);
     const [restaurant, setRestaurant] = useState(null);
     const [showAllHours, setShowAllHours] = useState(true);
@@ -31,7 +38,7 @@ const DetailsPage = () => {
 
     useEffect(() => {
         if (restaurant === undefined) {
-            navigate('/error', { replace: true });
+            navigate('/error', {replace: true});
         }
     }, [restaurant, navigate]);
 
@@ -52,8 +59,20 @@ const DetailsPage = () => {
     }
 
 
-    const { name, photoUrl, rating, hours, website, description, phone, price, priceLevel, primaryCuisine, dietaryRestrictions } = restaurant;
-    const { street1, city, postalcode } = restaurant.address;
+    const {
+        name,
+        photoUrl,
+        rating,
+        hours,
+        website,
+        description,
+        phone,
+        price,
+        priceLevel,
+        primaryCuisine,
+        dietaryRestrictions
+    } = restaurant;
+    const {street1, city, postalcode} = restaurant.address;
     const starRating = Math.round(rating * 2) / 2;
 
     const groupDaysWithSameHours = (hours) => {
@@ -88,7 +107,7 @@ const DetailsPage = () => {
 
     const getDomainName = (url) => {
         try {
-            const { hostname } = new URL(url);
+            const {hostname} = new URL(url);
             return hostname;
         } catch (error) {
             console.error('Error parsing URL', error);
@@ -106,23 +125,23 @@ const DetailsPage = () => {
     };
 
     return (
-        <div className="details-page-wrapper">
-            <div className="details-page-banner" style={
+        <div className="details-page-wrapper container">
+            <div className="details-page-banner container" style={
                 scrollPosition > 20
-                    ? { position: 'fixed', backgroundColor: 'rgba(255, 255, 255, 0.9)' }
-                    : { position: 'absolute', backgroundColor: 'transparent' }
+                    ? {position: 'fixed', backgroundColor: 'rgba(255, 255, 255, 0.9)'}
+                    : {position: 'absolute', backgroundColor: 'transparent'}
             }>
                 <button className="back-button" onClick={() => navigate(-1)}>
-                    <FontAwesomeIcon icon={faChevronLeft} className="icon" />Back
+                    <FontAwesomeIcon icon={faChevronLeft} className="icon"/>Back
                 </button>
             </div>
             <div className="details-page-restaurant-image-container">
-                <div className="backdrop" style={{ backgroundImage: `url(${photoUrl})` }}></div>
+                <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
 
                 <div className="details-page-restaurant-info">
                     <div className="restaurant-name">
                         <h1>{name}</h1>
-                        <StarRating rating={starRating} />
+                        <StarRating rating={starRating}/>
                     </div>
                     {priceLevel !== null ? (
                         <div className="restaurant-price">
@@ -134,11 +153,11 @@ const DetailsPage = () => {
                         </div>
                     ) : null}
                     <div className="restaurant-address">
-                        <p><FontAwesomeIcon icon={faLocationDot} /> {street1}, {city}, {postalcode}</p>
+                        <p><FontAwesomeIcon icon={faLocationDot}/> {street1}, {city}, {postalcode}</p>
                     </div>
                     {phone && (
                         <div className="restaurant-phone">
-                            <p><FontAwesomeIcon icon={faPhone} />{phone}</p>
+                            <p><FontAwesomeIcon icon={faPhone}/>{phone}</p>
                         </div>
                     )}
                     <div className="open-status">{isOpen ? 'Open Now' : 'Closed'}</div>
@@ -159,7 +178,8 @@ const DetailsPage = () => {
                                 {isExpanded ? description : description.slice(0, 200) + (description.length > 100 ? '...' : '')}
                             </p>
                             {description.length > 200 && (
-                                <button className="read-more-button" onClick={handleToggleDescription}>{toggleLabel}</button>
+                                <button className="read-more-button"
+                                        onClick={handleToggleDescription}>{toggleLabel}</button>
                             )}
                         </div>
                     )}
@@ -176,23 +196,23 @@ const DetailsPage = () => {
                     <div className="more-details">
                         <h2>More Details</h2>
                         <div className="details-map-location">
-                            <FontAwesomeIcon icon={faLocationDot} />
+                            <FontAwesomeIcon icon={faLocationDot}/>
                             <span>Location</span>
                             <p> {street1}, {city}, {postalcode}</p>
                         </div>
                         <div>
-                            <FontAwesomeIcon icon={faMoneyBillWave} />
+                            <FontAwesomeIcon icon={faMoneyBillWave}/>
                             <span>Price</span>
                             <p> {price || priceLevel || 'N/A'}</p>
                         </div>
                         <div>
-                            <FontAwesomeIcon icon={faUtensils} />
+                            <FontAwesomeIcon icon={faUtensils}/>
                             <span> Cuisine</span>
                             <p> {primaryCuisine || 'N/A'}</p>
                         </div>
                         {dietaryRestrictions && (
                             <div>
-                                <FontAwesomeIcon icon={faLeaf} />
+                                <FontAwesomeIcon icon={faLeaf}/>
                                 <span>Dietary Restrictions</span>
                                 <p> {dietaryRestrictions.join(', ')}</p>
                             </div>

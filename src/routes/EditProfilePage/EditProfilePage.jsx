@@ -1,4 +1,4 @@
-import "./ProfilePage.css";
+import "./EditProfilePage.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRightFromBracket, faChevronLeft, faCircleCheck, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
@@ -10,7 +10,7 @@ import {selectDisplayName, selectIconColour, selectUserId, setDisplayName} from 
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {signOutAuthUser, updateUserDisplayName} from "../../firebase/firebase";
 
-const ProfilePage = () => {
+const EditProfilePage = () => {
 
     const navigate = useNavigate();
 
@@ -48,7 +48,7 @@ const ProfilePage = () => {
     }, [currentDisplayName, name]);
 
     const handleBackClick = () => {
-        navigate(-1);
+        navigate("/");
     };
 
     const handleSaveClick = async () => {
@@ -103,11 +103,6 @@ const ProfilePage = () => {
                     Display name
                     <input type="text" value={name} onChange={handleDisplayNameChange}/>
                 </label>
-
-                <label>
-                    Email
-                    <input type="text" value={name} onChange={handleDisplayNameChange}/>
-                </label>
             </section>
 
             <button className="sign-out-button" onClick={handleSignOutClick}>
@@ -118,4 +113,4 @@ const ProfilePage = () => {
     );
 };
 
-export default ProfilePage;
+export default EditProfilePage;

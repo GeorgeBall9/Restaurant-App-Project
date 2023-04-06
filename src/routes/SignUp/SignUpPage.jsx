@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./SignUpPage.css";
 import { Link } from "react-router-dom";
 
-import {signUpAuthUserWithEmailAndPassword} from "../../../firebase/firebase";
+import {signUpAuthUserWithEmailAndPassword} from "../../firebase/firebase";
 
 function SignUpPage() {
     const [email, setEmail] = useState("");

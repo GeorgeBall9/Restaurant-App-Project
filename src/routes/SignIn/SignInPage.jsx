@@ -1,4 +1,4 @@
-import "./AuthPage.css";
+import "./SignInPage.css";
 import React from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -9,7 +9,7 @@ import {
 import {setUserDetails} from "../../features/user/userSlice";
 import { useState } from "react";
 
-function App() {
+const SignInPage = () => {
 
     const dispatch = useDispatch();
 
@@ -71,4 +71,4 @@ function App() {
     );
 }
 
-export default App;
+export default SignInPage;

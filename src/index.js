@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import {
-    createBrowserRouter,
+    createBrowserRouter, redirect,
     RouterProvider,
 } from "react-router-dom";
 
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage/>,
         children: [
             {
-                path: "home",
+                path: "/",
                 element: <HomePage/>,
             },
             {

@@ -3,16 +3,29 @@ import "./SignUpPage.css";
 import { Link } from "react-router-dom";
 
 import {signUpAuthUserWithEmailAndPassword} from "../../firebase/firebase";
+import FormField from "../../common/components/FormField/FormField";
+import {setUserDetails} from "../../features/user/userSlice";
+import {useDispatch} from "react-redux";
 
-function SignUpPage() {
+const SignUpPage = () => {
+
+    const dispatch = useDispatch();
+
+    const [displayName, setDisplayName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [passwordMismatch, setPasswordMismatch] = useState(false);
 
-    const handleSignUp = async (e) => {
-        e.preventDefault();
+    const handleSignUp = async (event) => {
+        event.preventDefault();
+
+        if (!displayName) {
+            console.error("You must have a display name");
+            setErrorMessage("You must have a display name");
+            return;
+        }
         
         if (password !== confirmPassword) {
             console.error("Passwords do not match");
@@ -24,15 +37,28 @@ function SignUpPage() {
         setPasswordMismatch(false);
 
         try {
-            await signUpAuthUserWithEmailAndPassword(email, password);
+            const userDetails = await signUpAuthUserWithEmailAndPassword(displayName, email, password);
+            dispatch(setUserDetails(userDetails));
         } catch (error) {
             console.error("Error signing up with email and password: ", error);
             setErrorMessage("Error signing up. Please try again.")
         }
     };
 
-    const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
+    const handleDisplayNameChange = ({target}) => {
+        setDisplayName(target.value);
+    };
+
+    const handleEmailChange = ({target}) => {
+        setEmail(target.value);
+    };
+
+    const handlePasswordChange = ({target}) => {
+        setPassword(target.value);
+    };
+
+    const handleConfirmPasswordChange = ({target}) => {
+        setConfirmPassword(target.value);
     
         // Clear the error message when confirm password input is changed
         if (errorMessage) {
@@ -47,47 +73,35 @@ function SignUpPage() {
             <h1>Sign Up</h1>
 
             <form onSubmit={handleSignUp} className="signup-form">
-                <div className="signup-field">
-                    <label htmlFor="email" className="signup-label">
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        className="signup-input"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
+                <FormField
+                    label="Display name"
+                    type="text"
+                    value={displayName}
+                    onChangeHandler={handleDisplayNameChange}
+                />
 
-                <div className="signup-field">
-                    <label htmlFor="password" className="signup-label">
-                        Password
-                    </label>
-                    <input
-                        type="password"
-                        id="password"
-                        className="signup-input"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
+                <FormField
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChangeHandler={handleEmailChange}
+                />
 
-                <div className="signup-field">
-                    <label htmlFor="confirm-password" className="signup-label">
-                        Confirm Password
-                    </label>
-                    <input
-                        type="password"
-                        id="confirm-password"
-                        className={`signup-input ${passwordMismatch ? "error-border" : ""}`}
-                        value={confirmPassword}
-                        onChange={handleConfirmPasswordChange}
-                        required
-                    />
-                </div>
+                <FormField
+                    label="Password"
+                    type="password"
+                    value={password}
+                    onChangeHandler={handlePasswordChange}
+                />
+
+                <FormField
+                    label="Confirm password"
+                    type="password"
+                    className={`signup-input ${passwordMismatch ? "error-border" : ""}`}
+                    value={confirmPassword}
+                    onChangeHandler={handleConfirmPasswordChange}
+                />
+
                 {errorMessage && <div className="signup-error-message">{errorMessage}</div>}
 
                 <button className="signup-button" onClick={handleSignUp}>
@@ -97,7 +111,7 @@ function SignUpPage() {
 
             <div className="signup-page-signin">
                 <p>Already have an account?
-                    <Link to="/login" className="signin-link"> Sign in.</Link>
+                    <Link to="/sign-in" className="signin-link"> Sign in.</Link>
                 </p>
             </div>
         </div>

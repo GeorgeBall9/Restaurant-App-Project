@@ -35,15 +35,17 @@ const Slider = () => {
 
     const handlers = useSwipeable({
         onSwiping: ({deltaX}) => {
-            setStyle(style => {
-                const updatedStyle = {...style};
-                const translateX = xPosition + 1.25 * deltaX;
-                setOffsetX(deltaX);
-                updatedStyle.transform = `translateX(${translateX}px)`;
-                return updatedStyle;
+            requestAnimationFrame(() => {
+                setStyle(style => {
+                    const updatedStyle = {...style};
+                    const translateX = xPosition + deltaX;
+                    setOffsetX(deltaX);
+                    updatedStyle.transform = `translateX(${translateX}px)`;
+                    return updatedStyle;
+                });
             });
         },
-        onSwiped: ({ velocity, dir }) => {
+        onTouchEndOrOnMouseUp: ({ velocity, dir }) => {
             const magnitude = Math.abs(offsetX);
             const isQuickForwardSwipe = dir === "Left" && Math.abs(velocity) > 0.4;
             const isQuickBackwardSwipe = dir === "Right" && Math.abs(velocity) > 0.4;

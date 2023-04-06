@@ -8,22 +8,10 @@ const Auth = () => {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-
     const userId = useSelector(selectUserId);
 
-    const storeUserDetails = async (id) => {
-        const userDetails = await getUserFromUserId(id);
-        dispatch(setUserDetails(userDetails));
-    };
-
     useEffect(() => {
-        if (userId) {
-            storeUserDetails(userId)
-                .then(() => navigate("edit-profile"));
-        } else {
-            navigate("sign-in");
-        }
+        navigate(userId ? "/profile" : "/sign-in");
     }, [userId]);
 
     return (

@@ -9,9 +9,9 @@ import {selectFiltersAreVisible} from "../features/filters/filtersSlice";
 import useInitialiseSlider from "../common/hooks/useInitialiseSlider";
 
 import {onAuthStateChanged} from "firebase/auth";
-import {auth} from "../firebase/firebase";
+import {auth, getUserFromUserId} from "../firebase/firebase";
 import {useEffect} from "react";
-import {resetUserDetails, setUserId} from "../features/user/userSlice";
+import {resetUserDetails, selectUserId, setUserDetails, setUserId} from "../features/user/userSlice";
 
 const Root = () => {
 
@@ -23,6 +23,16 @@ const Root = () => {
 
     const spinnerIsVisible = useSelector(selectSpinnerIsVisible);
     const filtersVisible = useSelector(selectFiltersAreVisible);
+
+    const userId = useSelector(selectUserId);
+
+    const storeUserDetails = async (id) => {
+        const userDetails = await getUserFromUserId(id);
+
+        if (userDetails) {
+            dispatch(setUserDetails(userDetails));
+        }
+    };
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -37,9 +47,15 @@ const Root = () => {
         });
     }, []);
 
+    useEffect(() => {
+        if (userId) {
+            storeUserDetails(userId);
+        }
+    }, [userId]);
+
     return (
         <>
-            {/* {spinnerIsVisible && <Spinner/>} */}
+            {spinnerIsVisible && <Spinner/>}
             {filtersVisible && <FiltersDropdown/>}
             <Outlet/>
         </>

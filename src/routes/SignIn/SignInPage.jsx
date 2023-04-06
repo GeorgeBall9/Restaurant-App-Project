@@ -1,7 +1,6 @@
 import "./SignInPage.css";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import {
     signInAuthUserWithEmailAndPassword,
     signInWithGooglePopup,
@@ -11,12 +10,15 @@ import {setUserDetails} from "../../features/user/userSlice";
 import { useState } from "react";
 
 const SignInPage = () => {
+
     const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
-    const handleEmailAndPasswordSignIn = async () => {
+    const handleEmailAndPasswordSignIn = async (event) => {
+        event.preventDefault();
+
         try {
             const userDetails = await signInAuthUserWithEmailAndPassword(email, password);
             dispatch(setUserDetails(userDetails));

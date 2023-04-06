@@ -9,9 +9,10 @@ import {selectFiltersAreVisible} from "../features/filters/filtersSlice";
 import useInitialiseSlider from "../common/hooks/useInitialiseSlider";
 
 import {onAuthStateChanged} from "firebase/auth";
-import {auth} from "../firebase/firebase";
+import {auth, getUserFromUserId} from "../firebase/firebase";
 import {useEffect} from "react";
-import {resetUserDetails, setUserId} from "../features/user/userSlice";
+import {resetUserDetails, selectUserId, setUserDetails, setUserId} from "../features/user/userSlice";
+import {logDOM} from "@testing-library/react";
 
 const Root = () => {
 
@@ -39,7 +40,7 @@ const Root = () => {
 
     return (
         <>
-            {/* {spinnerIsVisible && <Spinner/>} */}
+            {spinnerIsVisible && <Spinner/>}
             {filtersVisible && <FiltersDropdown/>}
             <Outlet/>
         </>

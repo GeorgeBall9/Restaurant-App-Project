@@ -4,8 +4,13 @@ import { Link } from "react-router-dom";
 
 import {signUpAuthUserWithEmailAndPassword} from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
+import {setUserDetails} from "../../features/user/userSlice";
+import {useDispatch} from "react-redux";
 
 function SignUpPage() {
+
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,7 +30,8 @@ function SignUpPage() {
         setPasswordMismatch(false);
 
         try {
-            await signUpAuthUserWithEmailAndPassword(email, password);
+            const userDetails = await signUpAuthUserWithEmailAndPassword(email, password);
+            dispatch(setUserDetails(userDetails));
         } catch (error) {
             console.error("Error signing up with email and password: ", error);
             setErrorMessage("Error signing up. Please try again.")

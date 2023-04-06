@@ -113,6 +113,7 @@ const formatData = (data) => {
                 city,
                 postalcode,
             },
+            dietary_restrictions,
         } = entry;
 
         return {
@@ -137,6 +138,7 @@ const formatData = (data) => {
                 city,
                 postalcode
             },
+            dietaryRestrictions: dietary_restrictions.map(({name: dietaryType }) => dietaryType),
         };
     });
 };

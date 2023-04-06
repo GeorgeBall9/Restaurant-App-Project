@@ -51,6 +51,7 @@ body {
     max-width: var(--max-width-content);
     margin: var(--margin-align-center);
     padding: var(--padding-content);
+    position: relative;
 }
 
 button {

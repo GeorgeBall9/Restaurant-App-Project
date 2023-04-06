@@ -9,7 +9,7 @@ function SignUpPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [passwordMismatch, setPasswordMismatch] = useState("");
+    const [passwordMismatch, setPasswordMismatch] = useState(false);
 
     const handleSignUp = async (e) => {
         e.preventDefault();

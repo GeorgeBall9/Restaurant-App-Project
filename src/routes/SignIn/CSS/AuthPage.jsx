@@ -1,4 +1,4 @@
-import "./CSS/AuthPage.scss";
+import "./AuthPage.scss";
 import(
   "https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200&display=swap"
 );

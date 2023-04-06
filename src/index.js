@@ -21,6 +21,7 @@ import EditProfilePage from "./routes/EditProfilePage/EditProfilePage";
 import SignUpPage from './routes/SignUp/SignUpPage';
 import SignInPage from "./routes/SignIn/SignInPage";
 import Auth from "./routes/Auth/Auth";
+import AuthPage from "./routes/SignIn/CSS/AuthPage";
 
 const router = createBrowserRouter([
     {

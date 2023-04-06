@@ -17,7 +17,6 @@ import StarRating from "./StarRating/StarRating";
 import RouteButton from "./RouteButton/RouteButton";
 import BookmarkButton from "./BookmarkButton/BookmarkButton";
 import {useSwipeable} from "react-swipeable";
-import {changeSlide} from "../../../features/slider/sliderSlice";
 
 // A card component for displaying restaurant information
 const RestaurantCard = ({restaurant, view, ranking}) => {

@@ -48,7 +48,7 @@ const EditProfilePage = () => {
     }, [currentDisplayName, name]);
 
     const handleBackClick = () => {
-        navigate(-1);
+        navigate("/");
     };
 
     const handleSaveClick = async () => {

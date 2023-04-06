@@ -1,51 +1,142 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200&display=swap");
-
-.App {
-    text-align: center;
-    justify-content: center;
-}
-
-.Heading {
-    margin-top: 50px;
-}
-
-.textBar {
-    border-width: 2px;
-    border-color: #797979;
-    border-radius: 8px;
-    height: 35px;
-    width: 500px;
-    margin-top: 5px;
-    padding: 0 8px;
-}
-
-.grey {
-    color: #797979;
-    margin-top: 20px;
-}
-
-.link {
-    color: #176bcd;
-    text-decoration: none;
-    margin-left: 5px;
-}
-
-.auth-button {
-    background-color: #c23b22;
-    border-width: 0px;
-    border-radius: 5px;
-    height: 60px;
-    width: 304px;
-    color: #ffffff;
-    font-size: 18px;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
+.signin-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    padding: 2rem;
+    max-width: var(--max-width-content);
+    margin: var(--margin-align-center);
+  }
+  
+.signin-container h1 {
+    font-size: var(--font-size-heading);
+    font-weight: var(--font-weight-bold-1);
+    color: var(--primary-theme);
+    margin-bottom: 1.5rem;
+  }
+  
+.signin-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+.signin-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
 }
 
-.App img {
-    margin-right: 15px;
+.signin-label {
+  font-size: var(--font-size-sub-heading);
+  margin-bottom: 0.5rem;
+}
+
+.signin-input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+.signin-input:focus {
+  border-color: var(--secondary-theme);
+}
+
+.signin-error-message {
+  color: red;
+  margin: var(--margin-align-center);
+  padding: 0.5rem;
+}
+
+.signin-button {
+  background-color: var(--secondary-theme);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.75rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 1rem;
+}
+
+.signin-button:hover {
+  background-color: var(--primary-theme);
+}
+
+.signin-page-signup {
+  margin: var(--margin-align-center);
+  padding: var(--padding-content);
+}
+
+.signup-link {
+    text-decoration: none;
+    color: var(--primary-theme);
+}
+
+.signin-page-separator {
+  margin: var(--margin-align-center);
+  padding: 0.5rem;
+}
+
+.signin-page-separator span {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold-2);
+  color: #ccc;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+.signin-google, .signin-facebook {
+    margin: var(--margin-align-center);
+    padding: var(--padding-content);
+    text-align: center;
+  }
+  
+.auth-button-google, .auth-button-facebook {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sub-heading);
+  font-weight: var(--font-weight-bold-1);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  width: 240px;
+  height: 5rem;
+  padding: var(--padding-content);
+  text-align: left;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.auth-button:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.auth-button-google {
+  background-color: #4285F4;
+  color: #fff;
+}
+
+.auth-button-google:hover {
+  background-color: #357AE8;
+  transform: scale(1.05);
+}
+
+.auth-button-facebook {
+  background-color: #3B5998;
+  color: #fff;
+}
+
+.auth-button-facebook:hover {
+  background-color: #2D4373;
+  transform: scale(1.05);
+}
+
+.auth-button-google img, .auth-button-facebook img {
+    width: 30px;
+    height: 30px;
+    margin-right: 0.5rem;
 }

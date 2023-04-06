@@ -1,4 +1,4 @@
-import "./AuthPage.css";
+import "./SignInPage.css";
 import React from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -8,7 +8,7 @@ import {
 } from "../../firebase/firebase";
 import {setUserDetails} from "../../features/user/userSlice";
 
-function App() {
+const SignInPage = () => {
 
     const dispatch = useDispatch();
 
@@ -58,4 +58,4 @@ function App() {
     );
 }
 
-export default App;
+export default SignInPage;

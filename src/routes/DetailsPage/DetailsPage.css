@@ -48,7 +48,7 @@
   width: 100%;
   bottom: 0;
   left: 0;
-  padding: 20px;
+  padding: 1.25em;
   background-color: rgba(0, 0, 0, 0.6);
 }
 
@@ -64,7 +64,7 @@
 }
 
 .restaurant-address, .restaurant-phone, .restaurant-price {
-  margin-bottom: 10px;
+  margin-bottom: 0.6em;
 }
 
 .restaurant-address p, .restaurant-phone p, .restaurant-price p, .open-status {

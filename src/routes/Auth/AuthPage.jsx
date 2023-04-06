@@ -7,10 +7,23 @@ import {
     signInWithFacebookPopup,
 } from "../../firebase/firebase";
 import {setUserDetails} from "../../features/user/userSlice";
+import { useState } from "react";
 
 function App() {
 
     const dispatch = useDispatch();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleEmailAndPasswordSignIn = async () => {
+        try {
+            const userDetails = await signInAuthUserWithEmailAndPassword(email, password);
+            dispatch(setUserDetails(userDetails));
+        } catch (error) {
+            console.error("Error signing in with email and password", error);
+        }
+    };
 
     const handleGoogleSignInClick = async () => {
         try {

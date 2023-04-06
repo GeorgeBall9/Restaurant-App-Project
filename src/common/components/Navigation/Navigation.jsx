@@ -7,7 +7,7 @@ import {
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import SearchBox from "./SearchBox/SearchBox";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
     selectAppliedCuisineFilter,
@@ -36,6 +36,10 @@ const Navigation = ({view}) => {
 
     const handleFilterButtonClicked = () => dispatch(showFilters());
 
+    const handleProfileClick = () => {
+        navigate("/edit-profile");
+    };
+
     return (
         <div className="navigation-container">
             <div className="navigation">
@@ -55,10 +59,8 @@ const Navigation = ({view}) => {
                         </button>
                     </div>
 
-                    <button className="button">
-                        <Link to="/edit-profile">
-                            <FontAwesomeIcon className="icon" icon={faUser}/>
-                        </Link>
+                    <button className="button" onClick={handleProfileClick}>
+                        <FontAwesomeIcon className="icon" icon={faUser}/>
                     </button>
                 </div>
 

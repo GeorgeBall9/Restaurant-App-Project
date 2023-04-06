@@ -101,6 +101,7 @@ const formatData = (data) => {
             distance,
             rating,
             price,
+            price_level,
             hours,
             cuisine,
             description,
@@ -111,7 +112,8 @@ const formatData = (data) => {
                 street2,
                 city,
                 postalcode,
-            }
+            },
+            dietary_restrictions,
         } = entry;
 
         return {
@@ -123,6 +125,7 @@ const formatData = (data) => {
             distance,
             rating: +rating,
             price: price ? price : null,
+            priceLevel: price_level ? price_level : null,
             hours: formatHours(hours),
             primaryCuisine: cuisine.length > 0 ? cuisine[0].name : null,
             cuisines: cuisine,
@@ -134,7 +137,8 @@ const formatData = (data) => {
                 street2,
                 city,
                 postalcode
-            }
+            },
+            dietaryRestrictions: dietary_restrictions.map(({name: dietaryType }) => dietaryType),
         };
     });
 };

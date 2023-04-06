@@ -69,7 +69,6 @@ export const {
     showFilters,
     hideFilters,
     updateSearchQuery,
-    resetSearchQuery,
     applyFilters,
     removedAppliedFilter,
     resetFilters

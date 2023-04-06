@@ -1,0 +1,13 @@
+.user-icon {
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-icon img {
+    height: 80%;
+    width: 80%;
+    border-radius: 50%;
+}

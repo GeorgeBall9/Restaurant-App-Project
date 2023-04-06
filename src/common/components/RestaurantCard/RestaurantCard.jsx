@@ -69,7 +69,7 @@ const RestaurantCard = ({restaurant, view, ranking}) => {
                 </div>
 
                 <div className="image-container">
-                    <img src={photoUrl} alt={name}/>
+                    <img src={photoUrl} alt={name} loading="lazy"/>
                 </div>
             </div>
         </div>

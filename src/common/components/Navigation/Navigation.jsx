@@ -2,21 +2,17 @@ import "./Navigation.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faArrowLeft,
-    faLocationDot,
     faMapLocationDot,
     faSliders,
     faUser,
-    faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import SearchBox from "./SearchBox/SearchBox";
 import {useNavigate} from "react-router-dom";
-import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
 import {useDispatch, useSelector} from "react-redux";
 import {
     selectAppliedCuisineFilter,
     selectAppliedSortFilter,
-    selectDropdownFilterVisible, selectFiltersAreVisible, showFilters,
-    toggleFiltersDropdown
+    showFilters,
 } from "../../../features/filters/filtersSlice";
 import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
 import LocationButton from "../../../features/location/LocationButton/LocationButton";
@@ -24,7 +20,6 @@ import LocationOptions from "../../../features/location/LocationOptions/Location
 import {selectLocationOptionsOpen} from "../../../features/location/locationSlice";
 
 const Navigation = ({view}) => {
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -41,6 +36,10 @@ const Navigation = ({view}) => {
 
     const handleFilterButtonClicked = () => dispatch(showFilters());
 
+    const handleProfileClick = () => {
+        navigate("/edit-profile");
+    };
+
     return (
         <div className="navigation-container">
             <div className="navigation">
@@ -52,12 +51,15 @@ const Navigation = ({view}) => {
                     <div className="search-and-filters">
                         <SearchBox/>
 
-                        <button className="button filter-button" onClick={handleFilterButtonClicked}>
+                        <button
+                            className="button filter-button"
+                            onClick={handleFilterButtonClicked}
+                        >
                             <FontAwesomeIcon className="icon" icon={faSliders}/>
                         </button>
                     </div>
 
-                    <button className="button">
+                    <button className="button" onClick={handleProfileClick}>
                         <FontAwesomeIcon className="icon" icon={faUser}/>
                     </button>
                 </div>
@@ -65,9 +67,13 @@ const Navigation = ({view}) => {
                 <div className="lower">
                     <LocationButton/>
 
-                    {appliedSortFilter && <AppliedFilterButton type={"sortBy"} filter={appliedSortFilter}/>}
+                    {appliedSortFilter && (
+                        <AppliedFilterButton filter={appliedSortFilter}/>
+                    )}
 
-                    {appliedCuisineFilter && <AppliedFilterButton type={"cuisine"} filter={appliedCuisineFilter}/>}
+                    {appliedCuisineFilter && (
+                        <AppliedFilterButton filter={appliedCuisineFilter}/>
+                    )}
                 </div>
             </div>
 

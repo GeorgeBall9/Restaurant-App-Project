@@ -20,7 +20,7 @@ const Auth = () => {
     useEffect(() => {
         if (userId) {
             storeUserDetails(userId)
-                .then(() => navigate("edit-profile"));
+                .then(() => navigate("profile"));
         } else {
             navigate("sign-in");
         }

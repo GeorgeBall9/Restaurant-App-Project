@@ -39,7 +39,7 @@ const Root = () => {
 
     return (
         <>
-            {spinnerIsVisible && <Spinner/>}
+            {/* {spinnerIsVisible && <Spinner/>} */}
             {filtersVisible && <FiltersDropdown/>}
             <Outlet/>
         </>

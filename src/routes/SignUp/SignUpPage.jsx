@@ -7,17 +7,46 @@ import {signUpAuthUserWithEmailAndPassword} from "../../firebase/firebase";
 function SignUpPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [passwordMismatch, setPasswordMismatch] = useState("");
 
-    const handleSignUp = async () => {
-        // Implement sign up functionality here
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        
+        if (password !== confirmPassword) {
+            console.error("Passwords do not match");
+            setErrorMessage("Passwords do not match");
+            setPasswordMismatch(true);
+            return;
+        } 
+        
+        setPasswordMismatch(false);
+
+        try {
+            await signUpAuthUserWithEmailAndPassword(email, password);
+        } catch (error) {
+            console.error("Error signing up with email and password: ", error);
+            setErrorMessage("Error signing up. Please try again.")
+        }
+    };
+
+    const handleConfirmPasswordChange = (e) => {
+        setConfirmPassword(e.target.value);
+    
+        // Clear the error message when confirm password input is changed
+        if (errorMessage) {
+            setErrorMessage("");
+        }
+
+        setPasswordMismatch(false);
     };
 
     return (
         <div className="signup-container">
             <h1>Sign Up</h1>
 
-            <form onSubmit={(e) => e.preventDefault()} className="signup-form">
+            <form onSubmit={handleSignUp} className="signup-form">
                 <div className="signup-field">
                     <label htmlFor="email" className="signup-label">
                         Email
@@ -53,12 +82,13 @@ function SignUpPage() {
                     <input
                         type="password"
                         id="confirm-password"
-                        className="signup-input"
+                        className={`signup-input ${passwordMismatch ? "error-border" : ""}`}
                         value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        onChange={handleConfirmPasswordChange}
                         required
                     />
                 </div>
+                {errorMessage && <div className="signup-error-message">{errorMessage}</div>}
 
                 <button className="signup-button" onClick={handleSignUp}>
                     Sign up

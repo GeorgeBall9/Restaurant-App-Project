@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./SignUpPage.css";
 import { Link } from "react-router-dom";
-
 import {signUpAuthUserWithEmailAndPassword} from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
 import {setUserDetails} from "../../features/user/userSlice";
@@ -17,6 +16,12 @@ const SignUpPage = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [passwordMismatch, setPasswordMismatch] = useState(false);
+
+    useEffect(() => {
+        if (password && confirmPassword) {
+            setPasswordMismatch(password !== confirmPassword);
+        }
+    }, [password, confirmPassword]);
 
     const handleSignUp = async (event) => {
         event.preventDefault();
@@ -97,14 +102,20 @@ const SignUpPage = () => {
                 <FormField
                     label="Confirm password"
                     type="password"
-                    className={`signup-input ${passwordMismatch ? "error-border" : ""}`}
+                    className={`signup-input ${
+                        passwordMismatch 
+                        ? "error-border" 
+                        : confirmPassword && !passwordMismatch ?
+                         "success-border"
+                        : ""
+                    }`}
                     value={confirmPassword}
                     onChangeHandler={handleConfirmPasswordChange}
                 />
 
                 {errorMessage && <div className="signup-error-message">{errorMessage}</div>}
 
-                <button className="signup-button" onClick={handleSignUp}>
+                <button className="signup-button" type="submit">
                     Sign up
                 </button>
             </form>

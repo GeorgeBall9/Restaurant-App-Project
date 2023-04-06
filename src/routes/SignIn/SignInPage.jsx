@@ -1,6 +1,8 @@
 import "./SignInPage.css";
 import React from "react";
+import FormField from "../../common/components/FormField/FormField";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import {
     signInAuthUserWithEmailAndPassword,
     signInWithGooglePopup,
@@ -8,7 +10,6 @@ import {
 } from "../../firebase/firebase";
 import {setUserDetails} from "../../features/user/userSlice";
 import { useState } from "react";
-import {Link} from "react-router-dom";
 
 const SignInPage = () => {
 
@@ -51,36 +52,22 @@ const SignInPage = () => {
             <h1>Sign In</h1>
 
             <form onSubmit={handleEmailAndPasswordSignIn} className="signin-form">
-                <div className="signin-field">
-                    <label htmlFor="email" className="signin-label">
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        className="signin-input"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
+                <FormField 
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChangeHandler={(e) => setEmail(e.target.value)}
+                />
 
-                <div className="signin-field">
-                    <label htmlFor="password" className="signin-label">
-                        Password
-                    </label>
-                    <input
-                        type="password"
-                        id="password"
-                        className="signin-input"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
+                <FormField 
+                    label="Password"
+                    type="password"
+                    value={password}
+                    onChangeHandler={(e) => setPassword(e.target.value)}
+                />
                 {errorMessage && <div className="signin-error-message">{errorMessage}</div>}
 
-                <button className="signin-button" onClick={handleEmailAndPasswordSignIn}>
+                <button className="signin-button" type="submit">
                     Sign in
                 </button>
             </form>

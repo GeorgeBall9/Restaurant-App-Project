@@ -1,10 +1,10 @@
 import './DetailsPage.css';
 import React from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
 import StarRating from '../../common/components/RestaurantCard/StarRating/StarRating';
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 
 import {
     faChevronLeft,
@@ -17,23 +17,24 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 const DetailsPage = () => {
+
     const {id} = useParams();
+
+    const navigate = useNavigate();
+
     const allRestaurants = useSelector(selectAllRestaurants);
+
     const [restaurant, setRestaurant] = useState(null);
     const [showAllHours, setShowAllHours] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
-
-    const navigate = useNavigate();
-
     const [scrollPosition, setScrollPosition] = useState(0);
-    const scrollRef = useRef();
 
     useEffect(() => {
-        if (allRestaurants) {
-            const foundRestaurant = allRestaurants.find(restaurant => restaurant.id === id);
-            setRestaurant(foundRestaurant);
-        }
+        if (!allRestaurants) return;
+
+        const foundRestaurant = allRestaurants.find(restaurant => restaurant.id === id);
+        setRestaurant(foundRestaurant);
     }, [allRestaurants, id]);
 
     useEffect(() => {
@@ -55,9 +56,8 @@ const DetailsPage = () => {
     }, []);
 
     if (!restaurant) {
-        return null;
+        return <></>;
     }
-
 
     const {
         name,
@@ -70,9 +70,12 @@ const DetailsPage = () => {
         price,
         priceLevel,
         primaryCuisine,
-        dietaryRestrictions
+        dietaryRestrictions,
+        address
     } = restaurant;
-    const {street1, city, postalcode} = restaurant.address;
+
+    const {street1, city, postalCode} = address;
+
     const starRating = Math.round(rating * 2) / 2;
 
     const groupDaysWithSameHours = (hours) => {
@@ -89,6 +92,7 @@ const DetailsPage = () => {
                     days: currentGroup,
                     hours: currentHours,
                 });
+
                 currentGroup = [daysOfWeek[i]];
                 currentHours = hours[i];
             }
@@ -99,9 +103,13 @@ const DetailsPage = () => {
             hours: currentHours,
         });
 
+        // this function is confusing - can it be refactored??
         return groupedHours.map(
-            (group) =>
-                `${group.days[0]}${group.days.length > 1 ? `-${group.days[group.days.length - 1]}` : ""}: ${group.hours}`
+            (group) => `${group.days[0]}${group.days.length > 1
+                ?
+                `-${group.days[group.days.length - 1]}`
+                :
+                ""}: ${group.hours}`
         );
     };
 
@@ -124,17 +132,19 @@ const DetailsPage = () => {
         setToggleLabel(isExpanded ? 'Read More' : 'Read Less');
     };
 
+    const style =
+        scrollPosition > 20
+            ? {position: 'fixed', backgroundColor: 'rgba(255, 255, 255, 0.9)'}
+            : {position: 'absolute', backgroundColor: 'transparent'};
+
     return (
         <div className="details-page-wrapper container">
-            <div className="details-page-banner container" style={
-                scrollPosition > 20
-                    ? {position: 'fixed', backgroundColor: 'rgba(255, 255, 255, 0.9)'}
-                    : {position: 'absolute', backgroundColor: 'transparent'}
-            }>
+            <div className="details-page-banner container" style={style}>
                 <button className="back-button" onClick={() => navigate(-1)}>
                     <FontAwesomeIcon icon={faChevronLeft} className="icon"/>Back
                 </button>
             </div>
+
             <div className="details-page-restaurant-image-container">
                 <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
 
@@ -143,73 +153,95 @@ const DetailsPage = () => {
                         <h1>{name}</h1>
                         <StarRating rating={starRating}/>
                     </div>
-                    {priceLevel !== null ? (
-                        <div className="restaurant-price">
-                            <p>{priceLevel}</p>
-                        </div>
-                    ) : price !== null ? (
-                        <div className="restaurant-price">
-                            <p>{price}</p>
-                        </div>
-                    ) : null}
-                    <div className="restaurant-address">
-                        <p><FontAwesomeIcon icon={faLocationDot}/> {street1}, {city}, {postalcode}</p>
+
+                    <div className="restaurant-price">
+                        <p>{priceLevel !== null ? priceLevel : price}</p>
                     </div>
+
+                    <div className="restaurant-address">
+                        <p>
+                            <FontAwesomeIcon icon={faLocationDot} className="icon"/>
+                            {street1}, {city}, {postalCode}
+                        </p>
+                    </div>
+
                     {phone && (
                         <div className="restaurant-phone">
-                            <p><FontAwesomeIcon icon={faPhone}/>{phone}</p>
+                            <p><FontAwesomeIcon icon={faPhone} className="icon"/>{phone}</p>
                         </div>
                     )}
+
                     <div className="open-status">{isOpen ? 'Open Now' : 'Closed'}</div>
                 </div>
             </div>
+
             <div className="details-page-restaurant-details-container">
                 <div className="details-page-main-info">
                     {website && (
                         <div className="website">
                             <h2>Website</h2>
-                            <a href={website}>{getDomainName(website)}</a>
+                            <Link to={website}>{getDomainName(website)}</Link>
                         </div>
                     )}
+
                     {description && (
                         <div className="description">
                             <h2>About</h2>
+
                             <p>
-                                {isExpanded ? description : description.slice(0, 200) + (description.length > 100 ? '...' : '')}
+                                {isExpanded
+                                    ?
+                                    description
+                                    :
+                                    description.slice(0, 200) + (description.length > 100 ? '...' : '')
+                                }
                             </p>
+
                             {description.length > 200 && (
-                                <button className="read-more-button"
-                                        onClick={handleToggleDescription}>{toggleLabel}</button>
+                                <button
+                                    className="read-more-button"
+                                    onClick={handleToggleDescription}
+                                >
+                                    {toggleLabel}
+                                </button>
                             )}
                         </div>
                     )}
+
                     <div className="pictures">
                         <h2>Photos</h2>
                         <p>No photos available.</p>
                     </div>
+
                     <div className="hours">
                         <h2>Opening Times</h2>
+
                         {displayedHours.map((hour, index) => (
                             <p key={index}>{hour}</p>
                         ))}
                     </div>
+
                     <div className="more-details">
                         <h2>More Details</h2>
+
                         <div className="details-map-location">
                             <FontAwesomeIcon icon={faLocationDot}/>
                             <span>Location</span>
-                            <p> {street1}, {city}, {postalcode}</p>
+                            <p> {street1}, {city}, {postalCode}</p>
                         </div>
+
                         <div>
                             <FontAwesomeIcon icon={faMoneyBillWave}/>
                             <span>Price</span>
                             <p> {price || priceLevel || 'N/A'}</p>
                         </div>
+
                         <div>
                             <FontAwesomeIcon icon={faUtensils}/>
                             <span> Cuisine</span>
                             <p> {primaryCuisine || 'N/A'}</p>
                         </div>
+
                         {dietaryRestrictions && (
                             <div>
                                 <FontAwesomeIcon icon={faLeaf}/>

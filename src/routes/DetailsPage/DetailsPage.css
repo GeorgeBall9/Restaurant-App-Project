@@ -48,23 +48,22 @@
   width: 100%;
   bottom: 0;
   left: 0;
-  padding: 1.25em;
+  padding: 1.25em 1em;
   background-color: rgba(0, 0, 0, 0.6);
-}
-
-.restaurant-name {
-  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
 }
 
 .restaurant-name h1 {
   color: white;
   font-size: var(--font-size-heading);
   font-weight: var(--font-weight-bold-2);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5em;
 }
 
-.restaurant-address, .restaurant-phone, .restaurant-price {
-  margin-bottom: 0.6em;
+.restaurant-phone .icon {
+  margin-right: 0.5em;
 }
 
 .restaurant-address p, .restaurant-phone p, .restaurant-price p, .open-status {
@@ -86,7 +85,7 @@
 }
 
 .back-button .icon {
-  margin-right: 8px;
+  margin-right: 0.5em;
   font-size: var(--font-size-icon-large);
   color: var(--secondary-theme);
 }
@@ -116,8 +115,7 @@
   color: var(--primary-theme);
   font-size: var(--font-size-heading);
   font-weight: var(--font-weight-bold-2);
-  margin: 0;
-  margin-bottom: 20px;
+  margin-bottom: 1.25em;
 }
 
 .details-page-main-info p {
@@ -128,6 +126,12 @@
 
 .website, .description, .pictures, .hours {
   margin-bottom: 1rem;
+}
+
+.hours {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
 }
 
 .website a {
@@ -153,6 +157,9 @@
 
 .more-details {
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 }
 
 .more-details span {

@@ -56,12 +56,10 @@ const router = createBrowserRouter([
                     {
                         path: "profile",
                         element: <ProfilePage/>,
-                        children: [
-                            {
-                                path: "edit",
-                                element: <EditProfilePage/>,
-                            },
-                        ]
+                    },
+                    {
+                        path: "edit-profile",
+                        element: <EditProfilePage/>,
                     },
                 ]
             },

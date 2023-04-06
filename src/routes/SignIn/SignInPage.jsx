@@ -8,6 +8,7 @@ import {
 } from "../../firebase/firebase";
 import {setUserDetails} from "../../features/user/userSlice";
 import { useState } from "react";
+import {Link} from "react-router-dom";
 
 const SignInPage = () => {
 
@@ -52,7 +53,7 @@ const SignInPage = () => {
             <input type="password" className="textBar"/>
             <div className="Heading">
                 <span>Do not have an account?</span>
-                <span className="link">Sign up now!</span>
+                <Link to="/sign-up" className="link">Sign up now!</Link>
             </div>
             <p className="grey">OR</p>
             <div>

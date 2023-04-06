@@ -3,6 +3,7 @@ import "./SignUpPage.css";
 import { Link } from "react-router-dom";
 
 import {signUpAuthUserWithEmailAndPassword} from "../../firebase/firebase";
+import FormField from "./FormField/FormField";
 
 function SignUpPage() {
     const [email, setEmail] = useState("");
@@ -11,8 +12,8 @@ function SignUpPage() {
     const [errorMessage, setErrorMessage] = useState("");
     const [passwordMismatch, setPasswordMismatch] = useState(false);
 
-    const handleSignUp = async (e) => {
-        e.preventDefault();
+    const handleSignUp = async (event) => {
+        event.preventDefault();
         
         if (password !== confirmPassword) {
             console.error("Passwords do not match");
@@ -31,8 +32,16 @@ function SignUpPage() {
         }
     };
 
-    const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
+    const handleEmailChange = ({target}) => {
+        setEmail(target.value);
+    };
+
+    const handlePasswordChange = ({target}) => {
+        setPassword(target.value);
+    };
+
+    const handleConfirmPasswordChange = ({target}) => {
+        setConfirmPassword(target.value);
     
         // Clear the error message when confirm password input is changed
         if (errorMessage) {
@@ -47,47 +56,27 @@ function SignUpPage() {
             <h1>Sign Up</h1>
 
             <form onSubmit={handleSignUp} className="signup-form">
-                <div className="signup-field">
-                    <label htmlFor="email" className="signup-label">
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        className="signup-input"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
+                <FormField
+                    label="Email"
+                    type={email}
+                    value={email}
+                    onChangeHandler={handleEmailChange}
+                />
 
-                <div className="signup-field">
-                    <label htmlFor="password" className="signup-label">
-                        Password
-                    </label>
-                    <input
-                        type="password"
-                        id="password"
-                        className="signup-input"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
+                <FormField
+                    label="Password"
+                    type={password}
+                    value={password}
+                    onChangeHandler={handlePasswordChange}
+                />
 
-                <div className="signup-field">
-                    <label htmlFor="confirm-password" className="signup-label">
-                        Confirm Password
-                    </label>
-                    <input
-                        type="password"
-                        id="confirm-password"
-                        className={`signup-input ${passwordMismatch ? "error-border" : ""}`}
-                        value={confirmPassword}
-                        onChange={handleConfirmPasswordChange}
-                        required
-                    />
-                </div>
+                <FormField
+                    label="Confirm password"
+                    type={password}
+                    value={confirmPassword}
+                    onChangeHandler={handleConfirmPasswordChange}
+                />
+
                 {errorMessage && <div className="signup-error-message">{errorMessage}</div>}
 
                 <button className="signup-button" onClick={handleSignUp}>

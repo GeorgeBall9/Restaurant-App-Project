@@ -22,6 +22,7 @@ import SignUpPage from './routes/SignUp/SignUpPage';
 import SignInPage from "./routes/SignIn/SignInPage";
 import Auth from "./routes/Auth/Auth";
 import AuthPage from "./routes/SignIn/CSS/AuthPage";
+import ProfilePage from "./routes/ProfilePage/ProfilePage";
 
 const router = createBrowserRouter([
     {
@@ -53,8 +54,14 @@ const router = createBrowserRouter([
                         element: <SignUpPage/>
                     },
                     {
-                        path: "edit-profile",
-                        element: <EditProfilePage/>,
+                        path: "profile",
+                        element: <ProfilePage/>,
+                        children: [
+                            {
+                                path: "edit",
+                                element: <EditProfilePage/>,
+                            },
+                        ]
                     },
                 ]
             },

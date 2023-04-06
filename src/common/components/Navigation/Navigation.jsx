@@ -50,7 +50,7 @@ const Navigation = ({view}) => {
                         </button>
                     </div>
 
-                    <Link to="/edit-profile" className="button">
+                    <Link to="/profile" className="button">
                         <FontAwesomeIcon className="icon" icon={faUser}/>
                     </Link>
                 </div>

@@ -7,7 +7,7 @@ import {
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import SearchBox from "./SearchBox/SearchBox";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
     selectAppliedCuisineFilter,
@@ -29,24 +29,15 @@ const Navigation = ({view}) => {
 
     const icon = view === "home" ? faMapLocationDot : faArrowLeft;
 
-    const handleNavigateButtonClick = () => {
-        const route = view === "home" ? "map" : "";
-        navigate("/" + route);
-    };
-
     const handleFilterButtonClicked = () => dispatch(showFilters());
-
-    const handleProfileClick = () => {
-        navigate("/edit-profile");
-    };
 
     return (
         <div className="navigation-container">
             <div className="navigation">
                 <div className="upper">
-                    <button className="button" onClick={handleNavigateButtonClick}>
+                    <Link to={view === "home" ? "/map" : "/"} className="button">
                         <FontAwesomeIcon className="icon" icon={icon}/>
-                    </button>
+                    </Link>
 
                     <div className="search-and-filters">
                         <SearchBox/>
@@ -59,9 +50,9 @@ const Navigation = ({view}) => {
                         </button>
                     </div>
 
-                    <button className="button" onClick={handleProfileClick}>
+                    <Link to="/profile" className="button">
                         <FontAwesomeIcon className="icon" icon={faUser}/>
-                    </button>
+                    </Link>
                 </div>
 
                 <div className="lower">

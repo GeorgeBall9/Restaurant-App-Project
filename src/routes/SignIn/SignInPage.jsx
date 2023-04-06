@@ -9,6 +9,7 @@ import {
 } from "../../firebase/firebase";
 import {setUserDetails} from "../../features/user/userSlice";
 import { useState } from "react";
+import {Link} from "react-router-dom";
 
 const SignInPage = () => {
     const dispatch = useDispatch();
@@ -90,6 +91,7 @@ const SignInPage = () => {
 
             <div className="signin-page-separator">
                 <span>OR</span>
+                
             </div>
 
             <div className="signin-google">

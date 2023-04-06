@@ -32,7 +32,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // auth functions
-const auth = getAuth();
+export const auth = getAuth();
 
 // sign up with email and password
 export const signUpAuthUserWithEmailAndPassword = async (email, password) => {
@@ -110,6 +110,18 @@ const getRandomColour = () => {
 
     const randomIndex = Math.floor(Math.random() * colours.length);
     return colours[randomIndex];
+};
+
+// get user details from db
+export const getUserFromUserId = async (userId) => {
+    const docRef = doc(db, "users", userId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        return ({id: docSnap.id, ...docSnap.data()});
+    } else {
+        console.log("No such document!");
+    }
 };
 
 // update user display name

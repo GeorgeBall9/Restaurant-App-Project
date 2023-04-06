@@ -10,6 +10,9 @@ const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
+        setUserId: (state, action) => {
+            state.id = action.payload;
+        },
         setUserDetails: (state, action) => {
             const {id, displayName, iconColour} = action.payload;
             state.id = id;
@@ -30,7 +33,7 @@ const userSlice = createSlice({
     },
 });
 
-export const {setUserDetails, resetUserDetails, setDisplayName, setIconColour} = userSlice.actions;
+export const {setUserId, setUserDetails, resetUserDetails, setDisplayName, setIconColour} = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;
 export const selectIconColour = state => state.user.iconColour;

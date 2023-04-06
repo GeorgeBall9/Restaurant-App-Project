@@ -17,24 +17,8 @@
 .signup-form {
     display: flex;
     flex-direction: column;
+    gap: 1.5em;
     width: 100%;
-}
-
-.signup-label {
-    font-size: var(--font-size-sub-heading);
-    margin-bottom: 0.5rem;
-}
-
-.signup-input {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 0.5rem;
-    font-size: 1rem;
-    outline: none;
-}
-
-.signup-input:focus {
-    border-color: var(--secondary-theme);
 }
 
 .error-border {

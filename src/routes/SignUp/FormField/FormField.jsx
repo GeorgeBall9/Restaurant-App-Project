@@ -3,12 +3,11 @@ import React from "react";
 
 const FormField = ({label, type, value, onChangeHandler}) => {
     return (
-        <label className="signup-label">
+        <label className="form-field">
             {label}
 
             <input
                 type={type}
-                className="signup-input"
                 value={value}
                 onChange={onChangeHandler}
                 required

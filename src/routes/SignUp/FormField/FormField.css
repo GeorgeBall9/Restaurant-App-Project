@@ -1,0 +1,18 @@
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    font-size: var(--font-size-sub-heading);
+}
+
+.form-field input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    outline: none;
+}
+
+.form-field input:focus {
+    border-color: var(--secondary-theme);
+}

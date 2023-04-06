@@ -3,7 +3,7 @@ import "./SignUpPage.css";
 import { Link } from "react-router-dom";
 
 import {signUpAuthUserWithEmailAndPassword} from "../../firebase/firebase";
-import FormField from "./FormField/FormField";
+import FormField from "../../common/components/FormField/FormField";
 
 function SignUpPage() {
     const [email, setEmail] = useState("");

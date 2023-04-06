@@ -73,6 +73,7 @@ function SignUpPage() {
                 <FormField
                     label="Confirm password"
                     type="password"
+                    className={`signup-input ${passwordMismatch ? "error-border" : ""}`}
                     value={confirmPassword}
                     onChangeHandler={handleConfirmPasswordChange}
                 />

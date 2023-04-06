@@ -7,7 +7,7 @@
 
 .form-field input {
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     padding: 0.5rem;
     font-size: 1rem;
     outline: none;

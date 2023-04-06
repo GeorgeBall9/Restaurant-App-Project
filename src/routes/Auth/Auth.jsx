@@ -11,7 +11,6 @@ const Auth = () => {
     const userId = useSelector(selectUserId);
 
     useEffect(() => {
-        console.log(userId)
         navigate(userId ? "/profile" : "/sign-in");
     }, [userId]);
 

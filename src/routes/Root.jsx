@@ -28,8 +28,10 @@ const Root = () => {
 
     const storeUserDetails = async (id) => {
         const userDetails = await getUserFromUserId(id);
-        console.log(userDetails)
-        dispatch(setUserDetails(userDetails));
+
+        if (userDetails) {
+            dispatch(setUserDetails(userDetails));
+        }
     };
 
     useEffect(() => {

@@ -67,7 +67,7 @@ const SignInPage = () => {
                 />
                 {errorMessage && <div className="signin-error-message">{errorMessage}</div>}
 
-                <button className="signin-button" onClick={handleEmailAndPasswordSignIn}>
+                <button className="signin-button" type="submit">
                     Sign in
                 </button>
             </form>

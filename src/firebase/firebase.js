@@ -42,8 +42,11 @@ export const signUpAuthUserWithEmailAndPassword = async (displayName, email, pas
 
 // sign in with email and password
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
-    const {user} = await signInWithEmailAndPassword(auth, email, password);
-    return await createNewUserInDatabase(user);
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+        throw new Error("User not found");
+    }
 };
 
 // sign in with Google popup

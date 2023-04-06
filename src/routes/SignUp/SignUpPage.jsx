@@ -115,7 +115,7 @@ const SignUpPage = () => {
 
                 {errorMessage && <div className="signup-error-message">{errorMessage}</div>}
 
-                <button className="signup-button" onClick={handleSignUp}>
+                <button className="signup-button" type="submit">
                     Sign up
                 </button>
             </form>

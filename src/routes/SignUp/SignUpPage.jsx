@@ -65,14 +65,14 @@ function SignUpPage() {
 
                 <FormField
                     label="Password"
-                    type={password}
+                    type="password"
                     value={password}
                     onChangeHandler={handlePasswordChange}
                 />
 
                 <FormField
                     label="Confirm password"
-                    type={password}
+                    type="password"
                     value={confirmPassword}
                     onChangeHandler={handleConfirmPasswordChange}
                 />

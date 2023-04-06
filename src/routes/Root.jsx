@@ -12,7 +12,6 @@ import {onAuthStateChanged} from "firebase/auth";
 import {auth, getUserFromUserId} from "../firebase/firebase";
 import {useEffect} from "react";
 import {resetUserDetails, selectUserId, setUserDetails, setUserId} from "../features/user/userSlice";
-import {logDOM} from "@testing-library/react";
 
 const Root = () => {
 
@@ -24,6 +23,14 @@ const Root = () => {
 
     const spinnerIsVisible = useSelector(selectSpinnerIsVisible);
     const filtersVisible = useSelector(selectFiltersAreVisible);
+
+    const userId = useSelector(selectUserId);
+
+    const storeUserDetails = async (id) => {
+        const userDetails = await getUserFromUserId(id);
+        console.log(userDetails)
+        dispatch(setUserDetails(userDetails));
+    };
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -37,6 +44,12 @@ const Root = () => {
             }
         });
     }, []);
+
+    useEffect(() => {
+        if (userId) {
+            storeUserDetails(userId);
+        }
+    }, [userId]);
 
     return (
         <>

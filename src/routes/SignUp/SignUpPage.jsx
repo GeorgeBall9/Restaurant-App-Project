@@ -7,7 +7,7 @@ import FormField from "../../common/components/FormField/FormField";
 import {setUserDetails} from "../../features/user/userSlice";
 import {useDispatch} from "react-redux";
 
-function SignUpPage() {
+const SignUpPage = () => {
 
     const dispatch = useDispatch();
 

@@ -6,7 +6,13 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectChangeIconPopupIsVisible, showChangeIconPopup} from "../../features/changeIconPopup/changeIconPopupSlice";
 import ChangeIconPopup from "../../features/changeIconPopup/ChangeIconPopup/ChangeIconPopup";
-import {selectDisplayName, selectIconColour, selectUserId, setDisplayName} from "../../features/user/userSlice";
+import {
+    resetUserDetails,
+    selectDisplayName,
+    selectIconColour,
+    selectUserId,
+    setDisplayName
+} from "../../features/user/userSlice";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {signOutAuthUser, updateUserDisplayName} from "../../firebase/firebase";
 

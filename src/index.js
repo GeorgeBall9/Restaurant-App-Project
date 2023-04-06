@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import {
-    createBrowserRouter, redirect,
+    createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
 
@@ -21,7 +21,6 @@ import EditProfilePage from "./routes/EditProfilePage/EditProfilePage";
 import SignUpPage from './routes/SignUp/SignUpPage';
 import SignInPage from "./routes/SignIn/SignInPage";
 import Auth from "./routes/Auth/Auth";
-import AuthPage from "./routes/SignIn/CSS/AuthPage";
 import ProfilePage from "./routes/ProfilePage/ProfilePage";
 
 const router = createBrowserRouter([

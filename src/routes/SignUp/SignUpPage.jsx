@@ -4,8 +4,14 @@ import { Link } from "react-router-dom";
 
 import {signUpAuthUserWithEmailAndPassword} from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
+import {setUserDetails} from "../../features/user/userSlice";
+import {useDispatch} from "react-redux";
 
 const SignUpPage = () => {
+
+    const dispatch = useDispatch();
+
+    const [displayName, setDisplayName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -14,6 +20,12 @@ const SignUpPage = () => {
 
     const handleSignUp = async (event) => {
         event.preventDefault();
+
+        if (!displayName) {
+            console.error("You must have a display name");
+            setErrorMessage("You must have a display name");
+            return;
+        }
         
         if (password !== confirmPassword) {
             console.error("Passwords do not match");
@@ -25,11 +37,16 @@ const SignUpPage = () => {
         setPasswordMismatch(false);
 
         try {
-            await signUpAuthUserWithEmailAndPassword(email, password);
+            const userDetails = await signUpAuthUserWithEmailAndPassword(displayName, email, password);
+            dispatch(setUserDetails(userDetails));
         } catch (error) {
             console.error("Error signing up with email and password: ", error);
             setErrorMessage("Error signing up. Please try again.")
         }
+    };
+
+    const handleDisplayNameChange = ({target}) => {
+        setDisplayName(target.value);
     };
 
     const handleEmailChange = ({target}) => {
@@ -57,8 +74,15 @@ const SignUpPage = () => {
 
             <form onSubmit={handleSignUp} className="signup-form">
                 <FormField
+                    label="Display name"
+                    type="text"
+                    value={displayName}
+                    onChangeHandler={handleDisplayNameChange}
+                />
+
+                <FormField
                     label="Email"
-                    type={email}
+                    type="email"
                     value={email}
                     onChangeHandler={handleEmailChange}
                 />

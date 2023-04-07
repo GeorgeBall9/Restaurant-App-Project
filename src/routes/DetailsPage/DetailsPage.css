@@ -39,8 +39,13 @@
   font-size: var(--font-size-icon-large);
 }
 
-.details-page-banner > div .icon:first-child {
-  margin-right: 0.75em;
+.details-page-banner > div button:first-child {
+  margin-right: 1em;
+}
+
+.details-page-banner > div button {
+  background: none;
+  border: none;
 }
 
 .backdrop {

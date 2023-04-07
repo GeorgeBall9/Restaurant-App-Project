@@ -1,7 +1,6 @@
 import './DetailsPage.css';
-import React from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
 import StarRating from '../../common/components/RestaurantCard/StarRating/StarRating';
 import {useState, useEffect} from 'react';
@@ -12,10 +11,13 @@ import {
     faPhone,
     faUtensils,
     faMoneyBillWave,
-    faLeaf, faArrowUpRightFromSquare
+    faLeaf,
+    faArrowUpRightFromSquare,
+    faBookmark as faBookmarkSolid
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBookmark, faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
+import {selectBookmarks, setBookmarks} from "../../features/user/userSlice";
 
 const DetailsPage = () => {
 
@@ -23,6 +25,9 @@ const DetailsPage = () => {
 
     const navigate = useNavigate();
 
+    const dispatch = useDispatch();
+
+    const bookmarks = useSelector(selectBookmarks);
     const allRestaurants = useSelector(selectAllRestaurants);
 
     const [restaurant, setRestaurant] = useState(null);
@@ -30,6 +35,8 @@ const DetailsPage = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
+
+    const isBookmarked = bookmarks.includes(id);
 
     useEffect(() => {
         if (!allRestaurants) return;
@@ -134,14 +141,26 @@ const DetailsPage = () => {
     };
 
     const style = scrollPosition > 20
-            ? {position: 'fixed', backgroundColor: 'rgba(255, 255, 255, 0.9)'}
-            : {position: 'absolute', backgroundColor: 'transparent'};
+        ? {position: 'fixed', backgroundColor: 'rgba(255, 255, 255, 0.9)'}
+        : {position: 'absolute', backgroundColor: 'transparent'};
 
     const bannerButtonsStyle = scrollPosition > 20
         ? {color: "#C23B22"}
         : {color: "white"};
 
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
+
+    const handleBookmarkClick = () => {
+        let updatedBookmarks;
+
+        if (isBookmarked) {
+            updatedBookmarks = bookmarks.filter(bookmark => bookmark !== id);
+        } else {
+            updatedBookmarks = [...bookmarks, id];
+        }
+
+        dispatch(setBookmarks(updatedBookmarks));
+    };
 
     return (
         <div className="details-page-wrapper container">
@@ -152,8 +171,19 @@ const DetailsPage = () => {
                 </button>
 
                 <div>
-                    <FontAwesomeIcon icon={faBookmark} className="icon" style={bannerButtonsStyle}/>
-                    <FontAwesomeIcon icon={faShareFromSquare} className="icon" style={bannerButtonsStyle}/>
+                    <button onClick={handleBookmarkClick}>
+                        {isBookmarked && (
+                            <FontAwesomeIcon icon={faBookmarkSolid} className="icon" style={bannerButtonsStyle}/>
+                        )}
+
+                        {!isBookmarked && (
+                            <FontAwesomeIcon icon={faBookmark} className="icon" style={bannerButtonsStyle}/>
+                        )}
+                    </button>
+
+                    <button>
+                        <FontAwesomeIcon icon={faShareFromSquare} className="icon" style={bannerButtonsStyle}/>
+                    </button>
                 </div>
             </div>
 

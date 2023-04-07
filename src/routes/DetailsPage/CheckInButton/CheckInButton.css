@@ -1,0 +1,42 @@
+
+.confirm-checkin-popup {
+    background-color: white;
+    position: absolute;
+    color: black;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 90%;
+    max-width: 200px;
+    padding: 0.75em;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    border: solid 1px lightgrey;
+}
+
+.confirm-checkin-popup .buttons-container {
+    display: flex;
+    gap: 0.25em;
+    margin-top: 1em;
+    justify-content: center;
+}
+
+.confirm-checkin-popup .buttons-container button:first-child {
+    background-color: var(--primary-theme);
+    color: white;
+}
+
+.confirm-checkin-popup .buttons-container button:last-child {
+    background-color: white;
+    color: var(--primary-theme);
+}
+
+.confirm-checkin-popup .buttons-container button {
+    border: solid 2px var(--primary-theme);
+    border-radius: var(--border-radius);
+    width: 50%;
+    text-align: center;
+    display: inline-block;
+    padding: 0.25em 0;
+}

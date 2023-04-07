@@ -3,7 +3,11 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleCheck as faSolidCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
-import {addCheckedInRestaurant, selectCheckedInRestaurants} from "../../../features/user/userSlice";
+import {
+    addCheckedInRestaurant,
+    removeCheckedInRestaurant,
+    selectCheckedInRestaurants
+} from "../../../features/user/userSlice";
 import {useEffect, useState} from "react";
 
 const CheckInButton = ({id, name}) => {
@@ -26,7 +30,12 @@ const CheckInButton = ({id, name}) => {
     };
 
     const handleYesClick = () => {
-        dispatch(addCheckedInRestaurant(id));
+        if (checkedIn) {
+            dispatch(removeCheckedInRestaurant(id));
+        } else {
+            dispatch(addCheckedInRestaurant(id));
+        }
+
         setPopupVisible(false);
     };
 
@@ -43,7 +52,7 @@ const CheckInButton = ({id, name}) => {
 
             {popupVisible && (
                 <div className="confirm-checkin-popup">
-                    <p>Would you like to check in at {name}?</p>
+                    <p>Would you like to check {checkedIn ? "out of" : "in at"} {name}?</p>
 
                     <div className="buttons-container">
                         <button onClick={handleYesClick}>Yes</button>

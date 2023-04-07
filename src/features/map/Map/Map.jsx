@@ -86,7 +86,7 @@ const Map = () => {
     const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
     useEffect(() => {
-        setWindowHeight(window.innerHeight)
+        setWindowHeight(+window.innerHeight)
     }, [window.innerHeight]);
 
     useEffect(() => {
@@ -100,6 +100,16 @@ const Map = () => {
     useEffect(() => {
         dispatch(showSpinner());
     }, []);
+
+    useEffect(() => {
+        if (!displayedRestaurant || !map) return;
+
+        const {longitude, latitude} = displayedRestaurant;
+
+        requestAnimationFrame(() => {
+            map.flyTo({center: [longitude, latitude], essential: true, speed: 0.5});
+        });
+    },[displayedRestaurant]);
 
     // component returned to MapPage route
     return (

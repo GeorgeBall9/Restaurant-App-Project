@@ -18,6 +18,7 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBookmark, faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
 import {selectBookmarks, setBookmarks} from "../../features/user/userSlice";
+import BookmarkButton from "../../common/components/RestaurantCard/BookmarkButton/BookmarkButton";
 
 const DetailsPage = () => {
 
@@ -25,9 +26,6 @@ const DetailsPage = () => {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-
-    const bookmarks = useSelector(selectBookmarks);
     const allRestaurants = useSelector(selectAllRestaurants);
 
     const [restaurant, setRestaurant] = useState(null);
@@ -35,8 +33,6 @@ const DetailsPage = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
-
-    const isBookmarked = bookmarks.includes(id);
 
     useEffect(() => {
         if (!allRestaurants) return;
@@ -150,18 +146,6 @@ const DetailsPage = () => {
 
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
-    const handleBookmarkClick = () => {
-        let updatedBookmarks;
-
-        if (isBookmarked) {
-            updatedBookmarks = bookmarks.filter(bookmark => bookmark !== id);
-        } else {
-            updatedBookmarks = [...bookmarks, id];
-        }
-
-        dispatch(setBookmarks(updatedBookmarks));
-    };
-
     return (
         <div className="details-page-wrapper container">
             <div className="details-page-banner container" style={style}>
@@ -171,15 +155,7 @@ const DetailsPage = () => {
                 </button>
 
                 <div>
-                    <button onClick={handleBookmarkClick}>
-                        {isBookmarked && (
-                            <FontAwesomeIcon icon={faBookmarkSolid} className="icon" style={bannerButtonsStyle}/>
-                        )}
-
-                        {!isBookmarked && (
-                            <FontAwesomeIcon icon={faBookmark} className="icon" style={bannerButtonsStyle}/>
-                        )}
-                    </button>
+                    <BookmarkButton id={id} style={bannerButtonsStyle}/>
 
                     <button>
                         <FontAwesomeIcon icon={faShareFromSquare} className="icon" style={bannerButtonsStyle}/>

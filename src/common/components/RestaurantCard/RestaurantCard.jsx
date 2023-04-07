@@ -21,7 +21,7 @@ import {useSwipeable} from "react-swipeable";
 // A card component for displaying restaurant information
 const RestaurantCard = ({restaurant, view, ranking}) => {
 
-    const {name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
+    const {id, name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
 
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
@@ -67,7 +67,7 @@ const RestaurantCard = ({restaurant, view, ranking}) => {
 
             <div className="container-rhs">
                 <div className="icons-container">
-                    <BookmarkButton/>
+                    <BookmarkButton id={id}/>
                     {view === "map" && <RouteButton/>}
                 </div>
 

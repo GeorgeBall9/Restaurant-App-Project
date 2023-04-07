@@ -86,7 +86,7 @@ const Map = () => {
     const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
     useEffect(() => {
-        setWindowHeight(+window.innerHeight)
+        setWindowHeight(window.innerHeight)
     }, [window.innerHeight]);
 
     useEffect(() => {

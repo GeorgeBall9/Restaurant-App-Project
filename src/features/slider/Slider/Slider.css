@@ -7,9 +7,7 @@
     z-index: 100;
     margin: 0 auto;
     padding: 0.5em 0;
-    transition-property: transform;
-    transition-duration: 0.25s;
-    transition-timing-function: linear;
+    transition: all 0.3s linear;
 }
 
 .slider .buttons-container {

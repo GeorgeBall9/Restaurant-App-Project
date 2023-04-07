@@ -98,11 +98,12 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    gap: 0.5em;
     margin-bottom: 0.5em;
 }
 
 .details-page-restaurant-info .title-container h1 {
-    width: 70%;
+    width: 60%;
 }
 
 .details-page-restaurant-info .title-container button {
@@ -115,6 +116,7 @@
     border: none;
     font-size: var(--font-size-sub-heading);
     text-align: right;
+    white-space: nowrap;
 }
 
 .restaurant-name h1 {

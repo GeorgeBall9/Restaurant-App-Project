@@ -15,6 +15,7 @@ import {
     faLeaf, faArrowUpRightFromSquare
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faBookmark, faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
 
 const DetailsPage = () => {
 
@@ -74,7 +75,7 @@ const DetailsPage = () => {
         address
     } = restaurant;
 
-    const {street1, city, postalCode} = address;
+    const {street1, city, postalcode: postalCode} = address;
 
     const starRating = Math.round(rating * 2) / 2;
 
@@ -132,17 +133,28 @@ const DetailsPage = () => {
         setToggleLabel(isExpanded ? 'Read More' : 'Read Less');
     };
 
-    const style =
-        scrollPosition > 20
+    const style = scrollPosition > 20
             ? {position: 'fixed', backgroundColor: 'rgba(255, 255, 255, 0.9)'}
             : {position: 'absolute', backgroundColor: 'transparent'};
+
+    const bannerButtonsStyle = scrollPosition > 20
+        ? {color: "#C23B22"}
+        : {color: "white"};
+
+    const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
     return (
         <div className="details-page-wrapper container">
             <div className="details-page-banner container" style={style}>
-                <button className="back-button" onClick={() => navigate(-1)}>
-                    <FontAwesomeIcon icon={faChevronLeft} className="icon"/>Back
+                <button className="back-button" onClick={() => navigate(-1)} style={bannerButtonsStyle}>
+                    <FontAwesomeIcon icon={faChevronLeft} className="icon" style={bannerButtonsStyle}/>
+                    Back
                 </button>
+
+                <div>
+                    <FontAwesomeIcon icon={faBookmark} className="icon" style={bannerButtonsStyle}/>
+                    <FontAwesomeIcon icon={faShareFromSquare} className="icon" style={bannerButtonsStyle}/>
+                </div>
             </div>
 
             <div className="details-page-restaurant-image-container">
@@ -161,7 +173,7 @@ const DetailsPage = () => {
                     <div className="restaurant-address">
                         <p>
                             <FontAwesomeIcon icon={faLocationDot} className="icon"/>
-                            {street1}, {city}, {postalCode}
+                            {formattedAddress}
                         </p>
                     </div>
 
@@ -230,26 +242,26 @@ const DetailsPage = () => {
                         <div className="details-map-location">
                             <FontAwesomeIcon icon={faLocationDot}/>
                             <span>Location</span>
-                            <p> {street1}, {city}, {postalCode}</p>
+                            <p>{formattedAddress}</p>
                         </div>
 
                         <div>
                             <FontAwesomeIcon icon={faMoneyBillWave}/>
                             <span>Price</span>
-                            <p> {price || priceLevel || 'N/A'}</p>
+                            <p>{price || priceLevel || 'N/A'}</p>
                         </div>
 
                         <div>
                             <FontAwesomeIcon icon={faUtensils}/>
                             <span> Cuisine</span>
-                            <p> {primaryCuisine || 'N/A'}</p>
+                            <p>{primaryCuisine || 'N/A'}</p>
                         </div>
 
                         {dietaryRestrictions && (
                             <div>
                                 <FontAwesomeIcon icon={faLeaf}/>
                                 <span>Dietary Restrictions</span>
-                                <p> {dietaryRestrictions.join(', ')}</p>
+                                <p>{dietaryRestrictions.join(', ')}</p>
                             </div>
                         )}
                     </div>

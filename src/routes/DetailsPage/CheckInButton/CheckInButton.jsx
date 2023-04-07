@@ -6,14 +6,16 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     addCheckedInRestaurant,
     removeCheckedInRestaurant,
-    selectCheckedInRestaurants
+    selectCheckedInRestaurants, selectUserId
 } from "../../../features/user/userSlice";
 import {useEffect, useState} from "react";
+import {addRestaurantCheckIn, removeRestaurantCheckIn} from "../../../firebase/firebase";
 
 const CheckInButton = ({id, name}) => {
 
     const dispatch = useDispatch();
 
+    const userId = useSelector(selectUserId);
     const checkedInRestaurants = useSelector(selectCheckedInRestaurants);
 
     const [checkedIn, setCheckedIn] = useState(false);
@@ -29,10 +31,12 @@ const CheckInButton = ({id, name}) => {
         setPopupVisible(true);
     };
 
-    const handleYesClick = () => {
+    const handleYesClick = async () => {
         if (checkedIn) {
+            await removeRestaurantCheckIn(userId, id);
             dispatch(removeCheckedInRestaurant(id));
         } else {
+            await addRestaurantCheckIn(userId, id);
             dispatch(addCheckedInRestaurant(id));
         }
 

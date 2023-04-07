@@ -16,13 +16,13 @@ const userSlice = createSlice({
             state.id = action.payload;
         },
         setUserDetails: (state, action) => {
-            const {id, displayName, iconColour, bookmarks, checkedInRestaurants} = action.payload;
+            const {id, displayName, iconColour, bookmarks, checkedIn} = action.payload;
 
             state.id = id;
             state.displayName = displayName ? displayName : null;
             state.iconColour = iconColour ? iconColour : null;
             state.bookmarks = bookmarks ? bookmarks : [];
-            state.checkedInRestaurants = checkedInRestaurants ? checkedInRestaurants : [];
+            state.checkedInRestaurants = checkedIn ? checkedIn : [];
         },
         resetUserDetails: state => {
             state.id = null;

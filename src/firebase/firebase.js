@@ -2,7 +2,7 @@
 import {initializeApp} from "firebase/app";
 
 // db imports
-import {getFirestore, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove} from "firebase/firestore";
 
 // auth imports
 import {
@@ -130,6 +130,26 @@ export const updateUserIconColour = async (userId, iconColour) => {
     try {
         const docSnap = await doc(db, "users", userId);
         await updateDoc(docSnap, {iconColour});
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
+};
+
+// add user bookmark
+export const addUserBookmark = async (userId, bookmarkToAdd) => {
+    try {
+        const docSnap = await doc(db, "users", userId);
+        await updateDoc(docSnap, {bookmarks: arrayUnion(bookmarkToAdd)});
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
+};
+
+// remove user bookmark
+export const removeUserBookmark = async (userId, bookmarkToRemove) => {
+    try {
+        const docSnap = await doc(db, "users", userId);
+        await updateDoc(docSnap, {bookmarks: arrayRemove(bookmarkToRemove)});
     } catch (error) {
         throw new Error("Document does not exist");
     }

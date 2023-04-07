@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   padding: 0;
+  border-bottom: solid 6px #C23B22;
 }
 
 .details-page-banner {
@@ -12,6 +13,40 @@
   width: 100%;
   transition: all 0.3s ease;
   box-shadow: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  /*color: var(--secondary-theme);*/
+  font-size: var(--font-size-sub-heading);
+  font-weight: var(--font-weight-bold-2);
+  cursor: pointer;
+  color: white;
+}
+
+.back-button .icon {
+  margin-right: 0.5em;
+  font-size: var(--font-size-icon-large);
+  /*color: var(--secondary-theme);*/
+}
+
+.details-page-banner .icon {
+  color: white;
+  font-size: var(--font-size-icon-large);
+}
+
+.details-page-banner > div button:first-child {
+  margin-right: 1em;
+}
+
+.details-page-banner > div button {
+  background: none;
+  border: none;
 }
 
 .backdrop {
@@ -73,24 +108,6 @@
   font-weight: var(--font-weight-bold-2);
 }
 
-.back-button {
-  display: flex;
-  align-items: center;
-  padding: 0.5em;
-  background-color: transparent;
-  border: none;
-  color: var(--secondary-theme);
-  font-size: var(--font-size-sub-heading);
-  font-weight: var(--font-weight-bold-2);
-  cursor: pointer;
-}
-
-.back-button .icon {
-  margin-right: 0.5em;
-  font-size: var(--font-size-icon-large);
-  color: var(--secondary-theme);
-}
-
 .details-page-restaurant-details-container {
   max-width: var(--max-width-content);
   display: flex;
@@ -108,7 +125,7 @@
 }
 
 .details-page-main-info > div:not(:last-child) {
-  border-bottom: 1px solid grey;
+  border-bottom: solid 2px lightgrey;
   padding-bottom: 1rem;
 }
 
@@ -143,6 +160,11 @@
   margin: 0;
 }
 
+.website a .icon {
+  color: black;
+  margin-left: 0.25em;
+}
+
 .read-more-button {
   border: none;
   border-bottom: 2px solid var(--primary-theme);
@@ -160,7 +182,7 @@
   text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 0.75em;
 }
 
 .more-details span {
@@ -171,5 +193,6 @@
 
 .more-details p {
   padding: 0.25rem 1.75rem;
+  font-size: var(--font-size-sub-heading);
 }
 

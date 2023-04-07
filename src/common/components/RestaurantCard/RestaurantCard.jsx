@@ -21,25 +21,29 @@ import {useSwipeable} from "react-swipeable";
 // A card component for displaying restaurant information
 const RestaurantCard = ({restaurant, view, ranking}) => {
 
-    const {name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
+    const {id, name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
 
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
 
     const navigate = useNavigate();
 
-    const showRestaurantDetails = () => navigate(`/details/${restaurant.id}`);
+    const showRestaurantDetails = (event) => {
+        if (event.event.target.closest(".container-rhs")) return;
+
+        navigate(`/details/${restaurant.id}`);
+    };
 
     const handlers = useSwipeable({
-        onTap: () => showRestaurantDetails(),
+        onTap: (event) => showRestaurantDetails(event),
         preventScrollOnSwipe: true,
         trackMouse: true
     });
 
     // Render the component
     return (
-        <div className="restaurant-card">
-            <div className="details-container" {...handlers}>
+        <div className="restaurant-card" {...handlers}>
+            <div className="details-container">
                 <h3> 
                     {ranking && (
                         <div className="ranking">{ranking}</div>
@@ -63,7 +67,7 @@ const RestaurantCard = ({restaurant, view, ranking}) => {
 
             <div className="container-rhs">
                 <div className="icons-container">
-                    <BookmarkButton/>
+                    <BookmarkButton id={id}/>
                     {view === "map" && <RouteButton/>}
                 </div>
 

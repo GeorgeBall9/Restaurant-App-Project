@@ -4,6 +4,7 @@ const initialState = {
     id: JSON.parse(localStorage.getItem("userId")),
     displayName: null,
     iconColour: null,
+    bookmarks: []
 };
 
 const userSlice = createSlice({
@@ -14,10 +15,11 @@ const userSlice = createSlice({
             state.id = action.payload;
         },
         setUserDetails: (state, action) => {
-            const {id, displayName, iconColour} = action.payload;
+            const {id, displayName, iconColour, bookmarks} = action.payload;
             state.id = id;
             state.displayName = displayName;
             state.iconColour = iconColour;
+            state.bookmarks = bookmarks;
         },
         resetUserDetails: state => {
             state.id = null;
@@ -30,11 +32,22 @@ const userSlice = createSlice({
         setIconColour: (state, action) => {
             state.iconColour = action.payload;
         },
+        setBookmarks: (state, action) => {
+            state.bookmarks = action.payload;
+        }
     },
 });
 
-export const {setUserId, setUserDetails, resetUserDetails, setDisplayName, setIconColour} = userSlice.actions;
+export const {
+    setUserId,
+    setUserDetails,
+    resetUserDetails,
+    setDisplayName,
+    setIconColour,
+    setBookmarks
+} = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;
 export const selectIconColour = state => state.user.iconColour;
+export const selectBookmarks = state => state.user.bookmarks;
 export default userSlice.reducer;

@@ -1,7 +1,6 @@
 import './DetailsPage.css';
-import React from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
 import StarRating from '../../common/components/RestaurantCard/StarRating/StarRating';
 import {useState, useEffect} from 'react';
@@ -12,9 +11,14 @@ import {
     faPhone,
     faUtensils,
     faMoneyBillWave,
-    faLeaf
+    faLeaf,
+    faArrowUpRightFromSquare,
+    faBookmark as faBookmarkSolid
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faBookmark, faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
+import {selectBookmarks, setBookmarks} from "../../features/user/userSlice";
+import BookmarkButton from "../../common/components/RestaurantCard/BookmarkButton/BookmarkButton";
 
 const DetailsPage = () => {
 
@@ -74,7 +78,7 @@ const DetailsPage = () => {
         address
     } = restaurant;
 
-    const {street1, city, postalCode} = address;
+    const {street1, city, postalcode: postalCode} = address;
 
     const starRating = Math.round(rating * 2) / 2;
 
@@ -132,17 +136,31 @@ const DetailsPage = () => {
         setToggleLabel(isExpanded ? 'Read More' : 'Read Less');
     };
 
-    const style =
-        scrollPosition > 20
-            ? {position: 'fixed', backgroundColor: 'rgba(255, 255, 255, 0.9)'}
-            : {position: 'absolute', backgroundColor: 'transparent'};
+    const style = scrollPosition > 20
+        ? {position: 'fixed', backgroundColor: 'rgba(224,220,220,0.9)'}
+        : {position: 'absolute', backgroundColor: 'transparent'};
+
+    const bannerButtonsStyle = scrollPosition > 20
+        ? {color: "#C23B22"}
+        : {color: "white"};
+
+    const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
     return (
         <div className="details-page-wrapper container">
             <div className="details-page-banner container" style={style}>
-                <button className="back-button" onClick={() => navigate(-1)}>
-                    <FontAwesomeIcon icon={faChevronLeft} className="icon"/>Back
+                <button className="back-button" onClick={() => navigate(-1)} style={bannerButtonsStyle}>
+                    <FontAwesomeIcon icon={faChevronLeft} className="icon" style={bannerButtonsStyle}/>
+                    Back
                 </button>
+
+                <div>
+                    <BookmarkButton id={id} style={bannerButtonsStyle}/>
+
+                    <button>
+                        <FontAwesomeIcon icon={faShareFromSquare} className="icon" style={bannerButtonsStyle}/>
+                    </button>
+                </div>
             </div>
 
             <div className="details-page-restaurant-image-container">
@@ -161,7 +179,7 @@ const DetailsPage = () => {
                     <div className="restaurant-address">
                         <p>
                             <FontAwesomeIcon icon={faLocationDot} className="icon"/>
-                            {street1}, {city}, {postalCode}
+                            {formattedAddress}
                         </p>
                     </div>
 
@@ -180,7 +198,10 @@ const DetailsPage = () => {
                     {website && (
                         <div className="website">
                             <h2>Website</h2>
-                            <Link to={website}>{getDomainName(website)}</Link>
+                            <Link to={website}>
+                                {getDomainName(website)}
+                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
+                            </Link>
                         </div>
                     )}
 
@@ -227,26 +248,26 @@ const DetailsPage = () => {
                         <div className="details-map-location">
                             <FontAwesomeIcon icon={faLocationDot}/>
                             <span>Location</span>
-                            <p> {street1}, {city}, {postalCode}</p>
+                            <p>{formattedAddress}</p>
                         </div>
 
                         <div>
                             <FontAwesomeIcon icon={faMoneyBillWave}/>
                             <span>Price</span>
-                            <p> {price || priceLevel || 'N/A'}</p>
+                            <p>{price || priceLevel || 'N/A'}</p>
                         </div>
 
                         <div>
                             <FontAwesomeIcon icon={faUtensils}/>
                             <span> Cuisine</span>
-                            <p> {primaryCuisine || 'N/A'}</p>
+                            <p>{primaryCuisine || 'N/A'}</p>
                         </div>
 
                         {dietaryRestrictions && (
                             <div>
                                 <FontAwesomeIcon icon={faLeaf}/>
                                 <span>Dietary Restrictions</span>
-                                <p> {dietaryRestrictions.join(', ')}</p>
+                                <p>{dietaryRestrictions.join(', ')}</p>
                             </div>
                         )}
                     </div>

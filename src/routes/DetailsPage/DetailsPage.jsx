@@ -16,7 +16,7 @@ import {
     faBookmark as faBookmarkSolid
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faBookmark, faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
+import {faBookmark, faCircleCheck, faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
 import {selectBookmarks, setBookmarks} from "../../features/user/userSlice";
 import BookmarkButton from "../../common/components/RestaurantCard/BookmarkButton/BookmarkButton";
 
@@ -168,7 +168,15 @@ const DetailsPage = () => {
 
                 <div className="details-page-restaurant-info">
                     <div className="restaurant-name">
-                        <h1>{name}</h1>
+                        <div className="title-container">
+                            <h1>{name}</h1>
+
+                            <button>
+                                Check in
+                                <FontAwesomeIcon icon={faCircleCheck} className="icon"/>
+                            </button>
+                        </div>
+
                         <StarRating rating={starRating}/>
                     </div>
 
@@ -176,16 +184,15 @@ const DetailsPage = () => {
                         <p>{priceLevel !== null ? priceLevel : price}</p>
                     </div>
 
-                    <div className="restaurant-address">
-                        <p>
-                            <FontAwesomeIcon icon={faLocationDot} className="icon"/>
-                            {formattedAddress}
-                        </p>
+                    <div className="restaurant-address info">
+                        <FontAwesomeIcon icon={faLocationDot} className="icon"/>
+                        <p>{formattedAddress}</p>
                     </div>
 
                     {phone && (
-                        <div className="restaurant-phone">
-                            <p><FontAwesomeIcon icon={faPhone} className="icon"/>{phone}</p>
+                        <div className="restaurant-phone info">
+                            <FontAwesomeIcon icon={faPhone} className="icon"/>
+                            <p>{phone}</p>
                         </div>
                     )}
 

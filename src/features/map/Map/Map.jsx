@@ -63,6 +63,7 @@ const Map = () => {
     });
 
     // handler functions
+
     // handler function to change the view state when the user moves the map
     const handleMapMove = (e) => setViewState(e.viewState);
 
@@ -98,8 +99,22 @@ const Map = () => {
     }, [restaurantsFetchStatus]);
 
     useEffect(() => {
-        dispatch(showSpinner());
-    }, []);
+        if (!map) {
+            dispatch(showSpinner());
+        } else {
+            dispatch(hideSpinner());
+        }
+    }, [map]);
+
+    useEffect(() => {
+        if (!displayedRestaurant || !map) return;
+
+        const {longitude, latitude} = displayedRestaurant;
+
+        requestAnimationFrame(() => {
+            map.flyTo({center: [longitude, latitude], essential: true, speed: 0.5});
+        });
+    },[displayedRestaurant]);
 
     // component returned to MapPage route
     return (

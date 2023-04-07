@@ -7,10 +7,11 @@ import {
     removeBookmark,
     selectBookmarks,
     selectUserId,
-} from "../../../../features/user/userSlice";
+} from "../../../features/user/userSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {addUserBookmark, removeUserBookmark} from "../../../../firebase/firebase";
+import {addUserBookmark, removeUserBookmark} from "../../../firebase/firebase";
 import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 
 const BookmarkButton = ({id, style}) => {
 
@@ -22,7 +23,13 @@ const BookmarkButton = ({id, style}) => {
 
     const bookmarks = useSelector(selectBookmarks);
 
-    const isBookmarked = bookmarks && bookmarks.includes(id);
+    const [isBookmarked, setIsBookmarked] = useState(false);
+
+    useEffect(() => {
+        if (!bookmarks) return;
+
+        setIsBookmarked(bookmarks.includes(id));
+    }, [bookmarks]);
 
     const handleBookmarkClick = async () => {
         if (!userId) {

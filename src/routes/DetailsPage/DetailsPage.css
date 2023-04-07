@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   padding: 0;
+  border-bottom: solid 6px #C23B22;
 }
 
 .details-page-banner {

@@ -137,7 +137,7 @@ const DetailsPage = () => {
     };
 
     const style = scrollPosition > 20
-        ? {position: 'fixed', backgroundColor: 'rgba(255, 255, 255, 0.9)'}
+        ? {position: 'fixed', backgroundColor: 'rgba(224,220,220,0.9)'}
         : {position: 'absolute', backgroundColor: 'transparent'};
 
     const bannerButtonsStyle = scrollPosition > 20

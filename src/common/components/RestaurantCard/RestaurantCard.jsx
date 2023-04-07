@@ -28,18 +28,22 @@ const RestaurantCard = ({restaurant, view, ranking}) => {
 
     const navigate = useNavigate();
 
-    const showRestaurantDetails = () => navigate(`/details/${restaurant.id}`);
+    const showRestaurantDetails = (event) => {
+        if (event.event.target.closest(".container-rhs")) return;
+
+        navigate(`/details/${restaurant.id}`);
+    };
 
     const handlers = useSwipeable({
-        onTap: () => showRestaurantDetails(),
+        onTap: (event) => showRestaurantDetails(event),
         preventScrollOnSwipe: true,
         trackMouse: true
     });
 
     // Render the component
     return (
-        <div className="restaurant-card">
-            <div className="details-container" {...handlers}>
+        <div className="restaurant-card" {...handlers}>
+            <div className="details-container">
                 <h3> 
                     {ranking && (
                         <div className="ranking">{ranking}</div>

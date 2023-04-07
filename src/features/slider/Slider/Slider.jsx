@@ -24,12 +24,14 @@ const Slider = () => {
     const [style, setStyle] = useState({});
 
     const updateStyle = useCallback(() => {
-        setStyle(style => {
-            const updatedStyle = {...style};
-            const translateX = offsetRef.current - (activeSlide * positionRef.current);
-            updatedStyle.transform = `translateX(${translateX}px)`;
-            setXPosition(translateX);
-            return updatedStyle;
+        requestAnimationFrame(() => {
+            setStyle(style => {
+                const updatedStyle = {...style};
+                const translateX = offsetRef.current - (activeSlide * positionRef.current);
+                updatedStyle.transform = `translateX(${translateX}px)`;
+                setXPosition(translateX);
+                return updatedStyle;
+            });
         });
     }, [activeSlide, positionRef.current, offsetRef.current]);
 
@@ -49,8 +51,6 @@ const Slider = () => {
             const magnitude = Math.abs(offsetX);
             const isQuickForwardSwipe = dir === "Left" && Math.abs(velocity) > 0.4;
             const isQuickBackwardSwipe = dir === "Right" && Math.abs(velocity) > 0.4;
-
-            console.log(magnitude)
 
             if (!sliderIsActive || activeSlide === 0 && offsetX > 0 || activeSlide === lastSlide && offsetX < 0) {
                 updateStyle();

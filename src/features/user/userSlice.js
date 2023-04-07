@@ -4,7 +4,8 @@ const initialState = {
     id: JSON.parse(localStorage.getItem("userId")),
     displayName: null,
     iconColour: null,
-    bookmarks: []
+    bookmarks: [],
+    checkedInRestaurants: [],
 };
 
 const userSlice = createSlice({
@@ -15,11 +16,13 @@ const userSlice = createSlice({
             state.id = action.payload;
         },
         setUserDetails: (state, action) => {
-            const {id, displayName, iconColour, bookmarks} = action.payload;
+            const {id, displayName, iconColour, bookmarks, checkedInRestaurants} = action.payload;
+
             state.id = id;
             state.displayName = displayName ? displayName : null;
             state.iconColour = iconColour ? iconColour : null;
             state.bookmarks = bookmarks ? bookmarks : [];
+            state.checkedInRestaurants = checkedInRestaurants ? checkedInRestaurants : [];
         },
         resetUserDetails: state => {
             state.id = null;
@@ -38,6 +41,13 @@ const userSlice = createSlice({
         removeBookmark: (state, action) => {
             state.bookmarks = state.bookmarks.filter(bookmark => bookmark !== action.payload);
         },
+        addCheckedInRestaurant: (state, action) => {
+            state.checkedInRestaurants.push(action.payload);
+        },
+        removeCheckedInRestaurant: (state, action) => {
+            state.checkedInRestaurants = state.checkedInRestaurants
+                .filter(restaurant => restaurant !== action.payload);
+        }
     },
 });
 
@@ -48,10 +58,13 @@ export const {
     setDisplayName,
     setIconColour,
     addBookmark,
-    removeBookmark
+    removeBookmark,
+    addCheckedInRestaurant,
+    removeCheckedInRestaurant
 } = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;
 export const selectIconColour = state => state.user.iconColour;
 export const selectBookmarks = state => state.user.bookmarks;
+export const selectCheckedInRestaurants = state => state.user.checkedInRestaurants;
 export default userSlice.reducer;

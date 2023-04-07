@@ -154,3 +154,23 @@ export const removeUserBookmark = async (userId, bookmarkToRemove) => {
         throw new Error("Document does not exist");
     }
 };
+
+// add checked in restaurant to user doc
+export const addRestaurantCheckIn = async (userId, restaurantId) => {
+    try {
+        const docSnap = await doc(db, "users", userId);
+        await updateDoc(docSnap, {checkedIn: arrayUnion(restaurantId)});
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
+};
+
+// add checked in restaurant to user doc
+export const removeRestaurantCheckIn = async (userId, restaurantId) => {
+    try {
+        const docSnap = await doc(db, "users", userId);
+        await updateDoc(docSnap, {checkedIn: arrayRemove(restaurantId)});
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
+};

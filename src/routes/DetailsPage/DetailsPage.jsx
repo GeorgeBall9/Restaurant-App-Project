@@ -18,7 +18,8 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBookmark, faCircleCheck, faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
 import {selectBookmarks, setBookmarks} from "../../features/user/userSlice";
-import BookmarkButton from "../../common/components/RestaurantCard/BookmarkButton/BookmarkButton";
+import BookmarkButton from "../../common/components/BookmarkButton/BookmarkButton";
+import CheckInButton from "./CheckInButton/CheckInButton";
 
 const DetailsPage = () => {
 
@@ -171,10 +172,7 @@ const DetailsPage = () => {
                         <div className="title-container">
                             <h1>{name}</h1>
 
-                            <button>
-                                Check in
-                                <FontAwesomeIcon icon={faCircleCheck} className="icon"/>
-                            </button>
+                            <CheckInButton id={id}/>
                         </div>
 
                         <StarRating rating={starRating}/>

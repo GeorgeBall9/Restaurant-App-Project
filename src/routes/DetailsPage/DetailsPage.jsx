@@ -13,11 +13,10 @@ import {
     faMoneyBillWave,
     faLeaf,
     faArrowUpRightFromSquare,
-    faBookmark as faBookmarkSolid
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faBookmark, faCircleCheck, faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
-import {selectBookmarks, setBookmarks} from "../../features/user/userSlice";
+import {faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
+import {addCheckedInRestaurant} from "../../features/user/userSlice";
 import BookmarkButton from "../../common/components/BookmarkButton/BookmarkButton";
 import CheckInButton from "./CheckInButton/CheckInButton";
 
@@ -26,6 +25,8 @@ const DetailsPage = () => {
     const {id} = useParams();
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const allRestaurants = useSelector(selectAllRestaurants);
 
@@ -172,7 +173,7 @@ const DetailsPage = () => {
                         <div className="title-container">
                             <h1>{name}</h1>
 
-                            <CheckInButton id={id}/>
+                            <CheckInButton id={id} name={name}/>
                         </div>
 
                         <StarRating rating={starRating}/>

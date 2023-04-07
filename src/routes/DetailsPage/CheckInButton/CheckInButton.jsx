@@ -6,13 +6,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {addCheckedInRestaurant, selectCheckedInRestaurants} from "../../../features/user/userSlice";
 import {useEffect, useState} from "react";
 
-const CheckInButton = ({id}) => {
+const CheckInButton = ({id, name}) => {
 
     const dispatch = useDispatch();
 
     const checkedInRestaurants = useSelector(selectCheckedInRestaurants);
 
     const [checkedIn, setCheckedIn] = useState(false);
+    const [popupVisible, setPopupVisible] = useState(false);
 
     useEffect(() => {
         if (!checkedInRestaurants) return;
@@ -21,14 +22,36 @@ const CheckInButton = ({id}) => {
     }, [checkedInRestaurants]);
 
     const handleCheckInClick = () => {
+        setPopupVisible(true);
+    };
+
+    const handleYesClick = () => {
         dispatch(addCheckedInRestaurant(id));
+        setPopupVisible(false);
+    };
+
+    const handleNoClick = () => {
+        setPopupVisible(false);
     };
 
     return (
-        <button onClick={handleCheckInClick}>
-            {checkedIn ? "Checked in" : "Check in"}
-            <FontAwesomeIcon icon={checkedIn ? faSolidCircleCheck : faCircleCheck} className="icon"/>
-        </button>
+        <>
+            <button onClick={handleCheckInClick}>
+                {checkedIn ? "Checked in" : "Check in"}
+                <FontAwesomeIcon icon={checkedIn ? faSolidCircleCheck : faCircleCheck} className="icon"/>
+            </button>
+
+            {popupVisible && (
+                <div className="confirm-checkin-popup">
+                    <p>Would you like to check in at {name}?</p>
+
+                    <div className="buttons-container">
+                        <button onClick={handleYesClick}>Yes</button>
+                        <button onClick={handleNoClick}>No</button>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 

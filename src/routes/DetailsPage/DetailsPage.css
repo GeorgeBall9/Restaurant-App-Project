@@ -76,7 +76,6 @@
 .back-button {
   display: flex;
   align-items: center;
-  padding: 0.5em;
   background-color: transparent;
   border: none;
   color: var(--secondary-theme);
@@ -108,7 +107,7 @@
 }
 
 .details-page-main-info > div:not(:last-child) {
-  border-bottom: 1px solid grey;
+  border-bottom: solid 2px lightgrey;
   padding-bottom: 1rem;
 }
 
@@ -141,6 +140,11 @@
   font-size: var(--font-size-sub-heading);
   font-weight: var(--font-weight-bold-1);
   margin: 0;
+}
+
+.website a .icon {
+  color: black;
+  margin-left: 0.25em;
 }
 
 .read-more-button {

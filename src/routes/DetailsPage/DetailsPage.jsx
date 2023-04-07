@@ -12,7 +12,7 @@ import {
     faPhone,
     faUtensils,
     faMoneyBillWave,
-    faLeaf
+    faLeaf, faArrowUpRightFromSquare
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
@@ -180,7 +180,10 @@ const DetailsPage = () => {
                     {website && (
                         <div className="website">
                             <h2>Website</h2>
-                            <Link to={website}>{getDomainName(website)}</Link>
+                            <Link to={website}>
+                                {getDomainName(website)}
+                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
+                            </Link>
                         </div>
                     )}
 

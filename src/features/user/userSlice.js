@@ -47,6 +47,9 @@ const userSlice = createSlice({
         removeCheckedInRestaurant: (state, action) => {
             state.checkedInRestaurants = state.checkedInRestaurants
                 .filter(restaurant => restaurant !== action.payload);
+        },
+        setCheckedInRestaurants: (state, action) => {
+            state.checkedInRestaurants = action.payload.length ? action.payload : [];
         }
     },
 });
@@ -60,7 +63,8 @@ export const {
     addBookmark,
     removeBookmark,
     addCheckedInRestaurant,
-    removeCheckedInRestaurant
+    removeCheckedInRestaurant,
+    setCheckedInRestaurants
 } = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;

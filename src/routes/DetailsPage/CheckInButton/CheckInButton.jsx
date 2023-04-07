@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     addCheckedInRestaurant,
     removeCheckedInRestaurant,
-    selectCheckedInRestaurants, selectUserId
+    selectCheckedInRestaurants, selectUserId, setCheckedInRestaurants
 } from "../../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {addRestaurantCheckIn, removeRestaurantCheckIn} from "../../../firebase/firebase";
@@ -22,9 +22,12 @@ const CheckInButton = ({id, name}) => {
     const [popupVisible, setPopupVisible] = useState(false);
 
     useEffect(() => {
-        if (!checkedInRestaurants) return;
+        if (!checkedInRestaurants.length) {
+            setCheckedIn(false);
+            return;
+        }
 
-        setCheckedIn(checkedInRestaurants.includes(id));
+        setCheckedIn(checkedInRestaurants.find(checkIn => checkIn.restaurantId === id));
     }, [checkedInRestaurants]);
 
     const handleCheckInClick = () => {
@@ -34,10 +37,10 @@ const CheckInButton = ({id, name}) => {
     const handleYesClick = async () => {
         if (checkedIn) {
             await removeRestaurantCheckIn(userId, id);
-            dispatch(removeCheckedInRestaurant(id));
+            dispatch(setCheckedInRestaurants(checkedInRestaurants.filter(checkIn => checkIn.restaurantId !== id)));
         } else {
-            await addRestaurantCheckIn(userId, id);
-            dispatch(addCheckedInRestaurant(id));
+            const newCheckIn = await addRestaurantCheckIn(userId, id);
+            dispatch(addCheckedInRestaurant(newCheckIn));
         }
 
         setPopupVisible(false);

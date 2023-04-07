@@ -2,7 +2,16 @@
 import {initializeApp} from "firebase/app";
 
 // db imports
-import {getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove} from "firebase/firestore";
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc,
+    arrayUnion,
+    arrayRemove,
+    FieldValue
+} from "firebase/firestore";
 
 // auth imports
 import {
@@ -109,7 +118,7 @@ const getRandomColour = () => {
 
 // get user details from db
 export const getUserFromUserId = async (userId) => {
-    const docRef = doc(db, "users", userId);
+    const docRef = await doc(db, "users", userId);
     const docSnap = await getDoc(docRef);
 
     return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
@@ -159,7 +168,17 @@ export const removeUserBookmark = async (userId, bookmarkToRemove) => {
 export const addRestaurantCheckIn = async (userId, restaurantId) => {
     try {
         const docSnap = await doc(db, "users", userId);
-        await updateDoc(docSnap, {checkedIn: arrayUnion(restaurantId)});
+
+        const newCheckIn = {
+            restaurantId,
+            date: +new Date()
+        };
+
+        await updateDoc(docSnap, {
+            checkedIn: arrayUnion(newCheckIn)
+        });
+
+        return newCheckIn;
     } catch (error) {
         throw new Error("Document does not exist");
     }
@@ -168,8 +187,13 @@ export const addRestaurantCheckIn = async (userId, restaurantId) => {
 // add checked in restaurant to user doc
 export const removeRestaurantCheckIn = async (userId, restaurantId) => {
     try {
-        const docSnap = await doc(db, "users", userId);
-        await updateDoc(docSnap, {checkedIn: arrayRemove(restaurantId)});
+        const docRef = await doc(db, "users", userId);
+        const docSnap = await getDoc(docRef);
+
+        const checkedInData = docSnap.data().checkedIn
+            .filter(checkIn => checkIn.restaurantId !== restaurantId);
+
+        await updateDoc(docRef, {checkedIn: checkedInData});
     } catch (error) {
         throw new Error("Document does not exist");
     }

@@ -17,9 +17,9 @@ const userSlice = createSlice({
         setUserDetails: (state, action) => {
             const {id, displayName, iconColour, bookmarks} = action.payload;
             state.id = id;
-            state.displayName = displayName;
-            state.iconColour = iconColour;
-            state.bookmarks = bookmarks;
+            state.displayName = displayName ? displayName : null;
+            state.iconColour = iconColour ? iconColour : null;
+            state.bookmarks = bookmarks ? bookmarks : [];
         },
         resetUserDetails: state => {
             state.id = null;
@@ -32,9 +32,12 @@ const userSlice = createSlice({
         setIconColour: (state, action) => {
             state.iconColour = action.payload;
         },
-        setBookmarks: (state, action) => {
-            state.bookmarks = action.payload;
-        }
+        addBookmark: (state, action) => {
+            state.bookmarks.push(action.payload);
+        },
+        removeBookmark: (state, action) => {
+            state.bookmarks = state.bookmarks.filter(bookmark => bookmark !== action.payload);
+        },
     },
 });
 
@@ -44,7 +47,8 @@ export const {
     resetUserDetails,
     setDisplayName,
     setIconColour,
-    setBookmarks
+    addBookmark,
+    removeBookmark
 } = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;

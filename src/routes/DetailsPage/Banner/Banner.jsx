@@ -26,7 +26,7 @@ const Banner = ({id, scrollPosition}) => {
                 Back
             </button>
 
-            <div>
+            <div className="action-button-container">
                 <BookmarkButton id={id} style={bannerButtonsStyle}/>
 
                 <ShareButton style={bannerButtonsStyle}/>

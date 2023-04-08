@@ -7,21 +7,25 @@ import {
     addCheckedInRestaurant,
     removeCheckedInRestaurant,
     selectCheckedInRestaurants, selectUserId, setCheckedInRestaurants
-} from "../../../features/user/userSlice";
+} from "../../../../features/user/userSlice";
 import {useEffect, useState} from "react";
-import {addRestaurantCheckIn, removeRestaurantCheckIn} from "../../../firebase/firebase";
-import {hideOverlay, showOverlay} from "../../../features/overlay/overlaySlice";
+import {addRestaurantCheckIn, removeRestaurantCheckIn} from "../../../../firebase/firebase";
+import {hideOverlay, showOverlay} from "../../../../features/overlay/overlaySlice";
 import CheckInConfirmationPopup
-    from "../../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
+    from "../../../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import {
     selectCheckInConfirmationIsVisible, setCheckedInStatus,
     showCheckInConfirmation
-} from "../../../features/checkInConfirmation/checkInConfirmationSlice";
+} from "../../../../features/checkInConfirmation/checkInConfirmationSlice";
+import {useNavigate} from "react-router-dom";
 
-const CheckInButton = ({id, name}) => {
+const CheckInButton = ({id}) => {
+
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
+    const userId = useSelector(selectUserId);
     const checkedInRestaurants = useSelector(selectCheckedInRestaurants);
 
     const [checkedIn, setCheckedIn] = useState(false);
@@ -45,13 +49,17 @@ const CheckInButton = ({id, name}) => {
         dispatch(setCheckedInStatus(checkedIn));
     }, [checkedIn]);
 
-    const handleCheckInClick = () => {
-        dispatch(showOverlay());
-        dispatch(showCheckInConfirmation());
+    const handleClick = () => {
+        if (!userId) {
+            navigate("/sign-in");
+        } else {
+            dispatch(showOverlay());
+            dispatch(showCheckInConfirmation());
+        }
     };
 
     return (
-        <button onClick={handleCheckInClick}>
+        <button className="check-in-button" onClick={handleClick}>
             {checkedIn ? "Checked in" : "Check in"}
             <FontAwesomeIcon icon={checkedIn ? faSolidCircleCheck : faCircleCheck} className="icon"/>
         </button>

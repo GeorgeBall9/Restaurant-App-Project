@@ -29,11 +29,11 @@
     font-size: var(--font-size-icon-large);
 }
 
-.banner > div button:first-child {
+.banner .action-button-container > button:first-child {
     margin-right: 1em;
 }
 
-.banner > div button {
+.banner .action-button-container > button {
     background: none;
     border: none;
 }

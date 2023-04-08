@@ -1,12 +1,14 @@
+import Reviews, {reviews} from "./Reviews/Reviews";
+import ReviewForm from "../../common/components/FormField/ReviewForm/ReviewForm";
+
 import './DetailsPage.css';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectAllRestaurants } from '../../features/restaurants/restaurantsSlice';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
 import StarRating from '../../common/components/RestaurantCard/StarRating/StarRating';
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 
 import {
-    faChevronLeft,
     faLocationDot,
     faPhone,
     faUtensils,
@@ -14,10 +16,8 @@ import {
     faLeaf,
     faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShareFromSquare } from "@fortawesome/free-regular-svg-icons";
-import BookmarkButton from "../../common/components/BookmarkButton/BookmarkButton";
-import CheckInButton from "./CheckInButton/CheckInButton";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import CheckInButton from "./Banner/CheckInButton/CheckInButton";
 import CheckInConfirmationPopup
     from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import {
@@ -25,14 +25,16 @@ import {
     selectCheckInConfirmationIsVisible
 } from "../../features/checkInConfirmation/checkInConfirmationSlice";
 import Banner from "./Banner/Banner";
-import Reviews, { reviews } from "./Reviews/Reviews";
-import ReviewForm from '../../common/components/FormField/ReviewForm/ReviewForm';
+import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
+import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 
 const DetailsPage = () => {
 
-    const { id } = useParams();
+    const {id} = useParams();
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const allRestaurants = useSelector(selectAllRestaurants);
     const popupIsVisible = useSelector(selectCheckInConfirmationIsVisible);
@@ -45,6 +47,14 @@ const DetailsPage = () => {
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
 
     useEffect(() => {
+        if (!restaurant) {
+            dispatch(showSpinner());
+        } else {
+            dispatch(hideSpinner());
+        }
+    }, [restaurant]);
+
+    useEffect(() => {
         if (!allRestaurants) return;
 
         const foundRestaurant = allRestaurants.find(restaurant => restaurant.id === id);
@@ -53,7 +63,7 @@ const DetailsPage = () => {
 
     useEffect(() => {
         if (restaurant === undefined) {
-            navigate('/error', { replace: true });
+            navigate('/error', {replace: true});
         }
     }, [restaurant, navigate]);
 
@@ -88,7 +98,7 @@ const DetailsPage = () => {
         address
     } = restaurant;
 
-    const { street1, city, postalcode: postalCode } = address;
+    const {street1, city, postalcode: postalCode} = address;
 
     const starRating = Math.round(rating * 2) / 2;
 
@@ -128,7 +138,7 @@ const DetailsPage = () => {
 
     const getDomainName = (url) => {
         try {
-            const { hostname } = new URL(url);
+            const {hostname} = new URL(url);
             return hostname;
         } catch (error) {
             console.error('Error parsing URL', error);
@@ -149,34 +159,34 @@ const DetailsPage = () => {
 
     return (
         <div className="details-page container">
-            {popupIsVisible && <CheckInConfirmationPopup id={id} name={name} checkedIn={checkedIn} />}
+            {popupIsVisible && <CheckInConfirmationPopup id={id} name={name} checkedIn={checkedIn}/>}
 
-            <Banner id={id} scrollPosition={scrollPosition} />
+            <Banner id={id} scrollPosition={scrollPosition}/>
 
             <div className="image-and-info-container">
-                <div className="backdrop" style={{ backgroundImage: `url(${photoUrl})` }}></div>
+                <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
 
                 <div className="restaurant-info">
                     <div className="title-container">
                         <h1>{name}</h1>
 
-                        <CheckInButton id={id} name={name} />
+                        <CheckInButton id={id}/>
                     </div>
 
-                    <StarRating rating={starRating} />
+                    <StarRating rating={starRating}/>
 
                     <div className="price">
                         <p>{priceLevel !== null ? priceLevel : price}</p>
                     </div>
 
                     <div className="address info">
-                        <FontAwesomeIcon icon={faLocationDot} className="icon" />
+                        <FontAwesomeIcon icon={faLocationDot} className="icon"/>
                         <p>{formattedAddress}</p>
                     </div>
 
                     {phone && (
                         <div className="phone info">
-                            <FontAwesomeIcon icon={faPhone} className="icon" />
+                            <FontAwesomeIcon icon={faPhone} className="icon"/>
                             <p>{phone}</p>
                         </div>
                     )}
@@ -191,7 +201,7 @@ const DetailsPage = () => {
                         <h2>Website</h2>
                         <Link to={website}>
                             {getDomainName(website)}
-                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon" />
+                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
                         </Link>
                     </div>
                 )}
@@ -236,37 +246,38 @@ const DetailsPage = () => {
                 <div className="more-details">
                     <h2>More Details</h2>
 
-                    {/* Create components for the below */}
-
                     <div>
-                        <FontAwesomeIcon icon={faLocationDot} />
-                        <span>Location</span>
-                        <p>{formattedAddress}</p>
-                    </div>
+                        <AdditionalDetail
+                            icon={faLocationDot}
+                            name="Location"
+                            content={formattedAddress}
+                        />
 
-                    <div>
-                        <FontAwesomeIcon icon={faMoneyBillWave} />
-                        <span>Price</span>
-                        <p>{price || priceLevel || 'N/A'}</p>
-                    </div>
+                        <AdditionalDetail
+                            icon={faMoneyBillWave}
+                            name="Price"
+                            content={price || priceLevel || 'N/A'
+                            }/>
 
-                    <div>
-                        <FontAwesomeIcon icon={faUtensils} />
-                        <span>Cuisine</span>
-                        <p>{primaryCuisine || 'N/A'}</p>
-                    </div>
+                        <AdditionalDetail
+                            icon={faUtensils}
+                            name="Cuisine"
+                            content={primaryCuisine || 'N/A'}
+                        />
 
-                    {dietaryRestrictions && (
-                        <div>
-                            <FontAwesomeIcon icon={faLeaf} />
-                            <span>Dietary Restrictions</span>
-                            <p>{dietaryRestrictions.join(', ')}</p>
-                        </div>
-                    )}
+                        {dietaryRestrictions && (
+                            <AdditionalDetail
+                                icon={faLeaf}
+                                name="Dietary Restrictions"
+                                content={dietaryRestrictions.join(', ')}
+                            />
+                        )}
+                    </div>
                 </div>
+
                 <div className="restaurant-reviews">
                     <h2>Reviews</h2>
-                    <Reviews reviews={reviews} />
+                    <Reviews reviews={reviews}/>
                     <button
                         className="write-review-button"
                         onClick={() => setIsReviewFormVisible(!isReviewFormVisible)}
@@ -274,10 +285,9 @@ const DetailsPage = () => {
                         {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
                     </button>
                     {isReviewFormVisible && (
-                        <ReviewForm restaurantName={name} location={formattedAddress} />
+                        <ReviewForm restaurantName={name} location={formattedAddress}/>
                     )}
                 </div>
-
             </div>
         </div>
     );

@@ -1,5 +1,4 @@
 import "./FiltersDropdown.css";
-import LocationOptions from "../../location/LocationOptions/LocationOptions";
 import SortByOptions from "./SortByOptions/SortByOptions";
 import CuisineOptions from "./CuisineOptions/CuisineOptions";
 import {useDispatch, useSelector} from "react-redux";
@@ -7,7 +6,6 @@ import {
     applyFilters, hideFilters, resetFilters,
     selectCuisineFilter,
     selectSortFilter,
-    toggleFiltersDropdown
 } from "../filtersSlice";
 import {
     filterRestaurantResultsByCuisine,
@@ -17,6 +15,7 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
+import {hideOverlay} from "../../overlay/overlaySlice";
 
 const FiltersDropdown = () => {
 
@@ -37,7 +36,10 @@ const FiltersDropdown = () => {
         dispatch(resetRestaurantResults());
     };
 
-    const handleBackClick = () => dispatch(hideFilters());
+    const handleBackClick = () => {
+        dispatch(hideOverlay());
+        dispatch(hideFilters());
+    };
 
     const [filtersAppliedCount, setFiltersAppliedCount] = useState(0);
 

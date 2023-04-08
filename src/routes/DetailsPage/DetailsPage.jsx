@@ -16,9 +16,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
-import {addCheckedInRestaurant} from "../../features/user/userSlice";
 import BookmarkButton from "../../common/components/BookmarkButton/BookmarkButton";
 import CheckInButton from "./CheckInButton/CheckInButton";
+import CheckInConfirmationPopup
+    from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
+import {
+    selectCheckedIn,
+    selectCheckInConfirmationIsVisible
+} from "../../features/checkInConfirmation/checkInConfirmationSlice";
+import Banner from "./Banner/Banner";
+import Reviews from "./Reviews/Reviews";
 
 const DetailsPage = () => {
 
@@ -26,12 +33,11 @@ const DetailsPage = () => {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-
     const allRestaurants = useSelector(selectAllRestaurants);
+    const popupIsVisible = useSelector(selectCheckInConfirmationIsVisible);
+    const checkedIn = useSelector(selectCheckedIn);
 
     const [restaurant, setRestaurant] = useState(null);
-    const [showAllHours, setShowAllHours] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
@@ -109,7 +115,6 @@ const DetailsPage = () => {
             hours: currentHours,
         });
 
-        // this function is confusing - can it be refactored??
         return groupedHours.map(
             (group) => `${group.days[0]}${group.days.length > 1
                 ?
@@ -130,7 +135,7 @@ const DetailsPage = () => {
     };
 
     const today = new Date().getDay();
-    const displayedHours = showAllHours ? groupDaysWithSameHours(hours) : [hours[today]];
+    const displayedHours = groupDaysWithSameHours(hours);
     const isOpen = hours[today] !== "Closed";
 
     const handleToggleDescription = () => {
@@ -138,58 +143,37 @@ const DetailsPage = () => {
         setToggleLabel(isExpanded ? 'Read More' : 'Read Less');
     };
 
-    const style = scrollPosition > 20
-        ? {position: 'fixed', backgroundColor: 'rgba(224,220,220,0.9)'}
-        : {position: 'absolute', backgroundColor: 'transparent'};
-
-    const bannerButtonsStyle = scrollPosition > 20
-        ? {color: "#C23B22"}
-        : {color: "white"};
-
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
     return (
-        <div className="details-page-wrapper container">
-            <div className="details-page-banner container" style={style}>
-                <button className="back-button" onClick={() => navigate(-1)} style={bannerButtonsStyle}>
-                    <FontAwesomeIcon icon={faChevronLeft} className="icon" style={bannerButtonsStyle}/>
-                    Back
-                </button>
+        <div className="details-page container">
+            {popupIsVisible && <CheckInConfirmationPopup id={id} name={name} checkedIn={checkedIn}/>}
 
-                <div>
-                    <BookmarkButton id={id} style={bannerButtonsStyle}/>
+            <Banner id={id} scrollPosition={scrollPosition}/>
 
-                    <button>
-                        <FontAwesomeIcon icon={faShareFromSquare} className="icon" style={bannerButtonsStyle}/>
-                    </button>
-                </div>
-            </div>
-
-            <div className="details-page-restaurant-image-container">
+            <div className="image-and-info-container">
                 <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
 
-                <div className="details-page-restaurant-info">
-                    <div className="restaurant-name">
-                        <div className="title-container">
-                            <h1>{name}</h1>
+                <div className="restaurant-info">
+                    <div className="title-container">
+                        <h1>{name}</h1>
 
-                            <CheckInButton id={id} name={name}/>
-                        </div>
-
-                        <StarRating rating={starRating}/>
+                        <CheckInButton id={id} name={name}/>
                     </div>
 
-                    <div className="restaurant-price">
+                    <StarRating rating={starRating}/>
+
+                    <div className="price">
                         <p>{priceLevel !== null ? priceLevel : price}</p>
                     </div>
 
-                    <div className="restaurant-address info">
+                    <div className="address info">
                         <FontAwesomeIcon icon={faLocationDot} className="icon"/>
                         <p>{formattedAddress}</p>
                     </div>
 
                     {phone && (
-                        <div className="restaurant-phone info">
+                        <div className="phone info">
                             <FontAwesomeIcon icon={faPhone} className="icon"/>
                             <p>{phone}</p>
                         </div>
@@ -199,85 +183,87 @@ const DetailsPage = () => {
                 </div>
             </div>
 
-            <div className="details-page-restaurant-details-container">
-                <div className="details-page-main-info">
-                    {website && (
-                        <div className="website">
-                            <h2>Website</h2>
-                            <Link to={website}>
-                                {getDomainName(website)}
-                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
-                            </Link>
-                        </div>
-                    )}
-
-                    {description && (
-                        <div className="description">
-                            <h2>About</h2>
-
-                            <p>
-                                {isExpanded
-                                    ?
-                                    description
-                                    :
-                                    description.slice(0, 200) + (description.length > 100 ? '...' : '')
-                                }
-                            </p>
-
-                            {description.length > 200 && (
-                                <button
-                                    className="read-more-button"
-                                    onClick={handleToggleDescription}
-                                >
-                                    {toggleLabel}
-                                </button>
-                            )}
-                        </div>
-                    )}
-
-                    <div className="pictures">
-                        <h2>Photos</h2>
-                        <p>No photos available.</p>
+            <div className="details-container">
+                {website && (
+                    <div className="website">
+                        <h2>Website</h2>
+                        <Link to={website}>
+                            {getDomainName(website)}
+                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
+                        </Link>
                     </div>
+                )}
 
-                    <div className="hours">
-                        <h2>Opening Times</h2>
+                {description && (
+                    <div className="description">
+                        <h2>About</h2>
 
-                        {displayedHours.map((hour, index) => (
-                            <p key={index}>{hour}</p>
-                        ))}
-                    </div>
+                        <p>
+                            {isExpanded
+                                ?
+                                description
+                                :
+                                description.slice(0, 200) + (description.length > 100 ? '...' : '')
+                            }
+                        </p>
 
-                    <div className="more-details">
-                        <h2>More Details</h2>
-
-                        <div className="details-map-location">
-                            <FontAwesomeIcon icon={faLocationDot}/>
-                            <span>Location</span>
-                            <p>{formattedAddress}</p>
-                        </div>
-
-                        <div>
-                            <FontAwesomeIcon icon={faMoneyBillWave}/>
-                            <span>Price</span>
-                            <p>{price || priceLevel || 'N/A'}</p>
-                        </div>
-
-                        <div>
-                            <FontAwesomeIcon icon={faUtensils}/>
-                            <span> Cuisine</span>
-                            <p>{primaryCuisine || 'N/A'}</p>
-                        </div>
-
-                        {dietaryRestrictions && (
-                            <div>
-                                <FontAwesomeIcon icon={faLeaf}/>
-                                <span>Dietary Restrictions</span>
-                                <p>{dietaryRestrictions.join(', ')}</p>
-                            </div>
+                        {description.length > 200 && (
+                            <button
+                                className="read-more-button"
+                                onClick={handleToggleDescription}
+                            >
+                                {toggleLabel}
+                            </button>
                         )}
                     </div>
+                )}
+
+                <div className="pictures">
+                    <h2>Photos</h2>
+                    <p>No photos available.</p>
                 </div>
+
+                <div className="hours">
+                    <h2>Opening Times</h2>
+
+                    {displayedHours.map((hour, index) => (
+                        <p key={index}>{hour}</p>
+                    ))}
+                </div>
+
+                <div className="more-details">
+                    <h2>More Details</h2>
+
+                    {/* Create components for the below */}
+
+                    <div>
+                        <FontAwesomeIcon icon={faLocationDot}/>
+                        <span>Location</span>
+                        <p>{formattedAddress}</p>
+                    </div>
+
+                    <div>
+                        <FontAwesomeIcon icon={faMoneyBillWave}/>
+                        <span>Price</span>
+                        <p>{price || priceLevel || 'N/A'}</p>
+                    </div>
+
+                    <div>
+                        <FontAwesomeIcon icon={faUtensils}/>
+                        <span>Cuisine</span>
+                        <p>{primaryCuisine || 'N/A'}</p>
+                    </div>
+
+                    {dietaryRestrictions && (
+                        <div>
+                            <FontAwesomeIcon icon={faLeaf}/>
+                            <span>Dietary Restrictions</span>
+                            <p>{dietaryRestrictions.join(', ')}</p>
+                        </div>
+                    )}
+                </div>
+
+                <Reviews/>
             </div>
         </div>
     );

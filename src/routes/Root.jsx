@@ -12,6 +12,8 @@ import {onAuthStateChanged} from "firebase/auth";
 import {auth, getUserFromUserId} from "../firebase/firebase";
 import {useEffect} from "react";
 import {resetUserDetails, selectUserId, setUserDetails, setUserId} from "../features/user/userSlice";
+import Overlay from "../features/overlay/Overlay/Overlay";
+import {selectOverlayIsVisible} from "../features/overlay/overlaySlice";
 
 const Root = () => {
 
@@ -21,6 +23,7 @@ const Root = () => {
     useFilterRestaurants();
     useInitialiseSlider();
 
+    const overlayIsVisible = useSelector(selectOverlayIsVisible);
     const spinnerIsVisible = useSelector(selectSpinnerIsVisible);
     const filtersVisible = useSelector(selectFiltersAreVisible);
 
@@ -53,8 +56,15 @@ const Root = () => {
         }
     }, [userId]);
 
+    useEffect(() => {
+        if (!overlayIsVisible) return;
+
+        document.body.overflow = "hidden";
+    }, [overlayIsVisible]);
+
     return (
         <>
+            {overlayIsVisible && <Overlay/>}
             {spinnerIsVisible && <Spinner/>}
             {filtersVisible && <FiltersDropdown/>}
             <Outlet/>

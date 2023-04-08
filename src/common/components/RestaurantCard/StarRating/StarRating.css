@@ -1,0 +1,14 @@
+.star-rating {
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-sub-heading);
+}
+
+.star-rating .icon {
+    color: #F49D1A;
+    margin-right: 0.1em;
+}
+
+.star-rating span {
+    margin-left: 0.25em;
+}

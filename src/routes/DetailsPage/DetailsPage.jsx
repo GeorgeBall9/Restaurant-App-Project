@@ -28,12 +28,15 @@ import Banner from "./Banner/Banner";
 import Reviews from "./Reviews/Reviews";
 import Auth from "../Auth/Auth";
 import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
+import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 
 const DetailsPage = () => {
 
     const {id} = useParams();
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const allRestaurants = useSelector(selectAllRestaurants);
     const popupIsVisible = useSelector(selectCheckInConfirmationIsVisible);
@@ -43,6 +46,14 @@ const DetailsPage = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
+
+    useEffect(() => {
+        if (!restaurant) {
+            dispatch(showSpinner());
+        } else {
+            dispatch(hideSpinner());
+        }
+    }, [restaurant]);
 
     useEffect(() => {
         if (!allRestaurants) return;
@@ -160,7 +171,7 @@ const DetailsPage = () => {
                     <div className="title-container">
                         <h1>{name}</h1>
 
-                        <CheckInButton id={id} name={name}/>
+                        <CheckInButton id={id}/>
                     </div>
 
                     <StarRating rating={starRating}/>
@@ -235,8 +246,6 @@ const DetailsPage = () => {
 
                 <div className="more-details">
                     <h2>More Details</h2>
-
-                    {/* Create components for the below */}
 
                     <div>
                         <AdditionalDetail

@@ -17,11 +17,15 @@ import {
     selectCheckInConfirmationIsVisible, setCheckedInStatus,
     showCheckInConfirmation
 } from "../../../features/checkInConfirmation/checkInConfirmationSlice";
+import {useNavigate} from "react-router-dom";
 
-const CheckInButton = ({id, name}) => {
+const CheckInButton = ({id}) => {
+
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
+    const userId = useSelector(selectUserId);
     const checkedInRestaurants = useSelector(selectCheckedInRestaurants);
 
     const [checkedIn, setCheckedIn] = useState(false);
@@ -46,8 +50,12 @@ const CheckInButton = ({id, name}) => {
     }, [checkedIn]);
 
     const handleCheckInClick = () => {
-        dispatch(showOverlay());
-        dispatch(showCheckInConfirmation());
+        if (!userId) {
+            navigate("/sign-in");
+        } else {
+            dispatch(showOverlay());
+            dispatch(showCheckInConfirmation());
+        }
     };
 
     return (

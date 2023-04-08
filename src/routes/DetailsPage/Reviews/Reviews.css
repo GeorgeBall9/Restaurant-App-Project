@@ -1,0 +1,35 @@
+.reviews {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.review {
+    background-color: white;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.review h3 {
+    text-align: left;
+    color: var(--primary-theme);
+    font-size: var(--font-size-heading);
+    font-weight: var(--font-weight-bold-2);
+    margin-bottom: 0.5em;
+}
+
+.review p {
+    text-align: left;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    line-height: 1.5;
+}
+
+.review:not(:last-child) {
+    margin-bottom: 1rem;
+}

@@ -1,4 +1,6 @@
 import "./Reviews.css";
+import StarRating from "../../../common/components/RestaurantCard/StarRating/StarRating";
+import React from "react";
 
 const reviews = [
     {
@@ -48,11 +50,20 @@ const reviews = [
     },
 ];
 
-const Reviews = () => {
+const Reviews = ({ reviews }) => {
 
     return (
-        <div className="reviews"></div>
+        <div className="reviews">
+            {reviews.map((review) => (
+                <div key={review.id} className="review">
+                    <h3>{review.title}</h3>
+                    <StarRating rating={review.rating} />
+                    <p>{review.content}</p>
+                </div>
+            ))}
+        </div>
     );
 };
 
+export { reviews };
 export default Reviews;

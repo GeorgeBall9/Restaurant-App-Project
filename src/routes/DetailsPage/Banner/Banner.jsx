@@ -18,7 +18,7 @@ const Banner = ({id, scrollPosition}) => {
         : {color: "white"};
 
     return (
-        <div className="details-page-banner container" style={style}>
+        <div className="banner container" style={style}>
             <button className="back-button" onClick={() => navigate(-1)} style={bannerButtonsStyle}>
                 <FontAwesomeIcon icon={faChevronLeft} className="icon" style={bannerButtonsStyle}/>
                 Back

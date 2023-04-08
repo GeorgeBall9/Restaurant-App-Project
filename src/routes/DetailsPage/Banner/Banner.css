@@ -1,0 +1,39 @@
+.banner {
+    top: 0;
+    z-index: 100;
+    padding: 0.75rem;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.banner .back-button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-2);
+    cursor: pointer;
+    color: white;
+}
+
+.banner .back-button .icon {
+    margin-right: 0.5em;
+}
+
+.banner .icon {
+    color: white;
+    font-size: var(--font-size-icon-large);
+}
+
+.banner > div button:first-child {
+    margin-right: 1em;
+}
+
+.banner > div button {
+    background: none;
+    border: none;
+}

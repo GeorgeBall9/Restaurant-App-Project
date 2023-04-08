@@ -26,6 +26,8 @@ import {
 } from "../../features/checkInConfirmation/checkInConfirmationSlice";
 import Banner from "./Banner/Banner";
 import Reviews from "./Reviews/Reviews";
+import Auth from "../Auth/Auth";
+import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
 
 const DetailsPage = () => {
 
@@ -237,30 +239,32 @@ const DetailsPage = () => {
                     {/* Create components for the below */}
 
                     <div>
-                        <FontAwesomeIcon icon={faLocationDot}/>
-                        <span>Location</span>
-                        <p>{formattedAddress}</p>
-                    </div>
+                        <AdditionalDetail
+                            icon={faLocationDot}
+                            name="Location"
+                            content={formattedAddress}
+                        />
 
-                    <div>
-                        <FontAwesomeIcon icon={faMoneyBillWave}/>
-                        <span>Price</span>
-                        <p>{price || priceLevel || 'N/A'}</p>
-                    </div>
+                        <AdditionalDetail
+                            icon={faMoneyBillWave}
+                            name="Price"
+                            content={price || priceLevel || 'N/A'
+                        }/>
 
-                    <div>
-                        <FontAwesomeIcon icon={faUtensils}/>
-                        <span>Cuisine</span>
-                        <p>{primaryCuisine || 'N/A'}</p>
-                    </div>
+                        <AdditionalDetail
+                            icon={faUtensils}
+                            name="Cuisine"
+                            content={primaryCuisine || 'N/A'}
+                        />
 
-                    {dietaryRestrictions && (
-                        <div>
-                            <FontAwesomeIcon icon={faLeaf}/>
-                            <span>Dietary Restrictions</span>
-                            <p>{dietaryRestrictions.join(', ')}</p>
-                        </div>
-                    )}
+                        {dietaryRestrictions && (
+                            <AdditionalDetail
+                                icon={faLeaf}
+                                name="Dietary Restrictions"
+                                content={dietaryRestrictions.join(', ')}
+                            />
+                        )}
+                    </div>
                 </div>
 
                 <Reviews/>

@@ -16,12 +16,17 @@
     border: solid 1px lightgrey;
     display: flex;
     flex-direction: column;
-    gap: 0.55em;
+    gap: 0.5em;
+    border-bottom: solid 6px var(--primary-theme);
+}
+
+.confirm-checkin-popup p span {
+    font-weight: var(--font-weight-bold-2);
 }
 
 .confirm-checkin-popup .buttons-container {
     display: flex;
-    gap: 0.25em;
+    gap: 0.5em;
     justify-content: center;
     margin-top: 0.5em;
 }
@@ -36,11 +41,19 @@
     color: var(--primary-theme);
 }
 
+.confirm-checkin-popup .buttons-container button:hover {
+    background-color: var(--secondary-theme);
+    border-color: var(--secondary-theme);
+    color: white;
+}
+
 .confirm-checkin-popup .buttons-container button {
     border: solid 2px var(--primary-theme);
     border-radius: var(--border-radius);
     width: 50%;
     text-align: center;
     display: inline-block;
-    padding: 0.25em 0;
+    padding: 0.35em 0;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
 }

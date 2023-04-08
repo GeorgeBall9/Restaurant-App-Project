@@ -28,11 +28,11 @@ const CheckInButton = ({id, name}) => {
             return;
         }
 
-        const now = new Date().toLocaleDateString();
-
         setCheckedIn(checkedInRestaurants
             .find(checkIn => {
+                const now = new Date().toLocaleDateString();
                 const dateString = new Date(checkIn.date).toLocaleDateString();
+
                 return checkIn.restaurantId === id && dateString === now;
             }));
 
@@ -50,8 +50,8 @@ const CheckInButton = ({id, name}) => {
 
     const handleYesClick = async () => {
         if (checkedIn) {
-            await removeRestaurantCheckIn(userId, id);
-            dispatch(setCheckedInRestaurants(checkedInRestaurants.filter(checkIn => checkIn.restaurantId !== id)));
+            const checkedInData = await removeRestaurantCheckIn(userId, id);
+            dispatch(setCheckedInRestaurants(checkedInData));
         } else {
             const newCheckIn = await addRestaurantCheckIn(userId, id);
             dispatch(addCheckedInRestaurant(newCheckIn));
@@ -73,7 +73,7 @@ const CheckInButton = ({id, name}) => {
 
             {popupVisible && (
                 <div className="confirm-checkin-popup">
-                    {lastCheckIn && (
+                    {!checkedIn && lastCheckIn && (
                         <p>You last checked in on {lastCheckIn}.</p>
                     )}
 

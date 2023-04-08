@@ -191,9 +191,16 @@ export const removeRestaurantCheckIn = async (userId, restaurantId) => {
         const docSnap = await getDoc(docRef);
 
         const checkedInData = docSnap.data().checkedIn
-            .filter(checkIn => checkIn.restaurantId !== restaurantId);
+            .filter(checkIn => {
+                const now = new Date().toLocaleDateString();
+                const dateString = new Date(checkIn.date).toLocaleDateString();
+
+                return checkIn.restaurantId !== restaurantId || dateString !== now;
+            });
 
         await updateDoc(docRef, {checkedIn: checkedInData});
+
+        return checkedInData;
     } catch (error) {
         throw new Error("Document does not exist");
     }

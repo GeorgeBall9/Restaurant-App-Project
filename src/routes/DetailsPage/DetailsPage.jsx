@@ -25,6 +25,7 @@ import {
     selectCheckInConfirmationIsVisible
 } from "../../features/checkInConfirmation/checkInConfirmationSlice";
 import Banner from "./Banner/Banner";
+import Reviews from "./Reviews/Reviews";
 
 const DetailsPage = () => {
 
@@ -261,6 +262,8 @@ const DetailsPage = () => {
                         </div>
                     )}
                 </div>
+
+                <Reviews/>
             </div>
         </div>
     );

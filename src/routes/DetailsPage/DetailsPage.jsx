@@ -24,6 +24,7 @@ import {
     selectCheckedIn,
     selectCheckInConfirmationIsVisible
 } from "../../features/checkInConfirmation/checkInConfirmationSlice";
+import Banner from "./Banner/Banner";
 
 const DetailsPage = () => {
 
@@ -31,14 +32,11 @@ const DetailsPage = () => {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-
     const allRestaurants = useSelector(selectAllRestaurants);
     const popupIsVisible = useSelector(selectCheckInConfirmationIsVisible);
     const checkedIn = useSelector(selectCheckedIn);
 
     const [restaurant, setRestaurant] = useState(null);
-    const [showAllHours, setShowAllHours] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
@@ -116,7 +114,6 @@ const DetailsPage = () => {
             hours: currentHours,
         });
 
-        // this function is confusing - can it be refactored??
         return groupedHours.map(
             (group) => `${group.days[0]}${group.days.length > 1
                 ?
@@ -137,7 +134,7 @@ const DetailsPage = () => {
     };
 
     const today = new Date().getDay();
-    const displayedHours = showAllHours ? groupDaysWithSameHours(hours) : [hours[today]];
+    const displayedHours = groupDaysWithSameHours(hours);
     const isOpen = hours[today] !== "Closed";
 
     const handleToggleDescription = () => {
@@ -145,48 +142,25 @@ const DetailsPage = () => {
         setToggleLabel(isExpanded ? 'Read More' : 'Read Less');
     };
 
-    const style = scrollPosition > 20
-        ? {position: 'fixed', backgroundColor: 'rgba(224,220,220,0.9)'}
-        : {position: 'absolute', backgroundColor: 'transparent'};
-
-    const bannerButtonsStyle = scrollPosition > 20
-        ? {color: "#C23B22"}
-        : {color: "white"};
-
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
     return (
         <div className="details-page-wrapper container">
             {popupIsVisible && <CheckInConfirmationPopup id={id} name={name} checkedIn={checkedIn}/>}
 
-            <div className="details-page-banner container" style={style}>
-                <button className="back-button" onClick={() => navigate(-1)} style={bannerButtonsStyle}>
-                    <FontAwesomeIcon icon={faChevronLeft} className="icon" style={bannerButtonsStyle}/>
-                    Back
-                </button>
-
-                <div>
-                    <BookmarkButton id={id} style={bannerButtonsStyle}/>
-
-                    <button>
-                        <FontAwesomeIcon icon={faShareFromSquare} className="icon" style={bannerButtonsStyle}/>
-                    </button>
-                </div>
-            </div>
+            <Banner id={id} scrollPosition={scrollPosition}/>
 
             <div className="details-page-restaurant-image-container">
                 <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
 
                 <div className="details-page-restaurant-info">
-                    <div className="restaurant-name">
-                        <div className="title-container">
-                            <h1>{name}</h1>
+                    <div className="title-container">
+                        <h1>{name}</h1>
 
-                            <CheckInButton id={id} name={name}/>
-                        </div>
-
-                        <StarRating rating={starRating}/>
+                        <CheckInButton id={id} name={name}/>
                     </div>
+
+                    <StarRating rating={starRating}/>
 
                     <div className="restaurant-price">
                         <p>{priceLevel !== null ? priceLevel : price}</p>

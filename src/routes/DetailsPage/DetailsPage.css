@@ -1,4 +1,4 @@
-.details-page-wrapper {
+.details-page {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,7 +6,7 @@
     border-bottom: solid 6px #C23B22;
 }
 
-.backdrop {
+.details-page .image-and-info-container .backdrop {
     position: absolute;
     top: 0;
     left: 0;
@@ -18,23 +18,14 @@
     background-size: cover;
 }
 
-.details-page-restaurant-image-container {
+.details-page .image-and-info-container {
     position: relative;
     height: 320px;
     width: 100%;
     overflow: hidden;
 }
 
-.details-page-restaurant-image-container img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.details-page-restaurant-info {
+.details-page .image-and-info-container .restaurant-info {
     position: absolute;
     width: 100%;
     bottom: 0;
@@ -47,23 +38,18 @@
     color: white;
 }
 
-.details-page-restaurant-info .info {
-    display: flex;
-    gap: 0.5em;
-}
-
-.details-page-restaurant-info .title-container {
+.details-page .image-and-info-container .restaurant-info .title-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: 0.5em;
 }
 
-.details-page-restaurant-info .title-container h1 {
+.details-page .image-and-info-container .restaurant-info .title-container h1 {
     width: 60%;
 }
 
-.details-page-restaurant-info .title-container button {
+.details-page .image-and-info-container .restaurant-info .title-container button {
     color: var(--secondary-theme);
     font-weight: var(--font-weight-bold-1);
     display: flex;
@@ -76,19 +62,27 @@
     white-space: nowrap;
 }
 
-.title-container h1 {
+.details-page .image-and-info-container .restaurant-info .title-container h1 {
     color: white;
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-bold-2);
 }
 
-.restaurant-address p, .restaurant-phone p, .restaurant-price p, .open-status {
+.details-page .image-and-info-container .restaurant-info .info {
+    display: flex;
+    gap: 0.5em;
+}
+
+.details-page .image-and-info-container .restaurant-info .address p,
+.details-page .image-and-info-container .restaurant-info .phone p,
+.details-page .image-and-info-container .restaurant-info .price p,
+.details-page .image-and-info-container .restaurant-info .open-status {
     color: white;
     font-size: var(--font-size-sub-heading);
     font-weight: var(--font-weight-bold-2);
 }
 
-.details-page-restaurant-details-container {
+.details-page .details-page-restaurant-details-container {
     max-width: var(--max-width-content);
     display: flex;
     justify-content: center;
@@ -96,7 +90,7 @@
     padding: 0;
 }
 
-.details-page-main-info {
+.details-page .details-page-main-info {
     padding: 1rem;
     text-align: center;
     overflow-wrap: break-word;
@@ -105,35 +99,38 @@
     background-color: white;
 }
 
-.details-page-main-info > div:not(:last-child) {
+.details-page .details-page-main-info > div:not(:last-child) {
     border-bottom: solid 2px lightgrey;
     padding-bottom: 1rem;
 }
 
-.details-page-main-info h2 {
+.details-page .details-page-main-info h2 {
     color: var(--primary-theme);
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-bold-2);
     margin-bottom: 1.25em;
 }
 
-.details-page-main-info p {
+.details-page .details-page-main-info p {
     font-size: var(--font-size-sub-heading);
     font-weight: var(--font-weight-bold-1);
     margin: 0;
 }
 
-.website, .description, .pictures, .hours {
+.details-page .website,
+.details-page .description,
+.details-page .pictures,
+.details-page .hours {
     margin-bottom: 1rem;
 }
 
-.hours {
+.details-page .hours {
     display: flex;
     flex-direction: column;
     gap: 0.25em;
 }
 
-.website a {
+.details-page .website a {
     text-decoration: none;
     color: black;
     font-size: var(--font-size-sub-heading);
@@ -141,12 +138,12 @@
     margin: 0;
 }
 
-.website a .icon {
+.details-page .website a .icon {
     color: black;
     margin-left: 0.25em;
 }
 
-.read-more-button {
+.details-page .read-more-button {
     border: none;
     border-bottom: 2px solid var(--primary-theme);
     background-color: transparent;
@@ -159,20 +156,20 @@
     outline: none;
 }
 
-.more-details {
+.details-page .more-details {
     text-align: left;
     display: flex;
     flex-direction: column;
     gap: 0.75em;
 }
 
-.more-details span {
+.details-page .more-details span {
     font-size: var(--font-size-sub-heading);
     font-weight: var(--font-weight-bold-2);
     padding: 0 0.5rem;
 }
 
-.more-details p {
+.details-page .more-details p {
     padding: 0.25rem 1.75rem;
     font-size: var(--font-size-sub-heading);
 }

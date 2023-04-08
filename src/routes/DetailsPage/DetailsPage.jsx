@@ -145,15 +145,15 @@ const DetailsPage = () => {
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
     return (
-        <div className="details-page-wrapper container">
+        <div className="details-page container">
             {popupIsVisible && <CheckInConfirmationPopup id={id} name={name} checkedIn={checkedIn}/>}
 
             <Banner id={id} scrollPosition={scrollPosition}/>
 
-            <div className="details-page-restaurant-image-container">
+            <div className="image-and-info-container">
                 <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
 
-                <div className="details-page-restaurant-info">
+                <div className="restaurant-info">
                     <div className="title-container">
                         <h1>{name}</h1>
 
@@ -162,17 +162,17 @@ const DetailsPage = () => {
 
                     <StarRating rating={starRating}/>
 
-                    <div className="restaurant-price">
+                    <div className="price">
                         <p>{priceLevel !== null ? priceLevel : price}</p>
                     </div>
 
-                    <div className="restaurant-address info">
+                    <div className="address info">
                         <FontAwesomeIcon icon={faLocationDot} className="icon"/>
                         <p>{formattedAddress}</p>
                     </div>
 
                     {phone && (
-                        <div className="restaurant-phone info">
+                        <div className="phone info">
                             <FontAwesomeIcon icon={faPhone} className="icon"/>
                             <p>{phone}</p>
                         </div>
@@ -182,7 +182,7 @@ const DetailsPage = () => {
                 </div>
             </div>
 
-            <div className="details-page-restaurant-details-container">
+            <div className="details-container">
                 <div className="details-page-main-info">
                     {website && (
                         <div className="website">

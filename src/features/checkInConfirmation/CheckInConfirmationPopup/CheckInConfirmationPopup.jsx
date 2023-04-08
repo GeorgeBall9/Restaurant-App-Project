@@ -55,7 +55,7 @@ const CheckInConfirmationPopup = ({id, name, checkedIn}) => {
                 <p>You last checked in on {lastCheckIn}.</p>
             )}
 
-            <p>Would you like to check {checkedIn ? "out of" : "in at"} {name}?</p>
+            <p><span>Check {checkedIn ? "out" : "in"}</span> at {name}?</p>
 
             <div className="buttons-container">
                 <button onClick={handleYesClick}>Yes</button>

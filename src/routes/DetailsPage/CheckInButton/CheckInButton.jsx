@@ -10,6 +10,7 @@ import {
 } from "../../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {addRestaurantCheckIn, removeRestaurantCheckIn} from "../../../firebase/firebase";
+import {hideOverlay, showOverlay} from "../../../features/overlay/overlaySlice";
 
 const CheckInButton = ({id, name}) => {
 
@@ -45,6 +46,7 @@ const CheckInButton = ({id, name}) => {
     }, [checkedInRestaurants]);
 
     const handleCheckInClick = () => {
+        dispatch(showOverlay());
         setPopupVisible(true);
     };
 
@@ -57,10 +59,12 @@ const CheckInButton = ({id, name}) => {
             dispatch(addCheckedInRestaurant(newCheckIn));
         }
 
+        dispatch(hideOverlay());
         setPopupVisible(false);
     };
 
     const handleNoClick = () => {
+        dispatch(hideOverlay());
         setPopupVisible(false);
     };
 

@@ -8,6 +8,7 @@ import locationReducer from "../features/location/locationSlice";
 import spinnerReducer from "../features/spinner/spinnerSlice";
 import userReducer from "../features/user/userSlice";
 import changeIconPopupReducer from "../features/changeIconPopup/changeIconPopupSlice";
+import overlayReducer from "../features/overlay/overlaySlice";
 
 export default configureStore({
     reducer: {
@@ -18,6 +19,7 @@ export default configureStore({
         location: locationReducer,
         spinner: spinnerReducer,
         user: userReducer,
-        changeIconPopup: changeIconPopupReducer
+        changeIconPopup: changeIconPopupReducer,
+        overlay: overlayReducer
     }
 });

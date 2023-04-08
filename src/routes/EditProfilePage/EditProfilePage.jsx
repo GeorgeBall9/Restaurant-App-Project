@@ -15,6 +15,7 @@ import {
 } from "../../features/user/userSlice";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {signOutAuthUser, updateUserDisplayName} from "../../firebase/firebase";
+import {showOverlay} from "../../features/overlay/overlaySlice";
 
 const EditProfilePage = () => {
 
@@ -76,6 +77,7 @@ const EditProfilePage = () => {
     const popupVisible = useSelector(selectChangeIconPopupIsVisible);
 
     const handleChangeIconClick = () => {
+        dispatch(showOverlay());
         dispatch(showChangeIconPopup());
     };
 

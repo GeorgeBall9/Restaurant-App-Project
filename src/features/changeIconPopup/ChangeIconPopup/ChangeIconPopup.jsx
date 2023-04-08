@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import {hideChangeIconPopup} from "../changeIconPopupSlice";
 import UserIconButton from "./UserIconButton/UserIconButton";
 import {updateUserIconColour} from "../../../firebase/firebase";
+import {hideOverlay} from "../../overlay/overlaySlice";
 
 const ChangeIconPopup = () => {
 
@@ -48,6 +49,7 @@ const ChangeIconPopup = () => {
     };
 
     const handleClosePopupClick = () => {
+        dispatch(hideOverlay());
         dispatch(hideChangeIconPopup());
         handleResetPopupClick();
     };

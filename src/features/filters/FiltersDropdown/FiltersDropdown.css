@@ -10,7 +10,6 @@
     right: 0;
     z-index: 10000;
     padding: var(--padding-content);
-    background-color: rgba(211, 211, 211, 0.75);
 }
 
 .filters-dropdown {

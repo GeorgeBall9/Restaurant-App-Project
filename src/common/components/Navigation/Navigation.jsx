@@ -18,10 +18,11 @@ import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
 import LocationButton from "../../../features/location/LocationButton/LocationButton";
 import LocationOptions from "../../../features/location/LocationOptions/LocationOptions";
 import {selectLocationOptionsOpen} from "../../../features/location/locationSlice";
+import {showOverlay} from "../../../features/overlay/overlaySlice";
 
 const Navigation = ({view}) => {
+
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const appliedSortFilter = useSelector(selectAppliedSortFilter);
     const appliedCuisineFilter = useSelector(selectAppliedCuisineFilter);
@@ -29,7 +30,10 @@ const Navigation = ({view}) => {
 
     const icon = view === "home" ? faMapLocationDot : faArrowLeft;
 
-    const handleFilterButtonClicked = () => dispatch(showFilters());
+    const handleFilterButtonClicked = () => {
+        dispatch(showOverlay());
+        dispatch(showFilters());
+    };
 
     return (
         <div className="navigation-container">

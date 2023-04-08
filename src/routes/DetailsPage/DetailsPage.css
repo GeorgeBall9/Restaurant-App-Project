@@ -82,55 +82,43 @@
     font-weight: var(--font-weight-bold-2);
 }
 
-.details-page .details-page-restaurant-details-container {
-    max-width: var(--max-width-content);
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 0;
-}
-
-.details-page .details-page-main-info {
+.details-page .details-container {
     padding: 1rem;
     text-align: center;
     overflow-wrap: break-word;
     word-break: break-word;
     width: 100%;
     background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
-.details-page .details-page-main-info > div:not(:last-child) {
+.details-page .details-container > div:not(:last-child) {
     border-bottom: solid 2px lightgrey;
     padding-bottom: 1rem;
 }
 
-.details-page .details-page-main-info h2 {
+.details-page .details-container h2 {
     color: var(--primary-theme);
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-bold-2);
     margin-bottom: 1.25em;
 }
 
-.details-page .details-page-main-info p {
+.details-page .details-container p {
     font-size: var(--font-size-sub-heading);
     font-weight: var(--font-weight-bold-1);
     margin: 0;
 }
 
-.details-page .website,
-.details-page .description,
-.details-page .pictures,
-.details-page .hours {
-    margin-bottom: 1rem;
-}
-
-.details-page .hours {
+.details-page .details-container .hours {
     display: flex;
     flex-direction: column;
     gap: 0.25em;
 }
 
-.details-page .website a {
+.details-page .details-container .website a {
     text-decoration: none;
     color: black;
     font-size: var(--font-size-sub-heading);
@@ -138,12 +126,16 @@
     margin: 0;
 }
 
-.details-page .website a .icon {
+.details-page .details-container .website a,
+.details-page .details-container .website a .icon {
     color: black;
+}
+
+.details-page .details-container .website a .icon {
     margin-left: 0.25em;
 }
 
-.details-page .read-more-button {
+.details-page .details-container .description .read-more-button {
     border: none;
     border-bottom: 2px solid var(--primary-theme);
     background-color: transparent;
@@ -156,20 +148,20 @@
     outline: none;
 }
 
-.details-page .more-details {
+.details-page .details-container .more-details {
     text-align: left;
     display: flex;
     flex-direction: column;
     gap: 0.75em;
 }
 
-.details-page .more-details span {
+.details-page .details-container .more-details span {
     font-size: var(--font-size-sub-heading);
     font-weight: var(--font-weight-bold-2);
     padding: 0 0.5rem;
 }
 
-.details-page .more-details p {
+.details-page .details-container .more-details p {
     padding: 0.25rem 1.75rem;
     font-size: var(--font-size-sub-heading);
 }

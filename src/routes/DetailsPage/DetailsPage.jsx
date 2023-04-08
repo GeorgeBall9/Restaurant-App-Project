@@ -183,83 +183,83 @@ const DetailsPage = () => {
             </div>
 
             <div className="details-container">
-                <div className="details-page-main-info">
-                    {website && (
-                        <div className="website">
-                            <h2>Website</h2>
-                            <Link to={website}>
-                                {getDomainName(website)}
-                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
-                            </Link>
-                        </div>
-                    )}
-
-                    {description && (
-                        <div className="description">
-                            <h2>About</h2>
-
-                            <p>
-                                {isExpanded
-                                    ?
-                                    description
-                                    :
-                                    description.slice(0, 200) + (description.length > 100 ? '...' : '')
-                                }
-                            </p>
-
-                            {description.length > 200 && (
-                                <button
-                                    className="read-more-button"
-                                    onClick={handleToggleDescription}
-                                >
-                                    {toggleLabel}
-                                </button>
-                            )}
-                        </div>
-                    )}
-
-                    <div className="pictures">
-                        <h2>Photos</h2>
-                        <p>No photos available.</p>
+                {website && (
+                    <div className="website">
+                        <h2>Website</h2>
+                        <Link to={website}>
+                            {getDomainName(website)}
+                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
+                        </Link>
                     </div>
+                )}
 
-                    <div className="hours">
-                        <h2>Opening Times</h2>
+                {description && (
+                    <div className="description">
+                        <h2>About</h2>
 
-                        {displayedHours.map((hour, index) => (
-                            <p key={index}>{hour}</p>
-                        ))}
-                    </div>
+                        <p>
+                            {isExpanded
+                                ?
+                                description
+                                :
+                                description.slice(0, 200) + (description.length > 100 ? '...' : '')
+                            }
+                        </p>
 
-                    <div className="more-details">
-                        <h2>More Details</h2>
-
-                        <div className="details-map-location">
-                            <FontAwesomeIcon icon={faLocationDot}/>
-                            <span>Location</span>
-                            <p>{formattedAddress}</p>
-                        </div>
-
-                        <div>
-                            <FontAwesomeIcon icon={faMoneyBillWave}/>
-                            <span>Price</span>
-                            <p>{price || priceLevel || 'N/A'}</p>
-                        </div>
-
-                        <div>
-                            <FontAwesomeIcon icon={faUtensils}/>
-                            <span> Cuisine</span>
-                            <p>{primaryCuisine || 'N/A'}</p>
-                        </div>
-
-                        {dietaryRestrictions && (
-                            <div>
-                                <FontAwesomeIcon icon={faLeaf}/>
-                                <span>Dietary Restrictions</span>
-                                <p>{dietaryRestrictions.join(', ')}</p>
-                            </div>
+                        {description.length > 200 && (
+                            <button
+                                className="read-more-button"
+                                onClick={handleToggleDescription}
+                            >
+                                {toggleLabel}
+                            </button>
                         )}
                     </div>
+                )}
+
+                <div className="pictures">
+                    <h2>Photos</h2>
+                    <p>No photos available.</p>
+                </div>
+
+                <div className="hours">
+                    <h2>Opening Times</h2>
+
+                    {displayedHours.map((hour, index) => (
+                        <p key={index}>{hour}</p>
+                    ))}
+                </div>
+
+                <div className="more-details">
+                    <h2>More Details</h2>
+
+                    {/* Create components for the below */}
+
+                    <div>
+                        <FontAwesomeIcon icon={faLocationDot}/>
+                        <span>Location</span>
+                        <p>{formattedAddress}</p>
+                    </div>
+
+                    <div>
+                        <FontAwesomeIcon icon={faMoneyBillWave}/>
+                        <span>Price</span>
+                        <p>{price || priceLevel || 'N/A'}</p>
+                    </div>
+
+                    <div>
+                        <FontAwesomeIcon icon={faUtensils}/>
+                        <span>Cuisine</span>
+                        <p>{primaryCuisine || 'N/A'}</p>
+                    </div>
+
+                    {dietaryRestrictions && (
+                        <div>
+                            <FontAwesomeIcon icon={faLeaf}/>
+                            <span>Dietary Restrictions</span>
+                            <p>{dietaryRestrictions.join(', ')}</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

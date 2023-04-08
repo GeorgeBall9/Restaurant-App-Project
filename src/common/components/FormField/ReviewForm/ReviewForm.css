@@ -1,9 +1,14 @@
+.review-form-wrapper {
+  position: relative;
+}
+
 .review-form-container {
     max-width: var(--max-width-content);
     margin: 0 auto;
     padding: 1rem;
     background-color: #f8f8f8;
     border-radius: 5px;
+    text-align: left;
   }
   
   .review-label-header {
@@ -58,4 +63,32 @@
   
   .review-submit:hover {
     background-color: var(--secondary-theme);
+  }
+
+  .review-form-container.blurred {
+    filter: blur(2px);
+    pointer-events: none;
+  }
+  
+  .confirmation-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 1;
+  }
+  
+  .confirmation-overlay h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .confirmation-overlay p {
+    font-size: 1.2rem;
   }

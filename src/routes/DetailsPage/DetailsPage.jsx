@@ -1,3 +1,6 @@
+import Reviews, {reviews} from "./Reviews/Reviews";
+import ReviewForm from "../../common/components/FormField/ReviewForm/ReviewForm";
+
 import './DetailsPage.css';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
@@ -6,7 +9,6 @@ import StarRating from '../../common/components/RestaurantCard/StarRating/StarRa
 import {useState, useEffect} from 'react';
 
 import {
-    faChevronLeft,
     faLocationDot,
     faPhone,
     faUtensils,
@@ -15,8 +17,6 @@ import {
     faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
-import BookmarkButton from "../../common/components/BookmarkButton/BookmarkButton";
 import CheckInButton from "./Banner/CheckInButton/CheckInButton";
 import CheckInConfirmationPopup
     from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
@@ -25,8 +25,6 @@ import {
     selectCheckInConfirmationIsVisible
 } from "../../features/checkInConfirmation/checkInConfirmationSlice";
 import Banner from "./Banner/Banner";
-import Reviews from "./Reviews/Reviews";
-import Auth from "../Auth/Auth";
 import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 
@@ -46,6 +44,7 @@ const DetailsPage = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
+    const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
 
     useEffect(() => {
         if (!restaurant) {
@@ -258,7 +257,7 @@ const DetailsPage = () => {
                             icon={faMoneyBillWave}
                             name="Price"
                             content={price || priceLevel || 'N/A'
-                        }/>
+                            }/>
 
                         <AdditionalDetail
                             icon={faUtensils}
@@ -276,7 +275,19 @@ const DetailsPage = () => {
                     </div>
                 </div>
 
-                <Reviews/>
+                <div className="restaurant-reviews">
+                    <h2>Reviews</h2>
+                    <Reviews reviews={reviews}/>
+                    <button
+                        className="write-review-button"
+                        onClick={() => setIsReviewFormVisible(!isReviewFormVisible)}
+                    >
+                        {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
+                    </button>
+                    {isReviewFormVisible && (
+                        <ReviewForm restaurantName={name} location={formattedAddress}/>
+                    )}
+                </div>
             </div>
         </div>
     );

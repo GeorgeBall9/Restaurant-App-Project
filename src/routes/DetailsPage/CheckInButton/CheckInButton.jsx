@@ -11,17 +11,20 @@ import {
 import {useEffect, useState} from "react";
 import {addRestaurantCheckIn, removeRestaurantCheckIn} from "../../../firebase/firebase";
 import {hideOverlay, showOverlay} from "../../../features/overlay/overlaySlice";
+import CheckInConfirmationPopup
+    from "../../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
+import {
+    selectCheckInConfirmationIsVisible, setCheckedInStatus,
+    showCheckInConfirmation
+} from "../../../features/checkInConfirmation/checkInConfirmationSlice";
 
 const CheckInButton = ({id, name}) => {
 
     const dispatch = useDispatch();
 
-    const userId = useSelector(selectUserId);
     const checkedInRestaurants = useSelector(selectCheckedInRestaurants);
 
     const [checkedIn, setCheckedIn] = useState(false);
-    const [lastCheckIn, setLastCheckIn] = useState(null);
-    const [popupVisible, setPopupVisible] = useState(false);
 
     useEffect(() => {
         if (!checkedInRestaurants.length) {
@@ -36,60 +39,22 @@ const CheckInButton = ({id, name}) => {
 
                 return checkIn.restaurantId === id && dateString === now;
             }));
-
-        const lastCheckedIn = checkedInRestaurants
-            .filter(checkIn => checkIn.restaurantId === id)
-            .sort((a, b) => a.date - b.date)
-            .at(-1);
-
-        setLastCheckIn(lastCheckedIn ? new Date(lastCheckedIn.date).toLocaleDateString() : null);
     }, [checkedInRestaurants]);
+
+    useEffect(() => {
+        dispatch(setCheckedInStatus(checkedIn));
+    }, [checkedIn]);
 
     const handleCheckInClick = () => {
         dispatch(showOverlay());
-        setPopupVisible(true);
-    };
-
-    const handleYesClick = async () => {
-        if (checkedIn) {
-            const checkedInData = await removeRestaurantCheckIn(userId, id);
-            dispatch(setCheckedInRestaurants(checkedInData));
-        } else {
-            const newCheckIn = await addRestaurantCheckIn(userId, id);
-            dispatch(addCheckedInRestaurant(newCheckIn));
-        }
-
-        dispatch(hideOverlay());
-        setPopupVisible(false);
-    };
-
-    const handleNoClick = () => {
-        dispatch(hideOverlay());
-        setPopupVisible(false);
+        dispatch(showCheckInConfirmation());
     };
 
     return (
-        <>
-            <button onClick={handleCheckInClick}>
-                {checkedIn ? "Checked in" : "Check in"}
-                <FontAwesomeIcon icon={checkedIn ? faSolidCircleCheck : faCircleCheck} className="icon"/>
-            </button>
-
-            {popupVisible && (
-                <div className="confirm-checkin-popup">
-                    {!checkedIn && lastCheckIn && (
-                        <p>You last checked in on {lastCheckIn}.</p>
-                    )}
-
-                    <p>Would you like to check {checkedIn ? "out of" : "in at"} {name}?</p>
-
-                    <div className="buttons-container">
-                        <button onClick={handleYesClick}>Yes</button>
-                        <button onClick={handleNoClick}>No</button>
-                    </div>
-                </div>
-            )}
-        </>
+        <button onClick={handleCheckInClick}>
+            {checkedIn ? "Checked in" : "Check in"}
+            <FontAwesomeIcon icon={checkedIn ? faSolidCircleCheck : faCircleCheck} className="icon"/>
+        </button>
     );
 };
 

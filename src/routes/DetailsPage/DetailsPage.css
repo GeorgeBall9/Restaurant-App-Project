@@ -64,7 +64,6 @@
     height: 320px;
     width: 100%;
     overflow: hidden;
-    z-index: 1;
 }
 
 .details-page-restaurant-image-container img {
@@ -100,6 +99,8 @@
     align-items: flex-start;
     gap: 0.5em;
     margin-bottom: 0.5em;
+    position: relative;
+    z-index: 100000;
 }
 
 .details-page-restaurant-info .title-container h1 {

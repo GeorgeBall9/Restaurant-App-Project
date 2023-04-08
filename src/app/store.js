@@ -9,6 +9,7 @@ import spinnerReducer from "../features/spinner/spinnerSlice";
 import userReducer from "../features/user/userSlice";
 import changeIconPopupReducer from "../features/changeIconPopup/changeIconPopupSlice";
 import overlayReducer from "../features/overlay/overlaySlice";
+import checkInConfirmationReducer from "../features/checkInConfirmation/checkInConfirmationSlice";
 
 export default configureStore({
     reducer: {
@@ -20,6 +21,7 @@ export default configureStore({
         spinner: spinnerReducer,
         user: userReducer,
         changeIconPopup: changeIconPopupReducer,
-        overlay: overlayReducer
+        overlay: overlayReducer,
+        checkInConfirmation: checkInConfirmationReducer,
     }
 });

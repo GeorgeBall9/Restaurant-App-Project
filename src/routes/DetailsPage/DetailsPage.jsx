@@ -16,9 +16,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
-import {addCheckedInRestaurant} from "../../features/user/userSlice";
 import BookmarkButton from "../../common/components/BookmarkButton/BookmarkButton";
 import CheckInButton from "./CheckInButton/CheckInButton";
+import CheckInConfirmationPopup
+    from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
+import {
+    selectCheckedIn,
+    selectCheckInConfirmationIsVisible
+} from "../../features/checkInConfirmation/checkInConfirmationSlice";
 
 const DetailsPage = () => {
 
@@ -29,6 +34,8 @@ const DetailsPage = () => {
     const dispatch = useDispatch();
 
     const allRestaurants = useSelector(selectAllRestaurants);
+    const popupIsVisible = useSelector(selectCheckInConfirmationIsVisible);
+    const checkedIn = useSelector(selectCheckedIn);
 
     const [restaurant, setRestaurant] = useState(null);
     const [showAllHours, setShowAllHours] = useState(true);
@@ -150,6 +157,8 @@ const DetailsPage = () => {
 
     return (
         <div className="details-page-wrapper container">
+            {popupIsVisible && <CheckInConfirmationPopup id={id} name={name} checkedIn={checkedIn}/>}
+
             <div className="details-page-banner container" style={style}>
                 <button className="back-button" onClick={() => navigate(-1)} style={bannerButtonsStyle}>
                     <FontAwesomeIcon icon={faChevronLeft} className="icon" style={bannerButtonsStyle}/>

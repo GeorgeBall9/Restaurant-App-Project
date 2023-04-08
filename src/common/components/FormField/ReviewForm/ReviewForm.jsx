@@ -1,6 +1,6 @@
 import './ReviewForm.css';
 import React from "react";
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import StarRating from '../../RestaurantCard/StarRating/StarRating';
 
 const ReviewForm = ({ restaurantName, location }) => {
@@ -11,6 +11,14 @@ const ReviewForm = ({ restaurantName, location }) => {
         rating: '',
         review: '',
     });
+
+    const formRef = useRef(null);
+
+    useEffect(() => {
+        if (formRef.current) {
+            formRef.current.scrollIntoView({ behaviour: 'smooth' });
+        }
+    }, []);
 
     const [errors, setErrors] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -67,7 +75,7 @@ const ReviewForm = ({ restaurantName, location }) => {
 
     return (
         <div className="review-form-wrapper">
-            <form onSubmit={handleSubmit} className="review-form-container">
+            <form ref={formRef} onSubmit={handleSubmit} className="review-form-container">
                 <div className="review-label-header">
                     <label htmlFor="restaurantName">Restaurant Name:</label>
                     <input name="restaurantName" value={formData.restaurantName} onChange={handleChange} />

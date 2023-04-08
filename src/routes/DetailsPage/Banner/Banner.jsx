@@ -4,6 +4,8 @@ import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 import BookmarkButton from "../../../common/components/BookmarkButton/BookmarkButton";
 import {faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
 import {useNavigate} from "react-router-dom";
+import Shaders from "mapbox-gl/src/shaders/shaders";
+import ShareButton from "./ShareButton/ShareButton";
 
 const Banner = ({id, scrollPosition}) => {
 
@@ -27,9 +29,7 @@ const Banner = ({id, scrollPosition}) => {
             <div>
                 <BookmarkButton id={id} style={bannerButtonsStyle}/>
 
-                <button>
-                    <FontAwesomeIcon icon={faShareFromSquare} className="icon" style={bannerButtonsStyle}/>
-                </button>
+                <ShareButton style={bannerButtonsStyle}/>
             </div>
         </div>
     );

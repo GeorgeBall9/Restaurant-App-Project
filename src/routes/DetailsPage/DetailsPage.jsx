@@ -17,7 +17,7 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
 import BookmarkButton from "../../common/components/BookmarkButton/BookmarkButton";
-import CheckInButton from "./CheckInButton/CheckInButton";
+import CheckInButton from "./Banner/CheckInButton/CheckInButton";
 import CheckInConfirmationPopup
     from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import {

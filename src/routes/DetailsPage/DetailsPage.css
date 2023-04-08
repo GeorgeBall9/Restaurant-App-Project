@@ -47,22 +47,6 @@
 
 .details-page .image-and-info-container .restaurant-info .title-container h1 {
     width: 60%;
-}
-
-.details-page .image-and-info-container .restaurant-info .title-container button {
-    color: var(--secondary-theme);
-    font-weight: var(--font-weight-bold-1);
-    display: flex;
-    gap: 0.25em;
-    align-items: center;
-    background: none;
-    border: none;
-    font-size: var(--font-size-sub-heading);
-    text-align: right;
-    white-space: nowrap;
-}
-
-.details-page .image-and-info-container .restaurant-info .title-container h1 {
     color: white;
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-bold-2);

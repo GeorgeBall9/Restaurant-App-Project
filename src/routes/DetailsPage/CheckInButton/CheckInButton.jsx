@@ -19,6 +19,7 @@ const CheckInButton = ({id, name}) => {
     const checkedInRestaurants = useSelector(selectCheckedInRestaurants);
 
     const [checkedIn, setCheckedIn] = useState(false);
+    const [lastCheckIn, setLastCheckIn] = useState(null);
     const [popupVisible, setPopupVisible] = useState(false);
 
     useEffect(() => {
@@ -27,7 +28,20 @@ const CheckInButton = ({id, name}) => {
             return;
         }
 
-        setCheckedIn(checkedInRestaurants.find(checkIn => checkIn.restaurantId === id));
+        const now = new Date().toLocaleDateString();
+
+        setCheckedIn(checkedInRestaurants
+            .find(checkIn => {
+                const dateString = new Date(checkIn.date).toLocaleDateString();
+                return checkIn.restaurantId === id && dateString === now;
+            }));
+
+        const lastCheckedIn = checkedInRestaurants
+            .filter(checkIn => checkIn.restaurantId === id)
+            .sort((a, b) => a.date - b.date)
+            .at(-1);
+
+        setLastCheckIn(lastCheckedIn ? new Date(lastCheckedIn.date).toLocaleDateString() : null);
     }, [checkedInRestaurants]);
 
     const handleCheckInClick = () => {
@@ -59,6 +73,10 @@ const CheckInButton = ({id, name}) => {
 
             {popupVisible && (
                 <div className="confirm-checkin-popup">
+                    {lastCheckIn && (
+                        <p>You last checked in on {lastCheckIn}.</p>
+                    )}
+
                     <p>Would you like to check {checkedIn ? "out of" : "in at"} {name}?</p>
 
                     <div className="buttons-container">

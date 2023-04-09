@@ -1,6 +1,6 @@
 import './ReviewForm.css';
 import React from "react";
-import { useState } from 'react';
+import {useState} from 'react';
 import StarRating from '../../RestaurantCard/StarRating/StarRating';
 
 const defaultFormFields = {
@@ -10,7 +10,7 @@ const defaultFormFields = {
     review: "",
 };
 
-const ReviewForm = ({ restaurantName, location }) => {
+const ReviewForm = ({restaurantName, location}) => {
 
     const [formData, setFormData] = useState(defaultFormFields);
 
@@ -21,8 +21,8 @@ const ReviewForm = ({ restaurantName, location }) => {
     const [hoveredStar, setHoveredStar] = useState(null);
 
     const handleChange = ({target}) => {
-        const { name, value } = target;
-        setFormData({ ...formData, [name]: value });
+        const {name, value} = target;
+        setFormData({...formData, [name]: value});
     };
 
     const handleStarRatingClick = (value) => {
@@ -38,6 +38,10 @@ const ReviewForm = ({ restaurantName, location }) => {
 
         if (!rating || rating < 1 || rating > 10) {
             newErrors.rating = 'Rating is required and must be between 1 and 10';
+        }
+
+        if (!title || title.length < 5 || review.length > 50) {
+            newErrors.title = "Title is required and must be between 5 and 50 characters";
         }
 
         if (!review || review.length < 10 || review.length > 500) {
@@ -60,43 +64,45 @@ const ReviewForm = ({ restaurantName, location }) => {
     };
 
     return (
-        <div className="review-form-wrapper">
-            <form onSubmit={handleSubmit} className="review-form-container">
-                <div className="review-rating">
-                    <label>Rating:</label>
+        <div className="review-form">
+            <form onSubmit={handleSubmit}>
+                <div className="rating-container">
+                    <label>
+                        Rating:
 
-                    <StarRating
-                        rating={formData.rating}
-                        onClick={handleStarRatingClick}
-                        hover={hoveredStar}
-                        interactive={true}
-                    />
+                        <StarRating
+                            rating={rating}
+                            onClick={handleStarRatingClick}
+                            hover={hoveredStar}
+                            interactive={true}
+                        />
+                    </label>
 
                     {errors.rating && <p>{errors.rating}</p>}
                 </div>
 
-                <div className="review-label-header">
+                <div>
                     <label>
                         Date of Visit:
-                        <input name="visitDate" type="date" value={formData.visitDate} onChange={handleChange} />
+                        <input name="visitDate" type="date" value={visitDate} onChange={handleChange}/>
                     </label>
 
                     {errors.visitDate && <p>{errors.visitDate}</p>}
                 </div>
 
-                <div className="title">
+                <div>
                     <label>
                         Title:
-                        <input name="title" value={title} onChange={handleChange} />
+                        <input name="title" value={title} onChange={handleChange}/>
                     </label>
 
-                    {errors.review && <p>{errors.review}</p>}
+                    {errors.title && <p>{errors.title}</p>}
                 </div>
 
-                <div className="review-text">
+                <div>
                     <label>
                         Review:
-                        <textarea name="review" value={formData.review} onChange={handleChange} />
+                        <textarea name="review" value={review} onChange={handleChange}/>
                     </label>
 
                     {errors.review && <p>{errors.review}</p>}

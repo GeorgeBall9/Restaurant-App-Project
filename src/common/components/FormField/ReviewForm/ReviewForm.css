@@ -1,76 +1,73 @@
-.review-form-wrapper {
-  position: relative;
+.review-form {
+    position: relative;
 }
 
-.review-form-container {
+.review-form form {
     max-width: var(--max-width-content);
     margin: 0 auto;
     padding: 1rem;
     background-color: #f8f8f8;
     border-radius: 5px;
     text-align: left;
-  }
-  
-  .review-label-header {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
-  
-  .review-rating,
-  .review-text {
-    margin-bottom: 1rem;
-  }
-  
-  .review-form-container label {
-    display: block;
-    margin-bottom: 0.5rem;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.review-form form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.review-form form label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
     font-weight: bold;
-  }
-  
-  .review-form-container input,
-  .review-form-container textarea {
+}
+
+.review-form form input,
+.review-form form textarea {
     padding: 0.5rem;
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: var(--border-radius);
     font-size: 1rem;
     width: 100%;
-  }
-  
-  .review-form-container textarea {
+}
+
+.review-form form textarea {
     resize: vertical;
     min-height: 100px;
-  }
-  
-  .review-form-container p {
+}
+
+.review-form form p {
     color: var(--primary-theme);
     font-size: 0.8rem;
     margin-top: 0.25rem;
-  }
-  
-  .review-submit {
+}
+
+.review-form .review-submit {
     background-color: var(--primary-theme);
     color: white;
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
     border: none;
-    border-radius: 3px;
+  border-radius: var(--border-radius);
     cursor: pointer;
     transition: background-color 0.3s;
-  }
-  
-  .review-submit:hover {
-    background-color: var(--secondary-theme);
-  }
+}
 
-  .review-form-container.blurred {
+.review-form .review-submit:hover {
+    background-color: var(--secondary-theme);
+}
+
+.review-form .review-form-container.blurred {
     filter: blur(2px);
     pointer-events: none;
-  }
-  
-  .confirmation-overlay {
+}
+
+.review-form .confirmation-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -82,13 +79,13 @@
     align-items: center;
     background-color: rgba(255, 255, 255, 0.9);
     z-index: 1;
-  }
-  
-  .confirmation-overlay h3 {
+}
+
+.review-form .confirmation-overlay h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-  }
-  
-  .confirmation-overlay p {
+}
+
+.review-form .confirmation-overlay p {
     font-size: 1.2rem;
-  }
+}

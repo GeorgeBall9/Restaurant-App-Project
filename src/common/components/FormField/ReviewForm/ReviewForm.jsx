@@ -66,7 +66,7 @@ const ReviewForm = ({restaurantName, location}) => {
     return (
         <div className="review-form">
             <form onSubmit={handleSubmit}>
-                <div className="rating-container">
+                <div>
                     <label>
                         Rating:
 

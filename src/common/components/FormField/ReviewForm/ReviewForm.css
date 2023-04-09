@@ -14,6 +14,11 @@
     gap: 1.5em;
 }
 
+.review-form .star-rating .icon {
+    font-size: 1rem;
+    cursor: pointer;
+}
+
 .review-form form > div {
     display: flex;
     flex-direction: column;

@@ -3,44 +3,44 @@ import React from "react";
 import { useState } from 'react';
 import StarRating from '../../RestaurantCard/StarRating/StarRating';
 
+const defaultFormFields = {
+    rating: "",
+    visitDate: "",
+    title: "",
+    review: "",
+};
+
 const ReviewForm = ({ restaurantName, location }) => {
-    const [formData, setFormData] = useState({
-        restaurantName: restaurantName || '',
-        location: location || '',
-        visitDate: '',
-        rating: '',
-        review: '',
-    });
+
+    const [formData, setFormData] = useState(defaultFormFields);
+
+    const {rating, visitDate, title, review} = formData;
 
     const [errors, setErrors] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [hoveredStar, setHoveredStar] = useState(null);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
+    const handleChange = ({target}) => {
+        const { name, value } = target;
         setFormData({ ...formData, [name]: value });
+    };
+
+    const handleStarRatingClick = (value) => {
+        handleChange({target: {name: 'rating', value: value.toString()}});
     };
 
     const validateForm = () => {
         const newErrors = {};
 
-        if (!formData.restaurantName) {
-            newErrors.restaurantName = 'Restaurant name is required';
-        }
-
-        if (!formData.location) {
-            newErrors.location = 'Location is required';
-        }
-
-        if (!formData.visitDate) {
+        if (!visitDate) {
             newErrors.visitDate = 'Date of visit is required';
         }
 
-        if (!formData.rating || formData.rating < 1 || formData.rating > 10) {
+        if (!rating || rating < 1 || rating > 10) {
             newErrors.rating = 'Rating is required and must be between 1 and 10';
         }
 
-        if (!formData.review || formData.review.length < 10 || formData.review.length > 500) {
+        if (!review || review.length < 10 || review.length > 500) {
             newErrors.review = 'Review is required and must be between 10 and 500 characters';
         }
 
@@ -54,13 +54,7 @@ const ReviewForm = ({ restaurantName, location }) => {
 
         if (validateForm()) {
             console.log(formData);
-            setFormData({
-                restaurantName: '',
-                location: '',
-                visitDate: '',
-                rating: '',
-                review: '',
-            });
+            setFormData(defaultFormFields);
             setIsSubmitted(true);
         }
     };
@@ -68,34 +62,43 @@ const ReviewForm = ({ restaurantName, location }) => {
     return (
         <div className="review-form-wrapper">
             <form onSubmit={handleSubmit} className="review-form-container">
-                <div className="review-label-header">
-                    <label htmlFor="restaurantName">Restaurant Name:</label>
-                    <input name="restaurantName" value={formData.restaurantName} onChange={handleChange} />
-                    {errors.restaurantName && <p>{errors.restaurantName}</p>}
-
-                    <label htmlFor="location">Location:</label>
-                    <input name="location" value={formData.location} onChange={handleChange} />
-                    {errors.location && <p>{errors.location}</p>}
-
-                    <label htmlFor="visitDate">Date of Visit:</label>
-                    <input name="visitDate" type="date" value={formData.visitDate} onChange={handleChange} />
-                    {errors.visitDate && <p>{errors.visitDate}</p>}
-                </div>
-
                 <div className="review-rating">
-                    <label htmlFor="rating">Rating:</label>
+                    <label>Rating:</label>
+
                     <StarRating
                         rating={formData.rating}
-                        onClick={(value) => handleChange({ target: { name: 'rating', value: value.toString() } })}
+                        onClick={handleStarRatingClick}
                         hover={hoveredStar}
                         interactive={true}
                     />
+
                     {errors.rating && <p>{errors.rating}</p>}
                 </div>
 
+                <div className="review-label-header">
+                    <label>
+                        Date of Visit:
+                        <input name="visitDate" type="date" value={formData.visitDate} onChange={handleChange} />
+                    </label>
+
+                    {errors.visitDate && <p>{errors.visitDate}</p>}
+                </div>
+
+                <div className="title">
+                    <label>
+                        Title:
+                        <input name="title" value={title} onChange={handleChange} />
+                    </label>
+
+                    {errors.review && <p>{errors.review}</p>}
+                </div>
+
                 <div className="review-text">
-                    <label htmlFor="review">Review:</label>
-                    <textarea name="review" value={formData.review} onChange={handleChange} />
+                    <label>
+                        Review:
+                        <textarea name="review" value={formData.review} onChange={handleChange} />
+                    </label>
+
                     {errors.review && <p>{errors.review}</p>}
                 </div>
 

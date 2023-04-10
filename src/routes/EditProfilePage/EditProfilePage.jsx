@@ -11,7 +11,7 @@ import {
     selectDisplayName, selectEmail,
     selectIconColour, selectPhone,
     selectUserId,
-    setDisplayName
+    setDisplayName, setEmail, setPhone
 } from "../../features/user/userSlice";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {signOutAuthUser, updateUserDisplayName} from "../../firebase/firebase";
@@ -58,8 +58,20 @@ const EditProfilePage = () => {
 
     const handleSaveClick = async () => {
         // update user doc to have new fields
-        await updateUserDisplayName(userId, name);
-        dispatch(setDisplayName(name));
+        if (name !== displayName) {
+            await updateUserDisplayName(userId, name);
+            dispatch(setDisplayName(name));
+        }
+
+        if (emailAddress !== email) {
+            // await updateUserDisplayName(userId, name);
+            dispatch(setEmail(emailAddress));
+        }
+
+        if (phoneNumber !== phone) {
+            // await updateUserDisplayName(userId, name);
+            dispatch(setPhone(phoneNumber));
+        }
     };
 
     const handleDisplayNameChange = ({target}) => {
@@ -67,9 +79,14 @@ const EditProfilePage = () => {
         setDisplayName(value);
     };
 
-    const handleSignOutClick = async () => {
-        // sign out user
-        await signOutAuthUser();
+    const handleEmailAddressChange = ({target}) => {
+        const {value} = target;
+        setEmailAddress(value);
+    };
+
+    const handlePhoneNumberChange = ({target}) => {
+        const {value} = target;
+        setPhoneNumber(value);
     };
 
     const popupVisible = useSelector(selectChangeIconPopupIsVisible);
@@ -118,24 +135,19 @@ const EditProfilePage = () => {
                        label="Email address"
                        type="email"
                        value={emailAddress}
-                       onChangeHandler={handleDisplayNameChange}
+                       onChangeHandler={handleEmailAddressChange}
                    />
 
                    <FormField
                        label="Phone number"
                        type="text"
                        value={phoneNumber}
-                       onChangeHandler={handleDisplayNameChange}
+                       onChangeHandler={handlePhoneNumberChange}
                    />
 
                    <button onClick={handleSaveClick}>Save</button>
                </section>
            </main>
-
-            {/*<button className="sign-out-button" onClick={handleSignOutClick}>*/}
-            {/*    <FontAwesomeIcon className="icon" icon={faArrowRightFromBracket}/>*/}
-            {/*    Sign out*/}
-            {/*</button>*/}
         </div>
     );
 };

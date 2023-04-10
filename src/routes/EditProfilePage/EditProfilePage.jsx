@@ -14,7 +14,12 @@ import {
     setDisplayName, setEmail, setPhone
 } from "../../features/user/userSlice";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
-import {signOutAuthUser, updateUserDisplayName} from "../../firebase/firebase";
+import {
+    signOutAuthUser,
+    updateUserDisplayName,
+    updateUserEmailAddress,
+    updateUserPhoneNumber
+} from "../../firebase/firebase";
 import {showOverlay} from "../../features/overlay/overlaySlice";
 import FormField from "../../common/components/FormField/FormField";
 
@@ -64,12 +69,12 @@ const EditProfilePage = () => {
         }
 
         if (emailAddress !== email) {
-            // await updateUserDisplayName(userId, name);
+            await updateUserEmailAddress(userId, emailAddress);
             dispatch(setEmail(emailAddress));
         }
 
         if (phoneNumber !== phone) {
-            // await updateUserDisplayName(userId, name);
+            await updateUserPhoneNumber(userId, phoneNumber);
             dispatch(setPhone(phoneNumber));
         }
     };

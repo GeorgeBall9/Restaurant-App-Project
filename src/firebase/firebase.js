@@ -134,6 +134,26 @@ export const updateUserDisplayName = async (userId, displayName) => {
     }
 };
 
+// update user display name
+export const updateUserEmailAddress = async (userId, email) => {
+    try {
+        const docSnap = await doc(db, "users", userId);
+        await updateDoc(docSnap, {email});
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
+};
+
+// update user display name
+export const updateUserPhoneNumber = async (userId, phone) => {
+    try {
+        const docSnap = await doc(db, "users", userId);
+        await updateDoc(docSnap, {phone});
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
+};
+
 // update user icon colour
 export const updateUserIconColour = async (userId, iconColour) => {
     try {

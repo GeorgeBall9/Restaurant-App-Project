@@ -1,5 +1,5 @@
 import Reviews, {reviews} from "./Reviews/Reviews";
-import ReviewForm from "../../common/components/FormField/ReviewForm/ReviewForm";
+import ReviewForm from "./ReviewForm/ReviewForm";
 
 import './DetailsPage.css';
 import {Link, useNavigate, useParams} from 'react-router-dom';

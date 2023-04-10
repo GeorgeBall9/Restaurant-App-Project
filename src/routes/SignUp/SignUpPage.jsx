@@ -27,13 +27,21 @@ const SignUpPage = () => {
         event.preventDefault();
 
         if (!displayName) {
-            console.error("You must have a display name");
             setErrorMessage("You must have a display name");
+            return;
+        }
+
+        if (!email) {
+            setErrorMessage("You must have an email");
+            return;
+        }
+
+        if (!password) {
+            setErrorMessage("You must have a password");
             return;
         }
         
         if (password !== confirmPassword) {
-            console.error("Passwords do not match");
             setErrorMessage("Passwords do not match");
             setPasswordMismatch(true);
             return;

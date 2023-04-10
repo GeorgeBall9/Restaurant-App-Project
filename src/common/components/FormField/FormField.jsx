@@ -12,7 +12,6 @@ const FormField = ({label, name, type, value, onChangeHandler, className}) => {
                 value={value}
                 onChange={onChangeHandler}
                 className={className}
-                required={true}
             />
         </label>
     );

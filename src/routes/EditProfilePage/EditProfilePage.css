@@ -65,14 +65,19 @@
 }
 
 /* CHANGE DETAILS */
-.change-details-section {
+.profile-container .change-details-section {
     background-color: var(--background-theme);
     padding: 1em;
     border-radius: var(--border-radius);
     margin-top: 2em;
 }
 
-.change-details-section button {
+.profile-container .change-details-section .form-field {
+    font-weight: var(--font-weight-bold-2);
+    font-size: var(--font-size-sub-heading);
+}
+
+.profile-container .change-details-section button {
     background-color: var(--primary-theme);
     color: white;
     padding: 0.75rem 1.5rem;
@@ -81,17 +86,4 @@
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: background-color 0.3s;
-}
-
-.profile-container .sign-out-button {
-    color: var(--primary-theme);
-    font-weight: 500;
-    align-self: flex-start;
-    margin-top: 0.5em;
-}
-
-.profile-container .sign-out-button .icon {
-    margin-right: 0.5em;
-    transform: rotate(180deg);
-    color: var(--primary-theme);
 }

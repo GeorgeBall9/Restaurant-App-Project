@@ -8,8 +8,8 @@ import {selectChangeIconPopupIsVisible, showChangeIconPopup} from "../../feature
 import ChangeIconPopup from "../../features/changeIconPopup/ChangeIconPopup/ChangeIconPopup";
 import {
     resetUserDetails,
-    selectDisplayName,
-    selectIconColour,
+    selectDisplayName, selectEmail,
+    selectIconColour, selectPhone,
     selectUserId,
     setDisplayName
 } from "../../features/user/userSlice";
@@ -25,49 +25,46 @@ const EditProfilePage = () => {
     const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
-    const currentDisplayName = useSelector(selectDisplayName);
+    const displayName = useSelector(selectDisplayName);
+    const email = useSelector(selectEmail);
+    const phone = useSelector(selectPhone);
     const iconColour = useSelector(selectIconColour);
 
     const [name, setName] = useState("");
-    const [saveButtonStyle, setSaveButtonStyle] = useState({visibility: "hidden"});
+    const [emailAddress, setEmailAddress] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
 
     useEffect(() => {
-        if (!currentDisplayName) return;
+        if (!displayName) return;
 
-        setName(currentDisplayName);
-    }, [currentDisplayName]);
-
-    const setSaveButtonVisibility = (visibility) => {
-        setSaveButtonStyle(saveButtonStyle => {
-            const updatedStyle = {...saveButtonStyle};
-            updatedStyle.visibility = visibility;
-            return updatedStyle;
-        });
-    };
+        setName(displayName);
+    }, [displayName]);
 
     useEffect(() => {
-        if (!currentDisplayName) return;
+        if (!email) return;
 
-        if (name === currentDisplayName) {
-            setSaveButtonVisibility("hidden");
-        } else {
-            setSaveButtonVisibility("visible");
-        }
-    }, [currentDisplayName, name]);
+        setEmailAddress(email);
+    }, [email]);
+
+    useEffect(() => {
+        if (!phone) return;
+
+        setPhoneNumber(phone);
+    }, [phone]);
 
     const handleBackClick = () => {
         navigate("/");
     };
 
     const handleSaveClick = async () => {
-        // update user doc to have new display name
+        // update user doc to have new fields
         await updateUserDisplayName(userId, name);
         dispatch(setDisplayName(name));
     };
 
     const handleDisplayNameChange = ({target}) => {
         const {value} = target;
-        setName(value);
+        setDisplayName(value);
     };
 
     const handleSignOutClick = async () => {
@@ -119,19 +116,19 @@ const EditProfilePage = () => {
 
                    <FormField
                        label="Email address"
-                       type="text"
-                       value={name}
+                       type="email"
+                       value={emailAddress}
                        onChangeHandler={handleDisplayNameChange}
                    />
 
                    <FormField
                        label="Phone number"
                        type="text"
-                       value={name}
+                       value={phoneNumber}
                        onChangeHandler={handleDisplayNameChange}
                    />
 
-                   <button>Save</button>
+                   <button onClick={handleSaveClick}>Save</button>
                </section>
            </main>
 

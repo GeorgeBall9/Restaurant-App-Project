@@ -25,15 +25,16 @@
     gap: 0.5em;
 }
 
+.review-form form .star-rating,
+.review-form form textarea {
+    margin-top: 0.75em;
+}
+
 .review-form form label {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    font-weight: bold;
+    font-weight: var(--font-weight-bold-2);
     font-size: var(--font-size-sub-heading);
 }
 
-.review-form form input,
 .review-form form textarea {
     padding: 0.5rem;
     border: 1px solid #ccc;

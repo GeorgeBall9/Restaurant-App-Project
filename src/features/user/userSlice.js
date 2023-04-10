@@ -2,8 +2,10 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
     id: JSON.parse(localStorage.getItem("userId")),
-    displayName: null,
-    iconColour: null,
+    displayName: "",
+    email: "",
+    phone: "",
+    iconColour: "",
     bookmarks: [],
     checkedInRestaurants: [],
 };
@@ -16,21 +18,33 @@ const userSlice = createSlice({
             state.id = action.payload;
         },
         setUserDetails: (state, action) => {
-            const {id, displayName, iconColour, bookmarks, checkedIn} = action.payload;
+            const {id, displayName, email, phone, iconColour, bookmarks, checkedIn} = action.payload;
 
             state.id = id;
-            state.displayName = displayName ? displayName : null;
-            state.iconColour = iconColour ? iconColour : null;
-            state.bookmarks = bookmarks ? bookmarks : [];
-            state.checkedInRestaurants = checkedIn ? checkedIn : [];
+            state.displayName = displayName || "";
+            state.email = email || "";
+            state.phone = phone || "";
+            state.iconColour = iconColour || "";
+            state.bookmarks = bookmarks || [];
+            state.checkedInRestaurants = checkedIn || [];
         },
         resetUserDetails: state => {
             state.id = null;
-            state.displayName = null;
+            state.displayName = "";
+            state.email = "";
+            state.phone = "";
             state.iconColour = null;
+            state.bookmarks = [];
+            state.checkedInRestaurants = [];
         },
         setDisplayName: (state, action) => {
             state.displayName = action.payload;
+        },
+        setEmail: (state, action) => {
+            state.email = action.payload;
+        },
+        setPhone: (state, action) => {
+            state.phone = action.payload;
         },
         setIconColour: (state, action) => {
             state.iconColour = action.payload;
@@ -59,6 +73,8 @@ export const {
     setUserDetails,
     resetUserDetails,
     setDisplayName,
+    setEmail,
+    setPhone,
     setIconColour,
     addBookmark,
     removeBookmark,
@@ -68,6 +84,8 @@ export const {
 } = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;
+export const selectEmail = state => state.user.email;
+export const selectPhone = state => state.user.phone;
 export const selectIconColour = state => state.user.iconColour;
 export const selectBookmarks = state => state.user.bookmarks;
 export const selectCheckedInRestaurants = state => state.user.checkedInRestaurants;

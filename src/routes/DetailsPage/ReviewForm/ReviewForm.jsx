@@ -1,7 +1,8 @@
 import './ReviewForm.css';
 import React from "react";
 import {useState} from 'react';
-import StarRating from '../../RestaurantCard/StarRating/StarRating';
+import StarRating from '../../../common/components/RestaurantCard/StarRating/StarRating';
+import FormField from "../../../common/components/FormField/FormField";
 
 const defaultFormFields = {
     rating: "",
@@ -57,7 +58,6 @@ const ReviewForm = ({restaurantName, location}) => {
         e.preventDefault();
 
         if (validateForm()) {
-            console.log(formData);
             setFormData(defaultFormFields);
             setIsSubmitted(true);
         }
@@ -82,19 +82,25 @@ const ReviewForm = ({restaurantName, location}) => {
                 </div>
 
                 <div>
-                    <label>
-                        Date of Visit:
-                        <input name="visitDate" type="date" value={visitDate} onChange={handleChange}/>
-                    </label>
+                    <FormField
+                        label="Date of Visit:"
+                        name="visitDate"
+                        type="date"
+                        value={visitDate}
+                        onChangeHandler={handleChange}
+                    />
 
                     {errors.visitDate && <p>{errors.visitDate}</p>}
                 </div>
 
                 <div>
-                    <label>
-                        Title:
-                        <input name="title" value={title} onChange={handleChange}/>
-                    </label>
+                    <FormField
+                        label="Title:"
+                        name="title"
+                        type="text"
+                        value={title}
+                        onChangeHandler={handleChange}
+                    />
 
                     {errors.title && <p>{errors.title}</p>}
                 </div>

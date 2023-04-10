@@ -1,13 +1,13 @@
 import "./EditProfilePage.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRightFromBracket, faChevronLeft, faCircleCheck, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import {faChevronLeft, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectChangeIconPopupIsVisible, showChangeIconPopup} from "../../features/changeIconPopup/changeIconPopupSlice";
 import ChangeIconPopup from "../../features/changeIconPopup/ChangeIconPopup/ChangeIconPopup";
 import {
-    resetUserDetails,
     selectDisplayName, selectEmail,
     selectIconColour, selectPhone,
     selectUserId,
@@ -15,7 +15,6 @@ import {
 } from "../../features/user/userSlice";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {
-    signOutAuthUser,
     updateUserDisplayName,
     updateUserEmailAddress,
     updateUserPhoneNumber
@@ -38,6 +37,8 @@ const EditProfilePage = () => {
     const [name, setName] = useState("");
     const [emailAddress, setEmailAddress] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
+
+    const [buttonText, setButtonText] = useState("Save");
 
     useEffect(() => {
         if (!displayName) return;
@@ -64,32 +65,41 @@ const EditProfilePage = () => {
     const handleSaveClick = async () => {
         // update user doc to have new fields
         if (name !== displayName) {
+            setButtonText("Saving...");
             await updateUserDisplayName(userId, name);
             dispatch(setDisplayName(name));
+            setButtonText("Saved");
         }
 
         if (emailAddress !== email) {
+            setButtonText("Saving...");
             await updateUserEmailAddress(userId, emailAddress);
             dispatch(setEmail(emailAddress));
+            setButtonText("Saved");
         }
 
         if (phoneNumber !== phone) {
+            setButtonText("Saving...");
             await updateUserPhoneNumber(userId, phoneNumber);
             dispatch(setPhone(phoneNumber));
+            setButtonText("Saved");
         }
     };
 
     const handleDisplayNameChange = ({target}) => {
+        setButtonText("Save");
         const {value} = target;
         setDisplayName(value);
     };
 
     const handleEmailAddressChange = ({target}) => {
+        setButtonText("Save");
         const {value} = target;
         setEmailAddress(value);
     };
 
     const handlePhoneNumberChange = ({target}) => {
+        setButtonText("Save");
         const {value} = target;
         setPhoneNumber(value);
     };
@@ -150,7 +160,12 @@ const EditProfilePage = () => {
                        onChangeHandler={handlePhoneNumberChange}
                    />
 
-                   <button onClick={handleSaveClick}>Save</button>
+                   <button onClick={handleSaveClick}>
+                       {buttonText}
+                       {buttonText === "Saved" && (
+                           <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
+                       )}
+                   </button>
                </section>
            </main>
         </div>

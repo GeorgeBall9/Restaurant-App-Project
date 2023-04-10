@@ -87,3 +87,8 @@
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
+.profile-container .change-details-section button .icon {
+    margin-left: 0.25em;
+    color: white;
+}

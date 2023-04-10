@@ -16,6 +16,7 @@ import {
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {signOutAuthUser, updateUserDisplayName} from "../../firebase/firebase";
 import {showOverlay} from "../../features/overlay/overlaySlice";
+import FormField from "../../common/components/FormField/FormField";
 
 const EditProfilePage = () => {
 
@@ -90,33 +91,54 @@ const EditProfilePage = () => {
 
                 <h1>Edit Profile</h1>
 
-                <button onClick={handleSaveClick} style={saveButtonStyle}>
-                    <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
+                <button style={{visibility: "hidden"}}>
+                    <FontAwesomeIcon className="icon" icon={faChevronLeft}/>
                 </button>
             </header>
 
-            <section className="change-icon-section">
-                <UserIcon size="xLarge" colour={iconColour}/>
+           <main>
+               <section className="change-icon-section">
+                   <div className="user-icon-container">
+                       <UserIcon size="xLarge" colour={iconColour}/>
 
-                <button onClick={handleChangeIconClick}>
-                    Change icon
-                    <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
-                </button>
+                       <button onClick={handleChangeIconClick}>
+                           <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
+                       </button>
+                   </div>
 
-                {popupVisible && <ChangeIconPopup/>}
-            </section>
+                   {popupVisible && <ChangeIconPopup/>}
+               </section>
 
-            <section className="change-details-section">
-                <label>
-                    Display name
-                    <input type="text" value={name} onChange={handleDisplayNameChange}/>
-                </label>
-            </section>
+               <section className="change-details-section">
+                   <FormField
+                       label="Display name"
+                       type="text"
+                       value={name}
+                       onChangeHandler={handleDisplayNameChange}
+                   />
 
-            <button className="sign-out-button" onClick={handleSignOutClick}>
-                <FontAwesomeIcon className="icon" icon={faArrowRightFromBracket}/>
-                Sign out
-            </button>
+                   <FormField
+                       label="Email address"
+                       type="text"
+                       value={name}
+                       onChangeHandler={handleDisplayNameChange}
+                   />
+
+                   <FormField
+                       label="Phone number"
+                       type="text"
+                       value={name}
+                       onChangeHandler={handleDisplayNameChange}
+                   />
+
+                   <button>Save</button>
+               </section>
+           </main>
+
+            {/*<button className="sign-out-button" onClick={handleSignOutClick}>*/}
+            {/*    <FontAwesomeIcon className="icon" icon={faArrowRightFromBracket}/>*/}
+            {/*    Sign out*/}
+            {/*</button>*/}
         </div>
     );
 };

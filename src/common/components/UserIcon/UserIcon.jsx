@@ -5,7 +5,7 @@ import userIconImageSrc from "../../images/errorImage.png";
 const sizesMap = {
     medium: "40px",
     large: "60px",
-    xLarge: "70px",
+    xLarge: "100px",
 };
 
 const UserIcon = ({size, colour}) => {

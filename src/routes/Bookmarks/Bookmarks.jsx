@@ -28,8 +28,7 @@ const Bookmarks = () => {
         if (!userBookmarks || !allRestaurants) return;
 
         setBookmarkedRestaurants(userBookmarks
-            .map(restaurantId => allRestaurants
-                .find(restaurant => restaurant.id === restaurantId))
+            .map(bookmark => allRestaurants.find(restaurant => restaurant.id === bookmark.id))
             .filter(restaurant => restaurant));
     }, [userBookmarks, allRestaurants]);
 

@@ -38,14 +38,10 @@ const CheckInButton = ({restaurant}) => {
             return;
         }
 
-        console.log(checkedInRestaurants)
-
         setCheckedIn(checkedInRestaurants
             .find(checkIn => {
                 const now = new Date().toLocaleDateString();
                 const dateString = new Date(checkIn.date).toLocaleDateString();
-
-                console.log(checkIn.restaurant.id, id)
 
                 return checkIn.restaurant.id === id && dateString === now;
             }));

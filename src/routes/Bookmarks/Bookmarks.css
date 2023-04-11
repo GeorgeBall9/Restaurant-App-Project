@@ -1,0 +1,27 @@
+.bookmarks-container button {
+    background: none;
+    border: none;
+}
+
+.bookmarks-container header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1em;
+    border-bottom: solid 1px lightgrey;
+}
+
+.bookmarks-container header h1 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.bookmarks-container header button {
+    color: var(--secondary-theme);
+    font-weight: var(--font-weight-bold-2);
+    font-size: var(--font-size-smaller);
+}
+
+.bookmarks-container header button .icon {
+    margin-right: 0.5em;
+}

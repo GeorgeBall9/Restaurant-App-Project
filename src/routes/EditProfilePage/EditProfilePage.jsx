@@ -59,7 +59,7 @@ const EditProfilePage = () => {
     }, [phone]);
 
     const handleBackClick = () => {
-        navigate(-1);
+        navigate("/profile");
     };
 
     const handleSaveClick = async () => {

@@ -27,7 +27,7 @@ const ProfilePage = () => {
     const iconColour = useSelector(selectIconColour);
 
     const handleBackClick = () => {
-        navigate(-1);
+        navigate("/");
     };
 
     const handleSignOutClick = async () => {
@@ -76,7 +76,7 @@ const ProfilePage = () => {
                     Edit profile
                 </Link>
 
-                <Link to="/edit-profile">
+                <Link to="/bookmarks">
                     <FontAwesomeIcon className="icon" icon={faBookmark}/>
                     Bookmarks
                 </Link>

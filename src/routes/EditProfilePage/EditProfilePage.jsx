@@ -1,6 +1,6 @@
 import "./EditProfilePage.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronLeft, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faChevronLeft, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
@@ -121,13 +121,15 @@ const EditProfilePage = () => {
         <div className="profile-container container" style={{minHeight: windowHeight}}>
             <header>
                 <button onClick={handleBackClick}>
-                    <FontAwesomeIcon className="icon" icon={faChevronLeft}/>
+                    <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                    Back
                 </button>
 
                 <h1>Edit Profile</h1>
 
                 <button style={{visibility: "hidden"}}>
-                    <FontAwesomeIcon className="icon" icon={faChevronLeft}/>
+                    <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                    Back
                 </button>
             </header>
 

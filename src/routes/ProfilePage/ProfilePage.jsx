@@ -47,6 +47,13 @@ const ProfilePage = () => {
                     <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
                     Back
                 </button>
+
+                <h1>Profile</h1>
+
+                <button  style={{visibility: "hidden"}}>
+                    <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                    Back
+                </button>
             </header>
 
             <section className="profile-info-container">

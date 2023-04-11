@@ -27,6 +27,7 @@ import {
 import Banner from "./Banner/Banner";
 import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
+import {selectUserId} from "../../features/user/userSlice";
 
 const DetailsPage = () => {
 
@@ -36,6 +37,7 @@ const DetailsPage = () => {
 
     const dispatch = useDispatch();
 
+    const userId = useSelector(selectUserId);
     const allRestaurants = useSelector(selectAllRestaurants);
     const popupIsVisible = useSelector(selectCheckInConfirmationIsVisible);
     const checkedIn = useSelector(selectCheckedIn);
@@ -156,6 +158,14 @@ const DetailsPage = () => {
     };
 
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
+
+    const handleWriteReviewClick = () => {
+        if (!userId) {
+            navigate("/sign-in");
+        }
+
+        setIsReviewFormVisible(!isReviewFormVisible);
+    };
 
     return (
         <div className="details-page container">
@@ -280,7 +290,7 @@ const DetailsPage = () => {
                     <Reviews reviews={reviews}/>
                     <button
                         className="write-review-button"
-                        onClick={() => setIsReviewFormVisible(!isReviewFormVisible)}
+                        onClick={handleWriteReviewClick}
                     >
                         {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
                     </button>

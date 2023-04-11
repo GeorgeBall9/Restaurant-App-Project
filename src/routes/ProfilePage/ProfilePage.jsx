@@ -20,11 +20,15 @@ const ProfilePage = () => {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-
     const userId = useSelector(selectUserId);
     const displayName = useSelector(selectDisplayName);
     const iconColour = useSelector(selectIconColour);
+
+    useEffect(() => {
+        if (!userId) {
+            navigate("/sign-in")
+        }
+    }, []);
 
     const handleBackClick = () => {
         navigate("/");

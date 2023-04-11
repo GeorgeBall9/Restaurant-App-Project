@@ -18,6 +18,7 @@ const ReviewForm = ({restaurantName, location}) => {
     const {rating, visitDate, title, review} = formData;
 
     const [errors, setErrors] = useState({});
+
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [hoveredStar, setHoveredStar] = useState(null);
 
@@ -58,6 +59,7 @@ const ReviewForm = ({restaurantName, location}) => {
         e.preventDefault();
 
         if (validateForm()) {
+
             setFormData(defaultFormFields);
             setIsSubmitted(true);
         }

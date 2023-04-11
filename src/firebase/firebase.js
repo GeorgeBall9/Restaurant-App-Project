@@ -5,12 +5,14 @@ import {initializeApp} from "firebase/app";
 import {
     getFirestore,
     doc,
+    addDoc,
     getDoc,
     setDoc,
     updateDoc,
     arrayUnion,
     arrayRemove,
-    FieldValue
+    collection,
+    serverTimestamp
 } from "firebase/firestore";
 
 // auth imports
@@ -224,4 +226,25 @@ export const removeRestaurantCheckIn = async (userId, restaurantId) => {
     } catch (error) {
         throw new Error("Document does not exist");
     }
+};
+
+// add restaurant review
+export const addRestaurantReview = async (userId, restaurantId, title, content) => {
+    const reviewsCollectionRef = collection(db, "reviews");
+
+    const newReview = {
+        userId,
+        restaurantId,
+        title,
+        content,
+        reactions: {
+            upVotes: 0,
+            downVotes: 0
+        }
+    }
+
+    const reviewDocRef = await addDoc(reviewsCollectionRef, {...newReview, timestamp: serverTimestamp()});
+    console.log("Review document created with id:", reviewDocRef.id);
+
+    return newReview;
 };

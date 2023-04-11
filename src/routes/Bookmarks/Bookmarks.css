@@ -4,11 +4,14 @@
 }
 
 .bookmarks-page-container header {
+    background-color: white;
+    border-bottom: solid 1px lightgrey;
+}
+
+.bookmarks-page-container header > div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 1em;
-    border-bottom: solid 1px lightgrey;
 }
 
 .bookmarks-page-container header h1 {
@@ -27,7 +30,6 @@
 }
 
 .bookmarks-page-container main {
-    margin-top: 1em;
     display: flex;
     flex-direction: column;
     gap: 0.5em;

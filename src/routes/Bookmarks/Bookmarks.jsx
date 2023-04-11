@@ -38,22 +38,24 @@ const Bookmarks = () => {
     };
 
     return (
-        <div className="bookmarks-page-container container">
+        <div className="bookmarks-page-container">
             <header>
-                <button onClick={handleBackClick}>
-                    <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                    Back
-                </button>
+                <div className="container">
+                    <button onClick={handleBackClick}>
+                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                        Back
+                    </button>
 
-                <h1>Bookmarks</h1>
+                    <h1>Bookmarks</h1>
 
-                <button style={{visibility: "hidden"}}>
-                    <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                    Back
-                </button>
+                    <button style={{visibility: "hidden"}}>
+                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                        Back
+                    </button>
+                </div>
             </header>
 
-            <main>
+            <main className="container">
                 {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants.map((restaurant, i) => (
                     <RestaurantCard key={restaurant.id} restaurant={restaurant}/>
                 ))}

@@ -280,6 +280,14 @@ export const addUserReactionToReview = async (userId, reviewId, reaction) => {
             userIdsReacted = userIdsReacted.filter(id => id !== userId);
         } else {
             userIdsReacted.push(userId);
+
+            if (reaction === "upVotes") {
+                if (updatedReactions.downVotes.includes(userId)) {
+                    updatedReactions.downVotes = updatedReactions.downVotes.filter(id => id !== userId);
+                }
+            } else if (updatedReactions.upVotes.includes(userId)) {
+                updatedReactions.upVotes = updatedReactions.upVotes.filter(id => id !== userId);
+            }
         }
 
         updatedReactions[reaction] = userIdsReacted;

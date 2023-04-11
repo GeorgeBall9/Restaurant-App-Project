@@ -25,3 +25,10 @@
 .bookmarks-page-container header button .icon {
     margin-right: 0.5em;
 }
+
+.bookmarks-page-container main {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}

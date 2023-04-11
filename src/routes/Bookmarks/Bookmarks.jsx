@@ -61,11 +61,11 @@ const Bookmarks = () => {
                 </button>
             </header>
 
-            <div className="bookmarks-container">
+            <main>
                 {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants.map(restaurant => (
                     <RestaurantCard restaurant={restaurant}/>
                 ))}
-            </div>
+            </main>
         </div>
     );
 };

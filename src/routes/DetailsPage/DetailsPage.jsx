@@ -287,13 +287,16 @@ const DetailsPage = () => {
 
                 <div className="restaurant-reviews">
                     <h2>Reviews</h2>
+
                     <Reviews restaurantId={id}/>
+
                     <button
                         className="write-review-button"
                         onClick={handleWriteReviewClick}
                     >
                         {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
                     </button>
+
                     {isReviewFormVisible && (
                         <ReviewForm restaurantId={id} userId={userId}/>
                     )}

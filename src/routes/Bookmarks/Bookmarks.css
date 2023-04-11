@@ -6,7 +6,7 @@
 .bookmarks-page-container header {
     background-color: white;
     border-bottom: solid 1px lightgrey;
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
 }
 
 .bookmarks-page-container header > div {
@@ -33,7 +33,7 @@
 .bookmarks-page-container main {
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 1em;
 }
 
 .bookmarks-page-container main .bookmark {

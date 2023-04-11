@@ -64,6 +64,7 @@ const Bookmarks = () => {
                                 <FontAwesomeIcon className="icon" icon={faBan}/>
                             </div>
                         )}
+
                         <RestaurantCard restaurant={restaurant}/>
                     </div>
                 ))}

@@ -14,6 +14,7 @@ import {
     faUser
 } from "@fortawesome/free-solid-svg-icons";
 import {signOutAuthUser} from "../../firebase/firebase";
+import {useEffect, useState} from "react";
 
 const ProfilePage = () => {
 
@@ -33,10 +34,23 @@ const ProfilePage = () => {
         await signOutAuthUser();
     };
 
+    const [windowHeight, setWindowHeight] = useState(+window.innerHeight);
+
+    useEffect(() => {
+        setWindowHeight(+window.innerHeight)
+    }, [window.innerHeight]);
+
     return (
-        <div className="profile-page-container container">
+        <div className="profile-page-container container" style={{minHeight: windowHeight}}>
             <header>
                 <button onClick={handleBackClick}>
+                    <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                    Back
+                </button>
+
+                <h1>Profile</h1>
+
+                <button  style={{visibility: "hidden"}}>
                     <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
                     Back
                 </button>

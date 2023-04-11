@@ -1,12 +1,10 @@
 .profile-container {
-    padding: 1em 1.25em;
     background-color: white;
-    height: 100vh;
     border-bottom: solid 6px var(--primary-theme);
 }
 
 .profile-container button {
-    font-size: 0.8rem;
+    font-size: var(--font-size-smaller);
     border: none;
     background: none;
     color: #EBB02D;
@@ -20,13 +18,19 @@
     border-bottom: solid 1px lightgrey;
 }
 
-.profile-container header button .icon {
-    font-size: 1rem;
-}
-
 .profile-container header h1 {
     font-size: 1rem;
     font-weight: 500;
+}
+
+.profile-container header button {
+    color: var(--secondary-theme);
+    font-weight: var(--font-weight-bold-2);
+    font-size: var(--font-size-smaller);
+}
+
+.profile-container header button .icon {
+    margin-right: 0.5em;
 }
 
 .profile-container section {

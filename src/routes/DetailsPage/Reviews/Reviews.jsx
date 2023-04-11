@@ -57,11 +57,18 @@ const Reviews = ({reviews}) => {
 
     return (
         <div className="reviews-container">
-            {reviews.map(({id, title, rating, content, reactions}) => (
+            {reviews.map(({id, title, rating, content, date, reactions}) => (
                 <div key={id} className="review">
                     <h3>{title}</h3>
 
-                    <StarRating rating={rating}/>
+                    <div className="rating-and-date-container">
+                        <StarRating rating={rating}/>
+
+                        <p>
+                            <strong>Visit date: </strong>
+                            {new Date(date).toLocaleDateString()}
+                        </p>
+                    </div>
 
                     <p>{content}</p>
 

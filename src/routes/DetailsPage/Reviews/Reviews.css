@@ -23,10 +23,23 @@
     margin-bottom: 0.25em;
 }
 
+.reviews-container .review .rating-and-date-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reviews-container .review .rating-and-date-container p {
+    font-size: var(--font-size-smaller);
+    font-weight: normal;
+}
+
+.reviews-container .review .rating-and-date-container p strong {
+    font-weight: var(--font-weight-bold-1);
+}
+
 .reviews-container .review p {
     text-align: left;
     font-size: var(--font-size-sub-heading);
-    font-weight: var(--font-weight-bold-1);
     line-height: 1.5;
 }
 

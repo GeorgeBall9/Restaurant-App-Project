@@ -171,7 +171,7 @@ const DetailsPage = () => {
         <div className="details-page container">
             {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn}/>}
 
-            <Banner id={id} scrollPosition={scrollPosition}/>
+            <Banner restaurant={restaurant} scrollPosition={scrollPosition}/>
 
             <div className="image-and-info-container">
                 <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
@@ -180,7 +180,7 @@ const DetailsPage = () => {
                     <div className="title-container">
                         <h1>{name}</h1>
 
-                        <CheckInButton id={id}/>
+                        <CheckInButton restaurant={restaurant}/>
                     </div>
 
                     <StarRating rating={starRating}/>

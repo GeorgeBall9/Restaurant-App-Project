@@ -170,20 +170,33 @@ export const updateUserIconColour = async (userId, iconColour) => {
 };
 
 // add user bookmark
-export const addUserBookmark = async (userId, bookmarkToAdd) => {
+export const addUserBookmark = async (userId, restaurantToBookmark) => {
     try {
-        const docSnap = await doc(db, "users", userId);
-        await updateDoc(docSnap, {bookmarks: arrayUnion(bookmarkToAdd)});
+        const docRef = await doc(db, "users", userId);
+        const docSnap = await getDoc(docRef);
+
+        const updatedBookmarks = [...docSnap.data().bookmarks, restaurantToBookmark];
+
+        await updateDoc(docRef, {bookmarks: updatedBookmarks});
+
+        return updatedBookmarks;
     } catch (error) {
         throw new Error("Document does not exist");
     }
 };
 
 // remove user bookmark
-export const removeUserBookmark = async (userId, bookmarkToRemove) => {
+export const removeUserBookmark = async (userId, restaurantId) => {
     try {
-        const docSnap = await doc(db, "users", userId);
-        await updateDoc(docSnap, {bookmarks: arrayRemove(bookmarkToRemove)});
+        const docRef = await doc(db, "users", userId);
+        const docSnap = await getDoc(docRef);
+
+        const updatedBookmarks = docSnap.data().bookmarks
+            .filter(restaurant => restaurant.id !== restaurantId);
+
+        await updateDoc(docRef, {bookmarks: updatedBookmarks});
+
+        return updatedBookmarks;
     } catch (error) {
         throw new Error("Document does not exist");
     }

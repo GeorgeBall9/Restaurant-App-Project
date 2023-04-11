@@ -9,14 +9,14 @@ const defaultFormFields = {
     rating: "",
     visitDate: "",
     title: "",
-    review: "",
+    content: "",
 };
 
 const ReviewForm = ({restaurantId, userId}) => {
 
     const [formData, setFormData] = useState(defaultFormFields);
 
-    const {rating, visitDate, title, review} = formData;
+    const {rating, visitDate, title, content} = formData;
 
     const [errors, setErrors] = useState({});
 
@@ -49,7 +49,7 @@ const ReviewForm = ({restaurantId, userId}) => {
             newErrors.title = "Title is required and must be between 5 and 50 characters";
         }
 
-        if (!review || review.length < 10 || review.length > 500) {
+        if (!content || content.length < 10 || content.length > 500) {
             newErrors.review = 'Review is required and must be between 10 and 500 characters';
         }
 
@@ -113,7 +113,7 @@ const ReviewForm = ({restaurantId, userId}) => {
                 <div>
                     <label>
                         Review:
-                        <textarea name="review" value={review} onChange={handleChange}/>
+                        <textarea name="content" value={content} onChange={handleChange}/>
                     </label>
 
                     {errors.review && <p>{errors.review}</p>}

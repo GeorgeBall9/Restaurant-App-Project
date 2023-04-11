@@ -1,4 +1,4 @@
-import Reviews, {reviews} from "./Reviews/Reviews";
+import Reviews from "./Reviews/Reviews";
 import ReviewForm from "./ReviewForm/ReviewForm";
 
 import './DetailsPage.css';
@@ -287,7 +287,7 @@ const DetailsPage = () => {
 
                 <div className="restaurant-reviews">
                     <h2>Reviews</h2>
-                    <Reviews reviews={reviews}/>
+                    <Reviews restaurantId={id}/>
                     <button
                         className="write-review-button"
                         onClick={handleWriteReviewClick}

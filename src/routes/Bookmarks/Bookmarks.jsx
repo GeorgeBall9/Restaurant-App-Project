@@ -27,8 +27,6 @@ const Bookmarks = () => {
     useEffect(() => {
         if (!userBookmarks || !allRestaurants) return;
 
-        console.log(userBookmarks)
-
         setBookmarkedRestaurants(userBookmarks
             .map(restaurantId => allRestaurants
                 .find(restaurant => restaurant.id === restaurantId))
@@ -38,12 +36,6 @@ const Bookmarks = () => {
     const handleBackClick = () => {
         navigate("/profile");
     };
-
-    useEffect(() => {
-        if (!bookmarkedRestaurants) return;
-
-        console.log(bookmarkedRestaurants)
-    }, [bookmarkedRestaurants]);
 
     return (
         <div className="bookmarks-page-container container">
@@ -62,8 +54,8 @@ const Bookmarks = () => {
             </header>
 
             <main>
-                {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants.map(restaurant => (
-                    <RestaurantCard restaurant={restaurant}/>
+                {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants.map((restaurant, i) => (
+                    <RestaurantCard key={restaurant.id} restaurant={restaurant}/>
                 ))}
             </main>
         </div>

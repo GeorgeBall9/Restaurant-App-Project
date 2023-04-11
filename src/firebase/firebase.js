@@ -7,12 +7,15 @@ import {
     doc,
     addDoc,
     getDoc,
+    getDocs,
     setDoc,
     updateDoc,
     arrayUnion,
     arrayRemove,
     collection,
-    serverTimestamp
+    serverTimestamp,
+    query,
+    where
 } from "firebase/firestore";
 
 // auth imports
@@ -246,4 +249,20 @@ export const addRestaurantReview = async (userId, restaurantId, data) => {
     console.log("Review document created with id:", reviewDocRef.id);
 
     return newReview;
+};
+
+// get all reviews by restaurant ID
+export const getReviewsByRestaurantId = async (restaurantId) => {
+    const reviewsCollectionRef = collection(db, "reviews");
+    const q = query(reviewsCollectionRef, where("restaurantId", "==", restaurantId));
+
+    const querySnapshot = await getDocs(q);
+
+    const reviews = [];
+
+    querySnapshot.forEach((doc) => {
+        reviews.push({id: doc.id, ...doc.data()});
+    });
+
+    return reviews;
 };

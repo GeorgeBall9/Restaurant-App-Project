@@ -59,7 +59,7 @@ const EditProfilePage = () => {
     }, [phone]);
 
     const handleBackClick = () => {
-        navigate(-1);
+        navigate("/profile");
     };
 
     const handleSaveClick = async () => {
@@ -111,29 +111,25 @@ const EditProfilePage = () => {
         dispatch(showChangeIconPopup());
     };
 
-    const [windowHeight, setWindowHeight] = useState(+window.innerHeight);
-
-    useEffect(() => {
-        setWindowHeight(+window.innerHeight)
-    }, [window.innerHeight]);
-
     return (
-        <div className="profile-container container" style={{minHeight: windowHeight}}>
+        <div className="profile-container">
             <header>
-                <button onClick={handleBackClick}>
-                    <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                    Back
-                </button>
+                <div className="container">
+                    <button onClick={handleBackClick}>
+                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                        Back
+                    </button>
 
-                <h1>Edit Profile</h1>
+                    <h1>Edit Profile</h1>
 
-                <button style={{visibility: "hidden"}}>
-                    <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                    Back
-                </button>
+                    <button style={{visibility: "hidden"}}>
+                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                        Back
+                    </button>
+                </div>
             </header>
 
-           <main>
+           <main className="container">
                <section className="change-icon-section">
                    <div className="user-icon-container">
                        <UserIcon size="xLarge" colour={iconColour}/>

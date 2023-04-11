@@ -53,7 +53,7 @@ const userSlice = createSlice({
             state.bookmarks.push(action.payload);
         },
         removeBookmark: (state, action) => {
-            state.bookmarks = state.bookmarks.filter(bookmark => bookmark !== action.payload);
+            state.bookmarks = state.bookmarks.filter(restaurant => restaurant.id !== action.payload);
         },
         addCheckedInRestaurant: (state, action) => {
             state.checkedInRestaurants.push(action.payload);

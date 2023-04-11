@@ -1,69 +1,94 @@
 import "./Reviews.css";
 import StarRating from "../../../common/components/RestaurantCard/StarRating/StarRating";
-import React from "react";
+import {faCircleUp as faSolidCircleUp} from "@fortawesome/free-solid-svg-icons";
+import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useEffect, useState} from "react";
+import {addUserReactionToReview, getReviewsByRestaurantId} from "../../../firebase/firebase";
 
-const reviews = [
-    {
-        id: 1,
-        restaurantId: null, // will be the id of the actual restaurant in reality
-        userId: null, // id of the user who wrote the review
-        rating: 3, // stars out of 5
-        title: "Okay but could be better!",
-        content: "The food was good but it took ages and the restaurant wasn't even that busy.",
-        date: +new Date(),
-        reactions: {
-            upVotes: 1,
-            downVotes: 2
-        }
-    },
-    {
-        id: 2,
-        restaurantId: null, // will be the id of the actual restaurant in reality
-        userId: null, // id of the user who wrote the review
-        rating: 4.5, // stars out of 5
-        title: "Great food",
-        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore 
-        et dolore magna aliqua. Ac feugiat sed lectus vestibulum. Mauris nunc congue nisi vitae suscipit tellus mauris 
-        a diam.`,
-        date: +new Date(),
-        reactions: {
-            upVotes: 2,
-            downVotes: 0
-        }
-    },
-    {
-        id: 3,
-        restaurantId: null, // will be the id of the actual restaurant in reality
-        userId: null, // id of the user who wrote the review
-        rating: 4.5, // stars out of 5
-        title: "A lovely meal out with the family",
-        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore 
-        et dolore magna aliqua. Ac feugiat sed lectus vestibulum. Mauris nunc congue nisi vitae suscipit tellus mauris 
-        a diam. Elementum facilisis leo vel fringilla est ullamcorper eget nulla. Arcu risus quis varius quam quisque. 
-        Pharetra diam sit amet nisl suscipit. Tempus quam pellentesque nec nam aliquam. Sit amet volutpat consequat 
-        mauris nunc congue. Elit ullamcorper dignissim cras tincidunt lobortis.`,
-        date: +new Date(),
-        reactions: {
-            upVotes: 5,
-            downVotes: 0
-        }
-    },
-];
+const Reviews = ({userId, restaurantId}) => {
 
-const Reviews = ({ reviews }) => {
+    const [reviews, setReviews] = useState(null);
+
+    useEffect(() => {
+        if (!restaurantId) return;
+
+        getReviewsByRestaurantId(restaurantId)
+            .then(reviewsFound => setReviews(reviewsFound));
+    }, [restaurantId]);
+
+    const handleUpVoteClick = async (reviewId) => {
+        const reactions = await addUserReactionToReview(userId, reviewId, "upVotes");
+
+        setReviews(reviews => {
+            const foundReview = reviews.find(review => review.id === reviewId);
+            const updatedReviews = reviews.filter(review => review.id !== reviewId);
+            foundReview.reactions = reactions;
+            updatedReviews.push(foundReview);
+            return updatedReviews;
+        });
+    };
+
+    const handleDownVoteClick = async (reviewId) => {
+        const reactions = await addUserReactionToReview(userId, reviewId, "downVotes");
+
+        setReviews(reviews => {
+            const foundReview = reviews.find(review => review.id === reviewId);
+            const updatedReviews = reviews.filter(review => review.id !== reviewId);
+            foundReview.reactions = reactions;
+            updatedReviews.push(foundReview);
+            return updatedReviews;
+        });
+    };
 
     return (
-        <div className="reviews">
-            {reviews.map((review) => (
-                <div key={review.id} className="review">
-                    <h3>{review.title}</h3>
-                    <StarRating rating={review.rating} />
-                    <p>{review.content}</p>
+        <div className="reviews-container">
+            {!reviews?.length && (
+                <p>No reviews available</p>
+            )}
+
+            {reviews && reviews.map(({id, title, rating, content, visitDate, reactions}) => (
+                <div key={id} className="review">
+                    <h3>{title}</h3>
+
+                    <div className="rating-and-date-container">
+                        <StarRating rating={rating}/>
+
+                        <p>
+                            <strong>Visit date: </strong>
+                            {visitDate}
+                        </p>
+                    </div>
+
+                    <p>{content}</p>
+
+                    <div className="buttons-container">
+                        <button onClick={() => handleUpVoteClick(id)}>
+                            {reactions.upVotes.includes(userId) && (
+                                <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
+                            )}
+
+                            {!reactions.upVotes.includes(userId) && (
+                                <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                            )}
+                        </button>
+
+                        <p>{+(reactions.upVotes.length - reactions.downVotes.length)}</p>
+
+                        <button onClick={() => handleDownVoteClick(id)}>
+                            {reactions.downVotes.includes(userId) && (
+                                <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
+                            )}
+
+                            {!reactions.downVotes.includes(userId) && (
+                                <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                            )}
+                        </button>
+                    </div>
                 </div>
             ))}
         </div>
     );
 };
 
-export { reviews };
 export default Reviews;

@@ -1,0 +1,68 @@
+.bookmarks-page-container button {
+    background: none;
+    border: none;
+}
+
+.bookmarks-page-container header {
+    background-color: white;
+    border-bottom: solid 1px lightgrey;
+    margin-bottom: 1em;
+}
+
+.bookmarks-page-container header > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bookmarks-page-container header h1 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.bookmarks-page-container header button {
+    color: var(--secondary-theme);
+    font-weight: var(--font-weight-bold-2);
+    font-size: var(--font-size-smaller);
+}
+
+.bookmarks-page-container header button .icon {
+    margin-right: 0.5em;
+}
+
+.bookmarks-page-container main {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.bookmarks-page-container main .bookmark {
+    position: relative;
+}
+
+.bookmarks-page-container main .restaurant-card:nth-child(2) {
+    background-color: lightgrey;
+}
+
+.bookmarks-page-container main .closed-sign {
+    width: fit-content;
+    background-color: white;
+    padding: 0.75em 1em;
+    color: var(--primary-theme);
+    text-transform: uppercase;
+    font-weight: var(--font-weight-bold-2);
+    position: absolute;
+    z-index: 10;
+    top: 30%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border: solid 1px var(--background-theme);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.bookmarks-page-container main .closed-sign .icon {
+    color: var(--primary-theme);
+    margin-left: 0.25em;
+}

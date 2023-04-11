@@ -3,21 +3,23 @@ import React from "react";
 import {useState} from 'react';
 import StarRating from '../../../common/components/RestaurantCard/StarRating/StarRating';
 import FormField from "../../../common/components/FormField/FormField";
+import {addRestaurantReview} from "../../../firebase/firebase";
 
 const defaultFormFields = {
     rating: "",
     visitDate: "",
     title: "",
-    review: "",
+    content: "",
 };
 
-const ReviewForm = ({restaurantName, location}) => {
+const ReviewForm = ({restaurantId, userId}) => {
 
     const [formData, setFormData] = useState(defaultFormFields);
 
-    const {rating, visitDate, title, review} = formData;
+    const {rating, visitDate, title, content} = formData;
 
     const [errors, setErrors] = useState({});
+
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [hoveredStar, setHoveredStar] = useState(null);
 
@@ -41,11 +43,13 @@ const ReviewForm = ({restaurantName, location}) => {
             newErrors.rating = 'Rating is required and must be between 1 and 10';
         }
 
-        if (!title || title.length < 5 || review.length > 50) {
+        console.log(title.length)
+
+        if (!title || title.length < 5 || title.length > 50) {
             newErrors.title = "Title is required and must be between 5 and 50 characters";
         }
 
-        if (!review || review.length < 10 || review.length > 500) {
+        if (!content || content.length < 10 || content.length > 500) {
             newErrors.review = 'Review is required and must be between 10 and 500 characters';
         }
 
@@ -54,10 +58,11 @@ const ReviewForm = ({restaurantName, location}) => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateForm()) {
+            await addRestaurantReview(userId, restaurantId, formData);
             setFormData(defaultFormFields);
             setIsSubmitted(true);
         }
@@ -108,7 +113,7 @@ const ReviewForm = ({restaurantName, location}) => {
                 <div>
                     <label>
                         Review:
-                        <textarea name="review" value={review} onChange={handleChange}/>
+                        <textarea name="content" value={content} onChange={handleChange}/>
                     </label>
 
                     {errors.review && <p>{errors.review}</p>}

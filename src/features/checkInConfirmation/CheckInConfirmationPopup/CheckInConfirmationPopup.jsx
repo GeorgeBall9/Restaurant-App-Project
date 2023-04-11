@@ -11,7 +11,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {hideCheckInConfirmation} from "../checkInConfirmationSlice";
 
-const CheckInConfirmationPopup = ({id, name, checkedIn}) => {
+const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
+
+    const {id} = restaurant;
 
     const dispatch = useDispatch();
 
@@ -23,8 +25,10 @@ const CheckInConfirmationPopup = ({id, name, checkedIn}) => {
     useEffect(() => {
         if (!id || !checkedInRestaurants.length) return;
 
+        console.log(checkedInRestaurants[0].restaurant.id)
+
         const lastCheckedIn = checkedInRestaurants
-            .filter(checkIn => checkIn.restaurantId === id)
+            .filter(checkIn => checkIn.restaurant.id === id)
             .sort((a, b) => a.date - b.date)
             .at(-1);
 
@@ -36,7 +40,7 @@ const CheckInConfirmationPopup = ({id, name, checkedIn}) => {
             const checkedInData = await removeRestaurantCheckIn(userId, id);
             dispatch(setCheckedInRestaurants(checkedInData));
         } else {
-            const newCheckIn = await addRestaurantCheckIn(userId, id);
+            const newCheckIn = await addRestaurantCheckIn(userId, restaurant);
             dispatch(addCheckedInRestaurant(newCheckIn));
         }
 

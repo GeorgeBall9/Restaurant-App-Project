@@ -5,12 +5,17 @@ import {initializeApp} from "firebase/app";
 import {
     getFirestore,
     doc,
+    addDoc,
     getDoc,
+    getDocs,
     setDoc,
     updateDoc,
     arrayUnion,
     arrayRemove,
-    FieldValue
+    collection,
+    serverTimestamp,
+    query,
+    where
 } from "firebase/firestore";
 
 // auth imports
@@ -165,32 +170,45 @@ export const updateUserIconColour = async (userId, iconColour) => {
 };
 
 // add user bookmark
-export const addUserBookmark = async (userId, bookmarkToAdd) => {
+export const addUserBookmark = async (userId, restaurantToBookmark) => {
     try {
-        const docSnap = await doc(db, "users", userId);
-        await updateDoc(docSnap, {bookmarks: arrayUnion(bookmarkToAdd)});
+        const docRef = await doc(db, "users", userId);
+        const docSnap = await getDoc(docRef);
+
+        const updatedBookmarks = [...docSnap.data().bookmarks, restaurantToBookmark];
+
+        await updateDoc(docRef, {bookmarks: updatedBookmarks});
+
+        return updatedBookmarks;
     } catch (error) {
         throw new Error("Document does not exist");
     }
 };
 
 // remove user bookmark
-export const removeUserBookmark = async (userId, bookmarkToRemove) => {
+export const removeUserBookmark = async (userId, restaurantId) => {
     try {
-        const docSnap = await doc(db, "users", userId);
-        await updateDoc(docSnap, {bookmarks: arrayRemove(bookmarkToRemove)});
+        const docRef = await doc(db, "users", userId);
+        const docSnap = await getDoc(docRef);
+
+        const updatedBookmarks = docSnap.data().bookmarks
+            .filter(restaurant => restaurant.id !== restaurantId);
+
+        await updateDoc(docRef, {bookmarks: updatedBookmarks});
+
+        return updatedBookmarks;
     } catch (error) {
         throw new Error("Document does not exist");
     }
 };
 
 // add checked in restaurant to user doc
-export const addRestaurantCheckIn = async (userId, restaurantId) => {
+export const addRestaurantCheckIn = async (userId, restaurant) => {
     try {
         const docSnap = await doc(db, "users", userId);
 
         const newCheckIn = {
-            restaurantId,
+            restaurant,
             date: +new Date()
         };
 
@@ -215,12 +233,81 @@ export const removeRestaurantCheckIn = async (userId, restaurantId) => {
                 const now = new Date().toLocaleDateString();
                 const dateString = new Date(checkIn.date).toLocaleDateString();
 
-                return checkIn.restaurantId !== restaurantId || dateString !== now;
+                return checkIn.restaurant.id !== restaurantId || dateString !== now;
             });
 
         await updateDoc(docRef, {checkedIn: checkedInData});
 
         return checkedInData;
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
+};
+
+// add restaurant review
+export const addRestaurantReview = async (userId, restaurantId, data) => {
+    const reviewsCollectionRef = collection(db, "reviews");
+
+    const newReview = {
+        userId,
+        restaurantId,
+        ...data,
+        reactions: {
+            upVotes: [],
+            downVotes: []
+        }
+    }
+
+    const reviewDocRef = await addDoc(reviewsCollectionRef, {...newReview, timestamp: serverTimestamp()});
+    console.log("Review document created with id:", reviewDocRef.id);
+
+    return newReview;
+};
+
+// get all reviews by restaurant ID
+export const getReviewsByRestaurantId = async (restaurantId) => {
+    const reviewsCollectionRef = collection(db, "reviews");
+    const q = query(reviewsCollectionRef, where("restaurantId", "==", restaurantId));
+
+    const querySnapshot = await getDocs(q);
+
+    const reviews = [];
+
+    querySnapshot.forEach((doc) => {
+        reviews.push({id: doc.id, ...doc.data()});
+    });
+
+    return reviews;
+};
+
+// add reaction to review
+export const addUserReactionToReview = async (userId, reviewId, reaction) => {
+    try {
+        const docRef = await doc(db, "reviews", reviewId);
+        const docSnap = await getDoc(docRef);
+
+        const updatedReactions = docSnap.data().reactions;
+        let userIdsReacted = updatedReactions[reaction];
+
+        if (userIdsReacted.includes(userId)) {
+            userIdsReacted = userIdsReacted.filter(id => id !== userId);
+        } else {
+            userIdsReacted.push(userId);
+
+            if (reaction === "upVotes") {
+                if (updatedReactions.downVotes.includes(userId)) {
+                    updatedReactions.downVotes = updatedReactions.downVotes.filter(id => id !== userId);
+                }
+            } else if (updatedReactions.upVotes.includes(userId)) {
+                updatedReactions.upVotes = updatedReactions.upVotes.filter(id => id !== userId);
+            }
+        }
+
+        updatedReactions[reaction] = userIdsReacted;
+
+        await updateDoc(docRef, {reactions: updatedReactions});
+
+        return updatedReactions;
     } catch (error) {
         throw new Error("Document does not exist");
     }

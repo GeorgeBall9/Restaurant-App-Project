@@ -1,23 +1,18 @@
-.profile-page-container {
-    min-height: 100vh;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    gap: 2em;
-    border-bottom: solid 6px var(--primary-theme);
-}
-
 .profile-page-container button {
     background: none;
     border: none;
 }
 
 .profile-page-container header {
+    background-color: white;
+    border-bottom: solid 1px lightgrey;
+    margin-bottom: 1em;
+}
+
+.profile-page-container header > div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 1em;
-    border-bottom: solid 1px lightgrey;
 }
 
 .profile-page-container header h1 {
@@ -59,6 +54,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     width: 100%;
+    margin: 2em 0 1em;
 }
 
 .profile-page-container .sign-out-button:hover {
@@ -68,13 +64,6 @@
 .profile-page-container .options-container {
     display: flex;
     flex-direction: column;
-    /*padding: 0 0.75em;*/
-    /*background-color: var(--background-theme);*/
-    /*border-radius: var(--border-radius);*/
-}
-
-.profile-page-container .options-container a:first-child {
-    /*border-top: solid 1px grey;*/
 }
 
 .profile-page-container .options-container a:not(:last-child) {
@@ -87,7 +76,6 @@
     color: black;
     font-weight: var(--font-weight-bold-1);
     padding: 1em 0;
-    /*border-bottom: solid 1px grey;*/
 }
 
 .profile-page-container .options-container a .icon {

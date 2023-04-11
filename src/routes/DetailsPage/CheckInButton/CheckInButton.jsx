@@ -7,19 +7,21 @@ import {
     addCheckedInRestaurant,
     removeCheckedInRestaurant,
     selectCheckedInRestaurants, selectUserId, setCheckedInRestaurants
-} from "../../../../features/user/userSlice";
+} from "../../../features/user/userSlice";
 import {useEffect, useState} from "react";
-import {addRestaurantCheckIn, removeRestaurantCheckIn} from "../../../../firebase/firebase";
-import {hideOverlay, showOverlay} from "../../../../features/overlay/overlaySlice";
+import {addRestaurantCheckIn, removeRestaurantCheckIn} from "../../../firebase/firebase";
+import {hideOverlay, showOverlay} from "../../../features/overlay/overlaySlice";
 import CheckInConfirmationPopup
-    from "../../../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
+    from "../../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import {
     selectCheckInConfirmationIsVisible, setCheckedInStatus,
     showCheckInConfirmation
-} from "../../../../features/checkInConfirmation/checkInConfirmationSlice";
+} from "../../../features/checkInConfirmation/checkInConfirmationSlice";
 import {useNavigate} from "react-router-dom";
 
-const CheckInButton = ({id}) => {
+const CheckInButton = ({restaurant}) => {
+
+    const id = restaurant?.id;
 
     const navigate = useNavigate();
 
@@ -41,7 +43,7 @@ const CheckInButton = ({id}) => {
                 const now = new Date().toLocaleDateString();
                 const dateString = new Date(checkIn.date).toLocaleDateString();
 
-                return checkIn.restaurantId === id && dateString === now;
+                return checkIn.restaurant.id === id && dateString === now;
             }));
     }, [checkedInRestaurants]);
 

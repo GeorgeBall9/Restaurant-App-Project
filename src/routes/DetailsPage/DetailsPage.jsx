@@ -1,4 +1,4 @@
-import Reviews, {reviews} from "./Reviews/Reviews";
+import Reviews from "./Reviews/Reviews";
 import ReviewForm from "./ReviewForm/ReviewForm";
 
 import './DetailsPage.css';
@@ -17,7 +17,7 @@ import {
     faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import CheckInButton from "./Banner/CheckInButton/CheckInButton";
+import CheckInButton from "./CheckInButton/CheckInButton";
 import CheckInConfirmationPopup
     from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import {
@@ -27,6 +27,7 @@ import {
 import Banner from "./Banner/Banner";
 import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
+import {selectUserId} from "../../features/user/userSlice";
 
 const DetailsPage = () => {
 
@@ -36,6 +37,7 @@ const DetailsPage = () => {
 
     const dispatch = useDispatch();
 
+    const userId = useSelector(selectUserId);
     const allRestaurants = useSelector(selectAllRestaurants);
     const popupIsVisible = useSelector(selectCheckInConfirmationIsVisible);
     const checkedIn = useSelector(selectCheckedIn);
@@ -157,11 +159,19 @@ const DetailsPage = () => {
 
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
+    const handleWriteReviewClick = () => {
+        if (!userId) {
+            navigate("/sign-in");
+        } else {
+            setIsReviewFormVisible(!isReviewFormVisible);
+        }
+    };
+
     return (
         <div className="details-page container">
-            {popupIsVisible && <CheckInConfirmationPopup id={id} name={name} checkedIn={checkedIn}/>}
+            {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn}/>}
 
-            <Banner id={id} scrollPosition={scrollPosition}/>
+            <Banner restaurant={restaurant} scrollPosition={scrollPosition}/>
 
             <div className="image-and-info-container">
                 <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
@@ -170,7 +180,7 @@ const DetailsPage = () => {
                     <div className="title-container">
                         <h1>{name}</h1>
 
-                        <CheckInButton id={id}/>
+                        <CheckInButton restaurant={restaurant}/>
                     </div>
 
                     <StarRating rating={starRating}/>
@@ -277,15 +287,18 @@ const DetailsPage = () => {
 
                 <div className="restaurant-reviews">
                     <h2>Reviews</h2>
-                    <Reviews reviews={reviews}/>
+
+                    <Reviews userId={userId} restaurantId={id}/>
+
                     <button
                         className="write-review-button"
-                        onClick={() => setIsReviewFormVisible(!isReviewFormVisible)}
+                        onClick={handleWriteReviewClick}
                     >
                         {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
                     </button>
+
                     {isReviewFormVisible && (
-                        <ReviewForm restaurantName={name} location={formattedAddress}/>
+                        <ReviewForm restaurantId={id} userId={userId}/>
                     )}
                 </div>
             </div>

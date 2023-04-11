@@ -20,92 +20,94 @@ const ProfilePage = () => {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-
     const userId = useSelector(selectUserId);
     const displayName = useSelector(selectDisplayName);
     const iconColour = useSelector(selectIconColour);
 
+    useEffect(() => {
+        if (!userId) {
+            navigate("/sign-in")
+        }
+    }, []);
+
     const handleBackClick = () => {
-        navigate(-1);
+        navigate("/");
     };
 
     const handleSignOutClick = async () => {
         await signOutAuthUser();
     };
 
-    const [windowHeight, setWindowHeight] = useState(+window.innerHeight);
-
-    useEffect(() => {
-        setWindowHeight(+window.innerHeight)
-    }, [window.innerHeight]);
-
     return (
-        <div className="profile-page-container container" style={{minHeight: windowHeight}}>
+        <div className="profile-page-container">
             <header>
-                <button onClick={handleBackClick}>
-                    <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                    Back
-                </button>
+                <div className="container">
+                    <button onClick={handleBackClick}>
+                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                        Back
+                    </button>
 
-                <h1>Profile</h1>
+                    <h1>Profile</h1>
 
-                <button  style={{visibility: "hidden"}}>
-                    <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                    Back
-                </button>
+                    <button  style={{visibility: "hidden"}}>
+                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                        Back
+                    </button>
+                </div>
             </header>
 
-            <section className="profile-info-container">
-                <div className="user-icon-container">
-                    <UserIcon size="xLarge" colour={iconColour}/>
-                </div>
+            <main className="container">
+                <section className="profile-info-container">
+                    <div className="user-icon-container">
+                        <UserIcon size="xLarge" colour={iconColour}/>
+                    </div>
 
-                {displayName}
-            </section>
+                    {displayName}
+                </section>
 
-            <section>
-                <button className="sign-out-button" onClick={handleSignOutClick}>
-                    Sign out
-                </button>
-            </section>
+                <section>
+                    <button className="sign-out-button" onClick={handleSignOutClick}>
+                        Sign out
+                    </button>
+                </section>
 
-            <section className="options-container">
-                <Link to="/edit-profile">
-                    <FontAwesomeIcon className="icon" icon={faUser}/>
-                    Edit profile
-                </Link>
+                <section className="options-container">
+                    <Link to="/edit-profile">
+                        <FontAwesomeIcon className="icon" icon={faUser}/>
+                        Edit profile
+                    </Link>
 
-                <Link to="/edit-profile">
-                    <FontAwesomeIcon className="icon" icon={faBookmark}/>
-                    Bookmarks
-                </Link>
+                    <Link to="/bookmarks">
+                        <FontAwesomeIcon className="icon" icon={faBookmark}/>
+                        Bookmarks
+                    </Link>
 
-                <Link to="/edit-profile">
-                    <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
-                    Check ins
-                </Link>
+                    <Link to="/edit-profile">
+                        <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
+                        Check ins
+                    </Link>
 
-                <Link to="/edit-profile">
-                    <FontAwesomeIcon className="icon" icon={faComment}/>
-                    Reviews
-                </Link>
+                    <Link to="/edit-profile">
+                        <FontAwesomeIcon className="icon" icon={faComment}/>
+                        Reviews
+                    </Link>
 
-                <Link to="/edit-profile">
-                    <FontAwesomeIcon className="icon" icon={faCamera}/>
-                    Photos
-                </Link>
+                    <Link to="/edit-profile">
+                        <FontAwesomeIcon className="icon" icon={faCamera}/>
+                        Photos
+                    </Link>
 
-                <Link to="/edit-profile">
-                    <FontAwesomeIcon className="icon" icon={faShareNodes}/>
-                    Share
-                </Link>
+                    <Link to="/edit-profile">
+                        <FontAwesomeIcon className="icon" icon={faShareNodes}/>
+                        Share
+                    </Link>
 
-                <Link to="/edit-profile">
-                    <FontAwesomeIcon className="icon" icon={faCircleQuestion}/>
-                    Help
-                </Link>
-            </section>
+                    <Link to="/edit-profile">
+                        <FontAwesomeIcon className="icon" icon={faCircleQuestion}/>
+                        Help
+                    </Link>
+                </section>
+            </main>
         </div>
     );
 };

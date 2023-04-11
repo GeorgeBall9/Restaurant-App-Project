@@ -288,7 +288,7 @@ const DetailsPage = () => {
                 <div className="restaurant-reviews">
                     <h2>Reviews</h2>
 
-                    <Reviews restaurantId={id}/>
+                    <Reviews userId={userId} restaurantId={id}/>
 
                     <button
                         className="write-review-button"

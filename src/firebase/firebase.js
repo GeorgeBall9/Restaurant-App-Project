@@ -240,8 +240,8 @@ export const addRestaurantReview = async (userId, restaurantId, data) => {
         restaurantId,
         ...data,
         reactions: {
-            upVotes: 0,
-            downVotes: 0
+            upVotes: [],
+            downVotes: []
         }
     }
 
@@ -265,4 +265,29 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
     });
 
     return reviews;
+};
+
+// add reaction to review
+export const addUserReactionToReview = async (userId, reviewId, reaction) => {
+    try {
+        const docRef = await doc(db, "reviews", reviewId);
+        const docSnap = await getDoc(docRef);
+
+        const updatedReactions = docSnap.data().reactions;
+        let userIdsReacted = updatedReactions[reaction];
+
+        if (userIdsReacted.includes(userId)) {
+            userIdsReacted = userIdsReacted.filter(id => id !== userId);
+        } else {
+            userIdsReacted.push(userId);
+        }
+
+        updatedReactions[reaction] = userIdsReacted;
+
+        await updateDoc(docRef, {reactions: updatedReactions});
+
+        return updatedReactions;
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
 };

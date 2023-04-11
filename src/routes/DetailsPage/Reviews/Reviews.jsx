@@ -4,9 +4,9 @@ import {faCircleUp as faSolidCircleUp} from "@fortawesome/free-solid-svg-icons";
 import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
-import {getReviewsByRestaurantId} from "../../../firebase/firebase";
+import {addUserReactionToReview, getReviewsByRestaurantId} from "../../../firebase/firebase";
 
-const Reviews = ({restaurantId}) => {
+const Reviews = ({userId, restaurantId}) => {
 
     const [reviews, setReviews] = useState(null);
 
@@ -17,10 +17,34 @@ const Reviews = ({restaurantId}) => {
             .then(reviewsFound => setReviews(reviewsFound));
     }, [restaurantId]);
 
+    const handleUpVoteClick = async (reviewId) => {
+        const reactions = await addUserReactionToReview(userId, reviewId, "upVotes");
+
+        setReviews(reviews => {
+            const foundReview = reviews.find(review => review.id === reviewId);
+            const updatedReviews = reviews.filter(review => review.id !== reviewId);
+            foundReview.reactions = reactions;
+            updatedReviews.push(foundReview);
+            return updatedReviews;
+        });
+    };
+
+    const handleDownVoteClick = async (reviewId) => {
+        const reactions = await addUserReactionToReview(userId, reviewId, "downVotes");
+
+        setReviews(reviews => {
+            const foundReview = reviews.find(review => review.id === reviewId);
+            const updatedReviews = reviews.filter(review => review.id !== reviewId);
+            foundReview.reactions = reactions;
+            updatedReviews.push(foundReview);
+            return updatedReviews;
+        });
+    };
+
     return (
         <div className="reviews-container">
             {!reviews?.length && (
-                <p>No reviews</p>
+                <p>No reviews available</p>
             )}
 
             {reviews && reviews.map(({id, title, rating, content, visitDate, reactions}) => (
@@ -39,14 +63,26 @@ const Reviews = ({restaurantId}) => {
                     <p>{content}</p>
 
                     <div className="buttons-container">
-                        <button>
-                            <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                        <button onClick={() => handleUpVoteClick(id)}>
+                            {reactions.upVotes.includes(userId) && (
+                                <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
+                            )}
+
+                            {!reactions.upVotes.includes(userId) && (
+                                <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                            )}
                         </button>
 
-                        <p>{reactions.upVotes - reactions.downVotes}</p>
+                        <p>{+(reactions.upVotes.length - reactions.downVotes.length)}</p>
 
-                        <button>
-                            <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                        <button onClick={() => handleDownVoteClick(id)}>
+                            {reactions.downVotes.includes(userId) && (
+                                <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
+                            )}
+
+                            {!reactions.downVotes.includes(userId) && (
+                                <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                            )}
                         </button>
                     </div>
                 </div>

@@ -84,10 +84,10 @@ const Map = () => {
         map.flyTo({center: [longitude, latitude], zoom: 14});
     }, [userPosition]);
 
-    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+    const [windowHeight, setWindowHeight] = useState(+window.innerHeight);
 
     useEffect(() => {
-        setWindowHeight(window.innerHeight)
+        setWindowHeight(+window.innerHeight)
     }, [window.innerHeight]);
 
     useEffect(() => {

@@ -1,7 +1,6 @@
 .profile-container {
     padding: 1em 1.25em;
     background-color: white;
-    height: 100vh;
     border-bottom: solid 6px var(--primary-theme);
 }
 

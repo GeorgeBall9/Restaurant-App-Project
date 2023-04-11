@@ -111,8 +111,14 @@ const EditProfilePage = () => {
         dispatch(showChangeIconPopup());
     };
 
+    const [windowHeight, setWindowHeight] = useState(+window.innerHeight);
+
+    useEffect(() => {
+        setWindowHeight(+window.innerHeight)
+    }, [window.innerHeight]);
+
     return (
-        <div className="profile-container container">
+        <div className="profile-container container" style={{minHeight: windowHeight}}>
             <header>
                 <button onClick={handleBackClick}>
                     <FontAwesomeIcon className="icon" icon={faChevronLeft}/>

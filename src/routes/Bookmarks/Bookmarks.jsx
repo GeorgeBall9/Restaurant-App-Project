@@ -55,18 +55,51 @@ const Bookmarks = () => {
             </header>
 
             <main className="container">
-                {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants.map((restaurant, i) => (
-                    <div key={restaurant.id} className="bookmark">
-                        {i === 2 && (
-                            <div className="closed-sign">
-                                Closed
-                                <FontAwesomeIcon className="icon" icon={faBan}/>
-                            </div>
-                        )}
+                {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants.map(restaurant => {
+                    const {hours} = restaurant;
+                    const now = new Date();
+                    const day = now.getDay();
+                    const hour = now.getHours();
+                    const minute = now.getMinutes();
+                    const openingHours = hours[day];
 
-                        <RestaurantCard restaurant={restaurant}/>
-                    </div>
-                ))}
+                    let isOpen = false;
+
+                    if (openingHours !== "Closed") {
+                        const totalMinutes = 60 * hour + minute;
+
+                        const openingTimes = openingHours
+                            .replaceAll(" ", "")
+                            .split(",");
+
+
+                        for (const time of openingTimes) {
+                            const [open, close] = time.split("-");
+                            const [openHour, openMinute] = open.split(":");
+                            const [closeHour, closeMinute] = close.split(":");
+                            const openMinutes = 60 * +openHour + +openMinute;
+                            const closeMinutes = 60 * +closeHour + +closeMinute;
+
+                            if (totalMinutes >= openMinutes && totalMinutes <= closeMinutes) {
+                                isOpen = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    return (
+                        <div key={restaurant.id} className="bookmark">
+                            {!isOpen && (
+                                <div className="closed-sign">
+                                    Closed
+                                    <FontAwesomeIcon className="icon" icon={faBan}/>
+                                </div>
+                            )}
+
+                            <RestaurantCard restaurant={restaurant}/>
+                        </div>
+                    )
+                })}
             </main>
         </div>
     );

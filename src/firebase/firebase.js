@@ -190,12 +190,12 @@ export const removeUserBookmark = async (userId, bookmarkToRemove) => {
 };
 
 // add checked in restaurant to user doc
-export const addRestaurantCheckIn = async (userId, restaurantId) => {
+export const addRestaurantCheckIn = async (userId, restaurant) => {
     try {
         const docSnap = await doc(db, "users", userId);
 
         const newCheckIn = {
-            restaurantId,
+            restaurant,
             date: +new Date()
         };
 
@@ -220,7 +220,7 @@ export const removeRestaurantCheckIn = async (userId, restaurantId) => {
                 const now = new Date().toLocaleDateString();
                 const dateString = new Date(checkIn.date).toLocaleDateString();
 
-                return checkIn.restaurantId !== restaurantId || dateString !== now;
+                return checkIn.restaurant.id !== restaurantId || dateString !== now;
             });
 
         await updateDoc(docRef, {checkedIn: checkedInData});

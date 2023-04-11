@@ -17,7 +17,7 @@ import {
     faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import CheckInButton from "./Banner/CheckInButton/CheckInButton";
+import CheckInButton from "./CheckInButton/CheckInButton";
 import CheckInConfirmationPopup
     from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import {
@@ -169,7 +169,7 @@ const DetailsPage = () => {
 
     return (
         <div className="details-page container">
-            {popupIsVisible && <CheckInConfirmationPopup id={id} name={name} checkedIn={checkedIn}/>}
+            {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn}/>}
 
             <Banner id={id} scrollPosition={scrollPosition}/>
 

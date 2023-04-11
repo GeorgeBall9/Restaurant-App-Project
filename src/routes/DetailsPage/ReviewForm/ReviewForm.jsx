@@ -3,6 +3,7 @@ import React from "react";
 import {useState} from 'react';
 import StarRating from '../../../common/components/RestaurantCard/StarRating/StarRating';
 import FormField from "../../../common/components/FormField/FormField";
+import {addRestaurantReview} from "../../../firebase/firebase";
 
 const defaultFormFields = {
     rating: "",
@@ -11,7 +12,7 @@ const defaultFormFields = {
     review: "",
 };
 
-const ReviewForm = ({restaurantName, location}) => {
+const ReviewForm = ({restaurantId, userId}) => {
 
     const [formData, setFormData] = useState(defaultFormFields);
 
@@ -42,7 +43,9 @@ const ReviewForm = ({restaurantName, location}) => {
             newErrors.rating = 'Rating is required and must be between 1 and 10';
         }
 
-        if (!title || title.length < 5 || review.length > 50) {
+        console.log(title.length)
+
+        if (!title || title.length < 5 || title.length > 50) {
             newErrors.title = "Title is required and must be between 5 and 50 characters";
         }
 
@@ -55,11 +58,11 @@ const ReviewForm = ({restaurantName, location}) => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateForm()) {
-
+            await addRestaurantReview(userId, restaurantId, formData);
             setFormData(defaultFormFields);
             setIsSubmitted(true);
         }

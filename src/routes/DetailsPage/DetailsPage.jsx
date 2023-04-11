@@ -162,9 +162,9 @@ const DetailsPage = () => {
     const handleWriteReviewClick = () => {
         if (!userId) {
             navigate("/sign-in");
+        } else {
+            setIsReviewFormVisible(!isReviewFormVisible);
         }
-
-        setIsReviewFormVisible(!isReviewFormVisible);
     };
 
     return (
@@ -295,7 +295,7 @@ const DetailsPage = () => {
                         {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
                     </button>
                     {isReviewFormVisible && (
-                        <ReviewForm restaurantName={name} location={formattedAddress}/>
+                        <ReviewForm restaurantId={id} userId={userId}/>
                     )}
                 </div>
             </div>

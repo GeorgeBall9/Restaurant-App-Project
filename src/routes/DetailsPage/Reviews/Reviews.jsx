@@ -1,6 +1,9 @@
 import "./Reviews.css";
 import StarRating from "../../../common/components/RestaurantCard/StarRating/StarRating";
 import React from "react";
+import {faCircleUp as faSolidCircleUp} from "@fortawesome/free-solid-svg-icons";
+import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const reviews = [
     {
@@ -50,20 +53,34 @@ const reviews = [
     },
 ];
 
-const Reviews = ({ reviews }) => {
+const Reviews = ({reviews}) => {
 
     return (
-        <div className="reviews">
-            {reviews.map((review) => (
-                <div key={review.id} className="review">
-                    <h3>{review.title}</h3>
-                    <StarRating rating={review.rating} />
-                    <p>{review.content}</p>
+        <div className="reviews-container">
+            {reviews.map(({id, title, rating, content, reactions}) => (
+                <div key={id} className="review">
+                    <h3>{title}</h3>
+
+                    <StarRating rating={rating}/>
+
+                    <p>{content}</p>
+
+                    <div className="buttons-container">
+                        <button>
+                            <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                        </button>
+
+                        <p>{reactions.upVotes - reactions.downVotes}</p>
+
+                        <button>
+                            <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                        </button>
+                    </div>
                 </div>
             ))}
         </div>
     );
 };
 
-export { reviews };
+export {reviews};
 export default Reviews;

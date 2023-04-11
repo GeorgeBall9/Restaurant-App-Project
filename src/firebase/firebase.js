@@ -229,14 +229,13 @@ export const removeRestaurantCheckIn = async (userId, restaurantId) => {
 };
 
 // add restaurant review
-export const addRestaurantReview = async (userId, restaurantId, title, content) => {
+export const addRestaurantReview = async (userId, restaurantId, data) => {
     const reviewsCollectionRef = collection(db, "reviews");
 
     const newReview = {
         userId,
         restaurantId,
-        title,
-        content,
+        ...data,
         reactions: {
             upVotes: 0,
             downVotes: 0

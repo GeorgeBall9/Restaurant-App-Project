@@ -6,6 +6,7 @@
 .bookmarks-page-container header {
     background-color: white;
     border-bottom: solid 1px lightgrey;
+    margin-bottom: 0.5em;
 }
 
 .bookmarks-page-container header > div {
@@ -33,4 +34,35 @@
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+}
+
+.bookmarks-page-container main .bookmark {
+    position: relative;
+}
+
+.bookmarks-page-container main .restaurant-card:nth-child(2) {
+    background-color: lightgrey;
+}
+
+.bookmarks-page-container main .closed-sign {
+    width: fit-content;
+    background-color: white;
+    padding: 0.75em 1em;
+    color: var(--primary-theme);
+    text-transform: uppercase;
+    font-weight: var(--font-weight-bold-2);
+    position: absolute;
+    z-index: 10;
+    top: 30%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border: solid 1px var(--background-theme);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.bookmarks-page-container main .closed-sign .icon {
+    color: var(--primary-theme);
+    margin-left: 0.25em;
 }

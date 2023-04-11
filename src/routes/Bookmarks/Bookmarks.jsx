@@ -4,7 +4,7 @@ import {selectBookmarks, selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
 import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCard";
 import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice";
 
@@ -57,7 +57,15 @@ const Bookmarks = () => {
 
             <main className="container">
                 {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants.map((restaurant, i) => (
-                    <RestaurantCard key={restaurant.id} restaurant={restaurant}/>
+                    <div key={restaurant.id} className="bookmark">
+                        {i === 2 && (
+                            <div className="closed-sign">
+                                Closed
+                                <FontAwesomeIcon className="icon" icon={faBan}/>
+                            </div>
+                        )}
+                        <RestaurantCard restaurant={restaurant}/>
+                    </div>
                 ))}
             </main>
         </div>

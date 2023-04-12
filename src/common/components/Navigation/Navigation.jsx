@@ -63,11 +63,11 @@ const Navigation = ({view}) => {
                     <LocationButton/>
 
                     {appliedSortFilter && (
-                        <AppliedFilterButton filter={appliedSortFilter}/>
+                        <AppliedFilterButton type="sortBy" filter={appliedSortFilter}/>
                     )}
 
                     {appliedCuisineFilter && (
-                        <AppliedFilterButton filter={appliedCuisineFilter}/>
+                        <AppliedFilterButton type="cuisine" filter={appliedCuisineFilter}/>
                     )}
                 </div>
             </div>

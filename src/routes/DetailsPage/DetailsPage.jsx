@@ -28,6 +28,7 @@ import Banner from "./Banner/Banner";
 import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectUserId} from "../../features/user/userSlice";
+import {checkIsOpen} from "../Bookmarks/Bookmarks";
 
 const DetailsPage = () => {
 
@@ -148,9 +149,8 @@ const DetailsPage = () => {
         }
     };
 
-    const today = new Date().getDay();
     const displayedHours = groupDaysWithSameHours(hours);
-    const isOpen = hours[today] !== "Closed";
+    const isOpen = checkIsOpen(restaurant);
 
     const handleToggleDescription = () => {
         setIsExpanded(!isExpanded);

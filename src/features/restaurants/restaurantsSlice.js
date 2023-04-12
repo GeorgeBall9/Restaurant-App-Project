@@ -127,6 +127,7 @@ const formatData = (data) => {
             price: price ? price : null,
             priceLevel: price_level ? price_level : null,
             hours: formatHours(hours),
+            minutes: formatMinutes(hours),
             primaryCuisine: cuisine.length > 0 ? cuisine[0].name : null,
             cuisines: cuisine,
             description,
@@ -163,6 +164,23 @@ const formatHours = (hours) => {
 
         return range
             .map(({open_time, close_time}) => `${formatTime(open_time)} - ${formatTime(close_time)}`)
+            .join(', ');
+    });
+};
+
+// function to format the open hours given in minutes into a flat array for simple storage
+const formatMinutes = (minutes) => {
+    if (!minutes) return null;
+
+    const {week_ranges: weekRanges} = minutes;
+
+    if (!weekRanges || weekRanges.length !== 7) return null;
+
+    return weekRanges.map(range => {
+        if (range.length === 0) return "Closed";
+
+        return range
+            .map(({open_time, close_time}) => `${open_time} - ${close_time}`)
             .join(', ');
     });
 };

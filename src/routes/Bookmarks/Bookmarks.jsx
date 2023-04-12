@@ -93,7 +93,9 @@ const Bookmarks = () => {
             </header>
 
             <main className="container">
-                {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants.map(restaurant => (
+                {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants
+                    .sort(a => a.isOpen ? -1 : 1)
+                    .map(restaurant => (
                     <div key={restaurant.id} className="bookmark">
                         {!restaurant.isOpen && (
                             <div className="closed-sign">

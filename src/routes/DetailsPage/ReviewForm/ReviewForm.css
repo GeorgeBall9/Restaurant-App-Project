@@ -1,0 +1,98 @@
+.review-form {
+    position: relative;
+}
+
+.review-form form {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    padding: 1rem;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.review-form .star-rating .icon {
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.review-form form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.review-form form .star-rating,
+.review-form form textarea {
+    margin-top: 0.75em;
+}
+
+.review-form form label {
+    font-weight: var(--font-weight-bold-2);
+    font-size: var(--font-size-sub-heading);
+}
+
+.review-form form textarea {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-sub-heading);
+    width: 100%;
+}
+
+.review-form form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.review-form form p {
+    color: var(--primary-theme);
+    font-size: var(--font-size-smaller);
+    margin-top: 0.25rem;
+}
+
+.review-form .review-submit {
+    background-color: var(--primary-theme);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.review-form .review-submit:hover {
+    background-color: var(--secondary-theme);
+}
+
+.review-form .review-form-container.blurred {
+    filter: blur(2px);
+    pointer-events: none;
+}
+
+.review-form .confirmation-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 1;
+}
+
+.review-form .confirmation-overlay h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.review-form .confirmation-overlay p {
+    font-size: 1.2rem;
+}

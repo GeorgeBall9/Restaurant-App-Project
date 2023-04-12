@@ -1,26 +1,20 @@
-.profile-container {
-    padding: 1em 1.25em;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    background-color: white;
-    height: 100vh;
-}
-
 .profile-container button {
-    font-size: 0.8rem;
+    font-size: var(--font-size-smaller);
+    border: none;
+    background: none;
+    color: #EBB02D;
 }
 
 .profile-container header {
+    background-color: white;
+    border-bottom: solid 1px lightgrey;
+    margin-bottom: 1em;
+}
+
+.profile-container header > div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 1em;
-    border-bottom: solid 1px var(--background-theme);
-}
-
-.profile-container header button .icon {
-    font-size: 1rem;
 }
 
 .profile-container header h1 {
@@ -28,65 +22,79 @@
     font-weight: 500;
 }
 
-.profile-container button {
-    border: none;
-    background: none;
-    color: #EBB02D;
+.profile-container header button {
+    color: var(--secondary-theme);
+    font-weight: var(--font-weight-bold-2);
+    font-size: var(--font-size-smaller);
+}
+
+.profile-container header button .icon {
+    margin-right: 0.5em;
 }
 
 .profile-container section {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 1.5em;
 }
 
 /* CHANGE ICON */
 .profile-container .change-icon-section {
     align-items: center;
     position: relative;
-    padding: 1em 0;
 }
 
-.profile-container .change-icon-section .icon {
-    margin-left: 0.5em;
+.profile-container .change-icon-section .user-icon-container {
+    border: solid 4px lightgrey;
+    border-radius: 50%;
+    position: relative;
 }
 
-.profile-container .change-icon-section button {
-    font-weight: 600;
+.profile-container .change-icon-section .user-icon-container > button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: solid 2px lightgrey;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+}
+
+.profile-container .change-icon-section .user-icon-container > button .icon {
+    color: black;
 }
 
 /* CHANGE DETAILS */
-.profile-container label:first-child {
-    padding-top: 1em;
-    border-top: solid 1px var(--background-theme);
+.profile-container .change-details-section {
+    border-radius: var(--border-radius);
+    margin-top: 2em;
 }
 
-.profile-container label {
-    font-size: 0.9rem;
-    display: flex;
-    gap: 2em;
-    padding-bottom: 1em;
-    border-bottom: solid 1px var(--background-theme);
+.profile-container .change-details-section .form-field {
+    font-weight: var(--font-weight-bold-2);
+    font-size: var(--font-size-sub-heading);
 }
 
-.profile-container label input {
-    background: none;
+.profile-container .change-details-section button {
+    background-color: var(--primary-theme);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: var(--font-weight-bold-1);
     border: none;
-    color: black;
-    font-size: 0.9rem;
-    outline: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.profile-container .sign-out-button {
-    color: var(--primary-theme);
-    font-weight: 500;
-    align-self: flex-start;
-    margin-top: 0.5em;
+.profile-container .change-details-section button:hover {
+    background-color: var(--secondary-theme);
 }
 
-.profile-container .sign-out-button .icon {
-    margin-right: 0.5em;
-    transform: rotate(180deg);
-    color: var(--primary-theme);
+.profile-container .change-details-section button .icon {
+    margin-left: 0.25em;
+    color: white;
+    font-weight: var(--font-weight-bold-1);
 }

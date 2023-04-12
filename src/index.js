@@ -22,6 +22,7 @@ import SignUpPage from './routes/SignUp/SignUpPage';
 import SignInPage from "./routes/SignIn/SignInPage";
 import Auth from "./routes/Auth/Auth";
 import ProfilePage from "./routes/ProfilePage/ProfilePage";
+import Bookmarks from "./routes/Bookmarks/Bookmarks";
 
 const router = createBrowserRouter([
     {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
                     {
                         path: "edit-profile",
                         element: <EditProfilePage/>,
+                    },
+                    {
+                        path: "bookmarks",
+                        element: <Bookmarks/>,
                     },
                 ]
             },

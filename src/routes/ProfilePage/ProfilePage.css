@@ -1,0 +1,126 @@
+.profile-page-container button {
+    background: none;
+    border: none;
+}
+
+.profile-page-container header {
+    background-color: white;
+    border-bottom: solid 1px lightgrey;
+    margin-bottom: 1em;
+}
+
+.profile-page-container header > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-page-container header h1 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.profile-page-container header button {
+    color: var(--secondary-theme);
+    font-weight: var(--font-weight-bold-2);
+    font-size: var(--font-size-smaller);
+}
+
+.profile-page-container header button .icon {
+    margin-right: 0.5em;
+}
+
+.profile-page-container main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.profile-page-container .profile-info-container {
+    text-align: center;
+    font-weight: var(--font-weight-bold-1);
+}
+
+.profile-page-container .profile-info-container .user-icon-container {
+    border: solid 4px lightgrey;
+    border-radius: 50%;
+    position: relative;
+    width: fit-content;
+    margin: 0 auto 0.5em;
+}
+
+.profile-page-container .contributions-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.profile-page-container .contributions-container a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75em;
+    color: black;
+    text-decoration: none;
+    font-weight: var(--font-weight-bold-1);
+    font-size: var(--font-size-sub-heading);
+    background-color: white;
+    width: 30%;
+    padding: 1em 0.5em;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.profile-page-container .contributions-container button {
+    background-color: var(--primary-theme);
+    color: white;
+}
+
+.profile-page-container .contributions-container a .icon {
+    font-size: 1.5rem;
+    color: black;
+}
+
+.profile-page-container .contributions-container button .icon {
+    color: white;
+}
+
+.profile-page-container .options-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-page-container .options-container a:not(:last-child) {
+    border-bottom: solid 1px grey;
+}
+
+.profile-page-container .options-container a {
+    text-align: left;
+    text-decoration: none;
+    color: black;
+    font-weight: var(--font-weight-bold-1);
+    padding: 1em 0;
+}
+
+.profile-page-container .options-container a .icon {
+    color: black;
+    margin-right: 0.5em;
+    width: 20px;
+}
+
+.profile-page-container .sign-out-button {
+    background-color: var(--primary-theme);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: var(--font-weight-bold-1);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.profile-page-container .sign-out-button:hover {
+    background-color: var(--secondary-theme);
+}

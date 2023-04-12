@@ -29,6 +29,7 @@ const FiltersDropdown = () => {
         dispatch(sortRestaurants(sortFilter));
         dispatch(applyFilters());
         dispatch(hideFilters());
+        dispatch(hideOverlay());
     };
 
     const handleResetClick = () => {
@@ -39,6 +40,7 @@ const FiltersDropdown = () => {
     const handleBackClick = () => {
         dispatch(hideOverlay());
         dispatch(hideFilters());
+        dispatch(hideOverlay());
     };
 
     const [filtersAppliedCount, setFiltersAppliedCount] = useState(0);

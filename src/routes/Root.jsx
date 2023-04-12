@@ -57,9 +57,7 @@ const Root = () => {
     }, [userId]);
 
     useEffect(() => {
-        if (!overlayIsVisible) return;
-
-        document.body.overflow = "hidden";
+        document.body.style.overflow = overlayIsVisible ? "hidden" : "visible";
     }, [overlayIsVisible]);
 
     return (

@@ -5,11 +5,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectDisplayName, selectIconColour, selectUserId} from "../../features/user/userSlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faArrowLeft,
+    faArrowLeft, faArrowRightFromBracket,
     faBookmark,
     faCamera,
     faCircleCheck, faCircleQuestion,
-    faComment,
+    faComment, faRightFromBracket,
     faShareNodes,
     faUser
 } from "@fortawesome/free-solid-svg-icons";
@@ -65,18 +65,7 @@ const ProfilePage = () => {
                     {displayName}
                 </section>
 
-                <section>
-                    <button className="sign-out-button" onClick={handleSignOutClick}>
-                        Sign out
-                    </button>
-                </section>
-
-                <section className="options-container">
-                    <Link to="/edit-profile">
-                        <FontAwesomeIcon className="icon" icon={faUser}/>
-                        Edit profile
-                    </Link>
-
+                <section className="contributions-container">
                     <Link to="/bookmarks">
                         <FontAwesomeIcon className="icon" icon={faBookmark}/>
                         Bookmarks
@@ -90,6 +79,13 @@ const ProfilePage = () => {
                     <Link to="/edit-profile">
                         <FontAwesomeIcon className="icon" icon={faComment}/>
                         Reviews
+                    </Link>
+                </section>
+
+                <section className="options-container">
+                    <Link to="/edit-profile">
+                        <FontAwesomeIcon className="icon" icon={faUser}/>
+                        Edit profile
                     </Link>
 
                     <Link to="/edit-profile">
@@ -106,6 +102,12 @@ const ProfilePage = () => {
                         <FontAwesomeIcon className="icon" icon={faCircleQuestion}/>
                         Help
                     </Link>
+                </section>
+
+                <section>
+                    <button className="sign-out-button" onClick={handleSignOutClick}>
+                        Sign out
+                    </button>
                 </section>
             </main>
         </div>

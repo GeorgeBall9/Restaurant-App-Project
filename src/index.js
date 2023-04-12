@@ -23,6 +23,8 @@ import SignInPage from "./routes/SignIn/SignInPage";
 import Auth from "./routes/Auth/Auth";
 import ProfilePage from "./routes/ProfilePage/ProfilePage";
 import Bookmarks from "./routes/Bookmarks/Bookmarks";
+import CheckIns from "./routes/CheckIns/CheckIns";
+import PreviewReviews from "./routes/PreviewReviews/PreviewReviews";
 
 const router = createBrowserRouter([
     {
@@ -63,7 +65,15 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "bookmarks",
-                        element: <Bookmarks/>,
+                        element: <Bookmarks/>
+                    },
+                    {
+                        path: "check-ins",
+                        element: <CheckIns/>,
+                    },
+                    {
+                        path: "preview-reviews",
+                        element: <PreviewReviews/>,
                     },
                 ]
             },

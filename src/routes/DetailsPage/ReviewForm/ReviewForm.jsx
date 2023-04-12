@@ -12,7 +12,7 @@ const defaultFormFields = {
     content: "",
 };
 
-const ReviewForm = ({restaurantId, userId}) => {
+const ReviewForm = ({restaurant, userId}) => {
 
     const [formData, setFormData] = useState(defaultFormFields);
 
@@ -43,8 +43,6 @@ const ReviewForm = ({restaurantId, userId}) => {
             newErrors.rating = 'Rating is required and must be between 1 and 10';
         }
 
-        console.log(title.length)
-
         if (!title || title.length < 5 || title.length > 50) {
             newErrors.title = "Title is required and must be between 5 and 50 characters";
         }
@@ -62,7 +60,7 @@ const ReviewForm = ({restaurantId, userId}) => {
         e.preventDefault();
 
         if (validateForm()) {
-            await addRestaurantReview(userId, restaurantId, formData);
+            await addRestaurantReview(userId, restaurant, formData);
             setFormData(defaultFormFields);
             setIsSubmitted(true);
         }

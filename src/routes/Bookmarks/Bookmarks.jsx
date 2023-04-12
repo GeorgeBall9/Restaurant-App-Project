@@ -61,7 +61,13 @@ const Bookmarks = () => {
     useEffect(() => {
         if (!userId || !userBookmarks) return;
 
-        setBookmarkData().then(response => console.log("Bookmarks retrieved"));
+        setBookmarkData().then(() => {
+            setBookmarkedRestaurants(bookmarkedRestaurants => bookmarkedRestaurants.map(bookmark => {
+                const updatedBookmark = {...bookmark};
+                bookmark.isOpen = checkIsOpen(bookmark);
+                return updatedBookmark;
+            }));
+        });
     }, [userBookmarks]);
 
     const handleBackClick = () => {

@@ -30,6 +30,9 @@ export const checkIsOpen = (restaurant) => {
                 isOpen = true;
                 break;
             }
+
+            console.log("openMinutes", openMinutes, "closeMinutes", closeMinutes,
+                "totalMinutes", totalMinutes, "open", isOpen);
         }
     }
 

@@ -7,6 +7,34 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
 import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCard";
 
+export const checkIsOpen = (restaurant) => {
+    let {minutes} = restaurant;
+    const now = new Date();
+    const day = now.getDay();
+    const openingMinutes = minutes[day];
+
+    let isOpen = false;
+
+    if (openingMinutes !== "Closed") {
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const totalMinutes = 60 * hour + minute;
+
+        const minuteRanges = openingMinutes.replaceAll(" ", "").split(",");
+
+        for (const range of minuteRanges) {
+            const [openMinutes, closeMinutes] = range.split("-");
+
+            if (totalMinutes >= +openMinutes && totalMinutes <= +closeMinutes) {
+                isOpen = true;
+                break;
+            }
+        }
+    }
+
+    return isOpen;
+}
+
 const Bookmarks = () => {
 
     const navigate = useNavigate();
@@ -21,34 +49,6 @@ const Bookmarks = () => {
             navigate("/profile");
         }
     }, [userId]);
-
-    const checkIsOpen = (restaurant) => {
-        let {minutes} = restaurant;
-        const now = new Date();
-        const day = now.getDay();
-        const openingMinutes = minutes[day];
-
-        let isOpen = false;
-
-        if (openingMinutes !== "Closed") {
-            const hour = now.getHours();
-            const minute = now.getMinutes();
-            const totalMinutes = 60 * hour + minute;
-
-            const minuteRanges = openingMinutes.replaceAll(" ", "").split(",");
-
-            for (const range of minuteRanges) {
-                const [openMinutes, closeMinutes] = range.split("-");
-
-                if (totalMinutes >= +openMinutes && totalMinutes <= +closeMinutes) {
-                    isOpen = true;
-                    break;
-                }
-            }
-        }
-
-        return isOpen;
-    }
 
     useEffect(() => {
         if (!userId) return;

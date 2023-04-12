@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
 import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCard";
+import {getRestaurantById} from "../../firebase/firebase";
 
 export const checkIsOpen = (restaurant) => {
     let {minutes} = restaurant;
@@ -33,7 +34,7 @@ export const checkIsOpen = (restaurant) => {
     }
 
     return isOpen;
-}
+};
 
 const Bookmarks = () => {
 
@@ -50,14 +51,23 @@ const Bookmarks = () => {
         }
     }, [userId]);
 
-    useEffect(() => {
-        if (!userId) return;
+    const setBookmarkData = async ()  => {
+        const data = await Promise.all(userBookmarks
+            .map(async (bookmark) => await getRestaurantById(bookmark)));
 
-        setBookmarkedRestaurants(userBookmarks.map(bookmark => {
-            const updatedBookmark = {...bookmark};
-            updatedBookmark.isOpen = checkIsOpen(bookmark);
-            return updatedBookmark;
-        }));
+        setBookmarkedRestaurants(data);
+    };
+
+    useEffect(() => {
+        if (!userId || !userBookmarks) return;
+
+        setBookmarkData().then(() => {
+            setBookmarkedRestaurants(bookmarkedRestaurants => bookmarkedRestaurants.map(bookmark => {
+                const updatedBookmark = {...bookmark};
+                bookmark.isOpen = checkIsOpen(bookmark);
+                return updatedBookmark;
+            }));
+        });
     }, [userBookmarks]);
 
     const handleBackClick = () => {

@@ -191,9 +191,12 @@ export const addUserBookmark = async (userId, restaurant) => {
 export const removeUserBookmark = async (userId, restaurantId) => {
     try {
         const docRef = await doc(db, "users", userId);
+
         await updateDoc(docRef, {
             bookmarks: arrayRemove(restaurantId)
         });
+
+        await removeInteractionFromRestaurantDoc(restaurantId, "bookmarks");
     } catch (error) {
         throw new Error("Document does not exist");
     }
@@ -354,4 +357,15 @@ export const addInteractionToRestaurantDoc = async (restaurant, interaction) => 
         restaurantData[interaction]++;
         await createRestaurantDoc(restaurantData);
     }
+};
+
+export const removeInteractionFromRestaurantDoc = async (restaurantId, interaction) => {
+    if (!restaurantId || !interaction) return;
+
+    let restaurantData = await getRestaurantById(restaurantId);
+
+    if (!restaurantData) return;
+
+    restaurantData[interaction]--;
+    await createRestaurantDoc(restaurantData);
 };

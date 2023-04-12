@@ -16,6 +16,8 @@ export const checkIsOpen = (restaurant) => {
 
     let isOpen = false;
 
+    console.log("restaurantName", restaurant.name, "openingMinutes", openingMinutes);
+
     if (openingMinutes !== "Closed") {
         const hour = now.getHours();
         const minute = now.getMinutes();
@@ -31,7 +33,7 @@ export const checkIsOpen = (restaurant) => {
                 break;
             }
 
-            console.log("openMinutes", openMinutes, "closeMinutes", closeMinutes,
+            console.log("restaurantName", restaurant.name, "openMinutes", openMinutes, "closeMinutes", closeMinutes,
                 "totalMinutes", totalMinutes, "open", isOpen);
         }
     }

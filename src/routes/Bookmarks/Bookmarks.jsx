@@ -23,7 +23,8 @@ export const checkIsOpen = (restaurant) => {
 
         const minuteRanges = openingMinutes.replaceAll(" ", "").split(",");
 
-        for (const range of minuteRanges) {
+        for (let i = 0; i < minuteRanges.length; i++) {
+            const range = minuteRanges[i];
             const [openMinutes, closeMinutes] = range.split("-");
 
             if (totalMinutes >= +openMinutes && totalMinutes <= +closeMinutes) {
@@ -64,7 +65,7 @@ const Bookmarks = () => {
         setBookmarkData().then(() => {
             setBookmarkedRestaurants(bookmarkedRestaurants => bookmarkedRestaurants.map(bookmark => {
                 const updatedBookmark = {...bookmark};
-                bookmark.isOpen = checkIsOpen(bookmark);
+                updatedBookmark.isOpen = checkIsOpen(bookmark);
                 return updatedBookmark;
             }));
         });

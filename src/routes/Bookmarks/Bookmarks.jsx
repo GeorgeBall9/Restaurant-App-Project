@@ -71,7 +71,7 @@ const Bookmarks = () => {
         setBookmarkData().then(() => {
             setBookmarkedRestaurants(bookmarkedRestaurants => bookmarkedRestaurants.map(bookmark => {
                 const updatedBookmark = {...bookmark};
-                bookmark.isOpen = checkIsOpen(bookmark);
+                updatedBookmark.isOpen = checkIsOpen(bookmark);
                 return updatedBookmark;
             }));
         });

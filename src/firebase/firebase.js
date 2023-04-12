@@ -202,24 +202,13 @@ export const removeUserBookmark = async (userId, restaurantId) => {
     }
 };
 
-// get user bookmarks
-export const getUserBookmarks = async (userId) => {
-    try {
-        const docRef = await doc(db, "users", userId);
-        const docSnap = await getDoc(docRef);
-        return {id: docSnap.id, ...docSnap.data()};
-    } catch (error) {
-        throw new Error("Document does not exist");
-    }
-};
-
 // add checked in restaurant to user doc
-export const addRestaurantCheckIn = async (userId, restaurantId) => {
+export const addRestaurantCheckIn = async (userId, restaurant) => {
     try {
         const docSnap = await doc(db, "users", userId);
 
         const newCheckIn = {
-            restaurantId,
+            restaurantId: restaurant.id,
             date: +new Date()
         };
 
@@ -227,8 +216,11 @@ export const addRestaurantCheckIn = async (userId, restaurantId) => {
             checkedIn: arrayUnion(newCheckIn)
         });
 
+        await addInteractionToRestaurantDoc(restaurant, "checkIns");
+
         return newCheckIn;
     } catch (error) {
+        console.log(error)
         throw new Error("Document does not exist");
     }
 };
@@ -244,10 +236,12 @@ export const removeRestaurantCheckIn = async (userId, restaurantId) => {
                 const now = new Date().toLocaleDateString();
                 const dateString = new Date(checkIn.date).toLocaleDateString();
 
-                return checkIn.restaurant.id !== restaurantId || dateString !== now;
+                return checkIn.restaurantId !== restaurantId || dateString !== now;
             });
 
         await updateDoc(docRef, {checkedIn: checkedInData});
+
+        await removeInteractionFromRestaurantDoc(restaurantId, "checkIns");
 
         return checkedInData;
     } catch (error) {
@@ -354,7 +348,8 @@ export const addInteractionToRestaurantDoc = async (restaurant, interaction) => 
         restaurantData[interaction] = 1;
         await createRestaurantDoc(restaurantData);
     } else {
-        restaurantData[interaction]++;
+        const interactionCount = restaurantData[interaction];
+        restaurantData[interaction] = interactionCount ? interactionCount + 1 : 1;
         await createRestaurantDoc(restaurantData);
     }
 };

@@ -171,9 +171,9 @@ const DetailsPage = ({saved}) => {
 
     return (
         <div className="details-page container">
-            {popupIsVisible && <CheckInConfirmationPopup restaurantId={id} name={name} checkedIn={checkedIn}/>}
+            {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn}/>}
 
-            <Banner restaurantId={id} scrollPosition={scrollPosition}/>
+            <Banner restaurant={restaurant} scrollPosition={scrollPosition}/>
 
             <div className="image-and-info-container">
                 <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>

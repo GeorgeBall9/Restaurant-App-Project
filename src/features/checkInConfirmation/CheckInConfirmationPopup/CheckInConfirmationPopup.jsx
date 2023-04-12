@@ -11,7 +11,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {hideCheckInConfirmation} from "../checkInConfirmationSlice";
 
-const CheckInConfirmationPopup = ({restaurantId, name, checkedIn}) => {
+const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
+
+    const restaurantId = restaurant?.id;
 
     const dispatch = useDispatch();
 
@@ -36,7 +38,7 @@ const CheckInConfirmationPopup = ({restaurantId, name, checkedIn}) => {
             const checkedInData = await removeRestaurantCheckIn(userId, restaurantId);
             dispatch(setCheckedInRestaurants(checkedInData));
         } else {
-            const newCheckIn = await addRestaurantCheckIn(userId, restaurantId);
+            const newCheckIn = await addRestaurantCheckIn(userId, restaurant);
             dispatch(addCheckedInRestaurant(newCheckIn));
         }
 

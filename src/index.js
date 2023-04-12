@@ -65,7 +65,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "bookmarks",
-                        element: <Bookmarks/>,
+                        element: <Bookmarks/>
                     },
                     {
                         path: "check-ins",

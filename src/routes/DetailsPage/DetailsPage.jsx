@@ -29,8 +29,9 @@ import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectUserId} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
+import {getRestaurantById} from "../../firebase/firebase";
 
-const DetailsPage = ({saved}) => {
+const DetailsPage = () => {
 
     const {id} = useParams();
 
@@ -60,8 +61,12 @@ const DetailsPage = ({saved}) => {
     useEffect(() => {
         if (!allRestaurants) return;
 
-        if (!saved) {
-            const foundRestaurant = allRestaurants.find(restaurant => restaurant.id === id);
+        let foundRestaurant = allRestaurants.find(restaurant => restaurant.id === id);
+
+        if (!foundRestaurant) {
+            getRestaurantById(id)
+                .then(data => setRestaurant(data));
+        } else {
             setRestaurant(foundRestaurant);
         }
     }, [allRestaurants, id]);

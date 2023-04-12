@@ -94,13 +94,7 @@ const Bookmarks = () => {
 
             <main className="container">
                 {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants
-                    .sort(a => {
-                        if (a.isOpen) {
-                            return -1;
-                        } else {
-                            return 1;
-                        }
-                    })
+                    .sort(a => a.isOpen ? -1 : 1)
                     .map(restaurant => (
                     <div key={restaurant.id} className="bookmark">
                         {!restaurant.isOpen && (

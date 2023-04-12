@@ -30,7 +30,7 @@ import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectUserId} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
 
-const DetailsPage = () => {
+const DetailsPage = ({saved}) => {
 
     const {id} = useParams();
 
@@ -60,8 +60,10 @@ const DetailsPage = () => {
     useEffect(() => {
         if (!allRestaurants) return;
 
-        const foundRestaurant = allRestaurants.find(restaurant => restaurant.id === id);
-        setRestaurant(foundRestaurant);
+        if (!saved) {
+            const foundRestaurant = allRestaurants.find(restaurant => restaurant.id === id);
+            setRestaurant(foundRestaurant);
+        }
     }, [allRestaurants, id]);
 
     useEffect(() => {

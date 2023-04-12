@@ -170,13 +170,19 @@ export const updateUserIconColour = async (userId, iconColour) => {
 };
 
 // add user bookmark
-export const addUserBookmark = async (userId, restaurantId) => {
+export const addUserBookmark = async (userId, restaurant) => {
+    if (!userId || !restaurant) return;
+
     try {
         const docRef = await doc(db, "users", userId);
+
         await updateDoc(docRef, {
-            bookmarks: arrayUnion(restaurantId)
+            bookmarks: arrayUnion(restaurant.id)
         });
+
+        await addInteractionToRestaurantDoc(restaurant, "bookmarks");
     } catch (error) {
+        console.log(error)
         throw new Error("Document does not exist");
     }
 };
@@ -312,5 +318,40 @@ export const addUserReactionToReview = async (userId, reviewId, reaction) => {
         return updatedReactions;
     } catch (error) {
         throw new Error("Document does not exist");
+    }
+};
+
+// add restaurant data to database
+export const createRestaurantDoc = async (restaurant) => {
+    if (!restaurant) return;
+
+    const docRef = await doc(db,"restaurants", restaurant.id);
+
+    await setDoc(docRef, {...restaurant}, {merge: true});
+
+    console.log("User document written with ID: ", docRef.id);
+};
+
+// get restaurant by id
+export const getRestaurantById = async (id) => {
+    const docRef = await doc(db, "restaurants", id);
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
+};
+
+// update restaurant doc
+export const addInteractionToRestaurantDoc = async (restaurant, interaction) => {
+    if (!restaurant || !interaction) return;
+
+    let restaurantData = await getRestaurantById(restaurant.id);
+
+    if (!restaurantData) {
+        restaurantData = {...restaurant};
+        restaurantData[interaction] = 1;
+        await createRestaurantDoc(restaurantData);
+    } else {
+        restaurantData[interaction]++;
+        await createRestaurantDoc(restaurantData);
     }
 };

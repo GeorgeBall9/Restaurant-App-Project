@@ -13,7 +13,9 @@ import {addUserBookmark, removeUserBookmark} from "../../../firebase/firebase";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 
-const BookmarkButton = ({restaurantId, style}) => {
+const BookmarkButton = ({restaurant, style}) => {
+
+    const id = restaurant?.id;
 
     const navigate = useNavigate();
 
@@ -26,20 +28,20 @@ const BookmarkButton = ({restaurantId, style}) => {
     const [isBookmarked, setIsBookmarked] = useState(false);
 
     useEffect(() => {
-        if (!bookmarks || !restaurantId) return;
+        if (!bookmarks || !id) return;
 
-        setIsBookmarked(bookmarks.some(bookmark => bookmark === restaurantId));
-    }, [bookmarks, restaurantId]);
+        setIsBookmarked(bookmarks.some(bookmark => bookmark === id));
+    }, [bookmarks, id]);
 
     const handleBookmarkClick = async () => {
         if (!userId) {
             navigate("/sign-in");
         } else if (isBookmarked) {
-            dispatch(removeBookmark(restaurantId));
-            await removeUserBookmark(userId, restaurantId);
+            dispatch(removeBookmark(id));
+            await removeUserBookmark(userId, id);
         } else {
-            dispatch(addBookmark(restaurantId));
-            await addUserBookmark(userId, restaurantId);
+            dispatch(addBookmark(id));
+            await addUserBookmark(userId, restaurant);
         }
     };
 

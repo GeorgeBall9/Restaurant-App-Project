@@ -12,7 +12,7 @@ const defaultFormFields = {
     content: "",
 };
 
-const ReviewForm = ({restaurantId, userId}) => {
+const ReviewForm = ({restaurant, userId}) => {
 
     const [formData, setFormData] = useState(defaultFormFields);
 
@@ -60,7 +60,7 @@ const ReviewForm = ({restaurantId, userId}) => {
         e.preventDefault();
 
         if (validateForm()) {
-            await addRestaurantReview(userId, restaurantId, formData);
+            await addRestaurantReview(userId, restaurant, formData);
             setFormData(defaultFormFields);
             setIsSubmitted(true);
         }

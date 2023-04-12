@@ -250,12 +250,14 @@ export const removeRestaurantCheckIn = async (userId, restaurantId) => {
 };
 
 // add restaurant review
-export const addRestaurantReview = async (userId, restaurantId, data) => {
+export const addRestaurantReview = async (userId, restaurant, data) => {
+    if (!userId || !restaurant || !data) return;
+
     const reviewsCollectionRef = collection(db, "reviews");
 
     const newReview = {
         userId,
-        restaurantId,
+        restaurantId: restaurant.id,
         ...data,
         reactions: {
             upVotes: [],
@@ -265,6 +267,8 @@ export const addRestaurantReview = async (userId, restaurantId, data) => {
 
     const reviewDocRef = await addDoc(reviewsCollectionRef, {...newReview, timestamp: serverTimestamp()});
     console.log("Review document created with id:", reviewDocRef.id);
+
+    await addInteractionToRestaurantDoc(restaurant, "reviews");
 
     return newReview;
 };

@@ -300,7 +300,7 @@ const DetailsPage = ({saved}) => {
                     </button>
 
                     {isReviewFormVisible && (
-                        <ReviewForm restaurantId={id} userId={userId}/>
+                        <ReviewForm restaurant={restaurant} userId={userId}/>
                     )}
                 </div>
             </div>

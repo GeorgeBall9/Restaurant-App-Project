@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import Shaders from "mapbox-gl/src/shaders/shaders";
 import ShareButton from "./ShareButton/ShareButton";
 
-const Banner = ({restaurant, scrollPosition}) => {
+const Banner = ({restaurantId, scrollPosition}) => {
 
     const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const Banner = ({restaurant, scrollPosition}) => {
             </button>
 
             <div className="action-button-container">
-                <BookmarkButton restaurant={restaurant} style={bannerButtonsStyle}/>
+                <BookmarkButton restaurantId={restaurantId} style={bannerButtonsStyle}/>
 
                 <ShareButton style={bannerButtonsStyle}/>
             </div>

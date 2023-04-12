@@ -67,7 +67,7 @@ const RestaurantCard = ({restaurant, view, ranking}) => {
 
             <div className="container-rhs">
                 <div className="icons-container">
-                    <BookmarkButton restaurant={restaurant}/>
+                    <BookmarkButton restaurantId={id}/>
                     {view === "map" && <RouteButton/>}
                 </div>
 

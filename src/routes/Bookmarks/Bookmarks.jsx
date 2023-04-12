@@ -33,7 +33,7 @@ export const checkIsOpen = (restaurant) => {
     }
 
     return isOpen;
-}
+};
 
 const Bookmarks = () => {
 
@@ -53,11 +53,7 @@ const Bookmarks = () => {
     useEffect(() => {
         if (!userId) return;
 
-        setBookmarkedRestaurants(userBookmarks.map(bookmark => {
-            const updatedBookmark = {...bookmark};
-            updatedBookmark.isOpen = checkIsOpen(bookmark);
-            return updatedBookmark;
-        }));
+        console.log(userBookmarks)
     }, [userBookmarks]);
 
     const handleBackClick = () => {

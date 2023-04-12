@@ -6,7 +6,6 @@ import {useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
 import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCard";
-import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice";
 
 const Bookmarks = () => {
 
@@ -14,7 +13,6 @@ const Bookmarks = () => {
 
     const userId = useSelector(selectUserId);
     const userBookmarks = useSelector(selectBookmarks);
-    const allRestaurants = useSelector(selectAllRestaurants);
 
     const [bookmarkedRestaurants, setBookmarkedRestaurants] = useState([]);
 
@@ -24,13 +22,43 @@ const Bookmarks = () => {
         }
     }, [userId]);
 
-    useEffect(() => {
-        if (!userBookmarks || !allRestaurants) return;
+    const checkIsOpen = (restaurant) => {
+        let {minutes} = restaurant;
+        const now = new Date();
+        const day = now.getDay();
+        const openingMinutes = minutes[day];
 
-        setBookmarkedRestaurants(userBookmarks
-            .map(bookmark => allRestaurants.find(restaurant => restaurant.id === bookmark.id))
-            .filter(restaurant => restaurant));
-    }, [userBookmarks, allRestaurants]);
+        let isOpen = false;
+
+        if (openingMinutes !== "Closed") {
+            const hour = now.getHours();
+            const minute = now.getMinutes();
+            const totalMinutes = 60 * hour + minute;
+
+            const minuteRanges = openingMinutes.replaceAll(" ", "").split(",");
+
+            for (const range of minuteRanges) {
+                const [openMinutes, closeMinutes] = range.split("-");
+
+                if (totalMinutes >= +openMinutes && totalMinutes <= +closeMinutes) {
+                    isOpen = true;
+                    break;
+                }
+            }
+        }
+
+        return isOpen;
+    }
+
+    useEffect(() => {
+        if (!userId) return;
+
+        setBookmarkedRestaurants(userBookmarks.map(bookmark => {
+            const updatedBookmark = {...bookmark};
+            updatedBookmark.isOpen = checkIsOpen(bookmark);
+            return updatedBookmark;
+        }));
+    }, [userBookmarks]);
 
     const handleBackClick = () => {
         navigate("/profile");
@@ -55,51 +83,18 @@ const Bookmarks = () => {
             </header>
 
             <main className="container">
-                {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants.map(restaurant => {
-                    const {hours} = restaurant;
-                    const now = new Date();
-                    const day = now.getDay();
-                    const hour = now.getHours();
-                    const minute = now.getMinutes();
-                    const openingHours = hours[day];
+                {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants.map(restaurant => (
+                    <div key={restaurant.id} className="bookmark">
+                        {!restaurant.isOpen && (
+                            <div className="closed-sign">
+                                Closed
+                                <FontAwesomeIcon className="icon" icon={faBan}/>
+                            </div>
+                        )}
 
-                    let isOpen = false;
-
-                    if (openingHours !== "Closed") {
-                        const totalMinutes = 60 * hour + minute;
-
-                        const openingTimes = openingHours
-                            .replaceAll(" ", "")
-                            .split(",");
-
-
-                        for (const time of openingTimes) {
-                            const [open, close] = time.split("-");
-                            const [openHour, openMinute] = open.split(":");
-                            const [closeHour, closeMinute] = close.split(":");
-                            const openMinutes = 60 * +openHour + +openMinute;
-                            const closeMinutes = 60 * +closeHour + +closeMinute;
-
-                            if (totalMinutes >= openMinutes && totalMinutes <= closeMinutes) {
-                                isOpen = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    return (
-                        <div key={restaurant.id} className="bookmark">
-                            {!isOpen && (
-                                <div className="closed-sign">
-                                    Closed
-                                    <FontAwesomeIcon className="icon" icon={faBan}/>
-                                </div>
-                            )}
-
-                            <RestaurantCard restaurant={restaurant}/>
-                        </div>
-                    )
-                })}
+                        <RestaurantCard restaurant={restaurant}/>
+                    </div>
+                ))}
             </main>
         </div>
     );

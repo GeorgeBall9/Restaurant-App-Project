@@ -106,7 +106,7 @@ export const createNewUserInDatabase = async (user) => {
 
     const iconColour = getRandomColour();
 
-    const data = {displayName, email, iconColour};
+    const data = {displayName, email, iconColour, bookmarks: [], checkedIn: []};
     await createUserDoc(data, uid);
 
     return {...data, id: uid};
@@ -175,6 +175,7 @@ export const addUserBookmark = async (userId, restaurantToBookmark) => {
         const docRef = await doc(db, "users", userId);
         const docSnap = await getDoc(docRef);
 
+        const userData = docSnap.data();
         const updatedBookmarks = [...docSnap.data().bookmarks, restaurantToBookmark];
 
         await updateDoc(docRef, {bookmarks: updatedBookmarks});
@@ -197,6 +198,17 @@ export const removeUserBookmark = async (userId, restaurantId) => {
         await updateDoc(docRef, {bookmarks: updatedBookmarks});
 
         return updatedBookmarks;
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
+};
+
+// get user bookmarks
+export const getUserBookmarks = async (userId) => {
+    try {
+        const docRef = await doc(db, "users", userId);
+        const docSnap = await getDoc(docRef);
+        return {id: docSnap.id, ...docSnap.data()};
     } catch (error) {
         throw new Error("Document does not exist");
     }

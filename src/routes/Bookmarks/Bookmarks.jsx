@@ -22,14 +22,10 @@ export const checkIsOpen = (restaurant) => {
         const totalMinutes = 60 * hour + minute;
 
         const minuteRanges = openingMinutes.replaceAll(" ", "").split(",");
-        console.log("restaurantName", restaurant.name, "minuteRanges", minuteRanges)
 
         for (let i = 0; i < minuteRanges.length; i++) {
             const range = minuteRanges[i];
             const [openMinutes, closeMinutes] = range.split("-");
-
-            console.log("restaurantName", restaurant.name, "openMinutes", openMinutes, "closeMinutes", closeMinutes,
-                "totalMinutes", totalMinutes, "open", isOpen);
 
             if (totalMinutes >= +openMinutes && totalMinutes <= +closeMinutes) {
                 isOpen = true;
@@ -37,8 +33,6 @@ export const checkIsOpen = (restaurant) => {
             }
         }
     }
-
-    console.log("After check:", "restaurantName", restaurant.name, "open", isOpen);
 
     return isOpen;
 };

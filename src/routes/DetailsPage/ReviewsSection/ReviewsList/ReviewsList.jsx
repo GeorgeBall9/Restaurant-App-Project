@@ -72,7 +72,7 @@ const ReviewsList = ({reviews, userId}) => {
                     }
 
                     return (
-                        <div key={id} className="review">
+                        <div key={id} id={"review-" + id} className="review">
                             {confirmDeleteReviewId === id && (
                                 <div className="confirm-delete-popup">
                                     <p>Delete this review?</p>

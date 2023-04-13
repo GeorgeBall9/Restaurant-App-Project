@@ -59,7 +59,8 @@
 .preview-reviews-container .reviews-container .review-card .container-lhs .preview {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 0.5em;
 }
 
 .preview-reviews-container .reviews-container .review-card .container-lhs .preview p {
@@ -80,7 +81,9 @@
 
 .preview-reviews-container .reviews-container .review-card .container-rhs {
     display: flex;
-    padding: 1em;
+    flex-direction: column;
+    gap: 1em;
+    justify-content: center;
 }
 
 .preview-reviews-container .reviews-container .review-card button .icon {

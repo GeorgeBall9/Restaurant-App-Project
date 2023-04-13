@@ -1,6 +1,6 @@
 import "./PreviewReviews.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faExpand, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
@@ -46,6 +46,10 @@ const PreviewReviews = () => {
         setConfirmDeleteReviewId(null);
     };
 
+    const handleExpandClick = (restaurantId) => {
+        navigate("/details/" + restaurantId);
+    };
+
     return (
         <div className="preview-reviews-container">
             <header>
@@ -65,7 +69,7 @@ const PreviewReviews = () => {
             </header>
 
             <main className="reviews-container container">
-                {reviews && reviews.map(({id, rating, title, content, restaurantName, photoUrl}) => (
+                {reviews && reviews.map(({id, rating, title, content, restaurantId, restaurantName, photoUrl}) => (
                     <div key={id} className="review-card">
                         {confirmDeleteReviewId === id && (
                             <div className="confirm-delete-popup">
@@ -90,6 +94,10 @@ const PreviewReviews = () => {
                         </div>
 
                         <div className="container-rhs">
+                            <button onClick={() => handleExpandClick(restaurantId)}>
+                                <FontAwesomeIcon icon={faExpand} className="icon"/>
+                            </button>
+
                             <button onClick={() => handleDeleteClick(id)}>
                                 <FontAwesomeIcon icon={faTrash} className="icon"/>
                             </button>

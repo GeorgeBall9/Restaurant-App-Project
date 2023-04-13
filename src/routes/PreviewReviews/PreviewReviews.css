@@ -29,3 +29,64 @@
 .preview-reviews-container header button .icon {
     margin-right: 0.5em;
 }
+
+.preview-reviews-container .reviews-container .review-card {
+    padding: 0.75em;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    border-bottom: solid 6px var(--primary-theme);
+    position: relative;
+}
+
+.preview-reviews-container .reviews-container .review-card .container-lhs {
+    display: flex;
+    gap: 1em;
+}
+
+.preview-reviews-container .reviews-container .review-card .container-lhs {
+    display: flex;
+    gap: 1em;
+}
+
+.preview-reviews-container .reviews-container .review-card .container-lhs > div:first-child {
+    flex-shrink: 0;
+}
+
+.preview-reviews-container .reviews-container .review-card .container-lhs .preview {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5em;
+}
+
+.preview-reviews-container .reviews-container .review-card .container-lhs .preview p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    font-size: var(--font-size-sub-heading);
+}
+
+.preview-reviews-container .reviews-container .review-card h3 {
+    font-size: var(--font-size-heading);
+    font-weight: var(--font-weight-bold-1);
+    margin-bottom: 0.25em;
+    text-transform: capitalize;
+}
+
+.preview-reviews-container .reviews-container .review-card .container-rhs {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    justify-content: center;
+}
+
+.preview-reviews-container .reviews-container .review-card button .icon {
+    color: grey;
+    font-size: 1.25rem;
+}

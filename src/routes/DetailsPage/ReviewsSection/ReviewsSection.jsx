@@ -35,6 +35,10 @@ const ReviewsSection = ({userId, restaurant}) => {
         }
     };
 
+    const handleSubmitReview = (review) => {
+        setReviews([review, ...reviews]);
+    };
+
     return (
         <div className="restaurant-reviews">
             <h2>Reviews</h2>
@@ -49,7 +53,7 @@ const ReviewsSection = ({userId, restaurant}) => {
             </button>
 
             {isReviewFormVisible && (
-                <ReviewForm restaurant={restaurant} userId={userId}/>
+                <ReviewForm restaurant={restaurant} userId={userId} handleSubmitReview={handleSubmitReview}/>
             )}
         </div>
     );

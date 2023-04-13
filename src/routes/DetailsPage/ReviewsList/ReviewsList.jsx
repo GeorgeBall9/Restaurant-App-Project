@@ -1,6 +1,6 @@
-import "./Reviews.css";
+import "./ReviewsList.css";
 import StarRating from "../../../common/components/RestaurantCard/StarRating/StarRating";
-import {faCircleUp as faSolidCircleUp, faPen, faPencil, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faCircleUp as faSolidCircleUp, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
@@ -8,41 +8,34 @@ import {addUserReactionToReview, deleteRestaurantReview, getReviewsByRestaurantI
 import {useDispatch} from "react-redux";
 import {showOverlay} from "../../../features/overlay/overlaySlice";
 
-const Reviews = ({userId, restaurantId}) => {
+const ReviewsList = ({reviews, userId}) => {
 
     const dispatch = useDispatch();
 
-    const [reviews, setReviews] = useState(null);
+    const [displayedReviews, setDisplayedReviews] = useState(null);
 
     useEffect(() => {
-        if (!restaurantId) return;
+        if (!reviews) return;
 
-        getReviewsByRestaurantId(restaurantId)
-            .then(reviewsFound => setReviews(reviewsFound));
-    }, [restaurantId]);
+        setDisplayedReviews(reviews);
+    }, [reviews]);
 
     const handleUpVoteClick = async (reviewId) => {
+        if (!reviews || !userId) return;
+
         const reactions = await addUserReactionToReview(userId, reviewId, "upVotes");
 
-        setReviews(reviews => {
-            const foundReview = reviews.find(review => review.id === reviewId);
-            const updatedReviews = reviews.filter(review => review.id !== reviewId);
-            foundReview.reactions = reactions;
-            updatedReviews.push(foundReview);
-            return updatedReviews;
-        });
+        const foundReview = reviews.find(review => review.id === reviewId);
+        foundReview.reactions = reactions;
+        setDisplayedReviews([...reviews]);
     };
 
     const handleDownVoteClick = async (reviewId) => {
         const reactions = await addUserReactionToReview(userId, reviewId, "downVotes");
 
-        setReviews(reviews => {
-            const foundReview = reviews.find(review => review.id === reviewId);
-            const updatedReviews = reviews.filter(review => review.id !== reviewId);
-            foundReview.reactions = reactions;
-            updatedReviews.push(foundReview);
-            return updatedReviews;
-        });
+        const foundReview = reviews.find(review => review.id === reviewId);
+        foundReview.reactions = reactions;
+        setDisplayedReviews([...reviews]);
     };
 
     const [confirmDeleteReviewId, setConfirmDeleteReviewId] = useState(null);
@@ -60,7 +53,7 @@ const Reviews = ({userId, restaurantId}) => {
     const handleYesClick = async () => {
         console.log("confirm delete");
         await deleteRestaurantReview(confirmDeleteReviewId);
-        setReviews(reviews => reviews.filter(review => review.id !== confirmDeleteReviewId));
+        setDisplayedReviews(reviews.filter(review => review.id !== confirmDeleteReviewId));
         setConfirmDeleteReviewId(null);
     };
 
@@ -71,11 +64,12 @@ const Reviews = ({userId, restaurantId}) => {
 
     return (
         <div className="reviews-container">
-            {!reviews?.length && (
+            {!displayedReviews?.length && (
                 <p>No reviews available</p>
             )}
 
-            {reviews && reviews.map(({id, userId: authorId, title, rating, content, visitDate, reactions}) => (
+            {displayedReviews && displayedReviews
+                .map(({id, userId: authorId, title, rating, content, visitDate, reactions}) => (
                 <div key={id} className="review">
                     {confirmDeleteReviewId === id && (
                         <div className="confirm-delete-popup">
@@ -144,4 +138,4 @@ const Reviews = ({userId, restaurantId}) => {
     );
 };
 
-export default Reviews;
+export default ReviewsList;

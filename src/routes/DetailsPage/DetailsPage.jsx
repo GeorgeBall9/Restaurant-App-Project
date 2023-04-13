@@ -1,4 +1,4 @@
-import Reviews from "./Reviews/Reviews";
+import ReviewsList from "./ReviewsList/ReviewsList";
 import ReviewForm from "./ReviewForm/ReviewForm";
 
 import './DetailsPage.css';
@@ -30,6 +30,7 @@ import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectUserId} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
 import {getRestaurantById} from "../../firebase/firebase";
+import ReviewsSection from "./ReviewsSection/ReviewsSection";
 
 const DetailsPage = () => {
 
@@ -48,7 +49,6 @@ const DetailsPage = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
-    const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
 
     useEffect(() => {
         if (!restaurant) {
@@ -165,14 +165,6 @@ const DetailsPage = () => {
     };
 
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
-
-    const handleWriteReviewClick = () => {
-        if (!userId) {
-            navigate("/sign-in");
-        } else {
-            setIsReviewFormVisible(!isReviewFormVisible);
-        }
-    };
 
     return (
         <div className="details-page container">
@@ -292,22 +284,7 @@ const DetailsPage = () => {
                     </div>
                 </div>
 
-                <div className="restaurant-reviews">
-                    <h2>Reviews</h2>
-
-                    <Reviews userId={userId} restaurantId={id}/>
-
-                    <button
-                        className="write-review-button"
-                        onClick={handleWriteReviewClick}
-                    >
-                        {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
-                    </button>
-
-                    {isReviewFormVisible && (
-                        <ReviewForm restaurant={restaurant} userId={userId}/>
-                    )}
-                </div>
+                <ReviewsSection userId={userId} restaurant={restaurant}/>
             </div>
         </div>
     );

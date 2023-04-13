@@ -10,6 +10,7 @@ import userReducer from "../features/user/userSlice";
 import changeIconPopupReducer from "../features/changeIconPopup/changeIconPopupSlice";
 import overlayReducer from "../features/overlay/overlaySlice";
 import checkInConfirmationReducer from "../features/checkInConfirmation/checkInConfirmationSlice";
+import reviewsReducer from "../features/reviews/reviewsSlice";
 
 export default configureStore({
     reducer: {
@@ -23,5 +24,6 @@ export default configureStore({
         changeIconPopup: changeIconPopupReducer,
         overlay: overlayReducer,
         checkInConfirmation: checkInConfirmationReducer,
+        reviews: reviewsReducer,
     }
 });

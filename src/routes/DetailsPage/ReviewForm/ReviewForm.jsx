@@ -4,6 +4,8 @@ import {useState} from 'react';
 import StarRating from '../../../common/components/RestaurantCard/StarRating/StarRating';
 import FormField from "../../../common/components/FormField/FormField";
 import {addRestaurantReview} from "../../../firebase/firebase";
+import {useDispatch} from "react-redux";
+import {addReview} from "../../../features/reviews/reviewsSlice";
 
 const defaultFormFields = {
     rating: "",
@@ -12,7 +14,9 @@ const defaultFormFields = {
     content: "",
 };
 
-const ReviewForm = ({restaurant, userId, handleSubmitReview}) => {
+const ReviewForm = ({restaurant, userId}) => {
+
+    const dispatch = useDispatch();
 
     const [formData, setFormData] = useState(defaultFormFields);
 
@@ -61,7 +65,7 @@ const ReviewForm = ({restaurant, userId, handleSubmitReview}) => {
 
         if (validateForm()) {
             const newReview = await addRestaurantReview(userId, restaurant, formData);
-            handleSubmitReview(newReview);
+            dispatch(addReview(newReview));
             setFormData(defaultFormFields);
             setIsSubmitted(true);
         }

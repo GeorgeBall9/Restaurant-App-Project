@@ -4,7 +4,8 @@ import ReviewForm from "../ReviewForm/ReviewForm";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getReviewsByRestaurantId} from "../../../firebase/firebase";
-import reviewsList from "../ReviewsList/ReviewsList";
+import {useDispatch, useSelector} from "react-redux";
+import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -12,18 +13,17 @@ const ReviewsSection = ({userId, restaurant}) => {
 
     const navigate = useNavigate();
 
-    const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
+    const dispatch = useDispatch();
 
-    const [reviews, setReviews] = useState(null);
+    const reviews = useSelector(selectReviews);
+    const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
 
     useEffect(() => {
         if (!restaurantId) return;
 
         getReviewsByRestaurantId(restaurantId)
             .then(reviewsFound => {
-                reviewsFound.sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
-                console.log(reviewsFound)
-                setReviews(reviewsFound);
+                dispatch(setReviews(reviewsFound));
             });
     }, [restaurantId]);
 
@@ -33,10 +33,6 @@ const ReviewsSection = ({userId, restaurant}) => {
         } else {
             setIsReviewFormVisible(!isReviewFormVisible);
         }
-    };
-
-    const handleSubmitReview = (review) => {
-        setReviews([review, ...reviews]);
     };
 
     return (
@@ -53,7 +49,7 @@ const ReviewsSection = ({userId, restaurant}) => {
             </button>
 
             {isReviewFormVisible && (
-                <ReviewForm restaurant={restaurant} userId={userId} handleSubmitReview={handleSubmitReview}/>
+                <ReviewForm restaurant={restaurant} userId={userId}/>
             )}
         </div>
     );

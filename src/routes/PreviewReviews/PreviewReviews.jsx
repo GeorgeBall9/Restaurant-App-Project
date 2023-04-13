@@ -59,7 +59,7 @@ const PreviewReviews = () => {
                             <RestaurantImage photoUrl={photoUrl} name={restaurantName}/>
 
                             <div className="preview">
-                                <h3>{title}</h3>
+                                <h3 style={{margin: 0}}>{title}</h3>
                                 <StarRating rating={rating}/>
 
                                 <p>{content}</p>

@@ -31,6 +31,7 @@ import {selectUserId} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
 import {getRestaurantById} from "../../firebase/firebase";
 import ReviewsSection from "./ReviewsSection/ReviewsSection";
+import {selectSelectedReviewId} from "../../features/reviews/reviewsSlice";
 
 const DetailsPage = () => {
 

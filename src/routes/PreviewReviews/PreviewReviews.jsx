@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {deleteRestaurantReview, getReviewsByUserId} from "../../firebase/firebase";
-import {deleteReview, selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
+import {deleteReview, selectReview, selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
 import RestaurantImage from "../../common/components/RestaurantImage/RestaurantImage";
 import StarRating from "../../common/components/RestaurantCard/StarRating/StarRating";
 
@@ -46,7 +46,8 @@ const PreviewReviews = () => {
         setConfirmDeleteReviewId(null);
     };
 
-    const handleExpandClick = (restaurantId) => {
+    const handleExpandClick = (reviewId, restaurantId) => {
+        dispatch(selectReview(reviewId));
         navigate("/details/" + restaurantId);
     };
 
@@ -94,7 +95,7 @@ const PreviewReviews = () => {
                         </div>
 
                         <div className="container-rhs">
-                            <button onClick={() => handleExpandClick(restaurantId)}>
+                            <button onClick={() => handleExpandClick(id, restaurantId)}>
                                 <FontAwesomeIcon icon={faExpand} className="icon"/>
                             </button>
 

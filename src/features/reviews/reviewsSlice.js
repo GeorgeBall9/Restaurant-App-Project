@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     reviews: [],
+    selectedReviewId: null,
 };
 
 export const reviewsSlice = createSlice({
@@ -26,11 +27,18 @@ export const reviewsSlice = createSlice({
                     return review;
                 }
             });
+        },
+        selectReview: (state, action) => {
+            state.selectedReviewId = action.payload;
+        },
+        deselectReview: state => {
+            state.selectedReviewId = null;
         }
     }
 })
 
 // Action creators are generated for each case reducer function
-export const {setReviews, addReview, deleteReview, updateReview} = reviewsSlice.actions
+export const {setReviews, addReview, deleteReview, updateReview, selectReview, deselectReview} = reviewsSlice.actions
 export const selectReviews = state => state.reviews.reviews;
+export const selectSelectedReviewId = state => state.reviews.selectedReviewId;
 export default reviewsSlice.reducer

@@ -3,10 +3,15 @@ import StarRating from "../../../../common/components/RestaurantCard/StarRating/
 import {faCircleUp as faSolidCircleUp, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {addUserReactionToReview, deleteRestaurantReview} from "../../../../firebase/firebase";
-import {useDispatch} from "react-redux";
-import {deleteReview, updateReview} from "../../../../features/reviews/reviewsSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    deleteReview,
+    deselectReview,
+    selectSelectedReviewId,
+    updateReview
+} from "../../../../features/reviews/reviewsSlice";
 import ReviewForm from "../ReviewForm/ReviewForm";
 
 const ReviewsList = ({reviews, userId}) => {
@@ -44,6 +49,20 @@ const ReviewsList = ({reviews, userId}) => {
     const handleNoClick = () => {
         setConfirmDeleteReviewId(null);
     };
+
+    const selectedReviewId = useSelector(selectSelectedReviewId);
+
+    useEffect(() => {
+        if (!reviews || !selectedReviewId) return;
+
+        const review = document.getElementById("review-" + selectedReviewId);
+
+        if (!review) {
+            dispatch(deselectReview());
+        } else {
+            review.scrollIntoView();
+        }
+    }, [selectedReviewId, reviews]);
 
     return (
         <div className="reviews-container">

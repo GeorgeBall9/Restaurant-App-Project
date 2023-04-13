@@ -60,6 +60,7 @@ const Reviews = ({userId, restaurantId}) => {
     const handleYesClick = async () => {
         console.log("confirm delete");
         await deleteRestaurantReview(confirmDeleteReviewId);
+        setReviews(reviews => reviews.filter(review => review.id !== confirmDeleteReviewId));
         setConfirmDeleteReviewId(null);
     };
 

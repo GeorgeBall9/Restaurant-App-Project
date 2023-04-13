@@ -4,11 +4,13 @@ import {faCircleUp as faSolidCircleUp, faPen, faPencil, faTrash} from "@fortawes
 import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
-import {addUserReactionToReview, getReviewsByRestaurantId} from "../../../firebase/firebase";
+import {addUserReactionToReview, deleteRestaurantReview, getReviewsByRestaurantId} from "../../../firebase/firebase";
+import {useDispatch} from "react-redux";
+import {showOverlay} from "../../../features/overlay/overlaySlice";
 
 const Reviews = ({userId, restaurantId}) => {
 
-
+    const dispatch = useDispatch();
 
     const [reviews, setReviews] = useState(null);
 
@@ -52,14 +54,18 @@ const Reviews = ({userId, restaurantId}) => {
     const handleDeleteClick = (id) => {
         console.log("deleting review");
         setConfirmDeleteReviewId(id);
+        // dispatch(showOverlay());
     };
 
-    const handleYesClick = () => {
+    const handleYesClick = async () => {
         console.log("confirm delete");
+        await deleteRestaurantReview(confirmDeleteReviewId);
+        setConfirmDeleteReviewId(null);
     };
 
     const handleNoClick = () => {
         console.log("cancel delete");
+        setConfirmDeleteReviewId(null);
     };
 
     return (

@@ -6,6 +6,8 @@ import FormField from "../../../common/components/FormField/FormField";
 import {addRestaurantReview} from "../../../firebase/firebase";
 import {useDispatch} from "react-redux";
 import {addReview} from "../../../features/reviews/reviewsSlice";
+import {faPen} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const defaultFormFields = {
     rating: "",
@@ -14,7 +16,7 @@ const defaultFormFields = {
     content: "",
 };
 
-const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData}) => {
+const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCancel}) => {
 
     const dispatch = useDispatch();
 
@@ -75,6 +77,13 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData}) => {
     return (
         <div className="review-form">
             <form onSubmit={handleSubmit}>
+                {edit && (
+                    <h2 style={{margin: 0}}>
+                        Editing
+                        <FontAwesomeIcon icon={faPen} className="edit-icon"/>
+                    </h2>
+                )}
+
                 <div>
                     <label>
                         Rating:
@@ -123,7 +132,15 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData}) => {
                     {errors.review && <p>{errors.review}</p>}
                 </div>
 
-                <button className="review-submit" type="submit">{edit ? "Save changes" : "Submit review"}</button>
+                {!edit && <button className="review-submit" type="submit">Submit review</button>}
+
+                {edit && (
+                    <div className="buttons-container">
+                        <button className="review-submit" type="submit">Save</button>
+                        <button onClick={handleCancel} type="button" className="cancel">Cancel</button>
+                    </div>
+                )}
+
             </form>
 
             {isSubmitted && (

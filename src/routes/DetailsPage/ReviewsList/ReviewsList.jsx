@@ -68,6 +68,7 @@ const ReviewsList = ({reviews, userId, preview}) => {
                             edit={true}
                             reviewId={id}
                             reviewData={{rating, visitDate, title, content}}
+                            handleCancel={() => setEditingReviewId(null)}
                         />
                     }
 

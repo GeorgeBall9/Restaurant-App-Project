@@ -1,5 +1,5 @@
-import ReviewsList from "./ReviewsList/ReviewsList";
-import ReviewForm from "./ReviewForm/ReviewForm";
+import ReviewsList from "./ReviewsSection/ReviewsList/ReviewsList";
+import ReviewForm from "./ReviewsSection/ReviewForm/ReviewForm";
 
 import './DetailsPage.css';
 import {Link, useNavigate, useParams} from 'react-router-dom';
@@ -31,6 +31,7 @@ import {selectUserId} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
 import {getRestaurantById} from "../../firebase/firebase";
 import ReviewsSection from "./ReviewsSection/ReviewsSection";
+import {selectSelectedReviewId} from "../../features/reviews/reviewsSlice";
 
 const DetailsPage = () => {
 

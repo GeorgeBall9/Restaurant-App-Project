@@ -11,4 +11,5 @@
 
 .star-rating span {
     margin-left: 0.25em;
+    font-weight: var(--font-weight-bold-1);
 }

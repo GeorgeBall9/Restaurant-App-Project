@@ -6,10 +6,14 @@ import {faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
 import {useNavigate} from "react-router-dom";
 import Shaders from "mapbox-gl/src/shaders/shaders";
 import ShareButton from "./ShareButton/ShareButton";
+import {deselectReview} from "../../../features/reviews/reviewsSlice";
+import {useDispatch} from "react-redux";
 
 const Banner = ({restaurant, scrollPosition}) => {
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const style = scrollPosition > 20
         ? {position: 'fixed', backgroundColor: 'rgba(224,220,220,0.9)'}
@@ -19,9 +23,14 @@ const Banner = ({restaurant, scrollPosition}) => {
         ? {color: "#C23B22"}
         : {color: "white"};
 
+    const handleBackClick = () => {
+        dispatch(deselectReview());
+        navigate(-1);
+    }
+
     return (
         <div className="banner container" style={style}>
-            <button className="back-button" onClick={() => navigate(-1)} style={bannerButtonsStyle}>
+            <button className="back-button" onClick={handleBackClick} style={bannerButtonsStyle}>
                 <FontAwesomeIcon icon={faChevronLeft} className="icon" style={bannerButtonsStyle}/>
                 Back
             </button>

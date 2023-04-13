@@ -283,6 +283,21 @@ export const deleteRestaurantReview = async (reviewId) => {
     await deleteDoc(docRef);
 };
 
+// update restaurant review
+export const updateRestaurantReview = async (reviewId, updatedData) => {
+    if (!reviewId || !updatedData) return;
+
+    const docRef = await doc(db, "reviews", reviewId);
+
+    await updateDoc(docRef, {
+        ...updatedData
+    });
+
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
+};
+
 // get all reviews by restaurant ID
 export const getReviewsByRestaurantId = async (restaurantId) => {
     const reviewsCollectionRef = collection(db, "reviews");

@@ -3,9 +3,9 @@ import React from "react";
 import {useState} from 'react';
 import StarRating from '../../../common/components/RestaurantCard/StarRating/StarRating';
 import FormField from "../../../common/components/FormField/FormField";
-import {addRestaurantReview} from "../../../firebase/firebase";
+import {addRestaurantReview, updateRestaurantReview} from "../../../firebase/firebase";
 import {useDispatch} from "react-redux";
-import {addReview} from "../../../features/reviews/reviewsSlice";
+import {addReview, updateReview} from "../../../features/reviews/reviewsSlice";
 import {faPen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
@@ -67,8 +67,16 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
         if (validateForm()) {
             const data = {rating, visitDate: +new Date(visitDate), title, content};
-            const newReview = await addRestaurantReview(userId, restaurant, data);
-            dispatch(addReview(newReview));
+
+            if (edit) {
+                const updatedReview = await updateRestaurantReview(reviewId, data);
+                dispatch(updateReview({reviewId, updatedReview}));
+                handleCancel();
+            } else {
+                const newReview = await addRestaurantReview(userId, restaurant, data);
+                dispatch(addReview(newReview));
+            }
+
             setFormData(defaultFormFields);
             setIsSubmitted(true);
         }

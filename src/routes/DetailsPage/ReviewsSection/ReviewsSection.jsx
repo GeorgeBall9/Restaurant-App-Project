@@ -23,7 +23,7 @@ const ReviewsSection = ({userId, restaurant}) => {
 
         getReviewsByRestaurantId(restaurantId)
             .then(reviewsFound => {
-                reviewsFound.sort((a, b) => b.visitDate - a.visitDate);
+                console.log(reviewsFound)
                 dispatch(setReviews(reviewsFound));
             });
     }, [restaurantId]);

@@ -50,7 +50,8 @@ const ReviewsList = ({reviews, userId, preview}) => {
                 <p>No reviews available</p>
             )}
 
-            {reviews && reviews
+            {reviews && [...reviews]
+                .sort((a, b) => b.visitDate - a.visitDate)
                 .map(({id, userId: authorId, title, rating, content, visitDate, reactions}) => (
                     <div key={id} className="review">
                         {confirmDeleteReviewId === id && (

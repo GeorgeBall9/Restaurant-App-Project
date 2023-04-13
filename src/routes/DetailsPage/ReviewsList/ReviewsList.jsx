@@ -5,8 +5,12 @@ import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useState} from "react";
 import {addUserReactionToReview, deleteRestaurantReview} from "../../../firebase/firebase";
+import {useDispatch} from "react-redux";
+import {deleteReview} from "../../../features/reviews/reviewsSlice";
 
 const ReviewsList = ({reviews, userId, preview}) => {
+
+    const dispatch = useDispatch();
 
     const handleUpVoteClick = async (reviewId) => {
         if (!reviews || !userId) return;
@@ -32,6 +36,7 @@ const ReviewsList = ({reviews, userId, preview}) => {
 
     const handleYesClick = async () => {
         await deleteRestaurantReview(confirmDeleteReviewId);
+        dispatch(deleteReview(confirmDeleteReviewId));
         setConfirmDeleteReviewId(null);
     };
 

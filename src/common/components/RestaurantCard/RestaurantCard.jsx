@@ -17,6 +17,7 @@ import StarRating from "./StarRating/StarRating";
 import RouteButton from "./RouteButton/RouteButton";
 import BookmarkButton from "../BookmarkButton/BookmarkButton";
 import {useSwipeable} from "react-swipeable";
+import RestaurantImage from "../RestaurantImage/RestaurantImage";
 
 // A card component for displaying restaurant information
 const RestaurantCard = ({restaurant, view, ranking}) => {
@@ -71,9 +72,7 @@ const RestaurantCard = ({restaurant, view, ranking}) => {
                     {view === "map" && <RouteButton/>}
                 </div>
 
-                <div className="image-container">
-                    <img src={photoUrl} alt={name} loading="lazy"/>
-                </div>
+                <RestaurantImage photoUrl={photoUrl} name={name}/>
             </div>
         </div>
     );

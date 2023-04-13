@@ -314,6 +314,27 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
     return reviews;
 };
 
+// get all reviews by user ID
+export const getReviewsByUserId = async (userId) => {
+    const reviewsCollectionRef = collection(db, "reviews");
+    const q = query(reviewsCollectionRef, where("userId", "==", userId));
+
+    const querySnapshot = await getDocs(q);
+
+    const reviews = [];
+
+    querySnapshot.forEach((doc) => {
+        reviews.push({id: doc.id, ...doc.data()});
+    });
+
+    const fullReviewData = await Promise.all(reviews.map(async (review) => {
+        const {photoUrl, name: restaurantName} = await getRestaurantById(review.restaurantId);
+        return {...review, photoUrl, restaurantName};
+    }));
+
+    return fullReviewData;
+};
+
 // add reaction to review
 export const addUserReactionToReview = async (userId, reviewId, reaction) => {
     try {

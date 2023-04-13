@@ -1,15 +1,15 @@
 import "./ReviewsList.css";
-import StarRating from "../../../common/components/RestaurantCard/StarRating/StarRating";
+import StarRating from "../../../../common/components/RestaurantCard/StarRating/StarRating";
 import {faCircleUp as faSolidCircleUp, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useState} from "react";
-import {addUserReactionToReview, deleteRestaurantReview} from "../../../firebase/firebase";
+import {addUserReactionToReview, deleteRestaurantReview} from "../../../../firebase/firebase";
 import {useDispatch} from "react-redux";
-import {deleteReview, updateReview} from "../../../features/reviews/reviewsSlice";
+import {deleteReview, updateReview} from "../../../../features/reviews/reviewsSlice";
 import ReviewForm from "../ReviewForm/ReviewForm";
 
-const ReviewsList = ({reviews, userId, preview}) => {
+const ReviewsList = ({reviews, userId}) => {
 
     const dispatch = useDispatch();
 
@@ -28,7 +28,6 @@ const ReviewsList = ({reviews, userId, preview}) => {
     const [editingReviewId, setEditingReviewId] = useState(null);
 
     const handleEditClick = (id) => {
-        console.log("editing review");
         setEditingReviewId(id);
     };
 
@@ -112,31 +111,29 @@ const ReviewsList = ({reviews, userId, preview}) => {
 
                             <p>{content}</p>
 
-                            {!preview && (
-                                <div className="buttons-container">
-                                    <button onClick={() => handleVoteClick(id, "upVotes")}>
-                                        {reactions.upVotes.includes(userId) && (
-                                            <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
-                                        )}
+                            <div className="buttons-container">
+                                <button onClick={() => handleVoteClick(id, "upVotes")}>
+                                    {reactions.upVotes.includes(userId) && (
+                                        <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
+                                    )}
 
-                                        {!reactions.upVotes.includes(userId) && (
-                                            <FontAwesomeIcon icon={faCircleUp} className="icon"/>
-                                        )}
-                                    </button>
+                                    {!reactions.upVotes.includes(userId) && (
+                                        <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                                    )}
+                                </button>
 
-                                    <p>{+(reactions.upVotes.length - reactions.downVotes.length)}</p>
+                                <p>{+(reactions.upVotes.length - reactions.downVotes.length)}</p>
 
-                                    <button onClick={() => handleVoteClick(id, "downVotes")}>
-                                        {reactions.downVotes.includes(userId) && (
-                                            <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
-                                        )}
+                                <button onClick={() => handleVoteClick(id, "downVotes")}>
+                                    {reactions.downVotes.includes(userId) && (
+                                        <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
+                                    )}
 
-                                        {!reactions.downVotes.includes(userId) && (
-                                            <FontAwesomeIcon icon={faCircleUp} className="icon"/>
-                                        )}
-                                    </button>
-                                </div>
-                            )}
+                                    {!reactions.downVotes.includes(userId) && (
+                                        <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                                    )}
+                                </button>
+                            </div>
                         </div>
                     )
                 })}

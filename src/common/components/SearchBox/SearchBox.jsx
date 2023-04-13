@@ -3,8 +3,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import SearchFeedback from "./SearchFeedback/SearchFeedback";
 import {useDispatch, useSelector} from "react-redux";
-import {selectSearchQuery, updateSearchQuery} from "../../../../features/filters/filtersSlice";
-import {filterResultsBySearchQuery, selectHasMatches} from "../../../../features/restaurants/restaurantsSlice";
+import {selectSearchQuery, updateSearchQuery} from "../../../features/filters/filtersSlice";
+import {filterResultsBySearchQuery, selectHasMatches} from "../../../features/restaurants/restaurantsSlice";
 
 const SearchBox = () => {
 

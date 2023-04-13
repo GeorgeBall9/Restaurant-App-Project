@@ -1,11 +1,11 @@
 import './ReviewForm.css';
 import React from "react";
 import {useState} from 'react';
-import StarRating from '../../../common/components/RestaurantCard/StarRating/StarRating';
-import FormField from "../../../common/components/FormField/FormField";
-import {addRestaurantReview, updateRestaurantReview} from "../../../firebase/firebase";
+import StarRating from '../../../../common/components/RestaurantCard/StarRating/StarRating';
+import FormField from "../../../../common/components/FormField/FormField";
+import {addRestaurantReview, updateRestaurantReview} from "../../../../firebase/firebase";
 import {useDispatch} from "react-redux";
-import {addReview, updateReview} from "../../../features/reviews/reviewsSlice";
+import {addReview, updateReview} from "../../../../features/reviews/reviewsSlice";
 import {faPen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 

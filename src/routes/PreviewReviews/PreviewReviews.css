@@ -29,3 +29,10 @@
 .preview-reviews-container header button .icon {
     margin-right: 0.5em;
 }
+
+.preview-reviews-container .reviews-container .review-card {
+    padding: 1em;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}

@@ -1,6 +1,6 @@
 import "./PreviewReviews.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import {getReviewsByUserId} from "../../firebase/firebase";
 import {selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
 import RestaurantImage from "../../common/components/RestaurantImage/RestaurantImage";
+import StarRating from "../../common/components/RestaurantCard/StarRating/StarRating";
 
 const PreviewReviews = () => {
 
@@ -52,9 +53,24 @@ const PreviewReviews = () => {
             </header>
 
             <main className="reviews-container container">
-                {reviews && reviews.map(({id, title, content, restaurantName, photoUrl}) => (
+                {reviews && reviews.map(({id, rating, title, content, restaurantName, photoUrl}) => (
                     <div key={id} className="review-card">
-                        <RestaurantImage photoUrl={photoUrl} name={restaurantName}/>
+                        <div className="container-lhs">
+                            <RestaurantImage photoUrl={photoUrl} name={restaurantName}/>
+
+                            <div className="preview">
+                                <h3>{title}</h3>
+                                <StarRating rating={rating}/>
+
+                                <p>{content}</p>
+                            </div>
+                        </div>
+
+                        <div className="container-rhs">
+                            <button onClick={() => console.log("deleting review")}>
+                                <FontAwesomeIcon icon={faTrash} className="icon"/>
+                            </button>
+                        </div>
                     </div>
                 ))}
             </main>

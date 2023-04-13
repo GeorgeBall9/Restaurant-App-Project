@@ -3,7 +3,11 @@ import React from "react";
 import {useState} from 'react';
 import StarRating from '../../../common/components/RestaurantCard/StarRating/StarRating';
 import FormField from "../../../common/components/FormField/FormField";
-import {addRestaurantReview} from "../../../firebase/firebase";
+import {addRestaurantReview, updateRestaurantReview} from "../../../firebase/firebase";
+import {useDispatch} from "react-redux";
+import {addReview, updateReview} from "../../../features/reviews/reviewsSlice";
+import {faPen} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const defaultFormFields = {
     rating: "",
@@ -12,9 +16,11 @@ const defaultFormFields = {
     content: "",
 };
 
-const ReviewForm = ({restaurant, userId}) => {
+const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCancel}) => {
 
-    const [formData, setFormData] = useState(defaultFormFields);
+    const dispatch = useDispatch();
+
+    const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
 
     const {rating, visitDate, title, content} = formData;
 
@@ -60,7 +66,17 @@ const ReviewForm = ({restaurant, userId}) => {
         e.preventDefault();
 
         if (validateForm()) {
-            await addRestaurantReview(userId, restaurant, formData);
+            const data = {rating, visitDate: +new Date(visitDate), title, content};
+
+            if (edit) {
+                const updatedReview = await updateRestaurantReview(reviewId, data);
+                dispatch(updateReview({reviewId, updatedReview}));
+                handleCancel();
+            } else {
+                const newReview = await addRestaurantReview(userId, restaurant, data);
+                dispatch(addReview(newReview));
+            }
+
             setFormData(defaultFormFields);
             setIsSubmitted(true);
         }
@@ -69,6 +85,13 @@ const ReviewForm = ({restaurant, userId}) => {
     return (
         <div className="review-form">
             <form onSubmit={handleSubmit}>
+                {edit && (
+                    <h2 style={{margin: 0}}>
+                        Editing
+                        <FontAwesomeIcon icon={faPen} className="edit-icon"/>
+                    </h2>
+                )}
+
                 <div>
                     <label>
                         Rating:
@@ -117,7 +140,15 @@ const ReviewForm = ({restaurant, userId}) => {
                     {errors.review && <p>{errors.review}</p>}
                 </div>
 
-                <button className="review-submit" type="submit">Submit Review</button>
+                {!edit && <button className="review-submit" type="submit">Submit review</button>}
+
+                {edit && (
+                    <div className="buttons-container">
+                        <button className="review-submit" type="submit">Save</button>
+                        <button onClick={handleCancel} type="button" className="cancel">Cancel</button>
+                    </div>
+                )}
+
             </form>
 
             {isSubmitted && (

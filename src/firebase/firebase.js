@@ -9,6 +9,7 @@ import {
     getDoc,
     getDocs,
     setDoc,
+    deleteDoc,
     updateDoc,
     arrayUnion,
     arrayRemove,
@@ -265,12 +266,36 @@ export const addRestaurantReview = async (userId, restaurant, data) => {
         }
     }
 
-    const reviewDocRef = await addDoc(reviewsCollectionRef, {...newReview, timestamp: serverTimestamp()});
+    const reviewDocRef = await addDoc(reviewsCollectionRef, newReview);
     console.log("Review document created with id:", reviewDocRef.id);
 
     await addInteractionToRestaurantDoc(restaurant, "reviews");
 
-    return newReview;
+    return {id: reviewDocRef.id, ...newReview};
+};
+
+// delete restaurant review
+export const deleteRestaurantReview = async (reviewId) => {
+    if (!reviewId) return;
+
+    const docRef = await doc(db, "reviews", reviewId);
+
+    await deleteDoc(docRef);
+};
+
+// update restaurant review
+export const updateRestaurantReview = async (reviewId, updatedData) => {
+    if (!reviewId || !updatedData) return;
+
+    const docRef = await doc(db, "reviews", reviewId);
+
+    await updateDoc(docRef, {
+        ...updatedData
+    });
+
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
 };
 
 // get all reviews by restaurant ID

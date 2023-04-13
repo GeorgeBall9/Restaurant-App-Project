@@ -6,7 +6,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useState} from "react";
 import {addUserReactionToReview, deleteRestaurantReview} from "../../../firebase/firebase";
 import {useDispatch} from "react-redux";
-import {deleteReview} from "../../../features/reviews/reviewsSlice";
+import {deleteReview, updateReview} from "../../../features/reviews/reviewsSlice";
 
 const ReviewsList = ({reviews, userId, preview}) => {
 
@@ -15,13 +15,21 @@ const ReviewsList = ({reviews, userId, preview}) => {
     const handleUpVoteClick = async (reviewId) => {
         if (!reviews || !userId) return;
 
-        await addUserReactionToReview(userId, reviewId, "upVotes");
+        const reactions = await addUserReactionToReview(userId, reviewId, "upVotes");
+
+        const updatedReview = {...reviews.find(review => review.id === reviewId)};
+        updatedReview.reactions = reactions;
+        dispatch(updateReview({reviewId, updatedReview}));
     };
 
     const handleDownVoteClick = async (reviewId) => {
         if (!reviews || !userId) return;
 
-        await addUserReactionToReview(userId, reviewId, "downVotes");
+        const reactions = await addUserReactionToReview(userId, reviewId, "downVotes");
+
+        const updatedReview = {...reviews.find(review => review.id === reviewId)};
+        updatedReview.reactions = reactions;
+        dispatch(updateReview({reviewId, updatedReview}));
     };
 
     const [confirmDeleteReviewId, setConfirmDeleteReviewId] = useState(null);

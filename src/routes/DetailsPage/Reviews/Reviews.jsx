@@ -1,6 +1,6 @@
 import "./Reviews.css";
 import StarRating from "../../../common/components/RestaurantCard/StarRating/StarRating";
-import {faCircleUp as faSolidCircleUp} from "@fortawesome/free-solid-svg-icons";
+import {faCircleUp as faSolidCircleUp, faPen, faPencil, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
@@ -41,15 +41,37 @@ const Reviews = ({userId, restaurantId}) => {
         });
     };
 
+    const handleEditClick = () => {
+        console.log("editing review")
+    };
+
+    const handleDeleteClick = () => {
+        console.log("deleting review");
+    };
+
     return (
         <div className="reviews-container">
             {!reviews?.length && (
                 <p>No reviews available</p>
             )}
 
-            {reviews && reviews.map(({id, title, rating, content, visitDate, reactions}) => (
+            {reviews && reviews.map(({id, userId: authorId, title, rating, content, visitDate, reactions}) => (
                 <div key={id} className="review">
-                    <h3>{title}</h3>
+                    <header>
+                        <h3>{title}</h3>
+
+                        {authorId === userId && (
+                            <div className="buttons-container">
+                                <button onClick={handleEditClick}>
+                                    <FontAwesomeIcon icon={faPen} className="icon"/>
+                                </button>
+
+                                <button onClick={handleDeleteClick}>
+                                    <FontAwesomeIcon icon={faTrash} className="icon"/>
+                                </button>
+                            </div>
+                        )}
+                    </header>
 
                     <div className="rating-and-date-container">
                         <StarRating rating={rating}/>

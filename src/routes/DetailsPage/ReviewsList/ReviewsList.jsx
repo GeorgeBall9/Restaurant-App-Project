@@ -47,72 +47,72 @@ const ReviewsList = ({reviews, userId, preview}) => {
 
             {reviews && reviews
                 .map(({id, userId: authorId, title, rating, content, visitDate, reactions}) => (
-                <div key={id} className="review">
-                    {confirmDeleteReviewId === id && (
-                        <div className="confirm-delete-popup">
-                            <p>Delete this review?</p>
+                    <div key={id} className="review">
+                        {confirmDeleteReviewId === id && (
+                            <div className="confirm-delete-popup">
+                                <p>Delete this review?</p>
 
-                            <div className="buttons-container">
-                                <button onClick={handleYesClick}>Yes</button>
-                                <button onClick={handleNoClick}>No</button>
+                                <div className="buttons-container">
+                                    <button onClick={handleYesClick}>Yes</button>
+                                    <button onClick={handleNoClick}>No</button>
+                                </div>
                             </div>
+                        )}
+
+                        <header>
+                            <h3>{title}</h3>
+
+                            {authorId === userId && (
+                                <div className="buttons-container">
+                                    <button onClick={() => handleEditClick(id)}>
+                                        <FontAwesomeIcon icon={faPen} className="icon"/>
+                                    </button>
+
+                                    <button onClick={() => handleDeleteClick(id)}>
+                                        <FontAwesomeIcon icon={faTrash} className="icon"/>
+                                    </button>
+                                </div>
+                            )}
+                        </header>
+
+                        <div className="rating-and-date-container">
+                            <StarRating rating={rating}/>
+
+                            <p>
+                                <strong>Visit date: </strong>
+                                {visitDate}
+                            </p>
                         </div>
-                    )}
 
-                    <header>
-                        <h3>{title}</h3>
+                        <p>{content}</p>
 
-                        {authorId === userId && (
+                        {!preview && (
                             <div className="buttons-container">
-                                <button onClick={() => handleEditClick(id)}>
-                                    <FontAwesomeIcon icon={faPen} className="icon"/>
+                                <button onClick={() => handleUpVoteClick(id)}>
+                                    {reactions.upVotes.includes(userId) && (
+                                        <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
+                                    )}
+
+                                    {!reactions.upVotes.includes(userId) && (
+                                        <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                                    )}
                                 </button>
 
-                                <button onClick={() => handleDeleteClick(id)}>
-                                    <FontAwesomeIcon icon={faTrash} className="icon"/>
+                                <p>{+(reactions.upVotes.length - reactions.downVotes.length)}</p>
+
+                                <button onClick={() => handleDownVoteClick(id)}>
+                                    {reactions.downVotes.includes(userId) && (
+                                        <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
+                                    )}
+
+                                    {!reactions.downVotes.includes(userId) && (
+                                        <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                                    )}
                                 </button>
                             </div>
                         )}
-                    </header>
-
-                    <div className="rating-and-date-container">
-                        <StarRating rating={rating}/>
-
-                        <p>
-                            <strong>Visit date: </strong>
-                            {visitDate}
-                        </p>
                     </div>
-
-                    <p>{content}</p>
-
-                    {!preview && (
-                        <div className="buttons-container">
-                            <button onClick={() => handleUpVoteClick(id)}>
-                                {reactions.upVotes.includes(userId) && (
-                                    <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
-                                )}
-
-                                {!reactions.upVotes.includes(userId) && (
-                                    <FontAwesomeIcon icon={faCircleUp} className="icon"/>
-                                )}
-                            </button>
-
-                            <p>{+(reactions.upVotes.length - reactions.downVotes.length)}</p>
-
-                            <button onClick={() => handleDownVoteClick(id)}>
-                                {reactions.downVotes.includes(userId) && (
-                                    <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
-                                )}
-
-                                {!reactions.downVotes.includes(userId) && (
-                                    <FontAwesomeIcon icon={faCircleUp} className="icon"/>
-                                )}
-                            </button>
-                        </div>
-                    )}
-                </div>
-            ))}
+                ))}
         </div>
     );
 };

@@ -64,7 +64,8 @@ const ReviewForm = ({restaurant, userId}) => {
         e.preventDefault();
 
         if (validateForm()) {
-            const newReview = await addRestaurantReview(userId, restaurant, formData);
+            const data = {rating, visitDate: +new Date(visitDate), title, content};
+            const newReview = await addRestaurantReview(userId, restaurant, data);
             dispatch(addReview(newReview));
             setFormData(defaultFormFields);
             setIsSubmitted(true);

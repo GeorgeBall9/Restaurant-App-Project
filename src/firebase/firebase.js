@@ -255,7 +255,6 @@ export const addRestaurantReview = async (userId, restaurant, data) => {
     if (!userId || !restaurant || !data) return;
 
     const reviewsCollectionRef = collection(db, "reviews");
-    console.log(data);
 
     const newReview = {
         userId,
@@ -272,7 +271,7 @@ export const addRestaurantReview = async (userId, restaurant, data) => {
 
     await addInteractionToRestaurantDoc(restaurant, "reviews");
 
-    return newReview;
+    return {id: reviewDocRef.id, ...newReview};
 };
 
 // delete restaurant review

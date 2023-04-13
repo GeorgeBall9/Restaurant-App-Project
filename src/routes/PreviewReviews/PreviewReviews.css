@@ -80,7 +80,7 @@
 
 .preview-reviews-container .reviews-container .review-card .container-rhs {
     display: flex;
-    padding-right: 1em;
+    padding: 1em;
 }
 
 .preview-reviews-container .reviews-container .review-card button .icon {

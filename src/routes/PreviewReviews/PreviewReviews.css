@@ -58,14 +58,14 @@
 .preview-reviews-container .reviews-container .review-card .container-lhs .preview {
     display: flex;
     flex-direction: column;
-    gap: 0.25em;
+    gap: 0.5em;
 }
 
 .preview-reviews-container .reviews-container .review-card .container-lhs .preview p {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     font-size: var(--font-size-sub-heading);
 }
@@ -80,6 +80,7 @@
 
 .preview-reviews-container .reviews-container .review-card .container-rhs {
     display: flex;
+    padding-right: 1em;
 }
 
 .preview-reviews-container .reviews-container .review-card button .icon {

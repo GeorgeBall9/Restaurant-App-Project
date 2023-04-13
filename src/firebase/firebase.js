@@ -9,6 +9,7 @@ import {
     getDoc,
     getDocs,
     setDoc,
+    deleteDoc,
     updateDoc,
     arrayUnion,
     arrayRemove,
@@ -271,6 +272,15 @@ export const addRestaurantReview = async (userId, restaurant, data) => {
     await addInteractionToRestaurantDoc(restaurant, "reviews");
 
     return newReview;
+};
+
+// delete restaurant review
+export const deleteRestaurantReview = async (reviewId) => {
+    if (!reviewId) return;
+
+    const docRef = await doc(db, "reviews", reviewId);
+
+    await deleteDoc(docRef);
 };
 
 // get all reviews by restaurant ID

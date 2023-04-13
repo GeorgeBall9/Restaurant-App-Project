@@ -8,6 +8,8 @@ import {addUserReactionToReview, getReviewsByRestaurantId} from "../../../fireba
 
 const Reviews = ({userId, restaurantId}) => {
 
+
+
     const [reviews, setReviews] = useState(null);
 
     useEffect(() => {
@@ -41,12 +43,23 @@ const Reviews = ({userId, restaurantId}) => {
         });
     };
 
+    const [confirmDeleteReviewId, setConfirmDeleteReviewId] = useState(null);
+
     const handleEditClick = () => {
         console.log("editing review")
     };
 
-    const handleDeleteClick = () => {
+    const handleDeleteClick = (id) => {
         console.log("deleting review");
+        setConfirmDeleteReviewId(id);
+    };
+
+    const handleYesClick = () => {
+        console.log("confirm delete");
+    };
+
+    const handleNoClick = () => {
+        console.log("cancel delete");
     };
 
     return (
@@ -57,16 +70,27 @@ const Reviews = ({userId, restaurantId}) => {
 
             {reviews && reviews.map(({id, userId: authorId, title, rating, content, visitDate, reactions}) => (
                 <div key={id} className="review">
+                    {confirmDeleteReviewId === id && (
+                        <div className="confirm-delete-popup">
+                            <p>Delete this review?</p>
+
+                            <div className="buttons-container">
+                                <button onClick={handleYesClick}>Yes</button>
+                                <button onClick={handleNoClick}>No</button>
+                            </div>
+                        </div>
+                    )}
+
                     <header>
                         <h3>{title}</h3>
 
                         {authorId === userId && (
                             <div className="buttons-container">
-                                <button onClick={handleEditClick}>
+                                <button onClick={() => handleEditClick(id)}>
                                     <FontAwesomeIcon icon={faPen} className="icon"/>
                                 </button>
 
-                                <button onClick={handleDeleteClick}>
+                                <button onClick={() => handleDeleteClick(id)}>
                                     <FontAwesomeIcon icon={faTrash} className="icon"/>
                                 </button>
                             </div>

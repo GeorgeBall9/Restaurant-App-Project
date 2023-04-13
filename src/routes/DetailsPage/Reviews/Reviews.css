@@ -12,12 +12,15 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 0.75em;
+    gap: 1em;
+    position: relative;
 }
 
 .reviews-container .review header {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 1em;
 }
 
 .reviews-container .review header h3 {
@@ -89,4 +92,64 @@
 
 .reviews-container .review > .buttons-container button:last-child {
     transform: rotate(180deg);
+}
+
+.confirm-delete-popup {
+    background-color: white;
+    position: absolute;
+    z-index: 15000;
+    color: black;
+    top: 1em;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 90%;
+    max-width: 220px;
+    padding: 0.5em 0.75em;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    border: solid 1px lightgrey;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-bottom: solid 6px var(--primary-theme);
+}
+
+.confirm-delete-popup p span {
+    font-weight: var(--font-weight-bold-2);
+}
+
+.confirm-delete-popup .buttons-container {
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+    margin-top: 0.5em;
+}
+
+.confirm-delete-popup .buttons-container button:first-child {
+    background-color: var(--primary-theme);
+    color: white;
+}
+
+.confirm-delete-popup .buttons-container button:last-child {
+    background-color: white;
+    color: var(--primary-theme);
+}
+
+.confirm-delete-popup .buttons-container button:hover {
+    background-color: var(--secondary-theme);
+    border-color: var(--secondary-theme);
+    color: white;
+}
+
+.confirm-delete-popup .buttons-container button {
+    border: solid 2px var(--primary-theme);
+    border-radius: var(--border-radius);
+    width: 50%;
+    text-align: center;
+    display: inline-block;
+    padding: 0.35em 0;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
 }

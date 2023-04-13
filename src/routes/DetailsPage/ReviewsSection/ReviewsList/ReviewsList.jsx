@@ -60,7 +60,9 @@ const ReviewsList = ({reviews, userId}) => {
         if (!review) {
             dispatch(deselectReview());
         } else {
-            review.scrollIntoView();
+            review.scrollIntoView({
+                behavior: "smooth"
+            });
         }
     }, [selectedReviewId, reviews]);
 

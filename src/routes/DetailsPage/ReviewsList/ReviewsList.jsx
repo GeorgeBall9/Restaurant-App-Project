@@ -85,7 +85,7 @@ const ReviewsList = ({reviews, userId, preview}) => {
 
                             <p>
                                 <strong>Visit date: </strong>
-                                {visitDate}
+                                {new Date(visitDate).toLocaleDateString()}
                             </p>
                         </div>
 

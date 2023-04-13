@@ -39,6 +39,7 @@
     justify-content: space-between;
     gap: 1em;
     border-bottom: solid 6px var(--primary-theme);
+    position: relative;
 }
 
 .preview-reviews-container .reviews-container .review-card .container-lhs {
@@ -58,7 +59,7 @@
 .preview-reviews-container .reviews-container .review-card .container-lhs .preview {
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    justify-content: space-between;
 }
 
 .preview-reviews-container .reviews-container .review-card .container-lhs .preview p {
@@ -71,9 +72,8 @@
 }
 
 .preview-reviews-container .reviews-container .review-card h3 {
-    color: var(--primary-theme);
     font-size: var(--font-size-heading);
-    font-weight: var(--font-weight-bold-2);
+    font-weight: var(--font-weight-bold-1);
     margin-bottom: 0.25em;
     text-transform: capitalize;
 }

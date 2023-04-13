@@ -5,8 +5,8 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
-import {getReviewsByUserId} from "../../firebase/firebase";
-import {selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
+import {deleteRestaurantReview, getReviewsByUserId} from "../../firebase/firebase";
+import {deleteReview, selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
 import RestaurantImage from "../../common/components/RestaurantImage/RestaurantImage";
 import StarRating from "../../common/components/RestaurantCard/StarRating/StarRating";
 
@@ -19,6 +19,8 @@ const PreviewReviews = () => {
     const userId = useSelector(selectUserId);
     const reviews = useSelector(selectReviews);
 
+    const [confirmDeleteReviewId, setConfirmDeleteReviewId] = useState(null);
+
     useEffect(() => {
         if (!userId) return;
 
@@ -30,9 +32,19 @@ const PreviewReviews = () => {
         navigate("/profile");
     };
 
-    useEffect(() => {
-        console.log(reviews);
-    }, [reviews]);
+    const handleDeleteClick = (id) => {
+        setConfirmDeleteReviewId(id);
+    };
+
+    const handleYesClick = async () => {
+        await deleteRestaurantReview(confirmDeleteReviewId);
+        dispatch(deleteReview(confirmDeleteReviewId));
+        setConfirmDeleteReviewId(null);
+    };
+
+    const handleNoClick = () => {
+        setConfirmDeleteReviewId(null);
+    };
 
     return (
         <div className="preview-reviews-container">
@@ -55,6 +67,17 @@ const PreviewReviews = () => {
             <main className="reviews-container container">
                 {reviews && reviews.map(({id, rating, title, content, restaurantName, photoUrl}) => (
                     <div key={id} className="review-card">
+                        {confirmDeleteReviewId === id && (
+                            <div className="confirm-delete-popup">
+                                <p>Delete this review?</p>
+
+                                <div className="buttons-container">
+                                    <button onClick={handleYesClick}>Yes</button>
+                                    <button onClick={handleNoClick}>No</button>
+                                </div>
+                            </div>
+                        )}
+
                         <div className="container-lhs">
                             <RestaurantImage photoUrl={photoUrl} name={restaurantName}/>
 
@@ -67,7 +90,7 @@ const PreviewReviews = () => {
                         </div>
 
                         <div className="container-rhs">
-                            <button onClick={() => console.log("deleting review")}>
+                            <button onClick={() => handleDeleteClick(id)}>
                                 <FontAwesomeIcon icon={faTrash} className="icon"/>
                             </button>
                         </div>

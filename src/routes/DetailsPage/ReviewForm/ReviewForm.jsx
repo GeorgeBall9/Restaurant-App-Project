@@ -14,11 +14,11 @@ const defaultFormFields = {
     content: "",
 };
 
-const ReviewForm = ({restaurant, userId}) => {
+const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData}) => {
 
     const dispatch = useDispatch();
 
-    const [formData, setFormData] = useState(defaultFormFields);
+    const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
 
     const {rating, visitDate, title, content} = formData;
 
@@ -123,7 +123,7 @@ const ReviewForm = ({restaurant, userId}) => {
                     {errors.review && <p>{errors.review}</p>}
                 </div>
 
-                <button className="review-submit" type="submit">Submit Review</button>
+                <button className="review-submit" type="submit">{edit ? "Save changes" : "Submit review"}</button>
             </form>
 
             {isSubmitted && (

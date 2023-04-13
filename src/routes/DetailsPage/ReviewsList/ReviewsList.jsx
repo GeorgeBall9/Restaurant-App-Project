@@ -12,20 +12,10 @@ const ReviewsList = ({reviews, userId, preview}) => {
 
     const dispatch = useDispatch();
 
-    const handleUpVoteClick = async (reviewId) => {
+    const handleVoteClick = async (reviewId, voteType) => {
         if (!reviews || !userId) return;
 
-        const reactions = await addUserReactionToReview(userId, reviewId, "upVotes");
-
-        const updatedReview = {...reviews.find(review => review.id === reviewId)};
-        updatedReview.reactions = reactions;
-        dispatch(updateReview({reviewId, updatedReview}));
-    };
-
-    const handleDownVoteClick = async (reviewId) => {
-        if (!reviews || !userId) return;
-
-        const reactions = await addUserReactionToReview(userId, reviewId, "downVotes");
+        const reactions = await addUserReactionToReview(userId, reviewId, voteType);
 
         const updatedReview = {...reviews.find(review => review.id === reviewId)};
         updatedReview.reactions = reactions;
@@ -102,7 +92,7 @@ const ReviewsList = ({reviews, userId, preview}) => {
 
                         {!preview && (
                             <div className="buttons-container">
-                                <button onClick={() => handleUpVoteClick(id)}>
+                                <button onClick={() => handleVoteClick(id, "upVotes")}>
                                     {reactions.upVotes.includes(userId) && (
                                         <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
                                     )}
@@ -114,7 +104,7 @@ const ReviewsList = ({reviews, userId, preview}) => {
 
                                 <p>{+(reactions.upVotes.length - reactions.downVotes.length)}</p>
 
-                                <button onClick={() => handleDownVoteClick(id)}>
+                                <button onClick={() => handleVoteClick(id, "downVotes")}>
                                     {reactions.downVotes.includes(userId) && (
                                         <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
                                     )}

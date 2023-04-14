@@ -175,7 +175,7 @@ export const updateUserReviewCount = async (userId, amount) => {
 
     if (!docData) return;
 
-    const updatedReviewCount = +docData.reviews + amount;
+    const updatedReviewCount = docData.reviews ? +docData.reviews + amount : 1;
 
     const docSnap = await doc(db, "users", userId);
     await updateDoc(docSnap, {reviews: updatedReviewCount});

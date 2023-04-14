@@ -128,8 +128,10 @@ const ReviewsList = ({reviews, userId}) => {
                                     <UserIcon size="large" colour={iconColour}/>
 
                                     <div>
-                                        <p>{displayName}</p>
-                                        <p>{numberOfReviews} review{numberOfReviews > 1 ? "s" : ""}</p>
+                                        <p className="display-name">{displayName}</p>
+                                        {numberOfReviews && (
+                                            <p>{numberOfReviews} review{numberOfReviews > 1 ? "s" : ""}</p>
+                                        )}
                                     </div>
                                 </div>
 

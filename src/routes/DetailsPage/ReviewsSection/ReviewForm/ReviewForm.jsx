@@ -23,7 +23,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
     const displayName = useSelector(selectDisplayName);
     const iconColour = useSelector(selectIconColour);
-    const reviewCount = useSelector(selectUserReviewCount);
 
     const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
 
@@ -81,7 +80,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                         ...updatedReview,
                         displayName,
                         iconColour,
-                        reviews: reviewCount
                     }
                 }));
 
@@ -89,18 +87,10 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
             } else {
                 const newReview = await addRestaurantReview(userId, restaurant, data);
 
-                console.log({
-                    ...newReview,
-                    displayName,
-                    iconColour,
-                    reviews: reviewCount
-                })
-
                 dispatch(addReview({
                     ...newReview,
                     displayName,
                     iconColour,
-                    reviews: reviewCount
                 }));
             }
 

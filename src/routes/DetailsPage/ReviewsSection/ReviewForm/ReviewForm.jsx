@@ -177,3 +177,5 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
         </div>
     );
 };
+
+export default ReviewForm;

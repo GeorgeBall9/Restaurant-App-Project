@@ -3,29 +3,28 @@ import {initializeApp} from "firebase/app";
 
 // db imports
 import {
-    getFirestore,
-    doc,
     addDoc,
+    arrayRemove,
+    arrayUnion,
+    collection,
+    deleteDoc,
+    doc,
     getDoc,
     getDocs,
-    setDoc,
-    deleteDoc,
-    updateDoc,
-    arrayUnion,
-    arrayRemove,
-    collection,
-    serverTimestamp,
+    getFirestore,
     query,
+    setDoc,
+    updateDoc,
     where
 } from "firebase/firestore";
 
 // auth imports
 import {
-    getAuth,
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    GoogleAuthProvider,
     FacebookAuthProvider,
+    getAuth,
+    GoogleAuthProvider,
+    signInWithEmailAndPassword,
     signInWithPopup,
     signOut
 } from "firebase/auth";
@@ -170,6 +169,18 @@ export const updateUserIconColour = async (userId, iconColour) => {
     }
 };
 
+// update user review count
+export const updateUserReviewCount = async (userId, amount) => {
+    const docData = await getUserFromUserId(userId);
+
+    if (!docData) return;
+
+    const updatedReviewCount = docData.reviews ? +docData.reviews + amount : 1;
+
+    const docSnap = await doc(db, "users", userId);
+    await updateDoc(docSnap, {reviews: updatedReviewCount});
+};
+
 // add user bookmark
 export const addUserBookmark = async (userId, restaurant) => {
     if (!userId || !restaurant) return;
@@ -271,14 +282,18 @@ export const addRestaurantReview = async (userId, restaurant, data) => {
 
     await addInteractionToRestaurantDoc(restaurant, "reviews");
 
+    await updateUserReviewCount(userId, 1);
+
     return {id: reviewDocRef.id, ...newReview};
 };
 
 // delete restaurant review
-export const deleteRestaurantReview = async (reviewId) => {
+export const deleteRestaurantReview = async (userId, reviewId) => {
     if (!reviewId) return;
 
     const docRef = await doc(db, "reviews", reviewId);
+
+    await updateUserReviewCount(userId, -1);
 
     await deleteDoc(docRef);
 };
@@ -311,7 +326,10 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
         reviews.push({id: doc.id, ...doc.data()});
     });
 
-    return reviews;
+    return await Promise.all(reviews.map(async (review) => {
+        const {iconColour, displayName, reviews} = await getUserFromUserId(review.userId);
+        return {...review, iconColour, displayName, numberOfReviews: reviews};
+    }));
 };
 
 // get all reviews by user ID
@@ -327,12 +345,10 @@ export const getReviewsByUserId = async (userId) => {
         reviews.push({id: doc.id, ...doc.data()});
     });
 
-    const fullReviewData = await Promise.all(reviews.map(async (review) => {
+    return await Promise.all(reviews.map(async (review) => {
         const {photoUrl, name: restaurantName} = await getRestaurantById(review.restaurantId);
         return {...review, photoUrl, restaurantName};
     }));
-
-    return fullReviewData;
 };
 
 // add reaction to review

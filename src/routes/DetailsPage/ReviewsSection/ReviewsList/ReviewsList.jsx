@@ -13,10 +13,15 @@ import {
     updateReview
 } from "../../../../features/reviews/reviewsSlice";
 import ReviewForm from "../ReviewForm/ReviewForm";
+import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 
 const ReviewsList = ({reviews, userId}) => {
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        console.log(reviews)
+    }, [reviews])
 
     const handleVoteClick = async (reviewId, voteType) => {
         if (!reviews || !userId) return;
@@ -41,7 +46,7 @@ const ReviewsList = ({reviews, userId}) => {
     };
 
     const handleYesClick = async () => {
-        await deleteRestaurantReview(confirmDeleteReviewId);
+        await deleteRestaurantReview(userId, confirmDeleteReviewId);
         dispatch(deleteReview(confirmDeleteReviewId));
         setConfirmDeleteReviewId(null);
     };
@@ -74,7 +79,20 @@ const ReviewsList = ({reviews, userId}) => {
 
             {reviews && [...reviews]
                 .sort((a, b) => b.visitDate - a.visitDate)
-                .map(({id, userId: authorId, title, rating, content, visitDate, reactions}) => {
+                .map(review => {
+                    let {
+                        id,
+                        userId: authorId,
+                        iconColour,
+                        displayName,
+                        title,
+                        rating,
+                        content,
+                        visitDate,
+                        reactions,
+                        numberOfReviews
+                    } = review;
+
                     if (editingReviewId === id) {
                         visitDate = new Date(visitDate)
                             .toISOString()
@@ -106,7 +124,16 @@ const ReviewsList = ({reviews, userId}) => {
                             )}
 
                             <header>
-                                <h3>{title}</h3>
+                                <div className="author-details">
+                                    <UserIcon size="large" colour={iconColour}/>
+
+                                    <div>
+                                        <p className="display-name">{displayName}</p>
+                                        {numberOfReviews && (
+                                            <p>{numberOfReviews} review{numberOfReviews > 1 ? "s" : ""}</p>
+                                        )}
+                                    </div>
+                                </div>
 
                                 {authorId === userId && (
                                     <div className="buttons-container">
@@ -121,6 +148,8 @@ const ReviewsList = ({reviews, userId}) => {
                                 )}
                             </header>
 
+                            <h3>{title}</h3>
+
                             <div className="rating-and-date-container">
                                 <StarRating rating={rating}/>
 
@@ -129,6 +158,7 @@ const ReviewsList = ({reviews, userId}) => {
                                     {new Date(visitDate).toLocaleDateString()}
                                 </p>
                             </div>
+
 
                             <p>{content}</p>
 

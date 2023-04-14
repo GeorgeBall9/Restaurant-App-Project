@@ -80,7 +80,7 @@ export const {
     removeBookmark,
     addCheckedInRestaurant,
     removeCheckedInRestaurant,
-    setCheckedInRestaurants
+    setCheckedInRestaurants,
 } = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;

@@ -50,6 +50,7 @@
 .preview-reviews-container .reviews-container .review-card .container-lhs {
     display: flex;
     gap: 1em;
+    width: 85%;
 }
 
 .preview-reviews-container .reviews-container .review-card .container-lhs > div:first-child {
@@ -61,6 +62,8 @@
     flex-direction: column;
     justify-content: center;
     gap: 0.5em;
+    width: 60%;
+    overflow: hidden;
 }
 
 .preview-reviews-container .reviews-container .review-card .container-lhs .preview p {
@@ -87,6 +90,6 @@
 }
 
 .preview-reviews-container .reviews-container .review-card button .icon {
-    color: grey;
+    color: dimgrey;
     font-size: 1.25rem;
 }

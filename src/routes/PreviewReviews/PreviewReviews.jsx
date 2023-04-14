@@ -37,7 +37,7 @@ const PreviewReviews = () => {
     };
 
     const handleYesClick = async () => {
-        await deleteRestaurantReview(confirmDeleteReviewId);
+        await deleteRestaurantReview(userId, confirmDeleteReviewId);
         dispatch(deleteReview(confirmDeleteReviewId));
         setConfirmDeleteReviewId(null);
     };
@@ -88,6 +88,7 @@ const PreviewReviews = () => {
 
                             <div className="preview">
                                 <h3 style={{margin: 0}}>{title}</h3>
+
                                 <StarRating rating={rating}/>
 
                                 <p>{content}</p>

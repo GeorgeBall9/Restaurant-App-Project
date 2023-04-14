@@ -4,10 +4,11 @@ import {useState} from 'react';
 import StarRating from '../../../../common/components/RestaurantCard/StarRating/StarRating';
 import FormField from "../../../../common/components/FormField/FormField";
 import {addRestaurantReview, updateRestaurantReview} from "../../../../firebase/firebase";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addReview, updateReview} from "../../../../features/reviews/reviewsSlice";
 import {faPen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {selectDisplayName, selectIconColour, selectUserReviewCount} from "../../../../features/user/userSlice";
 
 const defaultFormFields = {
     rating: "",
@@ -19,6 +20,9 @@ const defaultFormFields = {
 const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCancel}) => {
 
     const dispatch = useDispatch();
+
+    const displayName = useSelector(selectDisplayName);
+    const iconColour = useSelector(selectIconColour);
 
     const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
 
@@ -70,11 +74,24 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
             if (edit) {
                 const updatedReview = await updateRestaurantReview(reviewId, data);
-                dispatch(updateReview({reviewId, updatedReview}));
+
+                dispatch(updateReview({
+                    reviewId, updatedReview: {
+                        ...updatedReview,
+                        displayName,
+                        iconColour,
+                    }
+                }));
+
                 handleCancel();
             } else {
                 const newReview = await addRestaurantReview(userId, restaurant, data);
-                dispatch(addReview(newReview));
+
+                dispatch(addReview({
+                    ...newReview,
+                    displayName,
+                    iconColour,
+                }));
             }
 
             setFormData(defaultFormFields);

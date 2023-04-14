@@ -8,6 +8,7 @@ const initialState = {
     iconColour: "",
     bookmarks: [],
     checkedInRestaurants: [],
+    reviews: 0,
 };
 
 const userSlice = createSlice({
@@ -64,6 +65,12 @@ const userSlice = createSlice({
         },
         setCheckedInRestaurants: (state, action) => {
             state.checkedInRestaurants = action.payload.length ? action.payload : [];
+        },
+        addUserReview: state => {
+            state.reviews = state.reviews + 1;
+        },
+        removeUserReview: state => {
+            state.reviews = state.reviews - 1;
         }
     },
 });
@@ -80,7 +87,9 @@ export const {
     removeBookmark,
     addCheckedInRestaurant,
     removeCheckedInRestaurant,
-    setCheckedInRestaurants
+    setCheckedInRestaurants,
+    addUserReview,
+    removeUserReview
 } = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;
@@ -89,4 +98,5 @@ export const selectPhone = state => state.user.phone;
 export const selectIconColour = state => state.user.iconColour;
 export const selectBookmarks = state => state.user.bookmarks;
 export const selectCheckedInRestaurants = state => state.user.checkedInRestaurants;
+export const selectUserReviewCount = state => state.user.reviews;
 export default userSlice.reducer;

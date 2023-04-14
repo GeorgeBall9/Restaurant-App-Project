@@ -3,6 +3,8 @@
     display: flex;
     flex-direction: column;
     gap: 1em;
+    letter-spacing: 0.01rem;
+    line-height: 1rem;
 }
 
 .reviews-container .review {
@@ -19,11 +21,29 @@
 .reviews-container .review header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
     gap: 1em;
+    border-bottom: solid 1px lightgrey;
+    padding-bottom: 1em;
 }
 
-.reviews-container .review header h3 {
+.reviews-container .review header .author-details {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+}
+
+.reviews-container .review header .author-details div p:first-child {
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    margin-bottom: 0.25em;
+}
+
+.reviews-container .review header .author-details div p:last-child {
+    font-size: var(--font-size-smaller);
+    font-weight: var(--font-weight-regular);
+}
+
+.reviews-container .review h3 {
     text-align: left;
     color: var(--primary-theme);
     font-size: var(--font-size-heading);
@@ -41,7 +61,7 @@
 }
 
 .reviews-container .review header div button .icon {
-    color: black;
+    color: dimgrey;
 }
 
 .reviews-container .review header div button .icon:hover {

@@ -37,7 +37,7 @@ const PreviewReviews = () => {
     };
 
     const handleYesClick = async () => {
-        await deleteRestaurantReview(confirmDeleteReviewId);
+        await deleteRestaurantReview(userId, confirmDeleteReviewId);
         dispatch(deleteReview(confirmDeleteReviewId));
         setConfirmDeleteReviewId(null);
     };

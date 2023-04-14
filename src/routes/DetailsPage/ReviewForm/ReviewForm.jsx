@@ -1,6 +1,6 @@
 import './ReviewForm.css';
 import React from "react";
-import {useState} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import StarRating from '../../../common/components/RestaurantCard/StarRating/StarRating';
 import FormField from "../../../common/components/FormField/FormField";
 import {addRestaurantReview} from "../../../firebase/firebase";
@@ -23,6 +23,14 @@ const ReviewForm = ({restaurantId, userId}) => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [hoveredStar, setHoveredStar] = useState(null);
 
+    const formRef = useRef(null);
+
+    useEffect(() => {
+        if (formRef.current) {
+            formRef.current.scrollIntoView({ behaviour: 'smooth' });
+        }
+    }, []);
+
     const handleChange = ({target}) => {
         const {name, value} = target;
         setFormData({...formData, [name]: value});
@@ -40,7 +48,7 @@ const ReviewForm = ({restaurantId, userId}) => {
         }
 
         if (!rating || rating < 1 || rating > 10) {
-            newErrors.rating = 'Rating is required and must be between 1 and 10';
+            newErrors.rating = 'Rating is required and must be between 1 and 5 stars';
         }
 
         console.log(title.length)
@@ -70,7 +78,7 @@ const ReviewForm = ({restaurantId, userId}) => {
 
     return (
         <div className="review-form">
-            <form onSubmit={handleSubmit}>
+            <form ref={formRef} onSubmit={handleSubmit}>
                 <div>
                     <label>
                         Rating:

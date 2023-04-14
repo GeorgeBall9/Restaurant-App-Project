@@ -71,12 +71,12 @@ const ProfilePage = () => {
                         Bookmarks
                     </Link>
 
-                    <Link to="/edit-profile">
+                    <Link to="/check-ins">
                         <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
                         Check ins
                     </Link>
 
-                    <Link to="/edit-profile">
+                    <Link to="/preview-reviews">
                         <FontAwesomeIcon className="icon" icon={faComment}/>
                         Reviews
                     </Link>

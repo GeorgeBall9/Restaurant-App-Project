@@ -51,7 +51,6 @@
 
 .profile-page-container .contributions-container {
     display: flex;
-    flex-wrap: wrap;
     gap: 1em;
 }
 
@@ -65,7 +64,7 @@
     font-weight: var(--font-weight-bold-1);
     font-size: var(--font-size-sub-heading);
     background-color: white;
-    width: 30%;
+    width: 100%;
     padding: 1em 0.5em;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);

@@ -113,17 +113,3 @@ Contact: georgeball14@hotmail.com
     font-size: var(--font-size-icon-large);
     color: #C23B22;
 }
-
-/* restaurant image container */
-.restaurant-card .container-rhs .image-container {
-    width: 90px;
-    height: 80px;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-/* restaurant image */
-.restaurant-card .container-rhs .image-container img {
-    width: 100%;
-    height: 100%;
-}

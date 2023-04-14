@@ -13,7 +13,7 @@ import {hideCheckInConfirmation} from "../checkInConfirmationSlice";
 
 const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
-    const {id} = restaurant;
+    const restaurantId = restaurant?.id;
 
     const dispatch = useDispatch();
 
@@ -23,21 +23,19 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     const [lastCheckIn, setLastCheckIn] = useState(null);
 
     useEffect(() => {
-        if (!id || !checkedInRestaurants.length) return;
-
-        console.log(checkedInRestaurants[0].restaurant.id)
+        if (!restaurantId || !checkedInRestaurants.length) return;
 
         const lastCheckedIn = checkedInRestaurants
-            .filter(checkIn => checkIn.restaurant.id === id)
+            .filter(checkIn => checkIn.restaurantId === restaurantId)
             .sort((a, b) => a.date - b.date)
             .at(-1);
 
         setLastCheckIn(lastCheckedIn ? new Date(lastCheckedIn.date).toLocaleDateString() : null);
-    }, [id, checkedInRestaurants]);
+    }, [restaurantId, checkedInRestaurants]);
 
     const handleYesClick = async () => {
         if (checkedIn) {
-            const checkedInData = await removeRestaurantCheckIn(userId, id);
+            const checkedInData = await removeRestaurantCheckIn(userId, restaurantId);
             dispatch(setCheckedInRestaurants(checkedInData));
         } else {
             const newCheckIn = await addRestaurantCheckIn(userId, restaurant);

@@ -30,7 +30,7 @@ const BookmarkButton = ({restaurant, style}) => {
     useEffect(() => {
         if (!bookmarks || !id) return;
 
-        setIsBookmarked(bookmarks.some(bookmark => bookmark.id === id));
+        setIsBookmarked(bookmarks.some(bookmark => bookmark === id));
     }, [bookmarks, id]);
 
     const handleBookmarkClick = async () => {
@@ -40,7 +40,7 @@ const BookmarkButton = ({restaurant, style}) => {
             dispatch(removeBookmark(id));
             await removeUserBookmark(userId, id);
         } else {
-            dispatch(addBookmark(restaurant));
+            dispatch(addBookmark(id));
             await addUserBookmark(userId, restaurant);
         }
     };

@@ -1,9 +1,14 @@
 import './ReviewForm.css';
 import React from "react";
-import {useState, useRef, useEffect} from 'react';
-import StarRating from '../../../common/components/RestaurantCard/StarRating/StarRating';
-import FormField from "../../../common/components/FormField/FormField";
-import {addRestaurantReview} from "../../../firebase/firebase";
+import {useState} from 'react';
+import StarRating from '../../../../common/components/RestaurantCard/StarRating/StarRating';
+import FormField from "../../../../common/components/FormField/FormField";
+import {addRestaurantReview, updateRestaurantReview} from "../../../../firebase/firebase";
+import {useDispatch, useSelector} from "react-redux";
+import {addReview, updateReview} from "../../../../features/reviews/reviewsSlice";
+import {faPen} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {selectDisplayName, selectIconColour, selectUserReviewCount} from "../../../../features/user/userSlice";
 
 const defaultFormFields = {
     rating: "",
@@ -12,9 +17,14 @@ const defaultFormFields = {
     content: "",
 };
 
-const ReviewForm = ({restaurantId, userId}) => {
+const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCancel}) => {
 
-    const [formData, setFormData] = useState(defaultFormFields);
+    const dispatch = useDispatch();
+
+    const displayName = useSelector(selectDisplayName);
+    const iconColour = useSelector(selectIconColour);
+
+    const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
 
     const {rating, visitDate, title, content} = formData;
 
@@ -22,14 +32,6 @@ const ReviewForm = ({restaurantId, userId}) => {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [hoveredStar, setHoveredStar] = useState(null);
-
-    const formRef = useRef(null);
-
-    useEffect(() => {
-        if (formRef.current) {
-            formRef.current.scrollIntoView({ behaviour: 'smooth' });
-        }
-    }, []);
 
     const handleChange = ({target}) => {
         const {name, value} = target;
@@ -48,10 +50,8 @@ const ReviewForm = ({restaurantId, userId}) => {
         }
 
         if (!rating || rating < 1 || rating > 10) {
-            newErrors.rating = 'Rating is required and must be between 1 and 5 stars';
+            newErrors.rating = 'Rating is required and must be between 1 and 10';
         }
-
-        console.log(title.length)
 
         if (!title || title.length < 5 || title.length > 50) {
             newErrors.title = "Title is required and must be between 5 and 50 characters";
@@ -70,7 +70,30 @@ const ReviewForm = ({restaurantId, userId}) => {
         e.preventDefault();
 
         if (validateForm()) {
-            await addRestaurantReview(userId, restaurantId, formData);
+            const data = {rating, visitDate: +new Date(visitDate), title, content};
+
+            if (edit) {
+                const updatedReview = await updateRestaurantReview(reviewId, data);
+
+                dispatch(updateReview({
+                    reviewId, updatedReview: {
+                        ...updatedReview,
+                        displayName,
+                        iconColour,
+                    }
+                }));
+
+                handleCancel();
+            } else {
+                const newReview = await addRestaurantReview(userId, restaurant, data);
+
+                dispatch(addReview({
+                    ...newReview,
+                    displayName,
+                    iconColour,
+                }));
+            }
+
             setFormData(defaultFormFields);
             setIsSubmitted(true);
         }
@@ -78,7 +101,14 @@ const ReviewForm = ({restaurantId, userId}) => {
 
     return (
         <div className="review-form">
-            <form ref={formRef} onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
+                {edit && (
+                    <h2 style={{margin: 0}}>
+                        Editing
+                        <FontAwesomeIcon icon={faPen} className="edit-icon"/>
+                    </h2>
+                )}
+
                 <div>
                     <label>
                         Rating:
@@ -127,7 +157,15 @@ const ReviewForm = ({restaurantId, userId}) => {
                     {errors.review && <p>{errors.review}</p>}
                 </div>
 
-                <button className="review-submit" type="submit">Submit Review</button>
+                {!edit && <button className="review-submit" type="submit">Submit review</button>}
+
+                {edit && (
+                    <div className="buttons-container">
+                        <button className="review-submit" type="submit">Save</button>
+                        <button onClick={handleCancel} type="button" className="cancel">Cancel</button>
+                    </div>
+                )}
+
             </form>
 
             {isSubmitted && (
@@ -139,5 +177,3 @@ const ReviewForm = ({restaurantId, userId}) => {
         </div>
     );
 };
-
-export default ReviewForm;

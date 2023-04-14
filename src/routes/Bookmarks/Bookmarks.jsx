@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
 import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCard";
+import {getRestaurantById} from "../../firebase/firebase";
 
 export const checkIsOpen = (restaurant) => {
     let {minutes} = restaurant;
@@ -22,7 +23,8 @@ export const checkIsOpen = (restaurant) => {
 
         const minuteRanges = openingMinutes.replaceAll(" ", "").split(",");
 
-        for (const range of minuteRanges) {
+        for (let i = 0; i < minuteRanges.length; i++) {
+            const range = minuteRanges[i];
             const [openMinutes, closeMinutes] = range.split("-");
 
             if (totalMinutes >= +openMinutes && totalMinutes <= +closeMinutes) {
@@ -33,7 +35,7 @@ export const checkIsOpen = (restaurant) => {
     }
 
     return isOpen;
-}
+};
 
 const Bookmarks = () => {
 
@@ -50,14 +52,23 @@ const Bookmarks = () => {
         }
     }, [userId]);
 
-    useEffect(() => {
-        if (!userId) return;
+    const setBookmarkData = async ()  => {
+        const data = await Promise.all(userBookmarks
+            .map(async (bookmark) => await getRestaurantById(bookmark)));
 
-        setBookmarkedRestaurants(userBookmarks.map(bookmark => {
-            const updatedBookmark = {...bookmark};
-            updatedBookmark.isOpen = checkIsOpen(bookmark);
-            return updatedBookmark;
-        }));
+        setBookmarkedRestaurants(data);
+    };
+
+    useEffect(() => {
+        if (!userId || !userBookmarks) return;
+
+        setBookmarkData().then(() => {
+            setBookmarkedRestaurants(bookmarkedRestaurants => bookmarkedRestaurants.map(bookmark => {
+                const updatedBookmark = {...bookmark};
+                updatedBookmark.isOpen = checkIsOpen(bookmark);
+                return updatedBookmark;
+            }));
+        });
     }, [userBookmarks]);
 
     const handleBackClick = () => {
@@ -83,7 +94,9 @@ const Bookmarks = () => {
             </header>
 
             <main className="container">
-                {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants.map(restaurant => (
+                {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants
+                    .sort(a => a.isOpen ? -1 : 1)
+                    .map(restaurant => (
                     <div key={restaurant.id} className="bookmark">
                         {!restaurant.isOpen && (
                             <div className="closed-sign">

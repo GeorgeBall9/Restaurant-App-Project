@@ -19,9 +19,7 @@ import {
 } from "../../../features/checkInConfirmation/checkInConfirmationSlice";
 import {useNavigate} from "react-router-dom";
 
-const CheckInButton = ({restaurant}) => {
-
-    const id = restaurant?.id;
+const CheckInButton = ({restaurantId}) => {
 
     const navigate = useNavigate();
 
@@ -43,7 +41,7 @@ const CheckInButton = ({restaurant}) => {
                 const now = new Date().toLocaleDateString();
                 const dateString = new Date(checkIn.date).toLocaleDateString();
 
-                return checkIn.restaurant.id === id && dateString === now;
+                return checkIn.restaurantId === restaurantId && dateString === now;
             }));
     }, [checkedInRestaurants]);
 

@@ -53,7 +53,7 @@ const userSlice = createSlice({
             state.bookmarks.push(action.payload);
         },
         removeBookmark: (state, action) => {
-            state.bookmarks = state.bookmarks.filter(restaurant => restaurant.id !== action.payload);
+            state.bookmarks = state.bookmarks.filter(bookmark => bookmark !== action.payload);
         },
         addCheckedInRestaurant: (state, action) => {
             state.checkedInRestaurants.push(action.payload);
@@ -80,7 +80,7 @@ export const {
     removeBookmark,
     addCheckedInRestaurant,
     removeCheckedInRestaurant,
-    setCheckedInRestaurants
+    setCheckedInRestaurants,
 } = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;

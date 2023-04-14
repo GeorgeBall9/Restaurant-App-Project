@@ -49,14 +49,14 @@ const Slider = () => {
         },
         onTouchEndOrOnMouseUp: ({ velocity, dir }) => {
             const magnitude = Math.abs(offsetX);
-            const isQuickForwardSwipe = dir === "Left" && Math.abs(velocity) > 0.4;
-            const isQuickBackwardSwipe = dir === "Right" && Math.abs(velocity) > 0.4;
+            const isQuickForwardSwipe = dir === "Left" && Math.abs(velocity) > 0.25;
+            const isQuickBackwardSwipe = dir === "Right" && Math.abs(velocity) > 0.25;
 
             if (!sliderIsActive || activeSlide === 0 && offsetX > 0 || activeSlide === lastSlide && offsetX < 0) {
                 updateStyle();
-            } else if (isQuickForwardSwipe || (offsetX < 0 && magnitude >= 0.4 * positionRef.current)) {
+            } else if (isQuickForwardSwipe || (offsetX < 0 && magnitude >= 0.5 * positionRef.current)) {
                 dispatch(changeSlide("forward"));
-            } else if (isQuickBackwardSwipe || magnitude >= 0.4 * positionRef.current) {
+            } else if (isQuickBackwardSwipe || magnitude >= 0.5 * positionRef.current) {
                 dispatch(changeSlide("backward"));
             } else {
                 updateStyle();

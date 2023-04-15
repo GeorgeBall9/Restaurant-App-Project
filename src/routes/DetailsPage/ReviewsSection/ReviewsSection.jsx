@@ -6,9 +6,10 @@ import {useEffect, useState} from "react";
 import {getReviewsByRestaurantId} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
-import {faMagnifyingGlass, faPhone} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SearchBox from "../../../common/components/SearchBox/SearchBox";
+import StarRating from "../../../common/components/StarRating/StarRating";
+
+import sortImageSrc from "../../../common/images/sort.png";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -47,6 +48,22 @@ const ReviewsSection = ({userId, restaurant}) => {
     return (
         <div className="restaurant-reviews">
             <h2>Reviews</h2>
+
+            <div className="review-stats">
+                <h3>Overall rating</h3>
+
+                <p>{restaurant.rating}</p>
+
+                <StarRating rating={restaurant.rating} hideNumber={true}/>
+            </div>
+
+            <div className="search-container">
+                <SearchBox/>
+
+                <button>
+                    <img src={sortImageSrc} alt="sort"/>
+                </button>
+            </div>
 
             <ReviewsList reviews={displayedReviews} userId={userId}/>
 

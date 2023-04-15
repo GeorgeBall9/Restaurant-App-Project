@@ -1,5 +1,5 @@
 import "./ReviewsList.css";
-import StarRating from "../../../../common/components/RestaurantCard/StarRating/StarRating";
+import StarRating from "../../../../common/components/StarRating/StarRating";
 import {faCircleUp as faSolidCircleUp, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";

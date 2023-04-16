@@ -33,6 +33,9 @@ const options = {
     plugins: {
         legend: {
             display: false
+        },
+        tooltip: {
+            enabled: false
         }
     },
     scales: {
@@ -56,7 +59,8 @@ const options = {
     layout: {
         padding: 0
     },
-    animation: false
+    animation: false,
+    hover: false
 };
 
 const labels = [5, 4, 3, 2, 1];

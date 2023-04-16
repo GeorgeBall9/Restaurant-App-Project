@@ -4,10 +4,9 @@
     border-bottom: solid 1px var(--background-theme);
     border-top: solid 1px var(--background-theme);
     display: flex;
-    padding: 0 1em;
+    padding: 0.5em 0;
     justify-content: space-between;
     align-items: center;
-    gap: 1em;
 }
 
 .restaurant-reviews .review-stats .rating-container {
@@ -16,18 +15,17 @@
     justify-content: center;
     align-items: center;
     gap: 0.5em;
-    width: 50%;
+    width: 40%;
 }
 
 .restaurant-reviews .review-stats .rating-container p {
-    font-size: 1.5rem;
-    /*color: var(--primary-theme);*/
+    font-size: 1.4rem;
     font-weight: var(--font-weight-bold-2);
 }
 
 .restaurant-reviews .review-stats .chart-container {
     position: relative;
-    width: 50%;
+    width: 60%;
     height: 100px;
 }
 

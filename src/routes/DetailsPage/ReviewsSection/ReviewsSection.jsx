@@ -50,6 +50,7 @@ export const options = {
     scales: {
         x: {
             display: false,
+            max: 19
         },
         y: {
             grid: {
@@ -59,9 +60,13 @@ export const options = {
                 display: false
             },
             ticks: {
-                color: "black"
+                color: "black",
+                padding: 0
             }
         }
+    },
+    layout: {
+        padding: 0
     }
 };
 

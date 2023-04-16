@@ -13,7 +13,7 @@ import {useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationArrow} from "@fortawesome/free-solid-svg-icons";
 
-import StarRating from "./StarRating/StarRating";
+import StarRating from "../StarRating/StarRating";
 import RouteButton from "./RouteButton/RouteButton";
 import BookmarkButton from "../BookmarkButton/BookmarkButton";
 import {useSwipeable} from "react-swipeable";

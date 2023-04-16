@@ -1,0 +1,58 @@
+.restaurant-reviews .review-stats {
+    margin-bottom: 1em;
+    background-color: white;
+    border-bottom: solid 1px var(--background-theme);
+    border-top: solid 1px var(--background-theme);
+    display: flex;
+    padding: 0.5em 0;
+    justify-content: space-between;
+}
+
+.restaurant-reviews .review-stats .rating-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    width: 35%;
+}
+
+.restaurant-reviews .review-stats .rating-container p {
+    font-size: 1.4rem;
+    font-weight: var(--font-weight-bold-2);
+}
+
+.restaurant-reviews .review-stats .rating-container span {
+    font-size: var(--font-size-smaller);
+}
+
+.restaurant-reviews .review-stats .chart-container {
+    position: relative;
+    width: 65%;
+    height: 100px;
+}
+
+.restaurant-reviews .search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5em;
+    margin-bottom: 1em;
+}
+
+.restaurant-reviews .search-container .search-box {
+    width: 100%;
+    max-width: 100%;
+}
+
+.restaurant-reviews .search-container button {
+    background: none;
+    border: none;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.restaurant-reviews .search-container button img {
+    width: 100%;
+}

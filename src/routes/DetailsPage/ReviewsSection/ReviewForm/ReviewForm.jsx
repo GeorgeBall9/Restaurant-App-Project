@@ -1,14 +1,13 @@
 import './ReviewForm.css';
-import React from "react";
 import {useState, useEffect, useRef} from 'react';
-import StarRating from '../../../../common/components/RestaurantCard/StarRating/StarRating';
+import StarRating from "../../../../common/components/StarRating/StarRating";
 import FormField from "../../../../common/components/FormField/FormField";
 import {addRestaurantReview, updateRestaurantReview} from "../../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {addReview, updateReview} from "../../../../features/reviews/reviewsSlice";
 import {faPen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {selectDisplayName, selectIconColour, selectUserReviewCount} from "../../../../features/user/userSlice";
+import {selectDisplayName, selectIconColour} from "../../../../features/user/userSlice";
 
 const defaultFormFields = {
     rating: "",

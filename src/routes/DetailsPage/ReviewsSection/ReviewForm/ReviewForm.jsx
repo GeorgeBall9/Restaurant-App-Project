@@ -1,14 +1,13 @@
 import './ReviewForm.css';
-import React from "react";
-import {useState} from 'react';
-import StarRating from '../../../../common/components/StarRating/StarRating';
+import {useState, useEffect, useRef} from 'react';
+import StarRating from '../../../../common/components/RestaurantCard/StarRating/StarRating';
 import FormField from "../../../../common/components/FormField/FormField";
 import {addRestaurantReview, updateRestaurantReview} from "../../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {addReview, updateReview} from "../../../../features/reviews/reviewsSlice";
 import {faPen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {selectDisplayName, selectIconColour, selectUserReviewCount} from "../../../../features/user/userSlice";
+import {selectDisplayName, selectIconColour} from "../../../../features/user/userSlice";
 
 const defaultFormFields = {
     rating: "",
@@ -33,6 +32,14 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [hoveredStar, setHoveredStar] = useState(null);
 
+    const formRef = useRef(null);
+
+    useEffect(() => {
+        if (formRef.current) {
+            formRef.current.scrollIntoView({ behaviour: 'smooth' });
+        }
+    }, []);
+
     const handleChange = ({target}) => {
         const {name, value} = target;
         setFormData({...formData, [name]: value});
@@ -50,7 +57,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
         }
 
         if (!rating || rating < 1 || rating > 10) {
-            newErrors.rating = 'Rating is required and must be between 1 and 10';
+            newErrors.rating = 'Rating is required';
         }
 
         if (!title || title.length < 5 || title.length > 50) {
@@ -101,7 +108,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
     return (
         <div className="review-form">
-            <form onSubmit={handleSubmit}>
+            <form ref={formRef} onSubmit={handleSubmit}>
                 {edit && (
                     <h2 style={{margin: 0}}>
                         Editing

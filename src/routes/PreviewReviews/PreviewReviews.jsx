@@ -8,7 +8,7 @@ import {useEffect, useState} from "react";
 import {deleteRestaurantReview, getReviewsByUserId} from "../../firebase/firebase";
 import {deleteReview, selectReview, selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
 import RestaurantImage from "../../common/components/RestaurantImage/RestaurantImage";
-import StarRating from "../../common/components/RestaurantCard/StarRating/StarRating";
+import StarRating from "../../common/components/StarRating/StarRating";
 
 const PreviewReviews = () => {
 

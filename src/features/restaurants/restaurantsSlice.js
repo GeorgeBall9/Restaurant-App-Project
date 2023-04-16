@@ -24,7 +24,7 @@ const initialState = {
 // const fetchUrl = "http://localhost:8000/data";
 const fetchUrl = "https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng";
 
-const options = {
+export const options = {
     method: 'GET',
     headers: {
         'X-RapidAPI-Key': process.env.REACT_APP_TRAVEL_ADVISOR_API_KEY,

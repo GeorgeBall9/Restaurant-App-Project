@@ -1,9 +1,13 @@
 .restaurant-reviews .review-stats {
     margin-bottom: 1em;
     background-color: white;
-    padding: 1rem;
     border-bottom: solid 1px var(--background-theme);
     border-top: solid 1px var(--background-theme);
+    display: flex;
+    padding: 0 1em;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
 }
 
 .restaurant-reviews .review-stats .rating-container {
@@ -11,6 +15,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+    width: 50%;
 }
 
 .restaurant-reviews .review-stats .rating-container h3 {
@@ -21,6 +26,12 @@
 
 .restaurant-reviews .review-stats .rating-container p {
     font-size: 1.5rem;
+}
+
+.restaurant-reviews .review-stats .chart-container {
+    position: relative;
+    width: 50%;
+    height: 100px;
 }
 
 .restaurant-reviews .search-container {

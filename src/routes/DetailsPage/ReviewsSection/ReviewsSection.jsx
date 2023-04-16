@@ -21,7 +21,7 @@ import {
     Legend,
 } from 'chart.js';
 
-import { Bar } from 'react-chartjs-2';
+import {Bar} from 'react-chartjs-2';
 
 ChartJS.register(
     CategoryScale,
@@ -36,10 +36,12 @@ export const options = {
     indexAxis: 'y',
     elements: {
         bar: {
-            borderWidth: 2,
+            borderWidth: 1,
+            borderSkipped: false,
         },
     },
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
         legend: {
             display: false
@@ -47,7 +49,8 @@ export const options = {
     },
     scales: {
         x: {
-            display: false
+            display: false,
+            stacked: true
         },
         y: {
             grid: {
@@ -55,7 +58,8 @@ export const options = {
             },
             border: {
                 display: false
-            }
+            },
+            stacked: true
         }
     }
 };
@@ -67,8 +71,24 @@ export const data = {
     datasets: [
         {
             data: [5, 6, 19, 3, 2],
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            borderColor: '#C23B22',
+            backgroundColor: '#C23B22',
+            barPercentage: 1,
+            categoryPercentage: 1,
+            maxBarThickness: 8,
+            borderRadius: 8,
+        },
+        {
+            data: [14, 13, 0, 16, 17],
+            borderColor: 'black',
+            backgroundColor: 'white',
+            barPercentage: 1,
+            categoryPercentage: 1,
+            maxBarThickness: 8,
+            borderRadius: {
+                topRight: 8,
+                bottomRight: 8
+            },
         }
     ],
 };
@@ -120,7 +140,9 @@ const ReviewsSection = ({userId, restaurant}) => {
                     <StarRating rating={restaurant.rating} hideNumber={true}/>
                 </div>
 
-                <Bar options={options} data={data} />
+                <div className="chart-container">
+                    <Bar options={options} data={data}/>
+                </div>
             </div>
 
             <div className="search-container">

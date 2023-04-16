@@ -23,14 +23,14 @@ const initialState = {
 // url to fetch restaurants data - held on json server atm - must later be changed to API endpoint
 const fetchUrl = "http://localhost:8000/data";
 // const fetchUrl = "https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng";
-//
-// const options = {
-//     method: 'GET',
-//     headers: {
-//         'X-RapidAPI-Key': process.env.REACT_APP_TRAVEL_ADVISOR_API_KEY,
-//         'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
-//     }
-// };
+
+export const options = {
+    method: 'GET',
+    headers: {
+        'X-RapidAPI-Key': process.env.REACT_APP_TRAVEL_ADVISOR_API_KEY,
+        'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
+    }
+};
 
 // async function to fetch restaurants data
 export const fetchRestaurants = createAsyncThunk(

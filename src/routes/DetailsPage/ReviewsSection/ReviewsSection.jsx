@@ -10,88 +10,8 @@ import SearchBox from "../../../common/components/SearchBox/SearchBox";
 import StarRating from "../../../common/components/StarRating/StarRating";
 
 import sortImageSrc from "../../../common/images/sort.png";
-
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
-
-import {Bar} from 'react-chartjs-2';
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-);
-
-export const options = {
-    indexAxis: 'y',
-    elements: {
-        bar: {
-            borderRadius: 8,
-            borderSkipped: false
-        }
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-        legend: {
-            display: false
-        }
-    },
-    scales: {
-        x: {
-            display: false,
-            max: 19
-        },
-        y: {
-            grid: {
-                display: false
-            },
-            border: {
-                display: false
-            },
-            ticks: {
-                color: "black",
-                padding: 0
-            }
-        }
-    },
-    layout: {
-        padding: 0
-    }
-};
-
-const labels = [5, 4, 3, 2, 1];
-
-export const data = {
-    labels,
-    datasets: [
-        {
-            data: [5, 6, 19, 3, 2],
-            backgroundColor: '#C23B22',
-            barPercentage: 1,
-            categoryPercentage: 1,
-            maxBarThickness: 8,
-        },
-        {
-            data: [19, 19, 19, 19, 19],
-            backgroundColor: '#e8e8e8',
-            barPercentage: 1,
-            categoryPercentage: 1,
-            maxBarThickness: 8,
-            grouped: false,
-        }
-    ],
-};
+import ReviewsGraph from "./ReviewsGraph/ReviewsGraph";
+import {options} from "../../../features/restaurants/restaurantsSlice";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -105,6 +25,7 @@ const ReviewsSection = ({userId, restaurant}) => {
 
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
+    const [reviewsHistogram, setReviewsHistogram] = useState(null);
 
     useEffect(() => {
         if (!restaurantId) return;
@@ -127,6 +48,30 @@ const ReviewsSection = ({userId, restaurant}) => {
         }
     };
 
+    useEffect(() => {
+        if (!restaurant || reviewsHistogram) return;
+
+        // const url = "https://travel-advisor.p.rapidapi.com/restaurants/get-details?location_id=" + restaurant.id +
+        //     "&currency=USD&lang=en_US";
+        //
+        // fetch(url, options)
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         const histogram = data.rating_histogram;
+        //         setReviewsHistogram({...histogram, totalReviews: +data.num_reviews})
+        //     })
+        //     .catch(err => console.error(err));
+
+        setReviewsHistogram({
+            count_1: "34",
+            count_2: "71",
+            count_3: "165",
+            count_4: "449",
+            count_5: "1213",
+            totalReviews: 1932
+        });
+    }, [restaurant]);
+
     return (
         <div className="restaurant-reviews">
             <h2>Reviews</h2>
@@ -136,10 +81,12 @@ const ReviewsSection = ({userId, restaurant}) => {
                     <p>{restaurant.rating}</p>
 
                     <StarRating rating={restaurant.rating} hideNumber={true}/>
+
+                    {reviewsHistogram && <span>{reviewsHistogram.totalReviews} reviews</span>}
                 </div>
 
                 <div className="chart-container">
-                    <Bar options={options} data={data}/>
+                    {reviewsHistogram && <ReviewsGraph reviewsHistogram={reviewsHistogram}/>}
                 </div>
             </div>
 

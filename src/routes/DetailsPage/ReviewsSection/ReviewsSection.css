@@ -1,8 +1,4 @@
 .restaurant-reviews .review-stats {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
     margin-bottom: 1em;
     background-color: white;
     padding: 1rem;
@@ -10,13 +6,20 @@
     border-top: solid 1px var(--background-theme);
 }
 
-.restaurant-reviews .review-stats h3 {
+.restaurant-reviews .review-stats .rating-container {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.restaurant-reviews .review-stats .rating-container h3 {
     font-size: var(--font-size-heading);
     color: var(--primary-theme);
     font-weight: var(--font-weight-bold-2);
 }
 
-.restaurant-reviews .review-stats p {
+.restaurant-reviews .review-stats .rating-container p {
     font-size: 1.5rem;
 }
 
@@ -36,7 +39,7 @@
 .restaurant-reviews .search-container button {
     background: none;
     border: none;
-    width: 25px;
+    width: 20px;
     display: flex;
     justify-content: center;
 }

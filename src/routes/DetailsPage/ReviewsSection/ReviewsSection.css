@@ -11,21 +11,18 @@
 }
 
 .restaurant-reviews .review-stats .rating-container {
-    text-align: left;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 0.5em;
     width: 50%;
 }
 
-.restaurant-reviews .review-stats .rating-container h3 {
-    font-size: var(--font-size-heading);
-    color: var(--primary-theme);
-    font-weight: var(--font-weight-bold-2);
-}
-
 .restaurant-reviews .review-stats .rating-container p {
     font-size: 1.5rem;
+    /*color: var(--primary-theme);*/
+    font-weight: var(--font-weight-bold-2);
 }
 
 .restaurant-reviews .review-stats .chart-container {

@@ -36,9 +36,9 @@ export const options = {
     indexAxis: 'y',
     elements: {
         bar: {
-            borderWidth: 1,
-            borderSkipped: false,
-        },
+            borderRadius: 8,
+            borderSkipped: false
+        }
     },
     responsive: true,
     maintainAspectRatio: false,
@@ -50,7 +50,6 @@ export const options = {
     scales: {
         x: {
             display: false,
-            stacked: true
         },
         y: {
             grid: {
@@ -59,7 +58,9 @@ export const options = {
             border: {
                 display: false
             },
-            stacked: true
+            ticks: {
+                color: "black"
+            }
         }
     }
 };
@@ -71,24 +72,18 @@ export const data = {
     datasets: [
         {
             data: [5, 6, 19, 3, 2],
-            borderColor: '#C23B22',
             backgroundColor: '#C23B22',
             barPercentage: 1,
             categoryPercentage: 1,
             maxBarThickness: 8,
-            borderRadius: 8,
         },
         {
-            data: [14, 13, 0, 16, 17],
-            borderColor: 'black',
-            backgroundColor: 'white',
+            data: [19, 19, 19, 19, 19],
+            backgroundColor: '#e8e8e8',
             barPercentage: 1,
             categoryPercentage: 1,
             maxBarThickness: 8,
-            borderRadius: {
-                topRight: 8,
-                bottomRight: 8
-            },
+            grouped: false,
         }
     ],
 };
@@ -133,8 +128,6 @@ const ReviewsSection = ({userId, restaurant}) => {
 
             <div className="review-stats">
                 <div className="rating-container">
-                    <h3>Overall rating</h3>
-
                     <p>{restaurant.rating}</p>
 
                     <StarRating rating={restaurant.rating} hideNumber={true}/>

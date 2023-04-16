@@ -75,9 +75,8 @@ const ReviewsGraph = ({reviewsHistogram}) => {
         const {count_1, count_2, count_3, count_4, count_5} = reviewsHistogram;
 
         const max = Math.max(count_1, count_2, count_3, count_4, count_5);
-        setMaxRating(max);
-
         options.scales.x.max = max;
+        setMaxRating(max);
     }, [reviewsHistogram]);
 
     const data = {
@@ -106,6 +105,10 @@ const ReviewsGraph = ({reviewsHistogram}) => {
             }
         ],
     };
+
+    if (!maxRating) {
+        return <></>;
+    }
 
     return (
         <Bar options={options} data={data}/>

@@ -1,6 +1,6 @@
 import './ReviewForm.css';
 import {useState, useEffect, useRef} from 'react';
-import StarRating from '../../../../common/components/RestaurantCard/StarRating/StarRating';
+import StarRating from "../../../../common/components/StarRating/StarRating";
 import FormField from "../../../../common/components/FormField/FormField";
 import {addRestaurantReview, updateRestaurantReview} from "../../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";

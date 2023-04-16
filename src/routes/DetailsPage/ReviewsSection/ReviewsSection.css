@@ -20,6 +20,19 @@
 .restaurant-reviews .review-stats .rating-container p {
     font-size: 1.4rem;
     font-weight: var(--font-weight-bold-2);
+    position: relative;
+}
+
+.restaurant-reviews .review-stats .rating-container p button {
+    background: none;
+    border: none;
+    position: absolute;
+    right: -1.2em;
+}
+
+.restaurant-reviews .review-stats .rating-container p button .icon {
+    font-size: var(--font-size-smaller);
+    color: black;
 }
 
 .restaurant-reviews .review-stats .rating-container span {

@@ -12,6 +12,8 @@ import StarRating from "../../../common/components/StarRating/StarRating";
 import sortImageSrc from "../../../common/images/sort.png";
 import ReviewsGraph from "./ReviewsGraph/ReviewsGraph";
 import {options} from "../../../features/restaurants/restaurantsSlice";
+import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -78,7 +80,13 @@ const ReviewsSection = ({userId, restaurant}) => {
 
             <div className="review-stats">
                 <div className="rating-container">
-                    <p>{restaurant.rating}</p>
+                    <p>
+                        {restaurant.rating}
+
+                        <button>
+                            <FontAwesomeIcon icon={faCircleQuestion} className="icon"/>
+                        </button>
+                    </p>
 
                     <StarRating rating={restaurant.rating} hideNumber={true}/>
 

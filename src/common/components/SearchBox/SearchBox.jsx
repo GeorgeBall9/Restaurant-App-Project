@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectSearchQuery, updateSearchQuery} from "../../../features/filters/filtersSlice";
 import {filterResultsBySearchQuery, selectHasMatches} from "../../../features/restaurants/restaurantsSlice";
 
-const SearchBox = ({type = "restaurant"}) => {
+const SearchBox = ({type = "restaurant", matches}) => {
 
     const dispatch = useDispatch();
 
@@ -37,7 +37,13 @@ const SearchBox = ({type = "restaurant"}) => {
                 />
             </div>
 
-            <SearchFeedback hasMatches={hasMatches} searchQuery={searchQuery}/>
+            {type === "restaurant" && (
+                <SearchFeedback hasMatches={hasMatches} searchQuery={searchQuery}/>
+            )}
+
+            {type === "reviews" && (
+                <SearchFeedback hasMatches={matches} searchQuery={searchQuery}/>
+            )}
         </div>
     );
 };

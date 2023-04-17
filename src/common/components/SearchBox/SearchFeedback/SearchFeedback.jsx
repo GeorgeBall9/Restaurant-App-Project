@@ -13,6 +13,8 @@ const SearchFeedback = ({hasMatches, searchQuery}) => {
     // Add a state for the visibility of the no-matches-container
     const [noMatchesVisible, setNoMatchesVisible] = useState(false);
 
+    console.log({hasMatches})
+
     // Use the useEffect hook to handle the fadeout effect
     useEffect(() => {
         if (!hasMatches && searchQuery.length > 0) {

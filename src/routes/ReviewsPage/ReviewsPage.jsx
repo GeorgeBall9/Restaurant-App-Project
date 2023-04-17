@@ -13,6 +13,7 @@ import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice"
 import {faChevronDown, faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectSearchQuery} from "../../features/filters/filtersSlice";
+import SearchFeedback from "../../common/components/SearchBox/SearchFeedback/SearchFeedback";
 
 const ReviewsPage = () => {
 
@@ -30,16 +31,30 @@ const ReviewsPage = () => {
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
     const [restaurant, setRestaurant] = useState(null);
+    const [hasMatches, setHasMatches] = useState(true);
 
     useEffect(() => {
         if (!reviews) return;
 
+        if (!searchQuery) {
+            setDisplayedReviews(reviews);
+            return;
+        }
+
+        const query = searchQuery.toLowerCase();
+
         const searchResults = reviews
-            .filter(review => (
-                review.title.includes(searchQuery) || review.content.includes(searchQuery)
+            .filter(({title, content}) => (
+                title.toLowerCase().includes(query) || content.toLowerCase().includes(query)
             ));
 
-        setDisplayedReviews(searchResults?.length ? searchResults : reviews);
+        if (!searchResults.length) {
+            setHasMatches(false);
+            setDisplayedReviews(reviews);
+        } else {
+            setDisplayedReviews(searchResults);
+            setHasMatches(true);
+        }
     }, [searchQuery, reviews]);
 
     useEffect(() => {
@@ -102,7 +117,7 @@ const ReviewsPage = () => {
                 <h1>Reviews</h1>
             </header>
 
-            <SearchBox/>
+            <SearchBox matches={hasMatches} type="reviews"/>
 
             <div className="buttons-container">
                 <button

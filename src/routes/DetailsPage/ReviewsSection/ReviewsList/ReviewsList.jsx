@@ -148,7 +148,7 @@ const ReviewsList = ({reviews, userId}) => {
                                 )}
                             </header>
 
-                            <h3>{title}</h3>
+
 
                             <div className="rating-and-date-container">
                                 <StarRating rating={rating}/>
@@ -158,6 +158,8 @@ const ReviewsList = ({reviews, userId}) => {
                                     {new Date(visitDate).toLocaleDateString()}
                                 </p>
                             </div>
+
+                            <h3>{title}</h3>
 
 
                             <p>{content}</p>

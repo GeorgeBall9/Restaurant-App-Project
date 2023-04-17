@@ -1,10 +1,16 @@
-.restaurant-reviews .review-stats {
+.restaurant-reviews .review-stats-container {
     margin-bottom: 1em;
     background-color: white;
     border-bottom: solid 1px var(--background-theme);
     border-top: solid 1px var(--background-theme);
+    padding: 0.5em 0 0.75em;
     display: flex;
-    padding: 0.5em 0;
+    flex-direction: column;
+    gap: 0.25em;
+}
+
+.restaurant-reviews .review-stats {
+    display: flex;
     justify-content: space-between;
 }
 
@@ -27,12 +33,17 @@
     background: none;
     border: none;
     position: absolute;
-    right: -1.2em;
+    right: -1.3em;
+    top: 0;
 }
 
 .restaurant-reviews .review-stats .rating-container p button .icon {
     font-size: var(--font-size-smaller);
     color: black;
+}
+
+.restaurant-reviews .review-stats .rating-container p button .icon:hover {
+    color: grey;
 }
 
 .restaurant-reviews .review-stats .rating-container span {
@@ -43,6 +54,29 @@
     position: relative;
     width: 65%;
     height: 100px;
+}
+
+.restaurant-reviews .review-stats-container button {
+    background: none;
+    border: none;
+    color: black;
+    font-size: var(--font-size-smaller);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25em;
+    align-self: flex-end;
+    font-weight: var(--font-weight-bold-2);
+}
+
+.restaurant-reviews .review-stats-container button .icon {
+    color: black;
+    font-size: var(--font-size-sub-heading);
+}
+
+.restaurant-reviews .review-stats-container button:hover,
+.restaurant-reviews .review-stats-container button:hover .icon {
+    color: grey;
 }
 
 .restaurant-reviews .search-container {

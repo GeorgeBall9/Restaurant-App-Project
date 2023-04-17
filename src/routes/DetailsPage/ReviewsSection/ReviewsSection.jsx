@@ -14,6 +14,7 @@ import ReviewsGraph from "./ReviewsGraph/ReviewsGraph";
 import {options} from "../../../features/restaurants/restaurantsSlice";
 import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChevronRight, faPhone} from "@fortawesome/free-solid-svg-icons";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -78,33 +79,40 @@ const ReviewsSection = ({userId, restaurant}) => {
         <div className="restaurant-reviews">
             <h2>Reviews</h2>
 
-            <div className="review-stats">
-                <div className="rating-container">
-                    <p>
-                        {restaurant.rating}
+            <div className="review-stats-container">
+                <div className="review-stats">
+                    <div className="rating-container">
+                        <p>
+                            {restaurant.rating}
 
-                        <button>
-                            <FontAwesomeIcon icon={faCircleQuestion} className="icon"/>
-                        </button>
-                    </p>
+                            <button>
+                                <FontAwesomeIcon icon={faCircleQuestion} className="icon"/>
+                            </button>
+                        </p>
 
-                    <StarRating rating={restaurant.rating} hideNumber={true}/>
+                        <StarRating rating={restaurant.rating} hideNumber={true}/>
 
-                    {reviewsHistogram && <span>{reviewsHistogram.totalReviews} reviews</span>}
+                        {reviewsHistogram && <span>{reviewsHistogram.totalReviews} reviews</span>}
+                    </div>
+
+                    <div className="chart-container">
+                        {reviewsHistogram && <ReviewsGraph reviewsHistogram={reviewsHistogram}/>}
+                    </div>
                 </div>
-
-                <div className="chart-container">
-                    {reviewsHistogram && <ReviewsGraph reviewsHistogram={reviewsHistogram}/>}
-                </div>
-            </div>
-
-            <div className="search-container">
-                <SearchBox/>
 
                 <button>
-                    <img src={sortImageSrc} alt="sort"/>
+                    All reviews
+                    <FontAwesomeIcon icon={faChevronRight} className="icon"/>
                 </button>
             </div>
+
+            {/*<div className="search-container">*/}
+            {/*    <SearchBox/>*/}
+
+            {/*    <button>*/}
+            {/*        <img src={sortImageSrc} alt="sort"/>*/}
+            {/*    </button>*/}
+            {/*</div>*/}
 
             <ReviewsList reviews={displayedReviews} userId={userId}/>
 

@@ -19,10 +19,6 @@ const ReviewsList = ({reviews, userId, preview}) => {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        console.log(reviews)
-    }, [reviews])
-
     const handleVoteClick = async (reviewId, voteType) => {
         if (!reviews || !userId) return;
 

@@ -85,11 +85,13 @@ const ReviewsPage = () => {
     }, [restaurant, navigate]);
 
     useEffect(() => {
-        if (!restaurantId) return;
+        if (!restaurantId || reviews?.length) return;
+
+        console.log("connecting to db")
 
         getReviewsByRestaurantId(restaurantId)
             .then(reviewsFound => dispatch(setReviews(reviewsFound)));
-    }, [restaurantId]);
+    }, [restaurantId, reviews]);
 
     useEffect(() => {
         if (!reviews) return;

@@ -63,10 +63,16 @@
     left: 0;
     margin: var(--margin-align-center);
     width: fit-content;
+    border-bottom: solid 6px var(--primary-theme);
 }
 
 .restaurant-reviews .review-stats .reviews-info p {
     text-align: left;
+    font-weight: var(--font-weight-regular);
+}
+
+.restaurant-reviews .review-stats .reviews-info p strong {
+    font-weight: var(--font-weight-bold-1);
 }
 
 .restaurant-reviews .review-stats .reviews-info button {

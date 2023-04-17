@@ -120,9 +120,9 @@ const ReviewsSection = ({userId, restaurant}) => {
                                     <FontAwesomeIcon icon={faXmark} className="icon"/>
                                 </button>
 
-                                <p>Total Reviews: 1932</p>
-                                <p>TripAdvisor Reviews: 1930</p>
-                                <p>App Reviews: 2</p>
+                                <p><strong>Total Reviews:</strong> 1932</p>
+                                <p><strong>TripAdvisor Reviews:</strong> 1930</p>
+                                <p><strong>App Reviews:</strong> 2</p>
                             </div>
                         )}
 

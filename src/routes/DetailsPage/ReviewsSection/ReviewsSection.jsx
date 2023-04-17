@@ -30,13 +30,8 @@ const ReviewsSection = ({userId, restaurant}) => {
     const [reviewsInfoVisible, setReviewsInfoVisible] = useState(false);
 
     useEffect(() => {
-        console.log(displayedReviews?.length)
         setAllReviewsVisible(displayedReviews?.length <= 3);
     }, [displayedReviews]);
-
-    useEffect(() => {
-        console.log({allReviewsVisible})
-    }, [allReviewsVisible]);
 
     useEffect(() => {
         if (!restaurantId) return;
@@ -60,7 +55,7 @@ const ReviewsSection = ({userId, restaurant}) => {
     };
 
     useEffect(() => {
-        if (!restaurant || !displayedReviews || reviewsHistogram) return;
+        if (!restaurant || !displayedReviews?.length) return;
 
         // const url = "https://travel-advisor.p.rapidapi.com/restaurants/get-details?location_id=" + restaurant.id +
         //     "&currency=USD&lang=en_US";

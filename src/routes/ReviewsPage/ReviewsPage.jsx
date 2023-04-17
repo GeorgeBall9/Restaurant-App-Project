@@ -12,6 +12,7 @@ import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice";
 import {faChevronDown, faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {selectSearchQuery} from "../../features/filters/filtersSlice";
 
 const ReviewsPage = () => {
 
@@ -24,10 +25,22 @@ const ReviewsPage = () => {
     const userId = useSelector(selectUserId);
     const reviews = useSelector(selectReviews);
     const allRestaurants = useSelector(selectAllRestaurants);
+    const searchQuery = useSelector(selectSearchQuery);
 
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
     const [restaurant, setRestaurant] = useState(null);
+
+    useEffect(() => {
+        if (!reviews) return;
+
+        const searchResults = reviews
+            .filter(review => (
+                review.title.includes(searchQuery) || review.content.includes(searchQuery)
+            ));
+
+        setDisplayedReviews(searchResults?.length ? searchResults : reviews);
+    }, [searchQuery, reviews]);
 
     useEffect(() => {
         if (!restaurant) {

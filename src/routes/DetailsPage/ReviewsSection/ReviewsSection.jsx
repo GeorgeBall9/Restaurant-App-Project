@@ -12,6 +12,7 @@ import {options} from "../../../features/restaurants/restaurantsSlice";
 import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronRight, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {selectSearchQuery} from "../../../features/filters/filtersSlice";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -151,7 +152,7 @@ const ReviewsSection = ({userId, restaurant}) => {
                 </button>
             )}
 
-            {isReviewFormVisible && (
+            {allReviewsVisible && isReviewFormVisible && (
                 <ReviewForm restaurant={restaurant} userId={userId}/>
             )}
         </div>

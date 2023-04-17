@@ -36,6 +36,10 @@ const ReviewsSection = ({userId, restaurant}) => {
     }, [displayedReviews]);
 
     useEffect(() => {
+        console.log({allReviewsVisible})
+    }, [allReviewsVisible]);
+
+    useEffect(() => {
         if (!restaurantId) return;
 
         getReviewsByRestaurantId(restaurantId)
@@ -70,48 +74,52 @@ const ReviewsSection = ({userId, restaurant}) => {
         //     })
         //     .catch(err => console.error(err));
 
-        setReviewsHistogram({
+        const reviewsData = {
             count_1: "34",
             count_2: "71",
             count_3: "165",
             count_4: "449",
             count_5: "1213",
             totalReviews: 1932
-        });
+        };
+
+        setReviewsHistogram({...reviewsData});
     }, [restaurant]);
 
     return (
         <div className="restaurant-reviews">
             <h2>Reviews</h2>
 
-            <div className="review-stats-container">
-                <div className="review-stats">
-                    <div className="rating-container">
-                        <p>
-                            {restaurant.rating}
+            {displayedReviews?.length > 0 && (
+                <div className="review-stats-container">
+                    <div className="review-stats">
+                        <div className="rating-container">
+                            <p>
+                                {restaurant.rating}
 
-                            <button>
-                                <FontAwesomeIcon icon={faCircleQuestion} className="icon"/>
-                            </button>
-                        </p>
+                                <button>
+                                    <FontAwesomeIcon icon={faCircleQuestion} className="icon"/>
+                                </button>
+                            </p>
 
-                        <StarRating rating={restaurant.rating} hideNumber={true}/>
+                            <StarRating rating={restaurant.rating} hideNumber={true}/>
 
-                        {reviewsHistogram && <span>{reviewsHistogram.totalReviews} reviews</span>}
+                            {reviewsHistogram && <span>{reviewsHistogram.totalReviews} reviews</span>}
+                        </div>
+
+                        <div className="chart-container">
+                            {reviewsHistogram && <ReviewsGraph reviewsHistogram={reviewsHistogram}/>}
+                        </div>
                     </div>
 
-                    <div className="chart-container">
-                        {reviewsHistogram && <ReviewsGraph reviewsHistogram={reviewsHistogram}/>}
-                    </div>
+                    {!allReviewsVisible && (
+                        <button onClick={() => navigate("/reviews/" + restaurantId)}>
+                            All reviews
+                            <FontAwesomeIcon icon={faChevronRight} className="icon"/>
+                        </button>
+                    )}
                 </div>
-
-                {!allReviewsVisible && (
-                    <button onClick={() => navigate("/reviews/" + restaurantId)}>
-                        All reviews
-                        <FontAwesomeIcon icon={faChevronRight} className="icon"/>
-                    </button>
-                )}
-            </div>
+            )}
 
             <ReviewsList reviews={displayedReviews} userId={userId}/>
 

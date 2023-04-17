@@ -32,6 +32,7 @@ const ReviewsPage = () => {
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
     const [restaurant, setRestaurant] = useState(null);
     const [hasMatches, setHasMatches] = useState(true);
+    const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
 
     useEffect(() => {
         if (!reviews) return;
@@ -107,6 +108,17 @@ const ReviewsPage = () => {
         }
     };
 
+    const handleSortClick = () => {
+        setSortFiltersVisible(sortFiltersVisible => !sortFiltersVisible);
+    };
+
+    const sortReviews = (filter, multiplier) => {
+        setDisplayedReviews(displayedReviews => [...displayedReviews]
+            .sort((a, b) => multiplier * (a[filter] - b[filter])));
+
+        handleSortClick();
+    };
+
     return (
         <div className="reviews-page container">
 
@@ -129,10 +141,21 @@ const ReviewsPage = () => {
                     {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
                 </button>
 
-                <button className="reviews-sort-button">
-                    Sort
-                    <FontAwesomeIcon icon={faChevronDown} className="icon"/>
-                </button>
+                <div>
+                    <button className="reviews-sort-button" onClick={handleSortClick}>
+                        Sort
+                        <FontAwesomeIcon icon={faChevronDown} className="icon"/>
+                    </button>
+
+                    {sortFiltersVisible && (
+                        <div className="sort-filters">
+                            <button onClick={() => sortReviews("rating", -1)}>Highest rated</button>
+                            <button onClick={() => sortReviews("rating", 1)}>Lowest rated</button>
+                            <button onClick={() => sortReviews("visitDate", -1)}>Most recent</button>
+                            <button onClick={() => sortReviews("visitDate", 1)}>Oldest</button>
+                        </div>
+                    )}
+                </div>
             </div>
 
             {isReviewFormVisible && (

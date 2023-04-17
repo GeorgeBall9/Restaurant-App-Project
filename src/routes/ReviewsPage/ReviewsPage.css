@@ -57,9 +57,35 @@
     gap: 0.5em;
 }
 
+.reviews-page > .buttons-container > div {
+    position: relative;
+}
+
+.reviews-page > .buttons-container > div .sort-filters {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reviews-page > .buttons-container > div .sort-filters button {
+    border: none;
+    background: none;
+    text-align: left;
+    padding: 0.5em 0.75em;
+}
+
+.reviews-page > .buttons-container > div .sort-filters button:hover {
+    background: var(--background-theme);
+}
+
 .reviews-page > .buttons-container button {
     font-size: var(--font-size-sub-heading);
     font-weight: var(--font-weight-bold-1);
+    white-space: nowrap;
 }
 
 .reviews-page .buttons-container .write-review-button {
@@ -70,7 +96,6 @@
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: background-color 0.2s;
-    white-space: nowrap;
 }
 
 .reviews-page .buttons-container .reviews-sort-button {

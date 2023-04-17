@@ -7,7 +7,8 @@ import {addReview, updateReview} from "../../../../features/reviews/reviewsSlice
 import {faPen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectDisplayName, selectIconColour} from "../../../../features/user/userSlice";
-import InteractiveStarRating from '../../../../common/components/StarRating/IntearactiveStarRating/InteractiveStarRating';
+import InteractiveStarRating
+    from '../../../../common/components/StarRating/IntearactiveStarRating/InteractiveStarRating';
 
 const defaultFormFields = {
     rating: "",
@@ -35,7 +36,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
     useEffect(() => {
         if (formRef.current) {
-            formRef.current.scrollIntoView({ behaviour: 'smooth' });
+            formRef.current.scrollIntoView({behaviour: 'smooth'});
         }
     }, []);
 
@@ -45,8 +46,8 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     };
 
     const handleStarRatingClick = (value) => {
-        handleChange({target: {name: 'rating', value: value.toString()}});
-    };  
+        handleChange({target: {name: 'rating', value}});
+    };
 
     const validateForm = () => {
         const newErrors = {};
@@ -76,7 +77,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
         e.preventDefault();
 
         if (validateForm()) {
-            const data = {rating, visitDate: +new Date(visitDate), title, content};
+            const data = {rating: +rating, visitDate: +new Date(visitDate), title, content};
 
             if (edit) {
                 const updatedReview = await updateRestaurantReview(reviewId, data);

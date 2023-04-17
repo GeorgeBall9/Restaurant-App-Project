@@ -15,7 +15,7 @@ import {
 import ReviewForm from "../../../routes/DetailsPage/ReviewsSection/ReviewForm/ReviewForm";
 import UserIcon from "../UserIcon/UserIcon";
 
-const ReviewsList = ({reviews, userId}) => {
+const ReviewsList = ({reviews, userId, preview}) => {
 
     const dispatch = useDispatch();
 
@@ -79,6 +79,7 @@ const ReviewsList = ({reviews, userId}) => {
 
             {reviews && [...reviews]
                 .sort((a, b) => b.visitDate - a.visitDate)
+                .slice(0, (preview ? 3 : reviews.length))
                 .map(review => {
                     let {
                         id,

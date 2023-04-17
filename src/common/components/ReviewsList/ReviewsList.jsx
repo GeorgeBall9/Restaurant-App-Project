@@ -74,7 +74,6 @@ const ReviewsList = ({reviews, userId, preview}) => {
             )}
 
             {reviews && [...reviews]
-                .sort((a, b) => b.visitDate - a.visitDate)
                 .slice(0, (preview ? 3 : reviews.length))
                 .map(review => {
                     let {

@@ -112,6 +112,13 @@ const ReviewsPage = () => {
         setSortFiltersVisible(sortFiltersVisible => !sortFiltersVisible);
     };
 
+    const sortReviews = (filter, multiplier) => {
+        setDisplayedReviews(displayedReviews => [...displayedReviews]
+            .sort((a, b) => multiplier * (a[filter] - b[filter])));
+
+        handleSortClick();
+    };
+
     return (
         <div className="reviews-page container">
 
@@ -142,10 +149,10 @@ const ReviewsPage = () => {
 
                     {sortFiltersVisible && (
                         <div className="sort-filters">
-                            <button>Highest rated</button>
-                            <button>Lowest rated</button>
-                            <button>Newest</button>
-                            <button>Oldest</button>
+                            <button onClick={() => sortReviews("rating", -1)}>Highest rated</button>
+                            <button onClick={() => sortReviews("rating", 1)}>Lowest rated</button>
+                            <button onClick={() => sortReviews("visitDate", -1)}>Most recent</button>
+                            <button onClick={() => sortReviews("visitDate", 1)}>Oldest</button>
                         </div>
                     )}
                 </div>

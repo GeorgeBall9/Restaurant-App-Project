@@ -8,6 +8,7 @@ import {addReview, updateReview} from "../../../../features/reviews/reviewsSlice
 import {faPen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectDisplayName, selectIconColour} from "../../../../features/user/userSlice";
+import InteractiveStars from "./InteractiveStars/InteractiveStars";
 
 const defaultFormFields = {
     rating: "",
@@ -120,7 +121,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                     <label>
                         Rating:
 
-                        <StarRating
+                        <InteractiveStars
                             rating={rating}
                             onClick={handleStarRatingClick}
                             hover={hoveredStar}

@@ -25,6 +25,7 @@ import ProfilePage from "./routes/ProfilePage/ProfilePage";
 import Bookmarks from "./routes/Bookmarks/Bookmarks";
 import CheckIns from "./routes/CheckIns/CheckIns";
 import PreviewReviews from "./routes/PreviewReviews/PreviewReviews";
+import ReviewsPage from "./routes/ReviewsPage/ReviewsPage";
 
 const router = createBrowserRouter([
     {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
             {
                 path: "details/:id",
                 element: <DetailsPage/>,
+            },
+            {
+                path: "reviews/:id",
+                element: <ReviewsPage/>,
             },
             {
                 path: "map",

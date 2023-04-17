@@ -17,7 +17,7 @@
     gap: 1.5em;
 }
 
-.review-form .star-rating .icon {
+.review-form .interactive-star-rating .icon {
     font-size: 1rem;
     cursor: pointer;
 }
@@ -28,7 +28,7 @@
     gap: 0.5em;
 }
 
-.review-form form .star-rating,
+.review-form form .interactive-star-rating,
 .review-form form textarea {
     margin-top: 0.75em;
 }

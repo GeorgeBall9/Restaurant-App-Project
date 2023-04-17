@@ -1,19 +1,19 @@
 import "./ReviewsList.css";
-import StarRating from "../../../../common/components/StarRating/StarRating";
+import StarRating from "../StarRating/StarRating";
 import {faCircleUp as faSolidCircleUp, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
-import {addUserReactionToReview, deleteRestaurantReview} from "../../../../firebase/firebase";
+import {addUserReactionToReview, deleteRestaurantReview} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {
     deleteReview,
     deselectReview,
     selectSelectedReviewId,
     updateReview
-} from "../../../../features/reviews/reviewsSlice";
-import ReviewForm from "../ReviewForm/ReviewForm";
-import UserIcon from "../../../../common/components/UserIcon/UserIcon";
+} from "../../../features/reviews/reviewsSlice";
+import ReviewForm from "../../../routes/DetailsPage/ReviewsSection/ReviewForm/ReviewForm";
+import UserIcon from "../UserIcon/UserIcon";
 
 const ReviewsList = ({reviews, userId}) => {
 
@@ -148,7 +148,7 @@ const ReviewsList = ({reviews, userId}) => {
                                 )}
                             </header>
 
-                            <h3>{title}</h3>
+
 
                             <div className="rating-and-date-container">
                                 <StarRating rating={rating}/>
@@ -158,6 +158,8 @@ const ReviewsList = ({reviews, userId}) => {
                                     {new Date(visitDate).toLocaleDateString()}
                                 </p>
                             </div>
+
+                            <h3>{title}</h3>
 
 
                             <p>{content}</p>

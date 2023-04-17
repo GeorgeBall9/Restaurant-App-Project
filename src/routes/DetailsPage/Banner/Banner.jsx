@@ -25,7 +25,7 @@ const Banner = ({restaurant, scrollPosition}) => {
 
     const handleBackClick = () => {
         dispatch(deselectReview());
-        navigate(-1);
+        navigate("/");
     }
 
     return (

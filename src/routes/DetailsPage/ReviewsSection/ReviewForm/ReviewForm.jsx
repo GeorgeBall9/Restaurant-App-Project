@@ -118,7 +118,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                 <div>
                     <label>
                         Rating:
-
                         <InteractiveStarRating
                             rating={rating}
                             onClick={handleStarRatingClick}

@@ -1,19 +1,17 @@
 import "./ReviewsSection.css";
-import ReviewsList from "./ReviewsList/ReviewsList";
+import ReviewsList from "../../../common/components/ReviewsList/ReviewsList";
 import ReviewForm from "./ReviewForm/ReviewForm";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getReviewsByRestaurantId} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
-import SearchBox from "../../../common/components/SearchBox/SearchBox";
 import StarRating from "../../../common/components/StarRating/StarRating";
-
-import sortImageSrc from "../../../common/images/sort.png";
 import ReviewsGraph from "./ReviewsGraph/ReviewsGraph";
 import {options} from "../../../features/restaurants/restaurantsSlice";
 import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChevronRight, faXmark} from "@fortawesome/free-solid-svg-icons";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -28,6 +26,17 @@ const ReviewsSection = ({userId, restaurant}) => {
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
     const [reviewsHistogram, setReviewsHistogram] = useState(null);
+    const [allReviewsVisible, setAllReviewsVisible] = useState(true);
+    const [reviewsInfoVisible, setReviewsInfoVisible] = useState(false);
+
+    useEffect(() => {
+        console.log(displayedReviews?.length)
+        setAllReviewsVisible(displayedReviews?.length <= 3);
+    }, [displayedReviews]);
+
+    useEffect(() => {
+        console.log({allReviewsVisible})
+    }, [allReviewsVisible]);
 
     useEffect(() => {
         if (!restaurantId) return;
@@ -64,56 +73,83 @@ const ReviewsSection = ({userId, restaurant}) => {
         //     })
         //     .catch(err => console.error(err));
 
-        setReviewsHistogram({
+        const reviewsData = {
             count_1: "34",
             count_2: "71",
             count_3: "165",
             count_4: "449",
             count_5: "1213",
             totalReviews: 1932
-        });
+        };
+
+        setReviewsHistogram({...reviewsData});
     }, [restaurant]);
+
+    const handleInfoClick = () => {
+        setReviewsInfoVisible(true);
+    };
+
+    const handleCloseInfoClick = () => {
+        setReviewsInfoVisible(false);
+    };
 
     return (
         <div className="restaurant-reviews">
             <h2>Reviews</h2>
 
-            <div className="review-stats">
-                <div className="rating-container">
-                    <p>
-                        {restaurant.rating}
+            {displayedReviews?.length > 0 && (
+                <div className="review-stats-container">
+                    <div className="review-stats">
+                        <div className="rating-container">
+                            <p>
+                                {restaurant.rating}
 
-                        <button>
-                            <FontAwesomeIcon icon={faCircleQuestion} className="icon"/>
+                                <button onClick={handleInfoClick}>
+                                    <FontAwesomeIcon icon={faCircleQuestion} className="icon"/>
+                                </button>
+                            </p>
+
+                            <StarRating rating={restaurant.rating} hideNumber={true}/>
+
+                            {reviewsHistogram && <span>{reviewsHistogram.totalReviews} reviews</span>}
+                        </div>
+
+                        {reviewsInfoVisible && (
+                            <div className="reviews-info">
+                                <button onClick={handleCloseInfoClick}>
+                                    <FontAwesomeIcon icon={faXmark} className="icon"/>
+                                </button>
+
+                                <p><strong>Total Reviews:</strong> 1932</p>
+                                <p><strong>TripAdvisor Reviews:</strong> 1930</p>
+                                <p><strong>App Reviews:</strong> 2</p>
+                            </div>
+                        )}
+
+                        <div className="chart-container">
+                            {reviewsHistogram && <ReviewsGraph reviewsHistogram={reviewsHistogram}/>}
+                        </div>
+                    </div>
+
+                    {!allReviewsVisible && (
+                        <button onClick={() => navigate("/reviews/" + restaurantId)}>
+                            All reviews
+                            <FontAwesomeIcon icon={faChevronRight} className="icon"/>
                         </button>
-                    </p>
-
-                    <StarRating rating={restaurant.rating} hideNumber={true}/>
-
-                    {reviewsHistogram && <span>{reviewsHistogram.totalReviews} reviews</span>}
+                    )}
                 </div>
-
-                <div className="chart-container">
-                    {reviewsHistogram && <ReviewsGraph reviewsHistogram={reviewsHistogram}/>}
-                </div>
-            </div>
-
-            <div className="search-container">
-                <SearchBox/>
-
-                <button>
-                    <img src={sortImageSrc} alt="sort"/>
-                </button>
-            </div>
+            )}
 
             <ReviewsList reviews={displayedReviews} userId={userId}/>
 
-            <button
-                className="write-review-button"
-                onClick={handleWriteReviewClick}
-            >
-                {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
-            </button>
+            {allReviewsVisible && (
+                <button
+                    className="write-review-button"
+                    onClick={handleWriteReviewClick}
+                >
+                    {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
+                </button>
+            )}
 
             {isReviewFormVisible && (
                 <ReviewForm restaurant={restaurant} userId={userId}/>

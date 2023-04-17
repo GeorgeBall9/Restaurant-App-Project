@@ -1,0 +1,87 @@
+.reviews-page {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    border-bottom: solid 6px var(--primary-theme);
+}
+
+.reviews-page {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.reviews-page header button {
+    border: none;
+    background: none;
+    color: black;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+}
+
+.reviews-page header button .icon {
+    color: black;
+    font-size: var(--font-size-sub-heading);
+    margin-right: 0.25em;
+}
+
+.reviews-page header button:hover,
+.reviews-page header button:hover .icon {
+    color: var(--secondary-theme);
+}
+
+.reviews-page header h1 {
+    color: var(--primary-theme);
+    font-size: var(--font-size-heading);
+    font-weight: var(--font-weight-bold-2);
+    text-align: center;
+}
+
+.reviews-page .search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5em;
+    margin-bottom: 1em;
+}
+
+.reviews-page .search-box {
+    width: 100%;
+    max-width: 100%;
+}
+
+.reviews-page > .buttons-container {
+    display: flex;
+    gap: 0.5em;
+}
+
+.reviews-page > .buttons-container button {
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+}
+
+.reviews-page .buttons-container .write-review-button {
+    background-color: var(--primary-theme);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.reviews-page .buttons-container .reviews-sort-button {
+    background: none;
+    border: solid 2px var(--primary-theme);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    color: var(--primary-theme);
+}
+
+.reviews-page .buttons-container .reviews-sort-button .icon {
+    margin-left: 0.25em;
+    color: var(--primary-theme);
+}

@@ -88,10 +88,6 @@
     line-height: 1.5;
 }
 
-.reviews-container .review:not(:last-child) {
-    margin-bottom: 1rem;
-}
-
 .reviews-container .buttons-container {
     display: flex;
     gap: 0.4em;

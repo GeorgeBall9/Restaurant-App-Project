@@ -10,22 +10,6 @@ const InteractiveStarRating = ({rating, onClick, interactive}) => {
         }
     };
 
-    const getStars = () => {
-        const stars = [];
-        for (let i = 1; i <= 5; i++) {
-            const isFullStar = true;
-            stars.push(
-                <FontAwesomeIcon
-                    key={i}
-                    icon={isFullStar ? faStar : faEmptyStar}
-                    className="icon"
-                    onClick={() => handleClick(i)}
-                />
-            );
-        }
-        return stars;
-    };
-
     return (
         <div className="interactive-star-rating">
             {[...Array(5)].map((_, i) => (

@@ -30,9 +30,7 @@ const ReviewsSection = ({userId, restaurant}) => {
 
     useEffect(() => {
         console.log(displayedReviews?.length)
-        if (displayedReviews?.length > 3) {
-            setAllReviewsVisible(false);
-        }
+        setAllReviewsVisible(displayedReviews?.length <= 3);
     }, [displayedReviews]);
 
     useEffect(() => {

@@ -5,7 +5,33 @@
     gap: 1em;
 }
 
-.reviews-page h2 {
+.reviews-page {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.reviews-page header button {
+    border: none;
+    background: none;
+    color: black;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+}
+
+.reviews-page header button .icon {
+    color: black;
+    font-size: var(--font-size-sub-heading);
+    margin-right: 0.25em;
+}
+
+.reviews-page header button:hover,
+.reviews-page header button:hover .icon {
+    color: var(--secondary-theme);
+}
+
+.reviews-page header h1 {
     color: var(--primary-theme);
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-bold-2);
@@ -20,24 +46,41 @@
     margin-bottom: 1em;
 }
 
-.reviews-page .search-container .search-box {
+.reviews-page .search-box {
     width: 100%;
     max-width: 100%;
 }
 
-.reviews-page .search-container button {
-    background: none;
-    border: none;
-    width: 20px;
+.reviews-page > .buttons-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
 }
 
-.reviews-page .search-container button img {
-    width: 100%;
+.reviews-page > .buttons-container button {
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
 }
 
-.reviews-page .write-review-button {
-    width: fit-content;
-    align-self: center;
+.reviews-page .buttons-container .write-review-button {
+    background-color: var(--primary-theme);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.reviews-page .buttons-container .reviews-sort-button {
+    background: none;
+    border: solid 2px var(--primary-theme);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    color: var(--primary-theme);
+}
+
+.reviews-page .buttons-container .reviews-sort-button .icon {
+    margin-left: 0.25em;
+    color: var(--primary-theme);
 }

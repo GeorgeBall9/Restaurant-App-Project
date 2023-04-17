@@ -1,5 +1,5 @@
 import "./ReviewsSection.css";
-import ReviewsList from "./ReviewsList/ReviewsList";
+import ReviewsList from "../../../common/components/ReviewsList/ReviewsList";
 import ReviewForm from "./ReviewForm/ReviewForm";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
@@ -26,6 +26,13 @@ const ReviewsSection = ({userId, restaurant}) => {
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
     const [reviewsHistogram, setReviewsHistogram] = useState(null);
+    const [allReviewsVisible, setAllReviewsVisible] = useState(true);
+
+    useEffect(() => {
+        if (reviews?.length > 3) {
+            setAllReviewsVisible(true);
+        }
+    }, [reviews]);
 
     useEffect(() => {
         if (!restaurantId) return;
@@ -97,20 +104,24 @@ const ReviewsSection = ({userId, restaurant}) => {
                     </div>
                 </div>
 
-                <button onClick={() => navigate("/reviews/" + restaurantId)}>
-                    All reviews
-                    <FontAwesomeIcon icon={faChevronRight} className="icon"/>
-                </button>
+                {!allReviewsVisible && (
+                    <button onClick={() => navigate("/reviews/" + restaurantId)}>
+                        All reviews
+                        <FontAwesomeIcon icon={faChevronRight} className="icon"/>
+                    </button>
+                )}
             </div>
 
             <ReviewsList reviews={displayedReviews} userId={userId}/>
 
-            <button
-                className="write-review-button"
-                onClick={handleWriteReviewClick}
-            >
-                {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
-            </button>
+            {allReviewsVisible && (
+                <button
+                    className="write-review-button"
+                    onClick={handleWriteReviewClick}
+                >
+                    {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
+                </button>
+            )}
 
             {isReviewFormVisible && (
                 <ReviewForm restaurant={restaurant} userId={userId}/>

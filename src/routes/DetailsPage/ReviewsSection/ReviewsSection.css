@@ -78,3 +78,15 @@
 .restaurant-reviews .review-stats-container button:hover .icon {
     color: grey;
 }
+
+.restaurant-reviews .write-review-button {
+    background-color: var(--primary-theme);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+    margin-top: 1.5em;
+}

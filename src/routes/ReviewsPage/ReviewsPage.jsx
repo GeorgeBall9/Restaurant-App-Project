@@ -1,5 +1,5 @@
 import "./ReviewsPage.css";
-import ReviewsList from "../DetailsPage/ReviewsSection/ReviewsList/ReviewsList";
+import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
 import ReviewForm from "../DetailsPage/ReviewsSection/ReviewForm/ReviewForm";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useNavigate, useParams} from "react-router-dom";
@@ -10,7 +10,8 @@ import {getRestaurantById, getReviewsByRestaurantId} from "../../firebase/fireba
 import {selectUserId} from "../../features/user/userSlice";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice";
-import sortImageSrc from "../../common/images/sort.png";
+import {faChevronDown, faChevronLeft} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const ReviewsPage = () => {
 
@@ -79,24 +80,32 @@ const ReviewsPage = () => {
     return (
         <div className="reviews-page container">
 
-            <h2>Reviews</h2>
+            <header>
+                <button onClick={() => navigate("/details/" + restaurantId)}>
+                    <FontAwesomeIcon icon={faChevronLeft} className="icon"/>
+                    Back
+                </button>
 
-            <div className="search-container">
-                <SearchBox/>
+                <h1>Reviews</h1>
+            </header>
 
-                <button>
-                    <img src={sortImageSrc} alt="sort"/>
+            <SearchBox/>
+
+            <div className="buttons-container">
+                <button
+                    className="write-review-button"
+                    onClick={handleWriteReviewClick}
+                >
+                    {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
+                </button>
+
+                <button className="reviews-sort-button">
+                    Sort
+                    <FontAwesomeIcon icon={faChevronDown} className="icon"/>
                 </button>
             </div>
 
             <ReviewsList reviews={displayedReviews} userId={userId}/>
-
-            <button
-                className="write-review-button"
-                onClick={handleWriteReviewClick}
-            >
-                {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
-            </button>
 
             {isReviewFormVisible && (
                 <ReviewForm restaurant={restaurant} userId={userId}/>

@@ -1,4 +1,4 @@
-import ReviewsList from "./ReviewsSection/ReviewsList/ReviewsList";
+import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
 import ReviewForm from "./ReviewsSection/ReviewForm/ReviewForm";
 
 import './DetailsPage.css';

@@ -15,13 +15,9 @@ import {
 import ReviewForm from "../../../routes/DetailsPage/ReviewsSection/ReviewForm/ReviewForm";
 import UserIcon from "../UserIcon/UserIcon";
 
-const ReviewsList = ({reviews, userId}) => {
+const ReviewsList = ({reviews, userId, preview}) => {
 
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        console.log(reviews)
-    }, [reviews])
 
     const handleVoteClick = async (reviewId, voteType) => {
         if (!reviews || !userId) return;
@@ -79,6 +75,7 @@ const ReviewsList = ({reviews, userId}) => {
 
             {reviews && [...reviews]
                 .sort((a, b) => b.visitDate - a.visitDate)
+                .slice(0, (preview ? 3 : reviews.length))
                 .map(review => {
                     let {
                         id,

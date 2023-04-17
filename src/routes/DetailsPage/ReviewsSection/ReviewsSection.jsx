@@ -12,6 +12,7 @@ import {options} from "../../../features/restaurants/restaurantsSlice";
 import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronRight, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {selectSearchQuery} from "../../../features/filters/filtersSlice";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -30,13 +31,8 @@ const ReviewsSection = ({userId, restaurant}) => {
     const [reviewsInfoVisible, setReviewsInfoVisible] = useState(false);
 
     useEffect(() => {
-        console.log(displayedReviews?.length)
         setAllReviewsVisible(displayedReviews?.length <= 3);
     }, [displayedReviews]);
-
-    useEffect(() => {
-        console.log({allReviewsVisible})
-    }, [allReviewsVisible]);
 
     useEffect(() => {
         if (!restaurantId) return;
@@ -60,7 +56,7 @@ const ReviewsSection = ({userId, restaurant}) => {
     };
 
     useEffect(() => {
-        if (!restaurant || reviewsHistogram) return;
+        if (!restaurant || !displayedReviews?.length) return;
 
         // const url = "https://travel-advisor.p.rapidapi.com/restaurants/get-details?location_id=" + restaurant.id +
         //     "&currency=USD&lang=en_US";
@@ -79,11 +75,11 @@ const ReviewsSection = ({userId, restaurant}) => {
             count_3: "165",
             count_4: "449",
             count_5: "1213",
-            totalReviews: 1932
+            totalReviews: 1932 + displayedReviews.length
         };
 
         setReviewsHistogram({...reviewsData});
-    }, [restaurant]);
+    }, [restaurant, displayedReviews]);
 
     const handleInfoClick = () => {
         setReviewsInfoVisible(true);
@@ -120,9 +116,14 @@ const ReviewsSection = ({userId, restaurant}) => {
                                     <FontAwesomeIcon icon={faXmark} className="icon"/>
                                 </button>
 
-                                <p><strong>Total Reviews:</strong> 1932</p>
-                                <p><strong>TripAdvisor Reviews:</strong> 1930</p>
-                                <p><strong>App Reviews:</strong> 2</p>
+                                <p><strong>Total Reviews:</strong> {reviewsHistogram.totalReviews}</p>
+
+                                <p>
+                                    <strong>TripAdvisor Reviews: </strong>
+                                    {reviewsHistogram.totalReviews - displayedReviews.length}
+                                </p>
+
+                                <p><strong>App Reviews:</strong> {displayedReviews.length}</p>
                             </div>
                         )}
 
@@ -140,7 +141,7 @@ const ReviewsSection = ({userId, restaurant}) => {
                 </div>
             )}
 
-            <ReviewsList reviews={displayedReviews} userId={userId}/>
+            <ReviewsList reviews={displayedReviews} userId={userId} preview={true}/>
 
             {allReviewsVisible && (
                 <button
@@ -151,7 +152,7 @@ const ReviewsSection = ({userId, restaurant}) => {
                 </button>
             )}
 
-            {isReviewFormVisible && (
+            {allReviewsVisible && isReviewFormVisible && (
                 <ReviewForm restaurant={restaurant} userId={userId}/>
             )}
         </div>

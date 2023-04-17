@@ -105,11 +105,11 @@ const ReviewsPage = () => {
                 </button>
             </div>
 
-            <ReviewsList reviews={displayedReviews} userId={userId}/>
-
             {isReviewFormVisible && (
                 <ReviewForm restaurant={restaurant} userId={userId}/>
             )}
+
+            <ReviewsList reviews={displayedReviews} userId={userId}/>
         </div>
     );
 };

@@ -29,10 +29,11 @@ const ReviewsSection = ({userId, restaurant}) => {
     const [allReviewsVisible, setAllReviewsVisible] = useState(true);
 
     useEffect(() => {
-        if (reviews?.length > 3) {
-            setAllReviewsVisible(true);
+        console.log(displayedReviews?.length)
+        if (displayedReviews?.length > 3) {
+            setAllReviewsVisible(false);
         }
-    }, [reviews]);
+    }, [displayedReviews]);
 
     useEffect(() => {
         if (!restaurantId) return;

@@ -152,16 +152,3 @@
     padding: 0.25rem 1.75rem;
     font-size: var(--font-size-sub-heading);
 }
-
-.write-review-button {
-    background-color: var(--primary-theme);
-    color: white;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: var(--font-size-sub-heading);
-    font-weight: var(--font-weight-bold-1);
-    transition: background-color 0.2s;
-    margin: 1rem;
-}

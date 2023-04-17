@@ -1,10 +1,17 @@
-.restaurant-reviews .review-stats {
+.restaurant-reviews .review-stats-container {
     margin-bottom: 1em;
     background-color: white;
     border-bottom: solid 1px var(--background-theme);
     border-top: solid 1px var(--background-theme);
+    padding: 0.5em 0 0.75em;
     display: flex;
-    padding: 0.5em 0;
+    flex-direction: column;
+    gap: 0.25em;
+    position: relative;
+}
+
+.restaurant-reviews .review-stats {
+    display: flex;
     justify-content: space-between;
 }
 
@@ -17,7 +24,7 @@
     width: 35%;
 }
 
-.restaurant-reviews .review-stats .rating-container p {
+.restaurant-reviews .review-stats .rating-container > p {
     font-size: 1.4rem;
     font-weight: var(--font-weight-bold-2);
     position: relative;
@@ -27,12 +34,55 @@
     background: none;
     border: none;
     position: absolute;
-    right: -1.2em;
+    right: -1.3em;
+    top: 0;
+    padding: 0.1em;
 }
 
 .restaurant-reviews .review-stats .rating-container p button .icon {
     font-size: var(--font-size-smaller);
     color: black;
+}
+
+.restaurant-reviews .review-stats .rating-container p button .icon:hover {
+    color: grey;
+}
+
+.restaurant-reviews .review-stats .reviews-info {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    padding: 1em;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    z-index: 10;
+    top: 0.5em;
+    right: 0;
+    left: 0;
+    margin: var(--margin-align-center);
+    width: fit-content;
+    border-bottom: solid 6px var(--primary-theme);
+}
+
+.restaurant-reviews .review-stats .reviews-info p {
+    text-align: left;
+    font-weight: var(--font-weight-regular);
+}
+
+.restaurant-reviews .review-stats .reviews-info p strong {
+    font-weight: var(--font-weight-bold-1);
+}
+
+.restaurant-reviews .review-stats .reviews-info button {
+    position: absolute;
+    right: 0.5em;
+    top: 0.5em;
+}
+
+.restaurant-reviews .review-stats .reviews-info button .icon {
+    color: var(--primary-theme);
 }
 
 .restaurant-reviews .review-stats .rating-container span {
@@ -45,27 +95,37 @@
     height: 100px;
 }
 
-.restaurant-reviews .search-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5em;
-    margin-bottom: 1em;
-}
-
-.restaurant-reviews .search-container .search-box {
-    width: 100%;
-    max-width: 100%;
-}
-
-.restaurant-reviews .search-container button {
+.restaurant-reviews .review-stats-container button {
     background: none;
     border: none;
-    width: 20px;
+    color: black;
+    font-size: var(--font-size-smaller);
     display: flex;
+    align-items: center;
     justify-content: center;
+    gap: 0.25em;
+    align-self: flex-end;
+    font-weight: var(--font-weight-bold-2);
 }
 
-.restaurant-reviews .search-container button img {
-    width: 100%;
+.restaurant-reviews .review-stats-container button .icon {
+    color: black;
+    font-size: var(--font-size-sub-heading);
+}
+
+.restaurant-reviews .review-stats-container button:hover,
+.restaurant-reviews .review-stats-container button:hover .icon {
+    color: grey;
+}
+
+.restaurant-reviews .write-review-button {
+    background-color: var(--primary-theme);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+    margin-top: 1.5em;
 }

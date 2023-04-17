@@ -1,6 +1,5 @@
 import './ReviewForm.css';
 import {useState, useEffect, useRef} from 'react';
-import StarRating from "../../../../common/components/StarRating/StarRating";
 import FormField from "../../../../common/components/FormField/FormField";
 import {addRestaurantReview, updateRestaurantReview} from "../../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
@@ -8,6 +7,7 @@ import {addReview, updateReview} from "../../../../features/reviews/reviewsSlice
 import {faPen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectDisplayName, selectIconColour} from "../../../../features/user/userSlice";
+import InteractiveStarRating from '../../../../common/components/StarRating/IntearactiveStarRating/InteractiveStarRating';
 
 const defaultFormFields = {
     rating: "",
@@ -30,7 +30,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     const [errors, setErrors] = useState({});
 
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [hoveredStar, setHoveredStar] = useState(null);
 
     const formRef = useRef(null);
 
@@ -47,7 +46,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
     const handleStarRatingClick = (value) => {
         handleChange({target: {name: 'rating', value: value.toString()}});
-    };
+    };  
 
     const validateForm = () => {
         const newErrors = {};
@@ -119,11 +118,9 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                 <div>
                     <label>
                         Rating:
-
-                        <StarRating
+                        <InteractiveStarRating
                             rating={rating}
                             onClick={handleStarRatingClick}
-                            hover={hoveredStar}
                             interactive={true}
                         />
                     </label>

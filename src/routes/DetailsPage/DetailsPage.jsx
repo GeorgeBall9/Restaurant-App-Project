@@ -5,7 +5,7 @@ import './DetailsPage.css';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
-import StarRating from '../../common/components/RestaurantCard/StarRating/StarRating';
+import StarRating from '../../common/components/StarRating/StarRating';
 import {useState, useEffect} from 'react';
 
 import {

@@ -11,7 +11,7 @@ import ReviewsGraph from "./ReviewsGraph/ReviewsGraph";
 import {options} from "../../../features/restaurants/restaurantsSlice";
 import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
+import {faChevronRight, faXmark} from "@fortawesome/free-solid-svg-icons";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -27,6 +27,7 @@ const ReviewsSection = ({userId, restaurant}) => {
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
     const [reviewsHistogram, setReviewsHistogram] = useState(null);
     const [allReviewsVisible, setAllReviewsVisible] = useState(true);
+    const [reviewsInfoVisible, setReviewsInfoVisible] = useState(false);
 
     useEffect(() => {
         console.log(displayedReviews?.length)
@@ -84,6 +85,14 @@ const ReviewsSection = ({userId, restaurant}) => {
         setReviewsHistogram({...reviewsData});
     }, [restaurant]);
 
+    const handleInfoClick = () => {
+        setReviewsInfoVisible(true);
+    };
+
+    const handleCloseInfoClick = () => {
+        setReviewsInfoVisible(false);
+    };
+
     return (
         <div className="restaurant-reviews">
             <h2>Reviews</h2>
@@ -95,7 +104,7 @@ const ReviewsSection = ({userId, restaurant}) => {
                             <p>
                                 {restaurant.rating}
 
-                                <button>
+                                <button onClick={handleInfoClick}>
                                     <FontAwesomeIcon icon={faCircleQuestion} className="icon"/>
                                 </button>
                             </p>
@@ -104,6 +113,18 @@ const ReviewsSection = ({userId, restaurant}) => {
 
                             {reviewsHistogram && <span>{reviewsHistogram.totalReviews} reviews</span>}
                         </div>
+
+                        {reviewsInfoVisible && (
+                            <div className="reviews-info">
+                                <button onClick={handleCloseInfoClick}>
+                                    <FontAwesomeIcon icon={faXmark} className="icon"/>
+                                </button>
+
+                                <p>Total Reviews: 1932</p>
+                                <p>TripAdvisor Reviews: 1930</p>
+                                <p>App Reviews: 2</p>
+                            </div>
+                        )}
 
                         <div className="chart-container">
                             {reviewsHistogram && <ReviewsGraph reviewsHistogram={reviewsHistogram}/>}

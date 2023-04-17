@@ -78,28 +78,3 @@
 .restaurant-reviews .review-stats-container button:hover .icon {
     color: grey;
 }
-
-.restaurant-reviews .search-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5em;
-    margin-bottom: 1em;
-}
-
-.restaurant-reviews .search-container .search-box {
-    width: 100%;
-    max-width: 100%;
-}
-
-.restaurant-reviews .search-container button {
-    background: none;
-    border: none;
-    width: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.restaurant-reviews .search-container button img {
-    width: 100%;
-}

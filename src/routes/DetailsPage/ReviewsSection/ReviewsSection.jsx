@@ -6,15 +6,12 @@ import {useEffect, useState} from "react";
 import {getReviewsByRestaurantId} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
-import SearchBox from "../../../common/components/SearchBox/SearchBox";
 import StarRating from "../../../common/components/StarRating/StarRating";
-
-import sortImageSrc from "../../../common/images/sort.png";
 import ReviewsGraph from "./ReviewsGraph/ReviewsGraph";
 import {options} from "../../../features/restaurants/restaurantsSlice";
 import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronRight, faPhone} from "@fortawesome/free-solid-svg-icons";
+import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -100,19 +97,11 @@ const ReviewsSection = ({userId, restaurant}) => {
                     </div>
                 </div>
 
-                <button>
+                <button onClick={() => navigate("/reviews/" + restaurantId)}>
                     All reviews
                     <FontAwesomeIcon icon={faChevronRight} className="icon"/>
                 </button>
             </div>
-
-            {/*<div className="search-container">*/}
-            {/*    <SearchBox/>*/}
-
-            {/*    <button>*/}
-            {/*        <img src={sortImageSrc} alt="sort"/>*/}
-            {/*    </button>*/}
-            {/*</div>*/}
 
             <ReviewsList reviews={displayedReviews} userId={userId}/>
 

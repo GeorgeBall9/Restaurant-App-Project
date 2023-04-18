@@ -8,8 +8,9 @@ import Shaders from "mapbox-gl/src/shaders/shaders";
 import ShareButton from "./ShareButton/ShareButton";
 import {deselectReview} from "../../../features/reviews/reviewsSlice";
 import {useDispatch} from "react-redux";
+import { forwardRef } from "react";
 
-const Banner = ({restaurant, scrollPosition}) => {
+const Banner = forwardRef(({restaurant, scrollPosition}, ref) => {
 
     const navigate = useNavigate();
 
@@ -29,7 +30,7 @@ const Banner = ({restaurant, scrollPosition}) => {
     }
 
     return (
-        <div className="banner container" style={style}>
+        <div className="banner container" style={style} ref={ref}>
             <button className="back-button" onClick={handleBackClick} style={bannerButtonsStyle}>
                 <FontAwesomeIcon icon={faChevronLeft} className="icon" style={bannerButtonsStyle}/>
                 Back
@@ -42,6 +43,6 @@ const Banner = ({restaurant, scrollPosition}) => {
             </div>
         </div>
     );
-};
+});
 
 export default Banner;

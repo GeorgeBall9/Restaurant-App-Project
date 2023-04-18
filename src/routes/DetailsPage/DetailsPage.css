@@ -66,10 +66,17 @@
     font-weight: var(--font-weight-bold-2);
 }
 
-.details-page .image-and-info-container .restaurant-info .details-page-navigation {
+.details-page-navigation {
     display: flex;
+    position: sticky;
+    top: 50px;
     gap: 0.5em;
+    padding:  0.5rem;
+    background-color: white;
+    width: 100%;
+    border-bottom: 1px solid lightgrey;
 }
+/* Commented in case not happy with details nav location
 
 .details-page .image-and-info-container .restaurant-info .details-page-navigation button {
     background: none;
@@ -89,7 +96,7 @@
     border-bottom-color: white;
     color: white;
     opacity: 1;
-}
+} */
 
 .details-page .details-container {
     padding: 1rem;

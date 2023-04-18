@@ -53,9 +53,6 @@ const DetailsPage = () => {
     const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
     const [activeNavLink, setActiveNavLink] = useState("Website");
-    const [navTop, setNavTop] = useState(0);
-
-    const bannerRef = useRef(null);
 
     useEffect(() => {
         if (!restaurant) {
@@ -93,22 +90,6 @@ const DetailsPage = () => {
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
-    useEffect(() => {
-        const updateNavTop = () => {
-            if (bannerRef.current) {
-                const bannerHeight = bannerRef.current.clientHeight;
-                setNavTop(bannerHeight);
-            }
-        };
-
-        updateNavTop();
-        window.addEventListener("resize", updateNavTop);
-
-        return () => {
-            window.removeEventListener("resize", updateNavTop);
         };
     }, []);
 
@@ -202,7 +183,7 @@ const DetailsPage = () => {
         <div className="details-page container">
             {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn} />}
 
-            <Banner ref={bannerRef} restaurant={restaurant} scrollPosition={scrollPosition} />
+            <Banner restaurant={restaurant} scrollPosition={scrollPosition} />
 
             <div className="image-and-info-container">
                 <div className="backdrop" style={{ backgroundImage: `url(${photoUrl})` }}></div>
@@ -237,7 +218,7 @@ const DetailsPage = () => {
                 </div>
             </div>
 
-            <div className="details-page-navigation" style={{ top: navTop }}>
+            <div className="details-page-navigation">
                 {navLinksText.map((text, i) => (
                     <DetailsNavLink
                         key={i}

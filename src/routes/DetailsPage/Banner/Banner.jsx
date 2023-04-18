@@ -10,7 +10,7 @@ import {deselectReview} from "../../../features/reviews/reviewsSlice";
 import {useDispatch} from "react-redux";
 import { forwardRef } from "react";
 
-const Banner = forwardRef(({restaurant, scrollPosition}, ref) => {
+const Banner = ({restaurant, scrollPosition}) => {
 
     const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ const Banner = forwardRef(({restaurant, scrollPosition}, ref) => {
     }
 
     return (
-        <div className="banner container" style={style} ref={ref}>
+        <div className="banner container" style={style}>
             <button className="back-button" onClick={handleBackClick} style={bannerButtonsStyle}>
                 <FontAwesomeIcon icon={faChevronLeft} className="icon" style={bannerButtonsStyle}/>
                 Back
@@ -43,6 +43,6 @@ const Banner = forwardRef(({restaurant, scrollPosition}, ref) => {
             </div>
         </div>
     );
-});
+};
 
 export default Banner;

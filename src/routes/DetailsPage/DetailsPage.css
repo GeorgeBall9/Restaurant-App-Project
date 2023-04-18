@@ -69,7 +69,7 @@
 .details-page-navigation {
     display: flex;
     position: sticky;
-    top: 50px;
+    top: 46px;
     gap: 0.5em;
     padding:  0.5rem;
     background-color: white;

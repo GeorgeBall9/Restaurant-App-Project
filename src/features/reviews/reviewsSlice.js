@@ -1,8 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     reviews: [],
     selectedReviewId: null,
+    sortFilter: "Most recent"
 };
 
 export const reviewsSlice = createSlice({
@@ -33,12 +34,29 @@ export const reviewsSlice = createSlice({
         },
         deselectReview: state => {
             state.selectedReviewId = null;
+        },
+        sortReviews: (state, action) => {
+            const {text, filter, multiplier} = action.payload;
+            console.log(text, filter, multiplier)
+            console.log([...state.reviews].sort((a, b) => multiplier * (a[filter] - b[filter]))
+                .map(review => review.rating))
+            state.reviews = [...state.reviews].sort((a, b) => multiplier * (a[filter] - b[filter]));
+            state.sortFilter = text;
         }
     }
 })
 
 // Action creators are generated for each case reducer function
-export const {setReviews, addReview, deleteReview, updateReview, selectReview, deselectReview} = reviewsSlice.actions
+export const {
+    setReviews,
+    addReview,
+    deleteReview,
+    updateReview,
+    selectReview,
+    deselectReview,
+    sortReviews
+} = reviewsSlice.actions
 export const selectReviews = state => state.reviews.reviews;
 export const selectSelectedReviewId = state => state.reviews.selectedReviewId;
+export const selectSortFilter = state => state.reviews.sortFilter;
 export default reviewsSlice.reducer

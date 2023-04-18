@@ -44,7 +44,7 @@ const ReviewsSection = ({userId, restaurant}) => {
     useEffect(() => {
         if (!reviews) return;
 
-        setDisplayedReviews(reviews);
+        setDisplayedReviews([...reviews].sort((a, b) => b.visitDate - a.visitDate));
     }, [reviews]);
 
     const handleWriteReviewClick = () => {
@@ -87,6 +87,10 @@ const ReviewsSection = ({userId, restaurant}) => {
 
     const handleCloseInfoClick = () => {
         setReviewsInfoVisible(false);
+    };
+
+    const handleAllReviewsClick = () => {
+        navigate("/reviews/" + restaurantId);
     };
 
     return (
@@ -133,7 +137,7 @@ const ReviewsSection = ({userId, restaurant}) => {
                     </div>
 
                     {!allReviewsVisible && (
-                        <button onClick={() => navigate("/reviews/" + restaurantId)}>
+                        <button onClick={handleAllReviewsClick}>
                             All reviews
                             <FontAwesomeIcon icon={faChevronRight} className="icon"/>
                         </button>
@@ -141,7 +145,11 @@ const ReviewsSection = ({userId, restaurant}) => {
                 </div>
             )}
 
-            <ReviewsList reviews={displayedReviews} userId={userId} preview={true}/>
+            <ReviewsList
+                reviews={displayedReviews}
+                userId={userId}
+                preview={true}
+            />
 
             {allReviewsVisible && (
                 <button
@@ -154,6 +162,12 @@ const ReviewsSection = ({userId, restaurant}) => {
 
             {allReviewsVisible && isReviewFormVisible && (
                 <ReviewForm restaurant={restaurant} userId={userId}/>
+            )}
+
+            {!allReviewsVisible && (
+                <button className="all-reviews-button" onClick={handleAllReviewsClick}>
+                    See all reviews
+                </button>
             )}
         </div>
     );

@@ -4,7 +4,7 @@ import ReviewForm from "../DetailsPage/ReviewsSection/ReviewForm/ReviewForm";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
+import {selectReviews, selectSortFilter, setReviews} from "../../features/reviews/reviewsSlice";
 import {useEffect, useState} from "react";
 import {getRestaurantById, getReviewsByRestaurantId} from "../../firebase/firebase";
 import {selectUserId} from "../../features/user/userSlice";
@@ -14,6 +14,7 @@ import {faChevronDown, faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectSearchQuery} from "../../features/filters/filtersSlice";
 import SearchFeedback from "../../common/components/SearchBox/SearchFeedback/SearchFeedback";
+import SortFilterButton from "./SortFilterButton/SortFilterButton";
 
 const ReviewsPage = () => {
 
@@ -27,6 +28,7 @@ const ReviewsPage = () => {
     const reviews = useSelector(selectReviews);
     const allRestaurants = useSelector(selectAllRestaurants);
     const searchQuery = useSelector(selectSearchQuery);
+    const sortFilterSelected = useSelector(selectSortFilter);
 
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
@@ -88,8 +90,6 @@ const ReviewsPage = () => {
     useEffect(() => {
         if (!restaurantId || reviews?.length) return;
 
-        console.log("connecting to db")
-
         getReviewsByRestaurantId(restaurantId)
             .then(reviewsFound => dispatch(setReviews(reviewsFound)));
     }, [restaurantId, reviews]);
@@ -112,12 +112,10 @@ const ReviewsPage = () => {
         setSortFiltersVisible(sortFiltersVisible => !sortFiltersVisible);
     };
 
-    const sortReviews = (filter, multiplier) => {
-        setDisplayedReviews(displayedReviews => [...displayedReviews]
-            .sort((a, b) => multiplier * (a[filter] - b[filter])));
-
-        handleSortClick();
-    };
+    useEffect(() => {
+        if (!displayedReviews) return;
+        console.log({displayedReviews: displayedReviews.map(review => review.rating)})
+    }, [displayedReviews])
 
     return (
         <div className="reviews-page container">
@@ -149,10 +147,33 @@ const ReviewsPage = () => {
 
                     {sortFiltersVisible && (
                         <div className="sort-filters">
-                            <button onClick={() => sortReviews("rating", -1)}>Highest rated</button>
-                            <button onClick={() => sortReviews("rating", 1)}>Lowest rated</button>
-                            <button onClick={() => sortReviews("visitDate", -1)}>Most recent</button>
-                            <button onClick={() => sortReviews("visitDate", 1)}>Oldest</button>
+                            <SortFilterButton
+                                text="Highest rated"
+                                filter="rating"
+                                multiplier={-1}
+                                active={sortFilterSelected === "Highest rated"}
+                            />
+
+                            <SortFilterButton
+                                text="Lowest rated"
+                                filter="rating"
+                                multiplier={1}
+                                active={sortFilterSelected === "Lowest rated"}
+                            />
+
+                            <SortFilterButton
+                                text="Most recent"
+                                filter="visitDate"
+                                multiplier={-1}
+                                active={sortFilterSelected === "Most recent"}
+                            />
+
+                            <SortFilterButton
+                                text="Oldest"
+                                filter="visitDate"
+                                multiplier={1}
+                                active={sortFilterSelected === "Oldest"}
+                            />
                         </div>
                     )}
                 </div>

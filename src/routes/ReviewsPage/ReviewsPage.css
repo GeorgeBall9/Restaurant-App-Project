@@ -78,7 +78,12 @@
     padding: 0.5em 0.75em;
 }
 
-.reviews-page > .buttons-container > div .sort-filters button:hover {
+.reviews-page > .buttons-container > div .sort-filters button.active {
+    background: var(--primary-theme);
+    color: white;
+}
+
+.reviews-page > .buttons-container > div .sort-filters button:hover:not(.active) {
     background: var(--background-theme);
 }
 

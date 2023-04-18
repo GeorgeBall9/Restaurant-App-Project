@@ -1,6 +1,8 @@
 .review-form {
     position: relative;
+    margin-top: 1em;
 }
+
 .review-form button {
     font-weight: var(--font-weight-bold-1);
 }
@@ -68,8 +70,11 @@
     transition: background-color 0.3s;
 }
 
-.review-form .review-submit:hover {
+.review-form .buttons-container .review-submit:hover,
+.review-form .buttons-container .cancel:hover {
     background-color: var(--secondary-theme);
+    border-color: var(--secondary-theme);
+    color: white;
 }
 
 .review-form .review-form-container.blurred {

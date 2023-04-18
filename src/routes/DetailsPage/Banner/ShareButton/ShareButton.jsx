@@ -1,13 +1,15 @@
 import "./ShareButton.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
-import {faLink, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faCircleCheck, faLink, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {faFacebookF, faTwitter, faWhatsapp} from "@fortawesome/free-brands-svg-icons";
 import {useState} from "react";
+import {Link} from "react-router-dom";
 
 const ShareButton = ({id, style}) => {
 
     const [popupIsVisible, setPopupIsVisible] = useState(false);
+    const [linkCopied, setLinkCopied] = useState(false);
 
     const handleClick = () => {
         console.log("sharing to social media");
@@ -16,6 +18,11 @@ const ShareButton = ({id, style}) => {
 
     const handleCloseClick = () => {
         setPopupIsVisible(false);
+    };
+
+    const handleCopyLinkClick = () => {
+        navigator.clipboard.writeText("https://restaurant-app-team22.netlify.app/details/" + id)
+            .then(() => setLinkCopied(true));
     };
 
     return (
@@ -40,35 +47,35 @@ const ShareButton = ({id, style}) => {
 
                     <div className="buttons-container">
                         <div className="button-container">
-                            <button className="copy-link-button">
+                            <Link
+                                to={"https://www.facebook.com/share.php?u=https://restaurant-app-team22.netlify.app/details/" + id}
+                                className="copy-link-button"
+                            >
                                 <FontAwesomeIcon icon={faFacebookF} className="icon"/>
-                            </button>
+                            </Link>
 
                             <p>Facebook</p>
                         </div>
 
                         <div className="button-container">
-                            <button className="copy-link-button">
+                            <Link
+                                to={"https://twitter.com/intent/tweet?url=https://restaurant-app-team22.netlify.app/details/" + id}
+                                className="copy-link-button"
+                            >
                                 <FontAwesomeIcon icon={faTwitter} className="icon"/>
-                            </button>
+                            </Link>
 
                             <p>Twitter</p>
                         </div>
 
                         <div className="button-container">
-                            <button className="copy-link-button">
-                                <FontAwesomeIcon icon={faWhatsapp} className="icon"/>
+                            <button onClick={handleCopyLinkClick} className="copy-link-button">
+                                {!linkCopied && <FontAwesomeIcon icon={faLink} className="icon"/>}
+
+                                {linkCopied && <FontAwesomeIcon icon={faCheck} className="icon"/>}
                             </button>
 
-                            <p>WhatsApp</p>
-                        </div>
-
-                        <div className="button-container">
-                            <button className="copy-link-button">
-                                <FontAwesomeIcon icon={faLink} className="icon"/>
-                            </button>
-
-                            <p>Copy Link</p>
+                            <p>{linkCopied ? "Copied" : "Copy Link"}</p>
                         </div>
                     </div>
                 </div>

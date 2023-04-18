@@ -38,7 +38,7 @@ const Banner = ({restaurant, scrollPosition}) => {
             <div className="action-button-container">
                 <BookmarkButton restaurant={restaurant} style={bannerButtonsStyle}/>
 
-                <ShareButton style={bannerButtonsStyle}/>
+                <ShareButton id={restaurant?.id} style={bannerButtonsStyle}/>
             </div>
         </div>
     );

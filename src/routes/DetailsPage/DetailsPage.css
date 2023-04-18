@@ -68,6 +68,7 @@
 
 .details-page .image-and-info-container .restaurant-info .details-page-navigation {
     display: flex;
+    gap: 0.5em;
 }
 
 .details-page .image-and-info-container .restaurant-info .details-page-navigation button {
@@ -78,10 +79,10 @@
     font-weight: var(--font-weight-bold-1);
     letter-spacing: 0.05rem;
     font-size: var(--font-size-smaller);
-    padding: 0.4em;
+    padding: 0.5em 0 0.25em;
     width: 100%;
     opacity: 0.7;
-    transition: all 0.35s;
+    transition: all 0.35s ease-in;
 }
 
 .details-page .image-and-info-container .restaurant-info .details-page-navigation button.active {

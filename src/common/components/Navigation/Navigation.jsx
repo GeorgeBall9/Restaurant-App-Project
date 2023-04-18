@@ -16,7 +16,7 @@ import {
 } from "../../../features/filters/filtersSlice";
 import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
 import LocationButton from "../../../features/location/LocationButton/LocationButton";
-import LocationOptions from "../../../features/location/LocationOptions/LocationOptions";
+import LocationOptions from "../../../features/location/LocationButton/LocationOptions/LocationOptions";
 import {selectLocationOptionsOpen} from "../../../features/location/locationSlice";
 import {showOverlay} from "../../../features/overlay/overlaySlice";
 

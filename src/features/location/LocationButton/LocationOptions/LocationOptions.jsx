@@ -2,13 +2,13 @@ import "./LocationOptions.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationArrow, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import {
-    selectUsingCurrentLocation, setUsingCurrentLocation, setUsingCustomLocation,
+    selectUsingCurrentLocation, setLocationDescription, setUsingCurrentLocation, setUsingCustomLocation,
     toggleLocationOptions,
     updateUserPosition,
-} from "../locationSlice";
+} from "../../locationSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useState, useEffect} from "react";
-import {hideSpinner, showSpinner} from "../../spinner/spinnerSlice";
+import {hideSpinner, showSpinner} from "../../../spinner/spinnerSlice";
 
 const LocationOptions = () => {
 
@@ -67,6 +67,7 @@ const LocationOptions = () => {
                 const {longitude, latitude} = data.result;
                 dispatch(updateUserPosition({longitude, latitude}));
                 dispatch(setUsingCustomLocation());
+                dispatch(setLocationDescription(postcode));
             })
             .catch(error => {
                 console.error(error);

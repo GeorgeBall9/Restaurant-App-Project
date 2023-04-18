@@ -16,7 +16,7 @@ const Banner = ({restaurant, scrollPosition}) => {
     const dispatch = useDispatch();
 
     const style = scrollPosition > 20
-        ? {position: 'fixed', backgroundColor: 'rgba(224,220,220,0.9)'}
+        ? {position: 'fixed', backgroundColor: 'white'}
         : {position: 'absolute', backgroundColor: 'transparent'};
 
     const bannerButtonsStyle = scrollPosition > 20

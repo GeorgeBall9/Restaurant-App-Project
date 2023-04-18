@@ -31,7 +31,9 @@ import {selectUserId} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
 import {getRestaurantById} from "../../firebase/firebase";
 import ReviewsSection from "./ReviewsSection/ReviewsSection";
-import {selectSelectedReviewId} from "../../features/reviews/reviewsSlice";
+import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
+
+const navLinksText = ["Website", "About", "Photos", "Hours", "Details", "Reviews"];
 
 const DetailsPage = () => {
 
@@ -50,6 +52,7 @@ const DetailsPage = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
+    const [activeNavLink, setActiveNavLink] = useState("Website");
 
     useEffect(() => {
         if (!restaurant) {
@@ -167,6 +170,15 @@ const DetailsPage = () => {
 
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
+    const handleNavLinkClick = (text) => {
+        setActiveNavLink(text);
+        const rect = document.getElementById(text).getBoundingClientRect();
+        window.scrollTo({
+            top: rect.top - 50,
+            behavior: "smooth"
+        })
+    };
+
     return (
         <div className="details-page container">
             {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn}/>}
@@ -202,12 +214,23 @@ const DetailsPage = () => {
                     )}
 
                     <div className="open-status">{isOpen ? 'Open Now' : 'Closed'}</div>
+
+                    <div className="details-page-navigation">
+                        {navLinksText.map((text, i) => (
+                            <DetailsNavLink
+                                key={i}
+                                active={activeNavLink === text}
+                                handleClick={handleNavLinkClick}
+                                text={text}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
 
             <div className="details-container">
                 {website && (
-                    <div className="website">
+                    <div id="Website" className="website">
                         <h2>Website</h2>
                         <Link to={website}>
                             {getDomainName(website)}
@@ -217,7 +240,7 @@ const DetailsPage = () => {
                 )}
 
                 {description && (
-                    <div className="description">
+                    <div id="About" className="description">
                         <h2>About</h2>
 
                         <p>
@@ -240,12 +263,12 @@ const DetailsPage = () => {
                     </div>
                 )}
 
-                <div className="pictures">
+                <div id="Photos" className="pictures">
                     <h2>Photos</h2>
                     <p>No photos available.</p>
                 </div>
 
-                <div className="hours">
+                <div id="Hours" className="hours">
                     <h2>Opening Times</h2>
 
                     {displayedHours.map((hour, index) => (
@@ -253,7 +276,7 @@ const DetailsPage = () => {
                     ))}
                 </div>
 
-                <div className="more-details">
+                <div id="Details" className="more-details">
                     <h2>More Details</h2>
 
                     <div>
@@ -285,7 +308,9 @@ const DetailsPage = () => {
                     </div>
                 </div>
 
-                <ReviewsSection userId={userId} restaurant={restaurant}/>
+                <div id="Reviews">
+                    <ReviewsSection userId={userId} restaurant={restaurant}/>
+                </div>
             </div>
         </div>
     );

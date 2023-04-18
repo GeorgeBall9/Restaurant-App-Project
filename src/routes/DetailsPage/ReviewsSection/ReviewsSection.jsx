@@ -5,14 +5,13 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getReviewsByRestaurantId} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
-import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
+import {selectReviews, setReviews, sortReviews} from "../../../features/reviews/reviewsSlice";
 import StarRating from "../../../common/components/StarRating/StarRating";
 import ReviewsGraph from "./ReviewsGraph/ReviewsGraph";
 import {options} from "../../../features/restaurants/restaurantsSlice";
 import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronRight, faXmark} from "@fortawesome/free-solid-svg-icons";
-import {selectSearchQuery} from "../../../features/filters/filtersSlice";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -89,6 +88,10 @@ const ReviewsSection = ({userId, restaurant}) => {
         setReviewsInfoVisible(false);
     };
 
+    const handleAllReviewsClick = () => {
+        navigate("/reviews/" + restaurantId);
+    };
+
     return (
         <div className="restaurant-reviews">
             <h2>Reviews</h2>
@@ -133,7 +136,7 @@ const ReviewsSection = ({userId, restaurant}) => {
                     </div>
 
                     {!allReviewsVisible && (
-                        <button onClick={() => navigate("/reviews/" + restaurantId)}>
+                        <button onClick={handleAllReviewsClick}>
                             All reviews
                             <FontAwesomeIcon icon={faChevronRight} className="icon"/>
                         </button>
@@ -141,7 +144,11 @@ const ReviewsSection = ({userId, restaurant}) => {
                 </div>
             )}
 
-            <ReviewsList reviews={displayedReviews} userId={userId} preview={true}/>
+            <ReviewsList
+                reviews={displayedReviews}
+                userId={userId}
+                preview={true}
+            />
 
             {allReviewsVisible && (
                 <button
@@ -154,6 +161,12 @@ const ReviewsSection = ({userId, restaurant}) => {
 
             {allReviewsVisible && isReviewFormVisible && (
                 <ReviewForm restaurant={restaurant} userId={userId}/>
+            )}
+
+            {!allReviewsVisible && (
+                <button className="all-reviews-button" onClick={handleAllReviewsClick}>
+                    See all reviews
+                </button>
             )}
         </div>
     );

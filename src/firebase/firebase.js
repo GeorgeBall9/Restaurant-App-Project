@@ -15,7 +15,8 @@ import {
     query,
     setDoc,
     updateDoc,
-    where
+    where,
+    orderBy
 } from "firebase/firestore";
 
 // auth imports
@@ -316,7 +317,9 @@ export const updateRestaurantReview = async (reviewId, updatedData) => {
 // get all reviews by restaurant ID
 export const getReviewsByRestaurantId = async (restaurantId) => {
     const reviewsCollectionRef = collection(db, "reviews");
-    const q = query(reviewsCollectionRef, where("restaurantId", "==", restaurantId));
+    const q = query(reviewsCollectionRef,
+        where("restaurantId", "==", restaurantId),
+        orderBy("visitDate", "desc"));
 
     const querySnapshot = await getDocs(q);
 
@@ -335,7 +338,9 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
 // get all reviews by user ID
 export const getReviewsByUserId = async (userId) => {
     const reviewsCollectionRef = collection(db, "reviews");
-    const q = query(reviewsCollectionRef, where("userId", "==", userId));
+    const q = query(reviewsCollectionRef,
+        where("userId", "==", userId),
+        orderBy("visitDate", "desc"));
 
     const querySnapshot = await getDocs(q);
 
@@ -388,7 +393,7 @@ export const addUserReactionToReview = async (userId, reviewId, reaction) => {
 export const createRestaurantDoc = async (restaurant) => {
     if (!restaurant) return;
 
-    const docRef = await doc(db,"restaurants", restaurant.id);
+    const docRef = await doc(db, "restaurants", restaurant.id);
 
     await setDoc(docRef, {...restaurant}, {merge: true});
 

@@ -31,8 +31,9 @@ import {selectUserId} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
 import {getRestaurantById} from "../../firebase/firebase";
 import ReviewsSection from "./ReviewsSection/ReviewsSection";
-import {selectSelectedReviewId} from "../../features/reviews/reviewsSlice";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
+
+const navLinksText = ["Website", "About", "Photos", "Hours", "Details", "Reviews"];
 
 const DetailsPage = () => {
 
@@ -51,7 +52,7 @@ const DetailsPage = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
-    const [activeNavLink, setActiveNavLink] = useState("website");
+    const [activeNavLink, setActiveNavLink] = useState("Website");
 
     useEffect(() => {
         if (!restaurant) {
@@ -170,6 +171,9 @@ const DetailsPage = () => {
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
     const handleNavLinkClick = (text) => {
+        const activeLinkIndex = navLinksText.indexOf(activeNavLink);
+        const newActiveLinkIndex = navLinksText.indexOf(text);
+        console.log(activeLinkIndex, newActiveLinkIndex)
         setActiveNavLink(text);
     };
 
@@ -210,14 +214,14 @@ const DetailsPage = () => {
                     <div className="open-status">{isOpen ? 'Open Now' : 'Closed'}</div>
 
                     <div className="details-page-navigation">
-                        {["Website", "About", "Photos", "Hours", "Details", "Reviews"]
-                            .map(text => (
-                                <DetailsNavLink
-                                    active={activeNavLink === text}
-                                    handleClick={handleNavLinkClick}
-                                    text={text}
-                                />
-                            ))}
+                        {navLinksText.map((text, i) => (
+                            <DetailsNavLink
+                                key={i}
+                                active={activeNavLink === text}
+                                handleClick={handleNavLinkClick}
+                                text={text}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

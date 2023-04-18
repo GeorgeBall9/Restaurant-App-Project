@@ -73,18 +73,21 @@
 .details-page .image-and-info-container .restaurant-info .details-page-navigation button {
     background: none;
     border: none;
-    border-bottom: solid 3px transparent;
+    color: white;
+    border-bottom: solid 3px rgba(255, 255, 255, 0);
     font-weight: var(--font-weight-bold-1);
     letter-spacing: 0.05rem;
     font-size: var(--font-size-smaller);
-    color: lightgrey;
     padding: 0.4em;
     width: 100%;
+    opacity: 0.7;
+    transition: all 0.35s;
 }
 
 .details-page .image-and-info-container .restaurant-info .details-page-navigation button.active {
     border-bottom-color: white;
     color: white;
+    opacity: 1;
 }
 
 .details-page .details-container {

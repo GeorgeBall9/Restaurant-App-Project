@@ -5,14 +5,13 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getReviewsByRestaurantId} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
-import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
+import {selectReviews, setReviews, sortReviews} from "../../../features/reviews/reviewsSlice";
 import StarRating from "../../../common/components/StarRating/StarRating";
 import ReviewsGraph from "./ReviewsGraph/ReviewsGraph";
 import {options} from "../../../features/restaurants/restaurantsSlice";
 import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronRight, faXmark} from "@fortawesome/free-solid-svg-icons";
-import {selectSearchQuery} from "../../../features/filters/filtersSlice";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -44,7 +43,7 @@ const ReviewsSection = ({userId, restaurant}) => {
     useEffect(() => {
         if (!reviews) return;
 
-        setDisplayedReviews([...reviews].sort((a, b) => b.visitDate - a.visitDate));
+        setDisplayedReviews(reviews);
     }, [reviews]);
 
     const handleWriteReviewClick = () => {

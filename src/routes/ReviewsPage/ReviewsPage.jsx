@@ -4,7 +4,7 @@ import ReviewForm from "../DetailsPage/ReviewsSection/ReviewForm/ReviewForm";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {selectReviews, selectSortFilter, setReviews} from "../../features/reviews/reviewsSlice";
+import {selectReviews, selectSortFilter, setReviews, sortReviews} from "../../features/reviews/reviewsSlice";
 import {useEffect, useState} from "react";
 import {getRestaurantById, getReviewsByRestaurantId} from "../../firebase/firebase";
 import {selectUserId} from "../../features/user/userSlice";
@@ -111,11 +111,6 @@ const ReviewsPage = () => {
     const handleSortClick = () => {
         setSortFiltersVisible(sortFiltersVisible => !sortFiltersVisible);
     };
-
-    useEffect(() => {
-        if (!displayedReviews) return;
-        console.log({displayedReviews: displayedReviews.map(review => review.rating)})
-    }, [displayedReviews])
 
     return (
         <div className="reviews-page container">

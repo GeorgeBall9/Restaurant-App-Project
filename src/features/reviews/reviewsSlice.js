@@ -37,9 +37,6 @@ export const reviewsSlice = createSlice({
         },
         sortReviews: (state, action) => {
             const {text, filter, multiplier} = action.payload;
-            console.log(text, filter, multiplier)
-            console.log([...state.reviews].sort((a, b) => multiplier * (a[filter] - b[filter]))
-                .map(review => review.rating))
             state.reviews = [...state.reviews].sort((a, b) => multiplier * (a[filter] - b[filter]));
             state.sortFilter = text;
         }

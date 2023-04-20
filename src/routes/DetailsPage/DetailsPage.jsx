@@ -6,7 +6,7 @@ import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
 import StarRating from '../../common/components/StarRating/StarRating';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 
 import {
     faLocationDot,
@@ -53,6 +53,7 @@ const DetailsPage = () => {
     const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
     const [activeNavLink, setActiveNavLink] = useState("Website");
+    const [navigationStyle, setNavigationStyle] = useState({top: 0});
 
     useEffect(() => {
         if (!restaurant) {
@@ -172,18 +173,30 @@ const DetailsPage = () => {
 
     const handleNavLinkClick = (text) => {
         setActiveNavLink(text);
-        const rect = document.getElementById(text).getBoundingClientRect();
+
+        const elementPosition = document.getElementById(text).offsetTop;
+        const bannerHeight = document.getElementById("banner").getBoundingClientRect().height;
+        const navHeight = document.getElementById("details-page-nav").getBoundingClientRect().height;
+
         window.scrollTo({
-            top: rect.top - 50,
+            top: elementPosition - (bannerHeight + navHeight + 15),
             behavior: "smooth"
-        })
+        });
+    };
+
+    const setNavTopPosition = (top) => {
+        setNavigationStyle(navigationStyle => {
+            const style = {...navigationStyle};
+            style.top = top;
+            return style;
+        });
     };
 
     return (
         <div className="details-page container">
             {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn}/>}
 
-            <Banner restaurant={restaurant} scrollPosition={scrollPosition}/>
+            <Banner restaurant={restaurant} scrollPosition={scrollPosition} setNavTopPosition={setNavTopPosition}/>
 
             <div className="image-and-info-container">
                 <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
@@ -215,23 +228,25 @@ const DetailsPage = () => {
 
                     <div className="open-status">{isOpen ? 'Open Now' : 'Closed'}</div>
 
-                    <div className="details-page-navigation">
-                        {navLinksText.map((text, i) => (
-                            <DetailsNavLink
-                                key={i}
-                                active={activeNavLink === text}
-                                handleClick={handleNavLinkClick}
-                                text={text}
-                            />
-                        ))}
-                    </div>
                 </div>
+            </div>
+
+            <div id="details-page-nav" className="details-page-navigation" style={navigationStyle}>
+                {navLinksText.map((text, i) => (
+                    <DetailsNavLink
+                        key={i}
+                        active={activeNavLink === text}
+                        handleClick={handleNavLinkClick}
+                        text={text}
+                    />
+                ))}
             </div>
 
             <div className="details-container">
                 {website && (
                     <div id="Website" className="website">
                         <h2>Website</h2>
+
                         <Link to={website}>
                             {getDomainName(website)}
                             <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
@@ -239,29 +254,32 @@ const DetailsPage = () => {
                     </div>
                 )}
 
-                {description && (
-                    <div id="About" className="description">
-                        <h2>About</h2>
 
-                        <p>
-                            {isExpanded
-                                ?
+                <div id="About" className="description">
+                    <h2>About</h2>
+
+                    <p>
+                        {description ? (
+                            isExpanded ? (
                                 description
-                                :
+                            ) : (
                                 description.slice(0, 200) + (description.length > 100 ? '...' : '')
-                            }
-                        </p>
-
-                        {description.length > 200 && (
-                            <button
-                                className="read-more-button"
-                                onClick={handleToggleDescription}
-                            >
-                                {toggleLabel}
-                            </button>
+                            )
+                        ) : (
+                            'No description available.'
                         )}
-                    </div>
-                )}
+                    </p>
+
+                    {description.length > 200 && (
+                        <button
+                            className="read-more-button"
+                            onClick={handleToggleDescription}
+                        >
+                            {toggleLabel}
+                        </button>
+                    )}
+                </div>
+
 
                 <div id="Photos" className="pictures">
                     <h2>Photos</h2>

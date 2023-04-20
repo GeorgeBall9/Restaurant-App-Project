@@ -66,29 +66,36 @@
     font-weight: var(--font-weight-bold-2);
 }
 
-.details-page .image-and-info-container .restaurant-info .details-page-navigation {
+.details-page-navigation {
     display: flex;
+    position: sticky;
     gap: 0.5em;
+    padding:  0.5rem;
+    background-color: white;
+    width: 100%;
+    border-bottom: 1px solid lightgrey;
+    z-index: 100;
+    overflow: scroll;
 }
 
-.details-page .image-and-info-container .restaurant-info .details-page-navigation button {
+.details-page-navigation button {
     background: none;
     border: none;
-    color: white;
+    color: black;
     border-bottom: solid 3px rgba(255, 255, 255, 0);
     font-weight: var(--font-weight-bold-1);
     letter-spacing: 0.05rem;
     font-size: var(--font-size-smaller);
     padding: 0.5em 0 0.25em;
     width: 100%;
-    opacity: 0.7;
     transition: all 0.35s ease-in;
+    white-space: nowrap;
 }
 
-.details-page .image-and-info-container .restaurant-info .details-page-navigation button.active {
-    border-bottom-color: white;
-    color: white;
-    opacity: 1;
+.details-page-navigation button.active {
+    border-bottom-color: var(--primary-theme);
+    color: var(--primary-theme);
+    font-weight: var(--font-weight-bold-3);
 }
 
 .details-page .details-container {

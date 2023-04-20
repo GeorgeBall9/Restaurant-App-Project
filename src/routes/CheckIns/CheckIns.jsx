@@ -2,7 +2,6 @@ import "./CheckIns.css";
 import "./CheckInsCalendar.css";
 
 import Calendar from "react-calendar";
-import { selectAllRestaurants } from '../../features/restaurants/restaurantsSlice';
 
 import { useSelector } from "react-redux";
 import { selectUserId } from "../../features/user/userSlice";

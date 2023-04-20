@@ -10,7 +10,7 @@
     background-color: white;
 }
 
-.check-ins-page-container button {
+.check-ins-page-container .container button {
     background: none;
     border: none;
 }

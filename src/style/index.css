@@ -3,7 +3,9 @@
 /* -------------------- CSS VARIABLES -------------------- */
 :root {
     --primary-theme: #C23B22;
+    --primary-theme-rgba: 194, 59, 34;
     --secondary-theme: #F49D1A;
+    --secondary-theme-rgba: 244, 157, 26;
     --background-theme: #f1f0f0;
 
     --font-size-heading: 1rem;

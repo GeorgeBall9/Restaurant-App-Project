@@ -2,7 +2,6 @@ import "./CheckIns.css";
 import "./CheckInsCalendar.css";
 
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 import { selectAllRestaurants } from '../../features/restaurants/restaurantsSlice';
 
 import { useSelector } from "react-redux";
@@ -78,11 +77,11 @@ const CheckIns = () => {
 
                 <div className="check-ins-stats">
                     <div className="check-ins-streak">
-                    <FontAwesomeIcon className="icon" icon={faFire} />
+                        <FontAwesomeIcon className="icon" icon={faFire} />
                     </div>
 
                     <div className="check-ins-total">
-                    <FontAwesomeIcon className="icon" icon={faCircleCheck} />
+                        <FontAwesomeIcon className="icon" icon={faCircleCheck} />
                     </div>
                 </div>
 
@@ -96,6 +95,9 @@ const CheckIns = () => {
                             onChange={handleCalendarChange}
                             value={calendarValue}
                             maxDate={currentDate}
+                            minDate={new Date(2023, 0, 1)}
+                            maxDetail="month" 
+                            minDetail="month"
                             tileContent={({ date, view }) => {
                                 // Return the restaurant photo if the user has a check-in for that date
                                 // const checkIn = findCheckInForDate(date);

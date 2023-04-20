@@ -240,29 +240,32 @@ const DetailsPage = () => {
                     </div>
                 )}
 
-                {description && (
-                    <div id="About" className="description">
-                        <h2>About</h2>
 
-                        <p>
-                            {isExpanded
-                                ?
+                <div id="About" className="description">
+                    <h2>About</h2>
+
+                    <p>
+                        {description ? (
+                            isExpanded ? (
                                 description
-                                :
+                            ) : (
                                 description.slice(0, 200) + (description.length > 100 ? '...' : '')
-                            }
-                        </p>
-
-                        {description.length > 200 && (
-                            <button
-                                className="read-more-button"
-                                onClick={handleToggleDescription}
-                            >
-                                {toggleLabel}
-                            </button>
+                            )
+                        ) : (
+                            'No description available'
                         )}
-                    </div>
-                )}
+                    </p>
+
+                    {description.length > 200 && (
+                        <button
+                            className="read-more-button"
+                            onClick={handleToggleDescription}
+                        >
+                            {toggleLabel}
+                        </button>
+                    )}
+                </div>
+
 
                 <div id="Photos" className="pictures">
                     <h2>Photos</h2>

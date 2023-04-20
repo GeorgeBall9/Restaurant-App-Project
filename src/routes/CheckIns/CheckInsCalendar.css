@@ -4,19 +4,25 @@
 .react-calendar {
   width: 100%;
   border: none;
-  border-top: var(--border);
-  border-bottom: var(--border);
+  border-top: solid 1px lightgrey;
+  border-bottom: solid 1px lightgrey;
   margin-top: 1em;
 }
 
 /* -------------------- NAVIGATION -------------------- */
 .react-calendar__navigation {
-  border-bottom: var(--border);
+  border-bottom: solid 1px lightgrey;
 }
 
 .react-calendar__navigation__label {
   font-size: var(--font-size-heading);
   color: var(--primary-theme);
+}
+
+.react-calendar__navigation__prev-button,
+.react-calendar__navigation__next-button {
+  color: var(--primary-theme);
+  font-size: 2rem;
 }
 
 .react-calendar__navigation button:enabled:hover, .react-calendar__navigation button:enabled:focus {
@@ -100,9 +106,6 @@
 .react-calendar__tile--now:enabled:hover, .react-calendar__tile--now:enabled:focus {
   background: none;
 }
-
-
-/* -------------------- MONTH AND YEAR VIEW -------------------- */
 
 
 /* -------------------- RESTAURANT PHOTO -------------------- */

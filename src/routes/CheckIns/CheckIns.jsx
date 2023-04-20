@@ -30,18 +30,16 @@ const CheckIns = () => {
     }, [userId]);
 
 
-    /* function to be completed for finding dates of check-ins
-    const findCheckInForDate = (date) => {
-        return checkIns.find((checkIn) => {
-            const checkInDate = new Date(checkIn.date);
-            return (
-                checkInDate.getDate() === date.getDate() &&
-                checkInDate.getMonth() === date.getMonth() &&
-                checkInDate.getFullYear() === date.getFullYear()
-            );
-        });
-    };
-    */
+    // const findCheckInForDate = (date) => {
+    //     return checkIns.find((checkIn) => {
+    //         const checkInDate = new Date(checkIn.date);
+    //         return (
+    //             checkInDate.getDate() === date.getDate() &&
+    //             checkInDate.getMonth() === date.getMonth() &&
+    //             checkInDate.getFullYear() === date.getFullYear()
+    //         );
+    //     });
+    // };
 
     const handleCalendarChange = (value) => {
         setCalendarValue(value);
@@ -78,10 +76,12 @@ const CheckIns = () => {
                 <div className="check-ins-stats">
                     <div className="check-ins-streak">
                         <FontAwesomeIcon className="icon" icon={faFire} />
+                        <p>Week streak</p>
                     </div>
 
                     <div className="check-ins-total">
                         <FontAwesomeIcon className="icon" icon={faCircleCheck} />
+                        <p> Check-ins</p>
                     </div>
                 </div>
 

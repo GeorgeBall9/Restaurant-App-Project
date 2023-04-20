@@ -1,7 +1,8 @@
 import "./CheckIns.css";
-import "./CheckInsCalendar.css";
+import "./CheckInsCalendar/CheckInsCalendar.css";
 
 import Calendar from "react-calendar";
+import CheckInsCollage from "./CheckInsCollage/CheckInsCollage.jsx";
 
 import { useSelector } from "react-redux";
 import { selectUserId } from "../../features/user/userSlice";
@@ -20,7 +21,11 @@ const CheckIns = () => {
     const [restaurant, setRestaurant] = useState(null);
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [currentDate] = useState(new Date());
+    const [showCollagePopup, setShowCollagePopup] = useState(false);
 
+    const handleCollagePopupClose = () => {
+        setShowCollagePopup(false);
+    };
 
     useEffect(() => {
         if (!userId) {
@@ -47,6 +52,15 @@ const CheckIns = () => {
 
     const handleBackClick = () => {
         navigate("/profile");
+    };
+
+    const handleTileClick = (restaurant) => {
+        setRestaurant(restaurant);
+        setShowCollagePopup(true);
+    };
+
+    const handleBackToCalendar = () => {
+        setShowCollagePopup(false);
     };
 
     return (
@@ -85,28 +99,25 @@ const CheckIns = () => {
                 </div>
 
                 <div className="check-ins-calendar">
-                    <div className="check-ins-calendar-month">
+                    <Calendar
+                        onChange={handleCalendarChange}
+                        value={calendarValue}
+                        maxDate={currentDate}
+                        minDate={new Date(2023, 0, 1)}
+                        maxDetail="month"
+                        minDetail="month"
+                        tileContent={({ date, view }) => {
+                            // Return the restaurant photo if the user has a check-in for that date
+                            // const checkIn = findCheckInForDate(date);
+                            // return checkIn ? (
+                            //     <img src={`url(${photoUrl})`} alt={name} />
+                            // ) : null;
+                        }}
+                    />
 
-                    </div>
-
-                    <div className="check-ins-calendar-dates">
-                        <Calendar
-                            onChange={handleCalendarChange}
-                            value={calendarValue}
-                            maxDate={currentDate}
-                            minDate={new Date(2023, 0, 1)}
-                            maxDetail="month" 
-                            minDetail="month"
-                            tileContent={({ date, view }) => {
-                                // Return the restaurant photo if the user has a check-in for that date
-                                // const checkIn = findCheckInForDate(date);
-                                // return checkIn ? (
-                                //     <img src={`url(${photoUrl})`} alt={name} />
-                                // ) : null;
-                            }}
-                        />
-
-                    </div>
+                    {showCollagePopup && (
+                        <CheckInsCollage restaurant={restaurant} onClose={handleCollagePopupClose} />
+                    )}
                 </div>
             </div>
 

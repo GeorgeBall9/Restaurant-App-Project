@@ -77,3 +77,7 @@
   box-sizing: border-box;
   text-align: left;
 }
+
+.check-ins-calendar {
+    position: relative;
+}

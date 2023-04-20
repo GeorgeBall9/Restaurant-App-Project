@@ -121,7 +121,7 @@ const ReviewsList = ({reviews, userId, preview}) => {
 
                             <header>
                                 <div className="author-details">
-                                    <UserIcon size="large" colour={iconColour}/>
+                                    <UserIcon size="medium" colour={iconColour}/>
 
                                     <div>
                                         <p className="display-name">{displayName}</p>

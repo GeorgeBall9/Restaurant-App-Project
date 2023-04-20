@@ -11,6 +11,7 @@
     --font-size-heading: 1rem;
     --font-size-sub-heading: 0.9rem;
     --font-size-smaller: 0.8rem;
+    --font-size-small: 0.75rem;
     --font-size-icon-large: 1.3rem;
     --font-size-icon-small: 1rem;
 
@@ -63,4 +64,10 @@ button {
 
 ::-webkit-scrollbar {
     display: none;
+}
+
+@media (max-width: 350px) {
+    html {
+        font-size: 0.9rem;
+    }
 }

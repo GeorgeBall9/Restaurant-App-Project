@@ -75,6 +75,7 @@
     width: 100%;
     border-bottom: 1px solid lightgrey;
     z-index: 100;
+    overflow: scroll;
 }
 
 .details-page-navigation button {
@@ -88,6 +89,7 @@
     padding: 0.5em 0 0.25em;
     width: 100%;
     transition: all 0.35s ease-in;
+    white-space: nowrap;
 }
 
 .details-page-navigation button.active {

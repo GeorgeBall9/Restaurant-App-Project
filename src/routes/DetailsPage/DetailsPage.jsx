@@ -6,7 +6,7 @@ import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
 import StarRating from '../../common/components/StarRating/StarRating';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 
 import {
     faLocationDot,

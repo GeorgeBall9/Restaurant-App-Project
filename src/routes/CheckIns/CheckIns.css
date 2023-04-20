@@ -1,0 +1,74 @@
+.check-ins-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: var(--max-width-content);
+    margin: var(--margin-align-center);
+    padding: var(--padding-content);
+    position: relative;
+    background-color: white;
+}
+
+.check-ins-page-container button {
+    background: none;
+    border: none;
+}
+
+.check-ins-page-container header {
+    background-color: white;
+    border-bottom: solid 1px lightgrey;
+}
+
+.check-ins-page-container header > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.check-ins-page-container header h1 {
+    font-size: 1rem;
+    font-weight: var(--font-weight-bold-1);
+}
+
+.check-ins-page-container header button {
+    color: var(--secondary-theme);
+    font-weight: var(--font-weight-bold-2);
+    font-size: var(--font-size-smaller);
+}
+
+.check-ins-page-container header button .icon {
+    margin-right: 0.5em;
+}
+
+.check-ins-page-container main {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.check-ins-map {
+    padding: var(--padding-content);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    width: 100%;
+    height: 220px;
+}
+
+.check-ins-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.check-ins-streak,
+.check-ins-total {
+  flex: 1;
+  padding: var(--padding-content);
+  margin: 1em 2em;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+  text-align: left;
+}

@@ -1,0 +1,39 @@
+/* Change the background color of the selected date */
+.react-calendar__tile--active {
+    background-color: var(--primary-theme);
+  }
+  
+  /* Change the font color of the selected date */
+  .react-calendar__tile--active abbr {
+    color: var(--secondary-theme);
+  }
+  
+  /* Change the background color of the hovered date */
+  .react-calendar__tile--hover {
+    background-color: #f0ad4e;
+  }
+  
+  /* Change the background color of the month and year view */
+  .react-calendar__month-view__days__day,
+  .react-calendar__year-view__months__month {
+    background-color: #ffffff;
+  }
+  
+  /* Change the font color of the month and year view */
+  .react-calendar__month-view__days__day abbr,
+  .react-calendar__year-view__months__month abbr {
+    color: #333333;
+  }
+  
+  /* Change the font size of the calendar */
+  .react-calendar {
+    font-size: var(--font-size-heading);
+  }
+  
+  /* Customize the appearance of the restaurant photo inside the calendar */
+  .react-calendar__tile img {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 50%;
+  }

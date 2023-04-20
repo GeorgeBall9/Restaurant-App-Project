@@ -252,7 +252,7 @@ const DetailsPage = () => {
                                 description.slice(0, 200) + (description.length > 100 ? '...' : '')
                             )
                         ) : (
-                            'No description available'
+                            'No description available.'
                         )}
                     </p>
 

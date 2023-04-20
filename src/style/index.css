@@ -63,3 +63,9 @@ button {
 ::-webkit-scrollbar {
     display: none;
 }
+
+@media (max-width: 350px) {
+    html {
+        font-size: 0.9rem;
+    }
+}

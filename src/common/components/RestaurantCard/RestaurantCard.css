@@ -26,6 +26,7 @@ Contact: georgeball14@hotmail.com
     flex-direction: column;
     gap: 0.6em;
     width: 60%;
+    overflow: hidden;
 }
 
 /* restaurant name */
@@ -77,6 +78,8 @@ Contact: georgeball14@hotmail.com
     display: flex;
     align-items: center;
     font-size: var(--font-size-smaller);
+    white-space: nowrap;
+    position: relative;
 }
 
 /* cuisine */
@@ -97,8 +100,8 @@ Contact: georgeball14@hotmail.com
     display: flex;
     gap: 0.65em;
     height: fit-content;
-    width: 40%;
     justify-content: flex-end;
+    width: 40%;
 }
 
 .restaurant-card .container-rhs .icons-container {
@@ -112,4 +115,11 @@ Contact: georgeball14@hotmail.com
 .restaurant-card .container-rhs .icon {
     font-size: var(--font-size-icon-large);
     color: #C23B22;
+}
+
+@media (max-width: 350px) {
+    .restaurant-card .container-rhs {
+        flex-direction: column-reverse;
+        align-items: flex-end;
+    }
 }

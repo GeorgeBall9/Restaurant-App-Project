@@ -3,6 +3,7 @@
     height: 80px;
     border-radius: 8px;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .restaurant-image-container img {

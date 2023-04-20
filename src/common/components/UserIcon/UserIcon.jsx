@@ -3,7 +3,7 @@ import "./UserIcon.css";
 import userIconImageSrc from "../../images/errorImage.png";
 
 const sizesMap = {
-    medium: "40px",
+    medium: "50px",
     large: "60px",
     xLarge: "100px",
 };

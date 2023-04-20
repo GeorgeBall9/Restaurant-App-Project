@@ -173,10 +173,13 @@ const DetailsPage = () => {
 
     const handleNavLinkClick = (text) => {
         setActiveNavLink(text);
-        const rect = document.getElementById(text).getBoundingClientRect();
+
+        const elementPosition = document.getElementById(text).offsetTop;
+        const bannerHeight = document.getElementById("banner").getBoundingClientRect().height;
+        const navHeight = document.getElementById("details-page-nav").getBoundingClientRect().height;
 
         window.scrollTo({
-            top: rect.top - 50,
+            top: elementPosition - (bannerHeight + navHeight + 15),
             behavior: "smooth"
         });
     };
@@ -228,7 +231,7 @@ const DetailsPage = () => {
                 </div>
             </div>
 
-            <div className="details-page-navigation" style={navigationStyle}>
+            <div id="details-page-nav" className="details-page-navigation" style={navigationStyle}>
                 {navLinksText.map((text, i) => (
                     <DetailsNavLink
                         key={i}

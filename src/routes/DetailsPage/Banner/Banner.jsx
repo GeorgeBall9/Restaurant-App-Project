@@ -36,7 +36,7 @@ const Banner = ({restaurant, scrollPosition, setNavTopPosition}) => {
     };
 
     return (
-        <div ref={ref} className="banner container" style={style}>
+        <div id="banner" ref={ref} className="banner container" style={style}>
             <button className="back-button" onClick={handleBackClick} style={bannerButtonsStyle}>
                 <FontAwesomeIcon icon={faChevronLeft} className="icon" style={bannerButtonsStyle}/>
                 Back

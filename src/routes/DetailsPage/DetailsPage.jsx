@@ -2,11 +2,11 @@ import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
 import ReviewForm from "./ReviewsSection/ReviewForm/ReviewForm";
 
 import './DetailsPage.css';
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
-import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAllRestaurants } from '../../features/restaurants/restaurantsSlice';
 import StarRating from '../../common/components/StarRating/StarRating';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 import {
     faLocationDot,
@@ -16,7 +16,7 @@ import {
     faLeaf,
     faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CheckInButton from "./CheckInButton/CheckInButton";
 import CheckInConfirmationPopup
     from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
@@ -26,10 +26,10 @@ import {
 } from "../../features/checkInConfirmation/checkInConfirmationSlice";
 import Banner from "./Banner/Banner";
 import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
-import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
-import {selectUserId} from "../../features/user/userSlice";
-import {checkIsOpen} from "../Bookmarks/Bookmarks";
-import {getRestaurantById} from "../../firebase/firebase";
+import { hideSpinner, showSpinner } from "../../features/spinner/spinnerSlice";
+import { selectUserId } from "../../features/user/userSlice";
+import { checkIsOpen } from "../Bookmarks/Bookmarks";
+import { getRestaurantById } from "../../firebase/firebase";
 import ReviewsSection from "./ReviewsSection/ReviewsSection";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
 
@@ -37,7 +37,7 @@ const navLinksText = ["Website", "About", "Photos", "Hours", "Details", "Reviews
 
 const DetailsPage = () => {
 
-    const {id} = useParams();
+    const { id } = useParams();
 
     const navigate = useNavigate();
 
@@ -77,7 +77,7 @@ const DetailsPage = () => {
 
     useEffect(() => {
         if (restaurant === undefined) {
-            navigate('/error', {replace: true});
+            navigate('/error', { replace: true });
         }
     }, [restaurant, navigate]);
 
@@ -112,7 +112,7 @@ const DetailsPage = () => {
         address
     } = restaurant;
 
-    const {street1, city, postalcode: postalCode} = address;
+    const { street1, city, postalcode: postalCode } = address;
 
     const starRating = Math.round(rating * 2) / 2;
 
@@ -152,7 +152,7 @@ const DetailsPage = () => {
 
     const getDomainName = (url) => {
         try {
-            const {hostname} = new URL(url);
+            const { hostname } = new URL(url);
             return hostname;
         } catch (error) {
             console.error('Error parsing URL', error);
@@ -176,56 +176,57 @@ const DetailsPage = () => {
         window.scrollTo({
             top: rect.top - 50,
             behavior: "smooth"
-        })
+        });
     };
 
     return (
         <div className="details-page container">
-            {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn}/>}
+            {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn} />}
 
-            <Banner restaurant={restaurant} scrollPosition={scrollPosition}/>
+            <Banner restaurant={restaurant} scrollPosition={scrollPosition} />
 
             <div className="image-and-info-container">
-                <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
+                <div className="backdrop" style={{ backgroundImage: `url(${photoUrl})` }}></div>
 
                 <div className="restaurant-info">
                     <div className="title-container">
                         <h1>{name}</h1>
 
-                        <CheckInButton restaurantId={id}/>
+                        <CheckInButton restaurantId={id} />
                     </div>
 
-                    <StarRating rating={starRating}/>
+                    <StarRating rating={starRating} />
 
                     <div className="price">
                         <p>{priceLevel !== null ? priceLevel : price}</p>
                     </div>
 
                     <div className="address info">
-                        <FontAwesomeIcon icon={faLocationDot} className="icon"/>
+                        <FontAwesomeIcon icon={faLocationDot} className="icon" />
                         <p>{formattedAddress}</p>
                     </div>
 
                     {phone && (
                         <div className="phone info">
-                            <FontAwesomeIcon icon={faPhone} className="icon"/>
+                            <FontAwesomeIcon icon={faPhone} className="icon" />
                             <p>{phone}</p>
                         </div>
                     )}
 
                     <div className="open-status">{isOpen ? 'Open Now' : 'Closed'}</div>
 
-                    <div className="details-page-navigation">
-                        {navLinksText.map((text, i) => (
-                            <DetailsNavLink
-                                key={i}
-                                active={activeNavLink === text}
-                                handleClick={handleNavLinkClick}
-                                text={text}
-                            />
-                        ))}
-                    </div>
                 </div>
+            </div>
+
+            <div className="details-page-navigation">
+                {navLinksText.map((text, i) => (
+                    <DetailsNavLink
+                        key={i}
+                        active={activeNavLink === text}
+                        handleClick={handleNavLinkClick}
+                        text={text}
+                    />
+                ))}
             </div>
 
             <div className="details-container">
@@ -234,34 +235,37 @@ const DetailsPage = () => {
                         <h2>Website</h2>
                         <Link to={website}>
                             {getDomainName(website)}
-                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
+                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon" />
                         </Link>
                     </div>
                 )}
 
-                {description && (
-                    <div id="About" className="description">
-                        <h2>About</h2>
 
-                        <p>
-                            {isExpanded
-                                ?
+                <div id="About" className="description">
+                    <h2>About</h2>
+
+                    <p>
+                        {description ? (
+                            isExpanded ? (
                                 description
-                                :
+                            ) : (
                                 description.slice(0, 200) + (description.length > 100 ? '...' : '')
-                            }
-                        </p>
-
-                        {description.length > 200 && (
-                            <button
-                                className="read-more-button"
-                                onClick={handleToggleDescription}
-                            >
-                                {toggleLabel}
-                            </button>
+                            )
+                        ) : (
+                            'No description available.'
                         )}
-                    </div>
-                )}
+                    </p>
+
+                    {description.length > 200 && (
+                        <button
+                            className="read-more-button"
+                            onClick={handleToggleDescription}
+                        >
+                            {toggleLabel}
+                        </button>
+                    )}
+                </div>
+
 
                 <div id="Photos" className="pictures">
                     <h2>Photos</h2>
@@ -290,7 +294,7 @@ const DetailsPage = () => {
                             icon={faMoneyBillWave}
                             name="Price"
                             content={price || priceLevel || 'N/A'
-                            }/>
+                            } />
 
                         <AdditionalDetail
                             icon={faUtensils}
@@ -309,7 +313,7 @@ const DetailsPage = () => {
                 </div>
 
                 <div id="Reviews">
-                    <ReviewsSection userId={userId} restaurant={restaurant}/>
+                    <ReviewsSection userId={userId} restaurant={restaurant} />
                 </div>
             </div>
         </div>

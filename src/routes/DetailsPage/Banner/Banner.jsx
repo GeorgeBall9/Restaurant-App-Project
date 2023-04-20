@@ -8,6 +8,7 @@ import Shaders from "mapbox-gl/src/shaders/shaders";
 import ShareButton from "./ShareButton/ShareButton";
 import {deselectReview} from "../../../features/reviews/reviewsSlice";
 import {useDispatch} from "react-redux";
+import { forwardRef } from "react";
 
 const Banner = ({restaurant, scrollPosition}) => {
 

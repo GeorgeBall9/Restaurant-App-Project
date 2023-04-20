@@ -2,19 +2,25 @@ import "./Banner.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 import BookmarkButton from "../../../common/components/BookmarkButton/BookmarkButton";
-import {faShareFromSquare} from "@fortawesome/free-regular-svg-icons";
 import {useNavigate} from "react-router-dom";
-import Shaders from "mapbox-gl/src/shaders/shaders";
 import ShareButton from "./ShareButton/ShareButton";
 import {deselectReview} from "../../../features/reviews/reviewsSlice";
 import {useDispatch} from "react-redux";
-import { forwardRef } from "react";
+import {useEffect, useRef} from "react";
 
-const Banner = ({restaurant, scrollPosition}) => {
+const Banner = ({restaurant, scrollPosition, setNavTopPosition}) => {
 
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
+
+    const ref = useRef(null);
+
+    useEffect(() => {
+        if (!ref) return;
+
+        setNavTopPosition(ref.current.offsetHeight);
+    }, [ref]);
 
     const style = scrollPosition > 20
         ? {position: 'fixed', backgroundColor: 'white'}
@@ -27,10 +33,10 @@ const Banner = ({restaurant, scrollPosition}) => {
     const handleBackClick = () => {
         dispatch(deselectReview());
         navigate("/");
-    }
+    };
 
     return (
-        <div className="banner container" style={style}>
+        <div ref={ref} className="banner container" style={style}>
             <button className="back-button" onClick={handleBackClick} style={bannerButtonsStyle}>
                 <FontAwesomeIcon icon={faChevronLeft} className="icon" style={bannerButtonsStyle}/>
                 Back

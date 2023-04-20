@@ -50,6 +50,7 @@ const ShareButton = ({id, style}) => {
                             <Link
                                 to={"https://www.facebook.com/share.php?u=https://restaurant-app-team22.netlify.app/details/" + id}
                                 className="copy-link-button"
+                                target="_blank"
                             >
                                 <FontAwesomeIcon icon={faFacebookF} className="icon"/>
                             </Link>
@@ -61,6 +62,7 @@ const ShareButton = ({id, style}) => {
                             <Link
                                 to={"https://twitter.com/intent/tweet?url=https://restaurant-app-team22.netlify.app/details/" + id}
                                 className="copy-link-button"
+                                target="_blank"
                             >
                                 <FontAwesomeIcon icon={faTwitter} className="icon"/>
                             </Link>

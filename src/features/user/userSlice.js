@@ -6,6 +6,7 @@ const initialState = {
     email: "",
     phone: "",
     iconColour: "",
+    recommendations: [],
     bookmarks: [],
     checkedInRestaurants: [],
 };
@@ -18,13 +19,14 @@ const userSlice = createSlice({
             state.id = action.payload;
         },
         setUserDetails: (state, action) => {
-            const {id, displayName, email, phone, iconColour, bookmarks, checkedIn} = action.payload;
+            const {id, displayName, email, phone, iconColour, recommendations, bookmarks, checkedIn} = action.payload;
 
             state.id = id;
             state.displayName = displayName || "";
             state.email = email || "";
             state.phone = phone || "";
             state.iconColour = iconColour || "";
+            state.recommendations = recommendations || [];
             state.bookmarks = bookmarks || [];
             state.checkedInRestaurants = checkedIn || [];
         },
@@ -48,6 +50,12 @@ const userSlice = createSlice({
         },
         setIconColour: (state, action) => {
             state.iconColour = action.payload;
+        },
+        addRecommendation: (state, action) => {
+            state.recommendations.push(action.payload);
+        },
+        removeRecommendation: (state, action) => {
+            state.recommendations = state.recommendations.filter(recommendation => recommendation !== action.payload);
         },
         addBookmark: (state, action) => {
             state.bookmarks.push(action.payload);
@@ -76,6 +84,8 @@ export const {
     setEmail,
     setPhone,
     setIconColour,
+    addRecommendation,
+    removeRecommendation,
     addBookmark,
     removeBookmark,
     addCheckedInRestaurant,
@@ -87,6 +97,7 @@ export const selectDisplayName = state => state.user.displayName;
 export const selectEmail = state => state.user.email;
 export const selectPhone = state => state.user.phone;
 export const selectIconColour = state => state.user.iconColour;
+export const selectRecommendations = state => state.user.recommendations;
 export const selectBookmarks = state => state.user.bookmarks;
 export const selectCheckedInRestaurants = state => state.user.checkedInRestaurants;
 export default userSlice.reducer;

@@ -1,12 +1,9 @@
-import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
-import ReviewForm from "./ReviewsSection/ReviewForm/ReviewForm";
-
 import './DetailsPage.css';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
 import StarRating from '../../common/components/StarRating/StarRating';
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 
 import {
     faLocationDot,

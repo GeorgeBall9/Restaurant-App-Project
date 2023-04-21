@@ -27,6 +27,11 @@ const CheckIns = () => {
     const [currentDate] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
 
+    const getCheckedInRestaurant = (restaurantId) => {
+        return allRestaurants.find(restaurant => restaurant.id === restaurantId);
+    };
+
+
     const handleCollagePopupClose = () => {
         setShowCollagePopup(false);
     };
@@ -76,47 +81,6 @@ const CheckIns = () => {
 
     const totalCheckIns = calculateTotalCheckIns(userCheckIns);
 
-    const getTileContent = (date, checkIns) => {
-        // console.log('getTileContent called with date:', date);
-        const checkIn = checkIns.find((checkIn) =>
-            areSameDay(new Date(checkIn.timestamp), date)
-        );
-
-        if (checkIn) {
-            // console.log('CheckIn found:', checkIn); // Add this line
-            const restaurant = allRestaurants.find((restaurant) => restaurant.id === checkIn.restaurantId);
-
-            // if (!restaurant) {
-            //     console.log('Restaurant not found for checkIn:', checkIn); // Add this line
-            // }
-            if (restaurant) {
-                console.log('Restaurant:', restaurant); // Add this line to log the restaurant object
-                return (
-                    <div
-                        style={{
-                            backgroundImage: `url(${restaurant.photoUrl})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                            width: "100%",
-                            height: "100%",
-                        }}>
-                    </div>
-                );
-            }
-        }
-
-        return null;
-    };
-
-    const areSameDay = (date1, date2) => {
-        // console.log('Comparing dates:', date1, date2);
-        return (
-            date1.getFullYear() === date2.getFullYear() &&
-            date1.getMonth() === date2.getMonth() &&
-            date1.getDate() === date2.getDate()
-        );
-    };
-
     const handleTileClick = (restaurant) => {
         setRestaurant(restaurant);
         setShowCollagePopup(true);
@@ -125,6 +89,44 @@ const CheckIns = () => {
     const handleBackToCalendar = () => {
         setShowCollagePopup(false);
     };
+
+    const renderTileContent = ({ date, view }) => {
+        if (view !== "month") {
+            return null;
+        }
+
+        const currentDate = date.toISOString().slice(0, 10);
+        const checkInsForDate = userCheckIns.filter((checkIn) => {
+            const checkInDate = new Date(checkIn.date);
+            return (
+                checkInDate.getFullYear() === date.getFullYear() &&
+                checkInDate.getMonth() === date.getMonth() &&
+                checkInDate.getDate() === date.getDate()
+            );
+        });
+
+        return checkInsForDate.map((checkIn, index) => {
+            const restaurant = getCheckedInRestaurant(checkIn.restaurantId);
+            if (!restaurant) {
+                return null;
+            }
+            const tileContentStyle = {
+                backgroundImage: `url(${restaurant.photoUrl})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                width: '100%',
+                height: '100%',
+                opacity: 0.8,
+            };
+
+            return (
+                <div key={index} style={tileContentStyle} title={restaurant.name}></div>
+            );
+        });
+    };
+
+
 
     return (
         <div className="check-ins-page-container">
@@ -169,7 +171,7 @@ const CheckIns = () => {
                         minDate={new Date(2023, 0, 1)}
                         maxDetail="month"
                         minDetail="month"
-                        tileContent={({ date, view }) => getTileContent(date, userCheckIns)}
+                        tileContent={renderTileContent}
                     />
 
                     {showCollagePopup && (

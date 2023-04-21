@@ -90,12 +90,7 @@ const CheckIns = () => {
         setShowCollagePopup(false);
     };
 
-    const renderTileContent = ({ date, view }) => {
-        if (view !== "month") {
-            return null;
-        }
-
-        
+    const TileContent = ({ date }) => {
         const checkInsForDate = userCheckIns.filter((checkIn) => {
             const checkInDate = new Date(checkIn.date);
             return (
@@ -120,9 +115,22 @@ const CheckIns = () => {
             };
 
             return (
-                <div key={index} style={tileContentStyle} title={restaurant.name}></div>
+                <div
+                    key={index}
+                    style={tileContentStyle}
+                    title={restaurant.name}
+                    onClick={() => handleTileClick(restaurant)}
+                ></div>
             );
         });
+    };
+
+    const renderTileContent = ({ date, view }) => {
+        if (view !== "month") {
+            return null;
+        }
+
+        return <TileContent date={date} />;
     };
 
 

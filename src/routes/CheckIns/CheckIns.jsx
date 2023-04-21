@@ -95,7 +95,7 @@ const CheckIns = () => {
             return null;
         }
 
-        const currentDate = date.toISOString().slice(0, 10);
+        
         const checkInsForDate = userCheckIns.filter((checkIn) => {
             const checkInDate = new Date(checkIn.date);
             return (

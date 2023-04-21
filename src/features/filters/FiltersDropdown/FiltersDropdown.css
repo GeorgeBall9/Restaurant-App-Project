@@ -34,13 +34,13 @@
 .filters-dropdown .action-buttons-container button {
     font-weight: 500;
     border: none;
-    color: var(--primary-theme);
+    color: var(--secondary-theme);
     background: none;
     font-size: var(--font-size-smaller);
 }
 
 .filters-dropdown .action-buttons-container button .icon {
-    color: var(--primary-theme);
+    color: var(--secondary-theme);
     margin-right: 0.25em;
 }
 
@@ -48,6 +48,11 @@
     font-size: var(--font-size-sub-heading);
     font-weight: var(--font-weight-bold-1);
     margin-bottom: 0.75em;
+    color: var(--primary-theme);
+}
+
+.ban-icon {
+    color: var(--primary-theme);
 }
 
 .filters-dropdown .apply-button {

@@ -4,16 +4,15 @@ import ReviewForm from "../DetailsPage/ReviewsSection/ReviewForm/ReviewForm";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {selectReviews, selectSortFilter, setReviews, sortReviews} from "../../features/reviews/reviewsSlice";
+import {selectReviews, selectSortFilter, setReviews} from "../../features/reviews/reviewsSlice";
 import {useEffect, useState} from "react";
 import {getRestaurantById, getReviewsByRestaurantId} from "../../firebase/firebase";
 import {selectUserId} from "../../features/user/userSlice";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice";
-import {faChevronDown, faChevronLeft} from "@fortawesome/free-solid-svg-icons";
+import {faChevronDown, faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectSearchQuery} from "../../features/filters/filtersSlice";
-import SearchFeedback from "../../common/components/SearchBox/SearchFeedback/SearchFeedback";
 import SortFilterButton from "./SortFilterButton/SortFilterButton";
 
 const ReviewsPage = () => {
@@ -117,7 +116,7 @@ const ReviewsPage = () => {
 
             <header>
                 <button onClick={() => navigate("/details/" + restaurantId)}>
-                    <FontAwesomeIcon icon={faChevronLeft} className="icon"/>
+                    <FontAwesomeIcon icon={faArrowLeft} className="icon"/>
                     Back
                 </button>
 

@@ -182,6 +182,39 @@ export const updateUserReviewCount = async (userId, amount) => {
     await updateDoc(docSnap, {reviews: updatedReviewCount});
 };
 
+// add user recommendation
+export const addUserRecommendation = async (userId, restaurant) => {
+    if (!userId || !restaurant) return;
+
+    try {
+        const docRef = await doc(db, "users", userId);
+
+        await updateDoc(docRef, {
+            recommendations: arrayUnion(restaurant.id)
+        });
+
+        await addInteractionToRestaurantDoc(restaurant, "recommendations");
+    } catch (error) {
+        console.log(error)
+        throw new Error("Document does not exist");
+    }
+};
+
+// remove user recommendation
+export const removeUserRecommendation = async (userId, restaurantId) => {
+    try {
+        const docRef = await doc(db, "users", userId);
+
+        await updateDoc(docRef, {
+            recommendations: arrayRemove(restaurantId)
+        });
+
+        await removeInteractionFromRestaurantDoc(restaurantId, "recommendations");
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
+};
+
 // add user bookmark
 export const addUserBookmark = async (userId, restaurant) => {
     if (!userId || !restaurant) return;

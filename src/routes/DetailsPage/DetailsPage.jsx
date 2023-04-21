@@ -104,8 +104,6 @@ const DetailsPage = () => {
                     const sectionBottom = current.offsetTop - adjustment + current.offsetHeight;
                     const sectionIsActive = scrollY > previousTop && scrollY <= sectionBottom;
 
-                    console.log({id: current.id, sectionBottom, previousTop, scrollY, sectionIsActive})
-
                     if (sectionIsActive) {
                         return true;
                     } else {
@@ -204,14 +202,15 @@ const DetailsPage = () => {
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
     const handleNavLinkClick = (text) => {
-        setActiveNavLink(text);
+        const elementRef = [interactionsRef, websiteRef, aboutRef, photosRef, hoursRef, detailsRef, reviewsRef]
+            .find(({current}) => current.id === text)?.current;
 
-        const elementPosition = document.getElementById(text).offsetTop;
+        const elementPosition = elementRef.offsetTop;
         const bannerHeight = document.getElementById("banner").getBoundingClientRect().height;
         const navHeight = document.getElementById("details-page-nav").getBoundingClientRect().height;
 
         window.scrollTo({
-            top: elementPosition - (bannerHeight + navHeight + 15),
+            top: elementPosition - (bannerHeight + navHeight + 5),
             behavior: "smooth"
         });
     };

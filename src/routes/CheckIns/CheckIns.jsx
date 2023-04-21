@@ -107,9 +107,11 @@ const CheckIns = () => {
 
         return checkInsForDate.map((checkIn, index) => {
             const restaurant = getCheckedInRestaurant(checkIn.restaurantId);
+
             if (!restaurant) {
                 return null;
             }
+
             const tileContentStyle = {
                 backgroundImage: `url(${restaurant.photoUrl})`,
                 backgroundSize: 'cover',

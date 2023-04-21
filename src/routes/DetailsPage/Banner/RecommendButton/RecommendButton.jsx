@@ -62,7 +62,7 @@ const RecommendButton = ({restaurant, style}) => {
 
     return (
         <>
-            <button onClick={handleRecommendClick}>
+            <button className="recommend-button" onClick={handleRecommendClick}>
                 {isRecommended && <FontAwesomeIcon icon={faSolidHeart} className="icon" style={style}/>}
 
                 {!isRecommended && <FontAwesomeIcon icon={faHeart} className="icon" style={style}/>}

@@ -11,13 +11,14 @@ import {useNavigate} from 'react-router-dom';
 
 // FontAwesome icons
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faLocationArrow} from "@fortawesome/free-solid-svg-icons";
+import {faFire, faLocationArrow} from "@fortawesome/free-solid-svg-icons";
 
 import StarRating from "../StarRating/StarRating";
 import RouteButton from "./RouteButton/RouteButton";
 import BookmarkButton from "../BookmarkButton/BookmarkButton";
 import {useSwipeable} from "react-swipeable";
 import RestaurantImage from "../RestaurantImage/RestaurantImage";
+import RecommendButton from "../../../routes/DetailsPage/Banner/RecommendButton/RecommendButton";
 
 // A card component for displaying restaurant information
 const RestaurantCard = ({restaurant, view, ranking}) => {

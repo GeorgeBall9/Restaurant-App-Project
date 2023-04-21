@@ -2,6 +2,7 @@ import RestaurantCard from "../../../common/components/RestaurantCard/Restaurant
 import {useSelector} from "react-redux";
 import {selectRestaurants} from "../restaurantsSlice";
 import MapRestaurantCard from "../../slider/Slider/MapRestaurantCard/MapRestaurantCard";
+import HomeCard from "./HomeCard/HomeCard";
 
 const RestaurantsList = ({view}) => {
 
@@ -20,10 +21,7 @@ const RestaurantsList = ({view}) => {
                     )
                 } else {
                     return (
-                        <RestaurantCard
-                            key={restaurant.id}
-                            restaurant={restaurant}
-                        />
+                        <HomeCard restaurant={restaurant}/>
                     )
                 }
             })}

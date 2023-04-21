@@ -19,15 +19,6 @@ const HomePage = () => {
         }
     }, [fetchStatus]);
 
-    useEffect(() => {
-        const options = {method: 'GET', headers: {accept: 'application/json'}};
-
-        fetch('https://api.content.tripadvisor.com/api/v1/location/19769400/photos?key=BE426B015C564B468170E8FAA5ACA4C5&language=en', options)
-            .then(response => response.json())
-            .then(response => console.log(response))
-            .catch(err => console.error(err));
-    });
-
     return (
         <div className="home container">
             <Navigation view="home"/>

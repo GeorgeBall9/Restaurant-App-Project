@@ -1,16 +1,25 @@
-import React from "react";
 import "./CheckInsCollage.css";
-import { ReactPhotoCollage } from "react-photo-collage";
+
+import { useState, useEffect } from "react";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CheckInsCollage = ({ restaurant, onClose }) => {
+    const [isVisible, setIsVisible] = useState(false);
+
     const handleBackClick = () => {
-        onClose();
+        setIsVisible(false);
+        setTimeout(() => {
+            onClose();
+        }, 300);
     };
 
+    useEffect(() => {
+        setIsVisible(true);
+    }, []);
+    
     return (
-        <div className="collage-popup">
+        <div className={`collage-popup ${isVisible ? "visible" : ""}`}>
             <header>
                 <button onClick={handleBackClick}>
                     <FontAwesomeIcon className="icon" icon={faArrowLeft} />
@@ -19,7 +28,7 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
                 <h2>{restaurant.name}</h2>
             </header>
             {/* Render the collage of photos here */}
-            <div className="collage-container">
+            <div className="collage-popup-photos">
                 <img src={restaurant.photoUrl} alt={restaurant.name} />
 
             </div>

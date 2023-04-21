@@ -30,16 +30,18 @@ const HomeCard = ({restaurant}) => {
         trackMouse: true
     });
 
-    useEffect(() => {
-        console.log(photoUrl)
-    }, [photoUrl])
-
     return (
         <div className="home-card" {...handlers}>
+            <div className="highlight-banner">Highly recommended</div>
+
             <div className="restaurant-image-background" style={{backgroundImage: `url(${photoUrl})`}}></div>
 
             <div className="details-container">
-                <h3><div>{name}</div></h3>
+                <h3>
+                    <div>{name}</div>
+
+                    <BookmarkButton restaurant={restaurant}/>
+                </h3>
 
                 <StarRating rating={starRating}/>
 

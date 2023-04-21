@@ -21,7 +21,7 @@ const RestaurantsList = ({view}) => {
                     )
                 } else {
                     return (
-                        <HomeCard restaurant={restaurant}/>
+                        <HomeCard key={restaurant.id} restaurant={restaurant}/>
                     )
                 }
             })}

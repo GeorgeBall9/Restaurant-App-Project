@@ -17,6 +17,20 @@ Contact: georgeball14@hotmail.com
     height: 300px;
     border-bottom: solid 6px var(--primary-theme);
     overflow: hidden;
+    position: relative;
+}
+
+.home-card .highlight-banner {
+    position: absolute;
+    font-size: var(--font-size-smaller);
+    font-weight: var(--font-weight-bold-2);
+    color: white;
+    background-color: var(--primary-theme);
+    padding: 0.75em;
+    box-shadow: var(--box-shadow);
+    top: 1em;
+    left: 1em;
+    border-radius: var(--border-radius);
 }
 
 .home-card .restaurant-image-background {
@@ -44,10 +58,16 @@ Contact: georgeball14@hotmail.com
     gap: 0.5em;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     font-size: var(--font-size-heading);
 }
 
-.home-card .details-container h3 div:last-child {
+.home-card .details-container h3 .icon {
+    font-size: var(--font-size-icon-large);
+    color: var(--primary-theme);
+}
+
+.home-card .details-container h3 div:first-child {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;

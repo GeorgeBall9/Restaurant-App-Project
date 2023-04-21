@@ -1,6 +1,6 @@
 import "./EditProfilePage.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faChevronLeft, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";

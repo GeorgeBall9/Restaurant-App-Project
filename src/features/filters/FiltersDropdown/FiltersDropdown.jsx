@@ -65,7 +65,7 @@ const FiltersDropdown = () => {
                     </button>
 
                     <button onClick={handleResetClick}>
-                        <FontAwesomeIcon icon={faBan} className="icon"/>
+                        <FontAwesomeIcon icon={faBan} className="ban-icon"/>
                         Reset
                     </button>
                 </div>

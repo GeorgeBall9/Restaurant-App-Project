@@ -1,0 +1,48 @@
+.collage-popup {
+    background-color: var(--background-theme);
+    border-radius: var(--border-radius);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+  
+  .collage-popup header {
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    padding: var(--padding-content);
+    color: white;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-2);
+  }
+  
+  .collage-popup header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: var(--font-size-icon-large);
+    margin-right: 1em;
+    cursor: pointer;
+  }
+  
+  .collage-popup .collage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-gap: 1em;
+    padding: 1em;
+  }
+  
+  .collage-popup .collage-grid .photo {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }

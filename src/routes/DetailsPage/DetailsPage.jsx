@@ -60,6 +60,7 @@ const DetailsPage = () => {
     const [scrollPosition, setScrollPosition] = useState(0);
     const [activeNavLink, setActiveNavLink] = useState("Interactions");
     const [navigationStyle, setNavigationStyle] = useState({top: 0});
+    const [interactions, setInteractions] = useState(null);
 
     useEffect(() => {
         if (!restaurant) {
@@ -87,6 +88,18 @@ const DetailsPage = () => {
             navigate('/error', {replace: true});
         }
     }, [restaurant, navigate]);
+
+    useEffect(() => {
+        if (!restaurant) return;
+
+        getRestaurantById(restaurant.id)
+            .then(data => {
+                if (!data) return;
+                const {bookmarks, checkIns, recommendations} = data;
+                const foundInteractions = {bookmarks, checkIns, recommendations};
+                setInteractions(foundInteractions);
+            });
+    }, [restaurant]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -280,17 +293,17 @@ const DetailsPage = () => {
                     <div>
                         <div className="stat-container">
                             <FontAwesomeIcon icon={faHeart} className="icon"/>
-                            21
+                            {interactions?.recommendations || "0"}
                         </div>
 
                         <div className="stat-container">
                             <FontAwesomeIcon icon={faBookmark} className="icon"/>
-                            114
+                            {interactions?.bookmarks || "0"}
                         </div>
 
                         <div className="stat-container">
                             <FontAwesomeIcon icon={faCheckCircle} className="icon"/>
-                            17
+                            {interactions?.checkIns || "0"}
                         </div>
                     </div>
                 </div>

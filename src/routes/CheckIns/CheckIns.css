@@ -10,6 +10,22 @@
     background-color: white;
 }
 
+button.react-calendar__tile {
+    padding: 0;
+    position: relative;
+    height: 50px;
+    width: 100px;
+}
+
+button.react-calendar__tile > abbr {
+    position: absolute;
+}
+
+button.react-calendar__tile > div {
+    width: 100%;
+    height: 100%;
+}
+
 .check-ins-page-container .container button {
     background: none;
     border: none;

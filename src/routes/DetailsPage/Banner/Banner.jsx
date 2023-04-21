@@ -7,6 +7,7 @@ import ShareButton from "./ShareButton/ShareButton";
 import {deselectReview} from "../../../features/reviews/reviewsSlice";
 import {useDispatch} from "react-redux";
 import {useEffect, useRef} from "react";
+import RecommendButton from "./RecommendButton/RecommendButton";
 
 const Banner = ({restaurant, scrollPosition, setNavTopPosition}) => {
 
@@ -43,6 +44,8 @@ const Banner = ({restaurant, scrollPosition, setNavTopPosition}) => {
             </button>
 
             <div className="action-button-container">
+                <RecommendButton restaurant={restaurant} style={bannerButtonsStyle}/>
+
                 <BookmarkButton restaurant={restaurant} style={bannerButtonsStyle}/>
 
                 <ShareButton id={restaurant?.id} style={bannerButtonsStyle}/>

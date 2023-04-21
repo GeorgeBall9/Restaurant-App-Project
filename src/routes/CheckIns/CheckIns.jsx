@@ -153,12 +153,14 @@ const CheckIns = () => {
                 <div className="check-ins-stats">
                     <div className="check-ins-streak">
                         <FontAwesomeIcon className="icon" icon={faFire} />
-                        <p>Week streak {checkInsStreak}</p>
+                        <span>{checkInsStreak}</span>
+                        <p>Week streak</p>
                     </div>
 
                     <div className="check-ins-total">
                         <FontAwesomeIcon className="icon" icon={faCircleCheck} />
-                        <p> Check-ins {totalCheckIns}</p>
+                        <span>{totalCheckIns}</span>
+                        <p>Check-ins</p>
                     </div>
                 </div>
 

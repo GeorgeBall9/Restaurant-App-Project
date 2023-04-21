@@ -32,7 +32,9 @@ const HomeCard = ({restaurant}) => {
 
     return (
         <div className="home-card" {...handlers}>
-            <div className="highlight-banner">Highly recommended</div>
+            {(id === "19769400" || id === "3820646" || id === "12510235") && (
+                <div className="highlight-banner">Highly recommended</div>
+            )}
 
             <div className="restaurant-image-background" style={{backgroundImage: `url(${photoUrl})`}}></div>
 

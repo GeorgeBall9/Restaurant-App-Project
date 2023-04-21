@@ -3,7 +3,7 @@ import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
 import StarRating from '../../common/components/StarRating/StarRating';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 
 import {
     faLocationDot,
@@ -29,8 +29,9 @@ import {checkIsOpen} from "../Bookmarks/Bookmarks";
 import {getRestaurantById} from "../../firebase/firebase";
 import ReviewsSection from "./ReviewsSection/ReviewsSection";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
+import {faBookmark, faHeart, faCheckCircle} from "@fortawesome/free-regular-svg-icons";
 
-const navLinksText = ["Website", "About", "Photos", "Hours", "Details", "Reviews"];
+const navLinksText = ["Interactions", "Website", "About", "Photos", "Hours", "Details", "Reviews"];
 
 const DetailsPage = () => {
 
@@ -45,12 +46,21 @@ const DetailsPage = () => {
     const popupIsVisible = useSelector(selectCheckInConfirmationIsVisible);
     const checkedIn = useSelector(selectCheckedIn);
 
+    const interactionsRef = useRef(null);
+    const websiteRef = useRef(null);
+    const aboutRef = useRef(null);
+    const photosRef = useRef(null);
+    const hoursRef = useRef(null);
+    const detailsRef = useRef(null);
+    const reviewsRef = useRef(null);
+
     const [restaurant, setRestaurant] = useState(null);
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
-    const [activeNavLink, setActiveNavLink] = useState("Website");
+    const [activeNavLink, setActiveNavLink] = useState("Interactions");
     const [navigationStyle, setNavigationStyle] = useState({top: 0});
+    const [interactions, setInteractions] = useState(null);
 
     useEffect(() => {
         if (!restaurant) {
@@ -80,8 +90,44 @@ const DetailsPage = () => {
     }, [restaurant, navigate]);
 
     useEffect(() => {
+        if (!restaurant) return;
+
+        getRestaurantById(restaurant.id)
+            .then(data => {
+                if (!data) return;
+                const {bookmarks, checkIns, recommendations} = data;
+                const foundInteractions = {bookmarks, checkIns, recommendations};
+                setInteractions(foundInteractions);
+            });
+    }, [restaurant]);
+
+    useEffect(() => {
         const handleScroll = () => {
-            setScrollPosition(window.scrollY);
+            const {scrollY} = window;
+            setScrollPosition(scrollY);
+
+            let previousTop = 0;
+
+            const bannerHeight = document.getElementById("banner").getBoundingClientRect().height;
+            const navHeight = document.getElementById("details-page-nav").getBoundingClientRect().height;
+            const adjustment = bannerHeight + navHeight;
+
+            const activeSection = [interactionsRef, websiteRef, aboutRef, photosRef, hoursRef, detailsRef, reviewsRef]
+                .find(({current}) => {
+                    const sectionBottom = current.offsetTop - adjustment + current.offsetHeight;
+                    const sectionIsActive = scrollY > previousTop && scrollY <= sectionBottom;
+
+                    if (sectionIsActive) {
+                        return true;
+                    } else {
+                        previousTop = sectionBottom;
+                        return false;
+                    }
+                })?.current;
+
+            if (activeSection) {
+                setActiveNavLink(activeSection.id);
+            }
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -169,14 +215,15 @@ const DetailsPage = () => {
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
     const handleNavLinkClick = (text) => {
-        setActiveNavLink(text);
+        const elementRef = [interactionsRef, websiteRef, aboutRef, photosRef, hoursRef, detailsRef, reviewsRef]
+            .find(({current}) => current.id === text)?.current;
 
-        const elementPosition = document.getElementById(text).offsetTop;
+        const elementPosition = elementRef.offsetTop;
         const bannerHeight = document.getElementById("banner").getBoundingClientRect().height;
         const navHeight = document.getElementById("details-page-nav").getBoundingClientRect().height;
 
         window.scrollTo({
-            top: elementPosition - (bannerHeight + navHeight + 15),
+            top: elementPosition - (bannerHeight + navHeight + 5),
             behavior: "smooth"
         });
     };
@@ -240,8 +287,29 @@ const DetailsPage = () => {
             </div>
 
             <div className="details-container">
+                <div id="Interactions" ref={interactionsRef} className="interactions">
+                    <h2>Interactions</h2>
+
+                    <div>
+                        <div className="stat-container">
+                            <FontAwesomeIcon icon={faHeart} className="icon"/>
+                            {interactions?.recommendations || "0"}
+                        </div>
+
+                        <div className="stat-container">
+                            <FontAwesomeIcon icon={faBookmark} className="icon"/>
+                            {interactions?.bookmarks || "0"}
+                        </div>
+
+                        <div className="stat-container">
+                            <FontAwesomeIcon icon={faCheckCircle} className="icon"/>
+                            {interactions?.checkIns || "0"}
+                        </div>
+                    </div>
+                </div>
+
                 {website && (
-                    <div id="Website" className="website">
+                    <div id="Website" ref={websiteRef} className="website">
                         <h2>Website</h2>
 
                         <Link to={website}>
@@ -252,7 +320,7 @@ const DetailsPage = () => {
                 )}
 
 
-                <div id="About" className="description">
+                <div id="About" ref={aboutRef} className="description">
                     <h2>About</h2>
 
                     <p>
@@ -278,12 +346,12 @@ const DetailsPage = () => {
                 </div>
 
 
-                <div id="Photos" className="pictures">
+                <div id="Photos" ref={photosRef} className="pictures">
                     <h2>Photos</h2>
                     <p>No photos available.</p>
                 </div>
 
-                <div id="Hours" className="hours">
+                <div id="Hours" ref={hoursRef} className="hours">
                     <h2>Opening Times</h2>
 
                     {displayedHours.map((hour, index) => (
@@ -291,7 +359,7 @@ const DetailsPage = () => {
                     ))}
                 </div>
 
-                <div id="Details" className="more-details">
+                <div id="Details" ref={detailsRef} className="more-details">
                     <h2>More Details</h2>
 
                     <div>
@@ -323,7 +391,7 @@ const DetailsPage = () => {
                     </div>
                 </div>
 
-                <div id="Reviews">
+                <div id="Reviews" ref={reviewsRef}>
                     <ReviewsSection userId={userId} restaurant={restaurant}/>
                 </div>
             </div>

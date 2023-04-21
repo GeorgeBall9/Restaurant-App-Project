@@ -11,7 +11,7 @@
 .signin-container h1 {
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-bold-1);
-    color: var(--primary-theme);
+    color: black;
     margin-bottom: 1.5rem;
   }
   
@@ -40,7 +40,7 @@
 }
 
 .signin-button:hover {
-  background-color: var(--primary-theme);
+  background-color: var(--secondary-theme);
 }
 
 .signin-page-signup {

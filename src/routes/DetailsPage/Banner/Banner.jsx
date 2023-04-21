@@ -1,6 +1,6 @@
 import "./Banner.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import BookmarkButton from "../../../common/components/BookmarkButton/BookmarkButton";
 import {useNavigate} from "react-router-dom";
 import ShareButton from "./ShareButton/ShareButton";
@@ -20,7 +20,7 @@ const Banner = ({restaurant, scrollPosition, setNavTopPosition}) => {
     useEffect(() => {
         if (!ref) return;
 
-        setNavTopPosition(ref.current.offsetHeight);
+        setNavTopPosition(ref.current.offsetHeight - 2);
     }, [ref]);
 
     const style = scrollPosition > 20
@@ -39,7 +39,7 @@ const Banner = ({restaurant, scrollPosition, setNavTopPosition}) => {
     return (
         <div id="banner" ref={ref} className="banner container" style={style}>
             <button className="back-button" onClick={handleBackClick} style={bannerButtonsStyle}>
-                <FontAwesomeIcon icon={faChevronLeft} className="icon" style={bannerButtonsStyle}/>
+                <FontAwesomeIcon icon={faArrowLeft} className="icon" style={bannerButtonsStyle}/>
                 Back
             </button>
 

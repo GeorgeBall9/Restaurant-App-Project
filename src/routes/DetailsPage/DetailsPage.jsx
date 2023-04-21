@@ -31,7 +31,7 @@ import ReviewsSection from "./ReviewsSection/ReviewsSection";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
 import {faBookmark, faHeart, faCheckCircle} from "@fortawesome/free-regular-svg-icons";
 
-const navLinksText = ["Website", "About", "Photos", "Hours", "Details", "Reviews"];
+const navLinksText = ["Interactions", "Website", "About", "Photos", "Hours", "Details", "Reviews"];
 
 const DetailsPage = () => {
 
@@ -246,19 +246,16 @@ const DetailsPage = () => {
 
                     <div>
                         <div className="stat-container">
-                            {/*Recommended*/}
                             <FontAwesomeIcon icon={faHeart} className="icon"/>
                             21
                         </div>
 
                         <div className="stat-container">
-                            {/*Bookmarked*/}
                             <FontAwesomeIcon icon={faBookmark} className="icon"/>
                             114
                         </div>
 
                         <div className="stat-container">
-                            {/*Checked-in*/}
                             <FontAwesomeIcon icon={faCheckCircle} className="icon"/>
                             17
                         </div>

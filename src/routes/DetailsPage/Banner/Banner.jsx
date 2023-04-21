@@ -20,7 +20,7 @@ const Banner = ({restaurant, scrollPosition, setNavTopPosition}) => {
     useEffect(() => {
         if (!ref) return;
 
-        setNavTopPosition(ref.current.offsetHeight);
+        setNavTopPosition(ref.current.offsetHeight - 2);
     }, [ref]);
 
     const style = scrollPosition > 20

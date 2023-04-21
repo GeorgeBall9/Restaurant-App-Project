@@ -70,12 +70,12 @@ const RecommendButton = ({restaurant, style}) => {
 
             {confirmationIsVisible && (
                 <div className="confirm-checkin-popup">
-                    <p>Would you like to
+                    <p>
                         {isRecommended
-                            ? " remove your recommendation for "
+                            ? "Remove recommendation for "
                             :
-                            " recommend "}
-                        {restaurant?.name}
+                            "Recommend "}
+                        {restaurant?.name}?
                     </p>
 
                     <div className="buttons-container">

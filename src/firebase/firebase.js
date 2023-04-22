@@ -249,13 +249,13 @@ export const removeUserBookmark = async (userId, restaurantId) => {
 };
 
 // add checked in restaurant to user doc
-export const addRestaurantCheckIn = async (userId, restaurant) => {
+export const addRestaurantCheckIn = async (userId, date, restaurant) => {
     try {
         const docSnap = await doc(db, "users", userId);
 
         const newCheckIn = {
             restaurantId: restaurant.id,
-            date: +new Date()
+            date: +new Date(date)
         };
 
         await updateDoc(docSnap, {
@@ -269,6 +269,19 @@ export const addRestaurantCheckIn = async (userId, restaurant) => {
         console.log(error)
         throw new Error("Document does not exist");
     }
+};
+
+// validate restaurant check in
+export const checkInExists = async (userId, date, restaurantId) => {
+    const docRef = await doc(db, "users", userId);
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.data().checkedIn
+        .some(({restaurantId: storedRestaurantId, date: dateInt}) => {
+            if (storedRestaurantId !== restaurantId) return false;
+            const checkInDate = new Date(dateInt).toISOString().split("T")[0];
+            return checkInDate === date;
+        });
 };
 
 // add checked in restaurant to user doc

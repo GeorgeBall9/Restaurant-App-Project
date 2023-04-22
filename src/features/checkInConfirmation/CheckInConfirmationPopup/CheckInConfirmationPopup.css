@@ -26,6 +26,10 @@
     border-radius: var(--border-radius);
 }
 
+.confirm-checkin-popup .feedback {
+    color: red;
+}
+
 .confirm-checkin-popup p span {
     font-weight: var(--font-weight-bold-2);
 }

@@ -1,5 +1,5 @@
 import "./CheckInConfirmationPopup.css";
-import {addRestaurantCheckIn, removeRestaurantCheckIn} from "../../../firebase/firebase";
+import {addRestaurantCheckIn, checkInExists, removeRestaurantCheckIn} from "../../../firebase/firebase";
 import {
     addCheckedInRestaurant,
     selectCheckedInRestaurants,
@@ -22,9 +22,8 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     const checkedInRestaurants = useSelector(selectCheckedInRestaurants);
 
     const [lastCheckIn, setLastCheckIn] = useState(null);
-    const [checkInDate, setCheckInDate] = useState(new Date()
-        .toISOString()
-        .split("T")[0]);
+    const [checkInDate, setCheckInDate] = useState(new Date().toISOString().split("T")[0]);
+    const [feedback, setFeedback] = useState("");
 
     useEffect(() => {
         if (!restaurantId || !checkedInRestaurants.length) return;
@@ -42,7 +41,14 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
             const checkedInData = await removeRestaurantCheckIn(userId, restaurantId);
             dispatch(setCheckedInRestaurants(checkedInData));
         } else {
-            const newCheckIn = await addRestaurantCheckIn(userId, restaurant);
+            const checkedInOnDate = await checkInExists(userId, checkInDate, restaurantId);
+
+            if (checkedInOnDate) {
+                setFeedback("You already checked in on this date!");
+                return;
+            }
+
+            const newCheckIn = await addRestaurantCheckIn(userId, checkInDate, restaurant);
             dispatch(addCheckedInRestaurant(newCheckIn));
         }
 
@@ -56,6 +62,7 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     };
 
     const handleDateChange = ({target}) => {
+        setFeedback("");
         setCheckInDate(target.value);
     };
 
@@ -64,6 +71,8 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
             {!checkedIn && lastCheckIn && (
                 <p>You last checked in on {lastCheckIn}.</p>
             )}
+
+            {feedback && <p className="feedback">{feedback}</p>}
 
             {!checkedIn && (
                 <div className="date-container">

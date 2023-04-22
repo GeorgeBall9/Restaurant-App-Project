@@ -12,7 +12,7 @@ import InteractiveStarRating
 
 const defaultFormFields = {
     rating: "",
-    visitDate: "",
+    visitDate: new Date().toISOString().split("T")[0],
     title: "",
     content: "",
 };

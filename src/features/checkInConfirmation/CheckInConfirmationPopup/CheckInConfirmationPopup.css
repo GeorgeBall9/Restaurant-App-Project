@@ -20,6 +20,12 @@
     border-bottom: solid 6px var(--primary-theme);
 }
 
+.confirm-checkin-popup .date-container {
+    background-color: var(--background-theme);
+    padding: 0.5em;
+    border-radius: var(--border-radius);
+}
+
 .confirm-checkin-popup p span {
     font-weight: var(--font-weight-bold-2);
 }

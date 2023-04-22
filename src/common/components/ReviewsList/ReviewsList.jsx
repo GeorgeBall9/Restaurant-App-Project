@@ -149,8 +149,6 @@ const ReviewsList = ({reviews, userId, preview}) => {
                                 )}
                             </header>
 
-
-
                             <div className="rating-and-date-container">
                                 <StarRating rating={rating}/>
 

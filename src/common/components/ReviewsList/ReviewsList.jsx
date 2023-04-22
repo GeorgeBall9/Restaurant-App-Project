@@ -144,7 +144,7 @@ const ReviewsList = ({reviews, userId, preview}) => {
                                     </div>
                                 )}
 
-                                {authorId !== userId && (
+                                {userId && authorId !== userId && (
                                     <ReportButton reviewId={id}/>
                                 )}
                             </header>

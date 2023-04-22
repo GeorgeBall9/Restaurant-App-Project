@@ -321,7 +321,8 @@ export const addRestaurantReview = async (userId, restaurant, data) => {
         reactions: {
             upVotes: [],
             downVotes: []
-        }
+        },
+        reported: false
     }
 
     const reviewDocRef = await addDoc(reviewsCollectionRef, newReview);
@@ -353,6 +354,21 @@ export const updateRestaurantReview = async (reviewId, updatedData) => {
 
     await updateDoc(docRef, {
         ...updatedData
+    });
+
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
+};
+
+// report restaurant review
+export const reportRestaurantReview = async (reviewId, description) => {
+    if (!reviewId) return;
+
+    const docRef = await doc(db, "reviews", reviewId);
+
+    await updateDoc(docRef, {
+        reported: true
     });
 
     const docSnap = await getDoc(docRef);

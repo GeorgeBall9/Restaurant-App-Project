@@ -1,6 +1,6 @@
 import "./ReviewsList.css";
 import StarRating from "../StarRating/StarRating";
-import {faCircleUp as faSolidCircleUp, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faCircleUp as faSolidCircleUp, faFlag, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
@@ -14,6 +14,7 @@ import {
 } from "../../../features/reviews/reviewsSlice";
 import ReviewForm from "../../../routes/DetailsPage/ReviewsSection/ReviewForm/ReviewForm";
 import UserIcon from "../UserIcon/UserIcon";
+import ReportButton from "./ReportButton/ReportButton";
 
 const ReviewsList = ({reviews, userId, preview}) => {
 
@@ -142,9 +143,11 @@ const ReviewsList = ({reviews, userId, preview}) => {
                                         </button>
                                     </div>
                                 )}
+
+                                {userId && authorId !== userId && (
+                                    <ReportButton reviewId={id}/>
+                                )}
                             </header>
-
-
 
                             <div className="rating-and-date-container">
                                 <StarRating rating={rating}/>
@@ -156,7 +159,6 @@ const ReviewsList = ({reviews, userId, preview}) => {
                             </div>
 
                             <h3>{title}</h3>
-
 
                             <p>{content}</p>
 

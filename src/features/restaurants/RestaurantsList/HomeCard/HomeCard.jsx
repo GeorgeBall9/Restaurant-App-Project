@@ -19,7 +19,7 @@ const HomeCard = ({restaurant}) => {
     const navigate = useNavigate();
 
     const showRestaurantDetails = (event) => {
-        if (event.event.target.closest(".container-rhs")) return;
+        if (event.event.target.closest(".bookmark-button")) return;
 
         navigate(`/details/${restaurant.id}`);
     };

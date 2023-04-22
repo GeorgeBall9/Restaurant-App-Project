@@ -7,10 +7,21 @@
     box-shadow: none;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 0.75em;
 }
 
 .banner h1 {
-    color: var(--primary-theme);
+    color: black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-align: center;
+    width: 100%;
+    transition: all 0.25s ease;
 }
 
 .banner .back-button {
@@ -25,7 +36,7 @@
 }
 
 .banner .back-button .icon {
-    margin-right: 0.5em;
+    margin-right: 0.25em;
 }
 
 .banner .icon {

@@ -43,7 +43,7 @@ const Banner = ({restaurant, scrollPosition, setNavTopPosition, showName}) => {
                 Back
             </button>
 
-            {showName && <h1>{restaurant?.name}</h1>}
+            <h1 style={{opacity: showName ? 1 : 0}}>{restaurant?.name}</h1>
 
             <div className="action-button-container">
                 <RecommendButton restaurant={restaurant} style={bannerButtonsStyle}/>

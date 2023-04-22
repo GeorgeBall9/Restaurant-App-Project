@@ -46,6 +46,7 @@ const DetailsPage = () => {
     const popupIsVisible = useSelector(selectCheckInConfirmationIsVisible);
     const checkedIn = useSelector(selectCheckedIn);
 
+    const nameRef = useRef(null);
     const interactionsRef = useRef(null);
     const websiteRef = useRef(null);
     const aboutRef = useRef(null);
@@ -61,6 +62,7 @@ const DetailsPage = () => {
     const [activeNavLink, setActiveNavLink] = useState("Interactions");
     const [navigationStyle, setNavigationStyle] = useState({top: 0});
     const [interactions, setInteractions] = useState(null);
+    const [showNameInBanner, setShowNameInBanner] = useState(false);
 
     useEffect(() => {
         if (!restaurant) {
@@ -123,10 +125,17 @@ const DetailsPage = () => {
                         previousTop = sectionBottom;
                         return false;
                     }
-                })?.current;
+                })
+                ?.current;
 
             if (activeSection) {
                 setActiveNavLink(activeSection.id);
+            }
+
+            if (nameRef.current.getBoundingClientRect().bottom - bannerHeight <= 0) {
+                setShowNameInBanner(true);
+            } else {
+                setShowNameInBanner(false);
             }
         };
 
@@ -240,14 +249,19 @@ const DetailsPage = () => {
         <div className="details-page container">
             {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn}/>}
 
-            <Banner restaurant={restaurant} scrollPosition={scrollPosition} setNavTopPosition={setNavTopPosition}/>
+            <Banner
+                restaurant={restaurant}
+                scrollPosition={scrollPosition}
+                setNavTopPosition={setNavTopPosition}
+                showName={showNameInBanner}
+            />
 
             <div className="image-and-info-container">
                 <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
 
                 <div className="restaurant-info">
                     <div className="title-container">
-                        <h1>{name}</h1>
+                        <h1 ref={nameRef}>{name}</h1>
 
                         <CheckInButton restaurantId={id}/>
                     </div>

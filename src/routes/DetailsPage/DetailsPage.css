@@ -46,8 +46,10 @@
 }
 
 .details-page .image-and-info-container .restaurant-info .title-container h1 {
-    width: 60%;
     color: white;
+}
+
+.details-page h1 {
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-bold-2);
 }

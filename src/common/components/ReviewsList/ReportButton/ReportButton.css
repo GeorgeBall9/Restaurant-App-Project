@@ -1,0 +1,4 @@
+.report-button .report-icon {
+    color: var(--primary-theme);
+    font-size: var(--font-size-icon-small);
+}

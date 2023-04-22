@@ -9,7 +9,7 @@ import {useDispatch} from "react-redux";
 import {useEffect, useRef} from "react";
 import RecommendButton from "./RecommendButton/RecommendButton";
 
-const Banner = ({restaurant, scrollPosition, setNavTopPosition}) => {
+const Banner = ({restaurant, scrollPosition, setNavTopPosition, showName}) => {
 
     const navigate = useNavigate();
 
@@ -42,6 +42,8 @@ const Banner = ({restaurant, scrollPosition, setNavTopPosition}) => {
                 <FontAwesomeIcon icon={faArrowLeft} className="icon" style={bannerButtonsStyle}/>
                 Back
             </button>
+
+            <h1 style={{opacity: showName ? 1 : 0}}>{restaurant?.name}</h1>
 
             <div className="action-button-container">
                 <RecommendButton restaurant={restaurant} style={bannerButtonsStyle}/>

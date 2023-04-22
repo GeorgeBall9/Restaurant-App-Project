@@ -1,20 +1,21 @@
 import "./ProfilePage.css";
 import {Link, useNavigate} from "react-router-dom";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {selectDisplayName, selectIconColour, selectUserId} from "../../features/user/userSlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faArrowLeft, faArrowRightFromBracket,
+    faArrowLeft,
     faBookmark,
     faCamera,
-    faCircleCheck, faCircleQuestion,
-    faComment, faRightFromBracket,
+    faCircleCheck,
+    faCircleQuestion,
+    faComment,
     faShareNodes,
     faUser
 } from "@fortawesome/free-solid-svg-icons";
 import {signOutAuthUser} from "../../firebase/firebase";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 
 const ProfilePage = () => {
 
@@ -59,10 +60,10 @@ const ProfilePage = () => {
             <main className="container">
                 <section className="profile-info-container">
                     <div className="user-icon-container">
-                        <UserIcon size="xLarge" colour={iconColour}/>
+                        <UserIcon size="xLarge" colour={iconColour} skeleton={!iconColour}/>
                     </div>
 
-                    {displayName}
+                    <p style={{visibility: displayName ? "visible" : "hidden"}}>{displayName || "display name"}</p>
                 </section>
 
                 <section className="contributions-container">

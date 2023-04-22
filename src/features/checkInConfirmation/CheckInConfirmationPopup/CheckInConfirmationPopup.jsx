@@ -1,5 +1,5 @@
 import "./CheckInConfirmationPopup.css";
-import {addRestaurantCheckIn, removeRestaurantCheckIn} from "../../../firebase/firebase";
+import {addRestaurantCheckIn, checkInExists, removeRestaurantCheckIn} from "../../../firebase/firebase";
 import {
     addCheckedInRestaurant,
     selectCheckedInRestaurants,
@@ -10,6 +10,7 @@ import {hideOverlay} from "../../overlay/overlaySlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {hideCheckInConfirmation} from "../checkInConfirmationSlice";
+import FormField from "../../../common/components/FormField/FormField";
 
 const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
@@ -21,6 +22,8 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     const checkedInRestaurants = useSelector(selectCheckedInRestaurants);
 
     const [lastCheckIn, setLastCheckIn] = useState(null);
+    const [checkInDate, setCheckInDate] = useState(new Date().toISOString().split("T")[0]);
+    const [feedback, setFeedback] = useState("");
 
     useEffect(() => {
         if (!restaurantId || !checkedInRestaurants.length) return;
@@ -38,7 +41,19 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
             const checkedInData = await removeRestaurantCheckIn(userId, restaurantId);
             dispatch(setCheckedInRestaurants(checkedInData));
         } else {
-            const newCheckIn = await addRestaurantCheckIn(userId, restaurant);
+            if (+new Date() < +new Date(checkInDate)) {
+                setFeedback("You can only check in today or earlier!");
+                return;
+            }
+
+            const checkedInOnDate = await checkInExists(userId, checkInDate, restaurantId);
+
+            if (checkedInOnDate) {
+                setFeedback("You already checked in on this date!");
+                return;
+            }
+
+            const newCheckIn = await addRestaurantCheckIn(userId, checkInDate, restaurant);
             dispatch(addCheckedInRestaurant(newCheckIn));
         }
 
@@ -51,10 +66,29 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
         dispatch(hideCheckInConfirmation());
     };
 
+    const handleDateChange = ({target}) => {
+        setFeedback("");
+        setCheckInDate(target.value);
+    };
+
     return (
         <div className="confirm-checkin-popup">
             {!checkedIn && lastCheckIn && (
                 <p>You last checked in on {lastCheckIn}.</p>
+            )}
+
+            {feedback && <p className="feedback">{feedback}</p>}
+
+            {!checkedIn && (
+                <div className="date-container">
+                    <FormField
+                        label="Check in date"
+                        name="visitDate"
+                        type="date"
+                        value={checkInDate}
+                        onChangeHandler={handleDateChange}
+                    />
+                </div>
             )}
 
             <p><span>Check {checkedIn ? "out" : "in"}</span> at {name}?</p>

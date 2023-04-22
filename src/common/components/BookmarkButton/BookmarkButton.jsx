@@ -1,7 +1,7 @@
 import "./BookmarkButton.css";
-import {faBookmark} from "@fortawesome/free-regular-svg-icons";
+import {faBookmark, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBookmark as faBookmarkSolid} from "@fortawesome/free-solid-svg-icons";
+import {faBookmark as faBookmarkSolid, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {
     addBookmark,
     removeBookmark,
@@ -26,6 +26,7 @@ const BookmarkButton = ({restaurant, style}) => {
     const bookmarks = useSelector(selectBookmarks);
 
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const [feedbackIsVisible, setFeedbackIsVisible] = useState(false);
 
     useEffect(() => {
         if (!bookmarks || !id) return;
@@ -36,25 +37,38 @@ const BookmarkButton = ({restaurant, style}) => {
     const handleBookmarkClick = async () => {
         if (!userId) {
             navigate("/sign-in");
-        } else if (isBookmarked) {
+            return;
+        }
+
+        if (isBookmarked) {
             dispatch(removeBookmark(id));
             await removeUserBookmark(userId, id);
         } else {
             dispatch(addBookmark(id));
             await addUserBookmark(userId, restaurant);
         }
+
+        setFeedbackIsVisible(true);
+        setTimeout(() => setFeedbackIsVisible(false), 2000);
     };
 
     return (
-        <button className="bookmark-button" onClick={handleBookmarkClick}>
-            {isBookmarked && (
-                <FontAwesomeIcon icon={faBookmarkSolid} className="icon" style={style}/>
-            )}
+        <>
+            <button className="bookmark-button" onClick={handleBookmarkClick}>
+                {isBookmarked && (
+                    <FontAwesomeIcon icon={faBookmarkSolid} className="icon" style={style}/>
+                )}
 
-            {!isBookmarked && (
-                <FontAwesomeIcon icon={faBookmark} className="icon" style={style}/>
-            )}
-        </button>
+                {!isBookmarked && (
+                    <FontAwesomeIcon icon={faBookmark} className="icon" style={style}/>
+                )}
+            </button>
+
+            <div className="bookmark-feedback" style={{opacity: feedbackIsVisible ? 1 : 0}}>
+                {isBookmarked ? "Saved to" : "Removed from"} bookmarks
+                <FontAwesomeIcon icon={isBookmarked ? faCircleCheck : faXmark} className="bookmark-feedback-icon"/>
+            </div>
+        </>
     );
 };
 

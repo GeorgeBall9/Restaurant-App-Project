@@ -41,6 +41,11 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
             const checkedInData = await removeRestaurantCheckIn(userId, restaurantId);
             dispatch(setCheckedInRestaurants(checkedInData));
         } else {
+            if (+new Date() < +new Date(checkInDate)) {
+                setFeedback("You can only check in today or earlier!");
+                return;
+            }
+
             const checkedInOnDate = await checkInExists(userId, checkInDate, restaurantId);
 
             if (checkedInOnDate) {

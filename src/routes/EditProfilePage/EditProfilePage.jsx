@@ -132,7 +132,7 @@ const EditProfilePage = () => {
            <main className="container">
                <section className="change-icon-section">
                    <div className="user-icon-container">
-                       <UserIcon size="xLarge" colour={iconColour}/>
+                       <UserIcon size="xLarge" colour={iconColour} skeleton={!iconColour}/>
 
                        <button onClick={handleChangeIconClick}>
                            <FontAwesomeIcon className="icon" icon={faPenToSquare}/>

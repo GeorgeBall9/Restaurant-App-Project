@@ -3,6 +3,8 @@
   border-radius: var(--border-radius);
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -16,6 +18,16 @@
 
 .collage-popup.visible {
   opacity: 1;
+}
+
+.collage-popup.expanded {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .collage-popup header {
@@ -46,7 +58,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  position: relative
+  position: relative;
 }
 
 .collage-popup-photos img {
@@ -54,6 +66,32 @@
   height: 100%;
   object-fit: cover;
   border-radius: var(--border-radius);
+}
+
+.collage-container-expanded {
+  width: 100%;
+  height: 100%;
+}
+
+.collage-image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.collage-image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: var(--font-size-sub-heading);
+  font-weight: var(--font-weight-bold-2);
+  cursor: pointer;
 }
 
 .collage-popup-function {

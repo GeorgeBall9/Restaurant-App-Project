@@ -8,7 +8,6 @@
 .friends-page-container header {
     background-color: white;
     border-bottom: solid 1px lightgrey;
-    margin-bottom: 1em;
 }
 
 .friends-page-container header > div {
@@ -48,6 +47,15 @@
 
 .friends-page-container main {
     position: relative;
+}
+
+.friends-page-container main .display-button {
+    background-color: white;
+    color: var(--primary-theme);
+    font-weight: var(--font-weight-bold-1);
+    padding: 0.5em;
+    border-radius: var(--border-radius);
+    margin-bottom: 1em;
 }
 
 .friend-icon-container main .add-friend-popup {
@@ -94,7 +102,6 @@
     flex-direction: column;
     align-items: center;
     gap: 0.5em;
-    box-shadow: var(--box-shadow);
 }
 
 .friends-page-container .friend-icons-container .friend-icon-container p {

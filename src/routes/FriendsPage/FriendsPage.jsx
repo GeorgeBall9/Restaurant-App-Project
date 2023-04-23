@@ -18,6 +18,7 @@ const FriendsPage = () => {
 
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
+    const [display, setDisplay] = useState("friends");
     const [addFriendId, setAddFriendId] = useState("");
     const [foundUser, setFoundUser] = useState(null);
     const [friendRequests, setFriendRequests] = useState(null);
@@ -31,6 +32,10 @@ const FriendsPage = () => {
 
     const handleBackClick = () => {
         navigate("/profile");
+    };
+
+    const handleDisplayLinkClick = () => {
+        setDisplay(display => display === "friends" ? "requests" : "friends");
     };
 
     const handleFindUserClick = async () => {
@@ -75,17 +80,21 @@ const FriendsPage = () => {
             </header>
 
             <main className="container">
-                <div className="links-container">
-                    <button onClick={() => setAddPopupIsVisible(true)}>
-                        Add
-                        <FontAwesomeIcon className="icon" icon={faPlus}/>
-                    </button>
+                <button className="display-button" onClick={handleDisplayLinkClick}>
+                    {display === "friends" ? "Requests" : "Friends"}
+                </button>
 
-                    <button>
-                        Invite
-                        <FontAwesomeIcon className="icon" icon={faLink}/>
-                    </button>
-                </div>
+                {/*<div className="links-container">*/}
+                {/*    <button onClick={() => setAddPopupIsVisible(true)}>*/}
+                {/*        Add*/}
+                {/*        <FontAwesomeIcon className="icon" icon={faPlus}/>*/}
+                {/*    </button>*/}
+
+                {/*    <button>*/}
+                {/*        Invite*/}
+                {/*        <FontAwesomeIcon className="icon" icon={faLink}/>*/}
+                {/*    </button>*/}
+                {/*</div>*/}
 
                 {addPopupIsVisible && (
                     <div className="confirm-checkin-popup">
@@ -117,31 +126,31 @@ const FriendsPage = () => {
                     </div>
                 )}
 
-                <h2>Friend Requests</h2>
-
-                <div className="friend-icons-container">
-                    {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
-                        <div key={id} className="friend-icon-container">
-                            <UserIcon size="larger" colour={iconColour}/>
-                            <p>{displayName}</p>
-                            <div className="buttons-container">
-                                <button onClick={handleYesClick}>Confirm</button>
-                                <button onClick={handleNoClick}>Delete</button>
+                {display === "request" && (
+                    <div className="friend-icons-container">
+                        {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
+                            <div key={id} className="friend-icon-container">
+                                <UserIcon size="larger" colour={iconColour}/>
+                                <p>{displayName}</p>
+                                <div className="buttons-container">
+                                    <button onClick={handleYesClick}>Confirm</button>
+                                    <button onClick={handleNoClick}>Delete</button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
 
-                <h2>Friends</h2>
-
-                <div className="friend-icons-container">
-                    {[...Array(3)].map(() => (
-                        <div className="friend-icon-container">
-                            <UserIcon size="larger"/>
-                            <p>username</p>
-                        </div>
-                    ))}
-                </div>
+                {display === "friends" && (
+                    <div className="friend-icons-container">
+                        {[...Array(3)].map(() => (
+                            <div className="friend-icon-container">
+                                <UserIcon size="larger"/>
+                                <p>username</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </main>
         </div>
     );

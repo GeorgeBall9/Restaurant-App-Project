@@ -6,7 +6,7 @@ import UserIcon from "../../common/components/UserIcon/UserIcon";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useState} from "react";
 import FormField from "../../common/components/FormField/FormField";
-import {getUserFromUserId} from "../../firebase/firebase";
+import {getUserFromUserId, sendFriendRequestToUser} from "../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 
@@ -33,8 +33,9 @@ const FriendsPage = () => {
         }
     };
 
-    const handleYesClick = () => {
+    const handleYesClick = async () => {
         console.log(addFriendId);
+        await sendFriendRequestToUser(userId, addFriendId);
     };
 
     const handleNoClick = () => {

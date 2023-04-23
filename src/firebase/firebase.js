@@ -502,5 +502,17 @@ export const removeInteractionFromRestaurantDoc = async (restaurantId, interacti
 export const sendFriendRequestToUser = async (userId, friendId) => {
     if (!userId || !friendId) return;
 
+    const userDocRef = await doc(db, "users", userId);
+    const friendDocRef = await doc(db, "users", friendId);
 
+    await updateDoc(userDocRef, {
+        friends: arrayUnion({
+            userId: friendId,
+            status: "pending"
+        })
+    });
+
+    await updateDoc(friendDocRef, {
+        friendRequests: arrayUnion(userId)
+    });
 };

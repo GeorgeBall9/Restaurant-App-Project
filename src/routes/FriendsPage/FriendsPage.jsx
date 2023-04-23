@@ -4,9 +4,9 @@ import {faArrowLeft, faCirclePlus, faLink, faMagnifyingGlass, faPlus} from "@for
 import {useNavigate} from "react-router-dom";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import FormField from "../../common/components/FormField/FormField";
-import {getUserFromUserId, sendFriendRequestToUser} from "../../firebase/firebase";
+import {getFriendRequestsByUserId, getUserFromUserId, sendFriendRequestToUser} from "../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 
@@ -20,6 +20,19 @@ const FriendsPage = () => {
     const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
     const [addFriendId, setAddFriendId] = useState("");
     const [foundUser, setFoundUser] = useState(null);
+    const [friendRequests, setFriendRequests] = useState(null);
+
+    useEffect(() => {
+        if (!userId) return;
+
+        getFriendRequestsByUserId(userId)
+            .then(data => {
+                if (data) {
+                    console.log(data);
+                    setFriendRequests(data);
+                }
+            })
+    }, [userId]);
 
     const handleBackClick = () => {
         navigate("/profile");
@@ -34,7 +47,6 @@ const FriendsPage = () => {
     };
 
     const handleYesClick = async () => {
-        console.log(addFriendId);
         await sendFriendRequestToUser(userId, addFriendId);
     };
 

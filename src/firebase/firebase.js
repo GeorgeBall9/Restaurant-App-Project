@@ -516,3 +516,18 @@ export const sendFriendRequestToUser = async (userId, friendId) => {
         friendRequests: arrayUnion(userId)
     });
 };
+
+// get friend requests
+export const getFriendRequestsByUserId = async (userId) => {
+    if (!userId) return;
+
+    const userData = await getUserFromUserId(userId);
+
+    const friendRequests = userData.friendRequests;
+
+    if (!friendRequests) {
+        return null;
+    }
+
+    return await Promise.all(friendRequests.map(async (requestId) => await getUserFromUserId(requestId)));
+};

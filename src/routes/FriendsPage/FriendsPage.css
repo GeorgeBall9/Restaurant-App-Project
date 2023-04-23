@@ -46,6 +46,14 @@
     max-width: 100%;
 }
 
+.friends-page-container main {
+    position: relative;
+}
+
+.friend-icon-container main .add-friend-popup {
+    position: absolute;
+}
+
 .friends-page-container .links-container {
     display: flex;
     justify-content: center;

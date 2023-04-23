@@ -2,7 +2,7 @@ import "./CheckInsCollage.css";
 
 import CustomCollage from "./CustomCollage/CustomCollage.jsx";
 import { useState, useEffect } from "react";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CheckInsCollage = ({ restaurant, onClose }) => {
@@ -41,23 +41,24 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
 
     return (
         <div className={`collage-popup ${isVisible ? "visible" : ""} ${isExpanded ? "expanded" : ""}`}>
-          <header>
-            <button onClick={handleBackClick}>
-              <FontAwesomeIcon className="icon" icon={faArrowLeft} />
-              Back
-            </button>
-            <h2>{restaurant.name}</h2>
-          </header>
-          {/* Render the collage of photos using CustomCollage */}
-          <div className={`collage-popup-photos ${isExpanded ? "collage-container-expanded" : ""}`}>
-            <CustomCollage images={demoPhotos} rows={isExpanded ? 3 : 2} columns={isExpanded ? 2 : 2} onExpand={handleExpand} />
-          </div>
-    
-          <div className="collage-popup-function">
-            <button>Add Photo</button>
-          </div>
+            <div className={`collage-popup-header ${isExpanded ? "collage-haeder-sticky" : ""}`}>
+                <button onClick={handleBackClick}>
+                    <FontAwesomeIcon className="icon" icon={faArrowLeft} />
+                    Back
+                </button>
+                <h2>{restaurant.name}</h2>
+                <div className="collage-popup-function">
+                    <button><FontAwesomeIcon className="icon" icon={faImage} /> </button>
+                </div>
+            </div>
+            {/* Render the collage of photos using CustomCollage */}
+            <div className={`collage-popup-photos ${isExpanded ? "collage-popup-photos-expanded" : ""}`}>
+                <CustomCollage images={demoPhotos} rows={isExpanded ? 100 : 2} columns={isExpanded ? 2 : 2} onExpand={handleExpand} />
+            </div>
+
+
         </div>
-      );
-    };
+    );
+};
 
 export default CheckInsCollage;

@@ -10,12 +10,13 @@ import {
     faCamera,
     faCircleCheck,
     faCircleQuestion,
-    faComment,
+    faComment, faPen, faPenToSquare,
     faShareNodes,
-    faUser
+    faUser, faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
 import {signOutAuthUser} from "../../firebase/firebase";
 import {useEffect} from "react";
+import ContributionsButton from "./ContributionsButton/ContributionsButton";
 
 const ProfilePage = () => {
 
@@ -67,25 +68,16 @@ const ProfilePage = () => {
                 </section>
 
                 <section className="contributions-container">
-                    <Link to="/bookmarks">
-                        <FontAwesomeIcon className="icon" icon={faBookmark}/>
-                        Bookmarks
-                    </Link>
+                    <ContributionsButton route="/bookmarks" icon={faBookmark} name="Bookmarks"/>
 
-                    <Link to="/check-ins">
-                        <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
-                        Check ins
-                    </Link>
+                    <ContributionsButton route="/check-ins" icon={faCircleCheck} name="Check ins"/>
 
-                    <Link to="/preview-reviews">
-                        <FontAwesomeIcon className="icon" icon={faComment}/>
-                        Reviews
-                    </Link>
+                    <ContributionsButton route="/preview-reviews" icon={faComment} name="Reviews"/>
                 </section>
 
                 <section className="options-container">
                     <Link to="/edit-profile">
-                        <FontAwesomeIcon className="icon" icon={faUser}/>
+                        <FontAwesomeIcon className="icon" icon={faPen}/>
                         Edit profile
                     </Link>
 
@@ -95,13 +87,8 @@ const ProfilePage = () => {
                     </Link>
 
                     <Link to="/edit-profile">
-                        <FontAwesomeIcon className="icon" icon={faShareNodes}/>
-                        Share
-                    </Link>
-
-                    <Link to="/edit-profile">
-                        <FontAwesomeIcon className="icon" icon={faCircleQuestion}/>
-                        Help
+                        <FontAwesomeIcon className="icon" icon={faUserGroup}/>
+                        Friends
                     </Link>
                 </section>
 

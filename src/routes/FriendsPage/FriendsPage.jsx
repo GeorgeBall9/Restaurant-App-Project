@@ -117,18 +117,28 @@ const FriendsPage = () => {
                     </div>
                 )}
 
-                <div className="friend-icons-container">
-                    {[...Array(9)].map(() => (
-                        <div className="friend-icon-container">
-                            <UserIcon size="larger"/>
-                            <p>username</p>
-                        </div>
-                    ))}
+                <h2>Friend Requests</h2>
 
+                <div className="friend-icons-container">
                     {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
                         <div key={id} className="friend-icon-container">
                             <UserIcon size="larger" colour={iconColour}/>
                             <p>{displayName}</p>
+                            <div className="buttons-container">
+                                <button onClick={handleYesClick}>Confirm</button>
+                                <button onClick={handleNoClick}>Delete</button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                <h2>Friends</h2>
+
+                <div className="friend-icons-container">
+                    {[...Array(3)].map(() => (
+                        <div className="friend-icon-container">
+                            <UserIcon size="larger"/>
+                            <p>username</p>
                         </div>
                     ))}
                 </div>

@@ -26,12 +26,7 @@ const FriendsPage = () => {
         if (!userId) return;
 
         getFriendRequestsByUserId(userId)
-            .then(data => {
-                if (data) {
-                    console.log(data);
-                    setFriendRequests(data);
-                }
-            })
+            .then(data => setFriendRequests(data));
     }, [userId]);
 
     const handleBackClick = () => {
@@ -123,11 +118,17 @@ const FriendsPage = () => {
                 )}
 
                 <div className="friend-icons-container">
-                    {[...Array(9)].map(entry => (
+                    {[...Array(9)].map(() => (
                         <div className="friend-icon-container">
                             <UserIcon size="larger"/>
-
                             <p>username</p>
+                        </div>
+                    ))}
+
+                    {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
+                        <div key={id} className="friend-icon-container">
+                            <UserIcon size="larger" colour={iconColour}/>
+                            <p>{displayName}</p>
                         </div>
                     ))}
                 </div>

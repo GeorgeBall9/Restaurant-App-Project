@@ -99,4 +99,5 @@
 
 .friends-page-container .friend-icons-container .friend-icon-container p {
     font-size: var(--font-size-smaller);
+    text-align: center;
 }

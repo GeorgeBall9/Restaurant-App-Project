@@ -1,7 +1,8 @@
 import "./FriendsPage.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faCirclePlus, faLink, faMagnifyingGlass, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
+import UserIcon from "../../common/components/UserIcon/UserIcon";
 
 const FriendsPage = () => {
 
@@ -22,12 +23,36 @@ const FriendsPage = () => {
 
                     <h1>Friends</h1>
 
-                    <button  style={{visibility: "hidden"}}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
+                    <button>
+                        <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
+                        Search
                     </button>
                 </div>
             </header>
+
+            <main className="container">
+                <div className="links-container">
+                    <button>
+                        Add
+                        <FontAwesomeIcon className="icon" icon={faPlus}/>
+                    </button>
+
+                    <button>
+                        Invite
+                        <FontAwesomeIcon className="icon" icon={faLink}/>
+                    </button>
+                </div>
+
+                <div className="friend-icons-container">
+                    {[...Array(9)].map(entry => (
+                        <div className="friend-icon-container">
+                            <UserIcon size="large"/>
+
+                            <p>username</p>
+                        </div>
+                    ))}
+                </div>
+            </main>
         </div>
     );
 };

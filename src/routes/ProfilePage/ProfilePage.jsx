@@ -86,7 +86,7 @@ const ProfilePage = () => {
                         Photos
                     </Link>
 
-                    <Link to="/edit-profile">
+                    <Link to="/friends">
                         <FontAwesomeIcon className="icon" icon={faUserGroup}/>
                         Friends
                     </Link>

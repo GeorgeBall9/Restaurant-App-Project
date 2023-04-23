@@ -41,6 +41,21 @@
     font-weight: var(--font-weight-bold-1);
 }
 
+.profile-page-container .profile-info-container .copy-id-button {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin: 1em auto 0;
+    background-color: var(--secondary-theme);
+    padding: 0.5em 0.75em;
+    border-radius: var(--border-radius);
+}
+
+.profile-page-container .profile-info-container .copy-id-button .icon {
+    color: white;
+}
+
 .profile-page-container .profile-info-container .user-icon-container {
     border: solid 4px lightgrey;
     border-radius: 50%;

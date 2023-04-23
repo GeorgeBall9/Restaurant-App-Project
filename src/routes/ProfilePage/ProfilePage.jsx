@@ -10,7 +10,7 @@ import {
     faCamera,
     faCircleCheck,
     faCircleQuestion,
-    faComment, faPen, faPenToSquare,
+    faComment, faCopy, faPen, faPenToSquare,
     faShareNodes,
     faUser, faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
@@ -65,6 +65,11 @@ const ProfilePage = () => {
                     </div>
 
                     <p style={{visibility: displayName ? "visible" : "hidden"}}>{displayName || "display name"}</p>
+
+                    <button className="copy-id-button">
+                        Copy user ID
+                        <FontAwesomeIcon className="icon" icon={faCopy}/>
+                    </button>
                 </section>
 
                 <section className="contributions-container">

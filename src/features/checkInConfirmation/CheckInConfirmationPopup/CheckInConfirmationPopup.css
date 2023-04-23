@@ -46,7 +46,7 @@
     color: white;
 }
 
-.confirm-checkin-popup .buttons-container button:last-child {
+.confirm-checkin-popup .buttons-container button:nth-child(2) {
     background-color: white;
     color: var(--primary-theme);
 }
@@ -60,7 +60,7 @@
 .confirm-checkin-popup .buttons-container button {
     border: solid 2px var(--primary-theme);
     border-radius: var(--border-radius);
-    width: 50%;
+    width: 100%;
     text-align: center;
     display: inline-block;
     padding: 0.35em 0;

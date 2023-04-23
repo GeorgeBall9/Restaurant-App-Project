@@ -497,3 +497,10 @@ export const removeInteractionFromRestaurantDoc = async (restaurantId, interacti
     restaurantData[interaction]--;
     await createRestaurantDoc(restaurantData);
 };
+
+// send friend request
+export const sendFriendRequestToUser = async (userId, friendId) => {
+    if (!userId || !friendId) return;
+
+
+};

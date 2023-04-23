@@ -6,17 +6,31 @@ import UserIcon from "../../common/components/UserIcon/UserIcon";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useState} from "react";
 import FormField from "../../common/components/FormField/FormField";
+import {getUserFromUserId} from "../../firebase/firebase";
+import {useSelector} from "react-redux";
+import {selectUserId} from "../../features/user/userSlice";
 
 const FriendsPage = () => {
 
     const navigate = useNavigate();
 
+    const userId = useSelector(selectUserId);
+
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
     const [addFriendId, setAddFriendId] = useState("");
+    const [foundUser, setFoundUser] = useState(null);
 
     const handleBackClick = () => {
         navigate("/profile");
+    };
+
+    const handleFindUserClick = async () => {
+        const user = await getUserFromUserId(addFriendId);
+
+        if (user?.id !== userId) {
+            setFoundUser(user);
+        }
     };
 
     const handleYesClick = () => {
@@ -77,12 +91,21 @@ const FriendsPage = () => {
                             />
                         </div>
 
-                        <p>Send friend request?</p>
+                        {foundUser && <p>Send friend request to <span>{foundUser.displayName}</span>?</p>}
 
-                        <div className="buttons-container">
-                            <button onClick={handleYesClick}>Yes</button>
-                            <button onClick={handleNoClick}>No</button>
-                        </div>
+                        {!foundUser && (
+                            <div className="buttons-container">
+                                <button onClick={handleFindUserClick}>Find user</button>
+                                <button onClick={handleNoClick}>Cancel</button>
+                            </div>
+                        )}
+
+                        {foundUser && (
+                            <div className="buttons-container">
+                                <button onClick={handleYesClick}>Yes</button>
+                                <button onClick={handleNoClick}>No</button>
+                            </div>
+                        )}
                     </div>
                 )}
 

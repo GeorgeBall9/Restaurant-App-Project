@@ -10,12 +10,12 @@ import {
     faCamera,
     faCircleCheck,
     faCircleQuestion,
-    faComment, faPen, faPenToSquare,
+    faComment, faCopy, faPen, faPenToSquare,
     faShareNodes,
     faUser, faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
 import {signOutAuthUser} from "../../firebase/firebase";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import ContributionsButton from "./ContributionsButton/ContributionsButton";
 
 const ProfilePage = () => {
@@ -25,6 +25,8 @@ const ProfilePage = () => {
     const userId = useSelector(selectUserId);
     const displayName = useSelector(selectDisplayName);
     const iconColour = useSelector(selectIconColour);
+
+    const [idCopied, setIdCopied] = useState(false);
 
     useEffect(() => {
         if (!userId) {
@@ -38,6 +40,11 @@ const ProfilePage = () => {
 
     const handleSignOutClick = async () => {
         await signOutAuthUser();
+    };
+
+    const handleCopyIdClick = () => {
+        navigator.clipboard.writeText(userId + "")
+            .then(() => setIdCopied(true));
     };
 
     return (
@@ -65,6 +72,11 @@ const ProfilePage = () => {
                     </div>
 
                     <p style={{visibility: displayName ? "visible" : "hidden"}}>{displayName || "display name"}</p>
+
+                    <button className="copy-id-button" onClick={handleCopyIdClick}>
+                        {idCopied ? "Copied" :"Copy user ID"}
+                        <FontAwesomeIcon className="icon" icon={idCopied ? faCircleCheck : faCopy}/>
+                    </button>
                 </section>
 
                 <section className="contributions-container">

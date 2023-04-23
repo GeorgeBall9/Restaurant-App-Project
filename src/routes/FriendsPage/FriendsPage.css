@@ -66,10 +66,15 @@
 .friends-page-container .friend-icons-container .friend-icon-container {
     background-color: white;
     border-radius: var(--border-radius);
-    padding: 1em;
+    padding: 0.75em;
     width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5em;
+    box-shadow: var(--box-shadow);
+}
+
+.friends-page-container .friend-icons-container .friend-icon-container p {
+    font-size: var(--font-size-smaller);
 }

@@ -46,7 +46,7 @@ const FriendsPage = () => {
                 <div className="friend-icons-container">
                     {[...Array(9)].map(entry => (
                         <div className="friend-icon-container">
-                            <UserIcon size="large"/>
+                            <UserIcon size="larger"/>
 
                             <p>username</p>
                         </div>

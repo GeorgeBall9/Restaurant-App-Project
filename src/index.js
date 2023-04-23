@@ -26,6 +26,7 @@ import Bookmarks from "./routes/Bookmarks/Bookmarks";
 import CheckIns from "./routes/CheckIns/CheckIns";
 import PreviewReviews from "./routes/PreviewReviews/PreviewReviews";
 import ReviewsPage from "./routes/ReviewsPage/ReviewsPage";
+import FriendsPage from "./routes/FriendsPage/FriendsPage";
 
 const router = createBrowserRouter([
     {
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
                     {
                         path: "preview-reviews",
                         element: <PreviewReviews/>,
+                    },
+                    {
+                        path: "friends",
+                        element: <FriendsPage/>,
                     },
                 ]
             },

@@ -497,3 +497,37 @@ export const removeInteractionFromRestaurantDoc = async (restaurantId, interacti
     restaurantData[interaction]--;
     await createRestaurantDoc(restaurantData);
 };
+
+// send friend request
+export const sendFriendRequestToUser = async (userId, friendId) => {
+    if (!userId || !friendId) return;
+
+    const userDocRef = await doc(db, "users", userId);
+    const friendDocRef = await doc(db, "users", friendId);
+
+    await updateDoc(userDocRef, {
+        friends: arrayUnion({
+            userId: friendId,
+            status: "pending"
+        })
+    });
+
+    await updateDoc(friendDocRef, {
+        friendRequests: arrayUnion(userId)
+    });
+};
+
+// get friend requests
+export const getFriendRequestsByUserId = async (userId) => {
+    if (!userId) return;
+
+    const userData = await getUserFromUserId(userId);
+
+    const friendRequests = userData.friendRequests;
+
+    if (!friendRequests) {
+        return null;
+    }
+
+    return await Promise.all(friendRequests.map(async (requestId) => await getUserFromUserId(requestId)));
+};

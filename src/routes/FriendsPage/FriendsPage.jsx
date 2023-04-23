@@ -64,7 +64,7 @@ const FriendsPage = () => {
                         Back
                     </button>
 
-                    <h1>Friends</h1>
+                    <h1>{display}</h1>
 
                     <button onClick={() => setSearchIsVisible(searchIsVisible => !searchIsVisible)}>
                         {!searchIsVisible && <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>}
@@ -80,21 +80,23 @@ const FriendsPage = () => {
             </header>
 
             <main className="container">
-                <button className="display-button" onClick={handleDisplayLinkClick}>
-                    {display === "friends" ? "Requests" : "Friends"}
-                </button>
+                <div className="links-container">
+                    <button className="display-button" onClick={handleDisplayLinkClick}>
+                        {display === "friends" ? "Requests" : "Friends"}
+                    </button>
 
-                {/*<div className="links-container">*/}
-                {/*    <button onClick={() => setAddPopupIsVisible(true)}>*/}
-                {/*        Add*/}
-                {/*        <FontAwesomeIcon className="icon" icon={faPlus}/>*/}
-                {/*    </button>*/}
+                    <div>
+                        <button onClick={() => setAddPopupIsVisible(true)}>
+                            Add
+                            <FontAwesomeIcon className="icon" icon={faPlus}/>
+                        </button>
 
-                {/*    <button>*/}
-                {/*        Invite*/}
-                {/*        <FontAwesomeIcon className="icon" icon={faLink}/>*/}
-                {/*    </button>*/}
-                {/*</div>*/}
+                        <button>
+                            Invite
+                            <FontAwesomeIcon className="icon" icon={faLink}/>
+                        </button>
+                    </div>
+                </div>
 
                 {addPopupIsVisible && (
                     <div className="confirm-checkin-popup">
@@ -130,8 +132,15 @@ const FriendsPage = () => {
                     <div className="friend-icons-container">
                         {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
                             <div key={id} className="friend-icon-container">
-                                <UserIcon size="larger" colour={iconColour}/>
-                                <p>{displayName}</p>
+                                <div>
+                                    <UserIcon size="larger" colour={iconColour}/>
+
+                                    <div className="info-container">
+                                        <h3>{displayName}</h3>
+                                        <p>6 mutual friends</p>
+                                    </div>
+                                </div>
+
                                 <div className="buttons-container">
                                     <button onClick={handleYesClick}>Confirm</button>
                                     <button onClick={handleNoClick}>Delete</button>

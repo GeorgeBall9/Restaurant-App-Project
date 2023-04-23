@@ -19,6 +19,7 @@
 .friends-page-container header h1 {
     font-size: 1rem;
     font-weight: 500;
+    text-transform: capitalize;
 }
 
 .friends-page-container header button {
@@ -45,17 +46,9 @@
     max-width: 100%;
 }
 
-.friends-page-container main {
-    position: relative;
-}
-
-.friends-page-container main .display-button {
+.friends-page-container main .links-container .display-button {
     background-color: white;
     color: var(--primary-theme);
-    font-weight: var(--font-weight-bold-1);
-    padding: 0.5em;
-    border-radius: var(--border-radius);
-    margin-bottom: 1em;
 }
 
 .friend-icon-container main .add-friend-popup {
@@ -64,9 +57,13 @@
 
 .friends-page-container .links-container {
     display: flex;
-    justify-content: center;
-    gap: 1em;
+    justify-content: space-between;
     margin-bottom: 1.5em;
+}
+
+.friends-page-container .links-container > div {
+    display: flex;
+    gap: 0.5em;
 }
 
 .friends-page-container .links-container button {
@@ -76,9 +73,7 @@
     font-weight: var(--font-weight-bold-1);
     background-color: var(--primary-theme);
     border-radius: var(--border-radius);
-    padding: 0.75em 1em;
-    width: 50%;
-    max-width: 100px;
+    padding: 0.5em 0.75em;
     justify-content: center;
 }
 

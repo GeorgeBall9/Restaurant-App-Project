@@ -3,7 +3,6 @@
     border: none;
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 .friends-page-container header {
@@ -27,10 +26,24 @@
     color: var(--secondary-theme);
     font-weight: var(--font-weight-bold-2);
     font-size: var(--font-size-smaller);
+    width: 70px;
+}
+
+.friends-page-container header button:first-child {
+    justify-content: flex-start;
+}
+
+.friends-page-container header button:last-child {
+    justify-content: flex-end;
 }
 
 .friends-page-container header button .icon {
     margin-right: 0.5em;
+}
+
+.friends-page-container header .search-box {
+    width: 100%;
+    max-width: 100%;
 }
 
 .friends-page-container .links-container {
@@ -50,6 +63,7 @@
     padding: 0.75em 1em;
     width: 50%;
     max-width: 100px;
+    justify-content: center;
 }
 
 .friends-page-container .links-container button .icon {

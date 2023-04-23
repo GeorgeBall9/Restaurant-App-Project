@@ -3,10 +3,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faCirclePlus, faLink, faMagnifyingGlass, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
+import SearchBox from "../../common/components/SearchBox/SearchBox";
+import {useState} from "react";
 
 const FriendsPage = () => {
 
     const navigate = useNavigate();
+
+    const [searchIsVisible, setSearchIsVisible] = useState(false);
 
     const handleBackClick = () => {
         navigate("/profile");
@@ -16,18 +20,24 @@ const FriendsPage = () => {
         <div className="friends-page-container">
             <header>
                 <div className="container">
-                    <button onClick={handleBackClick}>
+                    <button className="back-button" onClick={handleBackClick}>
                         <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
                         Back
                     </button>
 
                     <h1>Friends</h1>
 
-                    <button>
-                        <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
-                        Search
+                    <button onClick={() => setSearchIsVisible(searchIsVisible => !searchIsVisible)}>
+                        {!searchIsVisible && <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>}
+                        {searchIsVisible ? "Cancel" : "Search"}
                     </button>
                 </div>
+
+                {searchIsVisible && (
+                    <div className="container">
+                        <SearchBox/>
+                    </div>
+                )}
             </header>
 
             <main className="container">

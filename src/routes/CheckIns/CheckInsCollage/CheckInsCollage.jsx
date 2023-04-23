@@ -50,7 +50,7 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
           </header>
           {/* Render the collage of photos using CustomCollage */}
           <div className={`collage-popup-photos ${isExpanded ? "collage-container-expanded" : ""}`}>
-            <CustomCollage images={demoPhotos} rows={isExpanded ? 4 : 2} columns={isExpanded ? 4 : 2} onExpand={handleExpand} />
+            <CustomCollage images={demoPhotos} rows={isExpanded ? 3 : 2} columns={isExpanded ? 2 : 2} onExpand={handleExpand} />
           </div>
     
           <div className="collage-popup-function">

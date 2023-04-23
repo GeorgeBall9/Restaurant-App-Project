@@ -88,25 +88,32 @@
 
 .friends-page-container .friend-icons-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1em;
-    justify-content: center;
+    flex-direction: column;
+    gap: 0.5em;
 }
 
 .friends-page-container .friend-icons-container .friend-icon-container {
     background-color: white;
     border-radius: var(--border-radius);
-    padding: 0.75em;
-    width: 30%;
+    padding: 0.5em 0.75em;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+}
+
+.friends-page-container .friend-icons-container .friend-icon-container > div {
+    display: flex;
     align-items: center;
-    gap: 0.5em;
+    gap: 0.75em;
+}
+
+.friends-page-container .friend-icons-container .friend-icon-container h3 {
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    margin-bottom: 0.25em;
 }
 
 .friends-page-container .friend-icons-container .friend-icon-container p {
-    font-size: var(--font-size-smaller);
-    text-align: center;
+    font-size: var(--font-size-small);
 }
 
 .friends-page-container .friend-icons-container .friend-icon-container .buttons-container {
@@ -140,6 +147,6 @@
     text-align: center;
     display: inline-block;
     padding: 0.5em;
-    font-size: var(--font-size-sub-heading);
+    font-size: var(--font-size-smaller);
     font-weight: var(--font-weight-bold-1);
 }

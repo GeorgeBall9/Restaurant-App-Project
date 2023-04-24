@@ -10,7 +10,7 @@ import {
     acceptFriendRequest, cancelFriendRequest,
     getFriendRequestsByUserId,
     getFriendsByUserId,
-    getUserFromUserId, rejectFriendRequest,
+    getUserFromUserId, rejectFriendRequest, removeFriend,
     sendFriendRequestToUser
 } from "../../firebase/firebase";
 import {useSelector} from "react-redux";
@@ -91,8 +91,8 @@ const FriendsPage = () => {
 
     const handleDeleteClick = async (id) => {
         console.log("delete friend request");
-        const updatedFriends = await rejectFriendRequest(userId, id);
-        setFriends(updatedFriends);
+        const updatedRequests = await rejectFriendRequest(userId, id);
+        setFriendRequests(updatedRequests);
         console.log("friend request deleted");
     };
 
@@ -100,8 +100,10 @@ const FriendsPage = () => {
         console.log("show user profile");
     };
 
-    const handleRemoveClick = () => {
+    const handleRemoveClick = async (id) => {
         console.log("show remove friend confirmation popup");
+        const updatedFriends = await removeFriend(userId, id);
+        setFriends(updatedFriends);
     };
 
     const calculateMutualFriends = (userFriends) => {
@@ -247,7 +249,7 @@ const FriendsPage = () => {
                                     status={status}
                                     button1Handler={handleProfileClick}
                                     button1Text="Profile"
-                                    button2Handler={handleRemoveClick}
+                                    button2Handler={() => handleRemoveClick(id)}
                                     button2Text="Remove"
                                     handleCancelClick={() => handleCancelClick(id)}
                                 />

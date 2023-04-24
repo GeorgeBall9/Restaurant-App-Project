@@ -571,7 +571,7 @@ export const rejectFriendRequest = async (userId, friendId) => {
     return await getFriendsByUserId(userId);
 };
 
-// reject friend request
+// cancel friend request
 export const cancelFriendRequest = async (userId, friendId) => {
     if (!userId || !friendId) return;
 
@@ -591,6 +591,28 @@ export const cancelFriendRequest = async (userId, friendId) => {
     await updateDoc(userDocRef, {friends: updatedFriends});
 
     return await getFriendsByUserId(userId);
+};
+
+// remove friend
+export const removeFriend = async (userId, friendId) => {
+    if (!userId || !friendId) return;
+
+    await removeFriendFromUserDoc(userId, friendId);
+    await removeFriendFromUserDoc(friendId, userId);
+
+    return await getFriendsByUserId(userId);
+};
+
+const removeFriendFromUserDoc = async (userId, friendId) => {
+    const friendData = await getUserFromUserId(userId);
+
+    const friends = friendData.friends;
+
+    const updatedFriends = friends.filter(({userId: id}) => id !== friendId);
+
+    const userDocRef = await doc(db, "users", userId);
+
+    await updateDoc(userDocRef, {friends: updatedFriends});
 };
 
 // get friend requests

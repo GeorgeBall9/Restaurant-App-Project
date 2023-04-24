@@ -69,7 +69,6 @@ const FriendsPage = () => {
     };
 
     const handleFindUserClick = async () => {
-        console.log(friends)
         if (!addFriendId) {
             setAddFriendFeedback("Please enter a user ID");
         } else if (addFriendId === userId) {

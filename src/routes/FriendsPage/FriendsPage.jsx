@@ -7,6 +7,7 @@ import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useEffect, useState} from "react";
 import FormField from "../../common/components/FormField/FormField";
 import {
+    acceptFriendRequest,
     getFriendRequestsByUserId,
     getFriendsByUserId,
     getUserFromUserId,
@@ -44,14 +45,7 @@ const FriendsPage = () => {
         if (!userId) return;
 
         getFriendsByUserId(userId)
-            .then(data => {
-                // setFriends(data)
-                setFriends([
-                    {id: 1, displayName: "Username", iconColour: "#C23B22"},
-                    {id: 1, displayName: "Username", iconColour: "#C23B22"},
-                    {id: 1, displayName: "Username", iconColour: "#C23B22"}
-                ])
-            });
+            .then(data => setFriends(data));
     }, [userId]);
 
     const handleBackClick = () => {
@@ -79,8 +73,10 @@ const FriendsPage = () => {
         setAddFriendId("");
     };
 
-    const handleConfirmClick = () => {
+    const handleConfirmClick = async (id) => {
         console.log("confirm friend");
+        await acceptFriendRequest(userId, id);
+        console.log("friend request accepted");
     };
 
     const handleDeleteClick = () => {
@@ -180,10 +176,11 @@ const FriendsPage = () => {
                     <div className="friend-icons-container">
                         {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
                             <FriendCard
+                                key={id}
                                 id={id}
                                 displayName={displayName}
                                 iconColour={iconColour}
-                                button1Handler={handleConfirmClick}
+                                button1Handler={() => handleConfirmClick(id)}
                                 button1Text="Confirm"
                                 button2Handler={handleDeleteClick}
                                 button2Text="Delete"
@@ -196,6 +193,7 @@ const FriendsPage = () => {
                     <div className="friend-icons-container">
                         {friends && friends.map(({id, displayName, iconColour}) => (
                             <FriendCard
+                                key={id}
                                 id={id}
                                 displayName={displayName}
                                 iconColour={iconColour}

@@ -517,6 +517,34 @@ export const sendFriendRequestToUser = async (userId, friendId) => {
     });
 };
 
+// accept friend request
+export const acceptFriendRequest = async (userId, friendId) => {
+    if (!userId || !friendId) return;
+
+    const userDocRef = await doc(db, "users", userId);
+    const friendDocRef = await doc(db, "users", friendId);
+
+    await updateDoc(userDocRef, {
+        friends: arrayUnion({
+            userId: friendId,
+            status: "confirmed"
+        })
+    });
+
+    const friendData = await getUserFromUserId(friendId);
+
+    const friends = friendData.friends;
+
+    const foundFriend = friends.find(({userId: id}) => id === userId);
+    foundFriend.status = "confirmed";
+
+    await updateDoc(userDocRef, {
+        friendRequests: arrayRemove(userId)
+    });
+
+    await updateDoc(friendDocRef, {friends});
+};
+
 // get friend requests
 export const getFriendRequestsByUserId = async (userId) => {
     if (!userId) return;
@@ -544,5 +572,5 @@ export const getFriendsByUserId = async (userId) => {
         return null;
     }
 
-    return await Promise.all(friends.map(async (requestId) => await getUserFromUserId(requestId)));
+    return await Promise.all(friends.map(async ({userId}) => await getUserFromUserId(userId)));
 };

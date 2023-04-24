@@ -23,6 +23,7 @@
     border: none;
     background: none;
     display: flex;
+    align-items: center;
 }
 
 .friends-page-container header button:first-child {

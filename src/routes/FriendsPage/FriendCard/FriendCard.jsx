@@ -4,7 +4,7 @@ import ActionButtons from "./ActionButtons/ActionButtons";
 
 const FriendCard = ({id, displayName, iconColour, button1Handler, button1Text, button2Handler, button2Text}) => {
     return (
-        <div key={id} className="friend-icon-container">
+        <div key={id} className="friend-card">
             <FriendInfo displayName={displayName} iconColour={iconColour}/>
 
             <ActionButtons

@@ -44,7 +44,14 @@ const FriendsPage = () => {
         if (!userId) return;
 
         getFriendsByUserId(userId)
-            .then(data => setFriends(data));
+            .then(data => {
+                // setFriends(data)
+                setFriends([
+                    {id: 1, displayName: "Username", iconColour: "#C23B22"},
+                    {id: 1, displayName: "Username", iconColour: "#C23B22"},
+                    {id: 1, displayName: "Username", iconColour: "#C23B22"}
+                ])
+            });
     }, [userId]);
 
     const handleBackClick = () => {

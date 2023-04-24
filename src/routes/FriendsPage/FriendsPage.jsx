@@ -10,8 +10,9 @@ import {getFriendRequestsByUserId, getUserFromUserId, sendFriendRequestToUser} f
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import LinkButton from "./LinkButton/LinkButton";
-import FriendInfo from "./FriendInfo/FriendInfo";
-import ActionButtons from "./ActionButtons/ActionButtons";
+import FriendInfo from "./FriendCard/FriendInfo/FriendInfo";
+import ActionButtons from "./FriendCard/ActionButtons/ActionButtons";
+import FriendCard from "./FriendCard/FriendCard";
 
 const FriendsPage = () => {
 
@@ -158,33 +159,30 @@ const FriendsPage = () => {
                 {display === "requests" && (
                     <div className="friend-icons-container">
                         {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
-                            <div key={id} className="friend-icon-container">
-                                <FriendInfo displayName={displayName} iconColour={iconColour}/>
-
-                                <ActionButtons
-                                    button1Handler={handleConfirmClick}
-                                    button1Text="Confirm"
-                                    button2Handler={handleDeleteClick}
-                                    button2Text="Delete"
-                                />
-                            </div>
+                            <FriendCard
+                                id={id}
+                                displayName={displayName}
+                                iconColour={iconColour}
+                                button1Handler={handleConfirmClick}
+                                button1Text="Confirm"
+                                button2Handler={handleDeleteClick}
+                                button2Text="Delete"
+                            />
                         ))}
                     </div>
                 )}
 
                 {display === "friends" && (
                     <div className="friend-icons-container">
-                        {[...Array(3)].map(() => (
-                            <div className="friend-icon-container">
-                                <FriendInfo displayName="Username"/>
-
-                                <ActionButtons
-                                    button1Handler={handleProfileClick}
-                                    button1Text="Profile"
-                                    button2Handler={handleRemoveClick}
-                                    button2Text="Remove"
-                                />
-                            </div>
+                        {[...Array(3)].map((_, i) => (
+                            <FriendCard
+                                id={i}
+                                displayName="username"
+                                button1Handler={handleProfileClick}
+                                button1Text="Profile"
+                                button2Handler={handleRemoveClick}
+                                button2Text="Remove"
+                            />
                         ))}
                     </div>
                 )}

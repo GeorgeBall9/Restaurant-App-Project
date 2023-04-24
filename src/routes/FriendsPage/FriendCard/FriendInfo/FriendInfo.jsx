@@ -1,5 +1,5 @@
 import "./FriendInfo.css";
-import UserIcon from "../../../common/components/UserIcon/UserIcon";
+import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 
 const FriendInfo = ({iconColour, displayName}) => {
     return (

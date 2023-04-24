@@ -136,17 +136,21 @@ const FriendsPage = () => {
                         )}
 
                         {!foundUser && (
-                            <div className="buttons-container">
-                                <button onClick={handleFindUserClick}>Find user</button>
-                                <button onClick={handleNoClick}>Cancel</button>
-                            </div>
+                            <ActionButtons
+                                button1Handler={handleFindUserClick}
+                                button1Text="Find user"
+                                button2Handler={handleNoClick}
+                                button2Text="Cancel"
+                            />
                         )}
 
                         {foundUser && (
-                            <div className="buttons-container">
-                                <button onClick={handleYesClick}>Yes</button>
-                                <button onClick={handleNoClick}>No</button>
-                            </div>
+                            <ActionButtons
+                                button1Handler={handleYesClick}
+                                button1Text="Yes"
+                                button2Handler={handleNoClick}
+                                button2Text="No"
+                            />
                         )}
                     </div>
                 )}

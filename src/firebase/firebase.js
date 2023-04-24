@@ -124,10 +124,17 @@ const getRandomColour = () => {
 
 // get user details from db
 export const getUserFromUserId = async (userId) => {
-    const docRef = await doc(db, "users", userId);
-    const docSnap = await getDoc(docRef);
+    if (!userId) return;
 
-    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
+    try {
+        const docRef = await doc(db, "users", userId);
+        const docSnap = await getDoc(docRef);
+
+        return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
+    } catch (error) {
+        console.error(error);
+        console.log("blue")
+    }
 };
 
 // update user display name

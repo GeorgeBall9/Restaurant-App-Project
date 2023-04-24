@@ -20,16 +20,19 @@ import {
     getUserFromUserId, rejectFriendRequest, removeFriend,
     sendFriendRequestToUser
 } from "../../firebase/firebase";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import LinkButton from "./LinkButton/LinkButton";
 import FriendInfo from "./FriendCard/FriendInfo/FriendInfo";
 import ActionButtons from "./FriendCard/ActionButtons/ActionButtons";
 import FriendCard from "./FriendCard/FriendCard";
+import {hideOverlay, showOverlay} from "../../features/overlay/overlaySlice";
 
 const FriendsPage = () => {
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
 
@@ -37,6 +40,7 @@ const FriendsPage = () => {
     const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
     const [display, setDisplay] = useState("friends");
     const [addFriendId, setAddFriendId] = useState("");
+    const [addFriendFeedback, setAddFriendFeedback] = useState("");
     const [foundUser, setFoundUser] = useState(null);
     const [friends, setFriends] = useState(null);
     const [friendRequests, setFriendRequests] = useState(null);
@@ -65,11 +69,29 @@ const FriendsPage = () => {
     };
 
     const handleFindUserClick = async () => {
-        const user = await getUserFromUserId(addFriendId);
+        console.log(friends)
+        if (!addFriendId) {
+            setAddFriendFeedback("Please enter a user ID");
+        } else if (addFriendId === userId) {
+            setAddFriendFeedback("You cannot add yourself as a friend");
+        } else if (friends.some(friend => friend.id === addFriendId)) {
+            setAddFriendFeedback("You are already friends with this user");
+        } else if (friendRequests.includes(addFriendId)) {
+            setAddFriendFeedback("You are already have a friend request from this user");
+        } else {
+            const user = await getUserFromUserId(addFriendId);
 
-        if (user?.id !== userId) {
-            setFoundUser(user);
+            if (!user) {
+                setAddFriendFeedback("No user was found with that ID");
+            } else if (user?.id !== userId) {
+                setFoundUser(user);
+            }
         }
+    };
+
+    const handleAddClick = () => {
+        setAddPopupIsVisible(true);
+        dispatch(showOverlay());
     };
 
     const handleYesClick = async () => {
@@ -77,11 +99,13 @@ const FriendsPage = () => {
         setFriends(updatedFriends);
         setAddPopupIsVisible(false);
         setAddFriendId("");
+        dispatch(hideOverlay());
     };
 
     const handleNoClick = () => {
         setAddPopupIsVisible(false);
         setAddFriendId("");
+        dispatch(hideOverlay());
     };
 
     const handleCancelClick = async (id) => {
@@ -174,7 +198,7 @@ const FriendsPage = () => {
                     {display === "friends" && (
                         <div>
                             <LinkButton
-                                handleClick={() => setAddPopupIsVisible(true)}
+                                handleClick={handleAddClick}
                                 text="Add"
                                 icon={faPlus}
                             />
@@ -190,6 +214,10 @@ const FriendsPage = () => {
 
                 {addPopupIsVisible && (
                     <div className="confirm-checkin-popup">
+                        {addFriendFeedback && (
+                            <p className="feedback">{addFriendFeedback}</p>
+                        )}
+
                         <div className="date-container">
                             <FormField
                                 label="Friend ID"

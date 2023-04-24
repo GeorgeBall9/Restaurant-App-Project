@@ -2,7 +2,8 @@ import "./FriendInfo.css";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import ActionButton from "../ActionButtons/ActionButton/ActionButton";
 
-const FriendInfo = ({iconColour, displayName, status}) => {
+const FriendInfo = ({iconColour, displayName, status, handleCancelClick}) => {
+
     return (
         <div className="friend-info">
             <UserIcon size="larger" colour={iconColour}/>
@@ -11,7 +12,13 @@ const FriendInfo = ({iconColour, displayName, status}) => {
                 <h3>{displayName}</h3>
                 <p>6 mutual friends</p>
 
-                {status === "pending" && <ActionButton text="Cancel request" className="cancel-request-button"/>}
+                {status === "pending" && (
+                    <ActionButton
+                        handleClick={handleCancelClick}
+                        text="Cancel request"
+                        className="cancel-request-button"
+                    />
+                )}
             </div>
         </div>
     );

@@ -7,7 +7,7 @@ import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useEffect, useState} from "react";
 import FormField from "../../common/components/FormField/FormField";
 import {
-    acceptFriendRequest,
+    acceptFriendRequest, cancelFriendRequest,
     getFriendRequestsByUserId,
     getFriendsByUserId,
     getUserFromUserId, rejectFriendRequest,
@@ -74,6 +74,11 @@ const FriendsPage = () => {
     const handleNoClick = () => {
         setAddPopupIsVisible(false);
         setAddFriendId("");
+    };
+
+    const handleCancelClick = async (id) => {
+        const updatedFriends = await cancelFriendRequest(userId, id);
+        setFriends(updatedFriends);
     };
 
     const handleConfirmClick = async (id) => {
@@ -192,6 +197,7 @@ const FriendsPage = () => {
                         {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
                             <FriendCard
                                 key={id}
+                                id={id}
                                 displayName={displayName}
                                 iconColour={iconColour}
                                 button1Handler={() => handleConfirmClick(id)}
@@ -218,6 +224,7 @@ const FriendsPage = () => {
                             .map(({id, displayName, iconColour, status}) => (
                             <FriendCard
                                 key={id}
+                                id={id}
                                 displayName={displayName}
                                 iconColour={iconColour}
                                 status={status}
@@ -225,6 +232,7 @@ const FriendsPage = () => {
                                 button1Text="Profile"
                                 button2Handler={handleRemoveClick}
                                 button2Text="Remove"
+                                handleCancelClick={() => handleCancelClick(id)}
                             />
                         ))}
                     </div>

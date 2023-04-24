@@ -545,6 +545,8 @@ export const acceptFriendRequest = async (userId, friendId) => {
     });
 
     await updateDoc(friendDocRef, {friends});
+
+    return await getFriendsByUserId(userId);
 };
 
 // reject friend request
@@ -565,6 +567,30 @@ export const rejectFriendRequest = async (userId, friendId) => {
     const updatedFriends = friends.filter(({userId: id}) => id !== userId);
 
     await updateDoc(friendDocRef, {friends: updatedFriends});
+
+    return await getFriendsByUserId(userId);
+};
+
+// reject friend request
+export const cancelFriendRequest = async (userId, friendId) => {
+    if (!userId || !friendId) return;
+
+    const userDocRef = await doc(db, "users", userId);
+    const friendDocRef = await doc(db, "users", friendId);
+
+    await updateDoc(friendDocRef, {
+        friendRequests: arrayRemove(userId)
+    });
+
+    const friendData = await getUserFromUserId(userId);
+
+    const friends = friendData.friends;
+
+    const updatedFriends = friends.filter(({userId: id}) => id !== friendId);
+
+    await updateDoc(userDocRef, {friends: updatedFriends});
+
+    return await getFriendsByUserId(userId);
 };
 
 // get friend requests

@@ -84,6 +84,11 @@ Contact: georgeball14@hotmail.com
     position: relative;
 }
 
+.restaurant-card .details-container .price-cuisine-container p {
+    color: #5a5a5a;
+    font-weight: var(--font-weight-bold-1);
+}
+
 /* cuisine */
 .restaurant-card .details-container .cuisine {
     color: #5a5a5a;

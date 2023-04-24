@@ -20,6 +20,9 @@
     font-weight: var(--font-weight-bold-2);
     font-size: var(--font-size-smaller);
     width: 70px;
+    border: none;
+    background: none;
+    display: flex;
 }
 
 .friends-page-container header button:first-child {
@@ -42,6 +45,14 @@
 .friends-page-container main .links-container .display-button {
     background-color: white;
     color: var(--primary-theme);
+    border: none;
+    gap: 0.25em;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    border-radius: var(--border-radius);
+    padding: 0.5em 0.75em;
+    justify-content: center;
+    align-items: center;
 }
 
 .friend-icon-container main .add-friend-popup {

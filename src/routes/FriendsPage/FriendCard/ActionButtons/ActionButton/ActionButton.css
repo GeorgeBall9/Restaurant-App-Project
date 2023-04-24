@@ -3,7 +3,6 @@
     border-radius: var(--border-radius);
     width: 100%;
     text-align: center;
-    display: inline-block;
     padding: 0.5em;
     font-size: var(--font-size-smaller);
     font-weight: var(--font-weight-bold-1);

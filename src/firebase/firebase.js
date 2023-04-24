@@ -572,5 +572,9 @@ export const getFriendsByUserId = async (userId) => {
         return null;
     }
 
-    return await Promise.all(friends.map(async ({userId}) => await getUserFromUserId(userId)));
+    return await Promise.all(friends.map(async (friend) => {
+        const {userId} = friend;
+        const data = await getUserFromUserId(userId);
+        return {...data, ...friend};
+    }));
 };

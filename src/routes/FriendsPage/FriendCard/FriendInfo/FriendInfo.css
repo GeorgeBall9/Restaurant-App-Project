@@ -1,0 +1,20 @@
+.friend-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+    width: 100%;
+}
+
+.friend-info .info-container {
+    width: 100%;
+}
+
+.friend-info h3 {
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    margin-bottom: 0.25em;
+}
+
+.friend-info p {
+    font-size: var(--font-size-small);
+}

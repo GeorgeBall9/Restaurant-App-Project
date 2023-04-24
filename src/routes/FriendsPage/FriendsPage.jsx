@@ -177,7 +177,6 @@ const FriendsPage = () => {
                         {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
                             <FriendCard
                                 key={id}
-                                id={id}
                                 displayName={displayName}
                                 iconColour={iconColour}
                                 button1Handler={() => handleConfirmClick(id)}
@@ -191,12 +190,22 @@ const FriendsPage = () => {
 
                 {display === "friends" && (
                     <div className="friend-icons-container">
-                        {friends && friends.map(({id, displayName, iconColour}) => (
+                        {friends && friends
+                            .sort((a, b) => {
+                                if (a.status === "pending") {
+                                    return -1;
+                                } else if (b.status === "pending") {
+                                    return 1;
+                                } else {
+                                    return 0;
+                                }
+                            })
+                            .map(({id, displayName, iconColour, status}) => (
                             <FriendCard
                                 key={id}
-                                id={id}
                                 displayName={displayName}
                                 iconColour={iconColour}
+                                status={status}
                                 button1Handler={handleProfileClick}
                                 button1Text="Profile"
                                 button2Handler={handleRemoveClick}

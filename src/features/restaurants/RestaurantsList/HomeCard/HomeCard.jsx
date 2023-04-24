@@ -1,17 +1,17 @@
 import "./HomeCard.css";
 import StarRating from "../../../../common/components/StarRating/StarRating";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faLocationArrow} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationArrow, faUtensils } from "@fortawesome/free-solid-svg-icons";
 import BookmarkButton from "../../../../common/components/BookmarkButton/BookmarkButton";
 import RouteButton from "../../../../common/components/RestaurantCard/RouteButton/RouteButton";
 import RestaurantImage from "../../../../common/components/RestaurantImage/RestaurantImage";
-import {useNavigate} from "react-router-dom";
-import {useSwipeable} from "react-swipeable";
-import {useEffect} from "react";
+import { useNavigate } from "react-router-dom";
+import { useSwipeable } from "react-swipeable";
+import { useEffect } from "react";
 
-const HomeCard = ({restaurant}) => {
+const HomeCard = ({ restaurant }) => {
 
-    const {id, name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
+    const { id, name, rating, distance, price, primaryCuisine, photoUrl } = restaurant;
 
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
@@ -36,26 +36,27 @@ const HomeCard = ({restaurant}) => {
                 <div className="highlight-banner">Highly recommended</div>
             )}
 
-            <div className="restaurant-image-background" style={{backgroundImage: `url(${photoUrl})`}}></div>
+            <div className="restaurant-image-background" style={{ backgroundImage: `url(${photoUrl})` }}></div>
 
             <div className="details-container">
                 <h3>
                     <div>{name}</div>
 
-                    <BookmarkButton restaurant={restaurant}/>
+                    <BookmarkButton restaurant={restaurant} />
                 </h3>
 
-                <StarRating rating={starRating}/>
+                <StarRating rating={starRating} />
 
                 <div className="price-cuisine-container">
                     <div className="distance-container">
-                        <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
+                        <FontAwesomeIcon icon={faLocationArrow} className="icon" />
                         {Math.round(distance * 10) / 10} Km
                     </div>
 
                     <div>
-                        {price !== "Unknown" && <p>{price}</p>}
-                        <span className="cuisine">{primaryCuisine}</span>
+                        {(price !== "Unknown" && price !== "") && <p>{price}</p>}
+                        {(price !== "Unknown" && price !== "") && <span className="dot-separator"></span>}
+                        <span className="cuisine"><FontAwesomeIcon icon={faUtensils} className="icon" />{primaryCuisine}</span>
                     </div>
                 </div>
             </div>

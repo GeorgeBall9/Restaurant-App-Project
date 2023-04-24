@@ -81,11 +81,11 @@ Contact: georgeball14@hotmail.com
 .home-card .details-container .distance-container {
     color: #5a5a5a;
     font-size: var(--font-size-smaller);
+    font-weight: var(--font-weight-bold-1);
 }
 
 /* distance icon */
 .home-card .details-container .distance-container .icon {
-    color: #999;
     padding-right: 0.25em;
 }
 
@@ -99,7 +99,12 @@ Contact: georgeball14@hotmail.com
     position: relative;
 }
 
-.home-card .details-container .price-cuisine-container > div:last-child {
+.home-card .details-container .price-cuisine-container p {
+    color: #5a5a5a;
+    font-weight: var(--font-weight-bold-1);
+}
+
+.home-card .details-container .price-cuisine-container>div:last-child {
     display: flex;
     white-space: nowrap;
 }
@@ -108,13 +113,22 @@ Contact: georgeball14@hotmail.com
 .home-card .details-container .cuisine {
     color: #5a5a5a;
     font-size: var(--font-size-smaller);
+    font-weight: var(--font-weight-bold-1);
 }
 
-/* before cuisine */
-.home-card .details-container .cuisine::before {
-    content: "\2022";
+.home-card .details-container .cuisine .icon {
+    padding-right: 0.25em;
+}
+
+.home-card .price-cuisine-container .dot-separator {
+    display: inline-block;
+    color: #5a5a5a;
     margin-right: 0.35em;
     margin-left: 0.35em;
+}
+
+.home-card .price-cuisine-container .dot-separator::before {
+    content: "\2022";
 }
 
 /* container on rhs of card */

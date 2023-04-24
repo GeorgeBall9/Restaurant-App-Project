@@ -6,7 +6,12 @@ import UserIcon from "../../common/components/UserIcon/UserIcon";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useEffect, useState} from "react";
 import FormField from "../../common/components/FormField/FormField";
-import {getFriendRequestsByUserId, getUserFromUserId, sendFriendRequestToUser} from "../../firebase/firebase";
+import {
+    getFriendRequestsByUserId,
+    getFriendsByUserId,
+    getUserFromUserId,
+    sendFriendRequestToUser
+} from "../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import LinkButton from "./LinkButton/LinkButton";
@@ -25,6 +30,7 @@ const FriendsPage = () => {
     const [display, setDisplay] = useState("friends");
     const [addFriendId, setAddFriendId] = useState("");
     const [foundUser, setFoundUser] = useState(null);
+    const [friends, setFriends] = useState(null);
     const [friendRequests, setFriendRequests] = useState(null);
 
     useEffect(() => {
@@ -32,6 +38,13 @@ const FriendsPage = () => {
 
         getFriendRequestsByUserId(userId)
             .then(data => setFriendRequests(data));
+    }, [userId]);
+
+    useEffect(() => {
+        if (!userId) return;
+
+        getFriendsByUserId(userId)
+            .then(data => setFriends(data));
     }, [userId]);
 
     const handleBackClick = () => {
@@ -174,10 +187,11 @@ const FriendsPage = () => {
 
                 {display === "friends" && (
                     <div className="friend-icons-container">
-                        {[...Array(3)].map((_, i) => (
+                        {friends && friends.map(({id, displayName, iconColour}) => (
                             <FriendCard
-                                id={i}
-                                displayName="username"
+                                id={id}
+                                displayName={displayName}
+                                iconColour={iconColour}
                                 button1Handler={handleProfileClick}
                                 button1Text="Profile"
                                 button2Handler={handleRemoveClick}

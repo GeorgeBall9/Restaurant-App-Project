@@ -9,6 +9,7 @@ import FormField from "../../common/components/FormField/FormField";
 import {getFriendRequestsByUserId, getUserFromUserId, sendFriendRequestToUser} from "../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
+import LinkButton from "./LinkButton/LinkButton";
 
 const FriendsPage = () => {
 
@@ -86,15 +87,17 @@ const FriendsPage = () => {
                     </button>
 
                     <div>
-                        <button onClick={() => setAddPopupIsVisible(true)}>
-                            Add
-                            <FontAwesomeIcon className="icon" icon={faPlus}/>
-                        </button>
+                        <LinkButton
+                            handleClick={() => setAddPopupIsVisible(true)}
+                            text="Add"
+                            icon={faPlus}
+                        />
 
-                        <button>
-                            Invite
-                            <FontAwesomeIcon className="icon" icon={faLink}/>
-                        </button>
+                        <LinkButton
+                            handleClick={() => console.log("Invite user")}
+                            text="Invite"
+                            icon={faLink}
+                        />
                     </div>
                 </div>
 
@@ -110,7 +113,9 @@ const FriendsPage = () => {
                             />
                         </div>
 
-                        {foundUser && <p>Send friend request to <span>{foundUser.displayName}</span>?</p>}
+                        {foundUser && (
+                            <p>Send friend request to <span>{foundUser.displayName}</span>?</p>
+                        )}
 
                         {!foundUser && (
                             <div className="buttons-container">

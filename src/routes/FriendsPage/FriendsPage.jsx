@@ -1,6 +1,13 @@
 import "./FriendsPage.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faCirclePlus, faLink, faMagnifyingGlass, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {
+    faArrowLeft,
+    faCircleCheck,
+    faCirclePlus,
+    faLink,
+    faMagnifyingGlass,
+    faPlus
+} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
@@ -13,16 +20,19 @@ import {
     getUserFromUserId, rejectFriendRequest, removeFriend,
     sendFriendRequestToUser
 } from "../../firebase/firebase";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import LinkButton from "./LinkButton/LinkButton";
 import FriendInfo from "./FriendCard/FriendInfo/FriendInfo";
 import ActionButtons from "./FriendCard/ActionButtons/ActionButtons";
 import FriendCard from "./FriendCard/FriendCard";
+import {hideOverlay, showOverlay} from "../../features/overlay/overlaySlice";
 
 const FriendsPage = () => {
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
 
@@ -30,9 +40,11 @@ const FriendsPage = () => {
     const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
     const [display, setDisplay] = useState("friends");
     const [addFriendId, setAddFriendId] = useState("");
+    const [addFriendFeedback, setAddFriendFeedback] = useState("");
     const [foundUser, setFoundUser] = useState(null);
     const [friends, setFriends] = useState(null);
     const [friendRequests, setFriendRequests] = useState(null);
+    const [inviteCopied, setInviteCopied] = useState(false);
 
     useEffect(() => {
         if (!userId) return;
@@ -57,11 +69,28 @@ const FriendsPage = () => {
     };
 
     const handleFindUserClick = async () => {
-        const user = await getUserFromUserId(addFriendId);
+        if (!addFriendId) {
+            setAddFriendFeedback("Please enter a user ID");
+        } else if (addFriendId === userId) {
+            setAddFriendFeedback("You cannot add yourself as a friend");
+        } else if (friends.some(friend => friend.id === addFriendId)) {
+            setAddFriendFeedback("You are already friends with this user");
+        } else if (friendRequests.includes(addFriendId)) {
+            setAddFriendFeedback("You are already have a friend request from this user");
+        } else {
+            const user = await getUserFromUserId(addFriendId);
 
-        if (user?.id !== userId) {
-            setFoundUser(user);
+            if (!user) {
+                setAddFriendFeedback("No user was found with that ID");
+            } else if (user?.id !== userId) {
+                setFoundUser(user);
+            }
         }
+    };
+
+    const handleAddClick = () => {
+        setAddPopupIsVisible(true);
+        dispatch(showOverlay());
     };
 
     const handleYesClick = async () => {
@@ -69,11 +98,13 @@ const FriendsPage = () => {
         setFriends(updatedFriends);
         setAddPopupIsVisible(false);
         setAddFriendId("");
+        dispatch(hideOverlay());
     };
 
     const handleNoClick = () => {
         setAddPopupIsVisible(false);
         setAddFriendId("");
+        dispatch(hideOverlay());
     };
 
     const handleCancelClick = async (id) => {
@@ -118,6 +149,13 @@ const FriendsPage = () => {
         return mutualFriends;
     };
 
+    const handleInviteClick = () => {
+        navigator.clipboard.writeText("Hi! I'm using the web app {app_name_goes_here} and would like you to " +
+            "join! \n\nFollow the link below and create an account: " +
+            "\nhttps://restaurant-app-team22.netlify.app/sign-in")
+            .then(() => setInviteCopied(true));
+    };
+
     return (
         <div className="friends-page-container">
             <header>
@@ -159,15 +197,15 @@ const FriendsPage = () => {
                     {display === "friends" && (
                         <div>
                             <LinkButton
-                                handleClick={() => setAddPopupIsVisible(true)}
+                                handleClick={handleAddClick}
                                 text="Add"
                                 icon={faPlus}
                             />
 
                             <LinkButton
-                                handleClick={() => console.log("Invite user")}
-                                text="Invite"
-                                icon={faLink}
+                                handleClick={handleInviteClick}
+                                text={inviteCopied ? "Copied" : "Invite"}
+                                icon={inviteCopied ? faCircleCheck : faLink}
                             />
                         </div>
                     )}
@@ -175,6 +213,10 @@ const FriendsPage = () => {
 
                 {addPopupIsVisible && (
                     <div className="confirm-checkin-popup">
+                        {addFriendFeedback && (
+                            <p className="feedback">{addFriendFeedback}</p>
+                        )}
+
                         <div className="date-container">
                             <FormField
                                 label="Friend ID"

@@ -7,9 +7,10 @@ import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useEffect, useState} from "react";
 import FormField from "../../common/components/FormField/FormField";
 import {
+    acceptFriendRequest, cancelFriendRequest,
     getFriendRequestsByUserId,
     getFriendsByUserId,
-    getUserFromUserId,
+    getUserFromUserId, rejectFriendRequest, removeFriend,
     sendFriendRequestToUser
 } from "../../firebase/firebase";
 import {useSelector} from "react-redux";
@@ -44,14 +45,7 @@ const FriendsPage = () => {
         if (!userId) return;
 
         getFriendsByUserId(userId)
-            .then(data => {
-                // setFriends(data)
-                setFriends([
-                    {id: 1, displayName: "Username", iconColour: "#C23B22"},
-                    {id: 1, displayName: "Username", iconColour: "#C23B22"},
-                    {id: 1, displayName: "Username", iconColour: "#C23B22"}
-                ])
-            });
+            .then(data => setFriends(data));
     }, [userId]);
 
     const handleBackClick = () => {
@@ -71,7 +65,10 @@ const FriendsPage = () => {
     };
 
     const handleYesClick = async () => {
-        await sendFriendRequestToUser(userId, addFriendId);
+        const updatedFriends = await sendFriendRequestToUser(userId, addFriendId);
+        setFriends(updatedFriends);
+        setAddPopupIsVisible(false);
+        setAddFriendId("");
     };
 
     const handleNoClick = () => {
@@ -79,20 +76,46 @@ const FriendsPage = () => {
         setAddFriendId("");
     };
 
-    const handleConfirmClick = () => {
-        console.log("confirm friend");
+    const handleCancelClick = async (id) => {
+        const updatedFriends = await cancelFriendRequest(userId, id);
+        setFriends(updatedFriends);
     };
 
-    const handleDeleteClick = () => {
+    const handleConfirmClick = async (id) => {
+        console.log("confirm friend");
+        const updatedFriends = await acceptFriendRequest(userId, id);
+        setFriends(updatedFriends);
+        setFriendRequests(friendRequests => friendRequests.filter(request => request.id !== id));
+        console.log("friend request accepted");
+    };
+
+    const handleDeleteClick = async (id) => {
         console.log("delete friend request");
+        const updatedRequests = await rejectFriendRequest(userId, id);
+        setFriendRequests(updatedRequests);
+        console.log("friend request deleted");
     };
 
     const handleProfileClick = () => {
         console.log("show user profile");
     };
 
-    const handleRemoveClick = () => {
+    const handleRemoveClick = async (id) => {
         console.log("show remove friend confirmation popup");
+        const updatedFriends = await removeFriend(userId, id);
+        setFriends(updatedFriends);
+    };
+
+    const calculateMutualFriends = (userFriends) => {
+        let mutualFriends = 0;
+
+        userFriends.forEach(({userId: friendId, status}) => {
+            if (status === "confirmed" && friends.some(f => f.id === friendId)) {
+                mutualFriends++;
+            }
+        });
+
+        return mutualFriends;
     };
 
     return (
@@ -123,21 +146,31 @@ const FriendsPage = () => {
                 <div className="links-container">
                     <button className="display-button" onClick={handleDisplayLinkClick}>
                         {display === "friends" ? "Requests" : "Friends"}
+
+                        <p className="count">
+                            {display === "friends" ?
+                                (friendRequests?.length ? friendRequests?.length : 0)
+                                :
+                                (friends?.length ? friends?.length : 0)
+                            }
+                        </p>
                     </button>
 
-                    <div>
-                        <LinkButton
-                            handleClick={() => setAddPopupIsVisible(true)}
-                            text="Add"
-                            icon={faPlus}
-                        />
+                    {display === "friends" && (
+                        <div>
+                            <LinkButton
+                                handleClick={() => setAddPopupIsVisible(true)}
+                                text="Add"
+                                icon={faPlus}
+                            />
 
-                        <LinkButton
-                            handleClick={() => console.log("Invite user")}
-                            text="Invite"
-                            icon={faLink}
-                        />
-                    </div>
+                            <LinkButton
+                                handleClick={() => console.log("Invite user")}
+                                text="Invite"
+                                icon={faLink}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 {addPopupIsVisible && (
@@ -178,14 +211,16 @@ const FriendsPage = () => {
 
                 {display === "requests" && (
                     <div className="friend-icons-container">
-                        {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
+                        {friendRequests && friendRequests.map(({id, displayName, iconColour, friends: userFriends}) => (
                             <FriendCard
+                                key={id}
                                 id={id}
                                 displayName={displayName}
                                 iconColour={iconColour}
-                                button1Handler={handleConfirmClick}
+                                mutualFriends={calculateMutualFriends(userFriends)}
+                                button1Handler={() => handleConfirmClick(id)}
                                 button1Text="Confirm"
-                                button2Handler={handleDeleteClick}
+                                button2Handler={() => handleDeleteClick(id)}
                                 button2Text="Delete"
                             />
                         ))}
@@ -194,17 +229,31 @@ const FriendsPage = () => {
 
                 {display === "friends" && (
                     <div className="friend-icons-container">
-                        {friends && friends.map(({id, displayName, iconColour}) => (
-                            <FriendCard
-                                id={id}
-                                displayName={displayName}
-                                iconColour={iconColour}
-                                button1Handler={handleProfileClick}
-                                button1Text="Profile"
-                                button2Handler={handleRemoveClick}
-                                button2Text="Remove"
-                            />
-                        ))}
+                        {friends && friends
+                            .sort((a, b) => {
+                                if (a.status === "pending") {
+                                    return -1;
+                                } else if (b.status === "pending") {
+                                    return 1;
+                                } else {
+                                    return 0;
+                                }
+                            })
+                            .map(({id, displayName, iconColour, status, friends: userFriends}) => (
+                                <FriendCard
+                                    key={id}
+                                    id={id}
+                                    displayName={displayName}
+                                    iconColour={iconColour}
+                                    mutualFriends={calculateMutualFriends(userFriends)}
+                                    status={status}
+                                    button1Handler={handleProfileClick}
+                                    button1Text="Profile"
+                                    button2Handler={() => handleRemoveClick(id)}
+                                    button2Text="Remove"
+                                    handleCancelClick={() => handleCancelClick(id)}
+                                />
+                            ))}
                     </div>
                 )}
             </main>

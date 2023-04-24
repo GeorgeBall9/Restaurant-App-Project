@@ -2,17 +2,36 @@ import "./FriendCard.css";
 import FriendInfo from "./FriendInfo/FriendInfo";
 import ActionButtons from "./ActionButtons/ActionButtons";
 
-const FriendCard = ({id, displayName, iconColour, button1Handler, button1Text, button2Handler, button2Text}) => {
-    return (
-        <div key={id} className="friend-card">
-            <FriendInfo displayName={displayName} iconColour={iconColour}/>
+const FriendCard = ({
+                        displayName,
+                        iconColour,
+                        mutualFriends,
+                        status,
+                        button1Handler,
+                        button1Text,
+                        button2Handler,
+                        button2Text,
+                        handleCancelClick
+                    }) => {
 
-            <ActionButtons
-                button1Handler={button1Handler}
-                button1Text={button1Text}
-                button2Handler={button2Handler}
-                button2Text={button2Text}
+    return (
+        <div className="friend-card">
+            <FriendInfo
+                displayName={displayName}
+                iconColour={iconColour}
+                mutualFriends={mutualFriends}
+                status={status}
+                handleCancelClick={handleCancelClick}
             />
+
+            {status !== "pending" && (
+                <ActionButtons
+                    button1Handler={button1Handler}
+                    button1Text={button1Text}
+                    button2Handler={button2Handler}
+                    button2Text={button2Text}
+                />
+            )}
         </div>
     );
 };

@@ -1,6 +1,13 @@
 import "./FriendsPage.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faCirclePlus, faLink, faMagnifyingGlass, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {
+    faArrowLeft,
+    faCircleCheck,
+    faCirclePlus,
+    faLink,
+    faMagnifyingGlass,
+    faPlus
+} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
@@ -33,6 +40,7 @@ const FriendsPage = () => {
     const [foundUser, setFoundUser] = useState(null);
     const [friends, setFriends] = useState(null);
     const [friendRequests, setFriendRequests] = useState(null);
+    const [inviteCopied, setInviteCopied] = useState(false);
 
     useEffect(() => {
         if (!userId) return;
@@ -118,6 +126,13 @@ const FriendsPage = () => {
         return mutualFriends;
     };
 
+    const handleInviteClick = () => {
+        navigator.clipboard.writeText("Hi! I'm using the web app {app_name_goes_here} and would like you to " +
+            "join! \n\nFollow the link below and create an account: " +
+            "\nhttps://restaurant-app-team22.netlify.app/sign-in")
+            .then(() => setInviteCopied(true));
+    };
+
     return (
         <div className="friends-page-container">
             <header>
@@ -165,9 +180,9 @@ const FriendsPage = () => {
                             />
 
                             <LinkButton
-                                handleClick={() => console.log("Invite user")}
-                                text="Invite"
-                                icon={faLink}
+                                handleClick={handleInviteClick}
+                                text={inviteCopied ? "Copied" : "Invite"}
+                                icon={inviteCopied ? faCircleCheck : faLink}
                             />
                         </div>
                     )}

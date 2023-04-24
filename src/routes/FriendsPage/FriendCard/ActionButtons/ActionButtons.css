@@ -1,0 +1,17 @@
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    justify-content: center;
+    margin-top: 0.5em;
+}
+
+.action-buttons button:first-child {
+    background-color: var(--primary-theme);
+    color: white;
+}
+
+.action-buttons button:nth-child(2) {
+    background-color: white;
+    color: var(--primary-theme);
+}

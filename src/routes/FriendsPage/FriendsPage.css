@@ -1,10 +1,3 @@
-.friends-page-container button {
-    background: none;
-    border: none;
-    display: flex;
-    align-items: center;
-}
-
 .friends-page-container header {
     background-color: white;
     border-bottom: solid 1px lightgrey;
@@ -27,6 +20,9 @@
     font-weight: var(--font-weight-bold-2);
     font-size: var(--font-size-smaller);
     width: 70px;
+    border: none;
+    background: none;
+    display: flex;
 }
 
 .friends-page-container header button:first-child {
@@ -49,6 +45,14 @@
 .friends-page-container main .links-container .display-button {
     background-color: white;
     color: var(--primary-theme);
+    border: none;
+    gap: 0.25em;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    border-radius: var(--border-radius);
+    padding: 0.5em 0.75em;
+    justify-content: center;
+    align-items: center;
 }
 
 .friend-icon-container main .add-friend-popup {
@@ -66,82 +70,8 @@
     gap: 0.5em;
 }
 
-.friends-page-container .links-container button {
-    gap: 0.25em;
-    color: white;
-    font-size: var(--font-size-sub-heading);
-    font-weight: var(--font-weight-bold-1);
-    background-color: var(--primary-theme);
-    border-radius: var(--border-radius);
-    padding: 0.5em 0.75em;
-    justify-content: center;
-}
-
-.friends-page-container .links-container button .icon {
-    color: white;
-}
-
 .friends-page-container .friend-icons-container {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
-}
-
-.friends-page-container .friend-icons-container .friend-icon-container {
-    background-color: white;
-    border-radius: var(--border-radius);
-    padding: 0.5em 0.75em;
-    display: flex;
-    justify-content: space-between;
-}
-
-.friends-page-container .friend-icons-container .friend-icon-container > div {
-    display: flex;
-    align-items: center;
-    gap: 0.75em;
-}
-
-.friends-page-container .friend-icons-container .friend-icon-container h3 {
-    font-size: var(--font-size-sub-heading);
-    font-weight: var(--font-weight-bold-1);
-    margin-bottom: 0.25em;
-}
-
-.friends-page-container .friend-icons-container .friend-icon-container p {
-    font-size: var(--font-size-small);
-}
-
-.friends-page-container .friend-icons-container .friend-icon-container .buttons-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    justify-content: center;
-    margin-top: 0.5em;
-}
-
-.friends-page-container .friend-icons-container .friend-icon-container .buttons-container button:first-child {
-    background-color: var(--primary-theme);
-    color: white;
-}
-
-.friends-page-container .friend-icons-container .friend-icon-container .buttons-container button:nth-child(2) {
-    background-color: white;
-    color: var(--primary-theme);
-}
-
-.friends-page-container .friend-icons-container .friend-icon-container .buttons-container button:hover {
-    background-color: var(--secondary-theme);
-    border-color: var(--secondary-theme);
-    color: white;
-}
-
-.friends-page-container .friend-icons-container .friend-icon-container .buttons-container button {
-    border: solid 2px var(--primary-theme);
-    border-radius: var(--border-radius);
-    width: 100%;
-    text-align: center;
-    display: inline-block;
-    padding: 0.5em;
-    font-size: var(--font-size-smaller);
-    font-weight: var(--font-weight-bold-1);
 }

@@ -1,0 +1,23 @@
+.friend-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 0.5em 0.75em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.friend-card > div {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+}
+
+.friend-card h3 {
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    margin-bottom: 0.25em;
+}
+
+.friend-card p {
+    font-size: var(--font-size-small);
+}

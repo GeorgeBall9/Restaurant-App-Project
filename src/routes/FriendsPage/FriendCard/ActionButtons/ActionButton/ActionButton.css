@@ -1,0 +1,15 @@
+.action-button {
+    border: solid 2px var(--primary-theme);
+    border-radius: var(--border-radius);
+    width: 100%;
+    text-align: center;
+    padding: 0.5em;
+    font-size: var(--font-size-smaller);
+    font-weight: var(--font-weight-bold-1);
+}
+
+.action-button:hover {
+    background-color: var(--secondary-theme);
+    border-color: var(--secondary-theme);
+    color: white;
+}

@@ -10,7 +10,7 @@ import {
     acceptFriendRequest,
     getFriendRequestsByUserId,
     getFriendsByUserId,
-    getUserFromUserId,
+    getUserFromUserId, rejectFriendRequest,
     sendFriendRequestToUser
 } from "../../firebase/firebase";
 import {useSelector} from "react-redux";
@@ -65,7 +65,10 @@ const FriendsPage = () => {
     };
 
     const handleYesClick = async () => {
-        await sendFriendRequestToUser(userId, addFriendId);
+        const updatedFriends = await sendFriendRequestToUser(userId, addFriendId);
+        setFriends(updatedFriends);
+        setAddPopupIsVisible(false);
+        setAddFriendId("");
     };
 
     const handleNoClick = () => {
@@ -79,8 +82,10 @@ const FriendsPage = () => {
         console.log("friend request accepted");
     };
 
-    const handleDeleteClick = () => {
+    const handleDeleteClick = async (id) => {
         console.log("delete friend request");
+        await rejectFriendRequest(userId, id);
+        console.log("friend request deleted");
     };
 
     const handleProfileClick = () => {
@@ -119,21 +124,31 @@ const FriendsPage = () => {
                 <div className="links-container">
                     <button className="display-button" onClick={handleDisplayLinkClick}>
                         {display === "friends" ? "Requests" : "Friends"}
+
+                        <p className="count">
+                            {display === "friends" ?
+                                (friendRequests?.length ? friendRequests?.length : 0)
+                                :
+                                (friends?.length ? friends?.length : 0)
+                            }
+                        </p>
                     </button>
 
-                    <div>
-                        <LinkButton
-                            handleClick={() => setAddPopupIsVisible(true)}
-                            text="Add"
-                            icon={faPlus}
-                        />
+                    {display === "friends" && (
+                        <div>
+                            <LinkButton
+                                handleClick={() => setAddPopupIsVisible(true)}
+                                text="Add"
+                                icon={faPlus}
+                            />
 
-                        <LinkButton
-                            handleClick={() => console.log("Invite user")}
-                            text="Invite"
-                            icon={faLink}
-                        />
-                    </div>
+                            <LinkButton
+                                handleClick={() => console.log("Invite user")}
+                                text="Invite"
+                                icon={faLink}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 {addPopupIsVisible && (
@@ -181,7 +196,7 @@ const FriendsPage = () => {
                                 iconColour={iconColour}
                                 button1Handler={() => handleConfirmClick(id)}
                                 button1Text="Confirm"
-                                button2Handler={handleDeleteClick}
+                                button2Handler={() => handleDeleteClick(id)}
                                 button2Text="Delete"
                             />
                         ))}

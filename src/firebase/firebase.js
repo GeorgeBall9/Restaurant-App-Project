@@ -515,6 +515,8 @@ export const sendFriendRequestToUser = async (userId, friendId) => {
     await updateDoc(friendDocRef, {
         friendRequests: arrayUnion(userId)
     });
+
+    return await getFriendsByUserId(userId);
 };
 
 // accept friend request
@@ -543,6 +545,26 @@ export const acceptFriendRequest = async (userId, friendId) => {
     });
 
     await updateDoc(friendDocRef, {friends});
+};
+
+// reject friend request
+export const rejectFriendRequest = async (userId, friendId) => {
+    if (!userId || !friendId) return;
+
+    const userDocRef = await doc(db, "users", userId);
+    const friendDocRef = await doc(db, "users", friendId);
+
+    await updateDoc(userDocRef, {
+        friendRequests: arrayRemove(friendId)
+    });
+
+    const friendData = await getUserFromUserId(friendId);
+
+    const friends = friendData.friends;
+
+    const updatedFriends = friends.filter(({userId: id}) => id !== userId);
+
+    await updateDoc(friendDocRef, {friends: updatedFriends});
 };
 
 // get friend requests

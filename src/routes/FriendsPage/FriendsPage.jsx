@@ -10,6 +10,8 @@ import {getFriendRequestsByUserId, getUserFromUserId, sendFriendRequestToUser} f
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import LinkButton from "./LinkButton/LinkButton";
+import FriendInfo from "./FriendInfo/FriendInfo";
+import ActionButtons from "./ActionButtons/ActionButtons";
 
 const FriendsPage = () => {
 
@@ -54,6 +56,22 @@ const FriendsPage = () => {
     const handleNoClick = () => {
         setAddPopupIsVisible(false);
         setAddFriendId("");
+    };
+
+    const handleConfirmClick = () => {
+        console.log("confirm friend");
+    };
+
+    const handleDeleteClick = () => {
+        console.log("delete friend request");
+    };
+
+    const handleProfileClick = () => {
+        console.log("show user profile");
+    };
+
+    const handleRemoveClick = () => {
+        console.log("show remove friend confirmation popup");
     };
 
     return (
@@ -137,19 +155,14 @@ const FriendsPage = () => {
                     <div className="friend-icons-container">
                         {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
                             <div key={id} className="friend-icon-container">
-                                <div>
-                                    <UserIcon size="larger" colour={iconColour}/>
+                                <FriendInfo displayName={displayName} iconColour={iconColour}/>
 
-                                    <div className="info-container">
-                                        <h3>{displayName}</h3>
-                                        <p>6 mutual friends</p>
-                                    </div>
-                                </div>
-
-                                <div className="buttons-container">
-                                    <button onClick={handleYesClick}>Confirm</button>
-                                    <button onClick={handleNoClick}>Delete</button>
-                                </div>
+                                <ActionButtons
+                                    button1Handler={handleConfirmClick}
+                                    button1Text="Confirm"
+                                    button2Handler={handleDeleteClick}
+                                    button2Text="Delete"
+                                />
                             </div>
                         ))}
                     </div>
@@ -159,19 +172,14 @@ const FriendsPage = () => {
                     <div className="friend-icons-container">
                         {[...Array(3)].map(() => (
                             <div className="friend-icon-container">
-                                <div>
-                                    <UserIcon size="larger"/>
+                                <FriendInfo displayName="Username"/>
 
-                                    <div className="info-container">
-                                        <h3>username</h3>
-                                        <p>6 mutual friends</p>
-                                    </div>
-                                </div>
-
-                                <div className="buttons-container">
-                                    <button onClick={handleYesClick}>Profile</button>
-                                    <button onClick={handleNoClick}>Remove</button>
-                                </div>
+                                <ActionButtons
+                                    button1Handler={handleProfileClick}
+                                    button1Text="Profile"
+                                    button2Handler={handleRemoveClick}
+                                    button2Text="Remove"
+                                />
                             </div>
                         ))}
                     </div>

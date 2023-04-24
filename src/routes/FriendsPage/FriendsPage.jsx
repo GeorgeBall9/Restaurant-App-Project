@@ -6,9 +6,19 @@ import UserIcon from "../../common/components/UserIcon/UserIcon";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useEffect, useState} from "react";
 import FormField from "../../common/components/FormField/FormField";
-import {getFriendRequestsByUserId, getUserFromUserId, sendFriendRequestToUser} from "../../firebase/firebase";
+import {
+    acceptFriendRequest, cancelFriendRequest,
+    getFriendRequestsByUserId,
+    getFriendsByUserId,
+    getUserFromUserId, rejectFriendRequest, removeFriend,
+    sendFriendRequestToUser
+} from "../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
+import LinkButton from "./LinkButton/LinkButton";
+import FriendInfo from "./FriendCard/FriendInfo/FriendInfo";
+import ActionButtons from "./FriendCard/ActionButtons/ActionButtons";
+import FriendCard from "./FriendCard/FriendCard";
 
 const FriendsPage = () => {
 
@@ -21,6 +31,7 @@ const FriendsPage = () => {
     const [display, setDisplay] = useState("friends");
     const [addFriendId, setAddFriendId] = useState("");
     const [foundUser, setFoundUser] = useState(null);
+    const [friends, setFriends] = useState(null);
     const [friendRequests, setFriendRequests] = useState(null);
 
     useEffect(() => {
@@ -28,6 +39,13 @@ const FriendsPage = () => {
 
         getFriendRequestsByUserId(userId)
             .then(data => setFriendRequests(data));
+    }, [userId]);
+
+    useEffect(() => {
+        if (!userId) return;
+
+        getFriendsByUserId(userId)
+            .then(data => setFriends(data));
     }, [userId]);
 
     const handleBackClick = () => {
@@ -47,12 +65,57 @@ const FriendsPage = () => {
     };
 
     const handleYesClick = async () => {
-        await sendFriendRequestToUser(userId, addFriendId);
+        const updatedFriends = await sendFriendRequestToUser(userId, addFriendId);
+        setFriends(updatedFriends);
+        setAddPopupIsVisible(false);
+        setAddFriendId("");
     };
 
     const handleNoClick = () => {
         setAddPopupIsVisible(false);
         setAddFriendId("");
+    };
+
+    const handleCancelClick = async (id) => {
+        const updatedFriends = await cancelFriendRequest(userId, id);
+        setFriends(updatedFriends);
+    };
+
+    const handleConfirmClick = async (id) => {
+        console.log("confirm friend");
+        const updatedFriends = await acceptFriendRequest(userId, id);
+        setFriends(updatedFriends);
+        setFriendRequests(friendRequests => friendRequests.filter(request => request.id !== id));
+        console.log("friend request accepted");
+    };
+
+    const handleDeleteClick = async (id) => {
+        console.log("delete friend request");
+        const updatedRequests = await rejectFriendRequest(userId, id);
+        setFriendRequests(updatedRequests);
+        console.log("friend request deleted");
+    };
+
+    const handleProfileClick = () => {
+        console.log("show user profile");
+    };
+
+    const handleRemoveClick = async (id) => {
+        console.log("show remove friend confirmation popup");
+        const updatedFriends = await removeFriend(userId, id);
+        setFriends(updatedFriends);
+    };
+
+    const calculateMutualFriends = (userFriends) => {
+        let mutualFriends = 0;
+
+        userFriends.forEach(({userId: friendId, status}) => {
+            if (status === "confirmed" && friends.some(f => f.id === friendId)) {
+                mutualFriends++;
+            }
+        });
+
+        return mutualFriends;
     };
 
     return (
@@ -83,19 +146,31 @@ const FriendsPage = () => {
                 <div className="links-container">
                     <button className="display-button" onClick={handleDisplayLinkClick}>
                         {display === "friends" ? "Requests" : "Friends"}
+
+                        <p className="count">
+                            {display === "friends" ?
+                                (friendRequests?.length ? friendRequests?.length : 0)
+                                :
+                                (friends?.length ? friends?.length : 0)
+                            }
+                        </p>
                     </button>
 
-                    <div>
-                        <button onClick={() => setAddPopupIsVisible(true)}>
-                            Add
-                            <FontAwesomeIcon className="icon" icon={faPlus}/>
-                        </button>
+                    {display === "friends" && (
+                        <div>
+                            <LinkButton
+                                handleClick={() => setAddPopupIsVisible(true)}
+                                text="Add"
+                                icon={faPlus}
+                            />
 
-                        <button>
-                            Invite
-                            <FontAwesomeIcon className="icon" icon={faLink}/>
-                        </button>
-                    </div>
+                            <LinkButton
+                                handleClick={() => console.log("Invite user")}
+                                text="Invite"
+                                icon={faLink}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 {addPopupIsVisible && (
@@ -110,65 +185,75 @@ const FriendsPage = () => {
                             />
                         </div>
 
-                        {foundUser && <p>Send friend request to <span>{foundUser.displayName}</span>?</p>}
+                        {foundUser && (
+                            <p>Send friend request to <span>{foundUser.displayName}</span>?</p>
+                        )}
 
                         {!foundUser && (
-                            <div className="buttons-container">
-                                <button onClick={handleFindUserClick}>Find user</button>
-                                <button onClick={handleNoClick}>Cancel</button>
-                            </div>
+                            <ActionButtons
+                                button1Handler={handleFindUserClick}
+                                button1Text="Find user"
+                                button2Handler={handleNoClick}
+                                button2Text="Cancel"
+                            />
                         )}
 
                         {foundUser && (
-                            <div className="buttons-container">
-                                <button onClick={handleYesClick}>Yes</button>
-                                <button onClick={handleNoClick}>No</button>
-                            </div>
+                            <ActionButtons
+                                button1Handler={handleYesClick}
+                                button1Text="Yes"
+                                button2Handler={handleNoClick}
+                                button2Text="No"
+                            />
                         )}
                     </div>
                 )}
 
                 {display === "requests" && (
                     <div className="friend-icons-container">
-                        {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
-                            <div key={id} className="friend-icon-container">
-                                <div>
-                                    <UserIcon size="larger" colour={iconColour}/>
-
-                                    <div className="info-container">
-                                        <h3>{displayName}</h3>
-                                        <p>6 mutual friends</p>
-                                    </div>
-                                </div>
-
-                                <div className="buttons-container">
-                                    <button onClick={handleYesClick}>Confirm</button>
-                                    <button onClick={handleNoClick}>Delete</button>
-                                </div>
-                            </div>
+                        {friendRequests && friendRequests.map(({id, displayName, iconColour, friends: userFriends}) => (
+                            <FriendCard
+                                key={id}
+                                id={id}
+                                displayName={displayName}
+                                iconColour={iconColour}
+                                mutualFriends={calculateMutualFriends(userFriends)}
+                                button1Handler={() => handleConfirmClick(id)}
+                                button1Text="Confirm"
+                                button2Handler={() => handleDeleteClick(id)}
+                                button2Text="Delete"
+                            />
                         ))}
                     </div>
                 )}
 
                 {display === "friends" && (
                     <div className="friend-icons-container">
-                        {[...Array(3)].map(() => (
-                            <div className="friend-icon-container">
-                                <div>
-                                    <UserIcon size="larger"/>
-
-                                    <div className="info-container">
-                                        <h3>username</h3>
-                                        <p>6 mutual friends</p>
-                                    </div>
-                                </div>
-
-                                <div className="buttons-container">
-                                    <button onClick={handleYesClick}>Profile</button>
-                                    <button onClick={handleNoClick}>Remove</button>
-                                </div>
-                            </div>
-                        ))}
+                        {friends && friends
+                            .sort((a, b) => {
+                                if (a.status === "pending") {
+                                    return -1;
+                                } else if (b.status === "pending") {
+                                    return 1;
+                                } else {
+                                    return 0;
+                                }
+                            })
+                            .map(({id, displayName, iconColour, status, friends: userFriends}) => (
+                                <FriendCard
+                                    key={id}
+                                    id={id}
+                                    displayName={displayName}
+                                    iconColour={iconColour}
+                                    mutualFriends={calculateMutualFriends(userFriends)}
+                                    status={status}
+                                    button1Handler={handleProfileClick}
+                                    button1Text="Profile"
+                                    button2Handler={() => handleRemoveClick(id)}
+                                    button2Text="Remove"
+                                    handleCancelClick={() => handleCancelClick(id)}
+                                />
+                            ))}
                     </div>
                 )}
             </main>

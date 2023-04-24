@@ -515,6 +515,104 @@ export const sendFriendRequestToUser = async (userId, friendId) => {
     await updateDoc(friendDocRef, {
         friendRequests: arrayUnion(userId)
     });
+
+    return await getFriendsByUserId(userId);
+};
+
+// accept friend request
+export const acceptFriendRequest = async (userId, friendId) => {
+    if (!userId || !friendId) return;
+
+    const userDocRef = await doc(db, "users", userId);
+    const friendDocRef = await doc(db, "users", friendId);
+
+    await updateDoc(userDocRef, {
+        friends: arrayUnion({
+            userId: friendId,
+            status: "confirmed"
+        })
+    });
+
+    const friendData = await getUserFromUserId(friendId);
+
+    const friends = friendData.friends;
+
+    const foundFriend = friends.find(({userId: id}) => id === userId);
+    foundFriend.status = "confirmed";
+
+    await updateDoc(userDocRef, {
+        friendRequests: arrayRemove(friendId)
+    });
+
+    await updateDoc(friendDocRef, {friends});
+
+    return await getFriendsByUserId(userId);
+};
+
+// reject friend request
+export const rejectFriendRequest = async (userId, friendId) => {
+    if (!userId || !friendId) return;
+
+    const userDocRef = await doc(db, "users", userId);
+    const friendDocRef = await doc(db, "users", friendId);
+
+    await updateDoc(userDocRef, {
+        friendRequests: arrayRemove(friendId)
+    });
+
+    const friendData = await getUserFromUserId(friendId);
+
+    const friends = friendData.friends;
+
+    const updatedFriends = friends.filter(({userId: id}) => id !== userId);
+
+    await updateDoc(friendDocRef, {friends: updatedFriends});
+
+    return await getFriendsByUserId(userId);
+};
+
+// cancel friend request
+export const cancelFriendRequest = async (userId, friendId) => {
+    if (!userId || !friendId) return;
+
+    const userDocRef = await doc(db, "users", userId);
+    const friendDocRef = await doc(db, "users", friendId);
+
+    await updateDoc(friendDocRef, {
+        friendRequests: arrayRemove(userId)
+    });
+
+    const friendData = await getUserFromUserId(userId);
+
+    const friends = friendData.friends;
+
+    const updatedFriends = friends.filter(({userId: id}) => id !== friendId);
+
+    await updateDoc(userDocRef, {friends: updatedFriends});
+
+    return await getFriendsByUserId(userId);
+};
+
+// remove friend
+export const removeFriend = async (userId, friendId) => {
+    if (!userId || !friendId) return;
+
+    await removeFriendFromUserDoc(userId, friendId);
+    await removeFriendFromUserDoc(friendId, userId);
+
+    return await getFriendsByUserId(userId);
+};
+
+const removeFriendFromUserDoc = async (userId, friendId) => {
+    const friendData = await getUserFromUserId(userId);
+
+    const friends = friendData.friends;
+
+    const updatedFriends = friends.filter(({userId: id}) => id !== friendId);
+
+    const userDocRef = await doc(db, "users", userId);
+
+    await updateDoc(userDocRef, {friends: updatedFriends});
 };
 
 // get friend requests
@@ -530,4 +628,23 @@ export const getFriendRequestsByUserId = async (userId) => {
     }
 
     return await Promise.all(friendRequests.map(async (requestId) => await getUserFromUserId(requestId)));
+};
+
+// get friends
+export const getFriendsByUserId = async (userId) => {
+    if (!userId) return;
+
+    const userData = await getUserFromUserId(userId);
+
+    const friends = userData.friends;
+
+    if (!friends) {
+        return null;
+    }
+
+    return await Promise.all(friends.map(async (friend) => {
+        const {userId} = friend;
+        const data = await getUserFromUserId(userId);
+        return {...data, ...friend};
+    }));
 };

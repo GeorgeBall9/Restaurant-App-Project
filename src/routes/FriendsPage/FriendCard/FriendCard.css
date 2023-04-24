@@ -1,0 +1,21 @@
+.friend-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 0.75em;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.friend-card .pending-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: grey;
+    color: white;
+    padding: 0.5em;
+    font-size: var(--font-size-smaller);
+    font-weight: var(--font-weight-bold-1);
+    border-bottom-right-radius: var(--border-radius);
+}

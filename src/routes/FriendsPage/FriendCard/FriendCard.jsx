@@ -5,6 +5,7 @@ import ActionButtons from "./ActionButtons/ActionButtons";
 const FriendCard = ({
                         displayName,
                         iconColour,
+                        mutualFriends,
                         status,
                         button1Handler,
                         button1Text,
@@ -18,6 +19,7 @@ const FriendCard = ({
             <FriendInfo
                 displayName={displayName}
                 iconColour={iconColour}
+                mutualFriends={mutualFriends}
                 status={status}
                 handleCancelClick={handleCancelClick}
             />

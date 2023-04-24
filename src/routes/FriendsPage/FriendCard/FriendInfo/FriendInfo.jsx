@@ -2,7 +2,7 @@ import "./FriendInfo.css";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import ActionButton from "../ActionButtons/ActionButton/ActionButton";
 
-const FriendInfo = ({iconColour, displayName, status, handleCancelClick}) => {
+const FriendInfo = ({iconColour, displayName, mutualFriends, status, handleCancelClick}) => {
 
     return (
         <div className="friend-info">
@@ -10,7 +10,7 @@ const FriendInfo = ({iconColour, displayName, status, handleCancelClick}) => {
 
             <div className="info-container">
                 <h3>{displayName}</h3>
-                <p>6 mutual friends</p>
+                <p>{mutualFriends} mutual friends</p>
 
                 {status === "pending" && (
                     <ActionButton

@@ -541,7 +541,7 @@ export const acceptFriendRequest = async (userId, friendId) => {
     foundFriend.status = "confirmed";
 
     await updateDoc(userDocRef, {
-        friendRequests: arrayRemove(userId)
+        friendRequests: arrayRemove(friendId)
     });
 
     await updateDoc(friendDocRef, {friends});

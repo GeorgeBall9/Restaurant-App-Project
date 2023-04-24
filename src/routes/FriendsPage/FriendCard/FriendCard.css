@@ -1,7 +1,7 @@
 .friend-card {
     background-color: white;
     border-radius: var(--border-radius);
-    padding: 0.5em 0.75em;
+    padding: 0.75em;
     display: flex;
     justify-content: space-between;
     position: relative;

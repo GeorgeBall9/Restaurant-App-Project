@@ -83,13 +83,16 @@ const FriendsPage = () => {
 
     const handleConfirmClick = async (id) => {
         console.log("confirm friend");
-        await acceptFriendRequest(userId, id);
+        const updatedFriends = await acceptFriendRequest(userId, id);
+        setFriends(updatedFriends);
+        setFriendRequests(friendRequests => friendRequests.filter(request => request.id !== id));
         console.log("friend request accepted");
     };
 
     const handleDeleteClick = async (id) => {
         console.log("delete friend request");
-        await rejectFriendRequest(userId, id);
+        const updatedFriends = await rejectFriendRequest(userId, id);
+        setFriends(updatedFriends);
         console.log("friend request deleted");
     };
 
@@ -194,18 +197,30 @@ const FriendsPage = () => {
 
                 {display === "requests" && (
                     <div className="friend-icons-container">
-                        {friendRequests && friendRequests.map(({id, displayName, iconColour}) => (
-                            <FriendCard
-                                key={id}
-                                id={id}
-                                displayName={displayName}
-                                iconColour={iconColour}
-                                button1Handler={() => handleConfirmClick(id)}
-                                button1Text="Confirm"
-                                button2Handler={() => handleDeleteClick(id)}
-                                button2Text="Delete"
-                            />
-                        ))}
+                        {friendRequests && friendRequests.map(({id, displayName, iconColour, friends: userFriends}) => {
+                            let mutualFriends = 0;
+
+                            userFriends.forEach(friend => {
+                                const friendId = friend.userId;
+                                if (friends.some(f => f.id === friendId)) {
+                                    mutualFriends++;
+                                }
+                            });
+
+                            return (
+                                <FriendCard
+                                    key={id}
+                                    id={id}
+                                    displayName={displayName}
+                                    iconColour={iconColour}
+                                    mutualFriends={mutualFriends}
+                                    button1Handler={() => handleConfirmClick(id)}
+                                    button1Text="Confirm"
+                                    button2Handler={() => handleDeleteClick(id)}
+                                    button2Text="Delete"
+                                />
+                            )
+                        })}
                     </div>
                 )}
 
@@ -221,20 +236,33 @@ const FriendsPage = () => {
                                     return 0;
                                 }
                             })
-                            .map(({id, displayName, iconColour, status}) => (
-                            <FriendCard
-                                key={id}
-                                id={id}
-                                displayName={displayName}
-                                iconColour={iconColour}
-                                status={status}
-                                button1Handler={handleProfileClick}
-                                button1Text="Profile"
-                                button2Handler={handleRemoveClick}
-                                button2Text="Remove"
-                                handleCancelClick={() => handleCancelClick(id)}
-                            />
-                        ))}
+                            .map(({id, displayName, iconColour, status, friends: userFriends}) => {
+                                let mutualFriends = 0;
+
+                                userFriends.forEach(friend => {
+                                    const friendId = friend.userId;
+
+                                    if (friends.some(f => f.id === friendId)) {
+                                        mutualFriends++;
+                                    }
+                                });
+
+                                return (
+                                    <FriendCard
+                                        key={id}
+                                        id={id}
+                                        displayName={displayName}
+                                        iconColour={iconColour}
+                                        mutualFriends={mutualFriends}
+                                        status={status}
+                                        button1Handler={handleProfileClick}
+                                        button1Text="Profile"
+                                        button2Handler={handleRemoveClick}
+                                        button2Text="Remove"
+                                        handleCancelClick={() => handleCancelClick(id)}
+                                    />
+                                )
+                            })}
                     </div>
                 )}
             </main>

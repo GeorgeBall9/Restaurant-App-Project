@@ -11,6 +11,7 @@ import {faArrowLeft, faFire, faCircleCheck} from "@fortawesome/free-solid-svg-ic
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getRestaurantById} from "../../firebase/firebase";
+import CheckInsMap from "./CheckInsMap/CheckInsMap";
 
 const currentDate = new Date();
 
@@ -148,7 +149,6 @@ const CheckIns = () => {
         return <TileContent date={date}/>;
     };
 
-
     return (
         <div className="check-ins-page-container">
             <header>
@@ -169,7 +169,7 @@ const CheckIns = () => {
 
             <div className="check-ins-page">
                 <div className="check-ins-map">
-                    <p> MAP GOES HERE </p> {/*Placeholder*/}
+                    <CheckInsMap/>
                 </div>
 
                 <div className="check-ins-stats">

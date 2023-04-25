@@ -143,6 +143,8 @@ const FriendsPage = () => {
 
     const handleDisplayLinkClick = () => {
         setDisplay(display => display === "friends" ? "requests" : "friends");
+        dispatch(resetSearchQuery());
+        setSearchIsVisible(false);
     };
 
     const handleFindUserClick = async () => {

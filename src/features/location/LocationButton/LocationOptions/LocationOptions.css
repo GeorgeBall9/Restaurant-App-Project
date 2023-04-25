@@ -73,49 +73,40 @@
     border: solid 2px var(--secondary-theme);
     border-radius: var(--border-radius);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    z-index: 100;
     max-width: 300px;
     text-align: center;
-  }
-  
-  .location-error-popup p {
-    margin-bottom: 15px;
-    
-  }
+}
 
-  .location-error-popup .location-error-title {
+.location-error-popup p {
+    margin-bottom: 1em;
+}
+
+.location-error-popup .location-error-title {
     color: var(--secondary-theme);
     font-size: 1.2rem;
     font-weight: 700;
-  }
+}
 
-  .location-error-popup .location-error-message {
+.location-error-popup .location-error-message {
     color: grey;
-    font-size: 0.75rem;
-  }
-  
-  .location-error-popup button {
+    font-size: var(--font-size-small);
+}
+
+.location-error-popup button {
     background-color: var(--secondary-theme);
     color: #fff;
     border: none;
-    padding: var(--padding-content);
-    font-size: 14px;
+    padding: 0.5em;
+    font-size: var(--font-size-sub-heading);
     cursor: pointer;
     border-radius: var(--border-radius);
     transition: background-color 0.3s;
-  }
+    width: 100%;
+    font-weight: var(--font-weight-bold-1);
 
-  .location-error-popup button:hover {
+}
+
+.location-error-popup button:hover {
     background-color: var(--primary-theme);
-  }
-  
-/* Grey overlay */
-  .error-grey-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgb(232,232,232,1);
-    z-index: 999;
-  }
+}

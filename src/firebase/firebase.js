@@ -538,7 +538,9 @@ const removeFriendRequest = async (userId, friendId) => {
     const requests = userData.friendRequests;
     const updatedRequests = requests.filter(request => request.userId !== friendId);
 
-    await updateDoc(userDocRef, {updatedRequests});
+    console.log({userId, friendId, updatedRequests});
+
+    await updateDoc(userDocRef, {friendRequests: updatedRequests});
 };
 
 // accept friend request
@@ -633,7 +635,7 @@ export const getFriendRequestsByUserId = async (userId) => {
         return null;
     }
 
-    return await Promise.all(friendRequests.map(async (requestId) => await getUserFromUserId(requestId)));
+    return await Promise.all(friendRequests.map(async ({userId: requestId}) => await getUserFromUserId(requestId)));
 };
 
 // get friends

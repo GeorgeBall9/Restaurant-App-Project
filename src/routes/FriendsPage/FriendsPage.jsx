@@ -43,8 +43,8 @@ const FriendsPage = () => {
     const [addFriendId, setAddFriendId] = useState("");
     const [addFriendFeedback, setAddFriendFeedback] = useState("");
     const [foundUser, setFoundUser] = useState(null);
-    const [friends, setFriends] = useState(null);
-    const [friendRequests, setFriendRequests] = useState(null);
+    const [friends, setFriends] = useState([]);
+    const [friendRequests, setFriendRequests] = useState([]);
     const [inviteCopied, setInviteCopied] = useState(false);
 
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
@@ -54,14 +54,22 @@ const FriendsPage = () => {
         if (!userId) return;
 
         getFriendRequestsByUserId(userId)
-            .then(data => setFriendRequests(data));
+            .then(data => {
+                if (data) {
+                    setFriendRequests(data)
+                }
+            });
     }, [userId]);
 
     useEffect(() => {
         if (!userId) return;
 
         getFriendsByUserId(userId)
-            .then(data => setFriends(data));
+            .then(data => {
+                if (data) {
+                    setFriends(data)
+                }
+            });
     }, [userId]);
 
     const handleBackClick = () => {
@@ -144,7 +152,7 @@ const FriendsPage = () => {
     const calculateMutualFriends = (userFriends) => {
         let mutualFriends = 0;
 
-        userFriends.forEach(({userId: friendId, status}) => {
+        userFriends?.forEach(({userId: friendId, status}) => {
             if (status === "confirmed" && friends.some(f => f.id === friendId)) {
                 mutualFriends++;
             }
@@ -165,7 +173,6 @@ const FriendsPage = () => {
     };
 
     const handleSortFilterClick = ({text, filter, multiplier}) => {
-        console.log(text, filter, multiplier)
         if (display === "friends") {
             setFriends(friends => (
                 [...friends].sort((a, b) => multiplier * (a[filter] - b[filter]))

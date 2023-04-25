@@ -169,7 +169,7 @@ const CheckIns = () => {
 
             <div className="check-ins-page">
                 <div className="check-ins-map">
-                    <CheckInsMap/>
+                    {checkedInRestaurants && <CheckInsMap restaurants={checkedInRestaurants}/>}
                 </div>
 
                 <div className="check-ins-stats">

@@ -1,7 +1,7 @@
 import "./FriendsPage.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faArrowLeft,
+    faArrowLeft, faChevronDown,
     faCircleCheck,
     faCirclePlus,
     faLink,
@@ -27,6 +27,7 @@ import FriendInfo from "./FriendCard/FriendInfo/FriendInfo";
 import ActionButtons from "./FriendCard/ActionButtons/ActionButtons";
 import FriendCard from "./FriendCard/FriendCard";
 import {hideOverlay, showOverlay} from "../../features/overlay/overlaySlice";
+import SortFilterButton from "../ReviewsPage/SortFilterButton/SortFilterButton";
 
 const FriendsPage = () => {
 
@@ -45,6 +46,9 @@ const FriendsPage = () => {
     const [friends, setFriends] = useState(null);
     const [friendRequests, setFriendRequests] = useState(null);
     const [inviteCopied, setInviteCopied] = useState(false);
+
+    const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
+    const [sortFilterSelected, setSortFilterSelected] = useState();
 
     useEffect(() => {
         if (!userId) return;
@@ -156,10 +160,18 @@ const FriendsPage = () => {
             .then(() => setInviteCopied(true));
     };
 
+    const handleSortClick = () => {
+        setSortFiltersVisible(sortFiltersVisible => !sortFiltersVisible);
+    };
+
+    const handleSortFilterClick = (filter) => {
+
+    };
+
     return (
         <div className="friends-page-container">
             <header>
-                <div className="container">
+                <div className="container upper-nav">
                     <button className="back-button" onClick={handleBackClick}>
                         <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
                         Back
@@ -174,8 +186,35 @@ const FriendsPage = () => {
                 </div>
 
                 {searchIsVisible && (
-                    <div className="container">
+                    <div className="container search-and-filters">
                         <SearchBox/>
+
+                        <div>
+                            <button className="reviews-sort-button" onClick={handleSortClick}>
+                                Sort
+                                <FontAwesomeIcon icon={faChevronDown} className="icon"/>
+                            </button>
+
+                            {sortFiltersVisible && (
+                                <div className="sort-filters">
+                                    <SortFilterButton
+                                        text="Most recent"
+                                        filter="date"
+                                        multiplier={-1}
+                                        active={sortFilterSelected === "Most recent"}
+                                        clickHandler={handleSortFilterClick}
+                                    />
+
+                                    <SortFilterButton
+                                        text="Oldest"
+                                        filter="date"
+                                        multiplier={1}
+                                        active={sortFilterSelected === "Oldest"}
+                                        clickHandler={handleSortFilterClick}
+                                    />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 )}
             </header>

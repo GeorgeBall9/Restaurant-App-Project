@@ -9,6 +9,7 @@ import RestaurantMarker from "../../../features/map/Map/RestaurantMarker/Restaur
 import {Link} from "react-router-dom";
 import {faArrowUpRightFromSquare, faLocationArrow} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
 
 const CheckInsMap = ({restaurants}) => {
 
@@ -16,6 +17,7 @@ const CheckInsMap = ({restaurants}) => {
 
     // select all relevant information from map slice
     const userPosition = useSelector(selectUserPosition);
+    const displayedRestaurant = useSelector(selectDisplayedRestaurant);
 
     const [map, setMap] = useState(null);
 
@@ -51,19 +53,15 @@ const CheckInsMap = ({restaurants}) => {
         }
     }, [map]);
 
-    // useEffect(() => {
-    //     if (!displayedRestaurant || !map) return;
-    //
-    //     const {longitude, latitude} = displayedRestaurant;
-    //
-    //     requestAnimationFrame(() => {
-    //         map.flyTo({center: [longitude, latitude], essential: true, speed: 0.5});
-    //     });
-    // },[displayedRestaurant]);
-
     useEffect(() => {
-        console.log(restaurants)
-    }, [restaurants])
+        if (!displayedRestaurant || !map) return;
+
+        const {longitude, latitude} = displayedRestaurant;
+
+        requestAnimationFrame(() => {
+            map.flyTo({center: [longitude, latitude], essential: true, speed: 0.5});
+        });
+    },[displayedRestaurant]);
 
     // component returned to MapPage route
     return (
@@ -86,9 +84,10 @@ const CheckInsMap = ({restaurants}) => {
                                 restaurant={restaurant}
                                 index={index}
                                 visible={true}
+                                type="check-ins"
                             />
 
-                            {index === 3 && (
+                            {displayedRestaurant?.id === restaurant.id && (
                                 <Popup longitude={restaurant.longitude} latitude={restaurant.latitude}
                                        anchor="bottom"
                                        closeButton={false}
@@ -97,8 +96,10 @@ const CheckInsMap = ({restaurants}) => {
                                 >
                                     <div className="content">
                                         <Link to={`/details/${restaurant.id}`}>
-                                            <h3>{restaurant.name}</h3>
-                                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
+                                            <h3>
+                                                {restaurant.name}
+                                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
+                                            </h3>
                                         </Link>
 
                                         <p>You visited on {new Date(restaurant.date).toLocaleDateString()}</p>

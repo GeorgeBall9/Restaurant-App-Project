@@ -49,8 +49,8 @@ const Slider = () => {
         },
         onTouchEndOrOnMouseUp: ({ velocity, dir }) => {
             const magnitude = Math.abs(offsetX);
-            const isQuickForwardSwipe = dir === "Left" && Math.abs(velocity) > 0.25;
-            const isQuickBackwardSwipe = dir === "Right" && Math.abs(velocity) > 0.25;
+            const isQuickForwardSwipe = dir === "Left" && Math.abs(velocity) > 0.1;
+            const isQuickBackwardSwipe = dir === "Right" && Math.abs(velocity) > 0.1;
 
             if (!sliderIsActive || activeSlide === 0 && offsetX > 0 || activeSlide === lastSlide && offsetX < 0) {
                 updateStyle();

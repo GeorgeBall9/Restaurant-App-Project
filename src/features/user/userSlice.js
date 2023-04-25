@@ -9,6 +9,9 @@ const initialState = {
     recommendations: [],
     bookmarks: [],
     checkedInRestaurants: [],
+    friends: [],
+    friendRequests: [],
+    friendsSortFilter: "Most recent",
 };
 
 const userSlice = createSlice({
@@ -72,7 +75,30 @@ const userSlice = createSlice({
         },
         setCheckedInRestaurants: (state, action) => {
             state.checkedInRestaurants = action.payload.length ? action.payload : [];
-        }
+        },
+        setFriends: (state, action) => {
+            state.friends = action.payload;
+        },
+        removeFriend: (state, action) => {
+            state.friends = state.friends.filter(friend => friend.id !== action.payload)
+        },
+        setFriendRequests: (state, action) => {
+            state.friendRequests = action.payload;
+        },
+        removeFriendRequest: (state, action) => {
+            state.friendRequests = state.friendRequests.filter(request => request.id !== action.payload)
+        },
+        sortFriends: (state, action) => {
+            const {text, filter, multiplier} = action.payload;
+            state.friends = [...state.friends].sort((a, b) => multiplier * (a[filter] - b[filter]));
+            state.friendsSortFilter = text;
+        },
+        sortFriendRequests: (state, action) => {
+            const {text, filter, multiplier} = action.payload;
+            state.friendRequests = [...state.friendRequests]
+                .sort((a, b) => multiplier * (a[filter] - b[filter]));
+            state.friendsSortFilter = text;
+        },
     },
 });
 
@@ -91,6 +117,12 @@ export const {
     addCheckedInRestaurant,
     removeCheckedInRestaurant,
     setCheckedInRestaurants,
+    setFriends,
+    removeFriend,
+    setFriendRequests,
+    removeFriendRequest,
+    sortFriends,
+    sortFriendRequests
 } = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;
@@ -100,4 +132,7 @@ export const selectIconColour = state => state.user.iconColour;
 export const selectRecommendations = state => state.user.recommendations;
 export const selectBookmarks = state => state.user.bookmarks;
 export const selectCheckedInRestaurants = state => state.user.checkedInRestaurants;
+export const selectFriends = state => state.user.friends;
+export const selectFriendRequests = state => state.user.friendRequests;
+export const selectFriendsSortFilter = state => state.user.friendsSortFilter;
 export default userSlice.reducer;

@@ -17,7 +17,7 @@ export const filtersSlice = createSlice({
             state.searchQuery = action.payload;
         },
         resetSearchQuery: state => {
-            state.searchQuery = null;
+            state.searchQuery = "";
         },
         updateSortFilter: (state, action) => {
             state.sortBy = action.payload;
@@ -69,6 +69,7 @@ export const {
     showFilters,
     hideFilters,
     updateSearchQuery,
+    resetSearchQuery,
     applyFilters,
     removedAppliedFilter,
     resetFilters

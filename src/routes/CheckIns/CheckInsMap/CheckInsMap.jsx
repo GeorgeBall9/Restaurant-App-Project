@@ -4,8 +4,11 @@ import {selectUserPosition} from "../../../features/location/locationSlice";
 import {useEffect, useState} from "react";
 import {hideSpinner, showSpinner} from "../../../features/spinner/spinnerSlice";
 import ReactMapGl from "react-map-gl";
-import LocationMarker from "../../../features/map/Map/LocationMarker/LocationMarker";
+import {Popup} from "react-map-gl";
 import RestaurantMarker from "../../../features/map/Map/RestaurantMarker/RestaurantMarker";
+import {Link} from "react-router-dom";
+import {faArrowUpRightFromSquare, faLocationArrow} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const CheckInsMap = ({restaurants}) => {
 
@@ -20,7 +23,7 @@ const CheckInsMap = ({restaurants}) => {
     const [viewState, setViewState] = useState({
         latitude: userPosition.latitude,
         longitude: userPosition.longitude,
-        zoom: 13.5
+        zoom: 13
     });
 
     // handler functions
@@ -58,12 +61,16 @@ const CheckInsMap = ({restaurants}) => {
     //     });
     // },[displayedRestaurant]);
 
+    useEffect(() => {
+        console.log(restaurants)
+    }, [restaurants])
+
     // component returned to MapPage route
     return (
-        <div className="map-container">
+        <div className="map-container check-ins-map">
             <ReactMapGl
                 {...viewState}
-                style={{width: "100%", height: "220px"}}
+                style={{width: "100%", height: "240px"}}
                 mapStyle="mapbox://styles/mapbox/streets-v12"
                 onMove={handleMapMove}
                 onLoad={handleMapLoad}
@@ -73,12 +80,32 @@ const CheckInsMap = ({restaurants}) => {
 
                 {restaurants && restaurants
                     .map((restaurant, index) => (
-                        <RestaurantMarker
-                            key={restaurant.id + "" + index}
-                            restaurant={restaurant}
-                            index={index}
-                            visible={true}
-                        />
+                        <>
+                            <RestaurantMarker
+                                key={restaurant.id + "" + index}
+                                restaurant={restaurant}
+                                index={index}
+                                visible={true}
+                            />
+
+                            {index === 3 && (
+                                <Popup longitude={restaurant.longitude} latitude={restaurant.latitude}
+                                       anchor="bottom"
+                                       closeButton={false}
+                                       closeOnClick={false}
+                                       offset={50}
+                                >
+                                    <div className="content">
+                                        <Link to={`/details/${restaurant.id}`}>
+                                            <h3>{restaurant.name}</h3>
+                                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
+                                        </Link>
+
+                                        <p>You visited on {new Date(restaurant.date).toLocaleDateString()}</p>
+                                    </div>
+                                </Popup>
+                            )}
+                        </>
                     ))}
             </ReactMapGl>
         </div>

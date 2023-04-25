@@ -168,7 +168,7 @@ const CheckIns = () => {
             </header>
 
             <div className="check-ins-page">
-                <div className="check-ins-map">
+                <div className="check-ins-map-container">
                     {checkedInRestaurants && <CheckInsMap restaurants={checkedInRestaurants}/>}
                 </div>
 

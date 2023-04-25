@@ -1,13 +1,16 @@
 import {useDispatch} from "react-redux";
 import {sortReviews} from "../../../features/reviews/reviewsSlice";
+import {sortFriendRequests, sortFriends} from "../../../features/user/userSlice";
 
-const SortFilterButton = ({text, filter, multiplier, active, clickHandler}) => {
+const SortFilterButton = ({text, filter, multiplier, active, type = "reviews"}) => {
 
     const dispatch = useDispatch();
 
     const handleClick = () => {
-        if (clickHandler) {
-            clickHandler({text, filter, multiplier});
+        if (type === "friends") {
+            dispatch(sortFriends({text, filter, multiplier}));
+        } else if (type === "requests") {
+            dispatch(sortFriendRequests({text, filter, multiplier}));
         } else {
             dispatch(sortReviews({text, filter, multiplier}));
         }

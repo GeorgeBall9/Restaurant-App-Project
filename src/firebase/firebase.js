@@ -604,7 +604,7 @@ export const cancelFriendRequest = async (userId, friendId) => {
 };
 
 // remove friend
-export const removeFriend = async (userId, friendId) => {
+export const deleteFriend = async (userId, friendId) => {
     if (!userId || !friendId) return;
 
     await removeFriendFromUserDoc(userId, friendId);

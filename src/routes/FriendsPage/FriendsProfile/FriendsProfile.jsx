@@ -1,7 +1,7 @@
 import './FriendsProfile.css';
 
 import { getUserFromUserId } from '../../../firebase/firebase';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import UserIcon from '../../../common/components/UserIcon/UserIcon';
 import { useSelector } from "react-redux";
 import { selectFriends, selectUserId, selectDisplayName, selectIconColour } from '../../../features/user/userSlice';
@@ -23,7 +23,7 @@ const FriendsProfile = () => {
 
     const navigate = useNavigate();
 
-    const userId = useSelector(selectUserId);
+    const { userId } = useParams();
     const displayName = useSelector(selectDisplayName);
     const iconColour = useSelector(selectIconColour);
 
@@ -31,6 +31,8 @@ const FriendsProfile = () => {
     const [friendProfile, setFriendProfile] = useState("");
 
     useEffect(() => {
+        if (!userId) return;
+
         const fetchFriendProfile = async () => {
             const user = await getUserFromUserId(userId);
             setFriendProfile(user);
@@ -58,7 +60,7 @@ const FriendsProfile = () => {
                         Back
                     </button>
 
-                    <h1>{displayName}'s Profile</h1>
+                    <h1>{friendProfile.displayName}'s Profile</h1>
 
                     <button style={{ visibility: "hidden" }}>
                         <FontAwesomeIcon className="icon" icon={faArrowLeft} />
@@ -70,10 +72,10 @@ const FriendsProfile = () => {
             <main className="container">
                 <section className="friends-profile-info-container">
                     <div className="user-icon-container">
-                        <UserIcon size="xLarge" colour={iconColour} skeleton={!iconColour} />
+                        <UserIcon size="xLarge" colour={friendProfile.iconColour} skeleton={!friendProfile.iconColour} />
                     </div>
 
-                    <p style={{ visibility: displayName ? "visible" : "hidden" }}>{displayName || "display name"}</p>
+                    <p style={{ visibility: friendProfile.displayName ? "visible" : "hidden" }}>{friendProfile.displayName || "display name"}</p>
 
                     <button className="copy-id-button" onClick={handleCopyIdClick}>
                         {idCopied ? "Copied" : "Copy user ID"}

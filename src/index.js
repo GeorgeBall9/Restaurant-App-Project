@@ -27,6 +27,7 @@ import CheckIns from "./routes/CheckIns/CheckIns";
 import PreviewReviews from "./routes/PreviewReviews/PreviewReviews";
 import ReviewsPage from "./routes/ReviewsPage/ReviewsPage";
 import FriendsPage from "./routes/FriendsPage/FriendsPage";
+import FriendsProfile from "./routes/FriendsPage/FriendsProfile/FriendsProfile";
 
 const router = createBrowserRouter([
     {
@@ -84,6 +85,18 @@ const router = createBrowserRouter([
                     {
                         path: "friends",
                         element: <FriendsPage/>,
+                    },
+                    {
+                        path: "view-profile/:userId",
+                        element: <FriendsProfile/>,
+                    },
+                    {
+                        path: "view-check-ins/:userId",
+                        element: <FriendsProfile/>,
+                    },
+                    {
+                        path: "view-reviews/:userId",
+                        element: <FriendsProfile/>,
                     },
                 ]
             },

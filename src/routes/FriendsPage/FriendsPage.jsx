@@ -241,6 +241,8 @@ const FriendsPage = () => {
 
     const handleSearchClick = () => {
         dispatch(resetSearchQuery());
+        setDisplayedFriends(friends);
+        setDisplayedFriendRequests(friendRequests);
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 

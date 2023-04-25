@@ -635,6 +635,8 @@ export const getFriendRequestsByUserId = async (userId) => {
         return null;
     }
 
+    friendRequests.sort((a, b) => b.date - a.date);
+
     return await Promise
         .all(friendRequests
             .map(async ({userId: requestId}) => await getUserFromUserId(requestId)));
@@ -651,6 +653,8 @@ export const getFriendsByUserId = async (userId) => {
     if (!friends) {
         return null;
     }
+
+    friends.sort((a, b) => b.date - a.date);
 
     return await Promise.all(friends.map(async (friend) => {
         const {userId} = friend;

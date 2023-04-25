@@ -206,8 +206,8 @@ const FriendsPage = () => {
         console.log("friend request deleted");
     };
 
-    const handleProfileClick = () => {
-        console.log("show user profile");
+    const handleProfileClick = (userId) => {
+        navigate(`/view-profile/${userId}`)
     };
 
     const handleRemoveClick = async (id) => {
@@ -406,7 +406,7 @@ const FriendsPage = () => {
                                     iconColour={iconColour}
                                     mutualFriends={calculateMutualFriends(userFriends)}
                                     status={status}
-                                    button1Handler={handleProfileClick}
+                                    button1Handler={() => handleProfileClick(id)}
                                     button1Text="Profile"
                                     button2Handler={() => handleRemoveClick(id)}
                                     button2Text="Remove"

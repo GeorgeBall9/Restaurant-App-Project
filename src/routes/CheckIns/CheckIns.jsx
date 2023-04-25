@@ -4,7 +4,7 @@ import "./CheckInsCalendar/CheckInsCalendar.css";
 import Calendar from "react-calendar";
 import CheckInsCollage from "./CheckInsCollage/CheckInsCollage.jsx";
 
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectUserId, selectCheckedInRestaurants} from "../../features/user/userSlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faFire, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
@@ -12,12 +12,15 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getRestaurantById} from "../../firebase/firebase";
 import CheckInsMap from "./CheckInsMap/CheckInsMap";
+import {displayRestaurant, resetDisplayedRestaurant} from "../../features/map/mapSlice";
 
 const currentDate = new Date();
 
 const CheckIns = () => {
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
     const userCheckIns = useSelector(selectCheckedInRestaurants);
@@ -57,6 +60,11 @@ const CheckIns = () => {
         }
     }, [userId]);
 
+    useEffect(() => {
+        if (!restaurant) return;
+
+        dispatch(displayRestaurant(restaurant));
+    }, [restaurant]);
 
     const handleCalendarChange = (value) => {
         setCalendarValue(value);

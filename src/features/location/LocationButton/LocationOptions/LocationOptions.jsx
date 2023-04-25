@@ -7,7 +7,7 @@ import {
     updateUserPosition,
 } from "../../locationSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import {hideSpinner, showSpinner} from "../../../spinner/spinnerSlice";
 
 const LocationOptions = () => {
@@ -15,6 +15,29 @@ const LocationOptions = () => {
     const dispatch = useDispatch();
 
     const usingCurrentLocation = useSelector(selectUsingCurrentLocation);
+
+    const [postcode, setPostcode] = useState("");
+    const [showErrorPopup, setShowErrorPopup] = useState(false);
+    const [errorFeedback, setErrorFeedback] = useState({title: "", message: ""});
+
+    const updateErrorFeedback = (type) => {
+        const newTitle = type === "postcode" ?
+            "Unable to find results for that postcode."
+            :
+            "Unable to retrieve your location.";
+
+        const newMessage = type === "postcode" ?
+            "Please make sure the postcode you entered is correct."
+            :
+            "Please try again or enter a postcode manually.";
+
+        setErrorFeedback(errorFeedback => {
+            const updatedFeedback = {...errorFeedback};
+            updatedFeedback.title = newTitle;
+            updatedFeedback.message = newMessage;
+            return updatedFeedback;
+        });
+    };
 
     const handleUseLocationClick = () => {
         if (usingCurrentLocation) {
@@ -33,6 +56,7 @@ const LocationOptions = () => {
         const error = (error) => {
             console.error(error);
             dispatch(hideSpinner());
+            updateErrorFeedback("gps");
             setShowErrorPopup(true);
         }
 
@@ -41,12 +65,7 @@ const LocationOptions = () => {
         } else {
             console.log("location not available")
         }
-
-        dispatch(toggleLocationOptions());
     };
-
-    const [postcode, setPostcode] = useState("");
-    const [showErrorPopup, setShowErrorPopup] = useState(false);
 
     const handlePostCodeChange = ({target}) => setPostcode(target.value.toUpperCase());
 
@@ -72,34 +91,26 @@ const LocationOptions = () => {
             .catch(error => {
                 console.error(error);
                 dispatch(hideSpinner());
+                updateErrorFeedback("postcode");
+                setShowErrorPopup(true);
             });
-
-        dispatch(toggleLocationOptions());
     };
 
     const closeErrorPopup = () => {
         setShowErrorPopup(false);
     };
-    
-    useEffect(() => {
-        return () => {
-            setShowErrorPopup(false);
-        };
-    }, []);
 
     return (
         <div className="location-options-container">
             <div className="location-options">
-            {showErrorPopup && (
-                <>  
-                    <div className="error-grey-overlay"></div>
+                {showErrorPopup && (
                     <div className="location-error-popup">
-                        <p className="location-error-title">Unable to retrieve your location.</p>
-                        <p className="location-error-message">Please try again or enter a postcode manually.</p>
+                        <p className="location-error-title">{errorFeedback.title}</p>
+                        <p className="location-error-message">{errorFeedback.message}</p>
                         <button onClick={closeErrorPopup}>Close</button>
                     </div>
-                </>
-            )}
+                )}
+
                 <label className="postcode-input-container">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
 

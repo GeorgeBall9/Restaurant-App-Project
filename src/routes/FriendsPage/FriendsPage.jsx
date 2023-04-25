@@ -351,7 +351,6 @@ const FriendsPage = () => {
                         {displayedFriendRequests.map(({id, displayName, iconColour, friends: userFriends}) => (
                             <FriendCard
                                 key={id}
-                                id={id}
                                 displayName={displayName}
                                 iconColour={iconColour}
                                 mutualFriends={calculateMutualFriends(userFriends)}

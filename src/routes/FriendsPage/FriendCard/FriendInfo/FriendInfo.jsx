@@ -10,7 +10,10 @@ const FriendInfo = ({iconColour, displayName, mutualFriends, status, handleCance
 
             <div className="info-container">
                 <h3>{displayName}</h3>
-                <p>{mutualFriends} mutual friend{mutualFriends !== 1 ? "s" : ""}</p>
+
+                {mutualFriends && (
+                    <p>{mutualFriends} mutual friend{mutualFriends !== 1 ? "s" : ""}</p>
+                )}
 
                 {status === "pending" && (
                     <ActionButton

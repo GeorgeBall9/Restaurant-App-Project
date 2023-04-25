@@ -13,6 +13,9 @@ import {hideCheckInConfirmation} from "../checkInConfirmationSlice";
 import FormField from "../../../common/components/FormField/FormField";
 import {faArrowUpRightFromSquare, faCirclePlus, faCircleXmark, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import FriendCard from "../../../routes/FriendsPage/FriendCard/FriendCard";
+import FriendInfo from "../../../routes/FriendsPage/FriendCard/FriendInfo/FriendInfo";
+import UserIcon from "../../../common/components/UserIcon/UserIcon";
 
 const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
@@ -103,6 +106,17 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
                     Add friend
                     <FontAwesomeIcon icon={faPlus} className="icon"/>
                 </button>
+            )}
+
+            {friends?.length > 0 && (
+                <div className="select-friends">
+                    {friends.map(({id, displayName, iconColour}) => (
+                        <div className="select-friend-card">
+                            <UserIcon size="small" colour={iconColour}/>
+                            <p>{displayName}</p>
+                        </div>
+                    ))}
+                </div>
             )}
 
             <p><span>Check {checkedIn ? "out" : "in"}</span> at {name}?</p>

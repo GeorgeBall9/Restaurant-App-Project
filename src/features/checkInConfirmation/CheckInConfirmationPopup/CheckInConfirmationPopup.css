@@ -28,12 +28,9 @@
 
 .confirm-checkin-popup .add-friend-button {
     background-color: var(--secondary-theme);
-    /*background: none;*/
     border-radius: var(--border-radius);
     color: white;
-    /*color: var(--primary-theme);*/
     border: none;
-    width: fit-content;
     margin: var(--margin-align-center);
     padding: 0.5em 0.75em;
     display: flex;
@@ -45,7 +42,32 @@
 
 .confirm-checkin-popup .add-friend-button .icon {
     color: white;
-    /*color: var(--primary-theme);*/
+}
+
+.confirm-checkin-popup .add-friend-button:hover {
+    background-color: var(--primary-theme);
+}
+
+.confirm-checkin-popup .select-friends {
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    border: solid 1px lightgrey;
+}
+
+.confirm-checkin-popup .select-friends .select-friend-card {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.25em 0.5em;
+}
+
+.confirm-checkin-popup .select-friends .select-friend-card:not(:last-child) {
+    border-bottom: solid 1px lightgrey;
+}
+
+.confirm-checkin-popup .select-friends .select-friend-card p {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold-1);
 }
 
 .confirm-checkin-popup .feedback {

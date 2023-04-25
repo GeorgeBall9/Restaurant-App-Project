@@ -36,6 +36,7 @@ import ActionButtons from "./FriendCard/ActionButtons/ActionButtons";
 import FriendCard from "./FriendCard/FriendCard";
 import {hideOverlay, showOverlay} from "../../features/overlay/overlaySlice";
 import SortFilterButton from "../../common/components/SortFilterButton/SortFilterButton";
+import {resetSearchQuery, selectSearchQuery} from "../../features/filters/filtersSlice";
 
 const FriendsPage = () => {
 
@@ -47,6 +48,7 @@ const FriendsPage = () => {
     const friends = useSelector(selectFriends);
     const friendRequests = useSelector(selectFriendRequests);
     const friendsSortFilter = useSelector(selectFriendsSortFilter);
+    const searchQuery = useSelector(selectSearchQuery);
 
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
@@ -57,6 +59,7 @@ const FriendsPage = () => {
     const [displayedFriends, setDisplayedFriends] = useState([]);
     const [displayedFriendRequests, setDisplayedFriendRequests] = useState([]);
     const [inviteCopied, setInviteCopied] = useState(false);
+    const [hasMatches, setHasMatches] = useState(false);
 
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
 
@@ -93,6 +96,46 @@ const FriendsPage = () => {
 
         setDisplayedFriendRequests(friendRequests);
     }, [friendRequests]);
+
+    useEffect(() => {
+        if (display === "friends" && !friends || display === "request" && !friendRequests) return;
+
+        if (!searchQuery) {
+            if (display === "friends") {
+                setDisplayedFriends(friends);
+            } else {
+                setDisplayedFriendRequests(friendRequests);
+            }
+            return;
+        }
+
+        const query = searchQuery.toLowerCase();
+
+        let searchResults;
+
+        if (display === "friends") {
+            searchResults = friends.filter(({displayName}) => displayName.toLowerCase().includes(query));
+        } else {
+            searchResults = friendRequests.filter(({displayName}) => displayName.toLowerCase().includes(query));
+        }
+
+        if (!searchResults.length) {
+            setHasMatches(false);
+
+            if (display === "friends") {
+                setDisplayedFriends(friends);
+            } else {
+                setDisplayedFriendRequests(friendRequests);
+            }
+        } else {
+            if (display === "friends") {
+                setDisplayedFriends(searchResults);
+            } else {
+                setDisplayedFriendRequests(searchResults);
+            }
+            setHasMatches(true);
+        }
+    }, [searchQuery, friends, friendRequests]);
 
     const handleBackClick = () => {
         navigate("/profile");
@@ -194,6 +237,11 @@ const FriendsPage = () => {
         setSortFiltersVisible(sortFiltersVisible => !sortFiltersVisible);
     };
 
+    const handleSearchClick = () => {
+        dispatch(resetSearchQuery());
+        setSearchIsVisible(searchIsVisible => !searchIsVisible);
+    };
+
     return (
         <div className="friends-page-container">
             <header>
@@ -205,7 +253,7 @@ const FriendsPage = () => {
 
                     <h1>{display}</h1>
 
-                    <button onClick={() => setSearchIsVisible(searchIsVisible => !searchIsVisible)}>
+                    <button onClick={handleSearchClick}>
                         {!searchIsVisible && <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>}
                         {searchIsVisible ? "Cancel" : "Search"}
                     </button>
@@ -213,7 +261,7 @@ const FriendsPage = () => {
 
                 {searchIsVisible && (
                     <div className="container search-and-filters">
-                        <SearchBox/>
+                        <SearchBox type="friends" matches={hasMatches}/>
 
                         <div>
                             <button className="reviews-sort-button" onClick={handleSortClick}>

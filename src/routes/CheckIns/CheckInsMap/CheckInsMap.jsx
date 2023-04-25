@@ -10,12 +10,14 @@ import {Link} from "react-router-dom";
 import {faArrowUpRightFromSquare, faLocationArrow} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
+import {selectUserId} from "../../../features/user/userSlice";
 
 const CheckInsMap = ({restaurants}) => {
 
     const dispatch = useDispatch();
 
     // select all relevant information from map slice
+    const userId = useSelector(selectUserId);
     const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
 

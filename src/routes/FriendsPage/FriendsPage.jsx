@@ -64,28 +64,6 @@ const FriendsPage = () => {
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
 
     useEffect(() => {
-        if (!userId) return;
-
-        getFriendRequestsByUserId(userId)
-            .then(data => {
-                if (data) {
-                    dispatch(setFriendRequests(data));
-                }
-            });
-    }, [userId]);
-
-    useEffect(() => {
-        if (!userId) return;
-
-        getFriendsByUserId(userId)
-            .then(data => {
-                if (data) {
-                    dispatch(setFriends(data));
-                }
-            });
-    }, [userId]);
-
-    useEffect(() => {
         if (!friends?.length) return;
 
         setDisplayedFriends(friends);

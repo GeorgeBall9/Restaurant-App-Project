@@ -26,6 +26,28 @@
     border-radius: var(--border-radius);
 }
 
+.confirm-checkin-popup .add-friend-button {
+    background-color: var(--secondary-theme);
+    /*background: none;*/
+    border-radius: var(--border-radius);
+    color: white;
+    /*color: var(--primary-theme);*/
+    border: none;
+    width: fit-content;
+    margin: var(--margin-align-center);
+    padding: 0.5em 0.75em;
+    display: flex;
+    gap: 0.25em;
+    align-items: center;
+    font-size: var(--font-size-smaller);
+    font-weight: var(--font-weight-bold-1);
+}
+
+.confirm-checkin-popup .add-friend-button .icon {
+    color: white;
+    /*color: var(--primary-theme);*/
+}
+
 .confirm-checkin-popup .feedback {
     color: red;
 }
@@ -36,6 +58,7 @@
 
 .confirm-checkin-popup .buttons-container {
     display: flex;
+    flex-direction: column;
     gap: 0.5em;
     justify-content: center;
     margin-top: 0.5em;

@@ -2,7 +2,7 @@ import "./CheckInConfirmationPopup.css";
 import {addRestaurantCheckIn, checkInExists, removeRestaurantCheckIn} from "../../../firebase/firebase";
 import {
     addCheckedInRestaurant,
-    selectCheckedInRestaurants,
+    selectCheckedInRestaurants, selectFriends,
     selectUserId,
     setCheckedInRestaurants
 } from "../../user/userSlice";
@@ -11,6 +11,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {hideCheckInConfirmation} from "../checkInConfirmationSlice";
 import FormField from "../../../common/components/FormField/FormField";
+import {faArrowUpRightFromSquare, faCirclePlus, faCircleXmark, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
@@ -20,6 +22,7 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
     const userId = useSelector(selectUserId);
     const checkedInRestaurants = useSelector(selectCheckedInRestaurants);
+    const friends = useSelector(selectFriends);
 
     const [lastCheckIn, setLastCheckIn] = useState(null);
     const [checkInDate, setCheckInDate] = useState(new Date().toISOString().split("T")[0]);
@@ -61,6 +64,10 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
         dispatch(hideCheckInConfirmation());
     };
 
+    useEffect(() => {
+        console.log(friends)
+    }, [friends]);
+
     const handleNoClick = () => {
         dispatch(hideOverlay());
         dispatch(hideCheckInConfirmation());
@@ -89,6 +96,13 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
                         onChangeHandler={handleDateChange}
                     />
                 </div>
+            )}
+
+            {friends?.length > 0 && (
+                <button className="add-friend-button">
+                    Add friend
+                    <FontAwesomeIcon icon={faPlus} className="icon"/>
+                </button>
             )}
 
             <p><span>Check {checkedIn ? "out" : "in"}</span> at {name}?</p>

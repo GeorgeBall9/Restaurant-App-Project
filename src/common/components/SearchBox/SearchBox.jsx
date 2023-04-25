@@ -41,7 +41,7 @@ const SearchBox = ({type = "restaurant", matches}) => {
                 <SearchFeedback hasMatches={hasMatches} searchQuery={searchQuery}/>
             )}
 
-            {type === "reviews" && (
+            {(type === "reviews" || type === "friends" || type === "requests") && (
                 <SearchFeedback hasMatches={matches} searchQuery={searchQuery}/>
             )}
         </div>

@@ -3,7 +3,7 @@
     border-bottom: solid 1px lightgrey;
 }
 
-.friends-page-container header > div {
+.friends-page-container header .upper-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,7 +15,7 @@
     text-transform: capitalize;
 }
 
-.friends-page-container header button {
+.friends-page-container header .upper-nav button {
     color: var(--secondary-theme);
     font-weight: var(--font-weight-bold-2);
     font-size: var(--font-size-smaller);
@@ -26,16 +26,22 @@
     align-items: center;
 }
 
-.friends-page-container header button:first-child {
+.friends-page-container header .upper-nav button:first-child {
     justify-content: flex-start;
 }
 
-.friends-page-container header button:last-child {
+.friends-page-container header .upper-nav button:last-child {
     justify-content: flex-end;
 }
 
-.friends-page-container header button .icon {
+.friends-page-container header .upper-nav button .icon {
     margin-right: 0.5em;
+}
+
+.friends-page-container header .search-and-filters {
+    display: flex;
+    gap: 1em;
+    justify-content: stretch;
 }
 
 .friends-page-container header .search-box {

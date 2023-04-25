@@ -13,7 +13,7 @@ import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice"
 import {faChevronDown, faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectSearchQuery} from "../../features/filters/filtersSlice";
-import SortFilterButton from "./SortFilterButton/SortFilterButton";
+import SortFilterButton from "../../common/components/SortFilterButton/SortFilterButton";
 
 const ReviewsPage = () => {
 

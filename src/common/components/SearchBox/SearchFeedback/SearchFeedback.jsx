@@ -15,9 +15,9 @@ const SearchFeedback = ({hasMatches, searchQuery}) => {
 
     // Use the useEffect hook to handle the fadeout effect
     useEffect(() => {
-        if (!hasMatches && searchQuery.length > 0) {
+        if (!hasMatches && searchQuery?.length > 0) {
             setNoMatchesVisible(true);
-        } else if (hasMatches || searchQuery.length === 0) {
+        } else if (hasMatches || searchQuery?.length === 0) {
             setNoMatchesVisible(false);
         }
     }, [hasMatches, searchQuery]);

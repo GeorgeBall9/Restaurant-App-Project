@@ -164,8 +164,13 @@ const FriendsPage = () => {
         setSortFiltersVisible(sortFiltersVisible => !sortFiltersVisible);
     };
 
-    const handleSortFilterClick = (filter) => {
-
+    const handleSortFilterClick = ({text, filter, multiplier}) => {
+        console.log(text, filter, multiplier)
+        if (display === "friends") {
+            setFriends(friends => (
+                [...friends].sort((a, b) => multiplier * (a[filter] - b[filter]))
+            ))
+        }
     };
 
     return (

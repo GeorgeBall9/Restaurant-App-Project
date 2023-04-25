@@ -7,7 +7,7 @@ const SortFilterButton = ({text, filter, multiplier, active, clickHandler}) => {
 
     const handleClick = () => {
         if (clickHandler) {
-            clickHandler();
+            clickHandler({text, filter, multiplier});
         } else {
             dispatch(sortReviews({text, filter, multiplier}));
         }

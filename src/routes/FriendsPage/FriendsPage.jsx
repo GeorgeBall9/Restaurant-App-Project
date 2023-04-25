@@ -173,11 +173,17 @@ const FriendsPage = () => {
     };
 
     const handleSortFilterClick = ({text, filter, multiplier}) => {
-        if (display === "friends") {
-            setFriends(friends => (
-                [...friends].sort((a, b) => multiplier * (a[filter] - b[filter]))
-            ))
-        }
+
+        const sortArrayByFilter = (array, filter, multiplier) => {
+            return [...array].sort((a, b) => multiplier * (a[filter] - b[filter]));
+        };
+
+        setFriends(friends => sortArrayByFilter(friends));
+
+        setFriendRequests(requests => sortArrayByFilter(requests));
+
+        setSortFilterSelected(text);
+        setSortFiltersVisible(false);
     };
 
     return (

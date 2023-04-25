@@ -635,7 +635,9 @@ export const getFriendRequestsByUserId = async (userId) => {
         return null;
     }
 
-    return await Promise.all(friendRequests.map(async ({userId: requestId}) => await getUserFromUserId(requestId)));
+    return await Promise
+        .all(friendRequests
+            .map(async ({userId: requestId}) => await getUserFromUserId(requestId)));
 };
 
 // get friends

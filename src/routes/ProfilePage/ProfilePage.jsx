@@ -1,7 +1,7 @@
 import "./ProfilePage.css";
 import {Link, useNavigate} from "react-router-dom";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectDisplayName, selectIconColour, selectUserId} from "../../features/user/userSlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
@@ -17,10 +17,13 @@ import {
 import {signOutAuthUser} from "../../firebase/firebase";
 import {useEffect, useState} from "react";
 import ContributionsButton from "./ContributionsButton/ContributionsButton";
+import {hideSpinner} from "../../features/spinner/spinnerSlice";
 
 const ProfilePage = () => {
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
     const displayName = useSelector(selectDisplayName);
@@ -32,6 +35,8 @@ const ProfilePage = () => {
         if (!userId) {
             navigate("/sign-in")
         }
+
+        dispatch(hideSpinner());
     }, []);
 
     const handleBackClick = () => {

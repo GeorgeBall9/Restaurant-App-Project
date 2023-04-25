@@ -53,14 +53,17 @@ const Route = ({displayedRestaurant, routeCoordinates, travelTime}) => {
                 closeOnClick={false}
                 offset={50}
             >
-                <p>
-                    <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
-                    {Math.round(distance * 10) / 10} km
-                </p>
-                <p>
-                    <FontAwesomeIcon icon={faPersonWalking} className="icon"/>
-                    {Math.round(travelTime)} mins
-                </p>
+                <div className="content">
+                    <p>
+                        <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
+                        {Math.round(distance * 10) / 10} km
+                    </p>
+
+                    <p>
+                        <FontAwesomeIcon icon={faPersonWalking} className="icon"/>
+                        {Math.round(travelTime)} mins
+                    </p>
+                </div>
             </Popup>
 
             <Source id="my-data" type="geojson" data={geojson}>

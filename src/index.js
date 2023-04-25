@@ -92,11 +92,11 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "view-check-ins/:userId",
-                        element: <FriendsProfile/>,
+                        element: <CheckIns/>,
                     },
                     {
                         path: "view-reviews/:userId",
-                        element: <FriendsProfile/>,
+                        element: <ReviewsPage/>,
                     },
                 ]
             },

@@ -24,8 +24,6 @@ const FriendsProfile = () => {
     const navigate = useNavigate();
 
     const { userId } = useParams();
-    const displayName = useSelector(selectDisplayName);
-    const iconColour = useSelector(selectIconColour);
 
     const [idCopied, setIdCopied] = useState(false);
     const [friendProfile, setFriendProfile] = useState("");

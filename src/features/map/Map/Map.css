@@ -8,20 +8,21 @@ Contact: ryan.henzell-hill@outlook.com
     display: none;
 }
 
-.mapboxgl-map, .user-location-popup .mapboxgl-popup-content {
-    box-shadow: 0.25em 0.25em 0.5em rgba(128, 128, 128, 0.35);
-}
-
 .mapboxgl-popup-content {
+    box-shadow: 0.25em 0.25em 0.5em rgba(128, 128, 128, 0.35);
     max-width: 150px;
+    padding: 0.75em;
+    border-radius: var(--border-radius);
 }
 
-.mapboxgl-popup-content p:first-child {
-    margin-bottom: 0.25em;
+.mapboxgl-popup-content .content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
 }
 
-.mapboxgl-popup-content .icon {
+.mapboxgl-popup-content p .icon {
     margin-right: 0.5em;
     color: #F49D1A;
-    font-size: 1rem;
+    font-size: var(--font-size-icon-small);
 }

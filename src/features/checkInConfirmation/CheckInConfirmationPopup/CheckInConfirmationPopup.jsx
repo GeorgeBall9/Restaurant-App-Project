@@ -2,15 +2,18 @@ import "./CheckInConfirmationPopup.css";
 import {addRestaurantCheckIn, checkInExists, removeRestaurantCheckIn} from "../../../firebase/firebase";
 import {
     addCheckedInRestaurant,
-    selectCheckedInRestaurants,
+    selectCheckedInRestaurants, selectFriends,
     selectUserId,
     setCheckedInRestaurants
 } from "../../user/userSlice";
 import {hideOverlay} from "../../overlay/overlaySlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {hideCheckInConfirmation} from "../checkInConfirmationSlice";
+import {hideCheckInConfirmation, resetCheckInFeedback, showCheckInFeedback} from "../checkInConfirmationSlice";
 import FormField from "../../../common/components/FormField/FormField";
+import {faCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import UserIcon from "../../../common/components/UserIcon/UserIcon";
 
 const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
@@ -20,10 +23,14 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
     const userId = useSelector(selectUserId);
     const checkedInRestaurants = useSelector(selectCheckedInRestaurants);
+    const friends = useSelector(selectFriends);
 
     const [lastCheckIn, setLastCheckIn] = useState(null);
     const [checkInDate, setCheckInDate] = useState(new Date().toISOString().split("T")[0]);
     const [feedback, setFeedback] = useState("");
+    const [selectFriendsIsVisible, setSelectFriendIsVisible] = useState(false);
+    const [selectedFriends, setSelectedFriends] = useState([]);
+    const [addFriendsButtonText, setAddFriendsButtonText] = useState("Add friends");
 
     useEffect(() => {
         if (!restaurantId || !checkedInRestaurants.length) return;
@@ -40,6 +47,7 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
         if (checkedIn) {
             const checkedInData = await removeRestaurantCheckIn(userId, restaurantId);
             dispatch(setCheckedInRestaurants(checkedInData));
+            dispatch(showCheckInFeedback("remove"));
         } else {
             if (+new Date() < +new Date(checkInDate)) {
                 setFeedback("You can only check in today or earlier!");
@@ -53,9 +61,12 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
                 return;
             }
 
-            const newCheckIn = await addRestaurantCheckIn(userId, checkInDate, restaurant);
+            const newCheckIn = await addRestaurantCheckIn(userId, checkInDate, restaurant, selectedFriends);
             dispatch(addCheckedInRestaurant(newCheckIn));
+            dispatch(showCheckInFeedback("add"));
         }
+
+        setTimeout(() => dispatch(resetCheckInFeedback()), 2000);
 
         dispatch(hideOverlay());
         dispatch(hideCheckInConfirmation());
@@ -69,6 +80,27 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     const handleDateChange = ({target}) => {
         setFeedback("");
         setCheckInDate(target.value);
+    };
+
+    const handleAddFriendsClick = () => {
+        if (addFriendsButtonText === "Add friends") {
+            setAddFriendsButtonText("Clear");
+        } else {
+            setSelectedFriends([]);
+            setAddFriendsButtonText("Add friends");
+        }
+
+        setSelectFriendIsVisible(selectFriendsIsVisible => !selectFriendsIsVisible);
+    };
+
+    const handleFriendCardClick = (id) => {
+        setSelectedFriends(selectedFriends => {
+            if (selectedFriends.includes(id)) {
+                return selectedFriends.filter(friendId => friendId !== id);
+            } else {
+                return [...selectedFriends, id];
+            }
+        });
     };
 
     return (
@@ -89,6 +121,37 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
                         onChangeHandler={handleDateChange}
                     />
                 </div>
+            )}
+
+            {!checkedIn && friends?.length > 0 && (
+                <button className="add-friend-button" onClick={handleAddFriendsClick}>
+                    {addFriendsButtonText}
+                    <FontAwesomeIcon icon={selectFriendsIsVisible ? faXmark : faPlus} className="icon"/>
+                </button>
+            )}
+
+            {selectFriendsIsVisible && (
+                <div className="select-friends">
+                    {friends.map(({id, displayName, iconColour}) => (
+                        <div key={id} className="select-friend-card" onClick={() => handleFriendCardClick(id)}>
+                            <div className="icon-container">
+                                <UserIcon size="small" colour={iconColour}/>
+
+                                {selectedFriends.includes(id) && (
+                                    <FontAwesomeIcon icon={faCircleCheck} className="icon"/>
+                                )}
+                            </div>
+
+                            <p>{displayName}</p>
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {selectedFriends.length > 0 && (
+                <p className="friends-selected-count">
+                    {selectedFriends.length} friend{selectedFriends.length > 1 ? "s" : ""} selected
+                </p>
             )}
 
             <p><span>Check {checkedIn ? "out" : "in"}</span> at {name}?</p>

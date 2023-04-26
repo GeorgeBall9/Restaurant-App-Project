@@ -80,9 +80,8 @@ const CheckInsMap = ({restaurants}) => {
 
                 {restaurants && restaurants
                     .map((restaurant, index) => (
-                        <>
+                        <div key={restaurant.id}>
                             <RestaurantMarker
-                                key={restaurant.id + "" + index}
                                 restaurant={restaurant}
                                 index={index}
                                 visible={true}
@@ -104,11 +103,11 @@ const CheckInsMap = ({restaurants}) => {
                                             </h3>
                                         </Link>
 
-                                        <p>You visited on {new Date(restaurant.date).toLocaleDateString()}</p>
+                                        <p>Visited on {new Date(restaurant.date).toLocaleDateString()}</p>
                                     </div>
                                 </Popup>
                             )}
-                        </>
+                        </div>
                     ))}
             </ReactMapGl>
         </div>

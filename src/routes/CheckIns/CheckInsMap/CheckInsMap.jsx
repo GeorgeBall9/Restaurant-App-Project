@@ -110,7 +110,7 @@ const CheckInsMap = ({restaurants}) => {
                         </div>
                     ))}
 
-                <FullscreenControl/>
+                <FullscreenControl position="bottom-right"/>
             </ReactMapGl>
         </div>
     );

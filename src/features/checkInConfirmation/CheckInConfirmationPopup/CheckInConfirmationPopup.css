@@ -52,6 +52,9 @@
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
     border: solid 1px lightgrey;
+    margin-bottom: 0.5em;
+    max-height: 110px;
+    overflow: scroll;
 }
 
 .confirm-checkin-popup .select-friends .select-friend-card {
@@ -59,15 +62,35 @@
     align-items: center;
     gap: 0.5em;
     padding: 0.25em 0.5em;
+    cursor: pointer;
 }
 
 .confirm-checkin-popup .select-friends .select-friend-card:not(:last-child) {
     border-bottom: solid 1px lightgrey;
 }
 
+.confirm-checkin-popup .select-friends .select-friend-card .icon-container {
+    position: relative;
+}
+
+.confirm-checkin-popup .select-friends .select-friend-card .icon-container .icon {
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+    color: grey;
+}
+
 .confirm-checkin-popup .select-friends .select-friend-card p {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-bold-1);
+}
+
+.confirm-checkin-popup .friends-selected-count {
+    font-size: var(--font-size-small);
+    margin: -0.5em 0 0.5em;
 }
 
 .confirm-checkin-popup .feedback {

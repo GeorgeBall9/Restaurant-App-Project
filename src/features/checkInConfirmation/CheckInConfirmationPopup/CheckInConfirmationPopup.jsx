@@ -11,10 +11,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {hideCheckInConfirmation} from "../checkInConfirmationSlice";
 import FormField from "../../../common/components/FormField/FormField";
-import {faArrowUpRightFromSquare, faCirclePlus, faCircleXmark, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import FriendCard from "../../../routes/FriendsPage/FriendCard/FriendCard";
-import FriendInfo from "../../../routes/FriendsPage/FriendCard/FriendInfo/FriendInfo";
 import UserIcon from "../../../common/components/UserIcon/UserIcon";
 
 const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
@@ -30,6 +28,9 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     const [lastCheckIn, setLastCheckIn] = useState(null);
     const [checkInDate, setCheckInDate] = useState(new Date().toISOString().split("T")[0]);
     const [feedback, setFeedback] = useState("");
+    const [selectFriendsIsVisible, setSelectFriendIsVisible] = useState(false);
+    const [selectedFriends, setSelectedFriends] = useState([]);
+    const [addFriendsButtonText, setAddFriendsButtonText] = useState("Add friends");
 
     useEffect(() => {
         if (!restaurantId || !checkedInRestaurants.length) return;
@@ -81,6 +82,27 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
         setCheckInDate(target.value);
     };
 
+    const handleAddFriendsClick = () => {
+        if (addFriendsButtonText === "Add friends") {
+            setAddFriendsButtonText("Clear");
+        } else {
+            setSelectedFriends([]);
+            setAddFriendsButtonText("Add friends");
+        }
+
+        setSelectFriendIsVisible(selectFriendsIsVisible => !selectFriendsIsVisible);
+    };
+
+    const handleFriendCardClick = (id) => {
+        setSelectedFriends(selectedFriends => {
+            if (selectedFriends.includes(id)) {
+                return selectedFriends.filter(friendId => friendId !== id);
+            } else {
+                return [...selectedFriends, id];
+            }
+        });
+    };
+
     return (
         <div className="confirm-checkin-popup">
             {!checkedIn && lastCheckIn && (
@@ -102,21 +124,34 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
             )}
 
             {friends?.length > 0 && (
-                <button className="add-friend-button">
-                    Add friend
-                    <FontAwesomeIcon icon={faPlus} className="icon"/>
+                <button className="add-friend-button" onClick={handleAddFriendsClick}>
+                    {addFriendsButtonText}
+                    <FontAwesomeIcon icon={selectFriendsIsVisible ? faXmark : faPlus} className="icon"/>
                 </button>
             )}
 
-            {friends?.length > 0 && (
+            {selectFriendsIsVisible && (
                 <div className="select-friends">
                     {friends.map(({id, displayName, iconColour}) => (
-                        <div className="select-friend-card">
-                            <UserIcon size="small" colour={iconColour}/>
+                        <div key={id} className="select-friend-card" onClick={() => handleFriendCardClick(id)}>
+                            <div className="icon-container">
+                                <UserIcon size="small" colour={iconColour}/>
+
+                                {selectedFriends.includes(id) && (
+                                    <FontAwesomeIcon icon={faCircleCheck} className="icon"/>
+                                )}
+                            </div>
+
                             <p>{displayName}</p>
                         </div>
                     ))}
                 </div>
+            )}
+
+            {selectedFriends.length > 0 && (
+                <p className="friends-selected-count">
+                    {selectedFriends.length} friend{selectedFriends.length > 1 ? "s" : ""} selected
+                </p>
             )}
 
             <p><span>Check {checkedIn ? "out" : "in"}</span> at {name}?</p>

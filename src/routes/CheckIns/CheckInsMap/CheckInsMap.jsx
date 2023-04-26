@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectUserPosition} from "../../../features/location/locationSlice";
 import {useEffect, useState} from "react";
 import {hideSpinner, showSpinner} from "../../../features/spinner/spinnerSlice";
-import ReactMapGl from "react-map-gl";
+import ReactMapGl, {FullscreenControl} from "react-map-gl";
 import {Popup} from "react-map-gl";
 import RestaurantMarker from "../../../features/map/Map/RestaurantMarker/RestaurantMarker";
 import {Link} from "react-router-dom";
@@ -63,11 +63,11 @@ const CheckInsMap = ({restaurants}) => {
         requestAnimationFrame(() => {
             map.flyTo({center: [longitude, latitude], essential: true, speed: 0.5});
         });
-    },[displayedRestaurant]);
+    }, [displayedRestaurant]);
 
     // component returned to MapPage route
     return (
-        <div className="map-container check-ins-map">
+        <div id="check-ins-map" className="map-container check-ins-map">
             <ReactMapGl
                 {...viewState}
                 style={{width: "100%", height: "240px"}}
@@ -80,7 +80,7 @@ const CheckInsMap = ({restaurants}) => {
 
                 {restaurants && restaurants
                     .map((restaurant, index) => (
-                        <div key={restaurant.id}>
+                        <div key={restaurant.id + "" + index}>
                             <RestaurantMarker
                                 restaurant={restaurant}
                                 index={index}
@@ -109,6 +109,8 @@ const CheckInsMap = ({restaurants}) => {
                             )}
                         </div>
                     ))}
+
+                <FullscreenControl/>
             </ReactMapGl>
         </div>
     );

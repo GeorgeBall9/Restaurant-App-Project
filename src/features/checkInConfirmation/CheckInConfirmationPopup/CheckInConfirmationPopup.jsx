@@ -35,12 +35,13 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     useEffect(() => {
         if (!restaurantId || !checkedInRestaurants.length) return;
 
-        const lastCheckedIn = checkedInRestaurants
+        const checkInsAtRestaurant = checkedInRestaurants
             .filter(checkIn => checkIn.restaurantId === restaurantId)
-            .sort((a, b) => a.date - b.date)
-            .at(-1);
+            .sort((a, b) => a.date - b.date);
 
-        setLastCheckIn(lastCheckedIn ? new Date(lastCheckedIn.date).toLocaleDateString() : null);
+        const lastCheckedIn = checkInsAtRestaurant ? checkInsAtRestaurant[checkInsAtRestaurant.length - 1] : null;
+
+        setLastCheckIn(lastCheckedIn ? new Date(lastCheckedIn.date).toLocaleDateString() : lastCheckedIn);
     }, [restaurantId, checkedInRestaurants]);
 
     const handleYesClick = async () => {

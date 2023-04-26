@@ -4,7 +4,7 @@ Author: Ryan Henzell-Hill
 Contact: ryan.henzell-hill@outlook.com
 */
 
-.mapboxgl-ctrl-attrib-inner, .mapboxgl-control-container {
+.mapboxgl-ctrl-attrib-inner, .mapboxgl-control-container > *:not(.mapboxgl-ctrl-top-right) {
     display: none;
 }
 

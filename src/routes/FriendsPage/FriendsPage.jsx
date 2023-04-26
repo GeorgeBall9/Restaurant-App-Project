@@ -64,28 +64,6 @@ const FriendsPage = () => {
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
 
     useEffect(() => {
-        if (!userId) return;
-
-        getFriendRequestsByUserId(userId)
-            .then(data => {
-                if (data) {
-                    dispatch(setFriendRequests(data));
-                }
-            });
-    }, [userId]);
-
-    useEffect(() => {
-        if (!userId) return;
-
-        getFriendsByUserId(userId)
-            .then(data => {
-                if (data) {
-                    dispatch(setFriends(data));
-                }
-            });
-    }, [userId]);
-
-    useEffect(() => {
         if (!friends?.length) return;
 
         setDisplayedFriends(friends);
@@ -373,7 +351,6 @@ const FriendsPage = () => {
                         {displayedFriendRequests.map(({id, displayName, iconColour, friends: userFriends}) => (
                             <FriendCard
                                 key={id}
-                                id={id}
                                 displayName={displayName}
                                 iconColour={iconColour}
                                 mutualFriends={calculateMutualFriends(userFriends)}

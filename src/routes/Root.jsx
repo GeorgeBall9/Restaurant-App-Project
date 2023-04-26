@@ -9,9 +9,16 @@ import {selectFiltersAreVisible} from "../features/filters/filtersSlice";
 import useInitialiseSlider from "../common/hooks/useInitialiseSlider";
 
 import {onAuthStateChanged} from "firebase/auth";
-import {auth, getUserFromUserId} from "../firebase/firebase";
+import {auth, getFriendRequestsByUserId, getFriendsByUserId, getUserFromUserId} from "../firebase/firebase";
 import {useEffect} from "react";
-import {resetUserDetails, selectUserId, setUserDetails, setUserId} from "../features/user/userSlice";
+import {
+    resetUserDetails,
+    selectUserId,
+    setFriendRequests,
+    setFriends,
+    setUserDetails,
+    setUserId
+} from "../features/user/userSlice";
 import Overlay from "../features/overlay/Overlay/Overlay";
 import {selectOverlayIsVisible} from "../features/overlay/overlaySlice";
 
@@ -34,6 +41,18 @@ const Root = () => {
 
         if (userDetails) {
             dispatch(setUserDetails(userDetails));
+        }
+
+        const friends = await getFriendsByUserId(id);
+
+        if (friends) {
+            dispatch(setFriends(friends));
+        }
+
+        const friendRequests = await getFriendRequestsByUserId(id);
+
+        if (friendRequests) {
+            dispatch(setFriendRequests(friendRequests));
         }
     };
 

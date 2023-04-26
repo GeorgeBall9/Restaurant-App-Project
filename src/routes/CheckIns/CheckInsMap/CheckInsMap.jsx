@@ -80,9 +80,8 @@ const CheckInsMap = ({restaurants}) => {
 
                 {restaurants && restaurants
                     .map((restaurant, index) => (
-                        <>
+                        <div key={restaurant.id}>
                             <RestaurantMarker
-                                key={restaurant.id + "" + index}
                                 restaurant={restaurant}
                                 index={index}
                                 visible={true}
@@ -108,7 +107,7 @@ const CheckInsMap = ({restaurants}) => {
                                     </div>
                                 </Popup>
                             )}
-                        </>
+                        </div>
                     ))}
             </ReactMapGl>
         </div>

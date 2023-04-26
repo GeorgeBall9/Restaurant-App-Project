@@ -256,7 +256,7 @@ export const removeUserBookmark = async (userId, restaurantId) => {
 };
 
 // add checked in restaurant to user doc
-export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) => {
+export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds, level = 1) => {
     try {
         const docSnap = await doc(db, "users", userId);
 
@@ -267,6 +267,12 @@ export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) 
 
         if (friendIds.length) {
             newCheckIn.friendIds = friendIds;
+
+            if (level === 1) {
+                for (const friendId of friendIds) {
+                    await addRestaurantCheckIn(friendId, date, restaurant, friendIds, 2);
+                }
+            }
         }
 
         await updateDoc(docSnap, {
@@ -296,18 +302,33 @@ export const checkInExists = async (userId, date, restaurantId) => {
 };
 
 // add checked in restaurant to user doc
-export const removeRestaurantCheckIn = async (userId, restaurantId) => {
+export const removeRestaurantCheckIn = async (userId, restaurantId, level = 1) => {
     try {
         const docRef = await doc(db, "users", userId);
         const docSnap = await getDoc(docRef);
+
+        let foundCheckIn;
 
         const checkedInData = docSnap.data().checkedIn
             .filter(checkIn => {
                 const now = new Date().toLocaleDateString();
                 const dateString = new Date(checkIn.date).toLocaleDateString();
 
-                return checkIn.restaurantId !== restaurantId || dateString !== now;
+                if (checkIn.restaurantId !== restaurantId || dateString !== now) {
+                    return true;
+                } else {
+                    foundCheckIn = checkIn;
+                    return false;
+                }
             });
+
+        if (level === 1) {
+            const friendsCheckedInWith = foundCheckIn.friendIds;
+
+            for (const friendId of friendsCheckedInWith) {
+                await removeRestaurantCheckIn(friendId, restaurantId, 2);
+            }
+        }
 
         await updateDoc(docRef, {checkedIn: checkedInData});
 

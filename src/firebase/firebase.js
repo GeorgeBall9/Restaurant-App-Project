@@ -322,9 +322,9 @@ export const removeRestaurantCheckIn = async (userId, restaurantId, level = 1) =
                 }
             });
 
-        if (level === 1) {
-            const friendsCheckedInWith = foundCheckIn.friendIds;
+        const friendsCheckedInWith = foundCheckIn.friendIds;
 
+        if (level === 1 && friendsCheckedInWith) {
             for (const friendId of friendsCheckedInWith) {
                 await removeRestaurantCheckIn(friendId, restaurantId, 2);
             }

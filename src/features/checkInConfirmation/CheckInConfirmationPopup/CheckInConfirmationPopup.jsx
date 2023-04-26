@@ -60,17 +60,13 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
                 return;
             }
 
-            const newCheckIn = await addRestaurantCheckIn(userId, checkInDate, restaurant);
+            const newCheckIn = await addRestaurantCheckIn(userId, checkInDate, restaurant, selectedFriends);
             dispatch(addCheckedInRestaurant(newCheckIn));
         }
 
         dispatch(hideOverlay());
         dispatch(hideCheckInConfirmation());
     };
-
-    useEffect(() => {
-        console.log(friends)
-    }, [friends]);
 
     const handleNoClick = () => {
         dispatch(hideOverlay());

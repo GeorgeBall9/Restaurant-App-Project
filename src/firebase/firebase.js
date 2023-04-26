@@ -256,7 +256,7 @@ export const removeUserBookmark = async (userId, restaurantId) => {
 };
 
 // add checked in restaurant to user doc
-export const addRestaurantCheckIn = async (userId, date, restaurant) => {
+export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) => {
     try {
         const docSnap = await doc(db, "users", userId);
 
@@ -264,6 +264,10 @@ export const addRestaurantCheckIn = async (userId, date, restaurant) => {
             restaurantId: restaurant.id,
             date: +new Date(date)
         };
+
+        if (friendIds.length) {
+            newCheckIn.friendIds = friendIds;
+        }
 
         await updateDoc(docSnap, {
             checkedIn: arrayUnion(newCheckIn)

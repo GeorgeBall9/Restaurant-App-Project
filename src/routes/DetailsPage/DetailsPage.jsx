@@ -11,15 +11,16 @@ import {
     faUtensils,
     faMoneyBillWave,
     faLeaf,
-    faArrowUpRightFromSquare,
+    faArrowUpRightFromSquare, faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import CheckInButton from "./CheckInButton/CheckInButton";
 import CheckInConfirmationPopup
     from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import {
+    selectAddedCheckIn,
     selectCheckedIn,
-    selectCheckInConfirmationIsVisible
+    selectCheckInConfirmationIsVisible, selectCheckInFeedbackIsVisible
 } from "../../features/checkInConfirmation/checkInConfirmationSlice";
 import Banner from "./Banner/Banner";
 import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
@@ -29,7 +30,7 @@ import {checkIsOpen} from "../Bookmarks/Bookmarks";
 import {getRestaurantById} from "../../firebase/firebase";
 import ReviewsSection from "./ReviewsSection/ReviewsSection";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
-import {faBookmark, faHeart, faCheckCircle} from "@fortawesome/free-regular-svg-icons";
+import {faBookmark, faHeart, faCheckCircle, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 
 const navLinksText = ["Interactions", "Website", "About", "Photos", "Hours", "Details", "Reviews"];
 
@@ -45,6 +46,8 @@ const DetailsPage = () => {
     const allRestaurants = useSelector(selectAllRestaurants);
     const popupIsVisible = useSelector(selectCheckInConfirmationIsVisible);
     const checkedIn = useSelector(selectCheckedIn);
+    const checkInFeedbackIsVisible = useSelector(selectCheckInFeedbackIsVisible);
+    const addedCheckIn = useSelector(selectAddedCheckIn);
 
     const nameRef = useRef(null);
     const interactionsRef = useRef(null);
@@ -63,6 +66,10 @@ const DetailsPage = () => {
     const [navigationStyle, setNavigationStyle] = useState({top: 0});
     const [interactions, setInteractions] = useState(null);
     const [showNameInBanner, setShowNameInBanner] = useState(false);
+
+    useEffect(() => {
+        console.log({checkInFeedbackIsVisible, addedCheckIn})
+    }, [checkInFeedbackIsVisible, addedCheckIn]);
 
     useEffect(() => {
         if (!restaurant) {
@@ -248,6 +255,11 @@ const DetailsPage = () => {
     return (
         <div className="details-page container">
             {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn}/>}
+
+            <div className="bookmark-feedback" style={{opacity: checkInFeedbackIsVisible ? 1 : 0}}>
+                {addedCheckIn ? "Saved " : "Removed "} check-in
+                <FontAwesomeIcon icon={addedCheckIn ? faCircleCheck : faXmark} className="bookmark-feedback-icon"/>
+            </div>
 
             <Banner
                 restaurant={restaurant}

@@ -9,7 +9,7 @@ import {
 import {hideOverlay} from "../../overlay/overlaySlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {hideCheckInConfirmation} from "../checkInConfirmationSlice";
+import {hideCheckInConfirmation, resetCheckInFeedback, showCheckInFeedback} from "../checkInConfirmationSlice";
 import FormField from "../../../common/components/FormField/FormField";
 import {faCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -47,6 +47,7 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
         if (checkedIn) {
             const checkedInData = await removeRestaurantCheckIn(userId, restaurantId);
             dispatch(setCheckedInRestaurants(checkedInData));
+            dispatch(showCheckInFeedback("remove"));
         } else {
             if (+new Date() < +new Date(checkInDate)) {
                 setFeedback("You can only check in today or earlier!");
@@ -62,7 +63,10 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
             const newCheckIn = await addRestaurantCheckIn(userId, checkInDate, restaurant, selectedFriends);
             dispatch(addCheckedInRestaurant(newCheckIn));
+            dispatch(showCheckInFeedback("add"));
         }
+
+        setTimeout(() => dispatch(resetCheckInFeedback()), 2000);
 
         dispatch(hideOverlay());
         dispatch(hideCheckInConfirmation());

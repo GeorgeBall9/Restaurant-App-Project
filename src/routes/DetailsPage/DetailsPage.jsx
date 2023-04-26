@@ -68,10 +68,6 @@ const DetailsPage = () => {
     const [showNameInBanner, setShowNameInBanner] = useState(false);
 
     useEffect(() => {
-        console.log({checkInFeedbackIsVisible, addedCheckIn})
-    }, [checkInFeedbackIsVisible, addedCheckIn]);
-
-    useEffect(() => {
         if (!restaurant) {
             dispatch(showSpinner());
         } else {

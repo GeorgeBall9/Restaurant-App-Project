@@ -123,7 +123,7 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
                 </div>
             )}
 
-            {friends?.length > 0 && (
+            {!checkedIn && friends?.length > 0 && (
                 <button className="add-friend-button" onClick={handleAddFriendsClick}>
                     {addFriendsButtonText}
                     <FontAwesomeIcon icon={selectFriendsIsVisible ? faXmark : faPlus} className="icon"/>

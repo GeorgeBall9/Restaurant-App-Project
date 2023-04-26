@@ -104,7 +104,7 @@ const CheckInsMap = ({restaurants}) => {
                                             </h3>
                                         </Link>
 
-                                        <p>You visited on {new Date(restaurant.date).toLocaleDateString()}</p>
+                                        <p>Visited on {new Date(restaurant.date).toLocaleDateString()}</p>
                                     </div>
                                 </Popup>
                             )}

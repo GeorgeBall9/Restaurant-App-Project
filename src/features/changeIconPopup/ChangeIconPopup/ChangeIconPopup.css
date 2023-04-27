@@ -48,6 +48,13 @@
     border: solid 3px grey;
 }
 
+.change-icon-popup .user-icon-container {
+    border: solid 4px lightgrey;
+    border-radius: 50%;
+    width: fit-content;
+    margin: 0 auto 1em;
+}
+
 .change-icon-popup .save-reset-buttons {
     display: flex;
     gap: 0.5em;

@@ -744,3 +744,9 @@ export const getImageDownloadUrl = async () => {
 
     return await getDownloadURL(storageRef)
 };
+
+export const updateUserProfileImage = async (userId, storageRef) => {
+    const docRef = await doc(db, "users", userId);
+
+    await updateDoc(docRef, {profileImageRef: storageRef});
+};

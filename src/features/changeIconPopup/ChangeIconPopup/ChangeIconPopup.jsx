@@ -10,6 +10,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser, faImage} from "@fortawesome/free-regular-svg-icons";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import FormField from "../../../common/components/FormField/FormField";
+import UserIcon from "../../../common/components/UserIcon/UserIcon";
 
 const colours = ["#FF2E63", "#B3E5BE", "#AA77FF", "#19A7CE", "#FE6244", "#FFDD83", "#E6A4B4", "#5D9C59", "#E21818"];
 
@@ -86,10 +87,6 @@ const ChangeIconPopup = () => {
         console.log({storageRef});
     };
 
-    useEffect(() => {
-        console.log(photoUrl)
-    }, [photoUrl])
-
     return (
         <div className="change-icon-popup">
             <div className="popup-buttons">
@@ -123,10 +120,11 @@ const ChangeIconPopup = () => {
 
             {iconType === "image" && (
                 <div>
-                    <img src={photoUrl}/>
+                    <div className="user-icon-container">
+                        <UserIcon size="xLarge" skeleton={!photoUrl} imageUrl={photoUrl}/>
+                    </div>
 
                     <FormField
-                        label="File"
                         name="file"
                         type="file"
                         onChangeHandler={handleFileChange}

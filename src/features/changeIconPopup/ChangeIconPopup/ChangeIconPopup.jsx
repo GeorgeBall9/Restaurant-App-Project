@@ -23,8 +23,7 @@ const ChangeIconPopup = () => {
     const [iconButtons, setIconButtons] = useState(colours.map(colour => ({colour, selected: false})));
     const [iconType, setIconType] = useState("");
     const [headerText, setHeaderText] = useState("icon type");
-    const [fileToUpload, setFileToUpload] = useState("");
-    const [downloadUrl, setDownloadUrl] = useState("");
+    const [photoUrl, setPhotoUrl] = useState("");
 
     useEffect(() => {
         if (!iconColour) return;
@@ -51,27 +50,31 @@ const ChangeIconPopup = () => {
     const handleClosePopupClick = () => {
         dispatch(hideOverlay());
         dispatch(hideChangeIconPopup());
-        handleResetPopupClick();
+        handleResetClick();
     };
 
-    const handleResetPopupClick = () => {
-        setIconButtons(iconButtons => {
-            return [...iconButtons].map(button => {
-                button.selected = button.colour === iconColour;
-                return button;
+    const handleResetClick = () => {
+        if (iconType === "avatar") {
+            setIconButtons(iconButtons => {
+                return [...iconButtons].map(button => {
+                    button.selected = button.colour === iconColour;
+                    return button;
+                });
             });
-        });
+        }
     };
 
-    const handleSavePopupClick = async () => {
-        const newIconColour = iconButtons.find(button => button.selected).colour;
+    const handleSaveClick = async () => {
+        if (iconType === "avatar") {
+            const newIconColour = iconButtons.find(button => button.selected).colour;
 
-        if (newIconColour !== iconColour) {
-            try {
-                await updateUserIconColour(userId, newIconColour);
-                dispatch(setIconColour(newIconColour));
-            } catch (error) {
-                console.error("Error updating user icon colour:", error);
+            if (newIconColour !== iconColour) {
+                try {
+                    await updateUserIconColour(userId, newIconColour);
+                    dispatch(setIconColour(newIconColour));
+                } catch (error) {
+                    console.error("Error updating user icon colour:", error);
+                }
             }
         }
 
@@ -79,12 +82,13 @@ const ChangeIconPopup = () => {
     };
 
     const handleFileChange = ({target}) => {
-        setFileToUpload(target.files[0]);
+        const storageRef = uploadImage(target.files[0], setPhotoUrl);
+        console.log({storageRef});
     };
 
-    const handleSubmitClick = () => {
-        uploadImage(fileToUpload);
-    };
+    useEffect(() => {
+        console.log(photoUrl)
+    }, [photoUrl])
 
     return (
         <div className="change-icon-popup">
@@ -119,6 +123,8 @@ const ChangeIconPopup = () => {
 
             {iconType === "image" && (
                 <div>
+                    <img src={photoUrl}/>
+
                     <FormField
                         label="File"
                         name="file"
@@ -130,42 +136,38 @@ const ChangeIconPopup = () => {
 
             {iconType && (
                 <div className="save-reset-buttons">
-                    <button className="save-button" onClick={handleSavePopupClick}>Save</button>
-                    <button className="reset-button" onClick={handleResetPopupClick}>Reset</button>
+                    <button className="save-button" onClick={handleSaveClick}>Save</button>
+                    <button className="reset-button" onClick={handleResetClick}>Reset</button>
                 </div>
             )}
 
             {!iconType && (
                 <div className="select-buttons-container">
                     <button onClick={() => setIconType("avatar")}>
-                        <div style={{visibility: "hidden"}}><FontAwesomeIcon className="icon" icon={faUser}/></div>
+                        <div style={{visibility: "hidden"}}>
+                            <FontAwesomeIcon className="icon" icon={faUser}/>
+                        </div>
+
                         Avatar
-                        <div><FontAwesomeIcon className="icon" icon={faUser}/></div>
+
+                        <div>
+                            <FontAwesomeIcon className="icon" icon={faUser}/>
+                        </div>
                     </button>
 
                     <button onClick={() => setIconType("image")}>
-                        <div style={{visibility: "hidden"}}><FontAwesomeIcon className="icon" icon={faImage}/></div>
+                        <div style={{visibility: "hidden"}}>
+                            <FontAwesomeIcon className="icon" icon={faImage}/>
+                        </div>
+
                         Image
-                        <div><FontAwesomeIcon className="icon" icon={faImage}/></div>
+
+                        <div>
+                            <FontAwesomeIcon className="icon" icon={faImage}/>
+                        </div>
                     </button>
                 </div>
             )}
-
-            {/*<h2>Choose an icon</h2>*/}
-
-            {/*<div className="icons-container">*/}
-            {/*    {iconButtons.map((button, i) => (*/}
-            {/*        <UserIconButton*/}
-            {/*            key={i}*/}
-            {/*            colour={button.colour}*/}
-            {/*            index={i}*/}
-            {/*            selected={button.selected}*/}
-            {/*            handleClick={handleIconButtonClick}*/}
-            {/*        />*/}
-            {/*    ))}*/}
-            {/*</div>*/}
-
-            {/*<button className="apply-button" onClick={handleSavePopupClick}>Save</button>*/}
         </div>
     );
 };

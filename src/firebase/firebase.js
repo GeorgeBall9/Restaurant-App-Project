@@ -31,7 +31,7 @@ import {
 } from "firebase/auth";
 
 // storage imports
-import {getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import {getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
 
 // firebase config
 const firebaseConfig = {
@@ -695,19 +695,48 @@ export const getFriendsByUserId = async (userId) => {
 };
 
 // file storage functions
-export const uploadImage = (imageFile) => {
+export const uploadImage = (imageFile, downloadUrlSetter) => {
     if (!imageFile) {
         alert("Please choose a file first!");
         return;
     }
 
     const storageRef = ref(storage, "images/image1.png");
+    const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
-    uploadBytes(storageRef, imageFile).then((snapshot) => {
-        console.log("Uploaded a blob or file!");
-    }).catch((error) => {
-        console.error("Error uploading file:", error);
-    });
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on('state_changed',
+        (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+                case 'paused':
+                    console.log('Upload is paused');
+                    break;
+                case 'running':
+                    console.log('Upload is running');
+                    break;
+            }
+        },
+        (error) => {
+            switch (error.code) {
+                case 'storage/unauthorized':
+                    // User doesn't have permission to access the object
+                    break;
+                case 'storage/canceled':
+                    // User canceled the upload
+                    break;
+                case 'storage/unknown':
+                    // Unknown error occurred, inspect error.serverResponse
+                    break;
+            }
+        },
+        async () => {
+            downloadUrlSetter(await getDownloadURL(uploadTask.snapshot.ref));
+        }
+    );
+
+    return storageRef;
 };
 
 export const getImageDownloadUrl = async () => {

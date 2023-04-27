@@ -3,6 +3,7 @@ import "./UserIcon.css";
 import userIconImageSrc from "../../images/errorImage.png";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useEffect, useState} from "react";
 
 const sizesMap = {
     small: "40px",
@@ -13,6 +14,8 @@ const sizesMap = {
 };
 
 const UserIcon = ({size, colour = "#C23B22", skeleton = false, imageUrl = null}) => {
+
+    const [imageIsLoaded, setImageIsLoaded] = useState(false);
 
     const dimensions = sizesMap[size];
     let backgroundColor = (skeleton || imageUrl) ? "rgba(211, 211, 211, 0.3)" : colour;
@@ -25,6 +28,8 @@ const UserIcon = ({size, colour = "#C23B22", skeleton = false, imageUrl = null})
                     src={imageUrl ? imageUrl : userIconImageSrc}
                     alt="user-icon"
                     loading="lazy"
+                    onLoad={() => setImageIsLoaded(true)}
+                    style={{visibility: imageIsLoaded ? "visible" : "hidden"}}
                 />
             )}
 

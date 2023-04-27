@@ -47,7 +47,12 @@ const Slider = () => {
                 });
             });
         },
-        onTouchEndOrOnMouseUp: ({ velocity, dir }) => {
+        onTouchEndOrOnMouseUp: ({ event, velocity, dir }) => {
+            if (event.target.closest(".icons-container")) {
+                updateStyle();
+                return;
+            }
+
             const magnitude = Math.abs(offsetX);
             const isQuickForwardSwipe = dir === "Left" && Math.abs(velocity) > 0.1;
             const isQuickBackwardSwipe = dir === "Right" && Math.abs(velocity) > 0.1;
@@ -75,6 +80,7 @@ const Slider = () => {
         if (!restaurants) return;
 
         dispatch(displayRestaurant(restaurants[activeSlide]));
+        console.log("updating active slide")
     }, [activeSlide]);
 
     return (

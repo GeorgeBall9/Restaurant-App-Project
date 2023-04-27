@@ -1,8 +1,3 @@
-.photos-page-container button {
-    background: none;
-    border: none;
-}
-
 .photos-page-container header {
     background-color: white;
     border-bottom: solid 1px lightgrey;
@@ -24,6 +19,8 @@
     color: var(--secondary-theme);
     font-weight: var(--font-weight-bold-2);
     font-size: var(--font-size-smaller);
+    background: none;
+    border: none;
 }
 
 .photos-page-container header button .icon {

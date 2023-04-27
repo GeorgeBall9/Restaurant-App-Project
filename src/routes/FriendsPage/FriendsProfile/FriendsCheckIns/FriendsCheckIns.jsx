@@ -46,8 +46,6 @@ const FriendsCheckIns = () => {
         fetchFriendProfile();
     }, [userId]);
 
-    console.log(friendCheckedInRestaurants);
-
     const getFriendCheckedInRestaurant = (id) => {
         return friendCheckedInRestaurants.find(restaurant => restaurant.id === id);
     };

@@ -8,6 +8,7 @@ import {updateUserIconColour} from "../../../firebase/firebase";
 import {hideOverlay} from "../../overlay/overlaySlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser, faImage} from "@fortawesome/free-regular-svg-icons";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
 
 const colours = ["#FF2E63", "#B3E5BE", "#AA77FF", "#19A7CE", "#FE6244", "#FFDD83", "#E6A4B4", "#5D9C59", "#E21818"];
 
@@ -77,8 +78,16 @@ const ChangeIconPopup = () => {
     return (
         <div className="change-icon-popup">
             <div className="popup-buttons">
-                <button onClick={handleClosePopupClick}>Close</button>
-                <button onClick={handleResetPopupClick}>Reset</button>
+                <button
+                    style={{visibility: iconType ? "visible" : "hidden"}}
+                    onClick={() => setIconType("")}
+                >
+                    Back
+                </button>
+
+                <button onClick={handleClosePopupClick}>
+                    {iconType ? "Close" : <FontAwesomeIcon className="icon" icon={faXmark}/>}
+                </button>
             </div>
 
             <h2>Select an {headerText}</h2>
@@ -98,22 +107,27 @@ const ChangeIconPopup = () => {
             )}
 
             {iconType && (
-                <button className="apply-button" onClick={handleSavePopupClick}>Save</button>
+                <div className="save-reset-buttons">
+                    <button className="save-button" onClick={handleSavePopupClick}>Save</button>
+                    <button className="reset-button" onClick={handleResetPopupClick}>Reset</button>
+                </div>
             )}
 
-            <div className="buttons-container">
-                <button>
-                    <div style={{visibility: "hidden"}}><FontAwesomeIcon className="icon" icon={faUser}/></div>
-                    Avatar
-                    <div><FontAwesomeIcon className="icon" icon={faUser}/></div>
-                </button>
+            {!iconType && (
+                <div className="select-buttons-container">
+                    <button onClick={() => setIconType("avatar")}>
+                        <div style={{visibility: "hidden"}}><FontAwesomeIcon className="icon" icon={faUser}/></div>
+                        Avatar
+                        <div><FontAwesomeIcon className="icon" icon={faUser}/></div>
+                    </button>
 
-                <button>
-                    <div style={{visibility: "hidden"}}><FontAwesomeIcon className="icon" icon={faImage}/></div>
-                    Image
-                    <div><FontAwesomeIcon className="icon" icon={faImage}/></div>
-                </button>
-            </div>
+                    <button onClick={() => setIconType("image")}>
+                        <div style={{visibility: "hidden"}}><FontAwesomeIcon className="icon" icon={faImage}/></div>
+                        Image
+                        <div><FontAwesomeIcon className="icon" icon={faImage}/></div>
+                    </button>
+                </div>
+            )}
 
             {/*<h2>Choose an icon</h2>*/}
 

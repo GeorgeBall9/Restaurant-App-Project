@@ -39,32 +39,62 @@
     margin-bottom: 1em;
 }
 
+.change-icon-popup .icons-container button {
+    border: none;
+    background: none;
+}
+
 .change-icon-popup .icons-container .selected .user-icon {
     border: solid 3px grey;
 }
 
-.change-icon-popup .apply-button {
+.change-icon-popup .save-reset-buttons {
+    display: flex;
+    gap: 0.5em;
+}
+
+.change-icon-popup .save-reset-buttons button {
     margin: 0 auto;
     width: 100%;
-    padding: 0.75em 1em;
-    border-radius: 8px;
-    background-color: var(--secondary-theme);
-    font-weight: 700;
+    padding: 0.5em;
+    border-radius: var(--border-radius);
+    font-weight: var(--font-weight-bold-2);
     letter-spacing: 0.05rem;
     font-size: 0.95rem;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.change-icon-popup .save-reset-buttons button:first-child {
+    background-color: white;
+    border: solid 2px var(--secondary-theme);
+    color: var(--secondary-theme);
+}
+
+.change-icon-popup .save-reset-buttons button:last-child {
+    background-color: white;
+    border: solid 2px var(--primary-theme);
+    color: var(--primary-theme);
+}
+
+.change-icon-popup .save-reset-buttons button:first-child:hover {
+    background-color: var(--secondary-theme);
     color: white;
 }
 
-.change-icon-popup .buttons-container {
+.change-icon-popup .save-reset-buttons button:last-child:hover {
+    background-color: var(--primary-theme);
+    color: white;
+}
+
+.change-icon-popup .select-buttons-container {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
 }
 
-.change-icon-popup .buttons-container button {
+.change-icon-popup .select-buttons-container button {
     background-color: white;
     width: 100%;
     border-radius: var(--border-radius);
@@ -75,40 +105,40 @@
     align-items: center;
 }
 
-.change-icon-popup .buttons-container button:first-child {
+.change-icon-popup .select-buttons-container button:first-child {
     color: var(--primary-theme);
     border: solid 2px var(--primary-theme);
 }
 
-.change-icon-popup .buttons-container button:last-child {
+.change-icon-popup .select-buttons-container button:last-child {
     color: var(--secondary-theme);
     border: solid 2px var(--secondary-theme);
 }
 
-.change-icon-popup .buttons-container button div {
+.change-icon-popup .select-buttons-container button div {
     padding: 0.5em 0.75em;
 }
 
-.change-icon-popup .buttons-container button:first-child div .icon {
+.change-icon-popup .select-buttons-container button:first-child div .icon {
     color: var(--primary-theme);
 }
 
-.change-icon-popup .buttons-container button:last-child div .icon {
+.change-icon-popup .select-buttons-container button:last-child div .icon {
     color: var(--secondary-theme);
 }
 
-.change-icon-popup .buttons-container button:hover {
+.change-icon-popup .select-buttons-container button:hover {
     color: white;
 }
 
-.change-icon-popup .buttons-container button:hover div .icon {
+.change-icon-popup .select-buttons-container button:hover div .icon {
     color: white;
 }
 
-.change-icon-popup .buttons-container button:first-child:hover {
+.change-icon-popup .select-buttons-container button:first-child:hover {
     background-color: var(--primary-theme);
 }
 
-.change-icon-popup .buttons-container button:last-child:hover {
+.change-icon-popup .select-buttons-container button:last-child:hover {
     background-color: var(--secondary-theme);
 }

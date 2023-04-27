@@ -7,6 +7,8 @@ import UserIconButton from "./UserIconButton/UserIconButton";
 import {updateUserIconColour} from "../../../firebase/firebase";
 import {hideOverlay} from "../../overlay/overlaySlice";
 
+const colours = ["#FF2E63", "#B3E5BE", "#AA77FF", "#19A7CE", "#FE6244", "#FFDD83", "#E6A4B4", "#5D9C59", "#E21818"];
+
 const ChangeIconPopup = () => {
 
     const dispatch = useDispatch();
@@ -14,17 +16,7 @@ const ChangeIconPopup = () => {
     const userId = useSelector(selectUserId);
     const iconColour = useSelector(selectIconColour);
 
-    const [iconButtons, setIconButtons] = useState([
-        {colour: "#FF2E63", selected: false},
-        {colour: "#B3E5BE", selected: false},
-        {colour: "#AA77FF", selected: false},
-        {colour: "#19A7CE", selected: false},
-        {colour: "#FE6244", selected: false},
-        {colour: "#FFDD83", selected: false},
-        {colour: "#E6A4B4", selected: false},
-        {colour: "#5D9C59", selected: false},
-        {colour: "#E21818", selected: false},
-    ]);
+    const [iconButtons, setIconButtons] = useState(colours.map(colour => ({colour, selected: false})));
 
     useEffect(() => {
         if (!iconColour) return;

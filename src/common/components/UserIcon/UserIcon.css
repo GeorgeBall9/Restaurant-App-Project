@@ -7,9 +7,17 @@
     flex-shrink: 0;
 }
 
-.user-icon img {
+.user-icon .avatar {
     height: 80%;
     width: 80%;
+}
+
+.user-icon .custom-image {
+    height: 100%;
+    width: 100%;
+}
+
+.user-icon img {
     border-radius: 50%;
 }
 

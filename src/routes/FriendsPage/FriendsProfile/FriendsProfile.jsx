@@ -1,5 +1,6 @@
 import './FriendsProfile.css';
 
+import FriendContributionsButton from './FriendContributionsButton/FriendContributionsButton';
 import { getUserFromUserId } from '../../../firebase/firebase';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import UserIcon from '../../../common/components/UserIcon/UserIcon';
@@ -82,9 +83,9 @@ const FriendsProfile = () => {
                 </section>
 
                 <section className="contributions-container">
-                    <ContributionsButton route="/view-check-ins/:userId" icon={faCircleCheck} name="Check ins" />
+                    <FriendContributionsButton userId={userId} route="/view-check-ins/:userId" icon={faCircleCheck} name="Check ins" />
 
-                    <ContributionsButton route="/view-reviews/:userId" icon={faComment} name="Reviews" />
+                    <FriendContributionsButton userId={userId} route="/view-reviews/:userId" icon={faComment} name="Reviews" />
                 </section>
             </main>
         </div>

@@ -1,5 +1,4 @@
 import React from "react";
-import Masonry from "react-masonry-css";
 import "./CustomCollage.css";
 
 const CustomCollage = ({ images, rows, columns, onExpand }) => {

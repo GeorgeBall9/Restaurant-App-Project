@@ -29,6 +29,7 @@ import ReviewsPage from "./routes/ReviewsPage/ReviewsPage";
 import FriendsPage from "./routes/FriendsPage/FriendsPage";
 import FriendsProfile from "./routes/FriendsPage/FriendsProfile/FriendsProfile";
 import FriendsCheckIns from "./routes/FriendsPage/FriendsProfile/FriendsCheckIns/FriendsCheckIns";
+import FriendsReviews from './routes/FriendsPage/FriendsProfile/FriendsReviews/FriendsReviews';
 import PhotosPage from "./routes/PhotosPage/PhotosPage";
 
 const router = createBrowserRouter([
@@ -102,7 +103,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "view-reviews/:userId",
-                        element: <ReviewsPage/>,
+                        element: <FriendsReviews/>,
                     },
                 ]
             },

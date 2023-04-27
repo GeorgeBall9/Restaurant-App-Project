@@ -6,7 +6,7 @@ const initialState = {
     email: "",
     phone: "",
     iconColour: "",
-    profilePhotoUrl: null,
+    profilePhotoUrl: "",
     recommendations: [],
     bookmarks: [],
     checkedInRestaurants: [],
@@ -40,7 +40,7 @@ const userSlice = createSlice({
             state.email = email || "";
             state.phone = phone || "";
             state.iconColour = iconColour || "";
-            state.profilePhotoRef = profilePhotoUrl || null;
+            state.profilePhotoUrl = profilePhotoUrl || null;
             state.recommendations = recommendations || [];
             state.bookmarks = bookmarks || [];
             state.checkedInRestaurants = checkedIn || [];
@@ -51,7 +51,7 @@ const userSlice = createSlice({
             state.email = "";
             state.phone = "";
             state.iconColour = null;
-            state.profilePhotoRef = null;
+            state.profilePhotoUrl = "";
             state.recommendations = [];
             state.bookmarks = [];
             state.checkedInRestaurants = [];

@@ -137,8 +137,12 @@ export const getUserFromUserId = async (userId) => {
         const docSnap = await getDoc(docRef);
 
         const data = docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
-        console.log(data.profilePhotoPath)
-        return data;
+        const path = data.profilePhotoPath;
+
+        if (!path) return data;
+
+        const profilePhotoUrl = await getImageDownloadUrl(path);
+        return {...data, profilePhotoUrl};
     } catch (error) {
         console.error(error);
         console.log("blue")
@@ -703,7 +707,7 @@ export const uploadImage = (imageFile, downloadUrlSetter) => {
         return;
     }
 
-    const storageRef = ref(storage, "images/image1.png");
+    const storageRef = ref(storage, "images/" + imageFile.name);
     const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
     // Listen for state changes, errors, and completion of the upload.
@@ -744,7 +748,7 @@ export const uploadImage = (imageFile, downloadUrlSetter) => {
 export const getImageDownloadUrl = async (path) => {
     const storageRef = ref(storage, path);
 
-    return await getDownloadURL(storageRef)
+    return await getDownloadURL(storageRef);
 };
 
 export const updateUserProfilePhoto = async (userId, path) => {

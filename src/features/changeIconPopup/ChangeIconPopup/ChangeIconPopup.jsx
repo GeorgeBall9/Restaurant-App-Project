@@ -5,6 +5,7 @@ import {useEffect, useRef, useState} from "react";
 import {hideChangeIconPopup} from "../changeIconPopupSlice";
 import UserIconButton from "./UserIconButton/UserIconButton";
 import {
+    getImageDownloadUrl,
     updateUserIconColour,
     updateUserProfilePhoto,
     uploadImage

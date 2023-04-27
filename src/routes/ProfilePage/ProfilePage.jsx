@@ -98,7 +98,7 @@ const ProfilePage = () => {
                         Edit profile
                     </Link>
 
-                    <Link to="/edit-profile">
+                    <Link to="/photos">
                         <FontAwesomeIcon className="icon" icon={faCamera}/>
                         Photos
                     </Link>

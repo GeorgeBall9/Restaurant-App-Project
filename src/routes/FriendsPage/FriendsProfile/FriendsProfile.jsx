@@ -87,6 +87,13 @@ const FriendsProfile = () => {
 
                     <FriendContributionsButton userId={userId} route="/view-reviews/:userId" icon={faComment} name="Reviews" />
                 </section>
+
+                <section className="options-container">
+                    <Link to={`/view-friends/${userId}`}>
+                        <FontAwesomeIcon className="icon" icon={faUserGroup}/>
+                        Friends
+                    </Link>
+                </section>
             </main>
         </div>
     );

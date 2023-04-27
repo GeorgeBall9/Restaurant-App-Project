@@ -1,10 +1,14 @@
 import "./ChangeIconPopup.css";
-import {selectIconColour, selectUserId, setIconColour} from "../../user/userSlice";
+import {selectIconColour, selectUserId, setIconColour, setProfilePhotoUrl} from "../../user/userSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {hideChangeIconPopup} from "../changeIconPopupSlice";
 import UserIconButton from "./UserIconButton/UserIconButton";
-import {updateUserIconColour, uploadImage} from "../../../firebase/firebase";
+import {
+    updateUserIconColour,
+    updateUserProfilePhoto,
+    uploadImage
+} from "../../../firebase/firebase";
 import {hideOverlay} from "../../overlay/overlaySlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser, faImage} from "@fortawesome/free-regular-svg-icons";
@@ -25,6 +29,7 @@ const ChangeIconPopup = () => {
     const [iconType, setIconType] = useState("");
     const [headerText, setHeaderText] = useState("icon type");
     const [photoUrl, setPhotoUrl] = useState("");
+    const [photoStorageRef, setPhotoStorageRef] = useState(null);
 
     useEffect(() => {
         if (!iconColour) return;
@@ -62,6 +67,8 @@ const ChangeIconPopup = () => {
                     return button;
                 });
             });
+        } else if (iconType === "image") {
+            document.querySelector(".photo-upload-input").value = "";
         }
     };
 
@@ -77,14 +84,22 @@ const ChangeIconPopup = () => {
                     console.error("Error updating user icon colour:", error);
                 }
             }
+        } else if (iconType === "image") {
+            try {
+                await updateUserProfilePhoto(userId, photoStorageRef);
+                dispatch(setProfilePhotoUrl(photoUrl));
+            } catch (error) {
+                console.error("Error updating user profile photo:", error);
+            }
         }
 
         handleClosePopupClick();
     };
 
     const handleFileChange = ({target}) => {
-        const storageRef = uploadImage(target.files[0], setPhotoUrl);
-        console.log({storageRef});
+        const file = target.files[0];
+        const storageRef = uploadImage(file, setPhotoUrl);
+        setPhotoStorageRef(storageRef);
     };
 
     return (
@@ -128,6 +143,7 @@ const ChangeIconPopup = () => {
                         name="file"
                         type="file"
                         onChangeHandler={handleFileChange}
+                        className="photo-upload-input"
                     />
                 </div>
             )}

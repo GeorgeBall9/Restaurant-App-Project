@@ -57,16 +57,12 @@ const FriendsOfFriendsPage = () => {
     const searchQuery = useSelector(selectSearchQuery);
 
     const [searchIsVisible, setSearchIsVisible] = useState(false);
-    const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
     const [display, setDisplay] = useState("friends");
     const [addFriendId, setAddFriendId] = useState("");
     const [foundUser, setFoundUser] = useState(null);
     const [addFriendFeedback, setAddFriendFeedback] = useState("");
     const [displayedFriends, setDisplayedFriends] = useState([]);
-    const [displayedFriendRequests, setDisplayedFriendRequests] = useState([]);
     const [hasMatches, setHasMatches] = useState(false);
-
-    const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
 
     const [friendsOfFriend, setFriendsOfFriend] = useState(null);
     const [friendProfile, setFriendProfile] = useState("");

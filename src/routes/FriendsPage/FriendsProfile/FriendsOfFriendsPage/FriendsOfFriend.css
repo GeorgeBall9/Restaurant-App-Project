@@ -1,1 +1,101 @@
-.
+.friends-of-friend-container header {
+    background-color: white;
+    border-bottom: solid 1px lightgrey;
+}
+
+.friends-of-friend-container header .upper-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.friends-of-friend-container header h1 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.friends-of-friend-container header .upper-nav button {
+    color: var(--secondary-theme);
+    font-weight: var(--font-weight-bold-2);
+    font-size: var(--font-size-smaller);
+    width: 70px;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+}
+
+.friends-of-friend-container header .upper-nav button:first-child {
+    justify-content: flex-start;
+}
+
+.friends-of-friend-container header .upper-nav button:last-child {
+    justify-content: flex-end;
+}
+
+.friends-of-friend-container header .upper-nav button .icon {
+    margin-right: 0.5em;
+}
+
+.friends-of-friend-container header .search-and-filters {
+    display: flex;
+    gap: 1em;
+    justify-content: stretch;
+}
+
+.friends-of-friend-container header .search-box {
+    width: 100%;
+    max-width: 100%;
+}
+
+.friends-of-friend-container main .links-container .display-button {
+    background-color: white;
+    color: var(--primary-theme);
+    border: none;
+    gap: 0.25em;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    border-radius: var(--border-radius);
+    padding: 0.5em 0.75em;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.friends-of-friend-container main .links-container .display-button .count {
+    background-color: var(--primary-theme);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold-1);
+}
+
+.friend-icon-container main .add-friend-popup {
+    position: absolute;
+}
+
+.friends-of-friend-container .links-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5em;
+}
+
+.friends-of-friend-container .links-container > div {
+    display: flex;
+    gap: 0.5em;
+}
+
+.friends-of-friend-container .friend-icons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.friends-of-friend-container .friend-card .action-buttons button:nth-child(2) {
+    display: none;
+}

@@ -1,4 +1,4 @@
-import "../../FriendsPage.css";
+import "./FriendsOfFriend.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faArrowLeft, faChevronDown,
@@ -171,7 +171,7 @@ const FriendsOfFriendsPage = () => {
     };
 
     return (
-        <div className="friends-page-container">
+        <div className="friends-of-friend-container">
             <header>
                 <div className="container upper-nav">
                     <button className="back-button" onClick={handleBackClick}>

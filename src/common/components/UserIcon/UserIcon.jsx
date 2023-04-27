@@ -19,7 +19,14 @@ const UserIcon = ({size, colour = "#C23B22", skeleton = false, imageUrl = null})
 
     return (
         <div className="user-icon" style={{height: dimensions, width: dimensions, backgroundColor}}>
-            {!skeleton && <img src={imageUrl ? imageUrl : userIconImageSrc} alt="user-icon" loading="lazy"/>}
+            {!skeleton && (
+                <img
+                    className={imageUrl ? "custom-image" : "avatar"}
+                    src={imageUrl ? imageUrl : userIconImageSrc}
+                    alt="user-icon"
+                    loading="lazy"
+                />
+            )}
 
             {skeleton && <FontAwesomeIcon className="icon" icon={faUser}/>}
         </div>

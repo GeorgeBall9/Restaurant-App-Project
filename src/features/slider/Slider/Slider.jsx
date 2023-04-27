@@ -36,6 +36,12 @@ const Slider = () => {
     }, [activeSlide, positionRef.current, offsetRef.current]);
 
     const handlers = useSwipeable({
+        onSwipedRight: () => {
+            dispatch(changeSlide("backward"));
+        },
+        onSwipedLeft: () => {
+            dispatch(changeSlide("forward"));
+        },
         onSwiping: ({deltaX}) => {
             requestAnimationFrame(() => {
                 setStyle(style => {
@@ -46,28 +52,6 @@ const Slider = () => {
                     return updatedStyle;
                 });
             });
-        },
-        onTouchEndOrOnMouseUp: ({ event, velocity, dir }) => {
-            if (event.target.closest(".icons-container")) {
-                updateStyle();
-                return;
-            }
-
-            const magnitude = Math.abs(offsetX);
-            const isQuickForwardSwipe = dir === "Left" && Math.abs(velocity) > 0.1;
-            const isQuickBackwardSwipe = dir === "Right" && Math.abs(velocity) > 0.1;
-
-            if (!sliderIsActive || activeSlide === 0 && offsetX > 0 || activeSlide === lastSlide && offsetX < 0) {
-                updateStyle();
-            } else if (isQuickForwardSwipe || (offsetX < 0 && magnitude >= 0.5 * positionRef.current)) {
-                dispatch(changeSlide("forward"));
-            } else if (isQuickBackwardSwipe || magnitude >= 0.5 * positionRef.current) {
-                dispatch(changeSlide("backward"));
-            } else {
-                updateStyle();
-            }
-
-            setOffsetX(0);
         },
         preventScrollOnSwipe: true,
         trackMouse: true,

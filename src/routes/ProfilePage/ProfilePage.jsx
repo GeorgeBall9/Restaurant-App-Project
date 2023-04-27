@@ -2,7 +2,7 @@ import "./ProfilePage.css";
 import {Link, useNavigate} from "react-router-dom";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {useDispatch, useSelector} from "react-redux";
-import {selectDisplayName, selectIconColour, selectUserId} from "../../features/user/userSlice";
+import {selectDisplayName, selectIconColour, selectProfilePhotoUrl, selectUserId} from "../../features/user/userSlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faArrowLeft,
@@ -28,6 +28,7 @@ const ProfilePage = () => {
     const userId = useSelector(selectUserId);
     const displayName = useSelector(selectDisplayName);
     const iconColour = useSelector(selectIconColour);
+    const profilePhotoUrl = useSelector(selectProfilePhotoUrl)
 
     const [idCopied, setIdCopied] = useState(false);
 
@@ -73,7 +74,12 @@ const ProfilePage = () => {
             <main className="container">
                 <section className="profile-info-container">
                     <div className="user-icon-container">
-                        <UserIcon size="xLarge" colour={iconColour} skeleton={!iconColour}/>
+                        <UserIcon
+                            size="xLarge"
+                            colour={iconColour}
+                            skeleton={!iconColour && !profilePhotoUrl}
+                            imageUrl={profilePhotoUrl}
+                        />
                     </div>
 
                     <p style={{visibility: displayName ? "visible" : "hidden"}}>{displayName || "display name"}</p>

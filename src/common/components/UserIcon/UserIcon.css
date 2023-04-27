@@ -12,3 +12,9 @@
     width: 80%;
     border-radius: 50%;
 }
+
+.user-icon .icon {
+    color: lightgrey;
+    height: 100%;
+    width: 100%;
+}

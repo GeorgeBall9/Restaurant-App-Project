@@ -1,4 +1,4 @@
-.profile-container button {
+.profile-container header button {
     font-size: var(--font-size-smaller);
     border: none;
     background: none;
@@ -45,7 +45,7 @@
     position: relative;
 }
 
-.profile-container .change-icon-section .user-icon-container {
+.profile-container .change-icon-section > .user-icon-container {
     border: solid 4px lightgrey;
     border-radius: 50%;
     position: relative;

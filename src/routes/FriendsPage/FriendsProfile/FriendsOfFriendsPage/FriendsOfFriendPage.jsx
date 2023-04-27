@@ -48,7 +48,7 @@ const FriendsOfFriendsPage = () => {
     const dispatch = useDispatch();
 
     const { userId } = useParams();
-    // const userId = useSelector(selectUserId);
+    const currentUserId = useSelector(selectUserId);
 
     const friends = useSelector(selectFriends);
 
@@ -60,6 +60,7 @@ const FriendsOfFriendsPage = () => {
     const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
     const [display, setDisplay] = useState("friends");
     const [addFriendId, setAddFriendId] = useState("");
+    const [foundUser, setFoundUser] = useState(null);
     const [addFriendFeedback, setAddFriendFeedback] = useState("");
     const [displayedFriends, setDisplayedFriends] = useState([]);
     const [displayedFriendRequests, setDisplayedFriendRequests] = useState([]);
@@ -69,6 +70,8 @@ const FriendsOfFriendsPage = () => {
 
     const [friendsOfFriend, setFriendsOfFriend] = useState(null);
     const [friendProfile, setFriendProfile] = useState("");
+
+
 
     useEffect(() => {
         if (!userId) return;
@@ -85,61 +88,69 @@ const FriendsOfFriendsPage = () => {
     }, [userId]);
 
     useEffect(() => {
-        setDisplayedFriends(friendsOfFriend);
-    }, [friendsOfFriend]);
+        if (display === "friends" && !friendsOfFriend) return;
+
+        if (!searchQuery) {
+            if (display === "friends") {
+                setDisplayedFriends(friendsOfFriend);
+            }
+            return;
+        }
+
+        const query = searchQuery.toLowerCase();
+
+        let searchResults;
+
+        if (display === "friends") {
+            searchResults = friendsOfFriend.filter(({ displayName }) => displayName.toLowerCase().includes(query));
+        }
+
+        if (!searchResults.length) {
+            setHasMatches(false);
+
+            if (display === "friends") {
+                setDisplayedFriends(friendsOfFriend);
+            }
+
+        } else {
+            if (display === "friends") {
+                setDisplayedFriends(searchResults);
+            }
+            setHasMatches(true);
+        }
+    }, [searchQuery, friendsOfFriend]);
 
     const handleBackClick = () => {
         navigate(`/view-profile/${userId}`);
     };
 
-    const handleAddClick = () => {
-        setAddPopupIsVisible(true);
-        dispatch(showOverlay());
-    };
-
-    const handleYesClick = async () => {
-        const updatedFriends = await sendFriendRequestToUser(userId, addFriendId);
+    const handleAddFriendClick = async (id) => {
+        const updatedFriends = await sendFriendRequestToUser(currentUserId, id);
         dispatch(setFriends(updatedFriends));
-        setAddPopupIsVisible(false);
         setAddFriendId("");
-        dispatch(hideOverlay());
-    };
 
-    const handleNoClick = () => {
-        setAddPopupIsVisible(false);
-        setAddFriendId("");
-        dispatch(hideOverlay());
-    };
-
-    const handleDeleteClick = async (id) => {
-        console.log("delete friend request");
-        const updatedRequests = await rejectFriendRequest(userId, id);
-        dispatch(setFriendRequests(updatedRequests));
-        console.log("friend request deleted");
-    };
-
-    const handleProfileClick = (userId) => {
-        navigate(`/view-profile/${userId}`);
-    };
-
-    const handleRemoveClick = async (id) => {
-        console.log("show remove friend confirmation popup");
-        await deleteFriend(userId, id);
-        dispatch(removeFriend(id));
+        // Update displayedFriends
+        setDisplayedFriends(displayedFriends.map(friend => {
+            if (friend.id === id) {
+                return { ...friend, status: "pending" };
+            }
+            return friend;
+        }));
     };
 
     const handleCancelClick = async (id) => {
-        const updatedFriends = await cancelFriendRequest(userId, id);
+        const updatedFriends = await cancelFriendRequest(currentUserId, id);
         dispatch(setFriends(updatedFriends));
+
+        // Update displayedFriends
+        setDisplayedFriends(displayedFriends.map(friend => {
+            if (friend.id === id) {
+                return { ...friend, status: "none" };
+            }
+            return friend;
+        }));
     };
 
-    const handleConfirmClick = async (id) => {
-        console.log("confirm friend");
-        const updatedFriends = await acceptFriendRequest(userId, id);
-        dispatch(setFriends(updatedFriends));
-        dispatch(removeFriendRequest(id));
-        console.log("friend request accepted");
-    };
 
     const calculateMutualFriends = (userFriends) => {
         let mutualFriends = 0;
@@ -159,6 +170,26 @@ const FriendsOfFriendsPage = () => {
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 
+    // console.log("navigate:", navigate);
+    // console.log("dispatch:", dispatch);
+    // console.log("userId:", userId);
+    // console.log("currentUserId:", currentUserId);
+    // console.log("friends:", friends);
+    // console.log("friendRequests:", friendRequests);
+    // console.log("friendsSortFilter:", friendsSortFilter);
+    // console.log("searchQuery:", searchQuery);
+    // console.log("searchIsVisible:", searchIsVisible);
+    // console.log("addPopupIsVisible:", addPopupIsVisible);
+    // console.log("display:", display);
+    // console.log("addFriendId:", addFriendId);
+    // console.log("foundUser:", foundUser);
+    // console.log("addFriendFeedback:", addFriendFeedback);
+    // console.log("displayedFriends:", displayedFriends);
+    // console.log("displayedFriendRequests:", displayedFriendRequests);
+    // console.log("hasMatches:", hasMatches);
+    // console.log("sortFiltersVisible:", sortFiltersVisible);
+    // console.log("friendsOfFriend:", friendsOfFriend);
+    // console.log("friendProfile:", friendProfile);
     return (
         <div className="friends-page-container">
             <header>
@@ -185,28 +216,6 @@ const FriendsOfFriendsPage = () => {
 
             <main className="container">
 
-                {/* {foundUser && (
-                            <p>Send friend request to <span>{foundUser.displayName}</span>?</p>
-                        )}
-
-                        {!foundUser && (
-                            <ActionButtons
-                                button1Handler={handleFindUserClick}
-                                button1Text="Find user"
-                                button2Handler={handleNoClick}
-                                button2Text="Cancel"
-                            />
-                        )}
-
-                        {foundUser && (
-                            <ActionButtons
-                                button1Handler={handleYesClick}
-                                button1Text="Yes"
-                                button2Handler={handleNoClick}
-                                button2Text="No"
-                            />
-                        )} */}
-
                 <div className="friend-icons-container">
                     {displayedFriends && [...displayedFriends]
                         .sort((a, b) => {
@@ -225,8 +234,8 @@ const FriendsOfFriendsPage = () => {
                                 displayName={displayName}
                                 iconColour={iconColour}
                                 mutualFriends={calculateMutualFriends(userFriends)}
-                                button1Handler={handleAddClick}
-                                button1Text="Add"
+                                button1Handler={() => handleAddFriendClick(id)}
+                                button1Text="Add Friend"
                                 status={status}
                                 handleCancelClick={() => handleCancelClick(id)}
                             />

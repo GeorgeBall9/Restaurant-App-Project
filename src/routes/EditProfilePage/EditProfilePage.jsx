@@ -9,7 +9,7 @@ import {selectChangeIconPopupIsVisible, showChangeIconPopup} from "../../feature
 import ChangeIconPopup from "../../features/changeIconPopup/ChangeIconPopup/ChangeIconPopup";
 import {
     selectDisplayName, selectEmail,
-    selectIconColour, selectPhone,
+    selectIconColour, selectPhone, selectProfilePhotoUrl,
     selectUserId,
     setDisplayName, setEmail, setPhone
 } from "../../features/user/userSlice";
@@ -33,6 +33,7 @@ const EditProfilePage = () => {
     const email = useSelector(selectEmail);
     const phone = useSelector(selectPhone);
     const iconColour = useSelector(selectIconColour);
+    const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
 
     const [name, setName] = useState("");
     const [emailAddress, setEmailAddress] = useState("");
@@ -132,7 +133,12 @@ const EditProfilePage = () => {
            <main className="container">
                <section className="change-icon-section">
                    <div className="user-icon-container">
-                       <UserIcon size="xLarge" colour={iconColour} skeleton={!iconColour}/>
+                       <UserIcon
+                           size="xLarge"
+                           colour={iconColour}
+                           skeleton={!iconColour && !profilePhotoUrl}
+                           imageUrl={profilePhotoUrl}
+                       />
 
                        <button onClick={handleChangeIconClick}>
                            <FontAwesomeIcon className="icon" icon={faPenToSquare}/>

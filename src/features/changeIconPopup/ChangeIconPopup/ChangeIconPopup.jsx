@@ -29,7 +29,7 @@ const ChangeIconPopup = () => {
     const [iconType, setIconType] = useState("");
     const [headerText, setHeaderText] = useState("icon type");
     const [photoUrl, setPhotoUrl] = useState("");
-    const [photoStorageRef, setPhotoStorageRef] = useState(null);
+    const [photoStoragePath, setPhotoStoragePath] = useState(null);
 
     useEffect(() => {
         if (!iconColour) return;
@@ -86,7 +86,7 @@ const ChangeIconPopup = () => {
             }
         } else if (iconType === "image") {
             try {
-                await updateUserProfilePhoto(userId, photoStorageRef);
+                await updateUserProfilePhoto(userId, photoStoragePath);
                 dispatch(setProfilePhotoUrl(photoUrl));
             } catch (error) {
                 console.error("Error updating user profile photo:", error);
@@ -99,7 +99,8 @@ const ChangeIconPopup = () => {
     const handleFileChange = ({target}) => {
         const file = target.files[0];
         const storageRef = uploadImage(file, setPhotoUrl);
-        setPhotoStorageRef(storageRef);
+        console.log(storageRef._location.path)
+        setPhotoStoragePath(storageRef._location.path);
     };
 
     return (

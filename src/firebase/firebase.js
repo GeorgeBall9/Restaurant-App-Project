@@ -136,7 +136,9 @@ export const getUserFromUserId = async (userId) => {
         const docRef = await doc(db, "users", userId);
         const docSnap = await getDoc(docRef);
 
-        return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
+        const data = docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
+        console.log(data.profilePhotoPath)
+        return data;
     } catch (error) {
         console.error(error);
         console.log("blue")
@@ -739,14 +741,14 @@ export const uploadImage = (imageFile, downloadUrlSetter) => {
     return storageRef;
 };
 
-export const getImageDownloadUrl = async () => {
-    const storageRef = ref(storage, `images/image1.png`);
+export const getImageDownloadUrl = async (path) => {
+    const storageRef = ref(storage, path);
 
     return await getDownloadURL(storageRef)
 };
 
-export const updateUserProfilePhoto = async (userId, storageRef) => {
+export const updateUserProfilePhoto = async (userId, path) => {
     const docRef = await doc(db, "users", userId);
 
-    await updateDoc(docRef, {profilePhotoRef: storageRef});
+    await updateDoc(docRef, {profilePhotoPath: path});
 };

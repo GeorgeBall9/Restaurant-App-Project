@@ -51,6 +51,7 @@
 .change-icon-popup .save-reset-buttons {
     display: flex;
     gap: 0.5em;
+    margin-top: 1em;
 }
 
 .change-icon-popup .save-reset-buttons button {

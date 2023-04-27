@@ -4,11 +4,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {hideChangeIconPopup} from "../changeIconPopupSlice";
 import UserIconButton from "./UserIconButton/UserIconButton";
-import {updateUserIconColour} from "../../../firebase/firebase";
+import {updateUserIconColour, uploadImage} from "../../../firebase/firebase";
 import {hideOverlay} from "../../overlay/overlaySlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser, faImage} from "@fortawesome/free-regular-svg-icons";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
+import FormField from "../../../common/components/FormField/FormField";
 
 const colours = ["#FF2E63", "#B3E5BE", "#AA77FF", "#19A7CE", "#FE6244", "#FFDD83", "#E6A4B4", "#5D9C59", "#E21818"];
 
@@ -22,6 +23,8 @@ const ChangeIconPopup = () => {
     const [iconButtons, setIconButtons] = useState(colours.map(colour => ({colour, selected: false})));
     const [iconType, setIconType] = useState("");
     const [headerText, setHeaderText] = useState("icon type");
+    const [fileToUpload, setFileToUpload] = useState("");
+    const [downloadUrl, setDownloadUrl] = useState("");
 
     useEffect(() => {
         if (!iconColour) return;
@@ -75,6 +78,14 @@ const ChangeIconPopup = () => {
         handleClosePopupClick();
     };
 
+    const handleFileChange = ({target}) => {
+        setFileToUpload(target.files[0]);
+    };
+
+    const handleSubmitClick = () => {
+        uploadImage(fileToUpload);
+    };
+
     return (
         <div className="change-icon-popup">
             <div className="popup-buttons">
@@ -90,7 +101,7 @@ const ChangeIconPopup = () => {
                 </button>
             </div>
 
-            <h2>Select an {headerText}</h2>
+            <h2>Select an {!iconType ? headerText : iconType}</h2>
 
             {iconType === "avatar" && (
                 <div className="icons-container">
@@ -103,6 +114,17 @@ const ChangeIconPopup = () => {
                             handleClick={handleIconButtonClick}
                         />
                     ))}
+                </div>
+            )}
+
+            {iconType === "image" && (
+                <div>
+                    <FormField
+                        label="File"
+                        name="file"
+                        type="file"
+                        onChangeHandler={handleFileChange}
+                    />
                 </div>
             )}
 

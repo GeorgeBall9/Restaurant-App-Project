@@ -30,6 +30,9 @@ import {
     signOut
 } from "firebase/auth";
 
+// storage imports
+import {getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
+
 // firebase config
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -37,7 +40,7 @@ const firebaseConfig = {
     projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
     storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 // initialise app
@@ -45,6 +48,9 @@ const app = initializeApp(firebaseConfig);
 
 // initialise firestore database
 const db = getFirestore(app);
+
+// initialise storage
+export const storage = getStorage();
 
 // auth functions
 export const auth = getAuth();
@@ -686,4 +692,26 @@ export const getFriendsByUserId = async (userId) => {
         const data = await getUserFromUserId(userId);
         return {...data, ...friend};
     }));
+};
+
+// file storage functions
+export const uploadImage = (imageFile) => {
+    if (!imageFile) {
+        alert("Please choose a file first!");
+        return;
+    }
+
+    const storageRef = ref(storage, "images/image1.png");
+
+    uploadBytes(storageRef, imageFile).then((snapshot) => {
+        console.log("Uploaded a blob or file!");
+    }).catch((error) => {
+        console.error("Error uploading file:", error);
+    });
+};
+
+export const getImageDownloadUrl = async () => {
+    const storageRef = ref(storage, `images/image1.png`);
+
+    return await getDownloadURL(storageRef)
 };

@@ -15,29 +15,29 @@
     opacity: 1;
     transition: opacity 1s ease-in-out;
     pointer-events: none;
-  }
+}
 
-  .fade-in {
+.fade-in {
     opacity: 1;
-  }
+}
 
-  .fade-out {
+.fade-out {
     opacity: 0;
-  }
-  
-  .no-matches-message,
-  .try-something-else-message {
-    pointer-events: none;
-  }
+}
 
-  .no-matches-message {
+.no-matches-message,
+.try-something-else-message {
+    pointer-events: none;
+}
+
+.no-matches-message {
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--secondary-theme);
-  }
-  
-  .try-something-else-message {
+}
+
+.try-something-else-message {
     font-size: 0.75rem;
     margin-top: 0.5rem;
     color: grey;
-  }
+}

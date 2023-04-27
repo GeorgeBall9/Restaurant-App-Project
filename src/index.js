@@ -28,6 +28,7 @@ import PreviewReviews from "./routes/PreviewReviews/PreviewReviews";
 import ReviewsPage from "./routes/ReviewsPage/ReviewsPage";
 import FriendsPage from "./routes/FriendsPage/FriendsPage";
 import FriendsProfile from "./routes/FriendsPage/FriendsProfile/FriendsProfile";
+import PhotosPage from "./routes/PhotosPage/PhotosPage";
 
 const router = createBrowserRouter([
     {
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
                     {
                         path: "friends",
                         element: <FriendsPage/>,
+                    },
+                    {
+                        path: "photos",
+                        element: <PhotosPage/>,
                     },
                     {
                         path: "view-profile/:userId",

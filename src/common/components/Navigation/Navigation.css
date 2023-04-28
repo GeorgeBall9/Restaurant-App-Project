@@ -5,7 +5,7 @@
     right: 0;
     z-index: 1000;
     box-shadow: var(--box-shadow);
-    background-color: white;
+    background-color: var(--dark-theme);
 }
 
 .navigation {
@@ -32,7 +32,7 @@
 }
 
 .navigation .upper > .button {
-    background-color: var(--background-theme);
+    background-color: var(--dark-theme-contrast);
     border: none;
     display: flex;
     align-items: center;

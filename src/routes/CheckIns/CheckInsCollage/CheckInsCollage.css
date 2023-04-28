@@ -168,6 +168,7 @@
 .collage-popup .add-photo-popup .uploaded-image-container img {
     height: 100%;
     width: 100%;
+    object-fit: cover;
 }
 
 .collage-popup .add-photo-popup .upload-button {

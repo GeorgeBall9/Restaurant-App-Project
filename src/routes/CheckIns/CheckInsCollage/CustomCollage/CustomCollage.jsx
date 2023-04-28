@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 const CustomCollage = ({images, rows, columns, isExpanded, onExpand, handleAddClick, addFunctionality = true}) => {
     const showMore = images.length > rows * columns;
     const image4 = images[rows * columns - 1];
-    const remainingImages = showMore ? images.length - rows * columns + 1 : 0;
+    const remainingImages = showMore ? images.length - rows * columns : 0;
 
     return (
         <div

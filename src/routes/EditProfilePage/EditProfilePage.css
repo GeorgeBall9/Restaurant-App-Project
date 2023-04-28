@@ -6,7 +6,7 @@
 }
 
 .profile-container header {
-    background-color: white;
+    background-color: var(--dark-theme);
     border-bottom: solid 1px lightgrey;
     margin-bottom: 1em;
 }
@@ -20,6 +20,7 @@
 .profile-container header h1 {
     font-size: 1rem;
     font-weight: 500;
+    color: white;
 }
 
 .profile-container header button {

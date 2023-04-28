@@ -1,13 +1,22 @@
 import "./CheckInsCollage.css";
 
 import CustomCollage from "./CustomCollage/CustomCollage.jsx";
-import { useState, useEffect } from "react";
-import { faArrowLeft, faImage } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {useState} from "react";
+import {faArrowLeft, faImage, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import FormField from "../../../common/components/FormField/FormField";
+import {uploadImage} from "../../../firebase/firebase";
+import {useDispatch} from "react-redux";
 
-const CheckInsCollage = ({ restaurant, onClose }) => {
-    const [isVisible, setIsVisible] = useState(false);
+const CheckInsCollage = ({restaurant, onClose}) => {
+
+    const dispatch = useDispatch();
+
+    const [isVisible, setIsVisible] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
+    const [addPhotoPopupIsVisible, setAddPhotoPopupIsVisible] = useState(false);
+    const [photoUrl, setPhotoUrl] = useState("");
+    const [photoStoragePath, setPhotoStoragePath] = useState(null);
 
     const demoPhotos = [
         { src: "https://picsum.photos/id/1011/600/400", alt: "Photo 1" },
@@ -35,28 +44,79 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
         setIsExpanded(true);
     };
 
-    useEffect(() => {
-        setIsVisible(true);
-    }, []);
+    const handleAddClick = () => {
+        setAddPhotoPopupIsVisible(true);
+
+    };
+
+    const handleFileChange = ({target}) => {
+        const file = target.files[0];
+        const storageRef = uploadImage(file, setPhotoUrl);
+        setPhotoStoragePath(storageRef._location.path);
+    };
+
+    const handleAddPhotoClick = () => {
+        console.log("adding photo to db")
+    };
 
     return (
         <div className={`collage-popup ${isVisible ? "visible" : ""} ${isExpanded ? "expanded" : ""}`}>
-            <div className={`collage-popup-header ${isExpanded ? "collage-haeder-sticky" : ""}`}>
-                <button onClick={handleBackClick}>
-                    <FontAwesomeIcon className="icon" icon={faArrowLeft} />
-                    Back
-                </button>
-                <h2>{restaurant.name}</h2>
-                <div className="collage-popup-function">
-                    <button><FontAwesomeIcon className="icon" icon={faImage} /> </button>
+            <div>
+                <div className={`collage-popup-header ${isExpanded ? "collage-header-sticky" : ""}`}>
+                    <button onClick={handleBackClick}>
+                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                        Back
+                    </button>
+
+                    <h2>{restaurant.name}</h2>
+
+                    <button onClick={handleAddClick}>
+                        {addPhotoPopupIsVisible ? "Cancel" : "Add"}
+
+                        {!addPhotoPopupIsVisible && <FontAwesomeIcon className="icon" icon={faImage}/>}
+                    </button>
                 </div>
-            </div>
-            {/* Render the collage of photos using CustomCollage */}
-            <div className={`collage-popup-photos ${isExpanded ? "collage-popup-photos-expanded" : ""}`}>
-                <CustomCollage images={demoPhotos} rows={isExpanded ? 100 : 2} columns={isExpanded ? 2 : 2} onExpand={handleExpand} />
-            </div>
 
+                <div className={`collage-popup-photos ${isExpanded ? "collage-popup-photos-expanded" : ""}`}>
+                    <CustomCollage
+                        images={demoPhotos}
+                        rows={isExpanded ? 100 : 2}
+                        columns={isExpanded ? 2 : 2}
+                        onExpand={handleExpand}
+                    />
+                </div>
 
+                {addPhotoPopupIsVisible && (
+                    <div className="add-photo-popup">
+                        <div className="popup-header">
+                            <button onClick={() => setAddPhotoPopupIsVisible(false)}>
+                                Close
+                            </button>
+
+                            <h2>Select a file to upload</h2>
+
+                            <button style={{visibility: "hidden"}}>
+                                Close
+                            </button>
+                        </div>
+
+                        <div>
+                            <div className="uploaded-image-container">
+                                <img src={photoUrl}/>
+                            </div>
+
+                            <FormField
+                                name="file"
+                                type="file"
+                                onChangeHandler={handleFileChange}
+                                className="photo-upload-input"
+                            />
+                        </div>
+
+                        <button onClick={handleAddPhotoClick}>Add photo</button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

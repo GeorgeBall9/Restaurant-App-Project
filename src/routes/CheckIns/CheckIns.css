@@ -32,8 +32,7 @@ button.react-calendar__tile > div {
 }
 
 .check-ins-page-container header {
-    background-color: white;
-    border-bottom: solid 1px lightgrey;
+    background-color: var(--dark-theme);
 }
 
 .check-ins-page-container header > div {
@@ -45,6 +44,7 @@ button.react-calendar__tile > div {
 .check-ins-page-container header h1 {
     font-size: 1rem;
     font-weight: var(--font-weight-bold-1);
+    color: white;
 }
 
 .check-ins-page-container header button {

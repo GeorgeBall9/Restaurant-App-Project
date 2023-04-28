@@ -110,10 +110,10 @@
 
 .reviews-sort-button {
     background: none;
-    border: solid 2px var(--primary-theme);
+    border: solid 2px var(--secondary-theme);
     padding: 0.25rem 0.75rem;
     border-radius: var(--border-radius);
-    color: var(--primary-theme);
+    color: var(--secondary-theme);
     white-space: nowrap;
     height: 100%;
     font-weight: var(--font-weight-bold-1);
@@ -121,5 +121,5 @@
 
 .reviews-sort-button .icon {
     margin-left: 0.25em;
-    color: var(--primary-theme);
+    color: var(--secondary-theme);
 }

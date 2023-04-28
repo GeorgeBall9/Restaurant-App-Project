@@ -1,5 +1,5 @@
 .friends-page-container header {
-    background-color: white;
+    background-color: var(--dark-theme);
     border-bottom: solid 1px lightgrey;
 }
 
@@ -13,6 +13,7 @@
     font-size: 1rem;
     font-weight: 500;
     text-transform: capitalize;
+    color: white;
 }
 
 .friends-page-container header .upper-nav button {

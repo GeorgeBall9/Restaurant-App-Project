@@ -18,7 +18,7 @@ import FormField from "../../../common/components/FormField/FormField";
 import UserIcon from "../../../common/components/UserIcon/UserIcon";
 import UploadFileButton from "../../../common/components/UploadFileButton/UploadFileButton";
 import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
-import SecondaryButton from "../../../common/SecondaryButton/SecondaryButton";
+import SecondaryButton from "../../../common/components/SecondaryButton/SecondaryButton";
 
 const colours = ["#FF2E63", "#B3E5BE", "#AA77FF", "#19A7CE", "#FE6244", "#FFDD83", "#E6A4B4", "#5D9C59", "#E21818"];
 

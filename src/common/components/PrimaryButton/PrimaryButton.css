@@ -1,4 +1,4 @@
-.primary.button {
+.primary.default-button {
     background-color: var(--primary-theme);
     color: white;
     border: none;

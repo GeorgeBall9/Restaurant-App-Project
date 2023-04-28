@@ -1,5 +1,5 @@
 import "./SecondaryButton.css";
-import Button from "../components/Button/Button";
+import Button from "../Button/Button";
 
 const SecondaryButton = ({handleClick, text}) => {
     return (

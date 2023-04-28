@@ -32,7 +32,7 @@ import ReviewsSection from "./ReviewsSection/ReviewsSection";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
 import {faBookmark, faHeart, faCheckCircle, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 
-const navLinksText = ["Interactions", "Website", "About", "PhotosPage", "Hours", "Details", "Reviews"];
+const navLinksText = ["Interactions", "Website", "About", "Photos", "Hours", "Details", "Reviews"];
 
 const DetailsPage = () => {
 

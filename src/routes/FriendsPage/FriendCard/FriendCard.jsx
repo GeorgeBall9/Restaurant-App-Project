@@ -5,6 +5,7 @@ import ActionButtons from "./ActionButtons/ActionButtons";
 const FriendCard = ({
                         displayName,
                         iconColour,
+                        profilePhotoUrl,
                         mutualFriends,
                         status,
                         button1Handler,
@@ -19,6 +20,7 @@ const FriendCard = ({
             <FriendInfo
                 displayName={displayName}
                 iconColour={iconColour}
+                profilePhotoUrl={profilePhotoUrl}
                 mutualFriends={mutualFriends}
                 status={status}
                 handleCancelClick={handleCancelClick}

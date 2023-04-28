@@ -7,7 +7,7 @@
 .search-box .input-container {
     padding: 0.4em 0.75em;
     border-radius: var(--border-radius);
-    background-color:  #e8e8e8;
+    background-color: #c0bfbf;
     display: flex;
     align-items: center;
     gap: 0.5em;

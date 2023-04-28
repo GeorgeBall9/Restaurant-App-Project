@@ -787,3 +787,24 @@ export const updateUserProfilePhoto = async (userId, path) => {
 
     await updateDoc(docRef, {profilePhotoPath: path});
 };
+
+export const addPhotoToRestaurantCheckIn = async (userId, restaurantId, date, path) => {
+    const docRef = await doc(db, "users", userId);
+    const docSnap = await getDoc(docRef);
+
+    const checkedIn = docSnap.data().checkedIn;
+
+    const foundCheckIn = checkedIn
+        .find(({ restaurantId: storedRestaurantId, date: dateInt }) => {
+            if (storedRestaurantId !== restaurantId) return false;
+            return dateInt === date;
+        });
+
+    if (!foundCheckIn.photoPaths) {
+        foundCheckIn.photoPaths = [];
+    }
+
+    foundCheckIn.photoPaths.push(path);
+
+    await updateDoc(docRef, {checkedIn});
+};

@@ -23,3 +23,15 @@
 .check-ins-map .mapboxgl-popup-content a:hover .icon {
     color: var(--secondary-theme);
 }
+
+.check-ins-map .mapboxgl-popup-content .content > div {
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+}
+
+.check-ins-map .mapboxgl-popup-content button {
+    background: none;
+    border: none;
+    text-decoration: underline;
+}

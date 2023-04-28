@@ -17,7 +17,6 @@ const CheckInsMap = ({restaurants}) => {
     const dispatch = useDispatch();
 
     // select all relevant information from map slice
-    const userId = useSelector(selectUserId);
     const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
 
@@ -104,6 +103,11 @@ const CheckInsMap = ({restaurants}) => {
                                         </Link>
 
                                         <p>Visited on {new Date(restaurant.date).toLocaleDateString()}</p>
+
+                                        <div>
+                                            <button>Edit</button>
+                                            <button>Delete</button>
+                                        </div>
                                     </div>
                                 </Popup>
                             )}

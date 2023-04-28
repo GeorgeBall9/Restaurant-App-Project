@@ -76,8 +76,9 @@ const Root = () => {
     }, [userId]);
 
     useEffect(() => {
-        document.body.style.overflow = overlayIsVisible ? "hidden" : "visible";
-    }, [overlayIsVisible]);
+        document.body.style.overflow = (overlayIsVisible || spinnerIsVisible) ? "hidden" : "visible";
+        console.log({spinnerIsVisible})
+    }, [overlayIsVisible, spinnerIsVisible]);
 
     return (
         <>

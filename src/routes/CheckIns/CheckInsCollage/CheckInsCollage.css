@@ -1,110 +1,180 @@
 .collage-popup {
-  background-color: white;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.collage-popup > div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .collage-popup.visible {
-  opacity: 1;
+    opacity: 1;
 }
 
 .collage-popup.expanded {
-  position: fixed;
-  border-radius: none;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
+    position: fixed;
+    border: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .collage-popup-header {
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--padding-content);
-  color: white;
-  font-size: var(--font-size-sub-heading);
-  font-weight: var(--font-weight-bold-2);
-  position: absolute;
-  z-index: 20;
-  width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--padding-content);
+    color: white;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-2);
+    position: absolute;
+    z-index: 20;
+    width: 100%;
 }
 
 .collage-header-sticky {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .collage-popup-header h2 {
-  font-size: var(--font-size-sub-heading);
-  font-weight: var(--font-weight-bold-2);
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-2);
 }
 
 .collage-popup-header button {
-  background: none;
-  border: none;
-  color: white;
-  font-size: var(--font-size-sub-heading);
-  font-weight: var(--font-weight-bold-2);
-  cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--secondary-theme);
+    font-size: var(--font-size-smaller);
+    font-weight: var(--font-weight-bold-2);
+    cursor: pointer;
 }
 
-.collage-popup-header button .icon {
-  margin-right: 0.5rem;
+.collage-popup-header button:first-child .icon {
+    margin-right: 0.5rem;
 }
 
+.collage-popup-header button:last-child .icon {
+    margin-left: 0.5rem;
+}
 
 .collage-popup-photos {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
 }
 
 .collage-popup-photos-expanded {
-  height: calc(100vh - 60px);
-  /* Adjust this value based on your header height */
-  overflow-y: auto;
+    height: calc(100vh - 60px);
+    /* Adjust this value based on your header height */
+    overflow-y: auto;
 }
 
 .collage-container-expanded {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .collage-image-wrapper {
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .collage-image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: var(--font-size-sub-heading);
-  font-weight: var(--font-weight-bold-2);
-  cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-2);
+    cursor: pointer;
+}
+
+.collage-popup .add-photo-popup {
+    border-radius: 8px;
+    position: absolute;
+    top: 4em;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: white;
+    padding: 0.75em;
+    width: 95%;
+    max-width: 275px;
+    margin: var(--margin-align-center);
+    box-shadow: var(--box-shadow);
+}
+
+.collage-popup .add-photo-popup .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.collage-popup .add-photo-popup .popup-header button {
+    background: none;
+    border: none;
+    color: var(--secondary-theme);
+}
+
+.collage-popup .add-photo-popup h3 {
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    text-align: center;
+    border-bottom: solid 1px var(--background-theme);
+    padding-bottom: 0.5em;
+    margin: 0.5em 0 1em;
+}
+
+.collage-popup .add-photo-popup .uploaded-image-container {
+    width: 180px;
+    height: 120px;
+    border: solid 4px lightgrey;
+    margin: var(--margin-align-center);
+    margin-bottom: 1em;
+}
+
+.collage-popup .add-photo-popup .uploaded-image-container img {
+    height: 100%;
+    width: 100%;
+}
+
+.collage-popup .add-photo-popup .upload-button {
+    width: 100%;
+    margin-top: 1em;
+    border-radius: var(--border-radius);
+    border: none;
+    background-color: var(--primary-theme);
+    color: white;
+    padding: 0.75em;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
 }

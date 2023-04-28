@@ -8,6 +8,10 @@
     padding: var(--padding-content);
 }
 
+.collage-container > * {
+    min-height: 120px;
+}
+
 .collage-image {
     width: 100%;
     height: 100%;

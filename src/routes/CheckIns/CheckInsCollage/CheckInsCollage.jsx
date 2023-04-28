@@ -6,9 +6,9 @@ import {faArrowLeft, faEllipsis, faImage, faXmark} from "@fortawesome/free-solid
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import FormField from "../../../common/components/FormField/FormField";
 import {addPhotoToRestaurantCheckIn, getImageDownloadUrl, uploadImage} from "../../../firebase/firebase";
-import {useDispatch, useSelector} from "react-redux";
-import {hideOverlay, showOverlay} from "../../../features/overlay/overlaySlice";
+import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
+import Overlay from "../../../features/overlay/Overlay/Overlay";
 
 const CheckInsCollage = ({restaurant, onClose}) => {
 
@@ -20,6 +20,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
     const [addPhotoPopupIsVisible, setAddPhotoPopupIsVisible] = useState(false);
     const [photoUrl, setPhotoUrl] = useState("");
     const [photoStoragePath, setPhotoStoragePath] = useState(null);
+    const [showOverlay, setShowOverlay] = useState(false);
 
     const getPhotoUrls = async (photoPaths) => {
         return await Promise.all(photoPaths.map(async (path, i) => {
@@ -31,7 +32,10 @@ const CheckInsCollage = ({restaurant, onClose}) => {
         if (!restaurant) return;
 
         getPhotoUrls(restaurant.photoPaths)
-            .then(urls => setPhotos(urls));
+            .then(urls => {
+                console.log(urls)
+                setPhotos(urls)
+            });
     }, [restaurant])
 
     const handleBackClick = () => {
@@ -47,10 +51,12 @@ const CheckInsCollage = ({restaurant, onClose}) => {
 
     const handleAddClick = () => {
         setAddPhotoPopupIsVisible(true);
+        setShowOverlay(true);
     };
 
     const handleCloseClick = () => {
         setAddPhotoPopupIsVisible(false);
+        setShowOverlay(false);
     }
 
     const handleFileChange = ({target}) => {
@@ -62,6 +68,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
     const handleUploadPhotoClick = async () => {
         console.log("adding photo to db");
         await addPhotoToRestaurantCheckIn(userId, restaurant.id, restaurant.date, photoStoragePath);
+        handleCloseClick();
     };
 
     return (
@@ -92,16 +99,16 @@ const CheckInsCollage = ({restaurant, onClose}) => {
                     )}
                 </div>
 
-                {photos?.length > 0 && (
-                    <div className={`collage-popup-photos ${isExpanded ? "collage-popup-photos-expanded" : ""}`}>
-                        <CustomCollage
-                            images={photos}
-                            rows={isExpanded ? 100 : 2}
-                            columns={isExpanded ? 2 : 2}
-                            onExpand={handleExpand}
-                        />
-                    </div>
-                )}
+                <div className={`collage-popup-photos ${isExpanded ? "collage-popup-photos-expanded" : ""}`}>
+                    <CustomCollage
+                        images={photos}
+                        rows={isExpanded ? 100 : 2}
+                        columns={isExpanded ? 2 : 2}
+                        onExpand={handleExpand}
+                    />
+                </div>
+
+                {showOverlay && <Overlay/>}
 
                 {addPhotoPopupIsVisible && (
                     <div className="add-photo-popup">

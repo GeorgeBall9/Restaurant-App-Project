@@ -1,23 +1,28 @@
 import "./CheckInsCollage.css";
 
 import CustomCollage from "./CustomCollage/CustomCollage.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {faArrowLeft, faImage, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import FormField from "../../../common/components/FormField/FormField";
-import {uploadImage} from "../../../firebase/firebase";
-import {useDispatch} from "react-redux";
+import {addPhotoToRestaurantCheckIn, uploadImage} from "../../../firebase/firebase";
+import {useDispatch, useSelector} from "react-redux";
 import {hideOverlay, showOverlay} from "../../../features/overlay/overlaySlice";
+import {selectUserId} from "../../../features/user/userSlice";
 
 const CheckInsCollage = ({restaurant, onClose}) => {
 
-    const dispatch = useDispatch();
+    const userId = useSelector(selectUserId);
 
     const [isVisible, setIsVisible] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
     const [addPhotoPopupIsVisible, setAddPhotoPopupIsVisible] = useState(false);
     const [photoUrl, setPhotoUrl] = useState("");
     const [photoStoragePath, setPhotoStoragePath] = useState(null);
+
+    useEffect(() => {
+        console.log(restaurant)
+    }, [restaurant])
 
     const demoPhotos = [
         { src: "https://picsum.photos/id/1011/600/400", alt: "Photo 1" },
@@ -59,8 +64,9 @@ const CheckInsCollage = ({restaurant, onClose}) => {
         setPhotoStoragePath(storageRef._location.path);
     };
 
-    const handleUploadPhotoClick = () => {
+    const handleUploadPhotoClick = async () => {
         console.log("adding photo to db");
+        await addPhotoToRestaurantCheckIn(userId, restaurant.id, restaurant.date, photoStoragePath);
     };
 
     return (
@@ -106,7 +112,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
 
                         <div>
                             <div className="uploaded-image-container">
-                                <img src={photoUrl}/>
+                                {photoUrl && <img src={photoUrl}/>}
                             </div>
 
                             <FormField

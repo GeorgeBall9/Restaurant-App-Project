@@ -16,6 +16,7 @@ import { addPhotoToRestaurantCheckIn, getImageDownloadUrl, uploadImage } from ".
 import { useSelector } from "react-redux";
 import { selectUserId } from "../../../features/user/userSlice";
 import Overlay from "../../../features/overlay/Overlay/Overlay";
+import UploadFileButton from "../../../common/components/UploadFileButton/UploadFileButton";
 
 export const getPhotoUrls = async (photoPaths) => {
     if (!photoPaths?.length) return [];
@@ -63,7 +64,8 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
     const handleCloseClick = () => {
         setAddPhotoPopupIsVisible(false);
         setShowOverlay(false);
-    };
+        document.querySelector(".file-upload-input").value = "";
+    }
 
     const handleFileChange = ({ target }) => {
         const file = target.files[0];
@@ -74,6 +76,7 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
     const handleUploadPhotoClick = async () => {
         console.log("adding photo to db");
         await addPhotoToRestaurantCheckIn(userId, restaurant.id, restaurant.date, photoStoragePath);
+        document.querySelector(".file-upload-input").value = "";
         handleCloseClick();
     };
 
@@ -143,12 +146,7 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
                                 {photoUrl && <img src={photoUrl} />}
                             </div>
 
-                            <FormField
-                                name="file"
-                                type="file"
-                                onChangeHandler={handleFileChange}
-                                className="photo-upload-input"
-                            />
+                            <UploadFileButton handleFileChange={handleFileChange}/>
                         </div>
 
                         <button className="upload-button" onClick={handleUploadPhotoClick}>Upload</button>

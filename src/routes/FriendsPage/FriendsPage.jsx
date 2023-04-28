@@ -348,11 +348,18 @@ const FriendsPage = () => {
 
                 {display === "requests" && (
                     <div className="friend-icons-container">
-                        {displayedFriendRequests.map(({id, displayName, iconColour, friends: userFriends}) => (
+                        {displayedFriendRequests.map(({
+                                                          id,
+                                                          displayName,
+                                                          iconColour,
+                                                          profilePhotoUrl,
+                                                          friends: userFriends
+                                                      }) => (
                             <FriendCard
                                 key={id}
                                 displayName={displayName}
                                 iconColour={iconColour}
+                                profilePhotoUrl={profilePhotoUrl}
                                 mutualFriends={calculateMutualFriends(userFriends)}
                                 button1Handler={() => handleConfirmClick(id)}
                                 button1Text="Confirm"
@@ -375,12 +382,13 @@ const FriendsPage = () => {
                                     return 0;
                                 }
                             })
-                            .map(({id, displayName, iconColour, status, friends: userFriends}) => (
+                            .map(({id, displayName, iconColour, profilePhotoUrl, status, friends: userFriends}) => (
                                 <FriendCard
                                     key={id}
                                     id={id}
                                     displayName={displayName}
                                     iconColour={iconColour}
+                                    profilePhotoUrl={profilePhotoUrl}
                                     mutualFriends={calculateMutualFriends(userFriends)}
                                     status={status}
                                     button1Handler={() => handleProfileClick(id)}

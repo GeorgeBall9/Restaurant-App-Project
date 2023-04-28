@@ -17,7 +17,6 @@ const CheckInsMap = ({restaurants}) => {
     const dispatch = useDispatch();
 
     // select all relevant information from map slice
-    const userId = useSelector(selectUserId);
     const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
 

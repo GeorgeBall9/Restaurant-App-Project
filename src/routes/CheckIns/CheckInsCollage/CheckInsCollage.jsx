@@ -2,7 +2,14 @@ import "./CheckInsCollage.css";
 
 import CustomCollage from "./CustomCollage/CustomCollage.jsx";
 import {useEffect, useState} from "react";
-import {faArrowLeft, faEllipsis, faImage, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {
+    faArrowLeft,
+    faEllipsis,
+    faImage,
+    faMaximize,
+    faUpRightAndDownLeftFromCenter,
+    faXmark
+} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import FormField from "../../../common/components/FormField/FormField";
 import {addPhotoToRestaurantCheckIn, getImageDownloadUrl, uploadImage} from "../../../firebase/firebase";
@@ -94,7 +101,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
 
                     {!isExpanded && (
                         <button onClick={handleExpand}>
-                            <FontAwesomeIcon className="icon" icon={faEllipsis}/>
+                            <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
                         </button>
                     )}
                 </div>

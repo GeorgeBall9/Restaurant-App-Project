@@ -18,6 +18,8 @@ import {selectUserId} from "../../../features/user/userSlice";
 import Overlay from "../../../features/overlay/Overlay/Overlay";
 
 export const getPhotoUrls = async (photoPaths) => {
+    if (!photoPaths?.length) return [];
+
     return await Promise.all(photoPaths.map(async (path, i) => {
         return {src: await getImageDownloadUrl(path), alt: "Photo " + (i + 1)}
     }));
@@ -39,10 +41,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
         if (!restaurant) return;
 
         getPhotoUrls(restaurant.photoPaths)
-            .then(urls => {
-                console.log(urls)
-                setPhotos(urls)
-            });
+            .then(urls => setPhotos(urls));
     }, [restaurant])
 
     const handleBackClick = () => {
@@ -109,6 +108,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
                         images={photos}
                         rows={isExpanded ? 100 : 2}
                         columns={isExpanded ? 2 : 2}
+                        isExpanded={isExpanded}
                         onExpand={handleExpand}
                         handleAddClick={handleAddClick}
                     />

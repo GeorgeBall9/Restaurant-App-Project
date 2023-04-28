@@ -147,19 +147,6 @@ const FriendsOfFriendsPage = () => {
         }));
     };
 
-    /* ***************Need to complete NOT WORKING************ */
-    // const calculateMutualFriends = (userFriends) => {
-    //     if (!userFriends) {
-    //         return 0;
-    //     }
-
-    //     const currentUserFriendsIds = friends.map(friend => friend.id);
-    //     const mutualFriends = userFriends.filter(friend => currentUserFriendsIds.includes(friend.id));
-    //     console.log(mutualFriends.length + "Mutual Friends");
-    //     return mutualFriends.length;
-
-    // };
-
     const calculateMutualFriends = (displayedFriend) => {
         let mutualFriends = 0;
 
@@ -169,7 +156,6 @@ const FriendsOfFriendsPage = () => {
             }
         });
 
-        console.log(mutualFriends + " Mutual Friends");
         return mutualFriends;
     };
 
@@ -178,8 +164,6 @@ const FriendsOfFriendsPage = () => {
         dispatch(resetSearchQuery());
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
-
-    console.log(displayedFriends);
 
     return (
         <div className="friends-of-friend-container">

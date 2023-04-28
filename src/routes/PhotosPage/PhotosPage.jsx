@@ -3,28 +3,18 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import FormField from "../../common/components/FormField/FormField";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {getImageDownloadUrl, uploadImage} from "../../firebase/firebase";
+import CustomCollage from "../CheckIns/CheckInsCollage/CustomCollage/CustomCollage";
+import {useSelector} from "react-redux";
+import {selectAllPhotoUrls, selectUserId} from "../../features/user/userSlice";
+import {getPhotoUrls} from "../CheckIns/CheckInsCollage/CheckInsCollage";
 
 const PhotosPage = () => {
 
     const navigate = useNavigate();
 
-    const [fileToUpload, setFileToUpload] = useState("");
-    const [downloadUrl, setDownloadUrl] = useState("");
-
-    const handleFileChange = ({target}) => {
-        setFileToUpload(target.files[0]);
-    };
-
-    const handleSubmitClick = () => {
-        uploadImage(fileToUpload);
-    };
-
-    const handleGetImageClick = async () => {
-        const url = await getImageDownloadUrl();
-        setDownloadUrl(url);
-    };
+    const userPhotos = useSelector(selectAllPhotoUrls);
 
     return (
         <div className="photos-page-container">
@@ -44,19 +34,15 @@ const PhotosPage = () => {
                 </div>
             </header>
 
-            <main className="container">
-                <FormField
-                    label="File"
-                    name="file"
-                    type="file"
-                    onChangeHandler={handleFileChange}
-                />
-
-                <button onClick={handleSubmitClick}>upload</button>
-
-                <button onClick={handleGetImageClick}>Get image</button>
-
-                <img src={downloadUrl}/>
+            <main>
+                <div className="collage-popup-photos collage-popup-photos-expanded">
+                    <CustomCollage
+                        images={userPhotos}
+                        rows={100}
+                        columns={2}
+                        addFunctionality={false}
+                    />
+                </div>
             </main>
         </div>
     );

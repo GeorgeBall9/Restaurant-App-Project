@@ -32,6 +32,7 @@ import {
 
 // storage imports
 import {getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
+import {getPhotoUrls} from "../routes/CheckIns/CheckInsCollage/CheckInsCollage";
 
 // firebase config
 const firebaseConfig = {
@@ -136,13 +137,24 @@ export const getUserFromUserId = async (userId) => {
         const docRef = await doc(db, "users", userId);
         const docSnap = await getDoc(docRef);
 
-        const data = docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
+        let data = docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
         const path = data.profilePhotoPath;
 
         if (!path) return data;
 
         const profilePhotoUrl = await getImageDownloadUrl(path);
-        return {...data, profilePhotoUrl};
+
+        data = {...data, profilePhotoUrl};
+
+        const photoPaths = data.allPhotoPaths;
+
+        if (!photoPaths) {
+            return data;
+        }
+
+        const allPhotoUrls = await getPhotoUrls(photoPaths);
+
+        return {...data, allPhotoUrls};
     } catch (error) {
         console.error(error);
         console.log("blue");
@@ -792,7 +804,8 @@ export const addPhotoToRestaurantCheckIn = async (userId, restaurantId, date, pa
     const docRef = await doc(db, "users", userId);
     const docSnap = await getDoc(docRef);
 
-    const checkedIn = docSnap.data().checkedIn;
+    const userData = docSnap.data();
+    const checkedIn = userData.checkedIn;
 
     const foundCheckIn = checkedIn
         .find(({ restaurantId: storedRestaurantId, date: dateInt }) => {
@@ -806,5 +819,13 @@ export const addPhotoToRestaurantCheckIn = async (userId, restaurantId, date, pa
 
     foundCheckIn.photoPaths.push(path);
 
-    await updateDoc(docRef, {checkedIn});
+    let allPhotoPaths = userData.allPhotoPaths;
+
+    if (!allPhotoPaths) {
+        allPhotoPaths = [];
+    }
+
+    allPhotoPaths.push(path);
+
+    await updateDoc(docRef, {checkedIn, allPhotoPaths});
 };

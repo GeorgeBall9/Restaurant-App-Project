@@ -148,15 +148,28 @@ const FriendsOfFriendsPage = () => {
     };
 
     /* ***************Need to complete NOT WORKING************ */
-    const calculateMutualFriends = (userFriends) => {
+    // const calculateMutualFriends = (userFriends) => {
+    //     if (!userFriends) {
+    //         return 0;
+    //     }
+
+    //     const currentUserFriendsIds = friends.map(friend => friend.id);
+    //     const mutualFriends = userFriends.filter(friend => currentUserFriendsIds.includes(friend.id));
+    //     console.log(mutualFriends.length + "Mutual Friends");
+    //     return mutualFriends.length;
+
+    // };
+
+    const calculateMutualFriends = (displayedFriend) => {
         let mutualFriends = 0;
 
-        userFriends?.forEach(({ userId: friendId, status }) => {
+        displayedFriend.friends?.forEach(({ userId: friendId, status }) => {
             if (status === "confirmed" && friends.some(f => f.id === friendId)) {
                 mutualFriends++;
             }
         });
 
+        console.log(mutualFriends + " Mutual Friends");
         return mutualFriends;
     };
 
@@ -165,7 +178,9 @@ const FriendsOfFriendsPage = () => {
         dispatch(resetSearchQuery());
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
-    
+
+    console.log(displayedFriends);
+
     return (
         <div className="friends-of-friend-container">
             <header>
@@ -203,7 +218,7 @@ const FriendsOfFriendsPage = () => {
                                 return 0;
                             }
                         })
-                        .map(({ id, displayName, iconColour, status, friendsOfFriend: userFriends }) => {
+                        .map(({ id, displayName, iconColour, status, friends}) => {
                             // Do not render FriendCard for the current user
                             if (id === currentUserId) {
                                 return null;
@@ -214,7 +229,7 @@ const FriendsOfFriendsPage = () => {
                                     id={id}
                                     displayName={displayName}
                                     iconColour={iconColour}
-                                    mutualFriends={calculateMutualFriends(userFriends)}
+                                    mutualFriends={calculateMutualFriends({id, friends})}
                                     button1Handler={() => handleAddFriendClick(id)}
                                     button1Text="Add"
                                     status={status}

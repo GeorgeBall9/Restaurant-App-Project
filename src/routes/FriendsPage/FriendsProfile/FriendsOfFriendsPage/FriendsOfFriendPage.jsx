@@ -165,7 +165,7 @@ const FriendsOfFriendsPage = () => {
         dispatch(resetSearchQuery());
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
-
+    
     return (
         <div className="friends-of-friend-container">
             <header>
@@ -185,7 +185,7 @@ const FriendsOfFriendsPage = () => {
 
                 {searchIsVisible && (
                     <div className="container search-and-filters">
-                        <SearchBox type="friendsOfFriend" matches={hasMatches} />
+                        <SearchBox type="friends" matches={hasMatches} />
                     </div>
                 )}
             </header>

@@ -82,28 +82,26 @@ const CheckInsCollage = ({restaurant, onClose}) => {
         <div className={`collage-popup ${isVisible ? "visible" : ""} ${isExpanded ? "expanded" : ""}`}>
             <div>
                 <div className={`collage-popup-header ${isExpanded ? "collage-header-sticky" : ""}`}>
-                    <button onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-
-                    <h2>{restaurant.name}</h2>
-
-                    {isExpanded && (
-                        <button onClick={handleAddClick}>
-                            {addPhotoPopupIsVisible ? "Cancel" : "Add"}
-
-                            {!addPhotoPopupIsVisible && (
-                                <FontAwesomeIcon className="icon" icon={faImage}/>
-                            )}
+                    <div className="container">
+                        <button onClick={handleBackClick}>
+                            <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                            Back
                         </button>
-                    )}
 
-                    {!isExpanded && (
-                        <button onClick={handleExpand}>
-                            <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
-                        </button>
-                    )}
+                        <h2>{restaurant.name}</h2>
+
+                        {isExpanded && (
+                            <button onClick={() => console.log("selecting photos")}>
+                                Select
+                            </button>
+                        )}
+
+                        {!isExpanded && (
+                            <button onClick={handleExpand}>
+                                <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
+                            </button>
+                        )}
+                    </div>
                 </div>
 
                 <div className={`collage-popup-photos ${isExpanded ? "collage-popup-photos-expanded" : ""}`}>
@@ -112,6 +110,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
                         rows={isExpanded ? 100 : 2}
                         columns={isExpanded ? 2 : 2}
                         onExpand={handleExpand}
+                        handleAddClick={handleAddClick}
                     />
                 </div>
 

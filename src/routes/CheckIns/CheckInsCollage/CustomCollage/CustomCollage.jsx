@@ -1,7 +1,9 @@
 import React from "react";
 import "./CustomCollage.css";
+import {faCirclePlus, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-const CustomCollage = ({images, rows, columns, onExpand}) => {
+const CustomCollage = ({images, rows, columns, onExpand, handleAddClick}) => {
     const showMore = images.length > rows * columns;
     const image4 = images[rows * columns - 1];
     const remainingImages = showMore ? images.length - rows * columns + 1 : 0;
@@ -11,6 +13,10 @@ const CustomCollage = ({images, rows, columns, onExpand}) => {
             className="collage-container"
             style={{gridTemplateRows: `repeat(${rows}, 1fr)`, gridTemplateColumns: `repeat(${columns}, 1fr)`}}
         >
+            <button className="add-photo-button" onClick={handleAddClick}>
+                <FontAwesomeIcon className="icon" icon={faCirclePlus}/>
+            </button>
+
             {images && images
                 .slice(0, rows * columns - 1)
                 .map((image, index) => (

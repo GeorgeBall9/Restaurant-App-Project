@@ -7,6 +7,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import FormField from "../../../common/components/FormField/FormField";
 import {uploadImage} from "../../../firebase/firebase";
 import {useDispatch} from "react-redux";
+import {hideOverlay, showOverlay} from "../../../features/overlay/overlaySlice";
 
 const CheckInsCollage = ({restaurant, onClose}) => {
 
@@ -46,8 +47,11 @@ const CheckInsCollage = ({restaurant, onClose}) => {
 
     const handleAddClick = () => {
         setAddPhotoPopupIsVisible(true);
-
     };
+
+    const handleCloseClick = () => {
+        setAddPhotoPopupIsVisible(false);
+    }
 
     const handleFileChange = ({target}) => {
         const file = target.files[0];
@@ -55,8 +59,8 @@ const CheckInsCollage = ({restaurant, onClose}) => {
         setPhotoStoragePath(storageRef._location.path);
     };
 
-    const handleAddPhotoClick = () => {
-        console.log("adding photo to db")
+    const handleUploadPhotoClick = () => {
+        console.log("adding photo to db");
     };
 
     return (
@@ -89,16 +93,16 @@ const CheckInsCollage = ({restaurant, onClose}) => {
                 {addPhotoPopupIsVisible && (
                     <div className="add-photo-popup">
                         <div className="popup-header">
-                            <button onClick={() => setAddPhotoPopupIsVisible(false)}>
+                            <button onClick={handleCloseClick}>
                                 Close
                             </button>
-
-                            <h2>Select a file to upload</h2>
 
                             <button style={{visibility: "hidden"}}>
                                 Close
                             </button>
                         </div>
+
+                        <h3>Select an image</h3>
 
                         <div>
                             <div className="uploaded-image-container">
@@ -113,7 +117,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
                             />
                         </div>
 
-                        <button onClick={handleAddPhotoClick}>Add photo</button>
+                        <button className="upload-button" onClick={handleUploadPhotoClick}>Upload</button>
                     </div>
                 )}
             </div>

@@ -57,43 +57,9 @@
 
 .change-icon-popup .save-reset-buttons {
     display: flex;
+    flex-direction: column;
     gap: 0.5em;
     margin-top: 1em;
-}
-
-.change-icon-popup .save-reset-buttons button {
-    margin: 0 auto;
-    width: 100%;
-    padding: 0.5em;
-    border-radius: var(--border-radius);
-    font-weight: var(--font-weight-bold-2);
-    letter-spacing: 0.05rem;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.change-icon-popup .save-reset-buttons button:first-child {
-    background-color: white;
-    border: solid 2px var(--secondary-theme);
-    color: var(--secondary-theme);
-}
-
-.change-icon-popup .save-reset-buttons button:last-child {
-    background-color: white;
-    border: solid 2px var(--primary-theme);
-    color: var(--primary-theme);
-}
-
-.change-icon-popup .save-reset-buttons button:first-child:hover {
-    background-color: var(--secondary-theme);
-    color: white;
-}
-
-.change-icon-popup .save-reset-buttons button:last-child:hover {
-    background-color: var(--primary-theme);
-    color: white;
 }
 
 .change-icon-popup .select-buttons-container {

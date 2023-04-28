@@ -16,6 +16,9 @@ import {faUser, faImage} from "@fortawesome/free-regular-svg-icons";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import FormField from "../../../common/components/FormField/FormField";
 import UserIcon from "../../../common/components/UserIcon/UserIcon";
+import UploadFileButton from "../../../common/components/UploadFileButton/UploadFileButton";
+import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
+import SecondaryButton from "../../../common/SecondaryButton/SecondaryButton";
 
 const colours = ["#FF2E63", "#B3E5BE", "#AA77FF", "#19A7CE", "#FE6244", "#FFDD83", "#E6A4B4", "#5D9C59", "#E21818"];
 
@@ -69,7 +72,7 @@ const ChangeIconPopup = () => {
                 });
             });
         } else if (iconType === "image") {
-            document.querySelector(".photo-upload-input").value = "";
+            document.querySelector(".file-upload-input").value = "";
         }
     };
 
@@ -141,19 +144,14 @@ const ChangeIconPopup = () => {
                         <UserIcon size="xLarge" skeleton={!photoUrl} imageUrl={photoUrl}/>
                     </div>
 
-                    <FormField
-                        name="file"
-                        type="file"
-                        onChangeHandler={handleFileChange}
-                        className="photo-upload-input"
-                    />
+                    <UploadFileButton handleFileChange={handleFileChange}/>
                 </div>
             )}
 
             {iconType && (
                 <div className="save-reset-buttons">
-                    <button className="save-button" onClick={handleSaveClick}>Save</button>
-                    <button className="reset-button" onClick={handleResetClick}>Reset</button>
+                    <PrimaryButton handleClick={handleSaveClick} text="Save"/>
+                    <SecondaryButton handleClick={handleResetClick} text="Reset"/>
                 </div>
             )}
 

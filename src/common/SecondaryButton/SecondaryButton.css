@@ -1,0 +1,5 @@
+.secondary.button {
+    background-color: var(--secondary-theme);
+    color: white;
+    border: none;
+}

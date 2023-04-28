@@ -17,6 +17,12 @@ import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
 import Overlay from "../../../features/overlay/Overlay/Overlay";
 
+export const getPhotoUrls = async (photoPaths) => {
+    return await Promise.all(photoPaths.map(async (path, i) => {
+        return {src: await getImageDownloadUrl(path), alt: "Photo " + (i + 1)}
+    }));
+};
+
 const CheckInsCollage = ({restaurant, onClose}) => {
 
     const userId = useSelector(selectUserId);
@@ -28,12 +34,6 @@ const CheckInsCollage = ({restaurant, onClose}) => {
     const [photoUrl, setPhotoUrl] = useState("");
     const [photoStoragePath, setPhotoStoragePath] = useState(null);
     const [showOverlay, setShowOverlay] = useState(false);
-
-    const getPhotoUrls = async (photoPaths) => {
-        return await Promise.all(photoPaths.map(async (path, i) => {
-            return {src: await getImageDownloadUrl(path), alt: "Photo " + (i + 1)}
-        }));
-    };
 
     useEffect(() => {
         if (!restaurant) return;

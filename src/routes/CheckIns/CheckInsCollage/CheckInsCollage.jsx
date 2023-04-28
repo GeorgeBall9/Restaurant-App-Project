@@ -31,7 +31,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
         if (!restaurant) return;
 
         getPhotoUrls(restaurant.photoPaths)
-            .then(urls => setPhotos(urls)
+            .then(urls => setPhotos(urls));
     }, [restaurant])
 
     const handleBackClick = () => {

@@ -2,13 +2,28 @@ import "./CheckInsCollage.css";
 
 import CustomCollage from "./CustomCollage/CustomCollage.jsx";
 import {useEffect, useState} from "react";
-import {faArrowLeft, faEllipsis, faImage, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {
+    faArrowLeft,
+    faEllipsis,
+    faImage,
+    faMaximize,
+    faUpRightAndDownLeftFromCenter,
+    faXmark
+} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import FormField from "../../../common/components/FormField/FormField";
 import {addPhotoToRestaurantCheckIn, getImageDownloadUrl, uploadImage} from "../../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
 import Overlay from "../../../features/overlay/Overlay/Overlay";
+
+export const getPhotoUrls = async (photoPaths) => {
+    if (!photoPaths?.length) return [];
+
+    return await Promise.all(photoPaths.map(async (path, i) => {
+        return {src: await getImageDownloadUrl(path), alt: "Photo " + (i + 1)}
+    }));
+};
 
 const CheckInsCollage = ({restaurant, onClose}) => {
 
@@ -22,20 +37,11 @@ const CheckInsCollage = ({restaurant, onClose}) => {
     const [photoStoragePath, setPhotoStoragePath] = useState(null);
     const [showOverlay, setShowOverlay] = useState(false);
 
-    const getPhotoUrls = async (photoPaths) => {
-        return await Promise.all(photoPaths.map(async (path, i) => {
-            return {src: await getImageDownloadUrl(path), alt: "Photo " + (i + 1)}
-        }));
-    };
-
     useEffect(() => {
         if (!restaurant) return;
 
         getPhotoUrls(restaurant.photoPaths)
-            .then(urls => {
-                console.log(urls)
-                setPhotos(urls)
-            });
+            .then(urls => setPhotos(urls));
     }, [restaurant])
 
     const handleBackClick = () => {
@@ -75,28 +81,26 @@ const CheckInsCollage = ({restaurant, onClose}) => {
         <div className={`collage-popup ${isVisible ? "visible" : ""} ${isExpanded ? "expanded" : ""}`}>
             <div>
                 <div className={`collage-popup-header ${isExpanded ? "collage-header-sticky" : ""}`}>
-                    <button onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-
-                    <h2>{restaurant.name}</h2>
-
-                    {isExpanded && (
-                        <button onClick={handleAddClick}>
-                            {addPhotoPopupIsVisible ? "Cancel" : "Add"}
-
-                            {!addPhotoPopupIsVisible && (
-                                <FontAwesomeIcon className="icon" icon={faImage}/>
-                            )}
+                    <div className="container">
+                        <button onClick={handleBackClick}>
+                            <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                            Back
                         </button>
-                    )}
 
-                    {!isExpanded && (
-                        <button onClick={handleExpand}>
-                            <FontAwesomeIcon className="icon" icon={faEllipsis}/>
-                        </button>
-                    )}
+                        <h2>{restaurant.name}</h2>
+
+                        {isExpanded && (
+                            <button onClick={() => console.log("selecting photos")}>
+                                Select
+                            </button>
+                        )}
+
+                        {!isExpanded && (
+                            <button onClick={handleExpand}>
+                                <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
+                            </button>
+                        )}
+                    </div>
                 </div>
 
                 <div className={`collage-popup-photos ${isExpanded ? "collage-popup-photos-expanded" : ""}`}>
@@ -104,7 +108,9 @@ const CheckInsCollage = ({restaurant, onClose}) => {
                         images={photos}
                         rows={isExpanded ? 100 : 2}
                         columns={isExpanded ? 2 : 2}
+                        isExpanded={isExpanded}
                         onExpand={handleExpand}
+                        handleAddClick={handleAddClick}
                     />
                 </div>
 

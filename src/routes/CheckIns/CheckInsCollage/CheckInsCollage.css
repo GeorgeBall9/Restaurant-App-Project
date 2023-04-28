@@ -38,16 +38,19 @@
 
 .collage-popup-header {
     background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--padding-content);
     color: white;
     font-size: var(--font-size-sub-heading);
     font-weight: var(--font-weight-bold-2);
     position: absolute;
     z-index: 20;
     width: 100%;
+}
+
+.collage-popup-header > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--padding-content);
 }
 
 .collage-header-sticky {

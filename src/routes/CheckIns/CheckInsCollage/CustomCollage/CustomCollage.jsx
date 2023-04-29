@@ -1,7 +1,7 @@
 import "./CustomCollage.css";
 import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const CustomCollage = ({
                            images,
@@ -20,6 +20,12 @@ const CustomCollage = ({
     const remainingImages = showMore ? images.length - rows * columns : 0;
 
     const [selectedImages, setSelectedImages] = useState([]);
+
+    useEffect(() => {
+        if (!selectMode) {
+            setSelectedImages([]);
+        }
+    }, [selectMode]);
 
     const handleImageClick = ({alt}) => {
         handleImageSelected();

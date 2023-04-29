@@ -14,7 +14,7 @@ const CustomCollage = ({
                            handleAddClick,
                            addFunctionality = true,
                            selectMode = false,
-                           handleImageSelected
+                           handleDeleteSelected
                        }) => {
 
     const showMore = images.length > rows * columns;
@@ -30,29 +30,36 @@ const CustomCollage = ({
         }
     }, [selectMode]);
 
-    const handleImageClick = ({alt}) => {
-        if (selectedImages.includes(alt)) {
-            setSelectedImages(selectedImages => selectedImages.filter(imageAlt => imageAlt !== alt));
+    const handleImageClick = (image) => {
+        if (selectedImages.some(({alt}) => alt === image.alt)) {
+            setSelectedImages(selectedImages => selectedImages
+                .filter(({alt}) => alt !== image.alt));
         } else {
-            setSelectedImages([...selectedImages, alt]);
+            setSelectedImages([...selectedImages, image]);
         }
     };
 
     const handleSelectAllClick = () => {
         if (selectButtonText === "Select all") {
-            setSelectedImages(images.map(({alt}) => alt));
+            setSelectedImages([...images]);
         } else {
             setSelectedImages([]);
         }
     };
 
     useEffect(() => {
+        if (!isExpanded) return;
+
         if (selectedImages.length === images.length) {
             setSelectButtonText("Deselect all");
         } else {
             setSelectButtonText("Select all");
         }
     }, [selectedImages]);
+
+    const handleDeleteClick = () => {
+        handleDeleteSelected(selectedImages);
+    };
 
     return (
         <>
@@ -66,7 +73,12 @@ const CustomCollage = ({
 
                     <h3>{selectedImages.length} image{selectedImages.length === 1 ? "" : "s"} selected</h3>
 
-                    <InversePrimaryButton text="Delete" icon={faTrash} size="small"/>
+                    <InversePrimaryButton
+                        handleClick={handleDeleteClick}
+                        text="Delete"
+                        icon={faTrash}
+                        size="small"
+                    />
                 </div>
             )}
 
@@ -93,7 +105,7 @@ const CustomCollage = ({
                             {selectMode && (
                                 <button
                                     className={`select-image-button 
-                                    ${selectedImages.includes(image.alt) ?
+                                    ${selectedImages.some(({alt}) => alt === image.alt) ?
                                         "selected"
                                         :
                                         ""}`

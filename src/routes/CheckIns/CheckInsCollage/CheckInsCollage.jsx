@@ -86,8 +86,8 @@ const CheckInsCollage = ({restaurant, onClose}) => {
         setSelectMode(selectMode => !selectMode);
     };
 
-    const handleImageSelected = () => {
-        console.log("image selected")
+    const handleDeleteSelected = (selectedImages) => {
+        console.log(selectedImages)
     };
 
     return (
@@ -125,7 +125,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
                         onExpand={handleExpand}
                         handleAddClick={handleAddClick}
                         selectMode={selectMode}
-                        handleImageSelected={handleImageSelected}
+                        handleDeleteSelected={handleDeleteSelected}
                     />
                 </div>
 

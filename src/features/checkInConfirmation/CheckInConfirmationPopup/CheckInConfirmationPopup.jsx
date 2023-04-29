@@ -1,15 +1,20 @@
 import "./CheckInConfirmationPopup.css";
-import {addRestaurantCheckIn, checkInExists, removeRestaurantCheckIn} from "../../../firebase/firebase";
 import {
-    addCheckedInRestaurant,
-    selectCheckedInRestaurants, selectFriends,
-    selectUserId,
-    setCheckedInRestaurants
-} from "../../user/userSlice";
+    addRestaurantCheckIn,
+    checkInExists,
+    getLastCheckInToRestaurantByUserId,
+    removeRestaurantCheckIn
+} from "../../../firebase/firebase";
+import {selectFriends, selectUserId,} from "../../user/userSlice";
 import {hideOverlay} from "../../overlay/overlaySlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {hideCheckInConfirmation, resetCheckInFeedback, showCheckInFeedback} from "../checkInConfirmationSlice";
+import {
+    hideCheckInConfirmation,
+    resetCheckInFeedback,
+    setCheckedInStatus,
+    showCheckInFeedback
+} from "../checkInConfirmationSlice";
 import FormField from "../../../common/components/FormField/FormField";
 import {faCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -22,7 +27,6 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
-    const checkedInRestaurants = useSelector(selectCheckedInRestaurants);
     const friends = useSelector(selectFriends);
 
     const [lastCheckIn, setLastCheckIn] = useState(null);
@@ -33,21 +37,19 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     const [addFriendsButtonText, setAddFriendsButtonText] = useState("Add friends");
 
     useEffect(() => {
-        if (!restaurantId || !checkedInRestaurants.length) return;
+        if (!restaurantId || !userId) return;
 
-        const checkInsAtRestaurant = checkedInRestaurants
-            .filter(checkIn => checkIn.restaurantId === restaurantId)
-            .sort((a, b) => a.date - b.date);
-
-        const lastCheckedIn = checkInsAtRestaurant ? checkInsAtRestaurant[checkInsAtRestaurant.length - 1] : null;
-
-        setLastCheckIn(lastCheckedIn ? new Date(lastCheckedIn.date).toLocaleDateString() : lastCheckedIn);
-    }, [restaurantId, checkedInRestaurants]);
+        getLastCheckInToRestaurantByUserId(userId, restaurantId)
+            .then(data => {
+                setLastCheckIn(data);
+                console.log(data)
+            });
+    }, [restaurantId, userId]);
 
     const handleYesClick = async () => {
         if (checkedIn) {
-            const checkedInData = await removeRestaurantCheckIn(userId, restaurantId);
-            dispatch(setCheckedInRestaurants(checkedInData));
+            await removeRestaurantCheckIn(lastCheckIn.id);
+            dispatch(setCheckedInStatus(false));
             dispatch(showCheckInFeedback("remove"));
         } else {
             if (+new Date() < +new Date(checkInDate)) {
@@ -62,8 +64,8 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
                 return;
             }
 
-            const newCheckIn = await addRestaurantCheckIn(userId, checkInDate, restaurant, selectedFriends);
-            dispatch(addCheckedInRestaurant(newCheckIn));
+            await addRestaurantCheckIn(userId, checkInDate, restaurant, selectedFriends);
+            dispatch(setCheckedInStatus(true));
             dispatch(showCheckInFeedback("add"));
         }
 
@@ -107,7 +109,7 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     return (
         <div className="confirm-checkin-popup">
             {!checkedIn && lastCheckIn && (
-                <p>You last checked in on {lastCheckIn}.</p>
+                <p>You last checked in on {new Date(lastCheckIn.date).toLocaleDateString()}.</p>
             )}
 
             {feedback && <p className="feedback">{feedback}</p>}

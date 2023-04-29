@@ -1,0 +1,9 @@
+.inverse-primary.default-button {
+    background-color: white;
+    color: var(--primary-theme);
+    border: solid 2px var(--primary-theme);
+}
+
+.inverse-primary.default-button .icon {
+    color: var(--primary-theme);
+}

@@ -3,14 +3,16 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleCheck as faSolidCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
-import {selectCheckedInRestaurants, selectUserId} from "../../../features/user/userSlice";
+import {selectUserId} from "../../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {showOverlay} from "../../../features/overlay/overlaySlice";
 import {
+    selectCheckedIn,
     setCheckedInStatus,
     showCheckInConfirmation
 } from "../../../features/checkInConfirmation/checkInConfirmationSlice";
 import {useNavigate} from "react-router-dom";
+import {getLastCheckInToRestaurantByUserId} from "../../../firebase/firebase";
 
 const CheckInButton = ({restaurantId}) => {
 
@@ -19,28 +21,19 @@ const CheckInButton = ({restaurantId}) => {
     const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
-    const checkedInRestaurants = useSelector(selectCheckedInRestaurants);
+    const checkedIn = useSelector(selectCheckedIn);
 
-    const [checkedIn, setCheckedIn] = useState(false);
-
-    useEffect(() => {
-        if (!checkedInRestaurants.length) {
-            setCheckedIn(false);
-            return;
-        }
-
-        setCheckedIn(checkedInRestaurants
-            .find(checkIn => {
-                const now = new Date().toLocaleDateString();
-                const dateString = new Date(checkIn.date).toLocaleDateString();
-
-                return checkIn.restaurantId === restaurantId && dateString === now;
-            }));
-    }, [checkedInRestaurants]);
+    const [today] = useState(new Date().toLocaleDateString());
 
     useEffect(() => {
-        dispatch(setCheckedInStatus(checkedIn));
-    }, [checkedIn]);
+        if (!restaurantId || !userId) return;
+
+        getLastCheckInToRestaurantByUserId(userId, restaurantId)
+            .then(data => {
+                const dateString = new Date(data.date).toLocaleDateString();
+                dispatch(setCheckedInStatus(today === dateString));
+            });
+    }, [restaurantId, userId]);
 
     const handleClick = () => {
         if (!userId) {

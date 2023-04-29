@@ -9,7 +9,6 @@ const initialState = {
     profilePhotoUrl: "",
     recommendations: [],
     bookmarks: [],
-    checkedInRestaurants: [],
     friends: [],
     friendRequests: [],
     friendsSortFilter: "Most recent",
@@ -33,7 +32,6 @@ const userSlice = createSlice({
                 profilePhotoUrl,
                 recommendations,
                 bookmarks,
-                checkedIn,
                 allPhotoUrls
             } = action.payload;
 
@@ -45,7 +43,6 @@ const userSlice = createSlice({
             state.profilePhotoUrl = profilePhotoUrl || null;
             state.recommendations = recommendations || [];
             state.bookmarks = bookmarks || [];
-            state.checkedInRestaurants = checkedIn || [];
             state.allPhotoUrls = allPhotoUrls || [];
         },
         resetUserDetails: state => {
@@ -90,12 +87,11 @@ const userSlice = createSlice({
         addCheckedInRestaurant: (state, action) => {
             state.checkedInRestaurants.push(action.payload);
         },
-        removeCheckedInRestaurant: (state, action) => {
-            state.checkedInRestaurants = state.checkedInRestaurants
-                .filter(restaurant => restaurant !== action.payload);
-        },
         setCheckedInRestaurants: (state, action) => {
             state.checkedInRestaurants = action.payload.length ? action.payload : [];
+        },
+        removeCheckIn: (state, action) => {
+            state.checkedInRestaurants = state.checkedInRestaurants.filter(checkIn => checkIn.id !== action.payload);
         },
         setFriends: (state, action) => {
             state.friends = action.payload;
@@ -122,7 +118,7 @@ const userSlice = createSlice({
         },
         setAllPhotoUrls: (state, action) => {
             state.allPhotoUrls = action.payload;
-        }
+        },
     },
 });
 
@@ -138,9 +134,6 @@ export const {
     removeRecommendation,
     addBookmark,
     removeBookmark,
-    addCheckedInRestaurant,
-    removeCheckedInRestaurant,
-    setCheckedInRestaurants,
     setFriends,
     removeFriend,
     setFriendRequests,
@@ -148,7 +141,6 @@ export const {
     sortFriends,
     sortFriendRequests,
     setProfilePhotoUrl,
-    setAllPhotoUrls
 } = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;
@@ -157,7 +149,6 @@ export const selectPhone = state => state.user.phone;
 export const selectIconColour = state => state.user.iconColour;
 export const selectRecommendations = state => state.user.recommendations;
 export const selectBookmarks = state => state.user.bookmarks;
-export const selectCheckedInRestaurants = state => state.user.checkedInRestaurants;
 export const selectFriends = state => state.user.friends;
 export const selectFriendRequests = state => state.user.friendRequests;
 export const selectFriendsSortFilter = state => state.user.friendsSortFilter;

@@ -1,10 +1,10 @@
-import "./PrimaryButton.css";
+import "./InversePrimaryButton.css";
 import Button from "../Button/Button";
 
-const PrimaryButton = ({handleClick, text, icon, size, active}) => {
+const InversePrimaryButton = ({handleClick, text, icon, size, active}) => {
     return (
         <Button
-            className="primary"
+            className="inverse-primary"
             handleClick={handleClick}
             text={text}
             icon={icon}
@@ -14,4 +14,4 @@ const PrimaryButton = ({handleClick, text, icon, size, active}) => {
     );
 };
 
-export default PrimaryButton;
+export default InversePrimaryButton;

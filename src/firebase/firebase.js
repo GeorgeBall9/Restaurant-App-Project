@@ -922,7 +922,13 @@ export const getPhotoUrlsFromPhotoIds = async (photoIds) => {
     }));
 };
 
-export const deleteCheckInPhoto = async (photoId, checkInId) => {
+export const deleteCheckInPhoto = async (userId, photoId, checkInId) => {
+    const docRef = await doc(db, "restaurant-photos", photoId);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
+
+    if (!data || data.uploadedBy !== userId) return false;
+
     await deleteRestaurantPhotoDoc(photoId);
 
     const checkInDocRef = await doc(db, "check-ins", checkInId);
@@ -930,4 +936,6 @@ export const deleteCheckInPhoto = async (photoId, checkInId) => {
     await updateDoc(checkInDocRef, {
         photoIds: arrayRemove(photoId)
     });
+
+    return true;
 };

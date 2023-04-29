@@ -92,12 +92,16 @@ const CheckInsCollage = ({checkIn, onClose}) => {
     };
 
     const handleDeleteSelected = async (selectedImages) => {
-        console.log(selectedImages);
-
         if (!selectedImages?.length) return;
 
+        let updatedPhotos = [...photos];
+
         for (const image of selectedImages) {
-            await deleteCheckInPhoto(image.id, checkIn.id);
+            const deleted = await deleteCheckInPhoto(userId, image.id, checkIn.id);
+
+            if (deleted) {
+                updatedPhotos.filter(photo => photo.id !== image.id);
+            }
         }
     };
 

@@ -1,7 +1,7 @@
 import "./CheckInConfirmationPopup.css";
 import {addRestaurantCheckIn, checkInExists, removeRestaurantCheckIn} from "../../../firebase/firebase";
 import {
-    addCheckedInRestaurant,
+    addCheckedInRestaurant, removeCheckIn,
     selectCheckedInRestaurants, selectFriends,
     selectUserId,
     setCheckedInRestaurants
@@ -26,6 +26,7 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     const friends = useSelector(selectFriends);
 
     const [lastCheckIn, setLastCheckIn] = useState(null);
+    const [lastCheckedInRestaurant, setLastCheckedInRestaurant] = useState(null);
     const [checkInDate, setCheckInDate] = useState(new Date().toISOString().split("T")[0]);
     const [feedback, setFeedback] = useState("");
     const [selectFriendsIsVisible, setSelectFriendIsVisible] = useState(false);
@@ -41,13 +42,15 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
         const lastCheckedIn = checkInsAtRestaurant ? checkInsAtRestaurant[checkInsAtRestaurant.length - 1] : null;
 
+        setLastCheckedInRestaurant(lastCheckedIn);
+
         setLastCheckIn(lastCheckedIn ? new Date(lastCheckedIn.date).toLocaleDateString() : lastCheckedIn);
     }, [restaurantId, checkedInRestaurants]);
 
     const handleYesClick = async () => {
         if (checkedIn) {
-            const checkedInData = await removeRestaurantCheckIn(userId, restaurantId);
-            dispatch(setCheckedInRestaurants(checkedInData));
+            await removeRestaurantCheckIn(lastCheckedInRestaurant.id);
+            dispatch(removeCheckIn(lastCheckedInRestaurant.id));
             dispatch(showCheckInFeedback("remove"));
         } else {
             if (+new Date() < +new Date(checkInDate)) {

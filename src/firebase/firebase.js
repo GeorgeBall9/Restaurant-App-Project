@@ -297,6 +297,10 @@ const createNewCheckInDoc = async (date, restaurant, userIds, photoIds) => {
     return checkInDocRef.id;
 };
 
+const deleteCheckInDoc = async (checkInId) => {
+    await deleteDoc(doc(db, "check-ins", checkInId));
+};
+
 const getCheckInDocFromId = async (checkInId) => {
     const docRef = await doc(db, "check-ins", checkInId);
     const docSnap = await getDoc(docRef);
@@ -366,15 +370,23 @@ export const checkInExists = async (userId, date, restaurantId) => {
 
 // remove checked in restaurant to user doc
 export const removeRestaurantCheckIn = async (checkInId) => {
+    if (!checkInId) return;
+
     try {
         const checkInData = await getCheckInDocFromId(checkInId);
 
         if (!checkInData) return null;
 
+        await deleteCheckInDoc(checkInId);
+
         const {restaurantId, userIds, photoIds} = checkInData;
 
         for (const userId of userIds) {
             await removeCheckInIdFromUserDoc(userId, checkInId);
+        }
+
+        for (const photoId of photoIds) {
+            await deleteRestaurantPhotoDoc(photoId);
         }
 
         await removeInteractionFromRestaurantDoc(restaurantId, "checkIns");
@@ -894,7 +906,7 @@ const createNewRestaurantPhotoDoc = async (restaurantId, path) => {
     return photoDocRef.id;
 };
 
-const deleteProfilePhotoDoc = async (photoId) => {
+const deleteRestaurantPhotoDoc = async (photoId) => {
     await deleteDoc(doc(db, "restaurant-photos", photoId));
 };
 

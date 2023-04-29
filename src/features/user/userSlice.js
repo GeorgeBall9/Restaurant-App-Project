@@ -93,6 +93,9 @@ const userSlice = createSlice({
         setCheckedInRestaurants: (state, action) => {
             state.checkedInRestaurants = action.payload.length ? action.payload : [];
         },
+        removeCheckIn: (state, action) => {
+            state.checkedInRestaurants = state.checkedInRestaurants.filter(checkIn => checkIn.id !== action.payload);
+        },
         setFriends: (state, action) => {
             state.friends = action.payload;
         },
@@ -136,6 +139,7 @@ export const {
     removeBookmark,
     addCheckedInRestaurant,
     setCheckedInRestaurants,
+    removeCheckIn,
     setFriends,
     removeFriend,
     setFriendRequests,

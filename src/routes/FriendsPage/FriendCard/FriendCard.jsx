@@ -1,6 +1,8 @@
 import "./FriendCard.css";
 import FriendInfo from "./FriendInfo/FriendInfo";
-import ActionButtons from "./ActionButtons/ActionButtons";
+import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
+import SecondaryButton from "../../../common/components/SecondaryButton/SecondaryButton";
+import InversePrimaryButton from "../../../common/components/InversePrimaryButton/InversePrimaryButton";
 
 const FriendCard = ({
                         displayName,
@@ -27,12 +29,10 @@ const FriendCard = ({
             />
 
             {status !== "pending" && (
-                <ActionButtons
-                    button1Handler={button1Handler}
-                    button1Text={button1Text}
-                    button2Handler={button2Handler}
-                    button2Text={button2Text}
-                />
+                <div className="buttons-container">
+                    <PrimaryButton handleClick={button1Handler} text={button1Text} size="small"/>
+                    <InversePrimaryButton handleClick={button2Handler} text={button2Text} size="small"/>
+                </div>
             )}
         </div>
     );

@@ -1,6 +1,6 @@
 import "./FriendInfo.css";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
-import ActionButton from "../ActionButtons/ActionButton/ActionButton";
+import Button from "../../../../common/components/Button/Button";
 
 const FriendInfo = ({displayName, iconColour, profilePhotoUrl, mutualFriends, status, handleCancelClick}) => {
 
@@ -19,11 +19,7 @@ const FriendInfo = ({displayName, iconColour, profilePhotoUrl, mutualFriends, st
                 <p>{mutualFriends} mutual friend{mutualFriends !== 1 ? "s" : ""}</p>
 
                 {status === "pending" && (
-                    <ActionButton
-                        handleClick={handleCancelClick}
-                        text="Cancel request"
-                        className="cancel-request-button"
-                    />
+                    <Button className="cancel-request-button" handleClick={handleCancelClick} text="Cancel request"/>
                 )}
             </div>
         </div>

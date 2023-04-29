@@ -1,7 +1,7 @@
 .secondary.default-button {
     background-color: var(--secondary-theme);
     color: white;
-    border: none;
+    border: solid 2px var(--secondary-theme);
 }
 
 .secondary.default-button .icon {

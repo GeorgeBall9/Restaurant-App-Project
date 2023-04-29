@@ -11,6 +11,6 @@
 
 .friend-card .buttons-container {
     display: flex;
-    flex-direction: column;
     gap: 0.5em;
+    flex-direction: column;
 }

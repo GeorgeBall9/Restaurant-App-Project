@@ -5,7 +5,7 @@ const Button = ({className, handleClick, text, icon, size = "medium"}) => {
 
     const style = {
         small: {
-            padding: "0.35em 0.5em",
+            padding: "0.5em 0.5em",
             fontSize: "0.9rem",
 
         },

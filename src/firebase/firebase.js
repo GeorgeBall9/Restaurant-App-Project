@@ -141,25 +141,15 @@ export const getUserFromUserId = async (userId) => {
 
         const profilePhotoUrl = await getProfilePhotoUrlByUserId(userId);
 
-        if (profilePhotoUrl) {
-            data = {...data, profilePhotoUrl};
+        if (!profilePhotoUrl) {
+            return data;
         }
 
-        const checkInData = await getCheckInDataFromIds(data.checkInIds);
-
-        if (!checkInData) return data;
-
-        return {...data, checkInData};
+        return {...data, profilePhotoUrl};
     } catch (error) {
         console.error(error);
         console.log("blue");
     }
-};
-
-const getCheckInDataFromIds = async (checkInIds) => {
-    if (!checkInIds || !checkInIds.length) return null;
-
-    return await Promise.all(checkInIds.map(async (id) => await getCheckInDocFromId(id)));
 };
 
 // update user display name
@@ -308,42 +298,67 @@ const getCheckInDocFromId = async (checkInId) => {
     return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
 };
 
+// get check ins data by userId
+export const getLastCheckInToRestaurantByUserId = async (userId, restaurantId) => {
+    const checkInsCollectionRef = await collection(db, "check-ins");
+
+    const q = query(checkInsCollectionRef,
+        where("restaurantId", "==", restaurantId),
+        where("userIds", "array-contains", userId),
+        orderBy("date", "desc"));
+
+    const querySnapshot = await getDocs(q);
+
+    const foundCheckIns = [];
+
+    querySnapshot.forEach((doc) => {
+        foundCheckIns.push({id: doc.id, ...doc.data()})
+    });
+
+    return foundCheckIns?.length ? foundCheckIns[0] : null;
+};
+
+// get checked-in restaurants by user ID
+export const getCheckInsByUserId = async (userId) => {
+    if (!userId) return;
+
+    try {
+        const userData = await getUserFromUserId(userId);
+        const { checkedIn } = userData;
+
+        if (!checkedIn) {
+            return null;
+        }
+
+        // Sort checkedIn array by date in descending order
+        checkedIn.sort((a, b) => b.date - a.date);
+
+        // Retrieve restaurant details for each checked-in restaurant
+        const checkedInRestaurants = await Promise.all(
+            checkedIn.map(async ({ restaurantId }) => await getRestaurantById(restaurantId))
+        );
+
+        // Combine restaurant details with corresponding check-in dates
+        return checkedIn.map((checkIn, index) => ({
+            ...checkedInRestaurants[index],
+            date: checkIn.date,
+        }));
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error fetching checked-in restaurants");
+    }
+};
+
 // add checked in restaurant to user doc
 export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) => {
     try {
         const checkInId = await createNewCheckInDoc(date, restaurant, [...friendIds, userId], []);
-
-        await addCheckInIdToUserDoc(userId, checkInId);
-
-        if (friendIds.length) {
-            for (const friendId of friendIds) {
-                await addCheckInIdToUserDoc(friendId, checkInId);
-            }
-        }
-
-        await addInteractionToRestaurantDoc(restaurant, "checkIns");
 
         return await getCheckInDocFromId(checkInId);
     } catch (error) {
         console.log(error);
         throw new Error("Document does not exist");
     }
-};
-
-const addCheckInIdToUserDoc = async (userId, checkInId) => {
-    const docSnap = await doc(db, "users", userId);
-
-    await updateDoc(docSnap, {
-        checkInIds: arrayUnion(checkInId)
-    });
-};
-
-const removeCheckInIdFromUserDoc = async (userId, checkInId) => {
-    const docSnap = await doc(db, "users", userId);
-
-    await updateDoc(docSnap, {
-        checkInIds: arrayRemove(checkInId)
-    });
 };
 
 // validate restaurant check in
@@ -363,8 +378,6 @@ export const checkInExists = async (userId, date, restaurantId) => {
         foundCheckIn = {id: doc.id, ...doc.data()};
     });
 
-    console.log({foundCheckIn});
-
     return foundCheckIn !== null;
 };
 
@@ -379,52 +392,14 @@ export const removeRestaurantCheckIn = async (checkInId) => {
 
         await deleteCheckInDoc(checkInId);
 
-        const {restaurantId, userIds, photoIds} = checkInData;
-
-        for (const userId of userIds) {
-            await removeCheckInIdFromUserDoc(userId, checkInId);
-        }
+        const {photoIds} = checkInData;
 
         for (const photoId of photoIds) {
             await deleteRestaurantPhotoDoc(photoId);
         }
-
-        await removeInteractionFromRestaurantDoc(restaurantId, "checkIns");
-
     } catch (error) {
         console.log(error);
         throw new Error("Document does not exist");
-    }
-};
-
-// get checked-in restaurants by user ID
-export const getCheckInsByUserId = async (userId) => {
-    if (!userId) return;
-
-    try {
-        const userData = await getUserFromUserId(userId);
-        const {checkedIn} = userData;
-
-        if (!checkedIn) {
-            return null;
-        }
-
-        // Sort checkedIn array by date in descending order
-        checkedIn.sort((a, b) => b.date - a.date);
-
-        // Retrieve restaurant details for each checked-in restaurant
-        const checkedInRestaurants = await Promise.all(
-            checkedIn.map(async ({restaurantId}) => await getRestaurantById(restaurantId))
-        );
-
-        // Combine restaurant details with corresponding check-in dates
-        return checkedIn.map((checkIn, index) => ({
-            ...checkedInRestaurants[index],
-            date: checkIn.date,
-        }));
-    } catch (error) {
-        console.error(error);
-        throw new Error("Error fetching checked-in restaurants");
     }
 };
 

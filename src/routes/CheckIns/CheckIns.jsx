@@ -5,7 +5,7 @@ import Calendar from "react-calendar";
 import CheckInsCollage from "./CheckInsCollage/CheckInsCollage.jsx";
 
 import {useDispatch, useSelector} from "react-redux";
-import {selectUserId, selectCheckedInRestaurants} from "../../features/user/userSlice";
+import {selectUserId} from "../../features/user/userSlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faFire, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
@@ -23,28 +23,12 @@ const CheckIns = () => {
     const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
-    const userCheckIns = useSelector(selectCheckedInRestaurants);
 
+    const [allCheckIns, setAllCheckIns] = useState([]);
     const [restaurant, setRestaurant] = useState(null);
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
     const [checkedInRestaurants, setCheckedInRestaurants] = useState([]);
-
-    const setCheckInData = async ()  => {
-        const data = await Promise.all(userCheckIns
-            .map(async (checkIn) => {
-                return {...checkIn, ...await getRestaurantById(checkIn.restaurantId)};
-            }));
-
-        setCheckedInRestaurants(data);
-    };
-
-    useEffect(() => {
-        if (!userCheckIns) return;
-
-        setCheckInData()
-            .then(() => console.log("Retrieved check in data from db"));
-    }, [userCheckIns]);
 
     const getCheckedInRestaurant = (restaurantId) => {
         return checkedInRestaurants.find(restaurant => restaurant.id === restaurantId);
@@ -75,33 +59,7 @@ const CheckIns = () => {
         navigate("/profile");
     };
 
-    const calculateStreak = (checkIns) => {
-        let streak = 0;
-        const weekInMillis = 1000 * 60 * 60 * 24 * 7;
-
-        const timestamps = checkIns.map(checkIn => new Date(checkIn.timestamp));
-        timestamps.sort((a, b) => b - a);
-
-        for (let i = 0; i < timestamps.length; i++) {
-            const currentCheckIn = timestamps[i];
-            const nextCheckIn = timestamps[i + 1] || null;
-
-            if (!nextCheckIn || currentCheckIn - nextCheckIn >= weekInMillis) {
-                streak++;
-            } else {
-                break;
-            }
-        }
-
-        return streak;
-    };
-    const checkInsStreak = calculateStreak(userCheckIns);
-
-    const calculateTotalCheckIns = (checkIns) => {
-        return checkIns.length;
-    };
-
-    const totalCheckIns = calculateTotalCheckIns(userCheckIns);
+    const totalCheckIns = allCheckIns.length;
 
     const handleTileClick = (restaurant) => {
         setRestaurant(restaurant);
@@ -113,7 +71,7 @@ const CheckIns = () => {
     };
 
     const TileContent = ({date}) => {
-        const checkInsForDate = userCheckIns.filter((checkIn) => {
+        const checkInsForDate = allCheckIns.filter((checkIn) => {
             const checkInDate = new Date(checkIn.date);
             return (
                 checkInDate.getFullYear() === date.getFullYear() &&
@@ -183,7 +141,7 @@ const CheckIns = () => {
                 <div className="check-ins-stats">
                     <div className="check-ins-streak">
                         <FontAwesomeIcon className="icon" icon={faFire}/>
-                        <span>{checkInsStreak}</span>
+                        <span>0</span>
                         <p>Week streak</p>
                     </div>
 

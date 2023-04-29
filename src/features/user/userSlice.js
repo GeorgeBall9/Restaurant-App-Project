@@ -9,7 +9,6 @@ const initialState = {
     profilePhotoUrl: "",
     recommendations: [],
     bookmarks: [],
-    checkedInRestaurants: [],
     friends: [],
     friendRequests: [],
     friendsSortFilter: "Most recent",
@@ -33,7 +32,6 @@ const userSlice = createSlice({
                 profilePhotoUrl,
                 recommendations,
                 bookmarks,
-                checkInData,
                 allPhotoUrls
             } = action.payload;
 
@@ -45,7 +43,6 @@ const userSlice = createSlice({
             state.profilePhotoUrl = profilePhotoUrl || null;
             state.recommendations = recommendations || [];
             state.bookmarks = bookmarks || [];
-            state.checkedInRestaurants = checkInData || [];
             state.allPhotoUrls = allPhotoUrls || [];
         },
         resetUserDetails: state => {
@@ -137,9 +134,6 @@ export const {
     removeRecommendation,
     addBookmark,
     removeBookmark,
-    addCheckedInRestaurant,
-    setCheckedInRestaurants,
-    removeCheckIn,
     setFriends,
     removeFriend,
     setFriendRequests,
@@ -155,7 +149,6 @@ export const selectPhone = state => state.user.phone;
 export const selectIconColour = state => state.user.iconColour;
 export const selectRecommendations = state => state.user.recommendations;
 export const selectBookmarks = state => state.user.bookmarks;
-export const selectCheckedInRestaurants = state => state.user.checkedInRestaurants;
 export const selectFriends = state => state.user.friends;
 export const selectFriendRequests = state => state.user.friendRequests;
 export const selectFriendsSortFilter = state => state.user.friendsSortFilter;

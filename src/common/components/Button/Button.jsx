@@ -1,7 +1,7 @@
 import "./Button.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-const Button = ({className, handleClick, text, icon, size = "medium"}) => {
+const Button = ({className, handleClick, text, icon, size = "medium", active = true}) => {
 
     const style = {
         small: {
@@ -19,11 +19,17 @@ const Button = ({className, handleClick, text, icon, size = "medium"}) => {
         }
     };
 
+    const clickHandler = () => {
+        if (active) {
+            handleClick();
+        }
+    };
+
     return (
         <button
             style={style[size]}
             className={`default-button ${className}`}
-            onClick={handleClick}
+            onClick={clickHandler}
         >
             {text}
 

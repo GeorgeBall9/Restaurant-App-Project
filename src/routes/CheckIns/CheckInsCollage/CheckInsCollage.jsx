@@ -36,8 +36,10 @@ const CheckInsCollage = ({restaurant, onClose}) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [addPhotoPopupIsVisible, setAddPhotoPopupIsVisible] = useState(false);
     const [photoUrl, setPhotoUrl] = useState("");
+    const [previewLoaded, setPreviewLoaded] = useState(false);
     const [photoStoragePath, setPhotoStoragePath] = useState(null);
     const [showOverlay, setShowOverlay] = useState(false);
+    const [uploadButtonText, setUploadButtonText] = useState("Loading...");
 
     useEffect(() => {
         if (!restaurant) return;
@@ -76,9 +78,15 @@ const CheckInsCollage = ({restaurant, onClose}) => {
 
     const handleUploadPhotoClick = async () => {
         console.log("adding photo to db");
+        setUploadButtonText("Uploading...");
         await addPhotoToRestaurantCheckIn(userId, restaurant.id, restaurant.date, photoStoragePath);
         document.querySelector(".file-upload-input").value = "";
         handleCloseClick();
+    };
+
+    const handlePreviewLoad = () => {
+        setPreviewLoaded(true);
+        setUploadButtonText("Upload");
     };
 
     return (
@@ -136,13 +144,26 @@ const CheckInsCollage = ({restaurant, onClose}) => {
 
                         <div>
                             <div className="uploaded-image-container">
-                                {photoUrl && <img src={photoUrl}/>}
+                                {photoUrl && (
+                                    <img
+                                        src={photoUrl}
+                                        alt="image-preview"
+                                        style={{visibility: previewLoaded ? "visible" : "hidden"}}
+                                        onLoad={handlePreviewLoad}
+                                    />
+                                )}
                             </div>
 
                             <UploadFileButton handleFileChange={handleFileChange}/>
                         </div>
 
-                        <PrimaryButton handleClick={handleUploadPhotoClick} text="Upload"/>
+                        {photoUrl && (
+                            <PrimaryButton
+                                handleClick={handleUploadPhotoClick}
+                                text={uploadButtonText}
+                                active={previewLoaded}
+                            />
+                        )}
                     </div>
                 )}
             </div>

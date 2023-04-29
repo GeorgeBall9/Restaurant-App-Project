@@ -138,23 +138,17 @@ export const getUserFromUserId = async (userId) => {
         const docSnap = await getDoc(docRef);
 
         let data = docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
-        const path = data.profilePhotoPath;
+        const {profilePhotoId} = data;
 
-        if (!path) return data;
+        if (!profilePhotoId) return data;
 
-        const profilePhotoUrl = await getImageDownloadUrl(path);
+        const photoDoc = await getPhotoDocFromId(profilePhotoId);
 
-        data = {...data, profilePhotoUrl};
+        if (!photoDoc) return data;
 
-        const photoPaths = data.allPhotoPaths;
+        const profilePhotoUrl = await getImageDownloadUrl(photoDoc.storageRefPath);
 
-        if (!photoPaths) {
-            return data;
-        }
-
-        const allPhotoUrls = await getPhotoUrls(photoPaths);
-
-        return {...data, allPhotoUrls};
+        return {...data, profilePhotoUrl};
     } catch (error) {
         console.error(error);
         console.log("blue");
@@ -743,7 +737,7 @@ export const getFriendsByUserId = async (userId) => {
     }));
 };
 
-// file storage functions
+// photo storage functions
 export const uploadImage = (imageFile, downloadUrlSetter) => {
     if (!imageFile) {
         alert("Please choose a file first!");
@@ -792,6 +786,25 @@ export const getImageDownloadUrl = async (path) => {
     const storageRef = ref(storage, path);
 
     return await getDownloadURL(storageRef);
+};
+
+const createNewPhotoDoc = async (path) => {
+    const photosCollectionRef = collection(db, "photos");
+
+    const newPhoto = {
+        storageRefPath: path,
+        date: +new Date()
+    };
+
+    const photoDocRef = await addDoc(photosCollectionRef, newPhoto);
+    console.log("Review document created with id:", photoDocRef.id);
+};
+
+const getPhotoDocFromId = async (photoId) => {
+    const docRef = await doc(db, "photos", photoId);
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
 };
 
 export const updateUserProfilePhoto = async (userId, path) => {

@@ -4,7 +4,7 @@ import CustomCollage from "./CustomCollage/CustomCollage.jsx";
 import {useEffect, useState} from "react";
 import {faArrowLeft, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {addPhotoToRestaurantCheckIn, getImageDownloadUrl, uploadImage} from "../../../firebase/firebase";
+import {addPhotoToCheckIn, getImageDownloadUrl, uploadImage} from "../../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
 import Overlay from "../../../features/overlay/Overlay/Overlay";
@@ -19,7 +19,7 @@ export const getPhotoUrls = async (photoPaths) => {
     }));
 };
 
-const CheckInsCollage = ({restaurant, onClose}) => {
+const CheckInsCollage = ({checkIn, onClose}) => {
 
     const userId = useSelector(selectUserId);
 
@@ -35,11 +35,13 @@ const CheckInsCollage = ({restaurant, onClose}) => {
     const [selectMode, setSelectMode] = useState(false);
 
     useEffect(() => {
-        if (!restaurant) return;
+        if (!checkIn) return;
 
-        getPhotoUrls(restaurant.photoPaths)
+        console.log(checkIn)
+
+        getPhotoUrls(checkIn.photoPaths)
             .then(urls => setPhotos(urls));
-    }, [restaurant])
+    }, [checkIn])
 
     const handleBackClick = () => {
         setIsVisible(false);
@@ -71,7 +73,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
 
     const handleUploadPhotoClick = async () => {
         setUploadButtonText("Uploading...");
-        await addPhotoToRestaurantCheckIn(userId, restaurant.id, restaurant.date, photoStoragePath);
+        await addPhotoToCheckIn(userId, checkIn.id, checkIn.date, photoStoragePath);
         document.querySelector(".file-upload-input").value = "";
         setPhotos(photos => [...photos, {src: photoUrl, alt: "Photo " + photos.length + 1}]);
         handleCloseClick();
@@ -100,7 +102,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
                             Back
                         </button>
 
-                        <h2>{restaurant.name}</h2>
+                        <h2>{checkIn.name}</h2>
 
                         {isExpanded && (
                             <button onClick={handleSelectClick}>

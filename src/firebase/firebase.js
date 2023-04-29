@@ -401,7 +401,10 @@ export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
     const checkInData = await getCheckInsByUserId(userId);
 
     return await Promise.all(checkInData
-        .map(async (checkIn) => ({...checkIn, ...await getRestaurantById(checkIn.restaurantId)})));
+        .map(async (checkIn) => {
+            const restaurantData = await getRestaurantById(checkIn.restaurantId);
+            return {...restaurantData, ...checkIn};
+        }));
 };
 
 // add restaurant review
@@ -867,13 +870,15 @@ export const updateUserProfilePhoto = async (userId, path) => {
 };
 
 // restaurant photos
-const createNewRestaurantPhotoDoc = async (restaurantId, path) => {
+const createNewRestaurantPhotoDoc = async (userId, friendIds, restaurantId, path) => {
     const photosCollectionRef = collection(db, "restaurant-photos");
 
     const newPhoto = {
         restaurantId,
         storageRefPath: path,
-        date: +new Date()
+        date: +new Date(),
+        uploadedBy: userId,
+        tagged: friendIds || []
     };
 
     const photoDocRef = await addDoc(photosCollectionRef, newPhoto);
@@ -886,6 +891,6 @@ const deleteRestaurantPhotoDoc = async (photoId) => {
     await deleteDoc(doc(db, "restaurant-photos", photoId));
 };
 
-export const addPhotoToRestaurantCheckIn = async (userId, restaurantId, date, path) => {
+export const addPhotoToCheckIn = async (userId, restaurantId, date, path) => {
     // fill out later
 };

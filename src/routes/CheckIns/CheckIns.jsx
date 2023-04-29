@@ -10,9 +10,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faFire, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getCheckInsAndRestaurantDataByUserId, getCheckInsByUserId, getRestaurantById} from "../../firebase/firebase";
+import {getCheckInsAndRestaurantDataByUserId} from "../../firebase/firebase";
 import CheckInsMap from "./CheckInsMap/CheckInsMap";
-import {displayRestaurant, resetDisplayedRestaurant} from "../../features/map/mapSlice";
+import {displayRestaurant} from "../../features/map/mapSlice";
 
 const currentDate = new Date();
 
@@ -25,12 +25,12 @@ const CheckIns = () => {
     const userId = useSelector(selectUserId);
 
     const [allCheckIns, setAllCheckIns] = useState([]);
-    const [restaurant, setRestaurant] = useState(null);
+    const [selectedCheckIn, setSelectedCheckIn] = useState(null);
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
 
     const getCheckedInRestaurant = (restaurantId) => {
-        return allCheckIns.find(restaurant => restaurant.id === restaurantId);
+        return allCheckIns.find(checkIn => checkIn.restaurantId === restaurantId);
     };
 
     const handleCollagePopupClose = () => {
@@ -47,14 +47,17 @@ const CheckIns = () => {
         if (!userId) return;
 
         getCheckInsAndRestaurantDataByUserId(userId)
-            .then(data => setAllCheckIns(data));
+            .then(data => {
+                console.log(data)
+                setAllCheckIns(data)
+            });
     }, [userId]);
 
     useEffect(() => {
-        if (!restaurant) return;
+        if (!selectedCheckIn) return;
 
-        dispatch(displayRestaurant(restaurant));
-    }, [restaurant]);
+        dispatch(displayRestaurant(selectedCheckIn));
+    }, [selectedCheckIn]);
 
     const handleCalendarChange = (value) => {
         setCalendarValue(value);
@@ -67,8 +70,8 @@ const CheckIns = () => {
 
     const totalCheckIns = allCheckIns.length;
 
-    const handleTileClick = (restaurant) => {
-        setRestaurant(restaurant);
+    const handleTileClick = (checkIn) => {
+        setSelectedCheckIn(checkIn);
         setShowCollagePopup(true);
     };
 
@@ -83,14 +86,14 @@ const CheckIns = () => {
         });
 
         return checkInsForDate.map((checkIn, index) => {
-            const restaurant = getCheckedInRestaurant(checkIn.restaurantId);
+            const restaurantCheckIn = getCheckedInRestaurant(checkIn.restaurantId);
 
-            if (!restaurant) {
+            if (!restaurantCheckIn) {
                 return null;
             }
 
             const tileContentStyle = {
-                backgroundImage: `url(${restaurant.photoUrl})`,
+                backgroundImage: `url(${restaurantCheckIn.photoUrl})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -102,8 +105,8 @@ const CheckIns = () => {
                 <div
                     key={index}
                     style={tileContentStyle}
-                    title={restaurant.name}
-                    onClick={() => handleTileClick(restaurant)}
+                    title={restaurantCheckIn.name}
+                    onClick={() => handleTileClick(restaurantCheckIn)}
                 ></div>
             );
         });
@@ -137,7 +140,7 @@ const CheckIns = () => {
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
-                    {allCheckIns && <CheckInsMap restaurants={allCheckIns}/>}
+                    {allCheckIns && <CheckInsMap checkIns={allCheckIns}/>}
                 </div>
 
                 <div className="check-ins-stats">
@@ -166,7 +169,7 @@ const CheckIns = () => {
                     />
 
                     {showCollagePopup && (
-                        <CheckInsCollage restaurant={restaurant} onClose={handleCollagePopupClose}/>
+                        <CheckInsCollage checkIn={selectedCheckIn} onClose={handleCollagePopupClose}/>
                     )}
                 </div>
             </div>

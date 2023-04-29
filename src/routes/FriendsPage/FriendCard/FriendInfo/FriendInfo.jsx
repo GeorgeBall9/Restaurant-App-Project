@@ -19,7 +19,12 @@ const FriendInfo = ({displayName, iconColour, profilePhotoUrl, mutualFriends, st
                 <p>{mutualFriends} mutual friend{mutualFriends !== 1 ? "s" : ""}</p>
 
                 {status === "pending" && (
-                    <Button className="cancel-request-button" handleClick={handleCancelClick} text="Cancel request"/>
+                    <Button
+                        className="cancel-request-button"
+                        handleClick={handleCancelClick}
+                        text="Cancel request"
+                        size="small"
+                    />
                 )}
             </div>
         </div>

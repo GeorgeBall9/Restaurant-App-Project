@@ -891,6 +891,13 @@ const deleteRestaurantPhotoDoc = async (photoId) => {
     await deleteDoc(doc(db, "restaurant-photos", photoId));
 };
 
+const getRestaurantPhotoPathFromId = async (photoId) => {
+    const photoRef = await doc(db, "restaurant-photos", photoId);
+    const photoDocSnap = await getDoc(photoRef);
+
+    return photoDocSnap.exists() ? photoDocSnap.data().storageRefPath : null;
+};
+
 export const addPhotoToCheckIn = async (userId, checkIn, path) => {
     const {id: checkInId, userIds, restaurantId} = checkIn;
 
@@ -901,4 +908,26 @@ export const addPhotoToCheckIn = async (userId, checkIn, path) => {
     const checkInDocRef = await doc(db, "check-ins", checkInId);
 
     await updateDoc(checkInDocRef, {photoIds: arrayUnion(photoId)});
+
+    return photoId;
+};
+
+export const getPhotoUrlsFromPhotoIds = async (photoIds) => {
+    if (!photoIds) return null;
+
+    return await Promise.all(photoIds.map(async (id, i) => {
+        const photoStoragePath = await getRestaurantPhotoPathFromId(id);
+        const url = await getImageDownloadUrl(photoStoragePath);
+        return {id, url, alt: "Photo " + (i + 1)};
+    }));
+};
+
+export const deleteCheckInPhoto = async (photoId, checkInId) => {
+    await deleteRestaurantPhotoDoc(photoId);
+
+    const checkInDocRef = await doc(db, "check-ins", checkInId);
+
+    await updateDoc(checkInDocRef, {
+        photoIds: arrayRemove(photoId)
+    });
 };

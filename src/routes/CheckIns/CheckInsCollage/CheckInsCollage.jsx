@@ -4,7 +4,12 @@ import CustomCollage from "./CustomCollage/CustomCollage.jsx";
 import {useEffect, useState} from "react";
 import {faArrowLeft, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {addPhotoToCheckIn, getImageDownloadUrl, uploadImage} from "../../../firebase/firebase";
+import {
+    addPhotoToCheckIn, deleteCheckInPhoto,
+    getImageDownloadUrl,
+    getPhotoUrlsFromPhotoIds,
+    uploadImage
+} from "../../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
 import Overlay from "../../../features/overlay/Overlay/Overlay";
@@ -37,9 +42,7 @@ const CheckInsCollage = ({checkIn, onClose}) => {
     useEffect(() => {
         if (!checkIn) return;
 
-        console.log(checkIn)
-
-        getPhotoUrls(checkIn.photoPaths)
+        getPhotoUrlsFromPhotoIds(checkIn.photoIds)
             .then(urls => setPhotos(urls));
     }, [checkIn])
 
@@ -73,9 +76,9 @@ const CheckInsCollage = ({checkIn, onClose}) => {
 
     const handleUploadPhotoClick = async () => {
         setUploadButtonText("Uploading...");
-        await addPhotoToCheckIn(userId, checkIn, photoStoragePath);
+        const newPhotoId = await addPhotoToCheckIn(userId, checkIn, photoStoragePath);
+        setPhotos(photos => [...photos, {id: newPhotoId, url: photoUrl, alt: "Photo " + photos.length + 1}]);
         document.querySelector(".file-upload-input").value = "";
-        setPhotos(photos => [...photos, {src: photoUrl, alt: "Photo " + photos.length + 1}]);
         handleCloseClick();
     };
 
@@ -88,8 +91,14 @@ const CheckInsCollage = ({checkIn, onClose}) => {
         setSelectMode(selectMode => !selectMode);
     };
 
-    const handleDeleteSelected = (selectedImages) => {
-        console.log(selectedImages)
+    const handleDeleteSelected = async (selectedImages) => {
+        console.log(selectedImages);
+
+        if (!selectedImages?.length) return;
+
+        for (const image of selectedImages) {
+            await deleteCheckInPhoto(image.id, checkIn.id);
+        }
     };
 
     return (

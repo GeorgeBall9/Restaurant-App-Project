@@ -31,9 +31,9 @@ const CustomCollage = ({
     }, [selectMode]);
 
     const handleImageClick = (image) => {
-        if (selectedImages.some(({alt}) => alt === image.alt)) {
+        if (selectedImages.some(({id}) => id === image.id)) {
             setSelectedImages(selectedImages => selectedImages
-                .filter(({alt}) => alt !== image.alt));
+                .filter(({id}) => id !== image.id));
         } else {
             setSelectedImages([...selectedImages, image]);
         }
@@ -94,13 +94,13 @@ const CustomCollage = ({
 
                 {images && images
                     .slice(0, rows * columns - 1)
-                    .map((image, index) => (
+                    .map(image => (
                         <div
-                            key={index}
+                            key={image.id}
                             className={`collage-image-wrapper ${selectMode ? "clickable" : ""}`}
                             onClick={() => handleImageClick(image)}
                         >
-                            <img src={image.src} alt={image.alt} className="collage-image"/>
+                            <img src={image.url} alt={image.alt} className="collage-image"/>
 
                             {selectMode && (
                                 <button
@@ -121,7 +121,7 @@ const CustomCollage = ({
                 {image4 && (
                     <div className="collage-image-wrapper">
                         <img
-                            src={image4.src}
+                            src={image4.url}
                             alt={image4.alt}
                             className="collage-image"
                         />

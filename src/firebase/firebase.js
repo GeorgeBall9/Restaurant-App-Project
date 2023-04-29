@@ -307,7 +307,7 @@ const getCheckInDocFromId = async (checkInId) => {
 // add checked in restaurant to user doc
 export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) => {
     try {
-        const checkInId = await createNewCheckInDoc(date, restaurant, [...friendIds, userId]);
+        const checkInId = await createNewCheckInDoc(date, restaurant, [...friendIds, userId], []);
 
         await addCheckInIdToUserDoc(userId, checkInId);
 
@@ -319,7 +319,7 @@ export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) 
 
         await addInteractionToRestaurantDoc(restaurant, "checkIns");
 
-        return checkInId;
+        return await getCheckInDocFromId(checkInId);
     } catch (error) {
         console.log(error);
         throw new Error("Document does not exist");
@@ -336,15 +336,24 @@ const addCheckInIdToUserDoc = async (userId, checkInId) => {
 
 // validate restaurant check in
 export const checkInExists = async (userId, date, restaurantId) => {
-    const docRef = await doc(db, "users", userId);
-    const docSnap = await getDoc(docRef);
+    const checkInsCollectionRef = await collection(db, "check-ins");
 
-    return docSnap.data().checkedIn
-        .some(({restaurantId: storedRestaurantId, date: dateInt}) => {
-            if (storedRestaurantId !== restaurantId) return false;
-            const checkInDate = new Date(dateInt).toISOString().split("T")[0];
-            return checkInDate === date;
-        });
+    const q = query(checkInsCollectionRef,
+        where("restaurantId", "==", restaurantId),
+        where("date", "==", date),
+        where("userIds", "array-contains", userId));
+
+    const querySnapshot = await getDocs(q);
+
+    let foundCheckIn = null;
+
+    querySnapshot.forEach((doc) => {
+        foundCheckIn = {id: doc.id, ...doc.data()};
+    });
+
+    console.log({foundCheckIn});
+
+    return foundCheckIn !== null;
 };
 
 // remove checked in restaurant to user doc
@@ -811,7 +820,8 @@ export const uploadImage = (imageFile, downloadUrlSetter) => {
 };
 
 export const getImageDownloadUrl = async (path) => {
-    console.log(path)
+    if (!path) return;
+
     const storageRef = ref(storage, path);
 
     return await getDownloadURL(storageRef);
@@ -843,8 +853,6 @@ const getProfilePhotoUrlByUserId = async (userId) => {
     querySnapshot.forEach((doc) => {
         photoPath = doc.data().storageRefPath;
     });
-
-    console.log({photoPath})
 
     return await getImageDownloadUrl(photoPath);
 };

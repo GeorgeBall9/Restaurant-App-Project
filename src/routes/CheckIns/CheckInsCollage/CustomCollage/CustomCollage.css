@@ -41,11 +41,46 @@
     z-index: 1000;
 }
 
+.collage-container .collage-image-wrapper .select-image-button .icon {
+    color: rgba(211, 211, 211, 0.5);
+    width: 100%;
+    height: 100%;
+}
+
+.collage-container .collage-image-wrapper .select-image-button.selected .icon {
+    color: var(--secondary-theme);
+}
+
 .collage-container .collage-image-wrapper .select-image-button.selected {
     background-color: white;
+    border-color: white;
 }
 
 .collage-container .collage-image-wrapper.clickable {
     cursor: pointer;
+}
+
+.selection-header {
+    margin-bottom: -0.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selection-header .primary.default-button,
+.selection-header .inverse-primary.default-button {
+    width: fit-content;
+    margin: 0;
+}
+
+.selection-header h3 {
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    text-align: center;
+}
+
+.selection-header .buttons-container {
+    display: flex;
+    gap: 0.5em;
 }
   

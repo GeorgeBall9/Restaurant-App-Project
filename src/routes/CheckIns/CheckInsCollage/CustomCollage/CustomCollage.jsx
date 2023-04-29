@@ -1,7 +1,9 @@
 import "./CustomCollage.css";
-import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";
+import {faCircleCheck, faCirclePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
+import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../../../../common/components/InversePrimaryButton/InversePrimaryButton";
 
 const CustomCollage = ({
                            images,
@@ -20,6 +22,7 @@ const CustomCollage = ({
     const remainingImages = showMore ? images.length - rows * columns : 0;
 
     const [selectedImages, setSelectedImages] = useState([]);
+    const [selectButtonText, setSelectButtonText] = useState("Select all");
 
     useEffect(() => {
         if (!selectMode) {
@@ -28,8 +31,6 @@ const CustomCollage = ({
     }, [selectMode]);
 
     const handleImageClick = ({alt}) => {
-        handleImageSelected();
-
         if (selectedImages.includes(alt)) {
             setSelectedImages(selectedImages => selectedImages.filter(imageAlt => imageAlt !== alt));
         } else {
@@ -37,52 +38,91 @@ const CustomCollage = ({
         }
     };
 
+    const handleSelectAllClick = () => {
+        if (selectButtonText === "Select all") {
+            setSelectedImages(images.map(({alt}) => alt));
+        } else {
+            setSelectedImages([]);
+        }
+    };
+
+    useEffect(() => {
+        if (selectedImages.length === images.length) {
+            setSelectButtonText("Deselect all");
+        } else {
+            setSelectButtonText("Select all");
+        }
+    }, [selectedImages]);
+
     return (
-        <div
-            className="collage-container"
-            style={{gridTemplateRows: `repeat(${rows}, 1fr)`, gridTemplateColumns: `repeat(${columns}, 1fr)`}}
-        >
-            {addFunctionality && isExpanded && !selectMode && (
-                <button className="add-photo-button" onClick={handleAddClick}>
-                    <FontAwesomeIcon className="icon" icon={faCirclePlus}/>
-                </button>
-            )}
-
-            {images && images
-                .slice(0, rows * columns - 1)
-                .map((image, index) => (
-                    <div
-                        key={index}
-                        className={`collage-image-wrapper ${selectMode ? "clickable" : ""}`}
-                        onClick={() => handleImageClick(image)}
-                    >
-                        <img src={image.src} alt={image.alt} className="collage-image"/>
-
-                        {selectMode && (
-                            <button
-                                className={`select-image-button ${selectedImages.includes(image.alt) ? "selected" : ""}`}
-                            ></button>
-                        )}
-                    </div>
-                ))
-            }
-
-            {image4 && (
-                <div className="collage-image-wrapper">
-                    <img
-                        src={image4.src}
-                        alt={image4.alt}
-                        className="collage-image"
+        <>
+            {selectMode && (
+                <div className="container selection-header">
+                    <PrimaryButton
+                        handleClick={handleSelectAllClick}
+                        text={selectButtonText}
+                        size="small"
                     />
 
-                    {showMore && (
-                        <div className="collage-image-overlay" onClick={onExpand}>
-                            Show more +{remainingImages}
-                        </div>
-                    )}
+                    <h3>{selectedImages.length} image{selectedImages.length === 1 ? "" : "s"} selected</h3>
+
+                    <InversePrimaryButton text="Delete" icon={faTrash} size="small"/>
                 </div>
             )}
-        </div>
+
+            <div
+                className="collage-container"
+                style={{gridTemplateRows: `repeat(${rows}, 1fr)`, gridTemplateColumns: `repeat(${columns}, 1fr)`}}
+            >
+                {addFunctionality && isExpanded && !selectMode && (
+                    <button className="add-photo-button" onClick={handleAddClick}>
+                        <FontAwesomeIcon className="icon" icon={faCirclePlus}/>
+                    </button>
+                )}
+
+                {images && images
+                    .slice(0, rows * columns - 1)
+                    .map((image, index) => (
+                        <div
+                            key={index}
+                            className={`collage-image-wrapper ${selectMode ? "clickable" : ""}`}
+                            onClick={() => handleImageClick(image)}
+                        >
+                            <img src={image.src} alt={image.alt} className="collage-image"/>
+
+                            {selectMode && (
+                                <button
+                                    className={`select-image-button 
+                                    ${selectedImages.includes(image.alt) ?
+                                        "selected"
+                                        :
+                                        ""}`
+                                    }
+                                >
+                                    <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
+                                </button>
+                            )}
+                        </div>
+                    ))
+                }
+
+                {image4 && (
+                    <div className="collage-image-wrapper">
+                        <img
+                            src={image4.src}
+                            alt={image4.alt}
+                            className="collage-image"
+                        />
+
+                        {showMore && (
+                            <div className="collage-image-overlay" onClick={onExpand}>
+                                Show more +{remainingImages}
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+        </>
     );
 };
 

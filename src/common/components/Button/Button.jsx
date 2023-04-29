@@ -1,23 +1,25 @@
 import "./Button.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useEffect, useState} from "react";
+
+const defaultStyles = {
+    small: {
+        padding: "0.35em 0.5em",
+        fontSize: "0.9rem",
+    },
+    medium: {
+        padding: "0.5em",
+        fontSize: "1rem",
+    },
+    large: {
+        padding: "0.75rem 1.5rem",
+        fontSize: "1rem",
+    }
+};
 
 const Button = ({className, handleClick, text, icon, size = "medium", active = true}) => {
 
-    const style = {
-        small: {
-            padding: "0.5em 0.5em",
-            fontSize: "0.9rem",
-
-        },
-        medium: {
-            padding: "0.5em",
-            fontSize: "1rem",
-        },
-        large: {
-            padding: "0.75rem 1.5rem",
-            fontSize: "1rem",
-        }
-    };
+    const style = defaultStyles[size];
 
     const clickHandler = () => {
         if (active) {
@@ -27,7 +29,7 @@ const Button = ({className, handleClick, text, icon, size = "medium", active = t
 
     return (
         <button
-            style={style[size]}
+            style={style}
             className={`default-button ${className}`}
             onClick={clickHandler}
         >

@@ -10,7 +10,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faFire, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getRestaurantById} from "../../firebase/firebase";
+import {getCheckInsAndRestaurantDataByUserId, getCheckInsByUserId, getRestaurantById} from "../../firebase/firebase";
 import CheckInsMap from "./CheckInsMap/CheckInsMap";
 import {displayRestaurant, resetDisplayedRestaurant} from "../../features/map/mapSlice";
 
@@ -28,10 +28,9 @@ const CheckIns = () => {
     const [restaurant, setRestaurant] = useState(null);
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
-    const [checkedInRestaurants, setCheckedInRestaurants] = useState([]);
 
     const getCheckedInRestaurant = (restaurantId) => {
-        return checkedInRestaurants.find(restaurant => restaurant.id === restaurantId);
+        return allCheckIns.find(restaurant => restaurant.id === restaurantId);
     };
 
     const handleCollagePopupClose = () => {
@@ -42,6 +41,13 @@ const CheckIns = () => {
         if (!userId) {
             navigate("/profile");
         }
+    }, [userId]);
+
+    useEffect(() => {
+        if (!userId) return;
+
+        getCheckInsAndRestaurantDataByUserId(userId)
+            .then(data => setAllCheckIns(data));
     }, [userId]);
 
     useEffect(() => {
@@ -72,12 +78,8 @@ const CheckIns = () => {
 
     const TileContent = ({date}) => {
         const checkInsForDate = allCheckIns.filter((checkIn) => {
-            const checkInDate = new Date(checkIn.date);
-            return (
-                checkInDate.getFullYear() === date.getFullYear() &&
-                checkInDate.getMonth() === date.getMonth() &&
-                checkInDate.getDate() === date.getDate()
-            );
+            const checkInDate = new Date(checkIn.date).toLocaleDateString();
+            return checkInDate === date.toLocaleDateString();
         });
 
         return checkInsForDate.map((checkIn, index) => {
@@ -135,7 +137,7 @@ const CheckIns = () => {
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
-                    {checkedInRestaurants && <CheckInsMap restaurants={checkedInRestaurants}/>}
+                    {allCheckIns && <CheckInsMap restaurants={allCheckIns}/>}
                 </div>
 
                 <div className="check-ins-stats">

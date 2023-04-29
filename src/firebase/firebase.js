@@ -298,57 +298,6 @@ const getCheckInDocFromId = async (checkInId) => {
     return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
 };
 
-// get check ins data by userId
-export const getLastCheckInToRestaurantByUserId = async (userId, restaurantId) => {
-    const checkInsCollectionRef = await collection(db, "check-ins");
-
-    const q = query(checkInsCollectionRef,
-        where("restaurantId", "==", restaurantId),
-        where("userIds", "array-contains", userId),
-        orderBy("date", "desc"));
-
-    const querySnapshot = await getDocs(q);
-
-    const foundCheckIns = [];
-
-    querySnapshot.forEach((doc) => {
-        foundCheckIns.push({id: doc.id, ...doc.data()})
-    });
-
-    return foundCheckIns?.length ? foundCheckIns[0] : null;
-};
-
-// get checked-in restaurants by user ID
-export const getCheckInsByUserId = async (userId) => {
-    if (!userId) return;
-
-    try {
-        const userData = await getUserFromUserId(userId);
-        const { checkedIn } = userData;
-
-        if (!checkedIn) {
-            return null;
-        }
-
-        // Sort checkedIn array by date in descending order
-        checkedIn.sort((a, b) => b.date - a.date);
-
-        // Retrieve restaurant details for each checked-in restaurant
-        const checkedInRestaurants = await Promise.all(
-            checkedIn.map(async ({ restaurantId }) => await getRestaurantById(restaurantId))
-        );
-
-        // Combine restaurant details with corresponding check-in dates
-        return checkedIn.map((checkIn, index) => ({
-            ...checkedInRestaurants[index],
-            date: checkIn.date,
-        }));
-    } catch (error) {
-        console.error(error);
-        throw new Error("Error fetching checked-in restaurants");
-    }
-};
-
 // add checked in restaurant to user doc
 export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) => {
     try {
@@ -401,6 +350,58 @@ export const removeRestaurantCheckIn = async (checkInId) => {
         console.log(error);
         throw new Error("Document does not exist");
     }
+};
+
+// get check ins data by userId
+export const getLastCheckInToRestaurantByUserId = async (userId, restaurantId) => {
+    const checkInsCollectionRef = await collection(db, "check-ins");
+
+    const q = query(checkInsCollectionRef,
+        where("restaurantId", "==", restaurantId),
+        where("userIds", "array-contains", userId),
+        orderBy("date", "desc"));
+
+    const querySnapshot = await getDocs(q);
+
+    const foundCheckIns = [];
+
+    querySnapshot.forEach((doc) => {
+        foundCheckIns.push({id: doc.id, ...doc.data()})
+    });
+
+    return foundCheckIns?.length ? foundCheckIns[0] : null;
+};
+
+// get checked-in restaurants by user ID
+export const getCheckInsByUserId = async (userId) => {
+    if (!userId) return;
+
+    try {
+        const checkInsCollectionRef = await collection(db, "check-ins");
+
+        const q = query(checkInsCollectionRef,
+            where("userIds", "array-contains", userId));
+
+        const querySnapshot = await getDocs(q);
+
+        const foundCheckIns = [];
+
+        querySnapshot.forEach((doc) => {
+            foundCheckIns.push({id: doc.id, ...doc.data()})
+        });
+
+        return foundCheckIns?.length ? foundCheckIns : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error("Error fetching checked-in restaurants");
+    }
+};
+
+export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
+    const checkInData = await getCheckInsByUserId(userId);
+
+    return await Promise.all(checkInData
+        .map(async (checkIn) => ({...checkIn, ...await getRestaurantById(checkIn.restaurantId)})));
 };
 
 // add restaurant review

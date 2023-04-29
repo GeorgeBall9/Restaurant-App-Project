@@ -28,4 +28,24 @@
     width: 30%;
     height: 30%;
 }
+
+.collage-container .collage-image-wrapper .select-image-button {
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    bottom: 0.5em;
+    border-radius: 50%;
+    right: 0.5em;
+    background-color: rgba(128, 128, 128, 0.8);
+    border: solid 2px grey;
+    z-index: 1000;
+}
+
+.collage-container .collage-image-wrapper .select-image-button.selected {
+    background-color: white;
+}
+
+.collage-container .collage-image-wrapper.clickable {
+    cursor: pointer;
+}
   

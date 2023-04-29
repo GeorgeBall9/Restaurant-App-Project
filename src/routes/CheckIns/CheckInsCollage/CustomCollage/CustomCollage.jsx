@@ -1,20 +1,42 @@
 import "./CustomCollage.css";
 import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useState} from "react";
 
-const CustomCollage = ({images, rows, columns, isExpanded, onExpand, handleAddClick, addFunctionality = true}) => {
+const CustomCollage = ({
+                           images,
+                           rows,
+                           columns,
+                           isExpanded,
+                           onExpand,
+                           handleAddClick,
+                           addFunctionality = true,
+                           selectMode = false,
+                           handleImageSelected
+                       }) => {
+
     const showMore = images.length > rows * columns;
     const image4 = images[rows * columns - 1];
     const remainingImages = showMore ? images.length - rows * columns : 0;
 
-    console.log("custom collage", {images})
+    const [selectedImages, setSelectedImages] = useState([]);
+
+    const handleImageClick = ({alt}) => {
+        handleImageSelected();
+
+        if (selectedImages.includes(alt)) {
+            setSelectedImages(selectedImages => selectedImages.filter(imageAlt => imageAlt !== alt));
+        } else {
+            setSelectedImages([...selectedImages, alt]);
+        }
+    };
 
     return (
         <div
             className="collage-container"
             style={{gridTemplateRows: `repeat(${rows}, 1fr)`, gridTemplateColumns: `repeat(${columns}, 1fr)`}}
         >
-            {addFunctionality && isExpanded && (
+            {addFunctionality && isExpanded && !selectMode && (
                 <button className="add-photo-button" onClick={handleAddClick}>
                     <FontAwesomeIcon className="icon" icon={faCirclePlus}/>
                 </button>
@@ -23,7 +45,19 @@ const CustomCollage = ({images, rows, columns, isExpanded, onExpand, handleAddCl
             {images && images
                 .slice(0, rows * columns - 1)
                 .map((image, index) => (
-                    <img key={index} src={image.src} alt={image.alt} className="collage-image"/>
+                    <div
+                        key={index}
+                        className={`collage-image-wrapper ${selectMode ? "clickable" : ""}`}
+                        onClick={() => handleImageClick(image)}
+                    >
+                        <img src={image.src} alt={image.alt} className="collage-image"/>
+
+                        {selectMode && (
+                            <button
+                                className={`select-image-button ${selectedImages.includes(image.alt) ? "selected" : ""}`}
+                            ></button>
+                        )}
+                    </div>
                 ))
             }
 

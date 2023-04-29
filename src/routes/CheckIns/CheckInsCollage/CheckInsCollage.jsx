@@ -32,6 +32,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
     const [photoStoragePath, setPhotoStoragePath] = useState(null);
     const [showOverlay, setShowOverlay] = useState(false);
     const [uploadButtonText, setUploadButtonText] = useState("Loading...");
+    const [selectMode, setSelectMode] = useState(false);
 
     useEffect(() => {
         if (!restaurant) return;
@@ -69,7 +70,6 @@ const CheckInsCollage = ({restaurant, onClose}) => {
     };
 
     const handleUploadPhotoClick = async () => {
-        console.log("adding photo to db");
         setUploadButtonText("Uploading...");
         await addPhotoToRestaurantCheckIn(userId, restaurant.id, restaurant.date, photoStoragePath);
         document.querySelector(".file-upload-input").value = "";
@@ -77,13 +77,17 @@ const CheckInsCollage = ({restaurant, onClose}) => {
         handleCloseClick();
     };
 
-    useEffect(() => {
-        console.log(photos)
-    }, [photos])
-
     const handlePreviewLoad = () => {
         setPreviewLoaded(true);
         setUploadButtonText("Upload");
+    };
+
+    const handleSelectClick = () => {
+        setSelectMode(selectMode => !selectMode);
+    };
+
+    const handleImageSelected = () => {
+        console.log("image selected")
     };
 
     return (
@@ -99,8 +103,8 @@ const CheckInsCollage = ({restaurant, onClose}) => {
                         <h2>{restaurant.name}</h2>
 
                         {isExpanded && (
-                            <button onClick={() => console.log("selecting photos")}>
-                                Select
+                            <button onClick={handleSelectClick}>
+                                {selectMode ? "Cancel" : "Select"}
                             </button>
                         )}
 
@@ -120,6 +124,8 @@ const CheckInsCollage = ({restaurant, onClose}) => {
                         isExpanded={isExpanded}
                         onExpand={handleExpand}
                         handleAddClick={handleAddClick}
+                        selectMode={selectMode}
+                        handleImageSelected={handleImageSelected}
                     />
                 </div>
 

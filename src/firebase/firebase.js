@@ -891,6 +891,14 @@ const deleteRestaurantPhotoDoc = async (photoId) => {
     await deleteDoc(doc(db, "restaurant-photos", photoId));
 };
 
-export const addPhotoToCheckIn = async (userId, restaurantId, date, path) => {
-    // fill out later
+export const addPhotoToCheckIn = async (userId, checkIn, path) => {
+    const {id: checkInId, userIds, restaurantId} = checkIn;
+
+    const friendIds = userIds.filter(id => id !== userId);
+
+    const photoId = await createNewRestaurantPhotoDoc(userId, friendIds, restaurantId, path);
+
+    const checkInDocRef = await doc(db, "check-ins", checkInId);
+
+    await updateDoc(checkInDocRef, {photoIds: arrayUnion(photoId)});
 };

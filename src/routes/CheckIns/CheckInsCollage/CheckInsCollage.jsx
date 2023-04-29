@@ -73,7 +73,7 @@ const CheckInsCollage = ({checkIn, onClose}) => {
 
     const handleUploadPhotoClick = async () => {
         setUploadButtonText("Uploading...");
-        await addPhotoToCheckIn(userId, checkIn.id, checkIn.date, photoStoragePath);
+        await addPhotoToCheckIn(userId, checkIn, photoStoragePath);
         document.querySelector(".file-upload-input").value = "";
         setPhotos(photos => [...photos, {src: photoUrl, alt: "Photo " + photos.length + 1}]);
         handleCloseClick();

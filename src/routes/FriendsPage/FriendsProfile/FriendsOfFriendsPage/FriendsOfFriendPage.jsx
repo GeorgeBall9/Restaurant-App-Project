@@ -1,45 +1,29 @@
 import "./FriendsOfFriend.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faArrowLeft, faChevronDown,
-    faCircleCheck,
-    faCirclePlus,
-    faLink,
+    faArrowLeft,
     faMagnifyingGlass,
-    faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import SearchBox from "../../../../common/components/SearchBox/SearchBox";
 import { useEffect, useState } from "react";
-import FormField from "../../../../common/components/FormField/FormField";
 import {
-    acceptFriendRequest, cancelFriendRequest, deleteFriend,
-    getFriendRequestsByUserId,
+    cancelFriendRequest,
     getFriendsByUserId,
-    getUserFromUserId, rejectFriendRequest,
+    getUserFromUserId,
     sendFriendRequestToUser
 } from "../../../../firebase/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    removeFriend,
-    removeFriendRequest,
-    selectFriendRequests, selectFriendRequestsSortFilter,
+    selectFriendRequests,
     selectFriends, selectFriendsSortFilter,
     selectUserId,
-    setFriendRequests,
     setFriends
 } from "../../../../features/user/userSlice";
-import LinkButton from "../../LinkButton/LinkButton";
-import FriendInfo from "../../FriendCard/FriendInfo/FriendInfo";
-import ActionButtons from "../../FriendCard/ActionButtons/ActionButtons";
 import FriendCard from "../../FriendCard/FriendCard";
-import { hideOverlay, showOverlay } from "../../../../features/overlay/overlaySlice";
-import SortFilterButton from "../../../../common/components/SortFilterButton/SortFilterButton";
 import { resetSearchQuery, selectSearchQuery } from "../../../../features/filters/filtersSlice";
 
 import { useParams } from "react-router-dom";
-
 
 const FriendsOfFriendsPage = () => {
 
@@ -66,8 +50,6 @@ const FriendsOfFriendsPage = () => {
 
     const [friendsOfFriend, setFriendsOfFriend] = useState(null);
     const [friendProfile, setFriendProfile] = useState("");
-
-
 
     useEffect(() => {
         if (!userId) return;
@@ -190,7 +172,6 @@ const FriendsOfFriendsPage = () => {
             </header>
 
             <main className="container">
-
                 <div className="friend-icons-container">
                     {displayedFriends && [...displayedFriends]
                         .sort((a, b) => {
@@ -207,6 +188,7 @@ const FriendsOfFriendsPage = () => {
                             if (id === currentUserId) {
                                 return null;
                             }
+
                             return (
                                 <FriendCard
                                     key={id}

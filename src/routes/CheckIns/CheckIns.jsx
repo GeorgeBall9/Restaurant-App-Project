@@ -5,14 +5,14 @@ import Calendar from "react-calendar";
 import CheckInsCollage from "./CheckInsCollage/CheckInsCollage.jsx";
 
 import {useDispatch, useSelector} from "react-redux";
-import {selectUserId, selectCheckedInRestaurants} from "../../features/user/userSlice";
+import {selectUserId} from "../../features/user/userSlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faFire, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getRestaurantById} from "../../firebase/firebase";
+import {getCheckInsAndRestaurantDataByUserId} from "../../firebase/firebase";
 import CheckInsMap from "./CheckInsMap/CheckInsMap";
-import {displayRestaurant, resetDisplayedRestaurant} from "../../features/map/mapSlice";
+import {displayRestaurant} from "../../features/map/mapSlice";
 
 const currentDate = new Date();
 
@@ -23,31 +23,14 @@ const CheckIns = () => {
     const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
-    const userCheckIns = useSelector(selectCheckedInRestaurants);
 
-    const [restaurant, setRestaurant] = useState(null);
+    const [allCheckIns, setAllCheckIns] = useState([]);
+    const [selectedCheckIn, setSelectedCheckIn] = useState(null);
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
-    const [checkedInRestaurants, setCheckedInRestaurants] = useState([]);
-
-    const setCheckInData = async ()  => {
-        const data = await Promise.all(userCheckIns
-            .map(async (checkIn) => {
-                return {...checkIn, ...await getRestaurantById(checkIn.restaurantId)};
-            }));
-
-        setCheckedInRestaurants(data);
-    };
-
-    useEffect(() => {
-        if (!userCheckIns) return;
-
-        setCheckInData()
-            .then(() => console.log("Retrieved check in data from db"));
-    }, [userCheckIns]);
 
     const getCheckedInRestaurant = (restaurantId) => {
-        return checkedInRestaurants.find(restaurant => restaurant.id === restaurantId);
+        return allCheckIns.find(checkIn => checkIn.restaurantId === restaurantId);
     };
 
     const handleCollagePopupClose = () => {
@@ -61,10 +44,20 @@ const CheckIns = () => {
     }, [userId]);
 
     useEffect(() => {
-        if (!restaurant) return;
+        if (!userId) return;
 
-        dispatch(displayRestaurant(restaurant));
-    }, [restaurant]);
+        getCheckInsAndRestaurantDataByUserId(userId)
+            .then(data => {
+                console.log(data)
+                setAllCheckIns(data)
+            });
+    }, [userId]);
+
+    useEffect(() => {
+        if (!selectedCheckIn) return;
+
+        dispatch(displayRestaurant(selectedCheckIn));
+    }, [selectedCheckIn]);
 
     const handleCalendarChange = (value) => {
         setCalendarValue(value);
@@ -75,36 +68,10 @@ const CheckIns = () => {
         navigate("/profile");
     };
 
-    const calculateStreak = (checkIns) => {
-        let streak = 0;
-        const weekInMillis = 1000 * 60 * 60 * 24 * 7;
+    const totalCheckIns = allCheckIns.length;
 
-        const timestamps = checkIns.map(checkIn => new Date(checkIn.timestamp));
-        timestamps.sort((a, b) => b - a);
-
-        for (let i = 0; i < timestamps.length; i++) {
-            const currentCheckIn = timestamps[i];
-            const nextCheckIn = timestamps[i + 1] || null;
-
-            if (!nextCheckIn || currentCheckIn - nextCheckIn >= weekInMillis) {
-                streak++;
-            } else {
-                break;
-            }
-        }
-
-        return streak;
-    };
-    const checkInsStreak = calculateStreak(userCheckIns);
-
-    const calculateTotalCheckIns = (checkIns) => {
-        return checkIns.length;
-    };
-
-    const totalCheckIns = calculateTotalCheckIns(userCheckIns);
-
-    const handleTileClick = (restaurant) => {
-        setRestaurant(restaurant);
+    const handleTileClick = (checkIn) => {
+        setSelectedCheckIn(checkIn);
         setShowCollagePopup(true);
     };
 
@@ -113,24 +80,20 @@ const CheckIns = () => {
     };
 
     const TileContent = ({date}) => {
-        const checkInsForDate = userCheckIns.filter((checkIn) => {
-            const checkInDate = new Date(checkIn.date);
-            return (
-                checkInDate.getFullYear() === date.getFullYear() &&
-                checkInDate.getMonth() === date.getMonth() &&
-                checkInDate.getDate() === date.getDate()
-            );
+        const checkInsForDate = allCheckIns.filter((checkIn) => {
+            const checkInDate = new Date(checkIn.date).toLocaleDateString();
+            return checkInDate === date.toLocaleDateString();
         });
 
         return checkInsForDate.map((checkIn, index) => {
-            const restaurant = getCheckedInRestaurant(checkIn.restaurantId);
+            const restaurantCheckIn = getCheckedInRestaurant(checkIn.restaurantId);
 
-            if (!restaurant) {
+            if (!restaurantCheckIn) {
                 return null;
             }
 
             const tileContentStyle = {
-                backgroundImage: `url(${restaurant.photoUrl})`,
+                backgroundImage: `url(${restaurantCheckIn.photoUrl})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -142,8 +105,8 @@ const CheckIns = () => {
                 <div
                     key={index}
                     style={tileContentStyle}
-                    title={restaurant.name}
-                    onClick={() => handleTileClick(restaurant)}
+                    title={restaurantCheckIn.name}
+                    onClick={() => handleTileClick(restaurantCheckIn)}
                 ></div>
             );
         });
@@ -177,13 +140,13 @@ const CheckIns = () => {
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
-                    {checkedInRestaurants && <CheckInsMap restaurants={checkedInRestaurants}/>}
+                    {allCheckIns && <CheckInsMap checkIns={allCheckIns}/>}
                 </div>
 
                 <div className="check-ins-stats">
                     <div className="check-ins-streak">
                         <FontAwesomeIcon className="icon" icon={faFire}/>
-                        <span>{checkInsStreak}</span>
+                        <span>0</span>
                         <p>Week streak</p>
                     </div>
 
@@ -206,7 +169,7 @@ const CheckIns = () => {
                     />
 
                     {showCollagePopup && (
-                        <CheckInsCollage restaurant={restaurant} onClose={handleCollagePopupClose}/>
+                        <CheckInsCollage checkIn={selectedCheckIn} onClose={handleCollagePopupClose}/>
                     )}
                 </div>
             </div>

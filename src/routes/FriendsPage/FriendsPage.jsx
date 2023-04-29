@@ -3,20 +3,16 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faArrowLeft, faChevronDown,
     faCircleCheck,
-    faCirclePlus,
     faLink,
     faMagnifyingGlass,
     faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
-import UserIcon from "../../common/components/UserIcon/UserIcon";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useEffect, useState} from "react";
 import FormField from "../../common/components/FormField/FormField";
 import {
     acceptFriendRequest, cancelFriendRequest, deleteFriend,
-    getFriendRequestsByUserId,
-    getFriendsByUserId,
     getUserFromUserId, rejectFriendRequest,
     sendFriendRequestToUser
 } from "../../firebase/firebase";
@@ -24,19 +20,19 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     removeFriend,
     removeFriendRequest,
-    selectFriendRequests, selectFriendRequestsSortFilter,
+    selectFriendRequests,
     selectFriends, selectFriendsSortFilter,
     selectUserId,
     setFriendRequests,
     setFriends
 } from "../../features/user/userSlice";
 import LinkButton from "./LinkButton/LinkButton";
-import FriendInfo from "./FriendCard/FriendInfo/FriendInfo";
-import ActionButtons from "./FriendCard/ActionButtons/ActionButtons";
 import FriendCard from "./FriendCard/FriendCard";
 import {hideOverlay, showOverlay} from "../../features/overlay/overlaySlice";
 import SortFilterButton from "../../common/components/SortFilterButton/SortFilterButton";
 import {resetSearchQuery, selectSearchQuery} from "../../features/filters/filtersSlice";
+import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
+import SecondaryButton from "../../common/components/SecondaryButton/SecondaryButton";
 
 const FriendsPage = () => {
 
@@ -327,21 +323,17 @@ const FriendsPage = () => {
                         )}
 
                         {!foundUser && (
-                            <ActionButtons
-                                button1Handler={handleFindUserClick}
-                                button1Text="Find user"
-                                button2Handler={handleNoClick}
-                                button2Text="Cancel"
-                            />
+                            <div className="buttons-container">
+                                <PrimaryButton handleClick={handleFindUserClick} text="Find user"/>
+                                <SecondaryButton handleClick={handleNoClick} text="Cancel"/>
+                            </div>
                         )}
 
                         {foundUser && (
-                            <ActionButtons
-                                button1Handler={handleYesClick}
-                                button1Text="Yes"
-                                button2Handler={handleNoClick}
-                                button2Text="No"
-                            />
+                            <div className="buttons-container">
+                                <PrimaryButton handleClick={handleYesClick} text="Yes"/>
+                                <SecondaryButton handleClick={handleNoClick} text="No"/>
+                            </div>
                         )}
                     </div>
                 )}

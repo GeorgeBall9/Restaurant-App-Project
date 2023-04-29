@@ -26,7 +26,7 @@ button.react-calendar__tile > div {
     height: 100%;
 }
 
-.check-ins-page-container .container button {
+.check-ins-page-container header button {
     background: none;
     border: none;
 }

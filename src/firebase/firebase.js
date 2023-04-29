@@ -1,5 +1,5 @@
 // imports
-import { initializeApp } from "firebase/app";
+import {initializeApp} from "firebase/app";
 
 // db imports
 import {
@@ -58,8 +58,8 @@ export const auth = getAuth();
 
 // sign up with email and password
 export const signUpAuthUserWithEmailAndPassword = async (displayName, email, password) => {
-    const { user } = await createUserWithEmailAndPassword(auth, email, password);
-    return await createNewUserInDatabase({ ...user, displayName });
+    const {user} = await createUserWithEmailAndPassword(auth, email, password);
+    return await createNewUserInDatabase({...user, displayName});
 };
 
 // sign in with email and password
@@ -75,7 +75,7 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 const googleAuthProvider = new GoogleAuthProvider();
 
 export const signInWithGooglePopup = async () => {
-    const { user } = await signInWithPopup(auth, googleAuthProvider);
+    const {user} = await signInWithPopup(auth, googleAuthProvider);
     return await createNewUserInDatabase(user);
 };
 
@@ -83,7 +83,7 @@ export const signInWithGooglePopup = async () => {
 const facebookAuthProvider = new FacebookAuthProvider();
 
 export const signInWithFacebookPopup = async () => {
-    const { user } = await signInWithPopup(auth, facebookAuthProvider);
+    const {user} = await signInWithPopup(auth, facebookAuthProvider);
     return await createNewUserInDatabase(user);
 };
 
@@ -98,14 +98,14 @@ export const signOutAuthUser = async () => {
 export const createUserDoc = async (userData, userId) => {
     const userDocRef = doc(db, "users", userId);
 
-    await setDoc(userDocRef, { ...userData }, { merge: true });
+    await setDoc(userDocRef, {...userData}, {merge: true});
 
     console.log("User document written with ID: ", userDocRef.id);
 };
 
 // create user doc in db after successful sign up
 export const createNewUserInDatabase = async (user) => {
-    const { uid, displayName, email } = user;
+    const {uid, displayName, email} = user;
     const userData = await getUserFromUserId(uid);
 
     if (userData) {
@@ -114,10 +114,10 @@ export const createNewUserInDatabase = async (user) => {
 
     const iconColour = getRandomColour();
 
-    const data = { displayName, email, iconColour, bookmarks: [], checkedIn: [] };
+    const data = {displayName, email, iconColour, bookmarks: [], checkedIn: []};
     await createUserDoc(data, uid);
 
-    return { ...data, id: uid };
+    return {...data, id: uid};
 };
 
 // helper function to generate random icon colour for user
@@ -138,23 +138,14 @@ export const getUserFromUserId = async (userId) => {
         const docSnap = await getDoc(docRef);
 
         let data = docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
-        const path = data.profilePhotoPath;
 
-        if (!path) return data;
+        const profilePhotoUrl = await getProfilePhotoUrlByUserId(userId);
 
-        const profilePhotoUrl = await getImageDownloadUrl(path);
-
-        data = {...data, profilePhotoUrl};
-
-        const photoPaths = data.allPhotoPaths;
-
-        if (!photoPaths) {
+        if (!profilePhotoUrl) {
             return data;
         }
 
-        const allPhotoUrls = await getPhotoUrls(photoPaths);
-
-        return {...data, allPhotoUrls};
+        return {...data, profilePhotoUrl};
     } catch (error) {
         console.error(error);
         console.log("blue");
@@ -165,7 +156,7 @@ export const getUserFromUserId = async (userId) => {
 export const updateUserDisplayName = async (userId, displayName) => {
     try {
         const docSnap = await doc(db, "users", userId);
-        await updateDoc(docSnap, { displayName });
+        await updateDoc(docSnap, {displayName});
     } catch (error) {
         throw new Error("Document does not exist");
     }
@@ -175,7 +166,7 @@ export const updateUserDisplayName = async (userId, displayName) => {
 export const updateUserEmailAddress = async (userId, email) => {
     try {
         const docSnap = await doc(db, "users", userId);
-        await updateDoc(docSnap, { email });
+        await updateDoc(docSnap, {email});
     } catch (error) {
         throw new Error("Document does not exist");
     }
@@ -185,7 +176,7 @@ export const updateUserEmailAddress = async (userId, email) => {
 export const updateUserPhoneNumber = async (userId, phone) => {
     try {
         const docSnap = await doc(db, "users", userId);
-        await updateDoc(docSnap, { phone });
+        await updateDoc(docSnap, {phone});
     } catch (error) {
         throw new Error("Document does not exist");
     }
@@ -195,7 +186,7 @@ export const updateUserPhoneNumber = async (userId, phone) => {
 export const updateUserIconColour = async (userId, iconColour) => {
     try {
         const docSnap = await doc(db, "users", userId);
-        await updateDoc(docSnap, { iconColour });
+        await updateDoc(docSnap, {iconColour});
     } catch (error) {
         throw new Error("Document does not exist");
     }
@@ -210,7 +201,7 @@ export const updateUserReviewCount = async (userId, amount) => {
     const updatedReviewCount = docData.reviews ? +docData.reviews + amount : 1;
 
     const docSnap = await doc(db, "users", userId);
-    await updateDoc(docSnap, { reviews: updatedReviewCount });
+    await updateDoc(docSnap, {reviews: updatedReviewCount});
 };
 
 // add user recommendation
@@ -279,33 +270,40 @@ export const removeUserBookmark = async (userId, restaurantId) => {
     }
 };
 
+// create check in doc
+const createNewCheckInDoc = async (date, restaurant, userIds, photoIds) => {
+    const checkInsCollectionRef = collection(db, "check-ins");
+
+    const newCheckIn = {
+        date: +new Date(date),
+        restaurantId: restaurant.id,
+        userIds,
+        photoIds
+    };
+
+    const checkInDocRef = await addDoc(checkInsCollectionRef, newCheckIn);
+    console.log("Check in document created with id:", checkInDocRef.id);
+
+    return checkInDocRef.id;
+};
+
+const deleteCheckInDoc = async (checkInId) => {
+    await deleteDoc(doc(db, "check-ins", checkInId));
+};
+
+const getCheckInDocFromId = async (checkInId) => {
+    const docRef = await doc(db, "check-ins", checkInId);
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
+};
+
 // add checked in restaurant to user doc
-export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds, level = 1) => {
+export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) => {
     try {
-        const docSnap = await doc(db, "users", userId);
+        const checkInId = await createNewCheckInDoc(date, restaurant, [...friendIds, userId], []);
 
-        const newCheckIn = {
-            restaurantId: restaurant.id,
-            date: +new Date(date)
-        };
-
-        if (friendIds.length) {
-            newCheckIn.friendIds = friendIds;
-
-            if (level === 1) {
-                for (const friendId of friendIds) {
-                    await addRestaurantCheckIn(friendId, date, restaurant, friendIds, 2);
-                }
-            }
-        }
-
-        await updateDoc(docSnap, {
-            checkedIn: arrayUnion(newCheckIn)
-        });
-
-        await addInteractionToRestaurantDoc(restaurant, "checkIns");
-
-        return newCheckIn;
+        return await getCheckInDocFromId(checkInId);
     } catch (error) {
         console.log(error);
         throw new Error("Document does not exist");
@@ -314,54 +312,64 @@ export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds, 
 
 // validate restaurant check in
 export const checkInExists = async (userId, date, restaurantId) => {
-    const docRef = await doc(db, "users", userId);
-    const docSnap = await getDoc(docRef);
+    const checkInsCollectionRef = await collection(db, "check-ins");
 
-    return docSnap.data().checkedIn
-        .some(({ restaurantId: storedRestaurantId, date: dateInt }) => {
-            if (storedRestaurantId !== restaurantId) return false;
-            const checkInDate = new Date(dateInt).toISOString().split("T")[0];
-            return checkInDate === date;
-        });
+    const q = query(checkInsCollectionRef,
+        where("restaurantId", "==", restaurantId),
+        where("date", "==", date),
+        where("userIds", "array-contains", userId));
+
+    const querySnapshot = await getDocs(q);
+
+    let foundCheckIn = null;
+
+    querySnapshot.forEach((doc) => {
+        foundCheckIn = {id: doc.id, ...doc.data()};
+    });
+
+    return foundCheckIn !== null;
 };
 
 // remove checked in restaurant to user doc
-export const removeRestaurantCheckIn = async (userId, restaurantId, level = 1) => {
+export const removeRestaurantCheckIn = async (checkInId) => {
+    if (!checkInId) return;
+
     try {
-        const docRef = await doc(db, "users", userId);
-        const docSnap = await getDoc(docRef);
+        const checkInData = await getCheckInDocFromId(checkInId);
 
-        let foundCheckIn;
+        if (!checkInData) return null;
 
-        const checkedInData = docSnap.data().checkedIn
-            .filter(checkIn => {
-                const now = new Date().toLocaleDateString();
-                const dateString = new Date(checkIn.date).toLocaleDateString();
+        await deleteCheckInDoc(checkInId);
 
-                if (checkIn.restaurantId !== restaurantId || dateString !== now) {
-                    return true;
-                } else {
-                    foundCheckIn = checkIn;
-                    return false;
-                }
-            });
+        const {photoIds} = checkInData;
 
-        const friendsCheckedInWith = foundCheckIn.friendIds;
-
-        if (level === 1 && friendsCheckedInWith) {
-            for (const friendId of friendsCheckedInWith) {
-                await removeRestaurantCheckIn(friendId, restaurantId, 2);
-            }
+        for (const photoId of photoIds) {
+            await deleteRestaurantPhotoDoc(photoId);
         }
-
-        await updateDoc(docRef, { checkedIn: checkedInData });
-
-        await removeInteractionFromRestaurantDoc(restaurantId, "checkIns");
-
-        return checkedInData;
     } catch (error) {
+        console.log(error);
         throw new Error("Document does not exist");
     }
+};
+
+// get check ins data by userId
+export const getLastCheckInToRestaurantByUserId = async (userId, restaurantId) => {
+    const checkInsCollectionRef = await collection(db, "check-ins");
+
+    const q = query(checkInsCollectionRef,
+        where("restaurantId", "==", restaurantId),
+        where("userIds", "array-contains", userId),
+        orderBy("date", "desc"));
+
+    const querySnapshot = await getDocs(q);
+
+    const foundCheckIns = [];
+
+    querySnapshot.forEach((doc) => {
+        foundCheckIns.push({id: doc.id, ...doc.data()})
+    });
+
+    return foundCheckIns?.length ? foundCheckIns[0] : null;
 };
 
 // get checked-in restaurants by user ID
@@ -369,30 +377,34 @@ export const getCheckInsByUserId = async (userId) => {
     if (!userId) return;
 
     try {
-        const userData = await getUserFromUserId(userId);
-        const { checkedIn } = userData;
+        const checkInsCollectionRef = await collection(db, "check-ins");
 
-        if (!checkedIn) {
-            return null;
-        }
+        const q = query(checkInsCollectionRef,
+            where("userIds", "array-contains", userId));
 
-        // Sort checkedIn array by date in descending order
-        checkedIn.sort((a, b) => b.date - a.date);
+        const querySnapshot = await getDocs(q);
 
-        // Retrieve restaurant details for each checked-in restaurant
-        const checkedInRestaurants = await Promise.all(
-            checkedIn.map(async ({ restaurantId }) => await getRestaurantById(restaurantId))
-        );
+        const foundCheckIns = [];
 
-        // Combine restaurant details with corresponding check-in dates
-        return checkedIn.map((checkIn, index) => ({
-            ...checkedInRestaurants[index],
-            date: checkIn.date,
-        }));
+        querySnapshot.forEach((doc) => {
+            foundCheckIns.push({id: doc.id, ...doc.data()})
+        });
+
+        return foundCheckIns?.length ? foundCheckIns : null;
     } catch (error) {
         console.error(error);
         throw new Error("Error fetching checked-in restaurants");
     }
+};
+
+export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
+    const checkInData = await getCheckInsByUserId(userId);
+
+    return await Promise.all(checkInData
+        .map(async (checkIn) => {
+            const restaurantData = await getRestaurantById(checkIn.restaurantId);
+            return {...restaurantData, ...checkIn};
+        }));
 };
 
 // add restaurant review
@@ -419,7 +431,7 @@ export const addRestaurantReview = async (userId, restaurant, data) => {
 
     await updateUserReviewCount(userId, 1);
 
-    return { id: reviewDocRef.id, ...newReview };
+    return {id: reviewDocRef.id, ...newReview};
 };
 
 // delete restaurant review
@@ -445,7 +457,7 @@ export const updateRestaurantReview = async (reviewId, updatedData) => {
 
     const docSnap = await getDoc(docRef);
 
-    return docSnap.exists() ? { id: docSnap.id, ...docSnap.data() } : null;
+    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
 };
 
 // report restaurant review
@@ -460,7 +472,7 @@ export const reportRestaurantReview = async (reviewId, description) => {
 
     const docSnap = await getDoc(docRef);
 
-    return docSnap.exists() ? { id: docSnap.id, ...docSnap.data() } : null;
+    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
 };
 
 // get all reviews by restaurant ID
@@ -475,12 +487,12 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
     const reviews = [];
 
     querySnapshot.forEach((doc) => {
-        reviews.push({ id: doc.id, ...doc.data() });
+        reviews.push({id: doc.id, ...doc.data()});
     });
 
     return await Promise.all(reviews.map(async (review) => {
-        const { iconColour, displayName, reviews } = await getUserFromUserId(review.userId);
-        return { ...review, iconColour, displayName, numberOfReviews: reviews };
+        const {iconColour, displayName, reviews} = await getUserFromUserId(review.userId);
+        return {...review, iconColour, displayName, numberOfReviews: reviews};
     }));
 };
 
@@ -496,12 +508,12 @@ export const getReviewsByUserId = async (userId) => {
     const reviews = [];
 
     querySnapshot.forEach((doc) => {
-        reviews.push({ id: doc.id, ...doc.data() });
+        reviews.push({id: doc.id, ...doc.data()});
     });
 
     return await Promise.all(reviews.map(async (review) => {
-        const { photoUrl, name: restaurantName } = await getRestaurantById(review.restaurantId);
-        return { ...review, photoUrl, restaurantName };
+        const {photoUrl, name: restaurantName} = await getRestaurantById(review.restaurantId);
+        return {...review, photoUrl, restaurantName};
     }));
 };
 
@@ -530,7 +542,7 @@ export const addUserReactionToReview = async (userId, reviewId, reaction) => {
 
         updatedReactions[reaction] = userIdsReacted;
 
-        await updateDoc(docRef, { reactions: updatedReactions });
+        await updateDoc(docRef, {reactions: updatedReactions});
 
         return updatedReactions;
     } catch (error) {
@@ -544,7 +556,7 @@ export const createRestaurantDoc = async (restaurant) => {
 
     const docRef = await doc(db, "restaurants", restaurant.id);
 
-    await setDoc(docRef, { ...restaurant }, { merge: true });
+    await setDoc(docRef, {...restaurant}, {merge: true});
 
     console.log("User document written with ID: ", docRef.id);
 };
@@ -554,7 +566,7 @@ export const getRestaurantById = async (id) => {
     const docRef = await doc(db, "restaurants", id);
     const docSnap = await getDoc(docRef);
 
-    return docSnap.exists() ? { id: docSnap.id, ...docSnap.data() } : null;
+    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
 };
 
 // update restaurant doc
@@ -564,7 +576,7 @@ export const addInteractionToRestaurantDoc = async (restaurant, interaction) => 
     let restaurantData = await getRestaurantById(restaurant.id);
 
     if (!restaurantData) {
-        restaurantData = { ...restaurant };
+        restaurantData = {...restaurant};
         restaurantData[interaction] = 1;
         await createRestaurantDoc(restaurantData);
     } else {
@@ -618,9 +630,9 @@ const removeFriendRequest = async (userId, friendId) => {
     const requests = userData.friendRequests;
     const updatedRequests = requests.filter(request => request.userId !== friendId);
 
-    console.log({ userId, friendId, updatedRequests });
+    console.log({userId, friendId, updatedRequests});
 
-    await updateDoc(userDocRef, { friendRequests: updatedRequests });
+    await updateDoc(userDocRef, {friendRequests: updatedRequests});
 };
 
 // accept friend request
@@ -643,11 +655,11 @@ export const acceptFriendRequest = async (userId, friendId) => {
 
     const friends = friendData.friends;
 
-    const foundFriend = friends.find(({ userId: id }) => id === userId);
+    const foundFriend = friends.find(({userId: id}) => id === userId);
     foundFriend.status = "confirmed";
     foundFriend.date = +new Date();
 
-    await updateDoc(friendDocRef, { friends });
+    await updateDoc(friendDocRef, {friends});
 
     // remove friend request from user
     await removeFriendRequest(userId, friendId);
@@ -697,10 +709,10 @@ const removeFriendFromUserDoc = async (userId, friendId) => {
     const friendData = await getUserFromUserId(userId);
 
     const friends = friendData.friends;
-    const updatedFriends = friends.filter(({ userId: id }) => id !== friendId);
+    const updatedFriends = friends.filter(({userId: id}) => id !== friendId);
     const userDocRef = await doc(db, "users", userId);
 
-    await updateDoc(userDocRef, { friends: updatedFriends });
+    await updateDoc(userDocRef, {friends: updatedFriends});
 };
 
 // get friend requests
@@ -719,7 +731,7 @@ export const getFriendRequestsByUserId = async (userId) => {
 
     return await Promise
         .all(friendRequests
-            .map(async ({ userId: requestId }) => await getUserFromUserId(requestId)));
+            .map(async ({userId: requestId}) => await getUserFromUserId(requestId)));
 };
 
 // get friends
@@ -737,13 +749,13 @@ export const getFriendsByUserId = async (userId) => {
     friends.sort((a, b) => b.date - a.date);
 
     return await Promise.all(friends.map(async (friend) => {
-        const { userId } = friend;
+        const {userId} = friend;
         const data = await getUserFromUserId(userId);
-        return { ...data, ...friend };
+        return {...data, ...friend};
     }));
 };
 
-// file storage functions
+// photo storage functions
 export const uploadImage = (imageFile, downloadUrlSetter) => {
     if (!imageFile) {
         alert("Please choose a file first!");
@@ -789,43 +801,169 @@ export const uploadImage = (imageFile, downloadUrlSetter) => {
 };
 
 export const getImageDownloadUrl = async (path) => {
+    if (!path) return;
+
     const storageRef = ref(storage, path);
 
     return await getDownloadURL(storageRef);
 };
 
-export const updateUserProfilePhoto = async (userId, path) => {
-    const docRef = await doc(db, "users", userId);
+const createNewProfilePhotoDoc = async (userId, path) => {
+    const photosCollectionRef = collection(db, "profile-photos");
 
-    await updateDoc(docRef, {profilePhotoPath: path});
+    const newPhoto = {
+        userId,
+        storageRefPath: path,
+    };
+
+    const photoDocRef = await addDoc(photosCollectionRef, newPhoto);
+    console.log("Photo document created with id:", photoDocRef.id);
+
+    return photoDocRef.id;
 };
 
-export const addPhotoToRestaurantCheckIn = async (userId, restaurantId, date, path) => {
-    const docRef = await doc(db, "users", userId);
+const deleteProfilePhotoDoc = async (photoId) => {
+    await deleteDoc(doc(db, "profile-photos", photoId));
+};
+
+// get profile photo by userId
+const getProfilePhotoUrlByUserId = async (userId) => {
+    const photosCollectionRef = collection(db, "profile-photos");
+    const q = query(photosCollectionRef, where("userId", "==", userId));
+
+    const querySnapshot = await getDocs(q);
+
+    let photoPath;
+
+    querySnapshot.forEach((doc) => {
+        photoPath = doc.data().storageRefPath;
+    });
+
+    return await getImageDownloadUrl(photoPath);
+};
+
+const getProfilePhotoDocByUserId = async (userId) => {
+    const photosCollectionRef = collection(db, "profile-photos");
+    const q = query(photosCollectionRef, where("userId", "==", userId));
+
+    const querySnapshot = await getDocs(q);
+
+    let photoDoc = null;
+
+    querySnapshot.forEach((doc) => {
+        photoDoc = {id: doc.id, ...doc.data()};
+    });
+
+    return photoDoc;
+};
+
+export const updateUserProfilePhoto = async (userId, path) => {
+    const photoDoc = await getProfilePhotoDocByUserId(userId);
+
+    if (!photoDoc) {
+        await createNewProfilePhotoDoc(userId, path);
+    } else {
+        const {id} = photoDoc;
+        const profilePhotoDocRef = doc(db, "profile-photos", id);
+        await updateDoc(profilePhotoDocRef, {storageRefPath: path});
+    }
+};
+
+// restaurant photos
+const createNewRestaurantPhotoDoc = async (userId, friendIds, restaurantId, path) => {
+    const photosCollectionRef = collection(db, "restaurant-photos");
+
+    const newPhoto = {
+        restaurantId,
+        storageRefPath: path,
+        date: +new Date(),
+        uploadedBy: userId,
+        tagged: friendIds || []
+    };
+
+    const photoDocRef = await addDoc(photosCollectionRef, newPhoto);
+    console.log("Photo document created with id:", photoDocRef.id);
+
+    return photoDocRef.id;
+};
+
+const deleteRestaurantPhotoDoc = async (photoId) => {
+    await deleteDoc(doc(db, "restaurant-photos", photoId));
+};
+
+const getRestaurantPhotoPathFromId = async (photoId) => {
+    const photoRef = await doc(db, "restaurant-photos", photoId);
+    const photoDocSnap = await getDoc(photoRef);
+
+    return photoDocSnap.exists() ? photoDocSnap.data().storageRefPath : null;
+};
+
+export const addPhotoToCheckIn = async (userId, checkIn, path) => {
+    const {id: checkInId, userIds, restaurantId} = checkIn;
+
+    const friendIds = userIds.filter(id => id !== userId);
+
+    const photoId = await createNewRestaurantPhotoDoc(userId, friendIds, restaurantId, path);
+
+    const checkInDocRef = await doc(db, "check-ins", checkInId);
+
+    await updateDoc(checkInDocRef, {photoIds: arrayUnion(photoId)});
+
+    return photoId;
+};
+
+export const getPhotoUrlsFromPhotoIds = async (photoIds) => {
+    if (!photoIds) return null;
+
+    return await Promise.all(photoIds.map(async (id, i) => {
+        const photoStoragePath = await getRestaurantPhotoPathFromId(id);
+        const url = await getImageDownloadUrl(photoStoragePath);
+        return {id, url, alt: "Photo " + (i + 1)};
+    }));
+};
+
+export const deleteCheckInPhoto = async (userId, photoId, checkInId) => {
+    const docRef = await doc(db, "restaurant-photos", photoId);
     const docSnap = await getDoc(docRef);
+    const data = docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
 
-    const userData = docSnap.data();
-    const checkedIn = userData.checkedIn;
+    if (!data || data.uploadedBy !== userId) return false;
 
-    const foundCheckIn = checkedIn
-        .find(({ restaurantId: storedRestaurantId, date: dateInt }) => {
-            if (storedRestaurantId !== restaurantId) return false;
-            return dateInt === date;
-        });
+    await deleteRestaurantPhotoDoc(photoId);
 
-    if (!foundCheckIn.photoPaths) {
-        foundCheckIn.photoPaths = [];
-    }
+    const checkInDocRef = await doc(db, "check-ins", checkInId);
 
-    foundCheckIn.photoPaths.push(path);
+    await updateDoc(checkInDocRef, {
+        photoIds: arrayRemove(photoId)
+    });
 
-    let allPhotoPaths = userData.allPhotoPaths;
+    return true;
+};
 
-    if (!allPhotoPaths) {
-        allPhotoPaths = [];
-    }
+export const getAllRestaurantPhotosByUserId = async (userId) => {
+    const photosCollectionRef = await collection(db, "restaurant-photos");
+    const uploadedQuery = query(photosCollectionRef, where("uploadedBy", "==", userId));
+    const taggedQuery = query(photosCollectionRef, where("tagged", "array-contains", userId));
 
-    allPhotoPaths.push(path);
+    const uploadedPhotoDocs = await getQueriedPhotos(uploadedQuery);
+    const taggedPhotoDocs = await getQueriedPhotos(taggedQuery);
 
-    await updateDoc(docRef, {checkedIn, allPhotoPaths});
+    const uploadedPhotos = await getPhotoUrlsFromPhotoIds(uploadedPhotoDocs.map(doc => doc.id));
+    const taggedPhotos = await getPhotoUrlsFromPhotoIds(taggedPhotoDocs.map(doc => doc.id));
+
+    return {uploadedPhotos, taggedPhotos};
+};
+
+const getQueriedPhotos = async (q) => {
+    const querySnapshot = await getDocs(q);
+
+    let results = [];
+
+    querySnapshot.forEach((doc) => {
+        results.push({id: doc.id, ...doc.data()});
+    });
+
+    console.log({results})
+
+    return results;
 };

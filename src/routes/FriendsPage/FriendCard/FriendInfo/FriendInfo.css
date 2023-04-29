@@ -18,3 +18,9 @@
 .friend-info p {
     font-size: var(--font-size-small);
 }
+
+.friend-info .cancel-request-button {
+    border: none;
+    margin-top: 0.5em;
+    background-color: lightgrey;
+}

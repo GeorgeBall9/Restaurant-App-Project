@@ -121,7 +121,7 @@
 }
 
 .collage-popup .add-photo-popup {
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     position: absolute;
     top: 4em;
     left: 0;
@@ -133,6 +133,9 @@
     max-width: 275px;
     margin: var(--margin-align-center);
     box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 .collage-popup .add-photo-popup .popup-header {
@@ -146,6 +149,7 @@
     background: none;
     border: none;
     color: var(--secondary-theme);
+    font-size: var(--font-size-sub-heading);
 }
 
 .collage-popup .add-photo-popup h3 {
@@ -154,7 +158,7 @@
     text-align: center;
     border-bottom: solid 1px var(--background-theme);
     padding-bottom: 0.5em;
-    margin: 0.5em 0 1em;
+    margin-top: -0.5em;
 }
 
 .collage-popup .add-photo-popup .uploaded-image-container {
@@ -163,22 +167,4 @@
     border: solid 4px lightgrey;
     margin: var(--margin-align-center);
     margin-bottom: 1em;
-}
-
-.collage-popup .add-photo-popup .uploaded-image-container img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}
-
-.collage-popup .add-photo-popup .upload-button {
-    width: 100%;
-    margin-top: 1em;
-    border-radius: var(--border-radius);
-    border: none;
-    background-color: var(--primary-theme);
-    color: white;
-    padding: 0.75em;
-    font-size: var(--font-size-sub-heading);
-    font-weight: var(--font-weight-bold-1);
 }

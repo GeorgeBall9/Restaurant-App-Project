@@ -1,32 +1,32 @@
 import "./CheckInsCollage.css";
 import NoResults from "../../../common/components/NoResults/NoResults";
 import CustomCollage from "./CustomCollage/CustomCollage.jsx";
-import { useEffect, useState } from "react";
+
+import {useEffect, useState} from "react";
+import {faArrowLeft, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faArrowLeft,
-    faEllipsis,
-    faImage,
-    faMaximize,
-    faUpRightAndDownLeftFromCenter,
-    faXmark
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import FormField from "../../../common/components/FormField/FormField";
-import { addPhotoToRestaurantCheckIn, getImageDownloadUrl, uploadImage } from "../../../firebase/firebase";
-import { useSelector } from "react-redux";
-import { selectUserId } from "../../../features/user/userSlice";
+    addPhotoToCheckIn, deleteCheckInPhoto,
+    getImageDownloadUrl,
+    getPhotoUrlsFromPhotoIds,
+    uploadImage
+} from "../../../firebase/firebase";
+import {useSelector} from "react-redux";
+import {selectUserId} from "../../../features/user/userSlice";
 import Overlay from "../../../features/overlay/Overlay/Overlay";
 import UploadFileButton from "../../../common/components/UploadFileButton/UploadFileButton";
+import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
 
 export const getPhotoUrls = async (photoPaths) => {
     if (!photoPaths?.length) return [];
 
     return await Promise.all(photoPaths.map(async (path, i) => {
-        return { src: await getImageDownloadUrl(path), alt: "Photo " + (i + 1) };
+        return {src: await getImageDownloadUrl(path), alt: "Photo " + (i + 1)};
     }));
 };
 
-const CheckInsCollage = ({ restaurant, onClose }) => {
+const CheckInsCollage = ({checkIn, onClose}) => {
+
 
     const userId = useSelector(selectUserId);
 
@@ -35,15 +35,18 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [addPhotoPopupIsVisible, setAddPhotoPopupIsVisible] = useState(false);
     const [photoUrl, setPhotoUrl] = useState("");
+    const [previewLoaded, setPreviewLoaded] = useState(false);
     const [photoStoragePath, setPhotoStoragePath] = useState(null);
     const [showOverlay, setShowOverlay] = useState(false);
+    const [uploadButtonText, setUploadButtonText] = useState("Loading...");
+    const [selectMode, setSelectMode] = useState(false);
 
     useEffect(() => {
-        if (!restaurant) return;
+        if (!checkIn) return;
 
-        getPhotoUrls(restaurant.photoPaths)
+        getPhotoUrlsFromPhotoIds(checkIn.photoIds)
             .then(urls => setPhotos(urls));
-    }, [restaurant]);
+    }, [checkIn]);
 
     const handleBackClick = () => {
         setIsVisible(false);
@@ -67,17 +70,41 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
         document.querySelector(".file-upload-input").value = "";
     }
 
-    const handleFileChange = ({ target }) => {
+    const handleFileChange = ({target}) => {
         const file = target.files[0];
         const storageRef = uploadImage(file, setPhotoUrl);
         setPhotoStoragePath(storageRef._location.path);
     };
 
     const handleUploadPhotoClick = async () => {
-        console.log("adding photo to db");
-        await addPhotoToRestaurantCheckIn(userId, restaurant.id, restaurant.date, photoStoragePath);
+        setUploadButtonText("Uploading...");
+        const newPhotoId = await addPhotoToCheckIn(userId, checkIn, photoStoragePath);
+        setPhotos(photos => [...photos, {id: newPhotoId, url: photoUrl, alt: "Photo " + photos.length + 1}]);
         document.querySelector(".file-upload-input").value = "";
         handleCloseClick();
+    };
+
+    const handlePreviewLoad = () => {
+        setPreviewLoaded(true);
+        setUploadButtonText("Upload");
+    };
+
+    const handleSelectClick = () => {
+        setSelectMode(selectMode => !selectMode);
+    };
+
+    const handleDeleteSelected = async (selectedImages) => {
+        if (!selectedImages?.length) return;
+
+        let updatedPhotos = [...photos];
+
+        for (const image of selectedImages) {
+            const deleted = await deleteCheckInPhoto(userId, image.id, checkIn.id);
+
+            if (deleted) {
+                updatedPhotos.filter(photo => photo.id !== image.id);
+            }
+        }
     };
 
     return (
@@ -86,21 +113,21 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
                 <div className={`collage-popup-header ${isExpanded ? "collage-header-sticky" : ""}`}>
                     <div className="container">
                         <button onClick={handleBackClick}>
-                            <FontAwesomeIcon className="icon" icon={faArrowLeft} />
+                            <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
                             Back
                         </button>
 
-                        <h2>{restaurant.name}</h2>
+                        <h2>{checkIn.name}</h2>
 
                         {isExpanded && (
-                            <button onClick={() => console.log("selecting photos")}>
-                                Select
+                            <button onClick={handleSelectClick}>
+                                {selectMode ? "Cancel" : "Select"}
                             </button>
                         )}
 
                         {!isExpanded && (
                             <button onClick={handleExpand}>
-                                <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter} />
+                                <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
                             </button>
                         )}
                     </div>
@@ -108,9 +135,10 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
 
                 <div className={`collage-popup-photos ${isExpanded ? "collage-popup-photos-expanded" : ""}`}>
                     {photos.length === 0 && !isExpanded ? (
-                        <NoResults 
-                        mainText="You haven't uploaded any photos yet!" 
-                        subText= "click the expand icon to see where to upload them."/>
+                        <NoResults
+                            mainText="You haven't uploaded any photos yet!"
+                            subText="click the expand icon to see where to upload them."
+                        />
                     ) : (
                         <CustomCollage
                             images={photos}
@@ -119,13 +147,13 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
                             isExpanded={isExpanded}
                             onExpand={handleExpand}
                             handleAddClick={handleAddClick}
+                            selectMode={selectMode}
+                            handleDeleteSelected={handleDeleteSelected}
                         />
                     )}
-
-
                 </div>
 
-                {showOverlay && <Overlay />}
+                {showOverlay && <Overlay/>}
 
                 {addPhotoPopupIsVisible && (
                     <div className="add-photo-popup">
@@ -134,7 +162,7 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
                                 Close
                             </button>
 
-                            <button style={{ visibility: "hidden" }}>
+                            <button style={{visibility: "hidden"}}>
                                 Close
                             </button>
                         </div>
@@ -143,13 +171,26 @@ const CheckInsCollage = ({ restaurant, onClose }) => {
 
                         <div>
                             <div className="uploaded-image-container">
-                                {photoUrl && <img src={photoUrl} />}
+                                {photoUrl && (
+                                    <img
+                                        src={photoUrl}
+                                        alt="image-preview"
+                                        style={{visibility: previewLoaded ? "visible" : "hidden"}}
+                                        onLoad={handlePreviewLoad}
+                                    />
+                                )}
                             </div>
 
                             <UploadFileButton handleFileChange={handleFileChange}/>
                         </div>
 
-                        <button className="upload-button" onClick={handleUploadPhotoClick}>Upload</button>
+                        {photoUrl && (
+                            <PrimaryButton
+                                handleClick={handleUploadPhotoClick}
+                                text={uploadButtonText}
+                                active={previewLoaded}
+                            />
+                        )}
                     </div>
                 )}
             </div>

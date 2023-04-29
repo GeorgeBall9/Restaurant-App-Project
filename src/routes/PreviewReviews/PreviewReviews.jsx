@@ -1,6 +1,6 @@
 import "./PreviewReviews.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faExpand, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faExpand, faPen, faTrash, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
@@ -97,7 +97,7 @@ const PreviewReviews = () => {
 
                         <div className="container-rhs">
                             <button onClick={() => handleExpandClick(id, restaurantId)}>
-                                <FontAwesomeIcon icon={faExpand} className="icon"/>
+                                <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
                             </button>
 
                             <button onClick={() => handleDeleteClick(id)}>

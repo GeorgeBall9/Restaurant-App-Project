@@ -21,6 +21,7 @@ import {
 } from "../../firebase/firebase";
 import {showOverlay} from "../../features/overlay/overlaySlice";
 import FormField from "../../common/components/FormField/FormField";
+import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
 
 const EditProfilePage = () => {
 
@@ -170,12 +171,12 @@ const EditProfilePage = () => {
                        onChangeHandler={handlePhoneNumberChange}
                    />
 
-                   <button onClick={handleSaveClick}>
-                       {buttonText}
-                       {buttonText === "Saved" && (
-                           <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
-                       )}
-                   </button>
+                   <PrimaryButton
+                       handleClick={handleSaveClick}
+                       text={buttonText}
+                       icon={buttonText === "Saved" ? faCircleCheck : null}
+                       size="large"
+                   />
                </section>
            </main>
         </div>

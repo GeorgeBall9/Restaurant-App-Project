@@ -17,6 +17,7 @@ import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
 import Overlay from "../../../features/overlay/Overlay/Overlay";
 import UploadFileButton from "../../../common/components/UploadFileButton/UploadFileButton";
+import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
 
 export const getPhotoUrls = async (photoPaths) => {
     if (!photoPaths?.length) return [];
@@ -141,7 +142,7 @@ const CheckInsCollage = ({restaurant, onClose}) => {
                             <UploadFileButton handleFileChange={handleFileChange}/>
                         </div>
 
-                        <button className="upload-button" onClick={handleUploadPhotoClick}>Upload</button>
+                        <PrimaryButton handleClick={handleUploadPhotoClick} text="Upload"/>
                     </div>
                 )}
             </div>

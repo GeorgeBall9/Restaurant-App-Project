@@ -1,12 +1,12 @@
 .default-button {
-    margin: 0 auto;
+    margin: var(--margin-align-center);
     width: 100%;
     padding: 0.5em;
     border-radius: var(--border-radius);
-    font-weight: var(--font-weight-bold-2);
-    letter-spacing: 0.05rem;
-    font-size: 0.95rem;
+    font-weight: var(--font-weight-bold-1);
+    font-size: var(--font-size-heading);
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.25em;
 }

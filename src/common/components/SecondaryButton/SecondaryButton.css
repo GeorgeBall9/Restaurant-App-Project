@@ -3,3 +3,7 @@
     color: white;
     border: none;
 }
+
+.secondary.default-button .icon {
+    color: white;
+}

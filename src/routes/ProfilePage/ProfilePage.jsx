@@ -18,6 +18,8 @@ import {signOutAuthUser} from "../../firebase/firebase";
 import {useEffect, useState} from "react";
 import ContributionsButton from "./ContributionsButton/ContributionsButton";
 import {hideSpinner} from "../../features/spinner/spinnerSlice";
+import Button from "../../common/components/Button/Button";
+import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
 
 const ProfilePage = () => {
 
@@ -116,9 +118,7 @@ const ProfilePage = () => {
                 </section>
 
                 <section>
-                    <button className="sign-out-button" onClick={handleSignOutClick}>
-                        Sign out
-                    </button>
+                    <PrimaryButton handleClick={handleSignOutClick} text="Sign out" size="large"/>
                 </section>
             </main>
         </div>

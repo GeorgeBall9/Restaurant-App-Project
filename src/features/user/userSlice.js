@@ -33,7 +33,7 @@ const userSlice = createSlice({
                 profilePhotoUrl,
                 recommendations,
                 bookmarks,
-                checkedIn,
+                checkInData,
                 allPhotoUrls
             } = action.payload;
 
@@ -45,7 +45,7 @@ const userSlice = createSlice({
             state.profilePhotoUrl = profilePhotoUrl || null;
             state.recommendations = recommendations || [];
             state.bookmarks = bookmarks || [];
-            state.checkedInRestaurants = checkedIn || [];
+            state.checkedInRestaurants = checkInData || [];
             state.allPhotoUrls = allPhotoUrls || [];
         },
         resetUserDetails: state => {

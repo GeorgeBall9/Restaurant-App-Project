@@ -168,9 +168,3 @@
     margin: var(--margin-align-center);
     margin-bottom: 1em;
 }
-
-.collage-popup .add-photo-popup .uploaded-image-container img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}

@@ -334,6 +334,14 @@ const addCheckInIdToUserDoc = async (userId, checkInId) => {
     });
 };
 
+const removeCheckInIdFromUserDoc = async (userId, checkInId) => {
+    const docSnap = await doc(db, "users", userId);
+
+    await updateDoc(docSnap, {
+        checkInIds: arrayRemove(checkInId)
+    });
+};
+
 // validate restaurant check in
 export const checkInExists = async (userId, date, restaurantId) => {
     const checkInsCollectionRef = await collection(db, "check-ins");
@@ -357,40 +365,22 @@ export const checkInExists = async (userId, date, restaurantId) => {
 };
 
 // remove checked in restaurant to user doc
-export const removeRestaurantCheckIn = async (userId, restaurantId, level = 1) => {
+export const removeRestaurantCheckIn = async (checkInId) => {
     try {
-        const docRef = await doc(db, "users", userId);
-        const docSnap = await getDoc(docRef);
+        const checkInData = await getCheckInDocFromId(checkInId);
 
-        let foundCheckIn;
+        if (!checkInData) return null;
 
-        const checkedInData = docSnap.data().checkedIn
-            .filter(checkIn => {
-                const now = new Date().toLocaleDateString();
-                const dateString = new Date(checkIn.date).toLocaleDateString();
+        const {restaurantId, userIds, photoIds} = checkInData;
 
-                if (checkIn.restaurantId !== restaurantId || dateString !== now) {
-                    return true;
-                } else {
-                    foundCheckIn = checkIn;
-                    return false;
-                }
-            });
-
-        const friendsCheckedInWith = foundCheckIn.friendIds;
-
-        if (level === 1 && friendsCheckedInWith) {
-            for (const friendId of friendsCheckedInWith) {
-                await removeRestaurantCheckIn(friendId, restaurantId, 2);
-            }
+        for (const userId of userIds) {
+            await removeCheckInIdFromUserDoc(userId, checkInId);
         }
-
-        await updateDoc(docRef, {checkedIn: checkedInData});
 
         await removeInteractionFromRestaurantDoc(restaurantId, "checkIns");
 
-        return checkedInData;
     } catch (error) {
+        console.log(error);
         throw new Error("Document does not exist");
     }
 };
@@ -841,6 +831,10 @@ const createNewProfilePhotoDoc = async (userId, path) => {
     return photoDocRef.id;
 };
 
+const deleteProfilePhotoDoc = async (photoId) => {
+    await deleteDoc(doc(db, "profile-photos", photoId));
+};
+
 // get profile photo by userId
 const getProfilePhotoUrlByUserId = async (userId) => {
     const photosCollectionRef = collection(db, "profile-photos");
@@ -882,6 +876,26 @@ export const updateUserProfilePhoto = async (userId, path) => {
         const profilePhotoDocRef = doc(db, "profile-photos", id);
         await updateDoc(profilePhotoDocRef, {storageRefPath: path});
     }
+};
+
+// restaurant photos
+const createNewRestaurantPhotoDoc = async (restaurantId, path) => {
+    const photosCollectionRef = collection(db, "restaurant-photos");
+
+    const newPhoto = {
+        restaurantId,
+        storageRefPath: path,
+        date: +new Date()
+    };
+
+    const photoDocRef = await addDoc(photosCollectionRef, newPhoto);
+    console.log("Photo document created with id:", photoDocRef.id);
+
+    return photoDocRef.id;
+};
+
+const deleteProfilePhotoDoc = async (photoId) => {
+    await deleteDoc(doc(db, "restaurant-photos", photoId));
 };
 
 export const addPhotoToRestaurantCheckIn = async (userId, restaurantId, date, path) => {

@@ -7,6 +7,8 @@ const CustomCollage = ({images, rows, columns, isExpanded, onExpand, handleAddCl
     const image4 = images[rows * columns - 1];
     const remainingImages = showMore ? images.length - rows * columns : 0;
 
+    console.log("custom collage", {images})
+
     return (
         <div
             className="collage-container"

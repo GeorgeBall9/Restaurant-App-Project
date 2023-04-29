@@ -2,16 +2,8 @@ import "./CheckInsCollage.css";
 
 import CustomCollage from "./CustomCollage/CustomCollage.jsx";
 import {useEffect, useState} from "react";
-import {
-    faArrowLeft,
-    faEllipsis,
-    faImage,
-    faMaximize,
-    faUpRightAndDownLeftFromCenter,
-    faXmark
-} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import FormField from "../../../common/components/FormField/FormField";
 import {addPhotoToRestaurantCheckIn, getImageDownloadUrl, uploadImage} from "../../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
@@ -81,8 +73,13 @@ const CheckInsCollage = ({restaurant, onClose}) => {
         setUploadButtonText("Uploading...");
         await addPhotoToRestaurantCheckIn(userId, restaurant.id, restaurant.date, photoStoragePath);
         document.querySelector(".file-upload-input").value = "";
+        setPhotos(photos => [...photos, {src: photoUrl, alt: "Photo " + photos.length + 1}]);
         handleCloseClick();
     };
+
+    useEffect(() => {
+        console.log(photos)
+    }, [photos])
 
     const handlePreviewLoad = () => {
         setPreviewLoaded(true);

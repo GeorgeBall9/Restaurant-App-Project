@@ -90,10 +90,6 @@ const userSlice = createSlice({
         addCheckedInRestaurant: (state, action) => {
             state.checkedInRestaurants.push(action.payload);
         },
-        removeCheckedInRestaurant: (state, action) => {
-            state.checkedInRestaurants = state.checkedInRestaurants
-                .filter(restaurant => restaurant !== action.payload);
-        },
         setCheckedInRestaurants: (state, action) => {
             state.checkedInRestaurants = action.payload.length ? action.payload : [];
         },
@@ -122,7 +118,7 @@ const userSlice = createSlice({
         },
         setAllPhotoUrls: (state, action) => {
             state.allPhotoUrls = action.payload;
-        }
+        },
     },
 });
 
@@ -139,7 +135,6 @@ export const {
     addBookmark,
     removeBookmark,
     addCheckedInRestaurant,
-    removeCheckedInRestaurant,
     setCheckedInRestaurants,
     setFriends,
     removeFriend,
@@ -148,7 +143,6 @@ export const {
     sortFriends,
     sortFriendRequests,
     setProfilePhotoUrl,
-    setAllPhotoUrls
 } = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;

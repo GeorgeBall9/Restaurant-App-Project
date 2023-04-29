@@ -798,6 +798,8 @@ const createNewPhotoDoc = async (path) => {
 
     const photoDocRef = await addDoc(photosCollectionRef, newPhoto);
     console.log("Review document created with id:", photoDocRef.id);
+
+    return photoDocRef.id;
 };
 
 const getPhotoDocFromId = async (photoId) => {
@@ -810,7 +812,9 @@ const getPhotoDocFromId = async (photoId) => {
 export const updateUserProfilePhoto = async (userId, path) => {
     const docRef = await doc(db, "users", userId);
 
-    await updateDoc(docRef, {profilePhotoPath: path});
+    const photoId = await createNewPhotoDoc(path);
+
+    await updateDoc(docRef, {profilePhotoId: photoId});
 };
 
 export const addPhotoToRestaurantCheckIn = async (userId, restaurantId, date, path) => {

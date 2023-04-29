@@ -939,3 +939,31 @@ export const deleteCheckInPhoto = async (userId, photoId, checkInId) => {
 
     return true;
 };
+
+export const getAllRestaurantPhotosByUserId = async (userId) => {
+    const photosCollectionRef = await collection(db, "restaurant-photos");
+    const uploadedQuery = query(photosCollectionRef, where("uploadedBy", "==", userId));
+    const taggedQuery = query(photosCollectionRef, where("tagged", "array-contains", userId));
+
+    const uploadedPhotoDocs = await getQueriedPhotos(uploadedQuery);
+    const taggedPhotoDocs = await getQueriedPhotos(taggedQuery);
+
+    const uploadedPhotos = await getPhotoUrlsFromPhotoIds(uploadedPhotoDocs.map(doc => doc.id));
+    const taggedPhotos = await getPhotoUrlsFromPhotoIds(taggedPhotoDocs.map(doc => doc.id));
+
+    return {uploadedPhotos, taggedPhotos};
+};
+
+const getQueriedPhotos = async (q) => {
+    const querySnapshot = await getDocs(q);
+
+    let results = [];
+
+    querySnapshot.forEach((doc) => {
+        results.push({id: doc.id, ...doc.data()});
+    });
+
+    console.log({results})
+
+    return results;
+};

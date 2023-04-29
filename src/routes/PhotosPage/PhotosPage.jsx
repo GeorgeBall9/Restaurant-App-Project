@@ -2,19 +2,26 @@ import "./PhotosPage.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
-import FormField from "../../common/components/FormField/FormField";
-import {useEffect, useState} from "react";
-import {getImageDownloadUrl, uploadImage} from "../../firebase/firebase";
 import CustomCollage from "../CheckIns/CheckInsCollage/CustomCollage/CustomCollage";
+import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import {selectAllPhotoUrls, selectUserId} from "../../features/user/userSlice";
-import {getPhotoUrls} from "../CheckIns/CheckInsCollage/CheckInsCollage";
+import {selectUserId} from "../../features/user/userSlice";
+import {getAllRestaurantPhotosByUserId} from "../../firebase/firebase";
 
 const PhotosPage = () => {
 
     const navigate = useNavigate();
 
-    const userPhotos = useSelector(selectAllPhotoUrls);
+    const userId = useSelector(selectUserId);
+
+    const [allPhotos, setAllPhotos] = useState(null);
+
+    useEffect(() => {
+        if (!userId) return;
+
+        getAllRestaurantPhotosByUserId(userId)
+            .then(data => setAllPhotos(data))
+    }, [userId]);
 
     return (
         <div className="photos-page-container">
@@ -35,14 +42,27 @@ const PhotosPage = () => {
             </header>
 
             <main>
-                <div className="collage-popup-photos collage-popup-photos-expanded">
-                    <CustomCollage
-                        images={userPhotos}
-                        rows={100}
-                        columns={2}
-                        addFunctionality={false}
-                    />
-                </div>
+                {allPhotos?.uploadedPhotos && (
+                    <div className="collage-popup-photos collage-popup-photos-expanded">
+                        <CustomCollage
+                            images={allPhotos.uploadedPhotos}
+                            rows={100}
+                            columns={2}
+                            addFunctionality={false}
+                        />
+                    </div>
+                )}
+
+                {allPhotos?.taggedPhotos && (
+                    <div className="collage-popup-photos collage-popup-photos-expanded">
+                        <CustomCollage
+                            images={allPhotos.taggedPhotos}
+                            rows={100}
+                            columns={2}
+                            addFunctionality={false}
+                        />
+                    </div>
+                )}
             </main>
         </div>
     );

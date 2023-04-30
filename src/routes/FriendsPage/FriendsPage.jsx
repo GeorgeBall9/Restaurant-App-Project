@@ -33,6 +33,7 @@ import SortFilterButton from "../../common/components/SortFilterButton/SortFilte
 import {resetSearchQuery, selectSearchQuery} from "../../features/filters/filtersSlice";
 import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../common/components/SecondaryButton/SecondaryButton";
+import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
 
 const FriendsPage = () => {
 
@@ -222,85 +223,112 @@ const FriendsPage = () => {
 
     return (
         <div className="friends-page-container">
-            <header>
-                <div className="container upper-nav">
-                    <button className="back-button" onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
+            <ProfileNavigation
+                pageTitle={display}
+                button2={{
+                    text: searchIsVisible ? "Cancel" : "Search",
+                    icon: !searchIsVisible ? faMagnifyingGlass : null,
+                    handler: handleSearchClick
+                }}
+                toggleDisplayText={display === "friends" ? "Requests" : "Friends"}
+                toggleHandler={handleDisplayLinkClick}
+                count={display === "friends" ?
+                    (friendRequests?.length ? friendRequests?.length : 0)
+                    :
+                    (friends?.length ? friends?.length : 0)
+                }
+                searchFunctionality={searchIsVisible}
+                button3={{
+                    text: "Add",
+                    icon: faPlus,
+                    handler: handleAddClick
+                }}
+                button4={{
+                    text: inviteCopied ? "Copied" : "Invite",
+                    icon: inviteCopied ? faCircleCheck : faLink,
+                    handler: handleInviteClick
+                }}
+            />
 
-                    <h1>{display}</h1>
+            {/*<header>*/}
+            {/*    <div className="container upper-nav">*/}
+            {/*        <button className="back-button" onClick={handleBackClick}>*/}
+            {/*            <FontAwesomeIcon className="icon" icon={faArrowLeft}/>*/}
+            {/*            Back*/}
+            {/*        </button>*/}
 
-                    <button onClick={handleSearchClick}>
-                        {!searchIsVisible && <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>}
-                        {searchIsVisible ? "Cancel" : "Search"}
-                    </button>
-                </div>
+            {/*        <h1>{display}</h1>*/}
 
-                {searchIsVisible && (
-                    <div className="container search-and-filters">
-                        <SearchBox type="friends" matches={hasMatches}/>
+            {/*        <button onClick={handleSearchClick}>*/}
+            {/*            {!searchIsVisible && <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>}*/}
+            {/*            {searchIsVisible ? "Cancel" : "Search"}*/}
+            {/*        </button>*/}
+            {/*    </div>*/}
 
-                        <div>
-                            <button className="reviews-sort-button" onClick={handleSortClick}>
-                                Sort
-                                <FontAwesomeIcon icon={faChevronDown} className="icon"/>
-                            </button>
+            {/*    {searchIsVisible && (*/}
+            {/*        <div className="container search-and-filters">*/}
+            {/*            <SearchBox type="friends" matches={hasMatches}/>*/}
 
-                            {sortFiltersVisible && (
-                                <div className="sort-filters">
-                                    <SortFilterButton
-                                        text="Most recent"
-                                        filter="date"
-                                        multiplier={-1}
-                                        active={friendsSortFilter === "Most recent"}
-                                        type={display}
-                                    />
+            {/*            <div>*/}
+            {/*                <button className="reviews-sort-button" onClick={handleSortClick}>*/}
+            {/*                    Sort*/}
+            {/*                    <FontAwesomeIcon icon={faChevronDown} className="icon"/>*/}
+            {/*                </button>*/}
 
-                                    <SortFilterButton
-                                        text="Oldest"
-                                        filter="date"
-                                        multiplier={1}
-                                        active={friendsSortFilter === "Oldest"}
-                                        type={display}
-                                    />
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                )}
-            </header>
+            {/*                {sortFiltersVisible && (*/}
+            {/*                    <div className="sort-filters">*/}
+            {/*                        <SortFilterButton*/}
+            {/*                            text="Most recent"*/}
+            {/*                            filter="date"*/}
+            {/*                            multiplier={-1}*/}
+            {/*                            active={friendsSortFilter === "Most recent"}*/}
+            {/*                            type={display}*/}
+            {/*                        />*/}
+
+            {/*                        <SortFilterButton*/}
+            {/*                            text="Oldest"*/}
+            {/*                            filter="date"*/}
+            {/*                            multiplier={1}*/}
+            {/*                            active={friendsSortFilter === "Oldest"}*/}
+            {/*                            type={display}*/}
+            {/*                        />*/}
+            {/*                    </div>*/}
+            {/*                )}*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    )}*/}
+            {/*</header>*/}
 
             <main className="container">
-                <div className="links-container">
-                    <button className="display-button" onClick={handleDisplayLinkClick}>
-                        {display === "friends" ? "Requests" : "Friends"}
+                {/*<div className="links-container">*/}
+                {/*    <button className="display-button" onClick={handleDisplayLinkClick}>*/}
+                {/*        {display === "friends" ? "Requests" : "Friends"}*/}
 
-                        <p className="count">
-                            {display === "friends" ?
-                                (friendRequests?.length ? friendRequests?.length : 0)
-                                :
-                                (friends?.length ? friends?.length : 0)
-                            }
-                        </p>
-                    </button>
+                {/*        <p className="count">*/}
+                {/*            {display === "friends" ?*/}
+                {/*                (friendRequests?.length ? friendRequests?.length : 0)*/}
+                {/*                :*/}
+                {/*                (friends?.length ? friends?.length : 0)*/}
+                {/*            }*/}
+                {/*        </p>*/}
+                {/*    </button>*/}
 
-                    {display === "friends" && (
-                        <div>
-                            <LinkButton
-                                handleClick={handleAddClick}
-                                text="Add"
-                                icon={faPlus}
-                            />
+                {/*    {display === "friends" && (*/}
+                {/*        <div>*/}
+                {/*            <LinkButton*/}
+                {/*                handleClick={}*/}
+                {/*                text="Add"*/}
+                {/*                icon={faPlus}*/}
+                {/*            />*/}
 
-                            <LinkButton
-                                handleClick={handleInviteClick}
-                                text={inviteCopied ? "Copied" : "Invite"}
-                                icon={inviteCopied ? faCircleCheck : faLink}
-                            />
-                        </div>
-                    )}
-                </div>
+                {/*            <LinkButton*/}
+                {/*                handleClick={handleInviteClick}*/}
+                {/*                text={}*/}
+                {/*                icon={}*/}
+                {/*            />*/}
+                {/*        </div>*/}
+                {/*    )}*/}
+                {/*</div>*/}
 
                 {addPopupIsVisible && (
                     <div className="confirm-checkin-popup">

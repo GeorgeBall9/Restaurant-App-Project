@@ -22,6 +22,7 @@ import {
 import {showOverlay} from "../../features/overlay/overlaySlice";
 import FormField from "../../common/components/FormField/FormField";
 import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
+import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
 
 const EditProfilePage = () => {
 
@@ -115,21 +116,7 @@ const EditProfilePage = () => {
 
     return (
         <div className="profile-container">
-            <header>
-                <div className="container">
-                    <button onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-
-                    <h1>Edit Profile</h1>
-
-                    <button style={{visibility: "hidden"}}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-                </div>
-            </header>
+            <ProfileNavigation pageTitle="Edit Profile"/>
 
            <main className="container">
                <section className="change-icon-section">

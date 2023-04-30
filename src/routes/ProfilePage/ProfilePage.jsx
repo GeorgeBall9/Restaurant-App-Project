@@ -1,5 +1,5 @@
 import "./ProfilePage.css";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {useDispatch, useSelector} from "react-redux";
 import {selectDisplayName, selectIconColour, selectProfilePhotoUrl, selectUserId} from "../../features/user/userSlice";
@@ -9,17 +9,14 @@ import {
     faBookmark,
     faCamera,
     faCircleCheck,
-    faCircleQuestion,
-    faComment, faCopy, faPen, faPenToSquare,
-    faShareNodes,
-    faUser, faUserGroup
+    faComment, faCopy, faPen, faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
 import {signOutAuthUser} from "../../firebase/firebase";
 import {useEffect, useState} from "react";
 import ContributionsButton from "./ContributionsButton/ContributionsButton";
 import {hideSpinner} from "../../features/spinner/spinnerSlice";
-import Button from "../../common/components/Button/Button";
 import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
+import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
 
 const ProfilePage = () => {
 
@@ -57,21 +54,7 @@ const ProfilePage = () => {
 
     return (
         <div className="profile-page-container">
-            <header>
-                <div className="container">
-                    <button onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-
-                    <h1>Profile</h1>
-
-                    <button  style={{visibility: "hidden"}}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-                </div>
-            </header>
+            <ProfileNavigation pageTitle="Profile"/>
 
             <main className="container">
                 <section className="profile-info-container">

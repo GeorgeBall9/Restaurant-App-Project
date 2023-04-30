@@ -8,7 +8,7 @@
 .profile-navigation > div {
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 1em;
 }
 
 .profile-navigation .upper-nav {
@@ -16,6 +16,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: var(--secondary-theme);
+    gap: 0.5em;
+}
+
+.profile-navigation .upper-nav button .icon {
+    color: var(--secondary-theme);
 }
 
 .profile-navigation .upper-nav h1 {
@@ -36,7 +42,22 @@
     margin-right: 0.5em;
 }
 
-.profile-navigation .lower-nav .toggle-display-button {
+.profile-navigation .lower-nav {
+    display: flex;
+    gap: 0.5em;
+    justify-content: space-between;
+}
+
+.profile-navigation .lower-nav .icon {
+    color: white;
+}
+
+.profile-navigation .lower-nav .buttons-container {
+    display: flex;
+    gap: 0.5em;
+}
+
+.profile-navigation .lower-nav button {
     border: none;
     border-radius: var(--border-radius);
     padding: 0.5em 0.75em;

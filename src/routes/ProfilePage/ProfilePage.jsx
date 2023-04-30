@@ -9,7 +9,7 @@ import {
     faBookmark,
     faCamera,
     faCircleCheck,
-    faComment, faCopy, faPen, faUserGroup
+    faComment, faCopy, faHouse, faPen, faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
 import {signOutAuthUser} from "../../firebase/firebase";
 import {useEffect, useState} from "react";
@@ -54,7 +54,7 @@ const ProfilePage = () => {
 
     return (
         <div className="profile-page-container">
-            <ProfileNavigation pageTitle="Profile"/>
+            <ProfileNavigation pageTitle="Profile" button1={{text: "Home", handler: handleBackClick}}/>
 
             <main className="container">
                 <section className="profile-info-container">

@@ -29,32 +29,6 @@
     margin-right: 0.5em;
 }
 
-.photos-page-container header .lower-nav .toggle-photos-button {
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 0.5em 0.75em;
-    font-size: var(--font-size-smaller);
-    background-color: var(--dark-theme-contrast);
-    color: white;
-    display: flex;
-    font-weight: var(--font-weight-bold-1);
-    align-items: center;
-    gap: 0.25em;
-}
-
-.photos-page-container header .lower-nav .toggle-photos-button .count {
-    background-color: var(--dark-theme);
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-bold-1);
-}
-
 .photos-page-container main {
     display: flex;
     flex-direction: column;

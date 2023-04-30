@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
 import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryButton";
 import InversePrimaryButton from "../../../../common/components/InversePrimaryButton/InversePrimaryButton";
+import CollageImage from "./CollageImage/CollageImage";
 
 const CustomCollage = ({
                            images,
@@ -21,6 +22,7 @@ const CustomCollage = ({
     const image4 = images[rows * columns - 1];
     const remainingImages = showMore ? images.length - rows * columns : 0;
 
+    const [allImages, setAllImages] = useState(images);
     const [selectedImages, setSelectedImages] = useState([]);
     const [selectButtonText, setSelectButtonText] = useState("Select all");
 
@@ -61,6 +63,20 @@ const CustomCollage = ({
         handleDeleteSelected(selectedImages);
     };
 
+    const handleImageLoad = (imageId) => {
+        setAllImages(allImages => allImages.map(image => {
+            if (image.id === imageId) {
+                image.loaded = true;
+            }
+
+            return image;
+        }));
+    };
+
+    const imageIsLoaded = (image) => {
+        return allImages.find(({id}) => id === image.id).loaded;
+    };
+
     return (
         <>
             {selectMode && (
@@ -92,15 +108,16 @@ const CustomCollage = ({
                     </button>
                 )}
 
-                {images && images
+                {allImages && allImages
                     .slice(0, rows * columns - 1)
                     .map(image => (
                         <div
+                            style={{visibility: imageIsLoaded(image) ? "visible" : "hidden"}}
                             key={image.id}
                             className={`collage-image-wrapper ${selectMode ? "clickable" : ""}`}
                             onClick={() => handleImageClick(image)}
                         >
-                            <img src={image.url} alt={image.alt} className="collage-image"/>
+                            <CollageImage {...image} loadHandler={handleImageLoad}/>
 
                             {selectMode && (
                                 <button
@@ -120,11 +137,7 @@ const CustomCollage = ({
 
                 {image4 && (
                     <div className="collage-image-wrapper">
-                        <img
-                            src={image4.url}
-                            alt={image4.alt}
-                            className="collage-image"
-                        />
+                        <CollageImage {...image4} loadHandler={handleImageLoad}/>
 
                         {showMore && (
                             <div className="collage-image-overlay" onClick={onExpand}>

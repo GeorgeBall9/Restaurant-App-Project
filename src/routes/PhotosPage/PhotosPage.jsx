@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {getAllRestaurantPhotosByUserId} from "../../firebase/firebase";
+import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
 
 const PhotosPage = () => {
 
@@ -30,37 +31,16 @@ const PhotosPage = () => {
 
     return (
         <div className="photos-page-container">
-            <header>
-                <div className="container">
-                    <div className="upper-nav">
-                        <button className="back-button" onClick={() => navigate("/profile")}>
-                            <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                            Back
-                        </button>
-
-                        <h1>Photos</h1>
-
-                        <button className="back-button" style={{visibility: "hidden"}}>
-                            <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                            Back
-                        </button>
-                    </div>
-
-                    <div className="lower-nav">
-                        <button className="toggle-photos-button" onClick={changeDisplay}>
-                            {display === "Tagged" ? "Uploaded" : "Tagged"}
-
-                            <p className="count">
-                                {display === "Tagged" ?
-                                    (allPhotos?.uploadedPhotos?.length ? allPhotos?.uploadedPhotos?.length : 0)
-                                    :
-                                    (allPhotos?.taggedPhotos?.length ? allPhotos?.taggedPhotos?.length : 0)
-                                }
-                            </p>
-                        </button>
-                    </div>
-                </div>
-            </header>
+            <ProfileNavigation
+                pageTitle="Photos"
+                toggleDisplayText={display === "Tagged" ? "Uploaded" : "Tagged"}
+                toggleHandler={changeDisplay}
+                count={display === "Tagged" ?
+                    (allPhotos?.uploadedPhotos?.length ? allPhotos?.uploadedPhotos?.length : 0)
+                    :
+                    (allPhotos?.taggedPhotos?.length ? allPhotos?.taggedPhotos?.length : 0)
+                }
+            />
 
             <main>
                 {display === "Uploaded" && allPhotos?.uploadedPhotos && (

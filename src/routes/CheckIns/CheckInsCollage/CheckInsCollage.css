@@ -102,6 +102,7 @@
 .collage-image-wrapper {
     position: relative;
     overflow: hidden;
+    box-shadow: var(--box-shadow);
 }
 
 .collage-image-overlay {

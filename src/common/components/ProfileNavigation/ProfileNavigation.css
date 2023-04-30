@@ -1,7 +1,5 @@
 .profile-navigation {
     background-color: var(--dark-theme);
-    border-bottom: solid 1px lightgrey;
-    margin-bottom: 1em;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -20,17 +18,43 @@
 }
 
 .profile-navigation .upper-nav h1 {
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: var(--font-size-heading);
+    font-weight: var(--font-weight-bold-1);
     color: white;
 }
 
 .profile-navigation .upper-nav button {
     color: var(--secondary-theme);
     font-weight: var(--font-weight-bold-2);
-    font-size: var(--font-size-smaller);
+    font-size: var(--font-size-nav-button);
 }
 
 .profile-navigation .upper-nav button .icon {
     margin-right: 0.5em;
+}
+
+.profile-navigation .lower-nav .toggle-display-button {
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.5em 0.75em;
+    font-size: var(--font-size-smaller);
+    background-color: var(--dark-theme-contrast);
+    color: white;
+    display: flex;
+    font-weight: var(--font-weight-bold-1);
+    align-items: center;
+    gap: 0.25em;
+}
+
+.profile-navigation .lower-nav .toggle-display-button .count {
+    background-color: var(--dark-theme);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold-1);
 }

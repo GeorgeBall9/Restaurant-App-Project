@@ -7,6 +7,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
 import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCard";
 import {getRestaurantById} from "../../firebase/firebase";
+import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
 
 export const checkIsOpen = (restaurant) => {
     let {minutes} = restaurant;
@@ -71,27 +72,9 @@ const Bookmarks = () => {
         });
     }, [userBookmarks]);
 
-    const handleBackClick = () => {
-        navigate("/profile");
-    };
-
     return (
         <div className="bookmarks-page-container">
-            <header>
-                <div className="container">
-                    <button onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-
-                    <h1>Bookmarks</h1>
-
-                    <button style={{visibility: "hidden"}}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-                </div>
-            </header>
+            <ProfileNavigation pageTitle="Bookmarks"/>
 
             <main className="container">
                 {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants

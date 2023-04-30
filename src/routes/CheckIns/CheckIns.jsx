@@ -13,6 +13,7 @@ import {useEffect, useState} from "react";
 import {getCheckInsAndRestaurantDataByUserId} from "../../firebase/firebase";
 import CheckInsMap from "./CheckInsMap/CheckInsMap";
 import {displayRestaurant} from "../../features/map/mapSlice";
+import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
 
 const currentDate = new Date();
 
@@ -62,10 +63,6 @@ const CheckIns = () => {
     const handleCalendarChange = (value) => {
         setCalendarValue(value);
         // Fetch and display the check-ins for the selected date
-    };
-
-    const handleBackClick = () => {
-        navigate("/profile");
     };
 
     const totalCheckIns = allCheckIns.length;
@@ -124,21 +121,7 @@ const CheckIns = () => {
 
     return (
         <div className="check-ins-page-container">
-            <header>
-                <div className="container">
-                    <button onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-
-                    <h1>Check-ins</h1>
-
-                    <button style={{visibility: "hidden"}}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-                </div>
-            </header>
+            <ProfileNavigation pageTitle="Check-ins"/>
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">

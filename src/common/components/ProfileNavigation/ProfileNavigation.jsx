@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 
-const ProfileNavigation = ({pageTitle, button2Text, button2Handler}) => {
+const ProfileNavigation = ({pageTitle, button2Text, button2Handler, toggleDisplayText, toggleHandler, count}) => {
 
     const navigate = useNavigate();
 
@@ -32,7 +32,15 @@ const ProfileNavigation = ({pageTitle, button2Text, button2Handler}) => {
                     )}
                 </div>
 
-                <div className="lower-nav"></div>
+                <div className="lower-nav">
+                    {toggleDisplayText && (
+                        <button className="toggle-display-button" onClick={toggleHandler}>
+                            {toggleDisplayText}
+
+                            <p className="count">{count}</p>
+                        </button>
+                    )}
+                </div>
             </div>
         </header>
     );

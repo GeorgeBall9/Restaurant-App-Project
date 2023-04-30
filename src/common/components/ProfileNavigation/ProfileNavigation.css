@@ -1,0 +1,36 @@
+.profile-navigation {
+    background-color: var(--dark-theme);
+    border-bottom: solid 1px lightgrey;
+    margin-bottom: 1em;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.profile-navigation > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-navigation .upper-nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-navigation .upper-nav h1 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+}
+
+.profile-navigation .upper-nav button {
+    color: var(--secondary-theme);
+    font-weight: var(--font-weight-bold-2);
+    font-size: var(--font-size-smaller);
+}
+
+.profile-navigation .upper-nav button .icon {
+    margin-right: 0.5em;
+}

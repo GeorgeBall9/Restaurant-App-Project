@@ -1,34 +1,3 @@
-.photos-page-container header {
-    background-color: var(--dark-theme);
-    border-bottom: solid 1px lightgrey;
-    margin-bottom: 1em;
-}
-
-.photos-page-container header > div .upper-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5em;
-}
-
-.photos-page-container header h1 {
-    font-size: 1rem;
-    font-weight: 500;
-    color: white;
-}
-
-.photos-page-container header .upper-nav button {
-    color: var(--secondary-theme);
-    font-weight: var(--font-weight-bold-2);
-    font-size: var(--font-size-smaller);
-    background: none;
-    border: none;
-}
-
-.photos-page-container header .upper-nav button .icon {
-    margin-right: 0.5em;
-}
-
 .photos-page-container main {
     display: flex;
     flex-direction: column;

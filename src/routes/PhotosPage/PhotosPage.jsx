@@ -1,7 +1,4 @@
 import "./PhotosPage.css";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
-import {useNavigate} from "react-router-dom";
 import CustomCollage from "../CheckIns/CheckInsCollage/CustomCollage/CustomCollage";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
@@ -11,12 +8,12 @@ import ProfileNavigation from "../../common/components/ProfileNavigation/Profile
 
 const PhotosPage = () => {
 
-    const navigate = useNavigate();
-
     const userId = useSelector(selectUserId);
 
     const [allPhotos, setAllPhotos] = useState(null);
     const [display, setDisplay] = useState("Uploaded");
+    const [selectMode, setSelectMode] = useState(false);
+    const [button2Text, setButton2Text] = useState(null);
 
     useEffect(() => {
         if (!userId) return;
@@ -25,14 +22,42 @@ const PhotosPage = () => {
             .then(data => setAllPhotos(data))
     }, [userId]);
 
+    useEffect(() => {
+        if (!allPhotos || display === "Tagged") {
+            setButton2Text(null);
+        } else {
+            setButton2Text(selectMode ? "Cancel" : "Select");
+        }
+    }, [allPhotos, selectMode, display]);
+
     const changeDisplay = () => {
         setDisplay(display => display === "Uploaded" ? "Tagged" : "Uploaded");
+    };
+
+    const handleSelectClick = () => {
+        setSelectMode(selectMode => !selectMode);
+    };
+
+    const handleDeleteSelected = async (selectedImages) => {
+        if (!selectedImages?.length) return;
+
+        let updatedPhotos = [...allPhotos];
+
+        // find check in and delete photo
+
+        setAllPhotos(updatedPhotos);
+
+        if (!updatedPhotos.length) {
+            handleSelectClick();
+        }
     };
 
     return (
         <div className="photos-page-container">
             <ProfileNavigation
                 pageTitle="Photos"
+                button2Text={button2Text}
+                button2Handler={handleSelectClick}
                 toggleDisplayText={display === "Tagged" ? "Uploaded" : "Tagged"}
                 toggleHandler={changeDisplay}
                 count={display === "Tagged" ?
@@ -50,6 +75,8 @@ const PhotosPage = () => {
                             rows={100}
                             columns={2}
                             addFunctionality={false}
+                            selectMode={selectMode}
+                            handleDeleteSelected={handleDeleteSelected()}
                         />
                     </div>
                 )}

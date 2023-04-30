@@ -27,9 +27,9 @@ export const getPhotoUrls = async (photoPaths) => {
 
 const CheckInsCollage = ({checkIn, onClose}) => {
 
-
     const userId = useSelector(selectUserId);
 
+    const [restaurant, setRestaurant] = useState(null);
     const [photos, setPhotos] = useState([]);
     const [isVisible, setIsVisible] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -44,8 +44,18 @@ const CheckInsCollage = ({checkIn, onClose}) => {
     useEffect(() => {
         if (!checkIn) return;
 
+        setRestaurant(checkIn.restaurant);
+    }, [checkIn]);
+
+    useEffect(() => {
+        if (!checkIn) return;
+
         getPhotoUrlsFromPhotoIds(checkIn.photoIds)
-            .then(urls => setPhotos(urls));
+            .then(urls => {
+                if (urls) {
+                    setPhotos(urls)
+                }
+            });
     }, [checkIn]);
 
     const handleBackClick = () => {
@@ -78,8 +88,9 @@ const CheckInsCollage = ({checkIn, onClose}) => {
 
     const handleUploadPhotoClick = async () => {
         setUploadButtonText("Uploading...");
+        console.log({checkIn})
         const newPhotoId = await addPhotoToCheckIn(userId, checkIn, photoStoragePath);
-        setPhotos(photos => [...photos, {id: newPhotoId, url: photoUrl, alt: "Photo " + photos.length + 1}]);
+        setPhotos(photos => [...photos, {id: newPhotoId, url: photoUrl, alt: "Photo " + (photos.length + 1)}]);
         document.querySelector(".file-upload-input").value = "";
         handleCloseClick();
     };
@@ -102,9 +113,11 @@ const CheckInsCollage = ({checkIn, onClose}) => {
             const deleted = await deleteCheckInPhoto(userId, image.id, checkIn.id);
 
             if (deleted) {
-                updatedPhotos.filter(photo => photo.id !== image.id);
+                updatedPhotos = updatedPhotos.filter(photo => photo.id !== image.id);
             }
         }
+
+        setPhotos(updatedPhotos);
     };
 
     return (
@@ -117,7 +130,7 @@ const CheckInsCollage = ({checkIn, onClose}) => {
                             Back
                         </button>
 
-                        <h2>{checkIn.name}</h2>
+                        <h2>{restaurant?.name}</h2>
 
                         {isExpanded && (
                             <button onClick={handleSelectClick}>

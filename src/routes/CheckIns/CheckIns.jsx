@@ -30,7 +30,7 @@ const CheckIns = () => {
     const [showCollagePopup, setShowCollagePopup] = useState(false);
 
     const getCheckedInRestaurant = (restaurantId) => {
-        return allCheckIns.find(checkIn => checkIn.restaurantId === restaurantId);
+        return allCheckIns.find(checkIn => checkIn.restaurant.id === restaurantId);
     };
 
     const handleCollagePopupClose = () => {
@@ -56,7 +56,7 @@ const CheckIns = () => {
     useEffect(() => {
         if (!selectedCheckIn) return;
 
-        dispatch(displayRestaurant(selectedCheckIn));
+        dispatch(displayRestaurant(selectedCheckIn.restaurant));
     }, [selectedCheckIn]);
 
     const handleCalendarChange = (value) => {
@@ -86,14 +86,16 @@ const CheckIns = () => {
         });
 
         return checkInsForDate.map((checkIn, index) => {
-            const restaurantCheckIn = getCheckedInRestaurant(checkIn.restaurantId);
+            const foundCheckIn = getCheckedInRestaurant(checkIn.restaurant.id);
 
-            if (!restaurantCheckIn) {
+            if (!foundCheckIn) {
                 return null;
             }
 
+            const {restaurant} = foundCheckIn;
+
             const tileContentStyle = {
-                backgroundImage: `url(${restaurantCheckIn.photoUrl})`,
+                backgroundImage: `url(${restaurant.photoUrl})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -105,8 +107,8 @@ const CheckIns = () => {
                 <div
                     key={index}
                     style={tileContentStyle}
-                    title={restaurantCheckIn.name}
-                    onClick={() => handleTileClick(restaurantCheckIn)}
+                    title={restaurant.name}
+                    onClick={() => handleTileClick(foundCheckIn)}
                 ></div>
             );
         });

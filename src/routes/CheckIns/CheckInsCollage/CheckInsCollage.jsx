@@ -16,6 +16,7 @@ import {selectUserId} from "../../../features/user/userSlice";
 import Overlay from "../../../features/overlay/Overlay/Overlay";
 import UploadFileButton from "../../../common/components/UploadFileButton/UploadFileButton";
 import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
+import ProfileNavigation from "../../../common/components/ProfileNavigation/ProfileNavigation";
 
 export const getPhotoUrls = async (photoPaths) => {
     if (!photoPaths?.length) return [];
@@ -88,9 +89,9 @@ const CheckInsCollage = ({checkIn, onClose}) => {
 
     const handleUploadPhotoClick = async () => {
         setUploadButtonText("Uploading...");
-        console.log({checkIn})
         const newPhotoId = await addPhotoToCheckIn(userId, checkIn, photoStoragePath);
-        setPhotos(photos => [...photos, {id: newPhotoId, url: photoUrl, alt: "Photo " + (photos.length + 1)}]);
+        const newPhotoData = {id: newPhotoId, url: photoUrl, alt: "Photo " + (photos.length + 1)};
+        setPhotos(photos => [...photos, newPhotoData]);
         document.querySelector(".file-upload-input").value = "";
         handleCloseClick();
     };
@@ -118,33 +119,39 @@ const CheckInsCollage = ({checkIn, onClose}) => {
         }
 
         setPhotos(updatedPhotos);
+
+        if (!updatedPhotos.length) {
+            handleSelectClick();
+        }
     };
 
     return (
         <div className={`collage-popup ${isVisible ? "visible" : ""} ${isExpanded ? "expanded" : ""}`}>
             <div>
-                <div className={`collage-popup-header ${isExpanded ? "collage-header-sticky" : ""}`}>
-                    <div className="container">
-                        <button onClick={handleBackClick}>
-                            <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                            Back
-                        </button>
+                {isExpanded && (
+                    <ProfileNavigation
+                        pageTitle={restaurant?.name}
+                        button2Text={photos.length > 0 && (selectMode ? "Cancel" : "Select")}
+                        button2Handler={handleSelectClick}
+                    />
+                )}
 
-                        <h2>{restaurant?.name}</h2>
-
-                        {isExpanded && (
-                            <button onClick={handleSelectClick}>
-                                {selectMode ? "Cancel" : "Select"}
+                {!isExpanded && (
+                    <div className={`collage-popup-header ${isExpanded ? "collage-header-sticky" : ""}`}>
+                        <div className="container">
+                            <button onClick={handleBackClick}>
+                                <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                                Back
                             </button>
-                        )}
 
-                        {!isExpanded && (
+                            <h2>{restaurant?.name}</h2>
+
                             <button onClick={handleExpand}>
                                 <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
                             </button>
-                        )}
+                        </div>
                     </div>
-                </div>
+                )}
 
                 <div className={`collage-popup-photos ${isExpanded ? "collage-popup-photos-expanded" : ""}`}>
                     {photos.length === 0 && !isExpanded ? (

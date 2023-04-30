@@ -27,6 +27,10 @@ const CustomCollage = ({
     const [selectButtonText, setSelectButtonText] = useState("Select all");
 
     useEffect(() => {
+        setAllImages(images);
+    }, [images]);
+
+    useEffect(() => {
         if (!selectMode) {
             setSelectedImages([]);
         }

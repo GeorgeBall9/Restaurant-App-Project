@@ -9,6 +9,7 @@ import {deleteRestaurantReview, getReviewsByUserId} from "../../firebase/firebas
 import {deleteReview, selectReview, selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
 import RestaurantImage from "../../common/components/RestaurantImage/RestaurantImage";
 import StarRating from "../../common/components/StarRating/StarRating";
+import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
 
 const PreviewReviews = () => {
 
@@ -53,21 +54,7 @@ const PreviewReviews = () => {
 
     return (
         <div className="preview-reviews-container">
-            <header>
-                <div className="container">
-                    <button onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-
-                    <h1>Reviews</h1>
-
-                    <button  style={{visibility: "hidden"}}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-                </div>
-            </header>
+            <ProfileNavigation pageTitle="Reviews"/>
 
             <main className="reviews-container container">
                 {reviews && reviews.map(({id, rating, title, content, restaurantId, restaurantName, photoUrl}) => (

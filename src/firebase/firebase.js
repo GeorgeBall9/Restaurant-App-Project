@@ -402,8 +402,8 @@ export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
 
     return await Promise.all(checkInData
         .map(async (checkIn) => {
-            const restaurantData = await getRestaurantById(checkIn.restaurantId);
-            return {...restaurantData, ...checkIn};
+            const restaurant = await getRestaurantById(checkIn.restaurantId);
+            return {restaurant, ...checkIn};
         }));
 };
 

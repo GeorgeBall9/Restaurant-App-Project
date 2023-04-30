@@ -7,12 +7,11 @@ import ReactMapGl, {FullscreenControl} from "react-map-gl";
 import {Popup} from "react-map-gl";
 import RestaurantMarker from "../../../features/map/Map/RestaurantMarker/RestaurantMarker";
 import {Link} from "react-router-dom";
-import {faArrowUpRightFromSquare, faLocationArrow} from "@fortawesome/free-solid-svg-icons";
+import {faArrowUpRightFromSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
-import {selectUserId} from "../../../features/user/userSlice";
 
-const CheckInsMap = ({restaurants}) => {
+const CheckInsMap = ({checkIns}) => {
 
     const dispatch = useDispatch();
 
@@ -57,6 +56,8 @@ const CheckInsMap = ({restaurants}) => {
     useEffect(() => {
         if (!displayedRestaurant || !map) return;
 
+        console.log(displayedRestaurant)
+
         const {longitude, latitude} = displayedRestaurant;
 
         requestAnimationFrame(() => {
@@ -77,42 +78,47 @@ const CheckInsMap = ({restaurants}) => {
                 onRender={({target}) => target.resize()}
             >
 
-                {restaurants && restaurants
-                    .map((restaurant, index) => (
-                        <div key={restaurant.id + "" + index}>
-                            <RestaurantMarker
-                                restaurant={restaurant}
-                                index={index}
-                                visible={true}
-                                type="check-ins"
-                            />
+                {checkIns && checkIns
+                    .map(({id, restaurant, date}) => {
+                        const {id: restaurantId, longitude, latitude, name} = restaurant;
 
-                            {displayedRestaurant?.id === restaurant.id && (
-                                <Popup longitude={restaurant.longitude} latitude={restaurant.latitude}
-                                       anchor="bottom"
-                                       closeButton={false}
-                                       closeOnClick={false}
-                                       offset={50}
-                                >
-                                    <div className="content">
-                                        <Link to={`/details/${restaurant.id}`}>
-                                            <h3>
-                                                {restaurant.name}
-                                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
-                                            </h3>
-                                        </Link>
+                        return (
+                            <div key={id}>
+                                <RestaurantMarker
+                                    restaurant={restaurant}
+                                    visible={true}
+                                    type="check-ins"
+                                />
 
-                                        <p>Visited on {new Date(restaurant.date).toLocaleDateString()}</p>
+                                {displayedRestaurant?.id === restaurantId && (
+                                    <Popup
+                                        longitude={longitude}
+                                        latitude={latitude}
+                                        anchor="bottom"
+                                        closeButton={false}
+                                        closeOnClick={false}
+                                        offset={50}
+                                    >
+                                        <div className="content">
+                                            <Link to={`/details/${restaurantId}`}>
+                                                <h3>
+                                                    {name}
+                                                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
+                                                </h3>
+                                            </Link>
 
-                                        <div>
-                                            <button>Edit</button>
-                                            <button>Delete</button>
+                                            <p>Visited on {new Date(date).toLocaleDateString()}</p>
+
+                                            <div>
+                                                <button>Edit</button>
+                                                <button>Delete</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Popup>
-                            )}
-                        </div>
-                    ))}
+                                    </Popup>
+                                )}
+                            </div>
+                        )
+                    })}
 
                 <FullscreenControl position="bottom-right"/>
             </ReactMapGl>

@@ -13,6 +13,7 @@ import {useEffect, useState} from "react";
 import {getCheckInsAndRestaurantDataByUserId} from "../../firebase/firebase";
 import CheckInsMap from "./CheckInsMap/CheckInsMap";
 import {displayRestaurant} from "../../features/map/mapSlice";
+import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
 
 const currentDate = new Date();
 
@@ -30,7 +31,7 @@ const CheckIns = () => {
     const [showCollagePopup, setShowCollagePopup] = useState(false);
 
     const getCheckedInRestaurant = (restaurantId) => {
-        return allCheckIns.find(checkIn => checkIn.restaurantId === restaurantId);
+        return allCheckIns.find(checkIn => checkIn.restaurant.id === restaurantId);
     };
 
     const handleCollagePopupClose = () => {
@@ -56,16 +57,12 @@ const CheckIns = () => {
     useEffect(() => {
         if (!selectedCheckIn) return;
 
-        dispatch(displayRestaurant(selectedCheckIn));
+        dispatch(displayRestaurant(selectedCheckIn.restaurant));
     }, [selectedCheckIn]);
 
     const handleCalendarChange = (value) => {
         setCalendarValue(value);
         // Fetch and display the check-ins for the selected date
-    };
-
-    const handleBackClick = () => {
-        navigate("/profile");
     };
 
     const totalCheckIns = allCheckIns.length;
@@ -86,14 +83,16 @@ const CheckIns = () => {
         });
 
         return checkInsForDate.map((checkIn, index) => {
-            const restaurantCheckIn = getCheckedInRestaurant(checkIn.restaurantId);
+            const foundCheckIn = getCheckedInRestaurant(checkIn.restaurant.id);
 
-            if (!restaurantCheckIn) {
+            if (!foundCheckIn) {
                 return null;
             }
 
+            const {restaurant} = foundCheckIn;
+
             const tileContentStyle = {
-                backgroundImage: `url(${restaurantCheckIn.photoUrl})`,
+                backgroundImage: `url(${restaurant.photoUrl})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -105,8 +104,8 @@ const CheckIns = () => {
                 <div
                     key={index}
                     style={tileContentStyle}
-                    title={restaurantCheckIn.name}
-                    onClick={() => handleTileClick(restaurantCheckIn)}
+                    title={restaurant.name}
+                    onClick={() => handleTileClick(foundCheckIn)}
                 ></div>
             );
         });
@@ -122,21 +121,7 @@ const CheckIns = () => {
 
     return (
         <div className="check-ins-page-container">
-            <header>
-                <div className="container">
-                    <button onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-
-                    <h1>Check-ins</h1>
-
-                    <button style={{visibility: "hidden"}}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                        Back
-                    </button>
-                </div>
-            </header>
+            <ProfileNavigation pageTitle="Check-ins"/>
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">

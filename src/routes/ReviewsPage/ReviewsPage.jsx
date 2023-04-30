@@ -10,10 +10,18 @@ import {getRestaurantById, getReviewsByRestaurantId} from "../../firebase/fireba
 import {selectUserId} from "../../features/user/userSlice";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice";
-import {faChevronDown, faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {
+    faChevronDown,
+    faArrowLeft,
+    faMagnifyingGlass,
+    faPlus,
+    faCircleCheck,
+    faLink
+} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectSearchQuery} from "../../features/filters/filtersSlice";
 import SortFilterButton from "../../common/components/SortFilterButton/SortFilterButton";
+import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
 
 const ReviewsPage = () => {
 
@@ -34,6 +42,7 @@ const ReviewsPage = () => {
     const [restaurant, setRestaurant] = useState(null);
     const [hasMatches, setHasMatches] = useState(true);
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
+    const [searchIsVisible, setSearchIsVisible] = useState(false);
 
     useEffect(() => {
         if (!reviews) return;
@@ -111,73 +120,72 @@ const ReviewsPage = () => {
         setSortFiltersVisible(sortFiltersVisible => !sortFiltersVisible);
     };
 
+    const handleSearchClick = () => {
+        setSearchIsVisible(searchIsVisible => !searchIsVisible);
+    };
+
     return (
-        <div className="reviews-page container">
+        <div className="reviews-page">
+            <ProfileNavigation
+                pageTitle="Reviews"
+                button2={{
+                    text: searchIsVisible ? "Cancel" : "Search",
+                    icon: !searchIsVisible ? faMagnifyingGlass : null,
+                    handler: handleSearchClick
+                }}
+                lowerNav={true}
+                searchFunctionality={searchIsVisible}
+                button3={{
+                    text: isReviewFormVisible ? "Close Review Form" : "Write a Review",
+                    handler: handleWriteReviewClick
+                }}
+                button4={{
+                    text: "Sort",
+                    icon: faChevronDown,
+                    handler: handleSortClick
+                }}
+            />
 
-            <header>
-                <button onClick={() => navigate("/details/" + restaurantId)}>
-                    <FontAwesomeIcon icon={faArrowLeft} className="icon"/>
-                    Back
-                </button>
 
-                <h1>Reviews</h1>
-            </header>
+            {/*{sortFiltersVisible && (*/}
+            {/*    <div className="sort-filters">*/}
+            {/*        <SortFilterButton*/}
+            {/*            text="Highest rated"*/}
+            {/*            filter="rating"*/}
+            {/*            multiplier={-1}*/}
+            {/*            active={sortFilterSelected === "Highest rated"}*/}
+            {/*        />*/}
 
-            <SearchBox matches={hasMatches} type="reviews"/>
+            {/*        <SortFilterButton*/}
+            {/*            text="Lowest rated"*/}
+            {/*            filter="rating"*/}
+            {/*            multiplier={1}*/}
+            {/*            active={sortFilterSelected === "Lowest rated"}*/}
+            {/*        />*/}
 
-            <div className="buttons-container">
-                <button
-                    className="write-review-button"
-                    onClick={handleWriteReviewClick}
-                >
-                    {isReviewFormVisible ? "Close Review Form" : "Write a Review"}
-                </button>
+            {/*        <SortFilterButton*/}
+            {/*            text="Most recent"*/}
+            {/*            filter="visitDate"*/}
+            {/*            multiplier={-1}*/}
+            {/*            active={sortFilterSelected === "Most recent"}*/}
+            {/*        />*/}
 
-                <div>
-                    <button className="reviews-sort-button" onClick={handleSortClick}>
-                        Sort
-                        <FontAwesomeIcon icon={faChevronDown} className="icon"/>
-                    </button>
+            {/*        <SortFilterButton*/}
+            {/*            text="Oldest"*/}
+            {/*            filter="visitDate"*/}
+            {/*            multiplier={1}*/}
+            {/*            active={sortFilterSelected === "Oldest"}*/}
+            {/*        />*/}
+            {/*    </div>)}*/}
 
-                    {sortFiltersVisible && (
-                        <div className="sort-filters">
-                            <SortFilterButton
-                                text="Highest rated"
-                                filter="rating"
-                                multiplier={-1}
-                                active={sortFilterSelected === "Highest rated"}
-                            />
 
-                            <SortFilterButton
-                                text="Lowest rated"
-                                filter="rating"
-                                multiplier={1}
-                                active={sortFilterSelected === "Lowest rated"}
-                            />
+            <main className="container">
+                {isReviewFormVisible && (
+                    <ReviewForm restaurant={restaurant} userId={userId}/>
+                )}
 
-                            <SortFilterButton
-                                text="Most recent"
-                                filter="visitDate"
-                                multiplier={-1}
-                                active={sortFilterSelected === "Most recent"}
-                            />
-
-                            <SortFilterButton
-                                text="Oldest"
-                                filter="visitDate"
-                                multiplier={1}
-                                active={sortFilterSelected === "Oldest"}
-                            />
-                        </div>
-                    )}
-                </div>
-            </div>
-
-            {isReviewFormVisible && (
-                <ReviewForm restaurant={restaurant} userId={userId}/>
-            )}
-
-            <ReviewsList reviews={displayedReviews} userId={userId}/>
+                <ReviewsList reviews={displayedReviews} userId={userId}/>
+            </main>
         </div>
     );
 };

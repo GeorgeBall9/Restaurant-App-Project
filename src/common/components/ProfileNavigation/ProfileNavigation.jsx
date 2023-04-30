@@ -8,6 +8,7 @@ const ProfileNavigation = ({
                                pageTitle,
                                button1,
                                button2,
+                               lowerNav,
                                toggleDisplayText,
                                toggleHandler,
                                count,
@@ -50,23 +51,25 @@ const ProfileNavigation = ({
                     )}
                 </div>
 
-                {!searchFunctionality && toggleDisplayText && (
+                {!searchFunctionality && lowerNav && (
                     <div className="lower-nav">
-                        <button className="toggle-display-button" onClick={toggleHandler}>
-                            {toggleDisplayText}
-                            <p className="count">{count}</p>
-                        </button>
+                        {toggleDisplayText && (
+                            <button className="toggle-display-button" onClick={toggleHandler}>
+                                {toggleDisplayText}
+                                <p className="count">{count}</p>
+                            </button>
+                        )}
 
                         {button3 && (
                             <div className="buttons-container">
                                 <button onClick={button3.handler}>
                                     {button3.text}
-                                    <FontAwesomeIcon className="icon" icon={button3.icon}/>
+                                    {button3.icon && <FontAwesomeIcon className="icon" icon={button3.icon}/>}
                                 </button>
 
                                 <button onClick={button4.handler}>
                                     {button4.text}
-                                    <FontAwesomeIcon className="icon" icon={button4.icon}/>
+                                    {button4.icon && <FontAwesomeIcon className="icon" icon={button4.icon}/>}
                                 </button>
                             </div>
                         )}

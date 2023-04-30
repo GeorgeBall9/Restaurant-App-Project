@@ -58,6 +58,7 @@ const PhotosPage = () => {
                 pageTitle="Photos"
                 button2Text={button2Text}
                 button2Handler={handleSelectClick}
+                lowerNav={true}
                 toggleDisplayText={display === "Tagged" ? "Uploaded" : "Tagged"}
                 toggleHandler={changeDisplay}
                 count={display === "Tagged" ?

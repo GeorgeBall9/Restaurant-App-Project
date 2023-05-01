@@ -39,7 +39,6 @@
     display: flex;
     justify-content: space-between;
     gap: 1em;
-    border-bottom: solid 6px var(--primary-theme);
     position: relative;
 }
 
@@ -96,6 +95,6 @@
 }
 
 .preview-reviews-container .reviews-container .review-card button .icon {
-    color: dimgrey;
+    color: var(--dark-theme-contrast);
     font-size: 1.25rem;
 }

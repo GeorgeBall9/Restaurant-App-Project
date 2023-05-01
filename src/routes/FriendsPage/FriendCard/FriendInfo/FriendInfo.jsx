@@ -1,6 +1,6 @@
 import "./FriendInfo.css";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
-import Button from "../../../../common/components/Button/Button";
+import SecondaryButton from "../../../../common/components/SecondaryButton/SecondaryButton";
 
 const FriendInfo = ({displayName, iconColour, profilePhotoUrl, mutualFriends, status, handleCancelClick}) => {
 
@@ -13,14 +13,15 @@ const FriendInfo = ({displayName, iconColour, profilePhotoUrl, mutualFriends, st
                 imageUrl={profilePhotoUrl}
             />
 
-            <div className="info-container">
-                <h3>{displayName}</h3>
+            <div>
+                <div className="info-container">
+                    <h3>{displayName}</h3>
 
-                <p>{mutualFriends} mutual friend{mutualFriends !== 1 ? "s" : ""}</p>
+                    <p>{mutualFriends} mutual friend{mutualFriends !== 1 ? "s" : ""}</p>
+                </div>
 
                 {status === "pending" && (
-                    <Button
-                        className="cancel-request-button"
+                    <SecondaryButton
                         handleClick={handleCancelClick}
                         text="Cancel request"
                         size="small"

@@ -35,7 +35,7 @@ const Route = ({displayedRestaurant, routeCoordinates, travelTime}) => {
             "line-cap": "round"
         },
         paint: {
-            "line-color": "rgba(194, 54, 34, 0.8)",
+            "line-color": "rgba(244, 157, 26, 0.8)",
             "line-width": 5
         }
     };

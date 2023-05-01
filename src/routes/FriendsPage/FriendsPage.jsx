@@ -27,16 +27,16 @@ import {
     setFriends
 } from "../../features/user/userSlice";
 import LinkButton from "./LinkButton/LinkButton";
-import FriendCard from "./FriendCard/FriendCard";
+import FriendCard from "./FriendCards/FriendCard/FriendCard";
 import {hideOverlay, showOverlay} from "../../features/overlay/overlaySlice";
 import SortFilterButton from "../../common/components/SortFilterButton/SortFilterButton";
 import {resetSearchQuery, selectSearchQuery} from "../../features/filters/filtersSlice";
 import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../common/components/SecondaryButton/SecondaryButton";
 import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
-import FriendRequestCard from "./FriendRequestCard/FriendRequestCard";
-import PendingFriendCard from "./PendingFriendCard/PendingFriendCard";
-import ConfirmedFriendCard from "./ConfirmedFriendCard/ConfirmedFriendCard";
+import FriendRequestCard from "./FriendCards/FriendRequestCard/FriendRequestCard";
+import PendingFriendCard from "./FriendCards/PendingFriendCard/PendingFriendCard";
+import ConfirmedFriendCard from "./FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
 
 const FriendsPage = () => {
 

@@ -1,7 +1,7 @@
 import "./FriendCard.css";
-import FriendInfo from "./FriendInfo/FriendInfo";
-import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
-import InversePrimaryButton from "../../../common/components/InversePrimaryButton/InversePrimaryButton";
+import FriendInfo from "../FriendInfo/FriendInfo";
+import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../../../../common/components/InversePrimaryButton/InversePrimaryButton";
 
 const FriendCard = ({
                         displayName,

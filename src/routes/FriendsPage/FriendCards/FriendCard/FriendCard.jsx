@@ -29,7 +29,7 @@ const FriendCard = ({
                 handleAddClick={handleAddClick}
             />
 
-            {status === "confirmed" && (
+            {(status === "confirmed" || status === "request") && (
                 <div className="buttons-container">
                     <PrimaryButton handleClick={button1Handler} text={button1Text} size="small"/>
                     <InversePrimaryButton handleClick={button2Handler} text={button2Text} size="small"/>

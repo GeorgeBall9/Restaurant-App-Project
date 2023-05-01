@@ -17,7 +17,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {
     removeFriend, removeFriendRequest,
-    selectDisplayedFriend,
+    selectDisplayedFriend, selectFriendRequests,
     selectFriends,
     selectUserId, setDisplayedFriend, setFriendRequests,
     setFriends
@@ -37,6 +37,8 @@ const FriendsOfFriendsPage = () => {
 
     const displayedFriend = useSelector(selectDisplayedFriend);
     const currentUserId = useSelector(selectUserId);
+    const currentUserFriends = useSelector(selectFriends);
+    const currentUserFriendRequests = useSelector(selectFriendRequests);
 
     const friends = useSelector(selectFriends);
     const searchQuery = useSelector(selectSearchQuery);
@@ -153,6 +155,20 @@ const FriendsOfFriendsPage = () => {
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 
+    const getFriendOfFriendStatusForCurrentUser = (id) => {
+        const foundFriend = currentUserFriends.find(friend => friend.id === id);
+        if (foundFriend) {
+            return foundFriend.status;
+        }
+
+        const foundRequest = currentUserFriendRequests.find(request => request.id === id);
+        if (foundRequest) {
+            return foundRequest.status;
+        }
+
+        return null;
+    };
+
     return (
         <div className="friends-of-friend-container">
             {displayedFriend && (
@@ -179,7 +195,9 @@ const FriendsOfFriendsPage = () => {
                                         return 0;
                                     }
                                 })
-                                .map(({id, displayName, iconColour, profilePhotoUrl, status, friends}) => {
+                                .map(({id, displayName, iconColour, profilePhotoUrl, friends}) => {
+                                    const status = getFriendOfFriendStatusForCurrentUser(id);
+
                                     if (status === "confirmed") {
                                         return (
                                             <ConfirmedFriendCard

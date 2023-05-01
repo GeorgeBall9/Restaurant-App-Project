@@ -7,6 +7,7 @@ const FriendRequestCard = ({displayName, iconColour, profilePhotoUrl, mutualFrie
             iconColour={iconColour}
             profilePhotoUrl={profilePhotoUrl}
             mutualFriends={mutualFriends}
+            status="request"
             button1Handler={handleConfirm}
             button1Text="Confirm"
             button2Handler={handleDelete}

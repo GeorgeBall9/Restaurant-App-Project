@@ -107,11 +107,11 @@ const CheckInsMap = ({checkIns}) => {
 
                                             <p>Visited on {new Date(date).toLocaleDateString()}</p>
 
-                                            {friendData.length > 0 && (
-                                                <p>
-                                                    With {friendData.map(friend => friend.displayName).join(", ")}
-                                                </p>
-                                            )}
+                                            {/*{friendData.length > 0 && (*/}
+                                            {/*    <p>*/}
+                                            {/*        With {friendData.map(friend => friend.displayName).join(", ")}*/}
+                                            {/*    </p>*/}
+                                            {/*)}*/}
 
                                             <button>View details</button>
                                         </div>

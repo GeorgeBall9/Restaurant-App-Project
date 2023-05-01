@@ -1,14 +1,11 @@
 import "./FriendsPage.css";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faArrowLeft, faChevronDown,
     faCircleCheck,
     faLink,
     faMagnifyingGlass,
     faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
-import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useEffect, useState} from "react";
 import FormField from "../../common/components/FormField/FormField";
 import {
@@ -26,10 +23,7 @@ import {
     setFriendRequests,
     setFriends
 } from "../../features/user/userSlice";
-import LinkButton from "./LinkButton/LinkButton";
-import FriendCard from "./FriendCards/FriendCard/FriendCard";
 import {hideOverlay, showOverlay} from "../../features/overlay/overlaySlice";
-import SortFilterButton from "../../common/components/SortFilterButton/SortFilterButton";
 import {resetSearchQuery, selectSearchQuery} from "../../features/filters/filtersSlice";
 import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../common/components/SecondaryButton/SecondaryButton";

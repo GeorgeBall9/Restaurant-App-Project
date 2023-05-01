@@ -56,8 +56,10 @@ const PhotosPage = () => {
         <div className="photos-page-container">
             <ProfileNavigation
                 pageTitle="Photos"
-                button2Text={button2Text}
-                button2Handler={handleSelectClick}
+                button2={{
+                    text: button2Text,
+                    handler: handleSelectClick
+                }}
                 lowerNav={true}
                 toggleDisplayText={display === "Tagged" ? "Uploaded" : "Tagged"}
                 toggleHandler={changeDisplay}

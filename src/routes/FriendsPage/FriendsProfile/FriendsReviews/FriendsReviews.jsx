@@ -1,15 +1,15 @@
 import "../../../PreviewReviews/PreviewReviews.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faExpand, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-// import {selectUserId} from "../../features/user/userSlice";
-import { useEffect, useState } from "react";
-import { deleteRestaurantReview, getReviewsByUserId, getUserFromUserId } from "../../../../firebase/firebase";
-import { deleteReview, selectReview, selectReviews, setReviews } from "../../../../features/reviews/reviewsSlice";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faExpand} from "@fortawesome/free-solid-svg-icons";
+import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import {getReviewsByUserId} from "../../../../firebase/firebase";
+import {selectReview} from "../../../../features/reviews/reviewsSlice";
 import RestaurantImage from "../../../../common/components/RestaurantImage/RestaurantImage";
 import StarRating from "../../../../common/components/StarRating/StarRating";
-
+import {selectDisplayedFriend} from "../../../../features/user/userSlice";
+import ProfileNavigation from "../../../../common/components/ProfileNavigation/ProfileNavigation";
 
 const FriendsReviews = () => {
 
@@ -17,28 +17,16 @@ const FriendsReviews = () => {
 
     const dispatch = useDispatch();
 
-    const { userId } = useParams();
+    const displayedFriend = useSelector(selectDisplayedFriend);
 
     const [friendReviews, setFriendReviews] = useState(null);
-    const [friendProfile, setFriendProfile] = useState("");
 
     useEffect(() => {
-        if (!userId) return;
+        if (!displayedFriend) return;
 
-        const fetchFriendProfile = async () => {
-            const user = await getUserFromUserId(userId);
-            setFriendProfile(user);
-
-            const reviews = await getReviewsByUserId(userId);
-            setFriendReviews(reviews);
-        };
-
-        fetchFriendProfile();
-    }, [userId]);
-
-    const handleBackClick = () => {
-        navigate(`/view-profile/${userId}`);
-    };
+        getReviewsByUserId(displayedFriend.id)
+            .then(reviews => setFriendReviews(reviews))
+    }, [displayedFriend]);
 
     const handleExpandClick = (reviewId, restaurantId) => {
         dispatch(selectReview(reviewId));
@@ -47,45 +35,36 @@ const FriendsReviews = () => {
 
     return (
         <div className="preview-reviews-container">
-            <header>
-                <div className="container">
-                    <button onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft} />
-                        Back
-                    </button>
+            {displayedFriend && (
+                <>
+                    <ProfileNavigation pageTitle={`${displayedFriend.displayName}'s Reviews`}/>
 
-                    <h1>{friendProfile.displayName}'s Reviews</h1>
+                    <main className="reviews-container container">
+                        {friendReviews && friendReviews
+                            .map(({id, rating, title, content, restaurantId, restaurantName, photoUrl}) => (
+                            <div key={id} className="review-card">
+                                <div className="container-lhs">
+                                    <RestaurantImage photoUrl={photoUrl} name={restaurantName}/>
 
-                    <button style={{ visibility: "hidden" }}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft} />
-                        Back
-                    </button>
-                </div>
-            </header>
+                                    <div className="preview">
+                                        <h3 style={{margin: 0}}>{title}</h3>
 
-            <main className="reviews-container container">
-                {friendReviews && friendReviews.map(({ id, rating, title, content, restaurantId, restaurantName, photoUrl }) => (
-                    <div key={id} className="review-card">
-                        <div className="container-lhs">
-                            <RestaurantImage photoUrl={photoUrl} name={restaurantName} />
+                                        <StarRating rating={rating}/>
 
-                            <div className="preview">
-                                <h3 style={{ margin: 0 }}>{title}</h3>
+                                        <p>{content}</p>
+                                    </div>
+                                </div>
 
-                                <StarRating rating={rating} />
-
-                                <p>{content}</p>
+                                <div className="container-rhs">
+                                    <button onClick={() => handleExpandClick(id, restaurantId)}>
+                                        <FontAwesomeIcon icon={faExpand} className="icon"/>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-
-                        <div className="container-rhs">
-                            <button onClick={() => handleExpandClick(id, restaurantId)}>
-                                <FontAwesomeIcon icon={faExpand} className="icon" />
-                            </button>
-                        </div>
-                    </div>
-                ))}
-            </main>
+                        ))}
+                    </main>
+                </>
+            )}
         </div>
     );
 };

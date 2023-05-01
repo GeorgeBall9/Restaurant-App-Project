@@ -22,18 +22,21 @@ import {
     removeFriendRequest,
     selectFriendRequests,
     selectFriends, selectFriendsSortFilter,
-    selectUserId,
+    selectUserId, setDisplayedFriend,
     setFriendRequests,
     setFriends
 } from "../../features/user/userSlice";
 import LinkButton from "./LinkButton/LinkButton";
-import FriendCard from "./FriendCard/FriendCard";
+import FriendCard from "./FriendCards/FriendCard/FriendCard";
 import {hideOverlay, showOverlay} from "../../features/overlay/overlaySlice";
 import SortFilterButton from "../../common/components/SortFilterButton/SortFilterButton";
 import {resetSearchQuery, selectSearchQuery} from "../../features/filters/filtersSlice";
 import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../common/components/SecondaryButton/SecondaryButton";
 import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
+import FriendRequestCard from "./FriendCards/FriendRequestCard/FriendRequestCard";
+import PendingFriendCard from "./FriendCards/PendingFriendCard/PendingFriendCard";
+import ConfirmedFriendCard from "./FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
 
 const FriendsPage = () => {
 
@@ -112,10 +115,6 @@ const FriendsPage = () => {
         }
     }, [searchQuery, friends, friendRequests]);
 
-    const handleBackClick = () => {
-        navigate("/profile");
-    };
-
     const handleDisplayLinkClick = () => {
         setDisplay(display => display === "friends" ? "requests" : "friends");
         dispatch(resetSearchQuery());
@@ -181,8 +180,10 @@ const FriendsPage = () => {
         console.log("friend request deleted");
     };
 
-    const handleProfileClick = (userId) => {
-        navigate(`/view-profile/${userId}`)
+    const handleProfileClick = async (userId) => {
+        const friendData = await getUserFromUserId(userId);
+        dispatch(setDisplayedFriend(friendData))
+        navigate(`/view-profile/${userId}`);
     };
 
     const handleRemoveClick = async (id) => {
@@ -225,6 +226,9 @@ const FriendsPage = () => {
         <div className="friends-page-container">
             <ProfileNavigation
                 pageTitle={display}
+                button1={{
+                    handler: () => navigate("/profile")
+                }}
                 button2={{
                     text: searchIsVisible ? "Cancel" : "Search",
                     icon: !searchIsVisible ? faMagnifyingGlass : null,
@@ -297,16 +301,15 @@ const FriendsPage = () => {
                                                           profilePhotoUrl,
                                                           friends: userFriends
                                                       }) => (
-                            <FriendCard
+
+                            <FriendRequestCard
                                 key={id}
                                 displayName={displayName}
                                 iconColour={iconColour}
                                 profilePhotoUrl={profilePhotoUrl}
                                 mutualFriends={calculateMutualFriends(userFriends)}
-                                button1Handler={() => handleConfirmClick(id)}
-                                button1Text="Confirm"
-                                button2Handler={() => handleDeleteClick(id)}
-                                button2Text="Delete"
+                                handleConfirm={() => handleConfirmClick(id)}
+                                handleDelete={() => handleDeleteClick(id)}
                             />
                         ))}
                     </div>
@@ -324,22 +327,32 @@ const FriendsPage = () => {
                                     return 0;
                                 }
                             })
-                            .map(({id, displayName, iconColour, profilePhotoUrl, status, friends: userFriends}) => (
-                                <FriendCard
-                                    key={id}
-                                    id={id}
-                                    displayName={displayName}
-                                    iconColour={iconColour}
-                                    profilePhotoUrl={profilePhotoUrl}
-                                    mutualFriends={calculateMutualFriends(userFriends)}
-                                    status={status}
-                                    button1Handler={() => handleProfileClick(id)}
-                                    button1Text="Profile"
-                                    button2Handler={() => handleRemoveClick(id)}
-                                    button2Text="Remove"
-                                    handleCancelClick={() => handleCancelClick(id)}
-                                />
-                            ))}
+                            .map(({id, displayName, iconColour, profilePhotoUrl, status, friends: userFriends}) => {
+                                if (status === "pending") {
+                                    return (
+                                        <PendingFriendCard
+                                            key={id}
+                                            displayName={displayName}
+                                            iconColour={iconColour}
+                                            profilePhotoUrl={profilePhotoUrl}
+                                            mutualFriends={calculateMutualFriends(userFriends)}
+                                            handleCancelClick={() => handleCancelClick(id)}
+                                        />
+                                    )
+                                } else {
+                                    return (
+                                        <ConfirmedFriendCard
+                                            key={id}
+                                            displayName={displayName}
+                                            iconColour={iconColour}
+                                            profilePhotoUrl={profilePhotoUrl}
+                                            mutualFriends={calculateMutualFriends(userFriends)}
+                                            handleProfileClick={() => handleProfileClick(id)}
+                                            handleRemoveClick={() => handleRemoveClick(id)}
+                                        />
+                                    )
+                                }
+                            })}
                     </div>
                 )}
             </main>

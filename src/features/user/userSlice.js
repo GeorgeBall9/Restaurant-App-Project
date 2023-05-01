@@ -12,7 +12,7 @@ const initialState = {
     friends: [],
     friendRequests: [],
     friendsSortFilter: "Most recent",
-    allPhotoUrls: [],
+    displayedFriend: null,
 };
 
 const userSlice = createSlice({
@@ -32,7 +32,6 @@ const userSlice = createSlice({
                 profilePhotoUrl,
                 recommendations,
                 bookmarks,
-                allPhotoUrls
             } = action.payload;
 
             state.id = id;
@@ -43,7 +42,6 @@ const userSlice = createSlice({
             state.profilePhotoUrl = profilePhotoUrl || null;
             state.recommendations = recommendations || [];
             state.bookmarks = bookmarks || [];
-            state.allPhotoUrls = allPhotoUrls || [];
         },
         resetUserDetails: state => {
             state.id = null;
@@ -54,8 +52,10 @@ const userSlice = createSlice({
             state.profilePhotoUrl = "";
             state.recommendations = [];
             state.bookmarks = [];
-            state.checkedInRestaurants = [];
-            state.allPhotoUrls = [];
+            state.friends = [];
+            state.friendRequests = [];
+            state.friendsSortFilter = "Most recent";
+            state.displayedFriend = null;
         },
         setDisplayName: (state, action) => {
             state.displayName = action.payload;
@@ -84,15 +84,6 @@ const userSlice = createSlice({
         removeBookmark: (state, action) => {
             state.bookmarks = state.bookmarks.filter(bookmark => bookmark !== action.payload);
         },
-        addCheckedInRestaurant: (state, action) => {
-            state.checkedInRestaurants.push(action.payload);
-        },
-        setCheckedInRestaurants: (state, action) => {
-            state.checkedInRestaurants = action.payload.length ? action.payload : [];
-        },
-        removeCheckIn: (state, action) => {
-            state.checkedInRestaurants = state.checkedInRestaurants.filter(checkIn => checkIn.id !== action.payload);
-        },
         setFriends: (state, action) => {
             state.friends = action.payload;
         },
@@ -116,9 +107,12 @@ const userSlice = createSlice({
                 .sort((a, b) => multiplier * (a[filter] - b[filter]));
             state.friendsSortFilter = text;
         },
-        setAllPhotoUrls: (state, action) => {
-            state.allPhotoUrls = action.payload;
+        setDisplayedFriend: (state, action) => {
+            state.displayedFriend = action.payload;
         },
+        resetDisplayedFriend: state => {
+            state.displayedFriend = null;
+        }
     },
 });
 
@@ -141,6 +135,8 @@ export const {
     sortFriends,
     sortFriendRequests,
     setProfilePhotoUrl,
+    setDisplayedFriend,
+    resetDisplayedFriend
 } = userSlice.actions;
 export const selectUserId = state => state.user.id;
 export const selectDisplayName = state => state.user.displayName;
@@ -153,5 +149,5 @@ export const selectFriends = state => state.user.friends;
 export const selectFriendRequests = state => state.user.friendRequests;
 export const selectFriendsSortFilter = state => state.user.friendsSortFilter;
 export const selectProfilePhotoUrl = state => state.user.profilePhotoUrl;
-export const selectAllPhotoUrls = state => state.user.allPhotoUrls;
+export const selectDisplayedFriend = state => state.user.displayedFriend;
 export default userSlice.reducer;

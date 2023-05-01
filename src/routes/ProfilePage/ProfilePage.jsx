@@ -1,17 +1,23 @@
 import "./ProfilePage.css";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {useDispatch, useSelector} from "react-redux";
-import {selectDisplayName, selectIconColour, selectProfilePhotoUrl, selectUserId} from "../../features/user/userSlice";
+import {
+    resetDisplayedFriend,
+    selectDisplayName,
+    selectIconColour,
+    selectProfilePhotoUrl,
+    selectUserId,
+    setProfilePhotoUrl
+} from "../../features/user/userSlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faArrowLeft,
     faBookmark,
     faCamera,
     faCircleCheck,
-    faComment, faCopy, faHouse, faPen, faUserGroup
+    faComment, faCopy, faPen, faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
-import {signOutAuthUser} from "../../firebase/firebase";
+import {getProfilePhotoUrlByUserId, signOutAuthUser} from "../../firebase/firebase";
 import {useEffect, useState} from "react";
 import ContributionsButton from "./ContributionsButton/ContributionsButton";
 import {hideSpinner} from "../../features/spinner/spinnerSlice";
@@ -27,11 +33,13 @@ const ProfilePage = () => {
     const userId = useSelector(selectUserId);
     const displayName = useSelector(selectDisplayName);
     const iconColour = useSelector(selectIconColour);
-    const profilePhotoUrl = useSelector(selectProfilePhotoUrl)
+    const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
 
     const [idCopied, setIdCopied] = useState(false);
 
     useEffect(() => {
+        dispatch(resetDisplayedFriend());
+
         if (!userId) {
             navigate("/sign-in")
         }

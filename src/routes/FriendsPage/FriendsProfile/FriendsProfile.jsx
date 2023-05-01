@@ -42,7 +42,10 @@ const FriendsProfile = () => {
         <div className="friends-profile-page-container">
             {friendProfile && (
                 <>
-                    <ProfileNavigation pageTitle={`${friendProfile.displayName}'s Profile`}/>
+                    <ProfileNavigation
+                        pageTitle={`${friendProfile.displayName}'s Profile`}
+                        button1={{handler: handleBackClick}}
+                    />
 
                     <main className="container">
                         <section className="friends-profile-info-container">

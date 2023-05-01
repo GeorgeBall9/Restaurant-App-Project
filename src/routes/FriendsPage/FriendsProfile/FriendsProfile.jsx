@@ -1,8 +1,7 @@
 import './FriendsProfile.css';
 
 import FriendContributionsButton from './FriendContributionsButton/FriendContributionsButton';
-import {getUserFromUserId} from '../../../firebase/firebase';
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import UserIcon from '../../../common/components/UserIcon/UserIcon';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
@@ -12,39 +11,29 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
 import ProfileNavigation from "../../../common/components/ProfileNavigation/ProfileNavigation";
+import {useSelector} from "react-redux";
+import {selectDisplayedFriend} from "../../../features/user/userSlice";
 
 const FriendsProfile = () => {
 
     const navigate = useNavigate();
 
-    const {userId} = useParams();
+    const displayedFriend = useSelector(selectDisplayedFriend);
 
     const [idCopied, setIdCopied] = useState(false);
-    const [friendProfile, setFriendProfile] = useState(null);
-
-    useEffect(() => {
-        if (!userId) return;
-
-        getUserFromUserId(userId)
-            .then(user => setFriendProfile(user));
-    }, [userId]);
-
-    const handleBackClick = () => {
-        navigate("/friends");
-    };
 
     const handleCopyIdClick = () => {
-        navigator.clipboard.writeText(userId + "")
+        navigator.clipboard.writeText(displayedFriend.id + "")
             .then(() => setIdCopied(true));
     };
 
     return (
         <div className="friends-profile-page-container">
-            {friendProfile && (
+            {displayedFriend && (
                 <>
                     <ProfileNavigation
-                        pageTitle={`${friendProfile.displayName}'s Profile`}
-                        button1={{handler: handleBackClick}}
+                        pageTitle={`${displayedFriend.displayName}'s Profile`}
+                        button1={{handler: () => navigate("/friends")}}
                     />
 
                     <main className="container">
@@ -52,16 +41,16 @@ const FriendsProfile = () => {
                             <div className="user-icon-container">
                                 <UserIcon
                                     size="xLarge"
-                                    colour={friendProfile.iconColour}
-                                    skeleton={!friendProfile.iconColour && !friendProfile.profilePhotoUrl}
-                                    imageUrl={friendProfile.profilePhotoUrl}
+                                    colour={displayedFriend.iconColour}
+                                    skeleton={!displayedFriend.iconColour && !displayedFriend.profilePhotoUrl}
+                                    imageUrl={displayedFriend.profilePhotoUrl}
                                 />
                             </div>
 
                             <p
-                                style={{visibility: friendProfile.displayName ? "visible" : "hidden"}}
+                                style={{visibility: displayedFriend.displayName ? "visible" : "hidden"}}
                             >
-                                {friendProfile.displayName || "display name"}
+                                {displayedFriend.displayName || "display name"}
                             </p>
 
                             <button className="copy-id-button" onClick={handleCopyIdClick}>
@@ -72,14 +61,14 @@ const FriendsProfile = () => {
 
                         <section className="contributions-container">
                             <FriendContributionsButton
-                                userId={userId}
+                                userId={displayedFriend.id}
                                 route="/view-check-ins/:userId"
                                 icon={faCircleCheck}
                                 name="Check ins"
                             />
 
                             <FriendContributionsButton
-                                userId={userId}
+                                userId={displayedFriend.id}
                                 route="/view-reviews/:userId"
                                 icon={faComment}
                                 name="Reviews"
@@ -87,7 +76,7 @@ const FriendsProfile = () => {
                         </section>
 
                         <section className="options-container">
-                            <Link to={`/view-friends/${userId}`}>
+                            <Link to={`/view-friends/${displayedFriend.id}`}>
                                 <FontAwesomeIcon className="icon" icon={faUserGroup}/>
                                 Friends
                             </Link>

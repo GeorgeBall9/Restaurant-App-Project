@@ -22,7 +22,7 @@ import {
     removeFriendRequest,
     selectFriendRequests,
     selectFriends, selectFriendsSortFilter,
-    selectUserId,
+    selectUserId, setDisplayedFriend,
     setFriendRequests,
     setFriends
 } from "../../features/user/userSlice";
@@ -177,8 +177,10 @@ const FriendsPage = () => {
         console.log("friend request deleted");
     };
 
-    const handleProfileClick = (userId) => {
-        navigate(`/view-profile/${userId}`)
+    const handleProfileClick = async (userId) => {
+        const friendData = await getUserFromUserId(userId);
+        dispatch(setDisplayedFriend(friendData))
+        navigate(`/view-profile/${userId}`);
     };
 
     const handleRemoveClick = async (id) => {

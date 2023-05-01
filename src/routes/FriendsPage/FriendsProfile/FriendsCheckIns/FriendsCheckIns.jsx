@@ -4,17 +4,17 @@ import "../../../CheckIns/CheckInsCalendar/CheckInsCalendar.css";
 import Calendar from "react-calendar";
 import CheckInsCollage from "../../../CheckIns/CheckInsCollage/CheckInsCollage";
 
-import {getCheckInsAndRestaurantDataByUserId, getCheckInsByUserId} from "../../../../firebase/firebase";
+import {getCheckInsAndRestaurantDataByUserId} from "../../../../firebase/firebase";
 import {getUserFromUserId} from '../../../../firebase/firebase';
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faFire, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
+import {faFire, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getRestaurantById} from "../../../../firebase/firebase";
 import CheckInsMap from "../../../CheckIns/CheckInsMap/CheckInsMap";
-import {displayRestaurant, resetDisplayedRestaurant} from "../../../../features/map/mapSlice";
+import {displayRestaurant} from "../../../../features/map/mapSlice";
 import ProfileNavigation from "../../../../common/components/ProfileNavigation/ProfileNavigation";
+import {selectDisplayedFriend} from "../../../../features/user/userSlice";
 
 const currentDate = new Date();
 
@@ -24,27 +24,19 @@ const FriendsCheckIns = () => {
 
     const dispatch = useDispatch();
 
-    const {userId} = useParams();
+    const displayedFriend = useSelector(selectDisplayedFriend);
 
     const [selectedCheckIn, setSelectedCheckIn] = useState(null);
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
-    const [friendProfile, setFriendProfile] = useState(null);
     const [friendCheckedInRestaurants, setFriendCheckedInRestaurants] = useState([]);
 
     useEffect(() => {
-        if (!userId) return;
+        if (!displayedFriend) return;
 
-        const fetchFriendProfile = async () => {
-            const user = await getUserFromUserId(userId);
-            setFriendProfile(user);
-
-            const checkedInData = await getCheckInsAndRestaurantDataByUserId(userId);
-            setFriendCheckedInRestaurants(checkedInData);
-        };
-
-        fetchFriendProfile();
-    }, [userId]);
+        getCheckInsAndRestaurantDataByUserId(displayedFriend.id)
+            .then(data => setFriendCheckedInRestaurants(data));
+    }, [displayedFriend]);
 
     const getFriendCheckedInRestaurant = (id) => {
         return friendCheckedInRestaurants.find(checkIn => checkIn.restaurantId === id);
@@ -55,10 +47,10 @@ const FriendsCheckIns = () => {
     };
 
     useEffect(() => {
-        if (!userId) {
+        if (!displayedFriend) {
             navigate("/profile");
         }
-    }, [userId]);
+    }, [displayedFriend]);
 
     useEffect(() => {
         if (!selectedCheckIn) return;
@@ -72,7 +64,7 @@ const FriendsCheckIns = () => {
     };
 
     const handleBackClick = () => {
-        navigate(`/view-profile/${userId}`);
+        navigate(`/view-profile/${displayedFriend.id}`);
     };
 
     const calculateStreak = (checkIns) => {
@@ -157,9 +149,9 @@ const FriendsCheckIns = () => {
 
     return (
         <div className="check-ins-page-container">
-            {friendProfile && (
+            {displayedFriend && (
                 <>
-                    <ProfileNavigation pageTitle={`${friendProfile.displayName}'s Check-ins`}/>
+                    <ProfileNavigation pageTitle={`${displayedFriend.displayName}'s Check-ins`}/>
 
                     <div className="check-ins-page">
                         <div className="check-ins-map-container">

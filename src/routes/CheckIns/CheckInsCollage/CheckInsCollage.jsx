@@ -131,8 +131,10 @@ const CheckInsCollage = ({checkIn, onClose}) => {
                 {isExpanded && (
                     <ProfileNavigation
                         pageTitle={restaurant?.name}
-                        button2Text={photos.length > 0 && (selectMode ? "Cancel" : "Select")}
-                        button2Handler={handleSelectClick}
+                        button2={{
+                            text: photos.length > 0 && (selectMode ? "Cancel" : "Select"),
+                            handler: handleSelectClick
+                        }}
                     />
                 )}
 

@@ -90,7 +90,7 @@ const ReviewsGraph = ({reviewsHistogram}) => {
                     reviewsHistogram.count_2,
                     reviewsHistogram.count_1
                 ],
-                backgroundColor: '#C23B22',
+                backgroundColor: '#F49D1A',
                 barPercentage: 1,
                 categoryPercentage: 1,
                 maxBarThickness: 8,

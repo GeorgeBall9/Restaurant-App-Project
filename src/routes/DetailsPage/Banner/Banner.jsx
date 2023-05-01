@@ -24,11 +24,11 @@ const Banner = ({restaurant, scrollPosition, setNavTopPosition, showName}) => {
     }, [ref]);
 
     const style = scrollPosition > 20
-        ? {position: 'fixed', backgroundColor: 'white'}
+        ? {position: 'fixed', backgroundColor: '#4c4c4c'}
         : {position: 'absolute', backgroundColor: 'transparent'};
 
     const bannerButtonsStyle = scrollPosition > 20
-        ? {color: "#C23B22"}
+        ? {color: "#F49D1A"}
         : {color: "white"};
 
     const handleBackClick = () => {

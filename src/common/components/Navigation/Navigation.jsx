@@ -7,7 +7,7 @@ import {
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import SearchBox from "../SearchBox/SearchBox";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
     selectAppliedCuisineFilter,

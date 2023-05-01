@@ -113,12 +113,14 @@ const DetailsPage = () => {
 
             let previousTop = 0;
 
-            const bannerHeight = document.getElementById("banner").getBoundingClientRect().height;
-            const navHeight = document.getElementById("details-page-nav").getBoundingClientRect().height;
+            const bannerHeight = document.getElementById("banner")?.getBoundingClientRect().height;
+            const navHeight = document.getElementById("details-page-nav")?.getBoundingClientRect().height;
             const adjustment = bannerHeight + navHeight;
 
             const activeSection = [interactionsRef, websiteRef, aboutRef, photosRef, hoursRef, detailsRef, reviewsRef]
                 .find(({current}) => {
+                    if (!current) return false;
+
                     const sectionBottom = current.offsetTop - adjustment + current.offsetHeight;
                     const sectionIsActive = scrollY > previousTop && scrollY <= sectionBottom;
 
@@ -135,7 +137,7 @@ const DetailsPage = () => {
                 setActiveNavLink(activeSection.id);
             }
 
-            if (nameRef.current.getBoundingClientRect().bottom - bannerHeight <= 0) {
+            if (nameRef?.current?.getBoundingClientRect()?.bottom - bannerHeight <= 0) {
                 setShowNameInBanner(true);
             } else {
                 setShowNameInBanner(false);

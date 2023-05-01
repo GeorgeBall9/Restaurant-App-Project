@@ -28,11 +28,15 @@ const CheckInButton = ({restaurantId}) => {
     useEffect(() => {
         if (!restaurantId || !userId) return;
 
+        console.log({restaurantId})
+
         getLastCheckInToRestaurantByUserId(userId, restaurantId)
             .then(data => {
                 if (data) {
                     const dateString = new Date(data.date).toLocaleDateString();
                     dispatch(setCheckedInStatus(today === dateString));
+                } else {
+                    dispatch(setCheckedInStatus(false));
                 }
             });
     }, [restaurantId, userId]);

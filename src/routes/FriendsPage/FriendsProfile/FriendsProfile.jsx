@@ -1,100 +1,89 @@
 import './FriendsProfile.css';
 
 import FriendContributionsButton from './FriendContributionsButton/FriendContributionsButton';
-import { getUserFromUserId } from '../../../firebase/firebase';
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import UserIcon from '../../../common/components/UserIcon/UserIcon';
-import { useSelector } from "react-redux";
-import { selectFriends, selectUserId, selectDisplayName, selectIconColour } from '../../../features/user/userSlice';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faArrowLeft,
-    faBookmark,
-    faCamera,
     faCircleCheck,
-    faCircleQuestion,
-    faComment, faCopy, faPen, faPenToSquare,
-    faShareNodes,
-    faUser, faUserGroup
+    faComment, faCopy,
+    faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
-import ContributionsButton from '../../ProfilePage/ContributionsButton/ContributionsButton';
+import {useState} from "react";
+import ProfileNavigation from "../../../common/components/ProfileNavigation/ProfileNavigation";
+import {useSelector} from "react-redux";
+import {selectDisplayedFriend} from "../../../features/user/userSlice";
 
 const FriendsProfile = () => {
 
     const navigate = useNavigate();
 
-    const { userId } = useParams();
+    const displayedFriend = useSelector(selectDisplayedFriend);
 
     const [idCopied, setIdCopied] = useState(false);
-    const [friendProfile, setFriendProfile] = useState("");
-
-    useEffect(() => {
-        if (!userId) return;
-
-        const fetchFriendProfile = async () => {
-            const user = await getUserFromUserId(userId);
-            setFriendProfile(user);
-        };
-
-        fetchFriendProfile();
-    }, [userId]);
-
-    const handleBackClick = () => {
-        navigate("/friends");
-    };
 
     const handleCopyIdClick = () => {
-        navigator.clipboard.writeText(userId + "")
+        navigator.clipboard.writeText(displayedFriend.id + "")
             .then(() => setIdCopied(true));
     };
 
-
     return (
         <div className="friends-profile-page-container">
-            <header>
-                <div className="container">
-                    <button onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft} />
-                        Back
-                    </button>
+            {displayedFriend && (
+                <>
+                    <ProfileNavigation
+                        pageTitle={`${displayedFriend.displayName}'s Profile`}
+                        button1={{handler: () => navigate("/friends")}}
+                    />
 
-                    <h1>{friendProfile.displayName}'s Profile</h1>
+                    <main className="container">
+                        <section className="friends-profile-info-container">
+                            <div className="user-icon-container">
+                                <UserIcon
+                                    size="xLarge"
+                                    colour={displayedFriend.iconColour}
+                                    skeleton={!displayedFriend.iconColour && !displayedFriend.profilePhotoUrl}
+                                    imageUrl={displayedFriend.profilePhotoUrl}
+                                />
+                            </div>
 
-                    <button style={{ visibility: "hidden" }}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft} />
-                        Back
-                    </button>
-                </div>
-            </header>
+                            <p
+                                style={{visibility: displayedFriend.displayName ? "visible" : "hidden"}}
+                            >
+                                {displayedFriend.displayName || "display name"}
+                            </p>
 
-            <main className="container">
-                <section className="friends-profile-info-container">
-                    <div className="user-icon-container">
-                        <UserIcon size="xLarge" colour={friendProfile.iconColour} skeleton={!friendProfile.iconColour} />
-                    </div>
+                            <button className="copy-id-button" onClick={handleCopyIdClick}>
+                                {idCopied ? "Copied" : "Copy user ID"}
+                                <FontAwesomeIcon className="icon" icon={idCopied ? faCircleCheck : faCopy}/>
+                            </button>
+                        </section>
 
-                    <p style={{ visibility: friendProfile.displayName ? "visible" : "hidden" }}>{friendProfile.displayName || "display name"}</p>
+                        <section className="contributions-container">
+                            <FriendContributionsButton
+                                userId={displayedFriend.id}
+                                route="/view-check-ins/:userId"
+                                icon={faCircleCheck}
+                                name="Check ins"
+                            />
 
-                    <button className="copy-id-button" onClick={handleCopyIdClick}>
-                        {idCopied ? "Copied" : "Copy user ID"}
-                        <FontAwesomeIcon className="icon" icon={idCopied ? faCircleCheck : faCopy} />
-                    </button>
-                </section>
+                            <FriendContributionsButton
+                                userId={displayedFriend.id}
+                                route="/view-reviews/:userId"
+                                icon={faComment}
+                                name="Reviews"
+                            />
+                        </section>
 
-                <section className="contributions-container">
-                    <FriendContributionsButton userId={userId} route="/view-check-ins/:userId" icon={faCircleCheck} name="Check ins" />
-
-                    <FriendContributionsButton userId={userId} route="/view-reviews/:userId" icon={faComment} name="Reviews" />
-                </section>
-
-                <section className="options-container">
-                    <Link to={`/view-friends/${userId}`}>
-                        <FontAwesomeIcon className="icon" icon={faUserGroup}/>
-                        Friends
-                    </Link>
-                </section>
-            </main>
+                        <section className="options-container">
+                            <Link to={`/view-friends/${displayedFriend.id}`}>
+                                <FontAwesomeIcon className="icon" icon={faUserGroup}/>
+                                Friends
+                            </Link>
+                        </section>
+                    </main>
+                </>
+            )}
         </div>
     );
 };

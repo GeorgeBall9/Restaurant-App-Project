@@ -17,7 +17,7 @@ Contact: georgeball14@hotmail.com
     background-color: white;
     width: 100%;
     height: 150px;
-    border-bottom: solid 6px var(--primary-theme);
+    /*border-bottom: solid 6px var(--primary-theme);*/
     overflow: hidden;
 }
 
@@ -40,7 +40,7 @@ Contact: georgeball14@hotmail.com
 }
 
 .restaurant-card .details-container h3 .ranking {
-    background-color: #C23B22;
+    background-color: var(--dark-theme-contrast);
     border-radius: 50%;
     color: white;
     width: 25px;
@@ -131,7 +131,7 @@ Contact: georgeball14@hotmail.com
 /* map location icon */
 .restaurant-card .container-rhs .icon {
     font-size: var(--font-size-icon-large);
-    color: #C23B22;
+    color: var(--primary-theme);
 }
 
 @media (max-width: 350px) {

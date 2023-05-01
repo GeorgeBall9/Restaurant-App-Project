@@ -13,6 +13,8 @@ import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
 
 const CheckInsMap = ({checkIns}) => {
 
+    console.log({checkIns})
+
     const dispatch = useDispatch();
 
     // select all relevant information from map slice

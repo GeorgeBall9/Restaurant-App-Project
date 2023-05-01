@@ -679,7 +679,7 @@ export const rejectFriendRequest = async (userId, friendId) => {
     await removeFriendFromUserDoc(friendId, userId);
 
     // return updated friends for user
-    return await getFriendsByUserId(userId);
+    return await getFriendRequestsByUserId(userId);
 };
 
 // cancel friend request

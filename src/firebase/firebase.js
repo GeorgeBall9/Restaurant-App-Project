@@ -491,8 +491,8 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
     });
 
     return await Promise.all(reviews.map(async (review) => {
-        const {iconColour, displayName, reviews} = await getUserFromUserId(review.userId);
-        return {...review, iconColour, displayName, numberOfReviews: reviews};
+        const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.userId);
+        return {...review, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
     }));
 };
 

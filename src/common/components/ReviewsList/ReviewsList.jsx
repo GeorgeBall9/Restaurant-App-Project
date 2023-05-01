@@ -81,6 +81,7 @@ const ReviewsList = ({reviews, userId, preview}) => {
                         id,
                         userId: authorId,
                         iconColour,
+                        profilePhotoUrl,
                         displayName,
                         title,
                         rating,
@@ -122,7 +123,12 @@ const ReviewsList = ({reviews, userId, preview}) => {
 
                             <header>
                                 <div className="author-details">
-                                    <UserIcon size="medium" colour={iconColour}/>
+                                    <UserIcon
+                                        size="medium"
+                                        colour={iconColour}
+                                        skeleton={!iconColour && !profilePhotoUrl}
+                                        imageUrl={profilePhotoUrl}
+                                    />
 
                                     <div>
                                         <p className="display-name">{displayName}</p>

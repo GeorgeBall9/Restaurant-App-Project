@@ -801,7 +801,7 @@ export const uploadImage = (imageFile, downloadUrlSetter) => {
 };
 
 export const getImageDownloadUrl = async (path) => {
-    if (!path) return;
+    if (!path) return null;
 
     const storageRef = ref(storage, path);
 
@@ -827,7 +827,7 @@ const deleteProfilePhotoDoc = async (photoId) => {
 };
 
 // get profile photo by userId
-const getProfilePhotoUrlByUserId = async (userId) => {
+export const getProfilePhotoUrlByUserId = async (userId) => {
     const photosCollectionRef = collection(db, "profile-photos");
     const q = query(photosCollectionRef, where("userId", "==", userId));
 

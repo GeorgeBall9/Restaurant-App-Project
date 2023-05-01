@@ -112,10 +112,6 @@ const FriendsPage = () => {
         }
     }, [searchQuery, friends, friendRequests]);
 
-    const handleBackClick = () => {
-        navigate("/profile");
-    };
-
     const handleDisplayLinkClick = () => {
         setDisplay(display => display === "friends" ? "requests" : "friends");
         dispatch(resetSearchQuery());

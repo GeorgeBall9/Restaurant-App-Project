@@ -12,7 +12,6 @@ const initialState = {
     friends: [],
     friendRequests: [],
     friendsSortFilter: "Most recent",
-    allPhotoUrls: [],
 };
 
 const userSlice = createSlice({
@@ -32,7 +31,6 @@ const userSlice = createSlice({
                 profilePhotoUrl,
                 recommendations,
                 bookmarks,
-                allPhotoUrls
             } = action.payload;
 
             state.id = id;
@@ -43,7 +41,6 @@ const userSlice = createSlice({
             state.profilePhotoUrl = profilePhotoUrl || null;
             state.recommendations = recommendations || [];
             state.bookmarks = bookmarks || [];
-            state.allPhotoUrls = allPhotoUrls || [];
         },
         resetUserDetails: state => {
             state.id = null;
@@ -55,7 +52,6 @@ const userSlice = createSlice({
             state.recommendations = [];
             state.bookmarks = [];
             state.checkedInRestaurants = [];
-            state.allPhotoUrls = [];
         },
         setDisplayName: (state, action) => {
             state.displayName = action.payload;
@@ -116,9 +112,6 @@ const userSlice = createSlice({
                 .sort((a, b) => multiplier * (a[filter] - b[filter]));
             state.friendsSortFilter = text;
         },
-        setAllPhotoUrls: (state, action) => {
-            state.allPhotoUrls = action.payload;
-        },
     },
 });
 
@@ -153,5 +146,4 @@ export const selectFriends = state => state.user.friends;
 export const selectFriendRequests = state => state.user.friendRequests;
 export const selectFriendsSortFilter = state => state.user.friendsSortFilter;
 export const selectProfilePhotoUrl = state => state.user.profilePhotoUrl;
-export const selectAllPhotoUrls = state => state.user.allPhotoUrls;
 export default userSlice.reducer;

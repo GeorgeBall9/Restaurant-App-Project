@@ -4,16 +4,17 @@ import "../../../CheckIns/CheckInsCalendar/CheckInsCalendar.css";
 import Calendar from "react-calendar";
 import CheckInsCollage from "../../../CheckIns/CheckInsCollage/CheckInsCollage";
 
-import { getCheckInsByUserId } from "../../../../firebase/firebase";
-import { getUserFromUserId } from '../../../../firebase/firebase';
-import { useDispatch, useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faFire, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getRestaurantById } from "../../../../firebase/firebase";
+import {getCheckInsByUserId} from "../../../../firebase/firebase";
+import {getUserFromUserId} from '../../../../firebase/firebase';
+import {useDispatch, useSelector} from "react-redux";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowLeft, faFire, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
+import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {getRestaurantById} from "../../../../firebase/firebase";
 import CheckInsMap from "../../../CheckIns/CheckInsMap/CheckInsMap";
-import { displayRestaurant, resetDisplayedRestaurant } from "../../../../features/map/mapSlice";
+import {displayRestaurant, resetDisplayedRestaurant} from "../../../../features/map/mapSlice";
+import ProfileNavigation from "../../../../common/components/ProfileNavigation/ProfileNavigation";
 
 const currentDate = new Date();
 
@@ -23,14 +24,13 @@ const FriendsCheckIns = () => {
 
     const dispatch = useDispatch();
 
-    const { userId } = useParams();
+    const {userId} = useParams();
 
     const [restaurant, setRestaurant] = useState(null);
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
-    const [friendProfile, setFriendProfile] = useState("");
+    const [friendProfile, setFriendProfile] = useState(null);
     const [friendCheckedInRestaurants, setFriendCheckedInRestaurants] = useState([]);
-
 
     useEffect(() => {
         if (!userId) return;
@@ -112,7 +112,7 @@ const FriendsCheckIns = () => {
         setShowCollagePopup(false);
     };
 
-    const TileContent = ({ date }) => {
+    const TileContent = ({date}) => {
         const checkInsForDate = friendCheckedInRestaurants.filter((checkIn) => {
             const checkInDate = new Date(checkIn.date);
 
@@ -150,68 +150,58 @@ const FriendsCheckIns = () => {
         });
     };
 
-    const renderTileContent = ({ date, view }) => {
+    const renderTileContent = ({date, view}) => {
         if (view !== "month") {
             return null;
         }
 
-        return <TileContent date={date} />;
+        return <TileContent date={date}/>;
     };
 
     return (
         <div className="check-ins-page-container">
-            <header>
-                <div className="container">
-                    <button onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft} />
-                        Back
-                    </button>
+            {friendProfile && (
+                <>
+                    <ProfileNavigation pageTitle={`${friendProfile.displayName}'s Check-ins`}/>
 
-                    <h1>{friendProfile.displayName}'s Check-ins</h1>
+                    <div className="check-ins-page">
+                        <div className="check-ins-map-container">
+                            {friendCheckedInRestaurants && <CheckInsMap restaurants={friendCheckedInRestaurants}/>}
+                        </div>
 
-                    <button style={{ visibility: "hidden" }}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft} />
-                        Back
-                    </button>
-                </div>
-            </header>
+                        <div className="check-ins-stats">
+                            <div className="check-ins-streak">
+                                <FontAwesomeIcon className="icon" icon={faFire}/>
+                                <span>{checkInsStreak}</span>
+                                <p>Week streak</p>
+                            </div>
 
-            <div className="check-ins-page">
-                <div className="check-ins-map-container">
-                    {friendCheckedInRestaurants && <CheckInsMap restaurants={friendCheckedInRestaurants} />}
-                </div>
+                            <div className="check-ins-total">
+                                <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
+                                <span>{totalCheckIns}</span>
+                                <p>Check-ins</p>
+                            </div>
+                        </div>
 
-                <div className="check-ins-stats">
-                    <div className="check-ins-streak">
-                        <FontAwesomeIcon className="icon" icon={faFire} />
-                        <span>{checkInsStreak}</span>
-                        <p>Week streak</p>
+                        <div className="check-ins-calendar">
+                            <Calendar
+                                onChange={handleCalendarChange}
+                                value={calendarValue}
+                                maxDate={currentDate}
+                                minDate={new Date(2023, 0, 1)}
+                                maxDetail="month"
+                                minDetail="month"
+                                tileContent={renderTileContent}
+                            />
+
+                            {showCollagePopup && (
+                                <CheckInsCollage restaurant={restaurant} onClose={handleCollagePopupClose}/>
+                            )}
+                        </div>
                     </div>
 
-                    <div className="check-ins-total">
-                        <FontAwesomeIcon className="icon" icon={faCircleCheck} />
-                        <span>{totalCheckIns}</span>
-                        <p>Check-ins</p>
-                    </div>
-                </div>
-
-                <div className="check-ins-calendar">
-                    <Calendar
-                        onChange={handleCalendarChange}
-                        value={calendarValue}
-                        maxDate={currentDate}
-                        minDate={new Date(2023, 0, 1)}
-                        maxDetail="month"
-                        minDetail="month"
-                        tileContent={renderTileContent}
-                    />
-
-                    {showCollagePopup && (
-                        <CheckInsCollage restaurant={restaurant} onClose={handleCollagePopupClose} />
-                    )}
-                </div>
-            </div>
-
+                </>
+            )}
         </div>
     );
 };

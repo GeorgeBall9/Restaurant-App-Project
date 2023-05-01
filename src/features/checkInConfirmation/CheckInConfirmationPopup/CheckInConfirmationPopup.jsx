@@ -135,10 +135,15 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
             {selectFriendsIsVisible && (
                 <div className="select-friends">
-                    {friends.map(({id, displayName, iconColour}) => (
+                    {friends.map(({id, displayName, iconColour, profilePhotoUrl}) => (
                         <div key={id} className="select-friend-card" onClick={() => handleFriendCardClick(id)}>
                             <div className="icon-container">
-                                <UserIcon size="small" colour={iconColour}/>
+                                <UserIcon
+                                    size="small"
+                                    colour={iconColour}
+                                    skeleton={!iconColour && !profilePhotoUrl}
+                                    imageUrl={profilePhotoUrl}
+                                />
 
                                 {selectedFriends.includes(id) && (
                                     <FontAwesomeIcon icon={faCircleCheck} className="icon"/>

@@ -10,6 +10,7 @@ import {Link} from "react-router-dom";
 import {faArrowUpRightFromSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
+import {selectUserId} from "../../../features/user/userSlice";
 
 const CheckInsMap = ({checkIns, selectedCheckIn}) => {
 
@@ -18,6 +19,7 @@ const CheckInsMap = ({checkIns, selectedCheckIn}) => {
     // select all relevant information from map slice
     const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
+    const userId = useSelector(selectUserId);
 
     const [map, setMap] = useState(null);
 
@@ -77,7 +79,7 @@ const CheckInsMap = ({checkIns, selectedCheckIn}) => {
             >
 
                 {checkIns && checkIns
-                    .map(({id, restaurant, date}) => {
+                    .map(({id, restaurant, date, friendData}) => {
                         const {id: restaurantId, longitude, latitude, name} = restaurant;
 
                         return (
@@ -109,10 +111,13 @@ const CheckInsMap = ({checkIns, selectedCheckIn}) => {
 
                                             <p>Visited on {new Date(date).toLocaleDateString()}</p>
 
-                                            <div>
-                                                <button>Edit</button>
-                                                <button>Delete</button>
-                                            </div>
+                                            {friendData.length > 0 && (
+                                                <p>
+                                                    With {friendData.map(friend => friend.displayName).join(", ")}
+                                                </p>
+                                            )}
+
+                                            <button>View details</button>
                                         </div>
                                     </Popup>
                                 )}

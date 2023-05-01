@@ -30,6 +30,12 @@ const CheckIns = () => {
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
 
+    useEffect(() => {
+        if (!allCheckIns?.length) return;
+
+
+    }, [allCheckIns]);
+
     const getCheckedInRestaurant = (restaurantId) => {
         return allCheckIns.find(checkIn => checkIn.restaurant.id === restaurantId);
     };

@@ -13,8 +13,6 @@ import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
 
 const CheckInsMap = ({checkIns}) => {
 
-    console.log({checkIns})
-
     const dispatch = useDispatch();
 
     // select all relevant information from map slice
@@ -27,7 +25,7 @@ const CheckInsMap = ({checkIns}) => {
     const [viewState, setViewState] = useState({
         latitude: userPosition.latitude,
         longitude: userPosition.longitude,
-        zoom: 13
+        zoom: 13.5
     });
 
     // handler functions
@@ -58,8 +56,6 @@ const CheckInsMap = ({checkIns}) => {
     useEffect(() => {
         if (!displayedRestaurant || !map) return;
 
-        console.log(displayedRestaurant)
-
         const {longitude, latitude} = displayedRestaurant;
 
         requestAnimationFrame(() => {
@@ -81,13 +77,13 @@ const CheckInsMap = ({checkIns}) => {
             >
 
                 {checkIns && checkIns
-                    .map(({id, restaurant, date}) => {
+                    .map(({id, restaurant, date, friendData}) => {
                         const {id: restaurantId, longitude, latitude, name} = restaurant;
 
                         return (
                             <div key={id}>
                                 <RestaurantMarker
-                                    restaurant={restaurant}
+                                    restaurant={{...restaurant, checkInId: id}}
                                     visible={true}
                                     type="check-ins"
                                 />
@@ -99,7 +95,7 @@ const CheckInsMap = ({checkIns}) => {
                                         anchor="bottom"
                                         closeButton={false}
                                         closeOnClick={false}
-                                        offset={50}
+                                        offset={40}
                                     >
                                         <div className="content">
                                             <Link to={`/details/${restaurantId}`}>
@@ -111,10 +107,13 @@ const CheckInsMap = ({checkIns}) => {
 
                                             <p>Visited on {new Date(date).toLocaleDateString()}</p>
 
-                                            <div>
-                                                <button>Edit</button>
-                                                <button>Delete</button>
-                                            </div>
+                                            {/*{friendData.length > 0 && (*/}
+                                            {/*    <p>*/}
+                                            {/*        With {friendData.map(friend => friend.displayName).join(", ")}*/}
+                                            {/*    </p>*/}
+                                            {/*)}*/}
+
+                                            <button>View details</button>
                                         </div>
                                     </Popup>
                                 )}

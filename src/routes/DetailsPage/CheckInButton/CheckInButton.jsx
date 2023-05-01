@@ -30,8 +30,10 @@ const CheckInButton = ({restaurantId}) => {
 
         getLastCheckInToRestaurantByUserId(userId, restaurantId)
             .then(data => {
-                const dateString = new Date(data.date).toLocaleDateString();
-                dispatch(setCheckedInStatus(today === dateString));
+                if (data) {
+                    const dateString = new Date(data.date).toLocaleDateString();
+                    dispatch(setCheckedInStatus(today === dateString));
+                }
             });
     }, [restaurantId, userId]);
 

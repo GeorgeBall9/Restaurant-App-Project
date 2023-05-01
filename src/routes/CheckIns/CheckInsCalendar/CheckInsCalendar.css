@@ -57,7 +57,7 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(var(--secondary-theme-rgba), 0.8);
+  background-color: var(--dark-theme);
   color: white;
   width: 24px;
   height: 24px;
@@ -74,7 +74,7 @@
 /* Selected date */
 .react-calendar__tile--active {
   background: none;
-  color: var(--secondary-theme);
+  color: var(--primary-theme);
 }
 
 .react-calendar__tile--active abbr {

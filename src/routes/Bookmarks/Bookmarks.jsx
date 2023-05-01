@@ -4,7 +4,7 @@ import {selectBookmarks, selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
+import {faBan} from "@fortawesome/free-solid-svg-icons";
 import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCard";
 import {getRestaurantById} from "../../firebase/firebase";
 import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";

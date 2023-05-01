@@ -30,6 +30,18 @@ const CheckIns = () => {
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
 
+    useEffect(() => {
+        if (!allCheckIns?.length) return;
+
+        const lastCheckIn = allCheckIns[allCheckIns.length - 1];
+        const lastCheckInDate = new Date(lastCheckIn.date).toLocaleDateString();
+        const dateNow = new Date().toLocaleDateString();
+
+        if (lastCheckInDate === dateNow) {
+            setSelectedCheckIn(lastCheckIn);
+        }
+    }, [allCheckIns]);
+
     const getCheckedInRestaurant = (restaurantId) => {
         return allCheckIns.find(checkIn => checkIn.restaurant.id === restaurantId);
     };
@@ -54,7 +66,7 @@ const CheckIns = () => {
     useEffect(() => {
         if (!selectedCheckIn) return;
 
-        dispatch(displayRestaurant(selectedCheckIn.restaurant));
+        dispatch(displayRestaurant({...selectedCheckIn.restaurant, checkInId: selectedCheckIn.id}));
     }, [selectedCheckIn]);
 
     const handleCalendarChange = (value) => {

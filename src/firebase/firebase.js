@@ -403,8 +403,15 @@ export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
     return await Promise.all(checkInData
         .map(async (checkIn) => {
             const restaurant = await getRestaurantById(checkIn.restaurantId);
-            return {restaurant, ...checkIn};
+            const friendIds = checkIn.userIds.filter(id => id !== userId);
+            const friendData = await getUsersFromUserIds(friendIds);
+            return {restaurant, ...checkIn, friendData};
         }));
+};
+
+const getUsersFromUserIds = async (userIds) => {
+    return await Promise.all(userIds
+        .map(async (id) => await getUserFromUserId(id)));
 };
 
 // add restaurant review

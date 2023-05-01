@@ -2,70 +2,85 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 1.5em;
     letter-spacing: 0.01rem;
     line-height: 1rem;
 }
 
 .reviews-container .review {
     background-color: white;
-    padding: 1rem;
     border-radius: var(--border-radius);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
     position: relative;
+    overflow: hidden;
 }
 
-.reviews-container .review header {
+.reviews-container .review:last-child {
+    margin-bottom: 1em;
+}
+
+.reviews-container .review .review-header {
     display: flex;
     justify-content: space-between;
     gap: 1em;
     border-bottom: solid 1px lightgrey;
-    padding-bottom: 1em;
+    background-color: var(--dark-theme-contrast);
+    padding: 1rem;
 }
 
-.reviews-container .review header .author-details {
+.reviews-container .review .review-header .author-details {
     display: flex;
     align-items: center;
     gap: 0.75em;
+    color: white;
 }
 
-.reviews-container .review header .author-details div .display-name {
+.reviews-container .review .review-header .author-details .user-icon-container {
+    border: solid 3px lightgrey;
+    border-radius: 50%;
+}
+
+.reviews-container .review .review-header .author-details div .display-name {
     font-size: var(--font-size-smaller);
     font-weight: var(--font-weight-bold-1);
     margin-bottom: 0.25em;
 }
 
-.reviews-container .review header .author-details div p:nth-child(2) {
+.reviews-container .review .review-header .author-details div p:nth-child(2) {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-regular);
 }
 
 .reviews-container .review h3 {
     text-align: left;
-    color: var(--primary-theme);
+    color: var(--dark-theme);
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-bold-2);
     margin-bottom: 0.25em;
     text-transform: capitalize;
 }
 
-.reviews-container .review header div button {
+.reviews-container .review .review-header div button {
     font-size: 1rem;
 }
 
-.reviews-container .review header div button:first-child {
+.reviews-container .review .review-header div button:first-child {
     margin-right: 0.25em;
 }
 
-.reviews-container .review header div button .icon {
-    color: dimgrey;
+.reviews-container .review .review-header div button .icon {
+    color: lightgrey;
 }
 
-.reviews-container .review header div button .icon:hover {
+.reviews-container .review .review-header div button .icon:hover {
     color: grey;
+}
+
+.reviews-container .review .review-content {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
 }
 
 .reviews-container .review .rating-and-date-container {
@@ -103,11 +118,11 @@
     border: none;
 }
 
-.reviews-container .review > .buttons-container button {
+.reviews-container .review .review-content .buttons-container button {
     font-size: 1.2rem;
 }
 
-.reviews-container .review > .buttons-container button:last-child {
+.reviews-container .review .review-content .buttons-container button:last-child {
     transform: rotate(180deg);
 }
 

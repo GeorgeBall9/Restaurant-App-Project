@@ -121,14 +121,16 @@ const ReviewsList = ({reviews, userId, preview}) => {
                                 </div>
                             )}
 
-                            <header>
+                            <div className="review-header">
                                 <div className="author-details">
-                                    <UserIcon
-                                        size="medium"
-                                        colour={iconColour}
-                                        skeleton={!iconColour && !profilePhotoUrl}
-                                        imageUrl={profilePhotoUrl}
-                                    />
+                                    <div className="user-icon-container">
+                                        <UserIcon
+                                            size="medium"
+                                            colour={iconColour}
+                                            skeleton={!iconColour && !profilePhotoUrl}
+                                            imageUrl={profilePhotoUrl}
+                                        />
+                                    </div>
 
                                     <div>
                                         <p className="display-name">{displayName}</p>
@@ -153,43 +155,45 @@ const ReviewsList = ({reviews, userId, preview}) => {
                                 {userId && authorId !== userId && (
                                     <ReportButton reviewId={id}/>
                                 )}
-                            </header>
-
-                            <div className="rating-and-date-container">
-                                <StarRating rating={rating}/>
-
-                                <p>
-                                    <strong>Visit date: </strong>
-                                    {new Date(visitDate).toLocaleDateString()}
-                                </p>
                             </div>
 
-                            <h3>{title}</h3>
+                            <div className="review-content">
+                                <div className="rating-and-date-container">
+                                    <StarRating rating={rating}/>
 
-                            <p>{content}</p>
+                                    <p>
+                                        <strong>Visit date: </strong>
+                                        {new Date(visitDate).toLocaleDateString()}
+                                    </p>
+                                </div>
 
-                            <div className="buttons-container">
-                                <button onClick={() => handleVoteClick(id, "upVotes")}>
-                                    {reactions.upVotes.includes(userId) && (
-                                        <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
-                                    )}
+                                <h3>{title}</h3>
 
-                                    {!reactions.upVotes.includes(userId) && (
-                                        <FontAwesomeIcon icon={faCircleUp} className="icon"/>
-                                    )}
-                                </button>
+                                <p>{content}</p>
 
-                                <p>{+(reactions.upVotes.length - reactions.downVotes.length)}</p>
+                                <div className="buttons-container">
+                                    <button onClick={() => handleVoteClick(id, "upVotes")}>
+                                        {reactions.upVotes.includes(userId) && (
+                                            <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
+                                        )}
 
-                                <button onClick={() => handleVoteClick(id, "downVotes")}>
-                                    {reactions.downVotes.includes(userId) && (
-                                        <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
-                                    )}
+                                        {!reactions.upVotes.includes(userId) && (
+                                            <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                                        )}
+                                    </button>
 
-                                    {!reactions.downVotes.includes(userId) && (
-                                        <FontAwesomeIcon icon={faCircleUp} className="icon"/>
-                                    )}
-                                </button>
+                                    <p>{+(reactions.upVotes.length - reactions.downVotes.length)}</p>
+
+                                    <button onClick={() => handleVoteClick(id, "downVotes")}>
+                                        {reactions.downVotes.includes(userId) && (
+                                            <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
+                                        )}
+
+                                        {!reactions.downVotes.includes(userId) && (
+                                            <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                                        )}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     )

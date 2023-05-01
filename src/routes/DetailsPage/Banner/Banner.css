@@ -12,7 +12,7 @@
 }
 
 .banner h1 {
-    color: black;
+    color: white;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;

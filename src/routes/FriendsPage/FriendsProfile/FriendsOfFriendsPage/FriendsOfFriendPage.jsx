@@ -26,8 +26,6 @@ import ProfileNavigation from "../../../../common/components/ProfileNavigation/P
 
 const FriendsOfFriendsPage = () => {
 
-    const navigate = useNavigate();
-
     const dispatch = useDispatch();
 
     const displayedFriend = useSelector(selectDisplayedFriend);
@@ -39,19 +37,17 @@ const FriendsOfFriendsPage = () => {
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [display, setDisplay] = useState("friends");
     const [addFriendId, setAddFriendId] = useState("");
-    const [foundUser, setFoundUser] = useState(null);
     const [addFriendFeedback, setAddFriendFeedback] = useState("");
     const [displayedFriends, setDisplayedFriends] = useState([]);
     const [hasMatches, setHasMatches] = useState(false);
 
-    const [friendsOfFriend, setFriendsOfFriend] = useState(null);
-    const [friendProfile, setFriendProfile] = useState("");
+    const [friendsOfFriend, setFriendsOfFriend] = useState([]);
 
     useEffect(() => {
         if (!displayedFriend) return;
 
-        getFriendsByUserId(displayedFriends.id)
-            .then(friends => setDisplayedFriends(friends))
+        getFriendsByUserId(displayedFriend.id)
+            .then(friends => setFriendsOfFriend(friends.filter(friend => friend.id !== currentUserId)));
     }, [displayedFriend]);
 
     useEffect(() => {
@@ -101,19 +97,6 @@ const FriendsOfFriendsPage = () => {
         }));
     };
 
-    const handleCancelClick = async (id) => {
-        const updatedFriends = await cancelFriendRequest(currentUserId, id);
-        dispatch(setFriends(updatedFriends));
-
-        // Update displayedFriends
-        setDisplayedFriends(displayedFriends.map(friend => {
-            if (friend.id === id) {
-                return {...friend, status: "none"};
-            }
-            return friend;
-        }));
-    };
-
     const calculateMutualFriends = (displayedFriend) => {
         let mutualFriends = 0;
 
@@ -125,7 +108,6 @@ const FriendsOfFriendsPage = () => {
 
         return mutualFriends;
     };
-
 
     const handleSearchClick = () => {
         dispatch(resetSearchQuery());
@@ -158,27 +140,18 @@ const FriendsOfFriendsPage = () => {
                                         return 0;
                                     }
                                 })
-                                .map(({id, displayName, iconColour, status, friends}) => {
-                                    // Do not render FriendCard for the current user
-                                    if (id === currentUserId) {
-                                        return null;
-                                    }
-
-                                    return (
-                                        <FriendCard
-                                            key={id}
-                                            id={id}
-                                            displayName={displayName}
-                                            iconColour={iconColour}
-                                            mutualFriends={calculateMutualFriends({id, friends})}
-                                            button1Handler={() => handleAddFriendClick(id)}
-                                            button1Text="Add"
-                                            status={status}
-                                            handleCancelClick={() => handleCancelClick(id)}
-                                            hideButton2={true}
-                                        />
-                                    );
-                                })}
+                                .map(({id, displayName, iconColour, profilePhotoUrl, status, friends}) => (
+                                    <FriendCard
+                                        key={id}
+                                        id={id}
+                                        displayName={displayName}
+                                        iconColour={iconColour}
+                                        profilePhotoUrl={profilePhotoUrl}
+                                        mutualFriends={calculateMutualFriends({id, friends})}
+                                        status="friendOfFriend"
+                                        handleAddClick={() => handleAddFriendClick(id)}
+                                    />
+                                ))}
                         </div>
                     </main>
                 </>

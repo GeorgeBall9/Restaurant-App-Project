@@ -3,6 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    resetDisplayedFriend,
     selectDisplayName,
     selectIconColour,
     selectProfilePhotoUrl,
@@ -37,6 +38,8 @@ const ProfilePage = () => {
     const [idCopied, setIdCopied] = useState(false);
 
     useEffect(() => {
+        dispatch(resetDisplayedFriend());
+
         if (!userId) {
             navigate("/sign-in")
         }

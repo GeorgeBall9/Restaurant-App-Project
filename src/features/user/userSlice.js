@@ -52,7 +52,10 @@ const userSlice = createSlice({
             state.profilePhotoUrl = "";
             state.recommendations = [];
             state.bookmarks = [];
-            state.checkedInRestaurants = [];
+            state.friends = [];
+            state.friendRequests = [];
+            state.friendsSortFilter = "Most recent";
+            state.displayedFriend = null;
         },
         setDisplayName: (state, action) => {
             state.displayName = action.payload;

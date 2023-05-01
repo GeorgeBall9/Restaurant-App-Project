@@ -14,7 +14,8 @@ const FriendCard = ({
                         button1Text,
                         button2Handler,
                         button2Text,
-                        handleCancelClick
+                        handleCancelClick,
+                        handleAddClick
                     }) => {
 
     return (
@@ -28,7 +29,7 @@ const FriendCard = ({
                 handleCancelClick={handleCancelClick}
             />
 
-            {status !== "pending" && (
+            {status === "confirmed" && (
                 <div className="buttons-container">
                     <PrimaryButton handleClick={button1Handler} text={button1Text} size="small"/>
                     <InversePrimaryButton handleClick={button2Handler} text={button2Text} size="small"/>

@@ -223,6 +223,9 @@ const FriendsPage = () => {
         <div className="friends-page-container">
             <ProfileNavigation
                 pageTitle={display}
+                button1={{
+                    handler: () => navigate("/profile")
+                }}
                 button2={{
                     text: searchIsVisible ? "Cancel" : "Search",
                     icon: !searchIsVisible ? faMagnifyingGlass : null,

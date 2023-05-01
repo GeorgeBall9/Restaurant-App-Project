@@ -1,8 +1,17 @@
 import "./FriendInfo.css";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import SecondaryButton from "../../../../common/components/SecondaryButton/SecondaryButton";
+import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryButton";
 
-const FriendInfo = ({displayName, iconColour, profilePhotoUrl, mutualFriends, status, handleCancelClick}) => {
+const FriendInfo = ({
+                        displayName,
+                        iconColour,
+                        profilePhotoUrl,
+                        mutualFriends,
+                        status,
+                        handleCancelClick,
+                        handleAddClick
+                    }) => {
 
     return (
         <div className="friend-info">
@@ -24,6 +33,14 @@ const FriendInfo = ({displayName, iconColour, profilePhotoUrl, mutualFriends, st
                     <SecondaryButton
                         handleClick={handleCancelClick}
                         text="Cancel request"
+                        size="small"
+                    />
+                )}
+
+                {status === "friendOfFriend" && (
+                    <PrimaryButton
+                        handleClick={handleAddClick}
+                        text="Add friend"
                         size="small"
                     />
                 )}

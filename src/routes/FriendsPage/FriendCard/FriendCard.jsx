@@ -1,7 +1,6 @@
 import "./FriendCard.css";
 import FriendInfo from "./FriendInfo/FriendInfo";
 import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
-import SecondaryButton from "../../../common/components/SecondaryButton/SecondaryButton";
 import InversePrimaryButton from "../../../common/components/InversePrimaryButton/InversePrimaryButton";
 
 const FriendCard = ({
@@ -27,6 +26,7 @@ const FriendCard = ({
                 mutualFriends={mutualFriends}
                 status={status}
                 handleCancelClick={handleCancelClick}
+                handleAddClick={handleAddClick}
             />
 
             {status === "confirmed" && (

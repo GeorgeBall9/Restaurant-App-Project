@@ -134,7 +134,7 @@ const CheckIns = () => {
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
-                    {allCheckIns && <CheckInsMap checkIns={allCheckIns} selectedCheckIn={selectedCheckIn}/>}
+                    {allCheckIns && <CheckInsMap checkIns={allCheckIns}/>}
                 </div>
 
                 <div className="check-ins-stats">

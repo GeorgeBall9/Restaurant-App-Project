@@ -10,16 +10,14 @@ import {Link} from "react-router-dom";
 import {faArrowUpRightFromSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
-import {selectUserId} from "../../../features/user/userSlice";
 
-const CheckInsMap = ({checkIns, selectedCheckIn}) => {
+const CheckInsMap = ({checkIns}) => {
 
     const dispatch = useDispatch();
 
     // select all relevant information from map slice
     const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
-    const userId = useSelector(selectUserId);
 
     const [map, setMap] = useState(null);
 
@@ -27,7 +25,7 @@ const CheckInsMap = ({checkIns, selectedCheckIn}) => {
     const [viewState, setViewState] = useState({
         latitude: userPosition.latitude,
         longitude: userPosition.longitude,
-        zoom: 13
+        zoom: 13.5
     });
 
     // handler functions
@@ -86,8 +84,6 @@ const CheckInsMap = ({checkIns, selectedCheckIn}) => {
                             <div key={id}>
                                 <RestaurantMarker
                                     restaurant={{...restaurant, checkInId: id}}
-                                    selected={id === displayedRestaurant?.checkInId
-                                        && restaurantId === displayedRestaurant?.id}
                                     visible={true}
                                     type="check-ins"
                                 />
@@ -99,7 +95,7 @@ const CheckInsMap = ({checkIns, selectedCheckIn}) => {
                                         anchor="bottom"
                                         closeButton={false}
                                         closeOnClick={false}
-                                        offset={80}
+                                        offset={40}
                                     >
                                         <div className="content">
                                             <Link to={`/details/${restaurantId}`}>

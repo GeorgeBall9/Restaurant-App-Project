@@ -11,9 +11,7 @@ import {faArrowUpRightFromSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
 
-const CheckInsMap = ({checkIns}) => {
-
-    console.log({checkIns})
+const CheckInsMap = ({checkIns, selectedCheckIn}) => {
 
     const dispatch = useDispatch();
 
@@ -58,8 +56,6 @@ const CheckInsMap = ({checkIns}) => {
     useEffect(() => {
         if (!displayedRestaurant || !map) return;
 
-        console.log(displayedRestaurant)
-
         const {longitude, latitude} = displayedRestaurant;
 
         requestAnimationFrame(() => {
@@ -87,7 +83,9 @@ const CheckInsMap = ({checkIns}) => {
                         return (
                             <div key={id}>
                                 <RestaurantMarker
-                                    restaurant={restaurant}
+                                    restaurant={{...restaurant, checkInId: id}}
+                                    selected={id === displayedRestaurant?.checkInId
+                                        && restaurantId === displayedRestaurant?.id}
                                     visible={true}
                                     type="check-ins"
                                 />
@@ -99,7 +97,7 @@ const CheckInsMap = ({checkIns}) => {
                                         anchor="bottom"
                                         closeButton={false}
                                         closeOnClick={false}
-                                        offset={50}
+                                        offset={85}
                                     >
                                         <div className="content">
                                             <Link to={`/details/${restaurantId}`}>

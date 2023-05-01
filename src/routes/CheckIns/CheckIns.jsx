@@ -54,7 +54,7 @@ const CheckIns = () => {
     useEffect(() => {
         if (!selectedCheckIn) return;
 
-        dispatch(displayRestaurant(selectedCheckIn.restaurant));
+        dispatch(displayRestaurant({...selectedCheckIn.restaurant, checkInId: selectedCheckIn.id}));
     }, [selectedCheckIn]);
 
     const handleCalendarChange = (value) => {
@@ -122,7 +122,7 @@ const CheckIns = () => {
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
-                    {allCheckIns && <CheckInsMap checkIns={allCheckIns}/>}
+                    {allCheckIns && <CheckInsMap checkIns={allCheckIns} selectedCheckIn={selectedCheckIn}/>}
                 </div>
 
                 <div className="check-ins-stats">

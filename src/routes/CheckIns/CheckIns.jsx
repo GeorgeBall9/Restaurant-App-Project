@@ -33,7 +33,13 @@ const CheckIns = () => {
     useEffect(() => {
         if (!allCheckIns?.length) return;
 
+        const lastCheckIn = allCheckIns[allCheckIns.length - 1];
+        const lastCheckInDate = new Date(lastCheckIn.date).toLocaleDateString();
+        const dateNow = new Date().toLocaleDateString();
 
+        if (lastCheckInDate === dateNow) {
+            setSelectedCheckIn(lastCheckIn);
+        }
     }, [allCheckIns]);
 
     const getCheckedInRestaurant = (restaurantId) => {

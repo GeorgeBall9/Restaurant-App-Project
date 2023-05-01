@@ -99,7 +99,7 @@ const CheckInsMap = ({checkIns, selectedCheckIn}) => {
                                         anchor="bottom"
                                         closeButton={false}
                                         closeOnClick={false}
-                                        offset={85}
+                                        offset={80}
                                     >
                                         <div className="content">
                                             <Link to={`/details/${restaurantId}`}>

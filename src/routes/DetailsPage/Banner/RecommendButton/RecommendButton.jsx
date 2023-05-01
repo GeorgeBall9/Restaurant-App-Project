@@ -1,7 +1,7 @@
 import "./RecommendButton.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHeart as faSolidHeart} from "@fortawesome/free-solid-svg-icons";
-import {faHeart} from "@fortawesome/free-regular-svg-icons";
+import {faHeart as faSolidHeart, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCircleCheck, faHeart} from "@fortawesome/free-regular-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -33,6 +33,7 @@ const RecommendButton = ({restaurant, style}) => {
 
     const [isRecommended, setIsRecommended] = useState(false);
     const [confirmationIsVisible, setConfirmationIsVisible] = useState(false);
+    const [feedbackIsVisible, setFeedbackIsVisible] = useState(false);
 
     useEffect(() => {
         if (!recommendations || !id) return;
@@ -58,6 +59,9 @@ const RecommendButton = ({restaurant, style}) => {
             dispatch(addRecommendation(id));
             await addUserRecommendation(userId, restaurant);
         }
+
+        setFeedbackIsVisible(true);
+        setTimeout(() => setFeedbackIsVisible(false), 2000);
     };
 
     return (
@@ -84,6 +88,11 @@ const RecommendButton = ({restaurant, style}) => {
                     </div>
                 </div>
             )}
+
+            <div className="bookmark-feedback" style={{opacity: feedbackIsVisible ? 1 : 0}}>
+                {isRecommended ? "Added " : "Removed "}recommendation
+                <FontAwesomeIcon icon={isRecommended ? faCircleCheck : faXmark} className="bookmark-feedback-icon"/>
+            </div>
         </>
     );
 };

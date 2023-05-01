@@ -28,6 +28,7 @@ import ProfileNavigation from "../../../../common/components/ProfileNavigation/P
 import FriendOfFriendCard from "../../FriendCards/FriendOfFriendCard/FriendOfFriendCard";
 import ConfirmedFriendCard from "../../FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
 import PendingFriendCard from "../../FriendCards/PendingFriendCard/PendingFriendCard";
+import FriendRequestCard from "../../FriendCards/FriendRequestCard/FriendRequestCard";
 
 const FriendsOfFriendsPage = () => {
 
@@ -163,7 +164,7 @@ const FriendsOfFriendsPage = () => {
 
         const foundRequest = currentUserFriendRequests.find(request => request.id === id);
         if (foundRequest) {
-            return foundRequest.status;
+            return "request";
         }
 
         return null;
@@ -219,6 +220,18 @@ const FriendsOfFriendsPage = () => {
                                                 profilePhotoUrl={profilePhotoUrl}
                                                 mutualFriends={calculateMutualFriends(friends)}
                                                 handleCancelClick={() => handleCancelClick(id)}
+                                            />
+                                        );
+                                    } else if (status === "request") {
+                                        return (
+                                            <FriendRequestCard
+                                                key={id}
+                                                displayName={displayName}
+                                                iconColour={iconColour}
+                                                profilePhotoUrl={profilePhotoUrl}
+                                                mutualFriends={calculateMutualFriends(friends)}
+                                                handleConfirm={() => handleConfirmClick(id)}
+                                                handleDelete={() => handleDeleteClick(id)}
                                             />
                                         );
                                     } else {

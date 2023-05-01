@@ -4,7 +4,7 @@ import "../../../CheckIns/CheckInsCalendar/CheckInsCalendar.css";
 import Calendar from "react-calendar";
 import CheckInsCollage from "../../../CheckIns/CheckInsCollage/CheckInsCollage";
 
-import {getCheckInsByUserId} from "../../../../firebase/firebase";
+import {getCheckInsAndRestaurantDataByUserId, getCheckInsByUserId} from "../../../../firebase/firebase";
 import {getUserFromUserId} from '../../../../firebase/firebase';
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -26,7 +26,7 @@ const FriendsCheckIns = () => {
 
     const {userId} = useParams();
 
-    const [restaurant, setRestaurant] = useState(null);
+    const [selectedCheckIn, setSelectedCheckIn] = useState(null);
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
     const [friendProfile, setFriendProfile] = useState(null);
@@ -39,7 +39,7 @@ const FriendsCheckIns = () => {
             const user = await getUserFromUserId(userId);
             setFriendProfile(user);
 
-            const checkedInData = await getCheckInsByUserId(userId);
+            const checkedInData = await getCheckInsAndRestaurantDataByUserId(userId);
             setFriendCheckedInRestaurants(checkedInData);
         };
 
@@ -47,7 +47,7 @@ const FriendsCheckIns = () => {
     }, [userId]);
 
     const getFriendCheckedInRestaurant = (id) => {
-        return friendCheckedInRestaurants.find(restaurant => restaurant.id === id);
+        return friendCheckedInRestaurants.find(checkIn => checkIn.restaurantId === id);
     };
 
     const handleCollagePopupClose = () => {
@@ -61,10 +61,10 @@ const FriendsCheckIns = () => {
     }, [userId]);
 
     useEffect(() => {
-        if (!restaurant) return;
+        if (!selectedCheckIn) return;
 
-        dispatch(displayRestaurant(restaurant));
-    }, [restaurant]);
+        dispatch(displayRestaurant(selectedCheckIn.restaurant));
+    }, [selectedCheckIn]);
 
     const handleCalendarChange = (value) => {
         setCalendarValue(value);
@@ -103,8 +103,8 @@ const FriendsCheckIns = () => {
 
     const totalCheckIns = calculateTotalCheckIns(friendCheckedInRestaurants);
 
-    const handleTileClick = (restaurant) => {
-        setRestaurant(restaurant);
+    const handleTileClick = (checkIn) => {
+        setSelectedCheckIn(checkIn);
         setShowCollagePopup(true);
     };
 
@@ -114,21 +114,18 @@ const FriendsCheckIns = () => {
 
     const TileContent = ({date}) => {
         const checkInsForDate = friendCheckedInRestaurants.filter((checkIn) => {
-            const checkInDate = new Date(checkIn.date);
-
-            return (
-                checkInDate.getFullYear() === date.getFullYear() &&
-                checkInDate.getMonth() === date.getMonth() &&
-                checkInDate.getDate() === date.getDate()
-            );
+            const checkInDate = new Date(checkIn.date).toLocaleDateString();
+            return checkInDate === date.toLocaleDateString();
         });
 
         return checkInsForDate.map((checkIn, index) => {
-            const restaurant = getFriendCheckedInRestaurant(checkIn.id);
+            const foundCheckIn = getFriendCheckedInRestaurant(checkIn.restaurant.id);
 
-            if (!restaurant) {
+            if (!foundCheckIn) {
                 return null;
             }
+
+            const {restaurant} = foundCheckIn;
 
             const tileContentStyle = {
                 backgroundImage: `url(${restaurant.photoUrl})`,
@@ -144,7 +141,7 @@ const FriendsCheckIns = () => {
                     key={index}
                     style={tileContentStyle}
                     title={restaurant.name}
-                    onClick={() => handleTileClick(restaurant)}
+                    onClick={() => handleTileClick(foundCheckIn)}
                 ></div>
             );
         });
@@ -166,7 +163,7 @@ const FriendsCheckIns = () => {
 
                     <div className="check-ins-page">
                         <div className="check-ins-map-container">
-                            {friendCheckedInRestaurants && <CheckInsMap restaurants={friendCheckedInRestaurants}/>}
+                            {friendCheckedInRestaurants && <CheckInsMap checkIns={friendCheckedInRestaurants}/>}
                         </div>
 
                         <div className="check-ins-stats">
@@ -195,7 +192,7 @@ const FriendsCheckIns = () => {
                             />
 
                             {showCollagePopup && (
-                                <CheckInsCollage restaurant={restaurant} onClose={handleCollagePopupClose}/>
+                                <CheckInsCollage checkIn={selectedCheckIn} onClose={handleCollagePopupClose}/>
                             )}
                         </div>
                     </div>

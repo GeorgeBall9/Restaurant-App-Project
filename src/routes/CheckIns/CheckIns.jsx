@@ -48,10 +48,7 @@ const CheckIns = () => {
         if (!userId) return;
 
         getCheckInsAndRestaurantDataByUserId(userId)
-            .then(data => {
-                console.log(data)
-                setAllCheckIns(data)
-            });
+            .then(data => setAllCheckIns(data));
     }, [userId]);
 
     useEffect(() => {

@@ -1,16 +1,15 @@
 import "../../../PreviewReviews/PreviewReviews.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faExpand} from "@fortawesome/free-solid-svg-icons";
-import {useNavigate, useParams} from "react-router-dom";
+import {faExpand} from "@fortawesome/free-solid-svg-icons";
+import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {deleteRestaurantReview, getReviewsByUserId, getUserFromUserId} from "../../../../firebase/firebase";
-import {deleteReview, selectReview, selectReviews, setReviews} from "../../../../features/reviews/reviewsSlice";
+import {getReviewsByUserId} from "../../../../firebase/firebase";
+import {selectReview} from "../../../../features/reviews/reviewsSlice";
 import RestaurantImage from "../../../../common/components/RestaurantImage/RestaurantImage";
 import StarRating from "../../../../common/components/StarRating/StarRating";
 import {selectDisplayedFriend} from "../../../../features/user/userSlice";
 import ProfileNavigation from "../../../../common/components/ProfileNavigation/ProfileNavigation";
-
 
 const FriendsReviews = () => {
 
@@ -28,10 +27,6 @@ const FriendsReviews = () => {
         getReviewsByUserId(displayedFriend.id)
             .then(reviews => setFriendReviews(reviews))
     }, [displayedFriend]);
-
-    const handleBackClick = () => {
-        navigate(`/view-profile/${displayedFriend.id}`);
-    };
 
     const handleExpandClick = (reviewId, restaurantId) => {
         dispatch(selectReview(reviewId));

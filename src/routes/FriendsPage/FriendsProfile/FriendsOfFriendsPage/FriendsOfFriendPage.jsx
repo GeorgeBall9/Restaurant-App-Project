@@ -1,29 +1,28 @@
 import "./FriendsOfFriend.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faArrowLeft,
-    faMagnifyingGlass,
+    faArrowLeft, faCircleCheck, faLink,
+    faMagnifyingGlass, faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import SearchBox from "../../../../common/components/SearchBox/SearchBox";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import {
     cancelFriendRequest,
     getFriendsByUserId,
     getUserFromUserId,
     sendFriendRequestToUser
 } from "../../../../firebase/firebase";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
-    selectFriendRequests,
-    selectFriends, selectFriendsSortFilter,
+    selectDisplayedFriend,
+    selectFriends,
     selectUserId,
     setFriends
 } from "../../../../features/user/userSlice";
 import FriendCard from "../../FriendCard/FriendCard";
-import { resetSearchQuery, selectSearchQuery } from "../../../../features/filters/filtersSlice";
-
-import { useParams } from "react-router-dom";
+import {resetSearchQuery, selectSearchQuery} from "../../../../features/filters/filtersSlice";
+import ProfileNavigation from "../../../../common/components/ProfileNavigation/ProfileNavigation";
 
 const FriendsOfFriendsPage = () => {
 
@@ -31,13 +30,10 @@ const FriendsOfFriendsPage = () => {
 
     const dispatch = useDispatch();
 
-    const { userId } = useParams();
+    const displayedFriend = useSelector(selectDisplayedFriend);
     const currentUserId = useSelector(selectUserId);
 
     const friends = useSelector(selectFriends);
-
-    const friendRequests = useSelector(selectFriendRequests);
-    const friendsSortFilter = useSelector(selectFriendsSortFilter);
     const searchQuery = useSelector(selectSearchQuery);
 
     const [searchIsVisible, setSearchIsVisible] = useState(false);
@@ -52,18 +48,11 @@ const FriendsOfFriendsPage = () => {
     const [friendProfile, setFriendProfile] = useState("");
 
     useEffect(() => {
-        if (!userId) return;
+        if (!displayedFriend) return;
 
-        const fetchFriendProfile = async () => {
-            const user = await getUserFromUserId(userId);
-            setFriendProfile(user);
-
-            const friendsData = await getFriendsByUserId(userId);
-            setFriendsOfFriend(friendsData);
-        };
-
-        fetchFriendProfile();
-    }, [userId]);
+        getFriendsByUserId(displayedFriends.id)
+            .then(friends => setDisplayedFriends(friends))
+    }, [displayedFriend]);
 
     useEffect(() => {
         if (display === "friends" && !friendsOfFriend) return;
@@ -80,7 +69,7 @@ const FriendsOfFriendsPage = () => {
         let searchResults;
 
         if (display === "friends") {
-            searchResults = friendsOfFriend.filter(({ displayName }) => displayName.toLowerCase().includes(query));
+            searchResults = friendsOfFriend.filter(({displayName}) => displayName.toLowerCase().includes(query));
         }
 
         if (!searchResults.length) {
@@ -98,10 +87,6 @@ const FriendsOfFriendsPage = () => {
         }
     }, [searchQuery, friendsOfFriend]);
 
-    const handleBackClick = () => {
-        navigate(`/view-profile/${userId}`);
-    };
-
     const handleAddFriendClick = async (id) => {
         const updatedFriends = await sendFriendRequestToUser(currentUserId, id);
         dispatch(setFriends(updatedFriends));
@@ -110,7 +95,7 @@ const FriendsOfFriendsPage = () => {
         // Update displayedFriends
         setDisplayedFriends(displayedFriends.map(friend => {
             if (friend.id === id) {
-                return { ...friend, status: "pending" };
+                return {...friend, status: "pending"};
             }
             return friend;
         }));
@@ -123,7 +108,7 @@ const FriendsOfFriendsPage = () => {
         // Update displayedFriends
         setDisplayedFriends(displayedFriends.map(friend => {
             if (friend.id === id) {
-                return { ...friend, status: "none" };
+                return {...friend, status: "none"};
             }
             return friend;
         }));
@@ -132,7 +117,7 @@ const FriendsOfFriendsPage = () => {
     const calculateMutualFriends = (displayedFriend) => {
         let mutualFriends = 0;
 
-        displayedFriend.friends?.forEach(({ userId: friendId, status }) => {
+        displayedFriend.friends?.forEach(({userId: friendId, status}) => {
             if (status === "confirmed" && friends.some(f => f.id === friendId)) {
                 mutualFriends++;
             }
@@ -149,64 +134,56 @@ const FriendsOfFriendsPage = () => {
 
     return (
         <div className="friends-of-friend-container">
-            <header>
-                <div className="container upper-nav">
-                    <button className="back-button" onClick={handleBackClick}>
-                        <FontAwesomeIcon className="icon" icon={faArrowLeft} />
-                        Back
-                    </button>
+            {displayedFriend && (
+                <>
+                    <ProfileNavigation
+                        pageTitle={`${displayedFriend.displayName}'s Friends`}
+                        button2={{
+                            text: searchIsVisible ? "Cancel" : "Search",
+                            icon: !searchIsVisible ? faMagnifyingGlass : null,
+                            handler: handleSearchClick
+                        }}
+                        searchFunctionality={searchIsVisible}
+                    />
 
-                    <h1>{friendProfile.displayName}'s Friends</h1>
+                    <main className="container">
+                        <div className="friend-icons-container">
+                            {displayedFriends && [...displayedFriends]
+                                .sort((a, b) => {
+                                    if (a.status === "pending") {
+                                        return -1;
+                                    } else if (b.status === "pending") {
+                                        return 1;
+                                    } else {
+                                        return 0;
+                                    }
+                                })
+                                .map(({id, displayName, iconColour, status, friends}) => {
+                                    // Do not render FriendCard for the current user
+                                    if (id === currentUserId) {
+                                        return null;
+                                    }
 
-                    <button onClick={handleSearchClick}>
-                        {!searchIsVisible && <FontAwesomeIcon className="icon" icon={faMagnifyingGlass} />}
-                        {searchIsVisible ? "Cancel" : "Search"}
-                    </button>
-                </div>
-
-                {searchIsVisible && (
-                    <div className="container search-and-filters">
-                        <SearchBox type="friends" matches={hasMatches} />
-                    </div>
-                )}
-            </header>
-
-            <main className="container">
-                <div className="friend-icons-container">
-                    {displayedFriends && [...displayedFriends]
-                        .sort((a, b) => {
-                            if (a.status === "pending") {
-                                return -1;
-                            } else if (b.status === "pending") {
-                                return 1;
-                            } else {
-                                return 0;
-                            }
-                        })
-                        .map(({ id, displayName, iconColour, status, friends}) => {
-                            // Do not render FriendCard for the current user
-                            if (id === currentUserId) {
-                                return null;
-                            }
-
-                            return (
-                                <FriendCard
-                                    key={id}
-                                    id={id}
-                                    displayName={displayName}
-                                    iconColour={iconColour}
-                                    mutualFriends={calculateMutualFriends({id, friends})}
-                                    button1Handler={() => handleAddFriendClick(id)}
-                                    button1Text="Add"
-                                    status={status}
-                                    handleCancelClick={() => handleCancelClick(id)}
-                                    hideButton2={true}
-                                />
-                            );
-                        })}
-                </div>
-            </main >
-        </div >
+                                    return (
+                                        <FriendCard
+                                            key={id}
+                                            id={id}
+                                            displayName={displayName}
+                                            iconColour={iconColour}
+                                            mutualFriends={calculateMutualFriends({id, friends})}
+                                            button1Handler={() => handleAddFriendClick(id)}
+                                            button1Text="Add"
+                                            status={status}
+                                            handleCancelClick={() => handleCancelClick(id)}
+                                            hideButton2={true}
+                                        />
+                                    );
+                                })}
+                        </div>
+                    </main>
+                </>
+            )}
+        </div>
     );
 };
 

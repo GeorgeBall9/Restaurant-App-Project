@@ -9,7 +9,7 @@ import {
     faComment, faCopy,
     faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import ProfileNavigation from "../../../common/components/ProfileNavigation/ProfileNavigation";
 import {useSelector} from "react-redux";
 import {selectDisplayedFriend} from "../../../features/user/userSlice";

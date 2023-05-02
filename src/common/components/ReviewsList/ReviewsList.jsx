@@ -12,7 +12,7 @@ import {
     selectSelectedReviewId,
     updateReview
 } from "../../../features/reviews/reviewsSlice";
-import ReviewForm from "../../../routes/DetailsPage/ReviewsSection/ReviewForm/ReviewForm";
+import ReviewForm from "../ReviewForm/ReviewForm";
 import UserIcon from "../UserIcon/UserIcon";
 import ReportButton from "./ReportButton/ReportButton";
 

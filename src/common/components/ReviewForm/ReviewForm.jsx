@@ -1,14 +1,17 @@
 import './ReviewForm.css';
 import {useState, useEffect, useRef} from 'react';
-import FormField from "../../../../common/components/FormField/FormField";
-import {addRestaurantReview, updateRestaurantReview} from "../../../../firebase/firebase";
+import FormField from "../FormField/FormField";
+import {addRestaurantReview, updateRestaurantReview} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
-import {addReview, updateReview} from "../../../../features/reviews/reviewsSlice";
+import {addReview, updateReview} from "../../../features/reviews/reviewsSlice";
 import {faPen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {selectDisplayName, selectIconColour} from "../../../../features/user/userSlice";
+import {selectDisplayName, selectIconColour} from "../../../features/user/userSlice";
 import InteractiveStarRating
-    from '../../../../common/components/StarRating/IntearactiveStarRating/InteractiveStarRating';
+    from '../StarRating/IntearactiveStarRating/InteractiveStarRating';
+import UploadFileButton from "../UploadFileButton/UploadFileButton";
+import PrimaryButton from "../PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../InversePrimaryButton/InversePrimaryButton";
 
 const defaultFormFields = {
     rating: "",
@@ -31,14 +34,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     const [errors, setErrors] = useState({});
 
     const [isSubmitted, setIsSubmitted] = useState(false);
-
-    const formRef = useRef(null);
-
-    useEffect(() => {
-        if (formRef.current) {
-            formRef.current.scrollIntoView({behaviour: 'smooth'});
-        }
-    }, []);
 
     const handleChange = ({target}) => {
         const {name, value} = target;
@@ -108,7 +103,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
     return (
         <div className="review-form">
-            <form ref={formRef} onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 {edit && (
                     <h2 style={{margin: 0}}>
                         Editing
@@ -116,17 +111,23 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                     </h2>
                 )}
 
-                <div>
-                    <label>
-                        Rating:
-                        <InteractiveStarRating
-                            rating={rating}
-                            onClick={handleStarRatingClick}
-                            interactive={true}
-                        />
-                    </label>
+                <div className="review-form-header">
+                    <div>
+                        <label>
+                            Rating:
+                            <InteractiveStarRating
+                                rating={rating}
+                                onClick={handleStarRatingClick}
+                                interactive={true}
+                            />
+                        </label>
 
-                    {errors.rating && <p>{errors.rating}</p>}
+                        {errors.rating && <p>{errors.rating}</p>}
+                    </div>
+
+                    {/*<UploadFileButton/>*/}
+
+                    <InversePrimaryButton text="Add image"/>
                 </div>
 
                 <div>
@@ -170,7 +171,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                         <button onClick={handleCancel} type="button" className="cancel">Cancel</button>
                     </div>
                 )}
-
             </form>
 
             {isSubmitted && (

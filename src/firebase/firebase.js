@@ -281,6 +281,8 @@ const createNewCheckInDoc = async (date, restaurant, userIds, photoIds) => {
         photoIds
     };
 
+    console.log({newCheckIn})
+
     const checkInDocRef = await addDoc(checkInsCollectionRef, newCheckIn);
     console.log("Check in document created with id:", checkInDocRef.id);
 
@@ -302,7 +304,8 @@ const getCheckInDocFromId = async (checkInId) => {
 export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) => {
     try {
         const checkInId = await createNewCheckInDoc(date, restaurant, [...friendIds, userId], []);
-
+        await createRestaurantDoc(restaurant);
+        await addInteractionToRestaurantDoc(restaurant, "check-ins");
         return await getCheckInDocFromId(checkInId);
     } catch (error) {
         console.log(error);
@@ -400,7 +403,7 @@ export const getCheckInsByUserId = async (userId) => {
 export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
     const checkInData = await getCheckInsByUserId(userId);
 
-    if (!checkInData) return [];
+    if (!checkInData) return null;
 
     return await Promise.all(checkInData
         .map(async (checkIn) => {
@@ -505,7 +508,8 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
 
     return await Promise.all(reviews.map(async (review) => {
         const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
-        return {...review, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
+        const photoUrl = review.photoId? await getPhotoUrlFromId(review.photoId) : null;
+        return {...review, photoUrl, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
     }));
 };
 
@@ -513,7 +517,7 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
 export const getReviewsByUserId = async (userId) => {
     const reviewsCollectionRef = collection(db, "reviews");
     const q = query(reviewsCollectionRef,
-        where("userId", "==", userId),
+        where("authorId", "==", userId),
         orderBy("visitDate", "desc"));
 
     const querySnapshot = await getDocs(q);
@@ -526,7 +530,9 @@ export const getReviewsByUserId = async (userId) => {
 
     return await Promise.all(reviews.map(async (review) => {
         const {photoUrl, name: restaurantName} = await getRestaurantById(review.restaurantId);
-        return {...review, photoUrl, restaurantName};
+        const reviewPhotoUrl = review.photoId? await getPhotoUrlFromId(review.photoId) : null;
+
+        return {...review, photoUrl, reviewPhotoUrl, restaurantName};
     }));
 };
 
@@ -926,12 +932,16 @@ export const addPhotoToCheckIn = async (userId, checkIn, path) => {
     return photoId;
 };
 
+const getPhotoUrlFromId = async (photoId) => {
+    const photoStoragePath = await getRestaurantPhotoPathFromId(photoId);
+    return await getImageDownloadUrl(photoStoragePath);
+};
+
 export const getPhotoUrlsFromPhotoIds = async (photoIds) => {
     if (!photoIds) return null;
 
     return await Promise.all(photoIds.map(async (id, i) => {
-        const photoStoragePath = await getRestaurantPhotoPathFromId(id);
-        const url = await getImageDownloadUrl(photoStoragePath);
+        const url = await getPhotoUrlFromId(id, i);
         return {id, url, alt: "Photo " + (i + 1)};
     }));
 };

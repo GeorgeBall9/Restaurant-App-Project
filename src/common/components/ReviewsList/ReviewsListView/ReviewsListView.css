@@ -122,7 +122,7 @@
     font-size: 1.2rem;
 }
 
-.reviews-container .review .review-content .buttons-container button:last-child {
+.reviews-container .review .review-content .buttons-container button:nth-child(3) {
     transform: rotate(180deg);
 }
 

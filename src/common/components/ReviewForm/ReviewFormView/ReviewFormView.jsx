@@ -51,7 +51,7 @@ const ReviewFormView = ({
     };
 
     const handleFormSubmit = (event) => {
-        handleSubmit(event, formData,);
+        handleSubmit(event, formData);
         setFormData(defaultFormFields);
         setIsSubmitted(true);
     };

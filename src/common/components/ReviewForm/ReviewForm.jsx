@@ -19,7 +19,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     const iconColour = useSelector(selectIconColour);
 
     const [errors, setErrors] = useState({});
-    const [uploadedPhotoId, setUploadedPhotoId] = useState(false);
+    const [uploadedPhotoId, setUploadedPhotoId] = useState(null);
 
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
         const photoId = await createNewRestaurantPhotoDoc(userId, restaurant.id, photoStoragePath);
@@ -71,7 +71,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
                 handleCancel();
             } else {
-                const newReview = await addRestaurantReview(userId, restaurant, data);
+                const newReview = await addRestaurantReview(userId, restaurant, data, uploadedPhotoId);
 
                 dispatch(addReview({
                     ...newReview,

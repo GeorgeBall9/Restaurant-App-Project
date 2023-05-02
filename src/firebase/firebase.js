@@ -505,7 +505,7 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
 
     return await Promise.all(reviews.map(async (review) => {
         const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
-        const photoUrl = await getPhotoUrlFromId(review.id);
+        const photoUrl = review.photoId? await getPhotoUrlFromId(review.photoId) : null;
         return {...review, photoUrl, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
     }));
 };
@@ -527,8 +527,9 @@ export const getReviewsByUserId = async (userId) => {
 
     return await Promise.all(reviews.map(async (review) => {
         const {photoUrl, name: restaurantName} = await getRestaurantById(review.restaurantId);
+        const reviewPhotoUrl = review.photoId? await getPhotoUrlFromId(review.photoId) : null;
 
-        return {...review, photoUrl, restaurantName};
+        return {...review, photoUrl, reviewPhotoUrl, restaurantName};
     }));
 };
 

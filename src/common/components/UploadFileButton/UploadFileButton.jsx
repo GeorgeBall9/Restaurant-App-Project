@@ -3,10 +3,11 @@ import FormField from "../FormField/FormField";
 
 const UploadFileButton = ({handleFileChange}) => {
     return (
-        <FormField
+        <input
             name="file"
             type="file"
-            onChangeHandler={handleFileChange}
+            accept=".png,.jpeg"
+            onChange={handleFileChange}
             className="file-upload-input"
         />
     );

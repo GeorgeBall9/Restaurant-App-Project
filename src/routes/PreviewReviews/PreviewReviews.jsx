@@ -1,6 +1,6 @@
 import "./PreviewReviews.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faExpand, faPen, faTrash, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
+import {faTrash, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
@@ -28,10 +28,6 @@ const PreviewReviews = () => {
         getReviewsByUserId(userId)
             .then(data => dispatch(setReviews(data)));
     }, [userId]);
-
-    const handleBackClick = () => {
-        navigate("/profile");
-    };
 
     const handleDeleteClick = (id) => {
         setConfirmDeleteReviewId(id);

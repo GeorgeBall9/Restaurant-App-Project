@@ -513,7 +513,7 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
 export const getReviewsByUserId = async (userId) => {
     const reviewsCollectionRef = collection(db, "reviews");
     const q = query(reviewsCollectionRef,
-        where("userId", "==", userId),
+        where("authorId", "==", userId),
         orderBy("visitDate", "desc"));
 
     const querySnapshot = await getDocs(q);

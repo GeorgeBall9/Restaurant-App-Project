@@ -1,21 +1,22 @@
 import "./ReviewCard.css";
 import UserIcon from "../../../UserIcon/UserIcon";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleUp as faSolidCircleUp, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUp as faSolidCircleUp, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import ReportButton from "../../ReportButton/ReportButton";
 import StarRating from "../../../StarRating/StarRating";
-import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
+import { faCircleUp, faImages } from "@fortawesome/free-regular-svg-icons";
+import { useState } from "react";
 
 const ReviewCard = ({
-                        review,
-                        userId,
-                        handleVoteClick,
-                        confirmDeleteReviewId,
-                        handleConfirmDelete,
-                        handleNoClick,
-                        handleEditClick,
-                        handleDeleteClick,
-                    }) => {
+    review,
+    userId,
+    handleVoteClick,
+    confirmDeleteReviewId,
+    handleConfirmDelete,
+    handleNoClick,
+    handleEditClick,
+    handleDeleteClick,
+}) => {
 
     const {
         id,
@@ -28,8 +29,20 @@ const ReviewCard = ({
         visitDate,
         title,
         content,
-        reactions
+        reactions,
+        photoUrl
     } = review;
+
+    const [showReviewPhotos, setShowReviewPhotos] = useState(false);
+    const [selectedPhoto, setSelectedPhoto] = useState(null);
+
+    const handlePhotoClick = (photoUrl) => {
+        setSelectedPhoto(photoUrl);
+    };
+
+    const closeFullScreenPhoto = () => {
+        setSelectedPhoto(null);
+    };
 
     return (
         <div id={"review-" + id} className="review">
@@ -66,23 +79,23 @@ const ReviewCard = ({
                 {authorId === userId && (
                     <div className="buttons-container">
                         <button onClick={() => handleEditClick(id)}>
-                            <FontAwesomeIcon icon={faPen} className="icon"/>
+                            <FontAwesomeIcon icon={faPen} className="icon" />
                         </button>
 
                         <button onClick={() => handleDeleteClick(id)}>
-                            <FontAwesomeIcon icon={faTrash} className="icon"/>
+                            <FontAwesomeIcon icon={faTrash} className="icon" />
                         </button>
                     </div>
                 )}
 
                 {authorId !== userId && (
-                    <ReportButton reviewId={id}/>
+                    <ReportButton reviewId={id} />
                 )}
             </div>
 
             <div className="review-content">
                 <div className="rating-and-date-container">
-                    <StarRating rating={rating}/>
+                    <StarRating rating={rating} />
 
                     <p>
                         <strong>Visit date: </strong>
@@ -97,11 +110,11 @@ const ReviewCard = ({
                 <div className="buttons-container">
                     <button onClick={() => handleVoteClick(id, "upVotes")}>
                         {reactions.upVotes.includes(userId) && (
-                            <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
+                            <FontAwesomeIcon icon={faSolidCircleUp} className="icon" />
                         )}
 
                         {!reactions.upVotes.includes(userId) && (
-                            <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                            <FontAwesomeIcon icon={faCircleUp} className="icon" />
                         )}
                     </button>
 
@@ -109,14 +122,33 @@ const ReviewCard = ({
 
                     <button onClick={() => handleVoteClick(id, "downVotes")}>
                         {reactions.downVotes.includes(userId) && (
-                            <FontAwesomeIcon icon={faSolidCircleUp} className="icon"/>
+                            <FontAwesomeIcon icon={faSolidCircleUp} className="icon" />
                         )}
 
                         {!reactions.downVotes.includes(userId) && (
-                            <FontAwesomeIcon icon={faCircleUp} className="icon"/>
+                            <FontAwesomeIcon icon={faCircleUp} className="icon" />
                         )}
                     </button>
+
+                    {photoUrl && (
+                        <button className="show-photos-button" onClick={() => setShowReviewPhotos(!showReviewPhotos)}>
+                            <FontAwesomeIcon icon={faImages} className="icon" />
+                        </button>
+                    )}
                 </div>
+                {showReviewPhotos && (
+                    <div className={`review-photos${showReviewPhotos ? " visible" : ""}`}>
+                        <div onClick={() => handlePhotoClick(photoUrl)}>
+                            <img className="user-review-photo" src={photoUrl} alt= "Review Photo" loading="lazy" />
+                        </div>
+                    </div>
+                )}
+
+                {selectedPhoto && (
+                    <div className="full-screen-photo" onClick={closeFullScreenPhoto}>
+                        <img src={selectedPhoto} alt="Full screen review photo" />
+                    </div>
+                )}
             </div>
         </div>
     );

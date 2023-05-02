@@ -13,8 +13,6 @@ const HomePage = () => {
     const fetchStatus = useSelector(selectRestaurantsFetchStatus);
     const restaurants = useSelector(selectRestaurants);
 
-    // const showNoResults = restaurants && restaurants.length === 0;
-
     useEffect(() => {
         if (fetchStatus === "pending") {
             dispatch(showSpinner());

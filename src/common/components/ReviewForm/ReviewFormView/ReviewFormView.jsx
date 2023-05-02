@@ -5,8 +5,6 @@ import UploadImagePopup from "../../UploadImagePopup/UploadImagePopup";
 import InteractiveStarRating from "../../StarRating/IntearactiveStarRating/InteractiveStarRating";
 import FormField from "../../FormField/FormField";
 import {useState} from "react";
-
-import testImgSrc from "../../../images/errorImage.png";
 import InversePrimaryButton from "../../InversePrimaryButton/InversePrimaryButton";
 
 const defaultFormFields = {
@@ -23,7 +21,8 @@ const ReviewFormView = ({
                             reviewData,
                             handleCancel,
                             errors,
-                            photoUploaded
+                            photoUploaded,
+                            handleRemovePhoto
                         }) => {
 
     const [addImagesPopUpIsVisible, setAddImagesPopupIsVisible] = useState(false);
@@ -99,7 +98,7 @@ const ReviewFormView = ({
                     {photoUploaded && (
                         <div className="upload-feedback-container">
                             <p>1 image uploaded</p>
-                            <button>Remove</button>
+                            <button type="button" onClick={handleRemovePhoto}>Remove</button>
                         </div>
                     )}
                 </div>

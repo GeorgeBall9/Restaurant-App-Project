@@ -1,6 +1,11 @@
 import './ReviewFormView/ReviewFormView.css';
 import {useState} from 'react';
-import {addRestaurantReview, createNewRestaurantPhotoDoc, updateRestaurantReview} from "../../../firebase/firebase";
+import {
+    addRestaurantReview,
+    createNewRestaurantPhotoDoc,
+    deleteRestaurantPhotoDoc,
+    updateRestaurantReview
+} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {addReview, updateReview} from "../../../features/reviews/reviewsSlice";
 import {selectDisplayName, selectIconColour} from "../../../features/user/userSlice";
@@ -18,7 +23,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
         const photoId = await createNewRestaurantPhotoDoc(userId, restaurant.id, photoStoragePath);
-        setUploadedPhotoId(true);
+        setUploadedPhotoId(photoId);
     };
 
     const validateForm = (rating, visitDate, title, content) => {
@@ -77,6 +82,11 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
         }
     };
 
+    const handleRemovePhoto = async () => {
+        await deleteRestaurantPhotoDoc(uploadedPhotoId);
+        setUploadedPhotoId(null);
+    };
+
     return (
         <ReviewFormView
             edit={edit}
@@ -86,6 +96,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
             errors={errors}
             handleUploadPhotoClick={handleUploadPhotoClick}
             photoUploaded={uploadedPhotoId}
+            handleRemovePhoto={handleRemovePhoto}
         />
     );
 };

@@ -895,7 +895,8 @@ export const createNewRestaurantPhotoDoc = async (userId, restaurantId, path, fr
     return photoDocRef.id;
 };
 
-const deleteRestaurantPhotoDoc = async (photoId) => {
+export const deleteRestaurantPhotoDoc = async (photoId) => {
+    console.log(photoId)
     await deleteDoc(doc(db, "restaurant-photos", photoId));
 };
 

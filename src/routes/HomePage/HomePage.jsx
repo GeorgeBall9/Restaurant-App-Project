@@ -3,8 +3,9 @@ import Navigation from "../../common/components/Navigation/Navigation";
 import RestaurantsList from "../../features/restaurants/RestaurantsList/RestaurantsList";
 import NoResults from "../../common/components/NoResults/NoResults";
 import { useDispatch, useSelector } from "react-redux";
-import { selectRestaurants, selectRestaurantsFetchStatus } from "../../features/restaurants/restaurantsSlice";
-import { useEffect, useState } from "react";
+import { selectRestaurants, selectRestaurantsFetchStatus, updateRestaurant } from "../../features/restaurants/restaurantsSlice";
+import { getRestaurantById } from "../../firebase/firebase";
+import { useEffect } from "react";
 import { hideSpinner, showSpinner } from "../../features/spinner/spinnerSlice";
 
 const HomePage = () => {
@@ -12,8 +13,6 @@ const HomePage = () => {
     const dispatch = useDispatch();
     const fetchStatus = useSelector(selectRestaurantsFetchStatus);
     const restaurants = useSelector(selectRestaurants);
-
-    // const showNoResults = restaurants && restaurants.length === 0;
 
     useEffect(() => {
         if (fetchStatus === "pending") {
@@ -23,13 +22,24 @@ const HomePage = () => {
         }
     }, [fetchStatus]);
 
+    useEffect(() => {
+        if (restaurants) {
+            restaurants.forEach(async (restaurant) => {
+                const restaurantData = await getRestaurantById(restaurant.id);
+                if (restaurantData) {
+                    dispatch(updateRestaurant(restaurantData));
+                }
+            });
+        }
+    }, [restaurants]);
+
     return (
         <div className="home container">
             <Navigation view="home" />
 
             <div className="restaurant-cards-container">
                 <RestaurantsList />
-                {restaurants && restaurants.length === 0 && <NoResults mainText="No restaurants found." subText="Why not try looking for something else?"/>}
+                {restaurants && restaurants.length === 0 && <NoResults mainText="No restaurants found." subText="Why not try looking for something else?" />}
             </div>
         </div>
     );

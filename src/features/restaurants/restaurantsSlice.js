@@ -262,7 +262,15 @@ export const restaurantsSlice = createSlice({
         },
         resetRestaurantResults: state => {
             state.restaurantResults = state.allRestaurants;
+        },
+        updateRestaurant: (state, action) => {
+            const updatedRestaurant = action.payload;
+            const index = state.allRestaurants.findIndex(restaurant => restaurant.id === updatedRestaurant.id);
+            if (index !== -1) {
+                state.allRestaurants[index] = updatedRestaurant;
+            }
         }
+
     },
     extraReducers: builder => {
         builder
@@ -292,7 +300,8 @@ export const {
     sortRestaurants,
     filterRestaurantResultsByCuisine,
     resetRestaurantResults,
-    filterResultsBySearchQuery
+    filterResultsBySearchQuery,
+    updateRestaurant
 } = restaurantsSlice.actions;
 export const selectRestaurants = state => state.restaurants.restaurantResults;
 export const selectAllRestaurants = state => state.restaurants.allRestaurants;

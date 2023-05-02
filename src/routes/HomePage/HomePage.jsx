@@ -4,7 +4,7 @@ import RestaurantsList from "../../features/restaurants/RestaurantsList/Restaura
 import NoResults from "../../common/components/NoResults/NoResults";
 import { useDispatch, useSelector } from "react-redux";
 import { selectRestaurants, selectRestaurantsFetchStatus } from "../../features/restaurants/restaurantsSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { hideSpinner, showSpinner } from "../../features/spinner/spinnerSlice";
 
 const HomePage = () => {

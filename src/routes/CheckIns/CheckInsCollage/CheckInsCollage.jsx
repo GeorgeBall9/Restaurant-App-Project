@@ -9,13 +9,10 @@ import {
     addPhotoToCheckIn, deleteCheckInPhoto,
     getImageDownloadUrl,
     getPhotoUrlsFromPhotoIds,
-    uploadImage
 } from "../../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
 import Overlay from "../../../features/overlay/Overlay/Overlay";
-import UploadFileButton from "../../../common/components/UploadFileButton/UploadFileButton";
-import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
 import ProfileNavigation from "../../../common/components/ProfileNavigation/ProfileNavigation";
 import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
 
@@ -36,7 +33,6 @@ const CheckInsCollage = ({checkIn, onClose}) => {
     const [isVisible, setIsVisible] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
     const [addPhotoPopupIsVisible, setAddPhotoPopupIsVisible] = useState(false);
-    const [showOverlay, setShowOverlay] = useState(false);
     const [selectMode, setSelectMode] = useState(false);
     const [uploadButtonText, setUploadButtonText] = useState("");
 
@@ -70,12 +66,10 @@ const CheckInsCollage = ({checkIn, onClose}) => {
 
     const handleAddClick = () => {
         setAddPhotoPopupIsVisible(true);
-        setShowOverlay(true);
     };
 
     const handleClosePopupClick = () => {
         setAddPhotoPopupIsVisible(false);
-        setShowOverlay(false);
         document.querySelector(".file-upload-input").value = "";
     };
 
@@ -161,8 +155,6 @@ const CheckInsCollage = ({checkIn, onClose}) => {
                         />
                     )}
                 </div>
-
-                {showOverlay && <Overlay/>}
 
                 {addPhotoPopupIsVisible && (
                     <UploadImagePopup

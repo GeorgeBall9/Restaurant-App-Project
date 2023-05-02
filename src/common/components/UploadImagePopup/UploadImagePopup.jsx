@@ -3,6 +3,7 @@ import UploadFileButton from "../UploadFileButton/UploadFileButton";
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import {useState} from "react";
 import {uploadImage} from "../../../firebase/firebase";
+import Overlay from "../../../features/overlay/Overlay/Overlay";
 
 const UploadImagePopup = ({text, handleCloseClick, handleUploadClick}) => {
 
@@ -23,42 +24,46 @@ const UploadImagePopup = ({text, handleCloseClick, handleUploadClick}) => {
     };
 
     return (
-        <div className="uploaded-image-popup">
-            <div className="popup-header">
-                <button onClick={handleCloseClick}>
-                    Close
-                </button>
+        <>
+            <div className="uploaded-image-popup">
+                <div className="popup-header">
+                    <button onClick={handleCloseClick}>
+                        Close
+                    </button>
 
-                <button style={{visibility: "hidden"}}>
-                    Close
-                </button>
-            </div>
-
-            <h3>Select an image</h3>
-
-            <div>
-                <div className="uploaded-image-container">
-                    {photoUrl && (
-                        <img
-                            src={photoUrl}
-                            alt="image-preview"
-                            style={{visibility: previewLoaded ? "visible" : "hidden"}}
-                            onLoad={handlePreviewLoad}
-                        />
-                    )}
+                    <button style={{visibility: "hidden"}}>
+                        Close
+                    </button>
                 </div>
 
-                <UploadFileButton handleFileChange={handleFileChange}/>
+                <h3>Select an image</h3>
+
+                <div>
+                    <div className="uploaded-image-container">
+                        {photoUrl && (
+                            <img
+                                src={photoUrl}
+                                alt="image-preview"
+                                style={{visibility: previewLoaded ? "visible" : "hidden"}}
+                                onLoad={handlePreviewLoad}
+                            />
+                        )}
+                    </div>
+
+                    <UploadFileButton handleFileChange={handleFileChange}/>
+                </div>
+
+                {photoUrl && (
+                    <PrimaryButton
+                        handleClick={() => handleUploadClick(photoUrl, photoStoragePath)}
+                        text={text || uploadButtonText}
+                        active={previewLoaded}
+                    />
+                )}
             </div>
 
-            {photoUrl && (
-                <PrimaryButton
-                    handleClick={() => handleUploadClick(photoUrl, photoStoragePath)}
-                    text={text || uploadButtonText}
-                    active={previewLoaded}
-                />
-            )}
-        </div>
+            <Overlay/>
+        </>
     );
 };
 

@@ -1,6 +1,6 @@
 import "./ReviewsPage.css";
 import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
-import ReviewForm from "../DetailsPage/ReviewsSection/ReviewForm/ReviewForm";
+import ReviewForm from "../../common/components/ReviewForm/ReviewForm";
 import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";

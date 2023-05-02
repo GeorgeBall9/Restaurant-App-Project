@@ -17,7 +17,7 @@ const defaultStyles = {
     }
 };
 
-const Button = ({className, handleClick, text, icon, size = "medium", active = true}) => {
+const Button = ({className, handleClick, text, icon, size = "medium", active = true, type}) => {
 
     const style = defaultStyles[size];
 
@@ -32,6 +32,7 @@ const Button = ({className, handleClick, text, icon, size = "medium", active = t
             style={style}
             className={`default-button ${className}`}
             onClick={clickHandler}
+            type={type}
         >
             {text}
 

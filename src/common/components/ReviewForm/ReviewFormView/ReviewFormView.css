@@ -1,6 +1,6 @@
 .review-form {
     position: relative;
-    margin-top: 1em;
+    margin-bottom: 1.5em;
 }
 
 .review-form button {
@@ -12,11 +12,31 @@
     margin: 0 auto;
     padding: 1rem;
     background-color: #f8f8f8;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     text-align: left;
     display: flex;
     flex-direction: column;
     gap: 1.5em;
+}
+
+.review-form .review-form-header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.review-form .review-form-header .upload-feedback-container {
+    text-align: right;
+}
+
+.review-form .review-form-header .upload-feedback-container button {
+    background: none;
+    border: none;
+    color: var(--dark-theme-contrast);
+}
+
+.review-form .review-form-header > * {
+    flex-basis: 100%;
 }
 
 .review-form .interactive-star-rating .icon {
@@ -103,6 +123,7 @@
 
 .review-form .confirmation-overlay p {
     font-size: 1.2rem;
+    text-align: center;
 }
 
 .review-form .buttons-container {

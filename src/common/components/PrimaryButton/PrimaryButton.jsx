@@ -1,7 +1,7 @@
 import "./PrimaryButton.css";
 import Button from "../Button/Button";
 
-const PrimaryButton = ({handleClick, text, icon, size, active}) => {
+const PrimaryButton = ({handleClick, text, icon, size, active, type}) => {
     return (
         <Button
             className="primary"
@@ -10,6 +10,7 @@ const PrimaryButton = ({handleClick, text, icon, size, active}) => {
             icon={icon}
             size={size}
             active={active}
+            type={type}
         />
     );
 };

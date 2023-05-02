@@ -63,6 +63,7 @@ const UploadImagePopup = ({handleCloseClick, handleUploadClick}) => {
                         handleClick={handleUpload}
                         text={uploadButtonText}
                         active={previewLoaded}
+                        type="button"
                     />
                 )}
             </div>

@@ -14,11 +14,11 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     const iconColour = useSelector(selectIconColour);
 
     const [errors, setErrors] = useState({});
-    const [photoUploaded, setPhotoUploaded] = useState(false);
+    const [uploadedPhotoId, setUploadedPhotoId] = useState(false);
 
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
         const photoId = await createNewRestaurantPhotoDoc(userId, restaurant.id, photoStoragePath);
-        setPhotoUploaded(true);
+        setUploadedPhotoId(true);
     };
 
     const validateForm = (rating, visitDate, title, content) => {
@@ -85,7 +85,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
             handleSubmit={handleSubmit}
             errors={errors}
             handleUploadPhotoClick={handleUploadPhotoClick}
-            photoUploaded={photoUploaded}
+            photoUploaded={uploadedPhotoId}
         />
     );
 };

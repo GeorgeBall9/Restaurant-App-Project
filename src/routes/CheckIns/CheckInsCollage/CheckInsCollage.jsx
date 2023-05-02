@@ -17,6 +17,7 @@ import Overlay from "../../../features/overlay/Overlay/Overlay";
 import UploadFileButton from "../../../common/components/UploadFileButton/UploadFileButton";
 import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
 import ProfileNavigation from "../../../common/components/ProfileNavigation/ProfileNavigation";
+import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
 
 export const getPhotoUrls = async (photoPaths) => {
     if (!photoPaths?.length) return [];
@@ -35,12 +36,9 @@ const CheckInsCollage = ({checkIn, onClose}) => {
     const [isVisible, setIsVisible] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
     const [addPhotoPopupIsVisible, setAddPhotoPopupIsVisible] = useState(false);
-    const [photoUrl, setPhotoUrl] = useState("");
-    const [previewLoaded, setPreviewLoaded] = useState(false);
-    const [photoStoragePath, setPhotoStoragePath] = useState(null);
     const [showOverlay, setShowOverlay] = useState(false);
-    const [uploadButtonText, setUploadButtonText] = useState("Loading...");
     const [selectMode, setSelectMode] = useState(false);
+    const [uploadButtonText, setUploadButtonText] = useState("");
 
     useEffect(() => {
         if (!checkIn) return;
@@ -75,30 +73,19 @@ const CheckInsCollage = ({checkIn, onClose}) => {
         setShowOverlay(true);
     };
 
-    const handleCloseClick = () => {
+    const handleClosePopupClick = () => {
         setAddPhotoPopupIsVisible(false);
         setShowOverlay(false);
         document.querySelector(".file-upload-input").value = "";
-    }
-
-    const handleFileChange = ({target}) => {
-        const file = target.files[0];
-        const storageRef = uploadImage(file, setPhotoUrl);
-        setPhotoStoragePath(storageRef._location.path);
     };
 
-    const handleUploadPhotoClick = async () => {
+    const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
         setUploadButtonText("Uploading...");
         const newPhotoId = await addPhotoToCheckIn(userId, checkIn, photoStoragePath);
         const newPhotoData = {id: newPhotoId, url: photoUrl, alt: "Photo " + (photos.length + 1)};
         setPhotos(photos => [...photos, newPhotoData]);
         document.querySelector(".file-upload-input").value = "";
-        handleCloseClick();
-    };
-
-    const handlePreviewLoad = () => {
-        setPreviewLoaded(true);
-        setUploadButtonText("Upload");
+        handleClosePopupClick();
     };
 
     const handleSelectClick = () => {
@@ -178,42 +165,11 @@ const CheckInsCollage = ({checkIn, onClose}) => {
                 {showOverlay && <Overlay/>}
 
                 {addPhotoPopupIsVisible && (
-                    <div className="add-photo-popup">
-                        <div className="popup-header">
-                            <button onClick={handleCloseClick}>
-                                Close
-                            </button>
-
-                            <button style={{visibility: "hidden"}}>
-                                Close
-                            </button>
-                        </div>
-
-                        <h3>Select an image</h3>
-
-                        <div>
-                            <div className="uploaded-image-container">
-                                {photoUrl && (
-                                    <img
-                                        src={photoUrl}
-                                        alt="image-preview"
-                                        style={{visibility: previewLoaded ? "visible" : "hidden"}}
-                                        onLoad={handlePreviewLoad}
-                                    />
-                                )}
-                            </div>
-
-                            <UploadFileButton handleFileChange={handleFileChange}/>
-                        </div>
-
-                        {photoUrl && (
-                            <PrimaryButton
-                                handleClick={handleUploadPhotoClick}
-                                text={uploadButtonText}
-                                active={previewLoaded}
-                            />
-                        )}
-                    </div>
+                    <UploadImagePopup
+                        text={uploadButtonText}
+                        handleCloseClick={handleClosePopupClick}
+                        handleUploadClick={handleUploadPhotoClick}
+                    />
                 )}
             </div>
         </div>

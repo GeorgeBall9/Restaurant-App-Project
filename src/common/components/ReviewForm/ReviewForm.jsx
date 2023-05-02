@@ -1,7 +1,7 @@
 import './ReviewForm.css';
-import {useState, useEffect, useRef} from 'react';
+import {useState} from 'react';
 import FormField from "../FormField/FormField";
-import {addRestaurantReview, updateRestaurantReview} from "../../../firebase/firebase";
+import {addPhotoToCheckIn, addRestaurantReview, updateRestaurantReview} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {addReview, updateReview} from "../../../features/reviews/reviewsSlice";
 import {faPen} from "@fortawesome/free-solid-svg-icons";
@@ -9,9 +9,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectDisplayName, selectIconColour} from "../../../features/user/userSlice";
 import InteractiveStarRating
     from '../StarRating/IntearactiveStarRating/InteractiveStarRating';
-import UploadFileButton from "../UploadFileButton/UploadFileButton";
-import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import InversePrimaryButton from "../InversePrimaryButton/InversePrimaryButton";
+import UploadImagePopup from "../UploadImagePopup/UploadImagePopup";
 
 const defaultFormFields = {
     rating: "",
@@ -28,12 +27,12 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     const iconColour = useSelector(selectIconColour);
 
     const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
-
     const {rating, visitDate, title, content} = formData;
 
     const [errors, setErrors] = useState({});
-
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [addImagesPopUpIsVisible, setAddImagesPopupIsVisible] = useState(false);
+    const [uploadButtonText, setUploadButtonText] = useState("");
 
     const handleChange = ({target}) => {
         const {name, value} = target;
@@ -101,6 +100,18 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
         }
     };
 
+    const handleClosePopupClick = () => {
+        setAddImagesPopupIsVisible(false);
+        // setShowOverlay(false);
+        document.querySelector(".file-upload-input").value = "";
+    };
+
+    const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
+        setUploadButtonText("Uploading...");
+        document.querySelector(".file-upload-input").value = "";
+        handleClosePopupClick();
+    };
+
     return (
         <div className="review-form">
             <form onSubmit={handleSubmit}>
@@ -109,6 +120,14 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                         Editing
                         <FontAwesomeIcon icon={faPen} className="edit-icon"/>
                     </h2>
+                )}
+
+                {addImagesPopUpIsVisible && (
+                    <UploadImagePopup
+                        text={uploadButtonText}
+                        handleCloseClick={handleClosePopupClick}
+                        handleUploadClick={handleUploadPhotoClick}
+                    />
                 )}
 
                 <div className="review-form-header">
@@ -125,9 +144,11 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                         {errors.rating && <p>{errors.rating}</p>}
                     </div>
 
-                    {/*<UploadFileButton/>*/}
-
-                    <InversePrimaryButton text="Add image"/>
+                    <InversePrimaryButton
+                        text="Add image"
+                        type="button"
+                        handleClick={() => setAddImagesPopupIsVisible(true)}
+                    />
                 </div>
 
                 <div>

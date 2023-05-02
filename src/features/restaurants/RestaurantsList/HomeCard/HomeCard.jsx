@@ -39,7 +39,6 @@ const HomeCard = ({ restaurant }) => {
 
     return (
         <div className="home-card" onClick={showRestaurantDetails}>
-            {/* to be replaced with true implementation */}
             {isHighlyRecommended && (
                 <div className="highlight-banner">Highly recommended</div>
             )}

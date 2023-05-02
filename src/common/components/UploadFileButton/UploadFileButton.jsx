@@ -1,5 +1,4 @@
 import "./UploadFileButton.css";
-import FormField from "../FormField/FormField";
 
 const UploadFileButton = ({handleFileChange}) => {
     return (

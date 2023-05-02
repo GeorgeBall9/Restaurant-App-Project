@@ -1,4 +1,3 @@
-import RestaurantCard from "../../../common/components/RestaurantCard/RestaurantCard";
 import {useSelector} from "react-redux";
 import {selectRestaurants} from "../restaurantsSlice";
 import MapRestaurantCard from "../../slider/Slider/MapRestaurantCard/MapRestaurantCard";

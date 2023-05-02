@@ -441,7 +441,10 @@ export const addRestaurantReview = async (userId, restaurant, formData, photoId)
 
     await updateUserReviewCount(userId, 1);
 
-    return {id: reviewDocRef.id, ...newReview};
+    const review = {id: reviewDocRef.id, ...newReview};
+
+    const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
+    return {...review, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
 };
 
 // delete restaurant review

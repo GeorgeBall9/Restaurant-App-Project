@@ -505,7 +505,8 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
 
     return await Promise.all(reviews.map(async (review) => {
         const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
-        return {...review, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
+        const photoUrl = await getPhotoUrlFromId(review.id);
+        return {...review, photoUrl, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
     }));
 };
 
@@ -526,6 +527,7 @@ export const getReviewsByUserId = async (userId) => {
 
     return await Promise.all(reviews.map(async (review) => {
         const {photoUrl, name: restaurantName} = await getRestaurantById(review.restaurantId);
+
         return {...review, photoUrl, restaurantName};
     }));
 };
@@ -926,12 +928,16 @@ export const addPhotoToCheckIn = async (userId, checkIn, path) => {
     return photoId;
 };
 
+const getPhotoUrlFromId = async (photoId) => {
+    const photoStoragePath = await getRestaurantPhotoPathFromId(photoId);
+    return await getImageDownloadUrl(photoStoragePath);
+};
+
 export const getPhotoUrlsFromPhotoIds = async (photoIds) => {
     if (!photoIds) return null;
 
     return await Promise.all(photoIds.map(async (id, i) => {
-        const photoStoragePath = await getRestaurantPhotoPathFromId(id);
-        const url = await getImageDownloadUrl(photoStoragePath);
+        const url = await getPhotoUrlFromId(id, i);
         return {id, url, alt: "Photo " + (i + 1)};
     }));
 };

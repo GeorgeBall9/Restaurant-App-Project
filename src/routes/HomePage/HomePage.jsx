@@ -1,15 +1,19 @@
 import "./HomePage.css";
 import Navigation from "../../common/components/Navigation/Navigation";
 import RestaurantsList from "../../features/restaurants/RestaurantsList/RestaurantsList";
-import {useDispatch, useSelector} from "react-redux";
-import {selectRestaurantsFetchStatus} from "../../features/restaurants/restaurantsSlice";
-import {useEffect} from "react";
-import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
+import NoResults from "../../common/components/NoResults/NoResults";
+import { useDispatch, useSelector } from "react-redux";
+import { selectRestaurants, selectRestaurantsFetchStatus } from "../../features/restaurants/restaurantsSlice";
+import { useEffect, useState } from "react";
+import { hideSpinner, showSpinner } from "../../features/spinner/spinnerSlice";
 
 const HomePage = () => {
 
     const dispatch = useDispatch();
     const fetchStatus = useSelector(selectRestaurantsFetchStatus);
+    const restaurants = useSelector(selectRestaurants);
+
+    // const showNoResults = restaurants && restaurants.length === 0;
 
     useEffect(() => {
         if (fetchStatus === "pending") {
@@ -21,13 +25,14 @@ const HomePage = () => {
 
     return (
         <div className="home container">
-            <Navigation view="home"/>
+            <Navigation view="home" />
 
             <div className="restaurant-cards-container">
-                <RestaurantsList/>
+                <RestaurantsList />
+                {restaurants && restaurants.length === 0 && <NoResults mainText="No restaurants found." subText="Why not try looking for something else?"/>}
             </div>
         </div>
     );
-}
+};
 
 export default HomePage;

@@ -6,9 +6,8 @@ import {
     deleteRestaurantPhotoDoc,
     updateRestaurantReview
 } from "../../../firebase/firebase";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {addReview, updateReview} from "../../../features/reviews/reviewsSlice";
-import {selectDisplayName, selectIconColour} from "../../../features/user/userSlice";
 import ReviewFormView from "./ReviewFormView/ReviewFormView";
 
 const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCancel}) => {

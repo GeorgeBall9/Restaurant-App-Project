@@ -4,7 +4,7 @@ import {faPen} from "@fortawesome/free-solid-svg-icons";
 import UploadImagePopup from "../../UploadImagePopup/UploadImagePopup";
 import InteractiveStarRating from "../../StarRating/IntearactiveStarRating/InteractiveStarRating";
 import FormField from "../../FormField/FormField";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import InversePrimaryButton from "../../InversePrimaryButton/InversePrimaryButton";
 
 const defaultFormFields = {
@@ -29,6 +29,20 @@ const ReviewFormView = ({
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
     const {rating, visitDate, title, content} = formData;
+
+    const formRef = useRef(null);
+
+    useEffect(() => {
+        if (formRef?.current) {
+            const bannerHeight = document.getElementById("banner").getBoundingClientRect().height;
+            const navHeight = document.getElementById("details-page-nav").getBoundingClientRect().height;
+
+            window.scrollTo({
+                top: formRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (bannerHeight + navHeight),
+                behavior: "smooth"
+            });
+        }
+    }, []);
 
     const handleChange = ({target}) => {
         const {name, value} = target;
@@ -58,7 +72,7 @@ const ReviewFormView = ({
 
     return (
         <div className="review-form">
-            <form onSubmit={handleFormSubmit}>
+            <form onSubmit={handleFormSubmit} ref={formRef}>
                 {edit && (
                     <h2 style={{margin: 0}}>
                         Editing

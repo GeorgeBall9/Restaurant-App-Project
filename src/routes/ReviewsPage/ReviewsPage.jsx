@@ -1,7 +1,6 @@
 import "./ReviewsPage.css";
 import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
 import ReviewForm from "../../common/components/ReviewForm/ReviewForm";
-import SearchBox from "../../common/components/SearchBox/SearchBox";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectReviews, selectSortFilter, setReviews} from "../../features/reviews/reviewsSlice";
@@ -12,15 +11,9 @@ import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice";
 import {
     faChevronDown,
-    faArrowLeft,
     faMagnifyingGlass,
-    faPlus,
-    faCircleCheck,
-    faLink
 } from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {selectSearchQuery} from "../../features/filters/filtersSlice";
-import SortFilterButton from "../../common/components/SortFilterButton/SortFilterButton";
+import {selectSearchQuery} from "../../features/filters/filtersSlice"
 import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
 
 const ReviewsPage = () => {

@@ -1,0 +1,48 @@
+.uploaded-image-popup {
+    border-radius: var(--border-radius);
+    position: absolute;
+    top: 4em;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    background-color: white;
+    padding: 0.75em;
+    width: 95%;
+    max-width: 275px;
+    margin: var(--margin-align-center);
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.uploaded-image-popup .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.uploaded-image-popup .popup-header button {
+    background: none;
+    border: none;
+    color: var(--secondary-theme);
+    font-size: var(--font-size-sub-heading);
+}
+
+.uploaded-image-popup h3 {
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    text-align: center;
+    border-bottom: solid 1px var(--background-theme);
+    padding-bottom: 0.5em;
+    margin-top: -0.5em;
+}
+
+.uploaded-image-popup .uploaded-image-container {
+    width: 180px;
+    height: 120px;
+    border: solid 4px lightgrey;
+    margin: var(--margin-align-center);
+    margin-bottom: 1em;
+}

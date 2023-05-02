@@ -400,6 +400,8 @@ export const getCheckInsByUserId = async (userId) => {
 export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
     const checkInData = await getCheckInsByUserId(userId);
 
+    if (!checkInData) return [];
+
     return await Promise.all(checkInData
         .map(async (checkIn) => {
             const restaurant = await getRestaurantById(checkIn.restaurantId);
@@ -415,19 +417,20 @@ const getUsersFromUserIds = async (userIds) => {
 };
 
 // add restaurant review
-export const addRestaurantReview = async (userId, restaurant, data) => {
-    if (!userId || !restaurant || !data) return;
+export const addRestaurantReview = async (userId, restaurant, formData, photoId) => {
+    if (!userId || !restaurant || !formData) return;
 
     const reviewsCollectionRef = collection(db, "reviews");
 
     const newReview = {
-        userId,
+        authorId: userId,
         restaurantId: restaurant.id,
-        ...data,
+        ...formData,
         reactions: {
             upVotes: [],
             downVotes: []
         },
+        photoId,
         reported: false
     };
 
@@ -438,7 +441,10 @@ export const addRestaurantReview = async (userId, restaurant, data) => {
 
     await updateUserReviewCount(userId, 1);
 
-    return {id: reviewDocRef.id, ...newReview};
+    const review = {id: reviewDocRef.id, ...newReview};
+
+    const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
+    return {...review, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
 };
 
 // delete restaurant review
@@ -498,7 +504,7 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
     });
 
     return await Promise.all(reviews.map(async (review) => {
-        const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.userId);
+        const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
         return {...review, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
     }));
 };
@@ -877,7 +883,7 @@ export const updateUserProfilePhoto = async (userId, path) => {
 };
 
 // restaurant photos
-const createNewRestaurantPhotoDoc = async (userId, friendIds, restaurantId, path) => {
+export const createNewRestaurantPhotoDoc = async (userId, restaurantId, path, friendIds) => {
     const photosCollectionRef = collection(db, "restaurant-photos");
 
     const newPhoto = {
@@ -894,7 +900,8 @@ const createNewRestaurantPhotoDoc = async (userId, friendIds, restaurantId, path
     return photoDocRef.id;
 };
 
-const deleteRestaurantPhotoDoc = async (photoId) => {
+export const deleteRestaurantPhotoDoc = async (photoId) => {
+    console.log(photoId)
     await deleteDoc(doc(db, "restaurant-photos", photoId));
 };
 

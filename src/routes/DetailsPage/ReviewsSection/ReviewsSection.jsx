@@ -1,6 +1,6 @@
 import "./ReviewsSection.css";
 import ReviewsList from "../../../common/components/ReviewsList/ReviewsList";
-import ReviewForm from "./ReviewForm/ReviewForm";
+import ReviewForm from "../../../common/components/ReviewForm/ReviewForm";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getReviewsByRestaurantId} from "../../../firebase/firebase";

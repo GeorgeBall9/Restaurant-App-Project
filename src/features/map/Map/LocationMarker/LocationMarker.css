@@ -7,7 +7,7 @@
 
 .location-marker-container .icon {
     color: #F6F1F1;
-    background-color: var(--dark-theme-contrast);
+    background-color: var(--primary-theme);
     padding: 0.5em;
     border-radius: 50%;
 }

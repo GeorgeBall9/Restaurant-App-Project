@@ -15,9 +15,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
     const dispatch = useDispatch();
 
-    const displayName = useSelector(selectDisplayName);
-    const iconColour = useSelector(selectIconColour);
-
     const [errors, setErrors] = useState({});
     const [uploadedPhotoId, setUploadedPhotoId] = useState(null);
 
@@ -60,24 +57,11 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
             if (edit) {
                 const updatedReview = await updateRestaurantReview(reviewId, data);
-
-                dispatch(updateReview({
-                    reviewId, updatedReview: {
-                        ...updatedReview,
-                        displayName,
-                        iconColour,
-                    }
-                }));
-
+                dispatch(updateReview({reviewId, updatedReview: {...updatedReview}}));
                 handleCancel();
             } else {
                 const newReview = await addRestaurantReview(userId, restaurant, data, uploadedPhotoId);
-
-                dispatch(addReview({
-                    ...newReview,
-                    displayName,
-                    iconColour,
-                }));
+                dispatch(addReview({...newReview}));
             }
         }
     };

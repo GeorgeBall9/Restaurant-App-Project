@@ -421,7 +421,7 @@ export const addRestaurantReview = async (userId, restaurant, formData, photoId)
     const reviewsCollectionRef = collection(db, "reviews");
 
     const newReview = {
-        userId,
+        authorId,
         restaurantId: restaurant.id,
         ...formData,
         reactions: {
@@ -499,7 +499,7 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
     });
 
     return await Promise.all(reviews.map(async (review) => {
-        const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.userId);
+        const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
         return {...review, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
     }));
 };

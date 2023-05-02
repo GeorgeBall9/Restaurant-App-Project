@@ -415,19 +415,20 @@ const getUsersFromUserIds = async (userIds) => {
 };
 
 // add restaurant review
-export const addRestaurantReview = async (userId, restaurant, data) => {
-    if (!userId || !restaurant || !data) return;
+export const addRestaurantReview = async (userId, restaurant, formData, photoId) => {
+    if (!userId || !restaurant || !formData) return;
 
     const reviewsCollectionRef = collection(db, "reviews");
 
     const newReview = {
         userId,
         restaurantId: restaurant.id,
-        ...data,
+        ...formData,
         reactions: {
             upVotes: [],
             downVotes: []
         },
+        photoId,
         reported: false
     };
 
@@ -877,7 +878,7 @@ export const updateUserProfilePhoto = async (userId, path) => {
 };
 
 // restaurant photos
-const createNewRestaurantPhotoDoc = async (userId, friendIds, restaurantId, path) => {
+export const createNewRestaurantPhotoDoc = async (userId, restaurantId, path, friendIds) => {
     const photosCollectionRef = collection(db, "restaurant-photos");
 
     const newPhoto = {

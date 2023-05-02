@@ -12,7 +12,6 @@ import {
 } from "../../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
-import Overlay from "../../../features/overlay/Overlay/Overlay";
 import ProfileNavigation from "../../../common/components/ProfileNavigation/ProfileNavigation";
 import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
 
@@ -34,7 +33,6 @@ const CheckInsCollage = ({checkIn, onClose}) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [addPhotoPopupIsVisible, setAddPhotoPopupIsVisible] = useState(false);
     const [selectMode, setSelectMode] = useState(false);
-    const [uploadButtonText, setUploadButtonText] = useState("");
 
     useEffect(() => {
         if (!checkIn) return;
@@ -74,7 +72,6 @@ const CheckInsCollage = ({checkIn, onClose}) => {
     };
 
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
-        setUploadButtonText("Uploading...");
         const newPhotoId = await addPhotoToCheckIn(userId, checkIn, photoStoragePath);
         const newPhotoData = {id: newPhotoId, url: photoUrl, alt: "Photo " + (photos.length + 1)};
         setPhotos(photos => [...photos, newPhotoData]);
@@ -158,7 +155,6 @@ const CheckInsCollage = ({checkIn, onClose}) => {
 
                 {addPhotoPopupIsVisible && (
                     <UploadImagePopup
-                        text={uploadButtonText}
                         handleCloseClick={handleClosePopupClick}
                         handleUploadClick={handleUploadPhotoClick}
                     />

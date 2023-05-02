@@ -3,9 +3,11 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPen} from "@fortawesome/free-solid-svg-icons";
 import UploadImagePopup from "../../UploadImagePopup/UploadImagePopup";
 import InteractiveStarRating from "../../StarRating/IntearactiveStarRating/InteractiveStarRating";
-import InversePrimaryButton from "../../InversePrimaryButton/InversePrimaryButton";
 import FormField from "../../FormField/FormField";
 import {useState} from "react";
+
+import testImgSrc from "../../../images/errorImage.png";
+import InversePrimaryButton from "../../InversePrimaryButton/InversePrimaryButton";
 
 const defaultFormFields = {
     rating: "",
@@ -14,10 +16,17 @@ const defaultFormFields = {
     content: "",
 };
 
-const ReviewFormView = ({handleSubmit, edit, reviewData, handleCancel, errors}) => {
+const ReviewFormView = ({
+                            handleSubmit,
+                            edit,
+                            handleUploadPhotoClick,
+                            reviewData,
+                            handleCancel,
+                            errors,
+                            photoUploaded
+                        }) => {
 
     const [addImagesPopUpIsVisible, setAddImagesPopupIsVisible] = useState(false);
-    const [uploadButtonText, setUploadButtonText] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
     const {rating, visitDate, title, content} = formData;
@@ -36,14 +45,14 @@ const ReviewFormView = ({handleSubmit, edit, reviewData, handleCancel, errors}) 
         document.querySelector(".file-upload-input").value = "";
     };
 
-    const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
-        setUploadButtonText("Uploading...");
+    const handlePhotoUpload = async (photoUrl, photoStoragePath) => {
+        await handleUploadPhotoClick(photoUrl, photoStoragePath);
         document.querySelector(".file-upload-input").value = "";
         handleClosePopupClick();
     };
 
-    const handleFormSubmit = () => {
-        handleSubmit();
+    const handleFormSubmit = (event) => {
+        handleSubmit(event, formData,);
         setFormData(defaultFormFields);
         setIsSubmitted(true);
     };
@@ -60,14 +69,13 @@ const ReviewFormView = ({handleSubmit, edit, reviewData, handleCancel, errors}) 
 
                 {addImagesPopUpIsVisible && (
                     <UploadImagePopup
-                        text={uploadButtonText}
                         handleCloseClick={handleClosePopupClick}
-                        handleUploadClick={handleUploadPhotoClick}
+                        handleUploadClick={handlePhotoUpload}
                     />
                 )}
 
                 <div className="review-form-header">
-                    <div>
+                    <div className="interactive-rating-container">
                         <label>
                             Rating:
                             <InteractiveStarRating
@@ -80,11 +88,20 @@ const ReviewFormView = ({handleSubmit, edit, reviewData, handleCancel, errors}) 
                         {errors.rating && <p>{errors.rating}</p>}
                     </div>
 
-                    <InversePrimaryButton
-                        text="Add image"
-                        type="button"
-                        handleClick={() => setAddImagesPopupIsVisible(true)}
-                    />
+                    {!photoUploaded && (
+                        <InversePrimaryButton
+                            text="Add image"
+                            type="button"
+                            handleClick={() => setAddImagesPopupIsVisible(true)}
+                        />
+                    )}
+
+                    {photoUploaded && (
+                        <div className="upload-feedback-container">
+                            <p>1 image uploaded</p>
+                            <button>Remove</button>
+                        </div>
+                    )}
                 </div>
 
                 <div>

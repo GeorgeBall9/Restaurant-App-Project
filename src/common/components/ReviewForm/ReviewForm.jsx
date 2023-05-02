@@ -1,6 +1,6 @@
 import './ReviewFormView/ReviewFormView.css';
 import {useState} from 'react';
-import {addRestaurantReview, updateRestaurantReview} from "../../../firebase/firebase";
+import {addRestaurantReview, createNewRestaurantPhotoDoc, updateRestaurantReview} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {addReview, updateReview} from "../../../features/reviews/reviewsSlice";
 import {selectDisplayName, selectIconColour} from "../../../features/user/userSlice";
@@ -14,6 +14,12 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     const iconColour = useSelector(selectIconColour);
 
     const [errors, setErrors] = useState({});
+    const [photoUploaded, setPhotoUploaded] = useState(false);
+
+    const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
+        const photoId = await createNewRestaurantPhotoDoc(userId, restaurant.id, photoStoragePath);
+        setPhotoUploaded(true);
+    };
 
     const validateForm = (rating, visitDate, title, content) => {
         const newErrors = {};
@@ -78,6 +84,8 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
             handleCancel={handleCancel}
             handleSubmit={handleSubmit}
             errors={errors}
+            handleUploadPhotoClick={handleUploadPhotoClick}
+            photoUploaded={photoUploaded}
         />
     );
 };

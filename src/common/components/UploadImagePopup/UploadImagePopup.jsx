@@ -5,7 +5,7 @@ import {useState} from "react";
 import {uploadImage} from "../../../firebase/firebase";
 import Overlay from "../../../features/overlay/Overlay/Overlay";
 
-const UploadImagePopup = ({text, handleCloseClick, handleUploadClick}) => {
+const UploadImagePopup = ({handleCloseClick, handleUploadClick}) => {
 
     const [uploadButtonText, setUploadButtonText] = useState("Loading...");
     const [photoStoragePath, setPhotoStoragePath] = useState(null);
@@ -21,6 +21,11 @@ const UploadImagePopup = ({text, handleCloseClick, handleUploadClick}) => {
         const file = target.files[0];
         const storageRef = uploadImage(file, setPhotoUrl);
         setPhotoStoragePath(storageRef._location.path);
+    };
+
+    const handleUpload = () => {
+        setUploadButtonText("Uploading...");
+        handleUploadClick(photoUrl, photoStoragePath);
     };
 
     return (
@@ -55,8 +60,8 @@ const UploadImagePopup = ({text, handleCloseClick, handleUploadClick}) => {
 
                 {photoUrl && (
                     <PrimaryButton
-                        handleClick={() => handleUploadClick(photoUrl, photoStoragePath)}
-                        text={text || uploadButtonText}
+                        handleClick={handleUpload}
+                        text={uploadButtonText}
                         active={previewLoaded}
                     />
                 )}

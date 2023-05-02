@@ -25,6 +25,16 @@
     align-items: flex-end;
 }
 
+.review-form .review-form-header .upload-feedback-container {
+    text-align: right;
+}
+
+.review-form .review-form-header .upload-feedback-container button {
+    background: none;
+    border: none;
+    color: var(--dark-theme-contrast);
+}
+
 .review-form .review-form-header > * {
     flex-basis: 100%;
 }

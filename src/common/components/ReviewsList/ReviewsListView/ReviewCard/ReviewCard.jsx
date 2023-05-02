@@ -11,10 +11,10 @@ const ReviewCard = ({
                         userId,
                         handleVoteClick,
                         confirmDeleteReviewId,
-                        handleYesClick,
+                        handleConfirmDelete,
                         handleNoClick,
                         handleEditClick,
-                        handleDeleteClick
+                        handleDeleteClick,
                     }) => {
 
     const {
@@ -32,13 +32,13 @@ const ReviewCard = ({
     } = review;
 
     return (
-        <div key={id} id={"review-" + id} className="review">
+        <div id={"review-" + id} className="review">
             {confirmDeleteReviewId === id && (
                 <div className="confirm-delete-popup">
                     <p>Delete this review?</p>
 
                     <div className="buttons-container">
-                        <button onClick={handleYesClick}>Yes</button>
+                        <button onClick={handleConfirmDelete}>Yes</button>
                         <button onClick={handleNoClick}>No</button>
                     </div>
                 </div>

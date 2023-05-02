@@ -400,6 +400,8 @@ export const getCheckInsByUserId = async (userId) => {
 export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
     const checkInData = await getCheckInsByUserId(userId);
 
+    if (!checkInData) return [];
+
     return await Promise.all(checkInData
         .map(async (checkIn) => {
             const restaurant = await getRestaurantById(checkIn.restaurantId);
@@ -421,7 +423,7 @@ export const addRestaurantReview = async (userId, restaurant, formData, photoId)
     const reviewsCollectionRef = collection(db, "reviews");
 
     const newReview = {
-        authorId,
+        authorId: userId,
         restaurantId: restaurant.id,
         ...formData,
         reactions: {

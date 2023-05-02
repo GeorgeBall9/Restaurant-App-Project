@@ -1,9 +1,4 @@
-import "./ReviewsList.css";
-import StarRating from "../StarRating/StarRating";
-import {faCircleUp as faSolidCircleUp, faFlag, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {addUserReactionToReview, deleteRestaurantReview} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -12,13 +7,13 @@ import {
     selectSelectedReviewId,
     updateReview
 } from "../../../features/reviews/reviewsSlice";
-import ReviewForm from "../ReviewForm/ReviewForm";
-import UserIcon from "../UserIcon/UserIcon";
-import ReportButton from "./ReportButton/ReportButton";
+import ReviewsListView from "./ReviewsListView/ReviewsListView";
 
 const ReviewsList = ({reviews, userId, preview}) => {
 
     const dispatch = useDispatch();
+
+    const selectedReviewId = useSelector(selectSelectedReviewId);
 
     const handleVoteClick = async (reviewId, voteType) => {
         if (!reviews || !userId) return;
@@ -30,29 +25,10 @@ const ReviewsList = ({reviews, userId, preview}) => {
         dispatch(updateReview({reviewId, updatedReview}));
     };
 
-    const [confirmDeleteReviewId, setConfirmDeleteReviewId] = useState(null);
-
-    const [editingReviewId, setEditingReviewId] = useState(null);
-
-    const handleEditClick = (id) => {
-        setEditingReviewId(id);
-    };
-
-    const handleDeleteClick = (id) => {
-        setConfirmDeleteReviewId(id);
-    };
-
-    const handleYesClick = async () => {
+    const handleDeleteReview = async (confirmDeleteReviewId) => {
         await deleteRestaurantReview(userId, confirmDeleteReviewId);
         dispatch(deleteReview(confirmDeleteReviewId));
-        setConfirmDeleteReviewId(null);
     };
-
-    const handleNoClick = () => {
-        setConfirmDeleteReviewId(null);
-    };
-
-    const selectedReviewId = useSelector(selectSelectedReviewId);
 
     useEffect(() => {
         if (!reviews || !selectedReviewId) return;
@@ -69,50 +45,13 @@ const ReviewsList = ({reviews, userId, preview}) => {
     }, [selectedReviewId, reviews]);
 
     return (
-        <div className="reviews-container">
-            {!reviews?.length && (
-                <p>No reviews available</p>
-            )}
-
-            {reviews && [...reviews]
-                .slice(0, (preview ? 3 : reviews.length))
-                .map(review => {
-                    let {
-                        id,
-                        userId: authorId,
-                        iconColour,
-                        profilePhotoUrl,
-                        displayName,
-                        title,
-                        rating,
-                        content,
-                        visitDate,
-                        reactions,
-                        numberOfReviews
-                    } = review;
-
-                    if (editingReviewId === id) {
-                        visitDate = new Date(visitDate)
-                            .toISOString()
-                            .replaceAll("/", "-")
-                            .split("T")
-                            .at(0);
-
-                        return <ReviewForm
-                            key={id}
-                            userId={authorId}
-                            edit={true}
-                            reviewId={id}
-                            reviewData={{rating, visitDate, title, content}}
-                            handleCancel={() => setEditingReviewId(null)}
-                        />
-                    }
-
-                    return (
-                        <></>
-                    )
-                })}
-        </div>
+        <ReviewsListView
+            reviews={reviews}
+            userId={userId}
+            preview={preview}
+            handleVoteClick={handleVoteClick}
+            handleYesClick={handleDeleteReview}
+        />
     );
 };
 

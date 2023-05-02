@@ -74,8 +74,6 @@ const CheckIns = () => {
         // Fetch and display the check-ins for the selected date
     };
 
-    const totalCheckIns = allCheckIns.length;
-
     const handleTileClick = (checkIn) => {
         setSelectedCheckIn(checkIn);
         setShowCollagePopup(true);
@@ -134,7 +132,7 @@ const CheckIns = () => {
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
-                    {allCheckIns && <CheckInsMap checkIns={allCheckIns}/>}
+                    {allCheckIns?.length > 0 && <CheckInsMap checkIns={allCheckIns}/>}
                 </div>
 
                 <div className="check-ins-stats">
@@ -146,7 +144,7 @@ const CheckIns = () => {
 
                     <div className="check-ins-total">
                         <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
-                        <span>{totalCheckIns}</span>
+                        <span>{allCheckIns?.length || "0"}</span>
                         <p>Check-ins</p>
                     </div>
                 </div>

@@ -281,6 +281,8 @@ const createNewCheckInDoc = async (date, restaurant, userIds, photoIds) => {
         photoIds
     };
 
+    console.log({newCheckIn})
+
     const checkInDocRef = await addDoc(checkInsCollectionRef, newCheckIn);
     console.log("Check in document created with id:", checkInDocRef.id);
 
@@ -302,7 +304,8 @@ const getCheckInDocFromId = async (checkInId) => {
 export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) => {
     try {
         const checkInId = await createNewCheckInDoc(date, restaurant, [...friendIds, userId], []);
-
+        await createRestaurantDoc(restaurant);
+        await addInteractionToRestaurantDoc(restaurant, "check-ins");
         return await getCheckInDocFromId(checkInId);
     } catch (error) {
         console.log(error);
@@ -400,7 +403,7 @@ export const getCheckInsByUserId = async (userId) => {
 export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
     const checkInData = await getCheckInsByUserId(userId);
 
-    if (!checkInData) return [];
+    if (!checkInData) return null;
 
     return await Promise.all(checkInData
         .map(async (checkIn) => {

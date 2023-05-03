@@ -3,8 +3,8 @@ import "./SortFiltersView.css";
 const SortFiltersView = ({filters, handleClick}) => {
     return (
         <div className="sort-filters">
-            {filters.map(({active, text}) => (
-                <button onClick={handleClick} className={active ? "active" : ""}>{text}</button>
+            {filters.map(({active, text}, i) => (
+                <button key={i} onClick={() => handleClick(text)} className={active ? "active" : ""}>{text}</button>
             ))}
         </div>
     );

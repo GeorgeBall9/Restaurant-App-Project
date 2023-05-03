@@ -1,6 +1,6 @@
 .sort-filters {
     position: absolute;
-    z-index: 10;
+    z-index: 10000;
     top: 2em;
     left: 0;
     right: 0;

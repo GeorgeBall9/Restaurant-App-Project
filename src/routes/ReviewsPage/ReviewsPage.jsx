@@ -3,7 +3,7 @@ import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
 import ReviewForm from "../../common/components/ReviewForm/ReviewForm";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {selectReviews, selectSortFilter, setReviews} from "../../features/reviews/reviewsSlice";
+import {selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
 import {useEffect, useState} from "react";
 import {getRestaurantById, getReviewsByRestaurantId} from "../../firebase/firebase";
 import {selectUserId} from "../../features/user/userSlice";
@@ -13,10 +13,15 @@ import {
     faChevronDown,
     faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
-import {selectSearchQuery} from "../../features/filters/filtersSlice"
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
-import SortFilterButton from "../../common/components/SortFilterButton/SortFilterButton";
 import SortFiltersView from "./SortFiltersView/SortFiltersView";
+import Overlay from "../../common/components/Overlay/Overlay";
+
+const sortFiltersText = ["Highest rated", "Lowest rated", "Most recent", "Oldest"];
+
+const resetSortFilters = () => {
+    return sortFiltersText.map((text, i) => ({text, active: i === 0}))
+};
 
 const ReviewsPage = () => {
 
@@ -29,8 +34,6 @@ const ReviewsPage = () => {
     const userId = useSelector(selectUserId);
     const reviews = useSelector(selectReviews);
     const allRestaurants = useSelector(selectAllRestaurants);
-    const searchQuery = useSelector(selectSearchQuery);
-    const sortFilterSelected = useSelector(selectSortFilter);
 
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
@@ -38,12 +41,7 @@ const ReviewsPage = () => {
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [searchHasMatches, setSearchHasMatches] = useState(true);
-    const [sortFilters, setSortFilters] = useState([
-        {text: "Highest rated", active: true},
-        {text: "Lowest rated", active: false},
-        {text: "Most recent", active: false},
-        {text: "Oldest", active: false}
-    ]);
+    const [sortFilters, setSortFilters] = useState(resetSortFilters());
 
     useEffect(() => {
         if (!restaurant) {
@@ -117,6 +115,22 @@ const ReviewsPage = () => {
         }
     };
 
+    const handleSortFilterClick = (text) => {
+        const changeFilterStatus = (filter, active) => {
+            const updatedFilter = {...filter};
+            updatedFilter.active = active;
+            return updatedFilter;
+        };
+
+        setSortFilters(sortFilters => sortFilters
+            .map(filter => changeFilterStatus(filter,filter.text === text)));
+    };
+
+    const handleOverlayClick = () => {
+        setSortFiltersVisible(false);
+        setSortFilters(resetSortFilters());
+    };
+
     return (
         <div className="reviews-page">
             <ProfileNavigationView
@@ -142,7 +156,10 @@ const ReviewsPage = () => {
             />
 
             {sortFiltersVisible && (
-                <SortFiltersView filters={sortFilters} handleClick={() => console.log("click")}/>
+                <>
+                    <SortFiltersView filters={sortFilters} handleClick={handleSortFilterClick}/>
+                    <Overlay handleClick={handleOverlayClick}/>
+                </>
             )}
 
             <main className="container">

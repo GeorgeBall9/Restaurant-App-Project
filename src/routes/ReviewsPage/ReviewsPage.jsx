@@ -17,12 +17,6 @@ import ProfileNavigationView from "../../common/components/ProfileNavigationView
 import SortFiltersView from "./SortFiltersView/SortFiltersView";
 import Overlay from "../../common/components/Overlay/Overlay";
 
-const sortFiltersText = ["Highest rated", "Lowest rated", "Most recent", "Oldest"];
-
-const resetSortFilters = () => {
-    return sortFiltersText.map((text, i) => ({text, active: i === 0}))
-};
-
 const ReviewsPage = () => {
 
     const {id: restaurantId} = useParams();
@@ -41,7 +35,12 @@ const ReviewsPage = () => {
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [searchHasMatches, setSearchHasMatches] = useState(true);
-    const [sortFilters, setSortFilters] = useState(resetSortFilters());
+    const [sortFilters, setSortFilters] = useState([
+        {text: "Highest rated", active: true, type: "rating", multiplier: -1},
+        {text: "Lowest rated", active: false, type: "rating", multiplier: 1},
+        {text: "Most recent", active: false, type: "date", multiplier: -1},
+        {text: "Oldest", active: false, type: "date", multiplier: 1}
+    ]);
 
     useEffect(() => {
         if (!restaurant) {
@@ -115,7 +114,7 @@ const ReviewsPage = () => {
         }
     };
 
-    const handleSortFilterClick = (text) => {
+    const handleSortFilterClick = (text, type, multiplier) => {
         const changeFilterStatus = (filter, active) => {
             const updatedFilter = {...filter};
             updatedFilter.active = active;
@@ -124,11 +123,15 @@ const ReviewsPage = () => {
 
         setSortFilters(sortFilters => sortFilters
             .map(filter => changeFilterStatus(filter,filter.text === text)));
+
+        setDisplayedReviews(displayedReviews => [...displayedReviews]
+            .sort((a, b) => multiplier * (a[type] - b[type])));
+
+        setSortFiltersVisible(false);
     };
 
     const handleOverlayClick = () => {
         setSortFiltersVisible(false);
-        setSortFilters(resetSortFilters());
     };
 
     return (

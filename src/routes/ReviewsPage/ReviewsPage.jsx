@@ -36,6 +36,7 @@ const ReviewsPage = () => {
     const [hasMatches, setHasMatches] = useState(true);
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
+    const [searchHasMatches, setSearchHasMatches] = useState(true);
 
     useEffect(() => {
         if (!reviews) return;
@@ -117,8 +118,20 @@ const ReviewsPage = () => {
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 
-    const handleSearchInputChange = () => {
+    const handleSearchInputChange = (query) => {
+        const lowerCaseQuery = query.toLowerCase();
 
+        const results = reviews
+            .filter(({title, content}) => title.toLowerCase().includes(lowerCaseQuery)
+                || content.toLowerCase().includes(lowerCaseQuery));
+
+        if (results.length) {
+            setDisplayedReviews(results);
+            setSearchHasMatches(true);
+        } else {
+            setDisplayedReviews(reviews);
+            setSearchHasMatches(false);
+        }
     };
 
     return (
@@ -142,9 +155,8 @@ const ReviewsPage = () => {
                     handler: handleSortClick
                 }}
                 handleSearchInputChange={handleSearchInputChange}
-                hasMatches={}
+                hasMatches={searchHasMatches}
             />
-
 
             {/*{sortFiltersVisible && (*/}
             {/*    <div className="sort-filters">*/}
@@ -176,7 +188,6 @@ const ReviewsPage = () => {
             {/*            active={sortFilterSelected === "Oldest"}*/}
             {/*        />*/}
             {/*    </div>)}*/}
-
 
             <main className="container">
                 {isReviewFormVisible && (

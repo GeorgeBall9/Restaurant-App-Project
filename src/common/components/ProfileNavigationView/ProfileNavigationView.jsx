@@ -1,11 +1,10 @@
-import "./ProfileNavigation.css";
+import "./ProfileNavigationView.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
-import SearchBox from "../SearchBox/SearchBox";
-import SearchBoxView from "../SearchBox/SearchBoxView/SearchBoxView";
+import SearchBoxView from "../SearchBoxView/SearchBoxView";
 
-const ProfileNavigation = ({
+const ProfileNavigationView = ({
                                pageTitle,
                                button1,
                                button2,
@@ -83,4 +82,4 @@ const ProfileNavigation = ({
     );
 };
 
-export default ProfileNavigation;
+export default ProfileNavigationView;

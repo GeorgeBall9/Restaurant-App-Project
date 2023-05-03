@@ -1,4 +1,4 @@
-import "./FriendsPageView/FriendsPageView.css";
+import "./FriendsPage.css";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {
@@ -16,9 +16,18 @@ import {
     setFriendRequests,
     setFriends
 } from "../../features/user/userSlice";
-import {hideOverlay} from "../../features/overlay/overlaySlice";
 import {resetSearchQuery} from "../../features/filters/filtersSlice";
-import FriendsPageView from "./FriendsPageView/FriendsPageView";
+import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import {faCircleCheck, faLink, faMagnifyingGlass, faPlus} from "@fortawesome/free-solid-svg-icons";
+import FormField from "../../common/components/FormField/FormField";
+import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
+import SecondaryButton from "../../common/components/SecondaryButton/SecondaryButton";
+import FriendRequestCard from "./FriendCards/FriendRequestCard/FriendRequestCard";
+import PendingFriendCard from "./FriendCards/PendingFriendCard/PendingFriendCard";
+import ConfirmedFriendCard from "./FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
+import FriendRequestsView from "./FriendRequestsView/FriendRequestsView";
+import FriendsView from "./FriendsView/FriendsView";
+import AddFriendPopupView from "./AddFriendPopupView/AddFriendPopupView";
 
 const FriendsPage = () => {
 
@@ -36,6 +45,10 @@ const FriendsPage = () => {
     const [displayedFriends, setDisplayedFriends] = useState([]);
     const [displayedFriendRequests, setDisplayedFriendRequests] = useState([]);
     const [searchHasMatches, setSearchHasMatches] = useState(true);
+    const [navButton2IsVisible, setNavButton2IsVisible] = useState(null);
+    const [searchIsVisible, setSearchIsVisible] = useState(false);
+    const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
+    const [inviteCopied, setInviteCopied] = useState(false);
 
     useEffect(() => {
         if (!friends?.length) {
@@ -54,6 +67,22 @@ const FriendsPage = () => {
 
         setDisplayedFriendRequests(friendRequests);
     }, [friendRequests]);
+
+    useEffect(() => {
+        if (display === "friends") {
+            if (friends.length) {
+                setNavButton2IsVisible(true);
+            } else {
+                setNavButton2IsVisible(false);
+            }
+        } else {
+            if (friendRequests.length) {
+                setNavButton2IsVisible(true);
+            } else {
+                setNavButton2IsVisible(false);
+            }
+        }
+    }, [display, friends, friendRequests]);
 
     const handleFindUserClick = async (addFriendId) => {
         if (!addFriendId) {
@@ -75,10 +104,10 @@ const FriendsPage = () => {
         }
     };
 
-    const handleYesClick = async (addFriendId) => {
+    const sendFriendRequest = async (addFriendId) => {
         const updatedFriends = await sendFriendRequestToUser(userId, addFriendId);
         dispatch(setFriends(updatedFriends));
-        dispatch(hideOverlay());
+        setAddPopupIsVisible(false);
     };
 
     const handleCancelClick = async (id) => {
@@ -125,16 +154,19 @@ const FriendsPage = () => {
         return mutualFriends;
     };
 
-    const copyLink = async () => {
+    const handleInviteClick = async () => {
         await navigator.clipboard.writeText("Hi! I'm using the web app {app_name_goes_here} and would like you " +
             "to join! \n\nFollow the link below and create an account: " +
             "\nhttps://restaurant-app-team22.netlify.app/sign-in");
+
+        setInviteCopied(true);
     };
 
-    const handleSearchButtonClicked = () => {
+    const handleSearchClick = () => {
         dispatch(resetSearchQuery());
         setDisplayedFriends(friends);
         setDisplayedFriendRequests(friendRequests);
+        setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 
     const handleSearchInputChange = (query) => {
@@ -172,26 +204,71 @@ const FriendsPage = () => {
     };
 
     return (
-        <FriendsPageView
-            display={display}
-            handleSearch={handleSearchButtonClicked}
-            handleChangeDisplay={handleChangeDisplay}
-            friends={displayedFriends}
-            friendRequests={displayedFriendRequests}
-            copyLink={copyLink}
-            addFriendFeedback={addFriendFeedback}
-            handleFindUserClick={handleFindUserClick}
-            foundUser={foundUser}
-            handleYesClick={handleYesClick}
-            calculateMutualFriends={calculateMutualFriends}
-            handleCancelClick={handleCancelClick}
-            handleConfirmClick={handleConfirmClick}
-            handleDeleteClick={handleDeleteClick}
-            handleProfileClick={handleProfileClick}
-            handleRemoveClick={handleRemoveClick}
-            handleSearchInputChange={handleSearchInputChange}
-            searchHasMatches={searchHasMatches}
-        />
+        <div className="friends-page-container">
+            <ProfileNavigationView
+                pageTitle={display}
+                button1={{
+                    handler: () => navigate("/profile")
+                }}
+                button2={!navButton2IsVisible ? null : {
+                    text: searchIsVisible ? "Cancel" : "Search",
+                    icon: !searchIsVisible ? faMagnifyingGlass : null,
+                    handler: handleSearchClick
+                }}
+                lowerNav={true}
+                toggleDisplayText={display === "friends" ? "Requests" : "Friends"}
+                toggleHandler={handleChangeDisplay}
+                count={display === "friends" ?
+                    (friendRequests?.length ? friendRequests?.length : 0)
+                    :
+                    (friends?.length ? friends?.length : 0)
+                }
+                searchFunctionality={searchIsVisible}
+                button3={{
+                    text: "Add",
+                    icon: faPlus,
+                    handler: () => setAddPopupIsVisible(true)
+                }}
+                button4={{
+                    text: inviteCopied ? "Copied" : "Invite",
+                    icon: inviteCopied ? faCircleCheck : faLink,
+                    handler: handleInviteClick
+                }}
+                handleSearchInputChange={handleSearchInputChange}
+                hasMatches={searchHasMatches}
+            />
+
+            <main className="container">
+                {addPopupIsVisible && (
+                    <AddFriendPopupView
+                        feedback={addFriendFeedback}
+                        foundUser={foundUser}
+                        handleFindUserClick={handleFindUserClick}
+                        handleNoClick={() => setAddPopupIsVisible(false)}
+                        sendFriendRequest={sendFriendRequest}
+                    />
+                )}
+
+                {display === "requests" && (
+                    <FriendRequestsView
+                        friendRequests={displayedFriendRequests}
+                        calculateMutualFriends={calculateMutualFriends}
+                        handleConfirmClick={handleConfirmClick}
+                        handleDeleteClick={handleDeleteClick}
+                    />
+                )}
+
+                {display === "friends" && (
+                    <FriendsView
+                        friends={displayedFriends}
+                        calculateMutualFriends={calculateMutualFriends}
+                        handleCancelClick={handleCancelClick}
+                        handleProfileClick={handleProfileClick}
+                        handleRemoveClick={handleRemoveClick}
+                    />
+                )}
+            </main>
+        </div>
     );
 };
 

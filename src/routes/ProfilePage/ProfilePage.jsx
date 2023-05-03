@@ -22,7 +22,7 @@ import {useEffect, useState} from "react";
 import ContributionsButton from "./ContributionsButton/ContributionsButton";
 import {hideSpinner} from "../../features/spinner/spinnerSlice";
 import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
-import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
+import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 
 const ProfilePage = () => {
 
@@ -62,7 +62,7 @@ const ProfilePage = () => {
 
     return (
         <div className="profile-page-container">
-            <ProfileNavigation pageTitle="Profile" button1={{text: "Home", handler: handleBackClick}}/>
+            <ProfileNavigationView pageTitle="Profile" button1={{text: "Home", handler: handleBackClick}}/>
 
             <main className="container">
                 <section className="profile-info-container">

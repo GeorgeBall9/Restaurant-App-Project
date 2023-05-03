@@ -1,7 +1,7 @@
 import "./SearchBoxView.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
-import SearchFeedback from "../SearchFeedback/SearchFeedback";
+import SearchFeedback from "./SearchFeedback/SearchFeedback";
 import {useState} from "react";
 
 const SearchBoxView = ({handleInputChange, hasMatches}) => {

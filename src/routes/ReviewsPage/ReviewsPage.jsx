@@ -14,7 +14,7 @@ import {
     faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import {selectSearchQuery} from "../../features/filters/filtersSlice"
-import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
+import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 
 const ReviewsPage = () => {
 
@@ -117,9 +117,13 @@ const ReviewsPage = () => {
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 
+    const handleSearchInputChange = () => {
+
+    };
+
     return (
         <div className="reviews-page">
-            <ProfileNavigation
+            <ProfileNavigationView
                 pageTitle="Reviews"
                 button2={{
                     text: searchIsVisible ? "Cancel" : "Search",
@@ -137,6 +141,8 @@ const ReviewsPage = () => {
                     icon: faChevronDown,
                     handler: handleSortClick
                 }}
+                handleSearchInputChange={handleSearchInputChange}
+                hasMatches={}
             />
 
 

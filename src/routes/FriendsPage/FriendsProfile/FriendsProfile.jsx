@@ -10,7 +10,7 @@ import {
     faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
-import ProfileNavigation from "../../../common/components/ProfileNavigation/ProfileNavigation";
+import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import {useSelector} from "react-redux";
 import {selectDisplayedFriend} from "../../../features/user/userSlice";
 
@@ -31,7 +31,7 @@ const FriendsProfile = () => {
         <div className="friends-profile-page-container">
             {displayedFriend && (
                 <>
-                    <ProfileNavigation
+                    <ProfileNavigationView
                         pageTitle={`${displayedFriend.displayName}'s Profile`}
                         button1={{handler: () => navigate("/friends")}}
                     />

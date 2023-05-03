@@ -1,4 +1,4 @@
-import "./FriendsPage.css";
+import "./FriendsPageView/FriendsPageView.css";
 import {
     faCircleCheck,
     faLink,
@@ -31,6 +31,7 @@ import ProfileNavigation from "../../common/components/ProfileNavigation/Profile
 import FriendRequestCard from "./FriendCards/FriendRequestCard/FriendRequestCard";
 import PendingFriendCard from "./FriendCards/PendingFriendCard/PendingFriendCard";
 import ConfirmedFriendCard from "./FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
+import FriendsPageView from "./FriendsPageView/FriendsPageView";
 
 const FriendsPage = () => {
 
@@ -41,81 +42,31 @@ const FriendsPage = () => {
     const userId = useSelector(selectUserId);
     const friends = useSelector(selectFriends);
     const friendRequests = useSelector(selectFriendRequests);
-    const friendsSortFilter = useSelector(selectFriendsSortFilter);
-    const searchQuery = useSelector(selectSearchQuery);
 
-    const [searchIsVisible, setSearchIsVisible] = useState(false);
-    const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
-    const [display, setDisplay] = useState("friends");
-    const [addFriendId, setAddFriendId] = useState("");
     const [addFriendFeedback, setAddFriendFeedback] = useState("");
     const [foundUser, setFoundUser] = useState(null);
     const [displayedFriends, setDisplayedFriends] = useState([]);
     const [displayedFriendRequests, setDisplayedFriendRequests] = useState([]);
-    const [inviteCopied, setInviteCopied] = useState(false);
-    const [hasMatches, setHasMatches] = useState(false);
-
-    const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
 
     useEffect(() => {
-        if (!friends?.length) return;
+        if (!friends?.length) {
+            setDisplayedFriends([]);
+            return;
+        }
 
         setDisplayedFriends(friends);
     }, [friends]);
 
     useEffect(() => {
-        if (!friendRequests?.length) return;
+        if (!friendRequests?.length) {
+            setDisplayedFriendRequests([]);
+            return;
+        }
 
         setDisplayedFriendRequests(friendRequests);
     }, [friendRequests]);
 
-    useEffect(() => {
-        if (display === "friends" && !friends || display === "request" && !friendRequests) return;
-
-        if (!searchQuery) {
-            if (display === "friends") {
-                setDisplayedFriends(friends);
-            } else {
-                setDisplayedFriendRequests(friendRequests);
-            }
-            return;
-        }
-
-        const query = searchQuery.toLowerCase();
-
-        let searchResults;
-
-        if (display === "friends") {
-            searchResults = friends.filter(({displayName}) => displayName.toLowerCase().includes(query));
-        } else {
-            searchResults = friendRequests.filter(({displayName}) => displayName.toLowerCase().includes(query));
-        }
-
-        if (!searchResults.length) {
-            setHasMatches(false);
-
-            if (display === "friends") {
-                setDisplayedFriends(friends);
-            } else {
-                setDisplayedFriendRequests(friendRequests);
-            }
-        } else {
-            if (display === "friends") {
-                setDisplayedFriends(searchResults);
-            } else {
-                setDisplayedFriendRequests(searchResults);
-            }
-            setHasMatches(true);
-        }
-    }, [searchQuery, friends, friendRequests]);
-
-    const handleDisplayLinkClick = () => {
-        setDisplay(display => display === "friends" ? "requests" : "friends");
-        dispatch(resetSearchQuery());
-        setSearchIsVisible(false);
-    };
-
-    const handleFindUserClick = async () => {
+    const handleFindUserClick = async (addFriendId) => {
         if (!addFriendId) {
             setAddFriendFeedback("Please enter a user ID");
         } else if (addFriendId === userId) {
@@ -135,22 +86,9 @@ const FriendsPage = () => {
         }
     };
 
-    const handleAddClick = () => {
-        setAddPopupIsVisible(true);
-        dispatch(showOverlay());
-    };
-
-    const handleYesClick = async () => {
+    const handleYesClick = async (addFriendId) => {
         const updatedFriends = await sendFriendRequestToUser(userId, addFriendId);
         dispatch(setFriends(updatedFriends));
-        setAddPopupIsVisible(false);
-        setAddFriendId("");
-        dispatch(hideOverlay());
-    };
-
-    const handleNoClick = () => {
-        setAddPopupIsVisible(false);
-        setAddFriendId("");
         dispatch(hideOverlay());
     };
 
@@ -198,159 +136,36 @@ const FriendsPage = () => {
         return mutualFriends;
     };
 
-    const handleInviteClick = () => {
-        navigator.clipboard.writeText("Hi! I'm using the web app {app_name_goes_here} and would like you to " +
-            "join! \n\nFollow the link below and create an account: " +
-            "\nhttps://restaurant-app-team22.netlify.app/sign-in")
-            .then(() => setInviteCopied(true));
+    const handleInviteClick = async () => {
+        await navigator.clipboard.writeText("Hi! I'm using the web app {app_name_goes_here} and would like you " +
+            "to join! \n\nFollow the link below and create an account: " +
+            "\nhttps://restaurant-app-team22.netlify.app/sign-in");
     };
 
-    const handleSortClick = () => {
-        setSortFiltersVisible(sortFiltersVisible => !sortFiltersVisible);
-    };
-
-    const handleSearchClick = () => {
+    const handleSearch = () => {
         dispatch(resetSearchQuery());
         setDisplayedFriends(friends);
         setDisplayedFriendRequests(friendRequests);
-        setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 
     return (
-        <div className="friends-page-container">
-            <ProfileNavigation
-                pageTitle={display}
-                button1={{
-                    handler: () => navigate("/profile")
-                }}
-                button2={{
-                    text: searchIsVisible ? "Cancel" : "Search",
-                    icon: !searchIsVisible ? faMagnifyingGlass : null,
-                    handler: handleSearchClick
-                }}
-                lowerNav={true}
-                toggleDisplayText={display === "friends" ? "Requests" : "Friends"}
-                toggleHandler={handleDisplayLinkClick}
-                count={display === "friends" ?
-                    (friendRequests?.length ? friendRequests?.length : 0)
-                    :
-                    (friends?.length ? friends?.length : 0)
-                }
-                searchFunctionality={searchIsVisible}
-                button3={{
-                    text: "Add",
-                    icon: faPlus,
-                    handler: handleAddClick
-                }}
-                button4={{
-                    text: inviteCopied ? "Copied" : "Invite",
-                    icon: inviteCopied ? faCircleCheck : faLink,
-                    handler: handleInviteClick
-                }}
-            />
-
-            <main className="container">
-                {addPopupIsVisible && (
-                    <div className="confirm-checkin-popup">
-                        {addFriendFeedback && (
-                            <p className="feedback">{addFriendFeedback}</p>
-                        )}
-
-                        <div className="date-container">
-                            <FormField
-                                label="Friend ID"
-                                name="visitDate"
-                                type="text"
-                                value={addFriendId}
-                                onChangeHandler={({target}) => setAddFriendId(target.value)}
-                            />
-                        </div>
-
-                        {foundUser && (
-                            <p>Send friend request to <span>{foundUser.displayName}</span>?</p>
-                        )}
-
-                        {!foundUser && (
-                            <div className="buttons-container">
-                                <PrimaryButton handleClick={handleFindUserClick} text="Find user"/>
-                                <SecondaryButton handleClick={handleNoClick} text="Cancel"/>
-                            </div>
-                        )}
-
-                        {foundUser && (
-                            <div className="buttons-container">
-                                <PrimaryButton handleClick={handleYesClick} text="Yes"/>
-                                <SecondaryButton handleClick={handleNoClick} text="No"/>
-                            </div>
-                        )}
-                    </div>
-                )}
-
-                {display === "requests" && (
-                    <div className="friend-icons-container">
-                        {displayedFriendRequests.map(({
-                                                          id,
-                                                          displayName,
-                                                          iconColour,
-                                                          profilePhotoUrl,
-                                                          friends: userFriends
-                                                      }) => (
-
-                            <FriendRequestCard
-                                key={id}
-                                displayName={displayName}
-                                iconColour={iconColour}
-                                profilePhotoUrl={profilePhotoUrl}
-                                mutualFriends={calculateMutualFriends(userFriends)}
-                                handleConfirm={() => handleConfirmClick(id)}
-                                handleDelete={() => handleDeleteClick(id)}
-                            />
-                        ))}
-                    </div>
-                )}
-
-                {display === "friends" && (
-                    <div className="friend-icons-container">
-                        {[...displayedFriends]
-                            .sort((a, b) => {
-                                if (a.status === "pending") {
-                                    return -1;
-                                } else if (b.status === "pending") {
-                                    return 1;
-                                } else {
-                                    return 0;
-                                }
-                            })
-                            .map(({id, displayName, iconColour, profilePhotoUrl, status, friends: userFriends}) => {
-                                if (status === "pending") {
-                                    return (
-                                        <PendingFriendCard
-                                            key={id}
-                                            displayName={displayName}
-                                            iconColour={iconColour}
-                                            profilePhotoUrl={profilePhotoUrl}
-                                            mutualFriends={calculateMutualFriends(userFriends)}
-                                            handleCancelClick={() => handleCancelClick(id)}
-                                        />
-                                    )
-                                } else {
-                                    return (
-                                        <ConfirmedFriendCard
-                                            key={id}
-                                            displayName={displayName}
-                                            iconColour={iconColour}
-                                            profilePhotoUrl={profilePhotoUrl}
-                                            mutualFriends={calculateMutualFriends(userFriends)}
-                                            handleProfileClick={() => handleProfileClick(id)}
-                                            handleRemoveClick={() => handleRemoveClick(id)}
-                                        />
-                                    )
-                                }
-                            })}
-                    </div>
-                )}
-            </main>
-        </div>
+        <FriendsPageView
+            handleSearch={handleSearch}
+            handleChangeDisplay={() => dispatch(resetSearchQuery())}
+            friends={displayedFriends}
+            friendRequests={displayedFriendRequests}
+            handleInviteClick={handleInviteClick}
+            addFriendFeedback={addFriendFeedback}
+            handleFindUserClick={handleFindUserClick}
+            foundUser={foundUser}
+            handleYesClick={handleYesClick}
+            calculateMutualFriends={calculateMutualFriends}
+            handleCancelClick={handleCancelClick}
+            handleConfirmClick={handleConfirmClick}
+            handleDeleteClick={handleDeleteClick}
+            handleProfileClick={handleProfileClick}
+            handleRemoveClick={handleRemoveClick}
+        />
     );
 };
 

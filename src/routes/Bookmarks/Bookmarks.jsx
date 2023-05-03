@@ -10,6 +10,8 @@ import {getRestaurantById} from "../../firebase/firebase";
 import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
 
 export const checkIsOpen = (restaurant) => {
+    if (!restaurant) return false;
+
     let {minutes} = restaurant;
     const now = new Date();
     const day = now.getDay();

@@ -15,6 +15,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {selectSearchQuery} from "../../features/filters/filtersSlice"
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import SortFilterButton from "../../common/components/SortFilterButton/SortFilterButton";
+import SortFiltersView from "./SortFiltersView/SortFiltersView";
 
 const ReviewsPage = () => {
 
@@ -36,6 +38,12 @@ const ReviewsPage = () => {
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [searchHasMatches, setSearchHasMatches] = useState(true);
+    const [sortFilters, setSortFilters] = useState([
+        {text: "Highest rated", active: false},
+        {text: "Lowest rated", active: false},
+        {text: "Most recent", active: false},
+        {text: "Oldest", active: false}
+    ]);
 
     useEffect(() => {
         if (!reviews) return;
@@ -157,36 +165,41 @@ const ReviewsPage = () => {
                 hasMatches={searchHasMatches}
             />
 
-            {/*{sortFiltersVisible && (*/}
-            {/*    <div className="sort-filters">*/}
-            {/*        <SortFilterButton*/}
-            {/*            text="Highest rated"*/}
-            {/*            filter="rating"*/}
-            {/*            multiplier={-1}*/}
-            {/*            active={sortFilterSelected === "Highest rated"}*/}
-            {/*        />*/}
+            {sortFiltersVisible && (
+                <SortFiltersView filters={} handleClick={() => console.log("click")}/>
+            )}
 
-            {/*        <SortFilterButton*/}
-            {/*            text="Lowest rated"*/}
-            {/*            filter="rating"*/}
-            {/*            multiplier={1}*/}
-            {/*            active={sortFilterSelected === "Lowest rated"}*/}
-            {/*        />*/}
+            {sortFiltersVisible && (
+                <div className="sort-filters">
+                    <SortFilterButton
+                        text="Highest rated"
+                        filter="rating"
+                        multiplier={-1}
+                        active={sortFilterSelected === "Highest rated"}
+                    />
 
-            {/*        <SortFilterButton*/}
-            {/*            text="Most recent"*/}
-            {/*            filter="visitDate"*/}
-            {/*            multiplier={-1}*/}
-            {/*            active={sortFilterSelected === "Most recent"}*/}
-            {/*        />*/}
+                    <SortFilterButton
+                        text="Lowest rated"
+                        filter="rating"
+                        multiplier={1}
+                        active={sortFilterSelected === "Lowest rated"}
+                    />
 
-            {/*        <SortFilterButton*/}
-            {/*            text="Oldest"*/}
-            {/*            filter="visitDate"*/}
-            {/*            multiplier={1}*/}
-            {/*            active={sortFilterSelected === "Oldest"}*/}
-            {/*        />*/}
-            {/*    </div>)}*/}
+                    <SortFilterButton
+                        text="Most recent"
+                        filter="visitDate"
+                        multiplier={-1}
+                        active={sortFilterSelected === "Most recent"}
+                    />
+
+                    <SortFilterButton
+                        text="Oldest"
+                        filter="visitDate"
+                        multiplier={1}
+                        active={sortFilterSelected === "Oldest"}
+                    />
+                </div>
+            )}
 
             <main className="container">
                 {isReviewFormVisible && (

@@ -23,7 +23,7 @@ const SearchBoxView = ({handleInputChange, hasMatches}) => {
                     className="search-input"
                     placeholder="Search"
                     onChange={handleChange}
-                    value={searchQuery + ""}
+                    value={searchQuery}
                 />
             </div>
 

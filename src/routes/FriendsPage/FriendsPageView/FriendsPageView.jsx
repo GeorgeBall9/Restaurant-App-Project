@@ -8,7 +8,7 @@ import FriendRequestCard from "../FriendCards/FriendRequestCard/FriendRequestCar
 import PendingFriendCard from "../FriendCards/PendingFriendCard/PendingFriendCard";
 import ConfirmedFriendCard from "../FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const FriendsPageView = ({
                              display,
@@ -33,10 +33,27 @@ const FriendsPageView = ({
 
     const navigate = useNavigate();
 
+    const [navButton2IsVisible, setNavButton2IsVisible] = useState(null);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
     const [inviteCopied, setInviteCopied] = useState(false);
     const [addFriendId, setAddFriendId] = useState("");
+
+    useEffect(() => {
+        if (display === "friends") {
+            if (friends.length) {
+                setNavButton2IsVisible(true);
+            } else {
+                setNavButton2IsVisible(false);
+            }
+        } else {
+            if (friendRequests.length) {
+                setNavButton2IsVisible(true);
+            } else {
+                setNavButton2IsVisible(false);
+            }
+        }
+    }, [display, friends, friendRequests]);
 
     const handleSearchClick = () => {
         handleSearch();
@@ -66,7 +83,7 @@ const FriendsPageView = ({
                 button1={{
                     handler: () => navigate("/profile")
                 }}
-                button2={{
+                button2={!navButton2IsVisible ? null : {
                     text: searchIsVisible ? "Cancel" : "Search",
                     icon: !searchIsVisible ? faMagnifyingGlass : null,
                     handler: handleSearchClick

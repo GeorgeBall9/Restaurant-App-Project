@@ -1,13 +1,6 @@
 import "./FriendsPageView/FriendsPageView.css";
-import {
-    faCircleCheck,
-    faLink,
-    faMagnifyingGlass,
-    faPlus
-} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import FormField from "../../common/components/FormField/FormField";
 import {
     acceptFriendRequest, cancelFriendRequest, deleteFriend,
     getUserFromUserId, rejectFriendRequest,
@@ -18,19 +11,13 @@ import {
     removeFriend,
     removeFriendRequest,
     selectFriendRequests,
-    selectFriends, selectFriendsSortFilter,
+    selectFriends,
     selectUserId, setDisplayedFriend,
     setFriendRequests,
     setFriends
 } from "../../features/user/userSlice";
-import {hideOverlay, showOverlay} from "../../features/overlay/overlaySlice";
-import {resetSearchQuery, selectSearchQuery} from "../../features/filters/filtersSlice";
-import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
-import SecondaryButton from "../../common/components/SecondaryButton/SecondaryButton";
-import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
-import FriendRequestCard from "./FriendCards/FriendRequestCard/FriendRequestCard";
-import PendingFriendCard from "./FriendCards/PendingFriendCard/PendingFriendCard";
-import ConfirmedFriendCard from "./FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
+import {hideOverlay} from "../../features/overlay/overlaySlice";
+import {resetSearchQuery} from "../../features/filters/filtersSlice";
 import FriendsPageView from "./FriendsPageView/FriendsPageView";
 
 const FriendsPage = () => {

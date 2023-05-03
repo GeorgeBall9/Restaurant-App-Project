@@ -4,17 +4,17 @@ import "../../../CheckIns/CheckInsCalendar/CheckInsCalendar.css";
 import Calendar from "react-calendar";
 import CheckInsCollage from "../../../CheckIns/CheckInsCollage/CheckInsCollage";
 
-import {getCheckInsAndRestaurantDataByUserId} from "../../../../firebase/firebase";
-import {getUserFromUserId} from '../../../../firebase/firebase';
-import {useDispatch, useSelector} from "react-redux";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFire, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import { getCheckInsAndRestaurantDataByUserId } from "../../../../firebase/firebase";
+import { getUserFromUserId } from '../../../../firebase/firebase';
+import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFire, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import CheckInsMap from "../../../CheckIns/CheckInsMap/CheckInsMap";
-import {displayRestaurant} from "../../../../features/map/mapSlice";
+import { displayRestaurant } from "../../../../features/map/mapSlice";
 import ProfileNavigation from "../../../../common/components/ProfileNavigation/ProfileNavigation";
-import {selectDisplayedFriend} from "../../../../features/user/userSlice";
+import { selectDisplayedFriend } from "../../../../features/user/userSlice";
 
 const currentDate = new Date();
 
@@ -68,6 +68,7 @@ const FriendsCheckIns = () => {
     };
 
     const calculateStreak = (checkIns) => {
+        if (!checkIns) return 0;
         let streak = 0;
         const weekInMillis = 1000 * 60 * 60 * 24 * 7;
 
@@ -89,9 +90,13 @@ const FriendsCheckIns = () => {
     };
     const checkInsStreak = calculateStreak(friendCheckedInRestaurants);
 
+
     const calculateTotalCheckIns = (checkIns) => {
+        if (!checkIns) return 0;
+
         return checkIns.length;
     };
+
 
     const totalCheckIns = calculateTotalCheckIns(friendCheckedInRestaurants);
 
@@ -104,7 +109,12 @@ const FriendsCheckIns = () => {
         setShowCollagePopup(false);
     };
 
-    const TileContent = ({date}) => {
+    const TileContent = ({ date }) => {
+
+        if (!friendCheckedInRestaurants || friendCheckedInRestaurants.length === 0) {
+            return null;
+        }
+
         const checkInsForDate = friendCheckedInRestaurants.filter((checkIn) => {
             const checkInDate = new Date(checkIn.date).toLocaleDateString();
             return checkInDate === date.toLocaleDateString();
@@ -117,7 +127,7 @@ const FriendsCheckIns = () => {
                 return null;
             }
 
-            const {restaurant} = foundCheckIn;
+            const { restaurant } = foundCheckIn;
 
             const tileContentStyle = {
                 backgroundImage: `url(${restaurant.photoUrl})`,
@@ -139,34 +149,34 @@ const FriendsCheckIns = () => {
         });
     };
 
-    const renderTileContent = ({date, view}) => {
+    const renderTileContent = ({ date, view }) => {
         if (view !== "month") {
             return null;
         }
 
-        return <TileContent date={date}/>;
+        return <TileContent date={date} />;
     };
 
     return (
         <div className="check-ins-page-container">
             {displayedFriend && (
                 <>
-                    <ProfileNavigation pageTitle={`${displayedFriend.displayName}'s Check-ins`}/>
+                    <ProfileNavigation pageTitle={`${displayedFriend.displayName}'s Check-ins`} />
 
                     <div className="check-ins-page">
                         <div className="check-ins-map-container">
-                            {friendCheckedInRestaurants && <CheckInsMap checkIns={friendCheckedInRestaurants}/>}
+                            {friendCheckedInRestaurants && <CheckInsMap checkIns={friendCheckedInRestaurants} />}
                         </div>
 
                         <div className="check-ins-stats">
                             <div className="check-ins-streak">
-                                <FontAwesomeIcon className="icon" icon={faFire}/>
+                                <FontAwesomeIcon className="icon" icon={faFire} />
                                 <span>{checkInsStreak}</span>
                                 <p>Week streak</p>
                             </div>
 
                             <div className="check-ins-total">
-                                <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
+                                <FontAwesomeIcon className="icon" icon={faCircleCheck} />
                                 <span>{totalCheckIns}</span>
                                 <p>Check-ins</p>
                             </div>
@@ -184,7 +194,7 @@ const FriendsCheckIns = () => {
                             />
 
                             {showCollagePopup && (
-                                <CheckInsCollage checkIn={selectedCheckIn} onClose={handleCollagePopupClose}/>
+                                <CheckInsCollage checkIn={selectedCheckIn} onClose={handleCollagePopupClose} />
                             )}
                         </div>
                     </div>

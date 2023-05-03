@@ -1,4 +1,4 @@
-import "./SearchBox.css";
+import "./SearchBoxView/SearchBoxView.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import SearchFeedback from "./SearchFeedback/SearchFeedback";

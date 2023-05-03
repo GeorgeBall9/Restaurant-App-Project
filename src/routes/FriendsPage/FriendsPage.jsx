@@ -43,10 +43,12 @@ const FriendsPage = () => {
     const friends = useSelector(selectFriends);
     const friendRequests = useSelector(selectFriendRequests);
 
+    const [display, setDisplay] = useState("friends");
     const [addFriendFeedback, setAddFriendFeedback] = useState("");
     const [foundUser, setFoundUser] = useState(null);
     const [displayedFriends, setDisplayedFriends] = useState([]);
     const [displayedFriendRequests, setDisplayedFriendRequests] = useState([]);
+    const [searchHasMatches, setSearchHasMatches] = useState(true);
 
     useEffect(() => {
         if (!friends?.length) {
@@ -136,25 +138,60 @@ const FriendsPage = () => {
         return mutualFriends;
     };
 
-    const handleInviteClick = async () => {
+    const copyLink = async () => {
         await navigator.clipboard.writeText("Hi! I'm using the web app {app_name_goes_here} and would like you " +
             "to join! \n\nFollow the link below and create an account: " +
             "\nhttps://restaurant-app-team22.netlify.app/sign-in");
     };
 
-    const handleSearch = () => {
+    const handleSearchButtonClicked = () => {
         dispatch(resetSearchQuery());
         setDisplayedFriends(friends);
         setDisplayedFriendRequests(friendRequests);
     };
 
+    const handleSearchInputChange = (query) => {
+        const lowerCaseQuery = query.toLowerCase();
+
+        if (display === "friends") {
+            const searchResults = displayedFriends
+                .filter(({displayName}) => displayName.toLowerCase().includes(lowerCaseQuery));
+
+            if (searchResults.length) {
+                setDisplayedFriends(searchResults);
+                setSearchHasMatches(true);
+            } else {
+                console.log("no results")
+                setDisplayedFriends(friends);
+                setSearchHasMatches(false);
+            }
+        } else {
+            const searchResults = displayedFriendRequests
+                .filter(({displayName}) => displayName.toLowerCase().includes(lowerCaseQuery));
+
+            if (searchResults.length) {
+                setDisplayedFriendRequests(searchResults);
+                setSearchHasMatches(true);
+            } else {
+                setDisplayedFriendRequests(friendRequests);
+                setSearchHasMatches(false);
+            }
+        }
+    };
+
+    const handleChangeDisplay = () => {
+        setDisplay(display => display === "friends" ? "requests" : "friends");
+        dispatch(resetSearchQuery());
+    };
+
     return (
         <FriendsPageView
-            handleSearch={handleSearch}
-            handleChangeDisplay={() => dispatch(resetSearchQuery())}
+            display={display}
+            handleSearch={handleSearchButtonClicked}
+            handleChangeDisplay={handleChangeDisplay}
             friends={displayedFriends}
             friendRequests={displayedFriendRequests}
-            handleInviteClick={handleInviteClick}
+            copyLink={copyLink}
             addFriendFeedback={addFriendFeedback}
             handleFindUserClick={handleFindUserClick}
             foundUser={foundUser}
@@ -165,6 +202,8 @@ const FriendsPage = () => {
             handleDeleteClick={handleDeleteClick}
             handleProfileClick={handleProfileClick}
             handleRemoveClick={handleRemoveClick}
+            handleSearchInputChange={handleSearchInputChange}
+            searchHasMatches={searchHasMatches}
         />
     );
 };

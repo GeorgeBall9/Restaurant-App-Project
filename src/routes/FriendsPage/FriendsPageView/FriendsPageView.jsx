@@ -11,11 +11,12 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 
 const FriendsPageView = ({
+                             display,
                              handleSearch,
                              handleChangeDisplay,
                              friends,
                              friendRequests,
-                             handleInviteClick,
+                             copyLink,
                              addFriendFeedback,
                              handleFindUserClick,
                              foundUser,
@@ -25,13 +26,14 @@ const FriendsPageView = ({
                              handleConfirmClick,
                              handleDeleteClick,
                              handleProfileClick,
-                             handleRemoveClick
+                             handleRemoveClick,
+                             handleSearchInputChange,
+                             searchHasMatches
                          }) => {
 
     const navigate = useNavigate();
 
     const [searchIsVisible, setSearchIsVisible] = useState(false);
-    const [display, setDisplay] = useState("friends");
     const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
     const [inviteCopied, setInviteCopied] = useState(false);
     const [addFriendId, setAddFriendId] = useState("");
@@ -52,9 +54,9 @@ const FriendsPageView = ({
         setAddFriendId("");
     };
 
-    const handleToggleDisplayClick = () => {
-        handleChangeDisplay();
-        setDisplay(display => display === "friends" ? "requests" : "friends");
+    const handleInviteClick = () => {
+        copyLink();
+        setInviteCopied(true);
     };
 
     return (
@@ -71,7 +73,7 @@ const FriendsPageView = ({
                 }}
                 lowerNav={true}
                 toggleDisplayText={display === "friends" ? "Requests" : "Friends"}
-                toggleHandler={handleToggleDisplayClick}
+                toggleHandler={handleChangeDisplay}
                 count={display === "friends" ?
                     (friendRequests?.length ? friendRequests?.length : 0)
                     :
@@ -88,6 +90,8 @@ const FriendsPageView = ({
                     icon: inviteCopied ? faCircleCheck : faLink,
                     handler: handleInviteClick
                 }}
+                handleSearchInputChange={handleSearchInputChange}
+                hasMatches={searchHasMatches}
             />
 
             <main className="container">
@@ -130,12 +134,12 @@ const FriendsPageView = ({
                 {display === "requests" && (
                     <div className="friend-icons-container">
                         {friendRequests.map(({
-                                                          id,
-                                                          displayName,
-                                                          iconColour,
-                                                          profilePhotoUrl,
-                                                          friends: userFriends
-                                                      }) => (
+                                                 id,
+                                                 displayName,
+                                                 iconColour,
+                                                 profilePhotoUrl,
+                                                 friends: userFriends
+                                             }) => (
 
                             <FriendRequestCard
                                 key={id}

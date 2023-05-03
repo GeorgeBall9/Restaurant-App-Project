@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {getAllRestaurantPhotosByUserId} from "../../firebase/firebase";
-import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
+import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 
 const PhotosPage = () => {
 
@@ -54,7 +54,7 @@ const PhotosPage = () => {
 
     return (
         <div className="photos-page-container">
-            <ProfileNavigation
+            <ProfileNavigationView
                 pageTitle="Photos"
                 button2={{
                     text: button2Text,

@@ -19,7 +19,7 @@ import {
     setUserDetails,
     setUserId
 } from "../features/user/userSlice";
-import Overlay from "../features/overlay/Overlay/Overlay";
+import Overlay from "../common/components/Overlay/Overlay";
 import {selectOverlayIsVisible} from "../features/overlay/overlaySlice";
 
 const Root = () => {

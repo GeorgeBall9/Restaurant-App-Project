@@ -6,7 +6,7 @@ import {useState} from "react";
 const ReviewsListView = ({
                              reviews,
                              userId,
-                             preview,
+                             preview = false,
                              handleVoteClick,
                              handleDeleteReview,
                          }) => {

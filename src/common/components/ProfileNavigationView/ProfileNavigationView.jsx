@@ -1,10 +1,10 @@
-import "./ProfileNavigation.css";
+import "./ProfileNavigationView.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
-import SearchBox from "../SearchBox/SearchBox";
+import SearchBoxView from "../SearchBoxView/SearchBoxView";
 
-const ProfileNavigation = ({
+const ProfileNavigationView = ({
                                pageTitle,
                                button1,
                                button2,
@@ -14,7 +14,9 @@ const ProfileNavigation = ({
                                count,
                                searchFunctionality,
                                button3,
-                               button4
+                               button4,
+                               handleSearchInputChange,
+                               hasMatches
                            }) => {
 
     const navigate = useNavigate();
@@ -24,7 +26,7 @@ const ProfileNavigation = ({
             <div className="container">
                 <div className="upper-nav">
                     {searchFunctionality && (
-                        <SearchBox type="friends" matches={true}/>
+                        <SearchBoxView handleInputChange={handleSearchInputChange} hasMatches={hasMatches}/>
                     )}
 
                     {!searchFunctionality && (
@@ -80,4 +82,4 @@ const ProfileNavigation = ({
     );
 };
 
-export default ProfileNavigation;
+export default ProfileNavigationView;

@@ -12,7 +12,7 @@ import {
 } from "../../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
-import ProfileNavigation from "../../../common/components/ProfileNavigation/ProfileNavigation";
+import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
 
 export const getPhotoUrls = async (photoPaths) => {
@@ -107,7 +107,7 @@ const CheckInsCollage = ({checkIn, onClose}) => {
         <div className={`collage-popup ${isVisible ? "visible" : ""} ${isExpanded ? "expanded" : ""}`}>
             <div>
                 {isExpanded && (
-                    <ProfileNavigation
+                    <ProfileNavigationView
                         pageTitle={restaurant?.name}
                         button2={{
                             text: photos.length > 0 && (selectMode ? "Cancel" : "Select"),

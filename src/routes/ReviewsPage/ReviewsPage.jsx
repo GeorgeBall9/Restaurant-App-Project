@@ -3,7 +3,7 @@ import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
 import ReviewForm from "../../common/components/ReviewForm/ReviewForm";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {selectReviews, selectSortFilter, setReviews} from "../../features/reviews/reviewsSlice";
+import {selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
 import {useEffect, useState} from "react";
 import {getRestaurantById, getReviewsByRestaurantId} from "../../firebase/firebase";
 import {selectUserId} from "../../features/user/userSlice";
@@ -13,8 +13,9 @@ import {
     faChevronDown,
     faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
-import {selectSearchQuery} from "../../features/filters/filtersSlice"
-import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
+import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import SortFiltersView from "./SortFiltersView/SortFiltersView";
+import Overlay from "../../common/components/Overlay/Overlay";
 
 const ReviewsPage = () => {
 
@@ -27,39 +28,20 @@ const ReviewsPage = () => {
     const userId = useSelector(selectUserId);
     const reviews = useSelector(selectReviews);
     const allRestaurants = useSelector(selectAllRestaurants);
-    const searchQuery = useSelector(selectSearchQuery);
-    const sortFilterSelected = useSelector(selectSortFilter);
 
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
     const [restaurant, setRestaurant] = useState(null);
-    const [hasMatches, setHasMatches] = useState(true);
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
-
-    useEffect(() => {
-        if (!reviews) return;
-
-        if (!searchQuery) {
-            setDisplayedReviews(reviews);
-            return;
-        }
-
-        const query = searchQuery.toLowerCase();
-
-        const searchResults = reviews
-            .filter(({title, content}) => (
-                title.toLowerCase().includes(query) || content.toLowerCase().includes(query)
-            ));
-
-        if (!searchResults.length) {
-            setHasMatches(false);
-            setDisplayedReviews(reviews);
-        } else {
-            setDisplayedReviews(searchResults);
-            setHasMatches(true);
-        }
-    }, [searchQuery, reviews]);
+    const [searchHasMatches, setSearchHasMatches] = useState(true);
+    const [activeFilter, setActiveFilter] = useState("Highest rated");
+    const [sortFilters, setSortFilters] = useState([
+        {text: "Highest rated", active: true, type: "rating", multiplier: -1},
+        {text: "Lowest rated", active: false, type: "rating", multiplier: 1},
+        {text: "Most recent", active: false, type: "date", multiplier: -1},
+        {text: "Oldest", active: false, type: "date", multiplier: 1}
+    ]);
 
     useEffect(() => {
         if (!restaurant) {
@@ -98,7 +80,7 @@ const ReviewsPage = () => {
     useEffect(() => {
         if (!reviews) return;
 
-        setDisplayedReviews(reviews);
+        setDisplayedReviews([...reviews].sort((a, b) => b.rating - a.rating));
     }, [reviews]);
 
     const handleWriteReviewClick = () => {
@@ -117,9 +99,47 @@ const ReviewsPage = () => {
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 
+    const handleSearchInputChange = (query) => {
+        const lowerCaseQuery = query.toLowerCase();
+
+        const results = reviews
+            .filter(({title, content}) => title.toLowerCase().includes(lowerCaseQuery)
+                || content.toLowerCase().includes(lowerCaseQuery));
+
+        if (results.length) {
+            setDisplayedReviews(results);
+            setSearchHasMatches(true);
+        } else {
+            setDisplayedReviews(reviews);
+            setSearchHasMatches(false);
+        }
+    };
+
+    const handleSortFilterClick = (text, type, multiplier) => {
+        setActiveFilter(text);
+
+        const changeFilterStatus = (filter, active) => {
+            const updatedFilter = {...filter};
+            updatedFilter.active = active;
+            return updatedFilter;
+        };
+
+        setSortFilters(sortFilters => sortFilters
+            .map(filter => changeFilterStatus(filter,filter.text === text)));
+
+        setDisplayedReviews(displayedReviews => [...displayedReviews]
+            .sort((a, b) => multiplier * (a[type] - b[type])));
+
+        setSortFiltersVisible(false);
+    };
+
+    const handleOverlayClick = () => {
+        setSortFiltersVisible(false);
+    };
+
     return (
         <div className="reviews-page">
-            <ProfileNavigation
+            <ProfileNavigationView
                 pageTitle="Reviews"
                 button2={{
                     text: searchIsVisible ? "Cancel" : "Search",
@@ -133,44 +153,20 @@ const ReviewsPage = () => {
                     handler: handleWriteReviewClick
                 }}
                 button4={{
-                    text: "Sort",
+                    text: activeFilter,
                     icon: faChevronDown,
                     handler: handleSortClick
                 }}
+                handleSearchInputChange={handleSearchInputChange}
+                hasMatches={searchHasMatches}
             />
 
-
-            {/*{sortFiltersVisible && (*/}
-            {/*    <div className="sort-filters">*/}
-            {/*        <SortFilterButton*/}
-            {/*            text="Highest rated"*/}
-            {/*            filter="rating"*/}
-            {/*            multiplier={-1}*/}
-            {/*            active={sortFilterSelected === "Highest rated"}*/}
-            {/*        />*/}
-
-            {/*        <SortFilterButton*/}
-            {/*            text="Lowest rated"*/}
-            {/*            filter="rating"*/}
-            {/*            multiplier={1}*/}
-            {/*            active={sortFilterSelected === "Lowest rated"}*/}
-            {/*        />*/}
-
-            {/*        <SortFilterButton*/}
-            {/*            text="Most recent"*/}
-            {/*            filter="visitDate"*/}
-            {/*            multiplier={-1}*/}
-            {/*            active={sortFilterSelected === "Most recent"}*/}
-            {/*        />*/}
-
-            {/*        <SortFilterButton*/}
-            {/*            text="Oldest"*/}
-            {/*            filter="visitDate"*/}
-            {/*            multiplier={1}*/}
-            {/*            active={sortFilterSelected === "Oldest"}*/}
-            {/*        />*/}
-            {/*    </div>)}*/}
-
+            {sortFiltersVisible && (
+                <>
+                    <SortFiltersView filters={sortFilters} handleClick={handleSortFilterClick}/>
+                    <Overlay handleClick={handleOverlayClick}/>
+                </>
+            )}
 
             <main className="container">
                 {isReviewFormVisible && (

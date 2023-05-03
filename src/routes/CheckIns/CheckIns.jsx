@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { getCheckInsAndRestaurantDataByUserId } from "../../firebase/firebase";
 import CheckInsMap from "./CheckInsMap/CheckInsMap";
 import { displayRestaurant } from "../../features/map/mapSlice";
-import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
+import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 
 const currentDate = new Date();
 
@@ -139,7 +139,7 @@ const CheckIns = () => {
 
     return (
         <div className="check-ins-page-container">
-            <ProfileNavigation pageTitle="Check-ins" />
+            <ProfileNavigationView pageTitle="Check-ins" />
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">

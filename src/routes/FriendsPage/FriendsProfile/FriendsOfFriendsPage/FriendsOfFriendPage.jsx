@@ -23,8 +23,8 @@ import {
     setFriends
 } from "../../../../features/user/userSlice";
 import FriendCard from "../../FriendCards/FriendCard/FriendCard";
-import { resetSearchQuery, selectSearchQuery } from "../../../../features/filters/filtersSlice";
-import ProfileNavigation from "../../../../common/components/ProfileNavigation/ProfileNavigation";
+import {resetSearchQuery, selectSearchQuery} from "../../../../features/filters/filtersSlice";
+import ProfileNavigationView from "../../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import FriendOfFriendCard from "../../FriendCards/FriendOfFriendCard/FriendOfFriendCard";
 import ConfirmedFriendCard from "../../FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
 import PendingFriendCard from "../../FriendCards/PendingFriendCard/PendingFriendCard";
@@ -175,7 +175,7 @@ const FriendsOfFriendsPage = () => {
         <div className="friends-of-friend-container">
             {displayedFriend && (
                 <>
-                    <ProfileNavigation
+                    <ProfileNavigationView
                         pageTitle={`${displayedFriend.displayName}'s Friends`}
                         button2={{
                             text: searchIsVisible ? "Cancel" : "Search",

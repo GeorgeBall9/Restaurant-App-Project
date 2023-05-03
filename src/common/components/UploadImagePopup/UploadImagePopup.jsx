@@ -3,7 +3,7 @@ import UploadFileButton from "../UploadFileButton/UploadFileButton";
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import {useState} from "react";
 import {uploadImage} from "../../../firebase/firebase";
-import Overlay from "../../../features/overlay/Overlay/Overlay";
+import Overlay from "../Overlay/Overlay";
 
 const UploadImagePopup = ({handleCloseClick, handleUploadClick}) => {
 

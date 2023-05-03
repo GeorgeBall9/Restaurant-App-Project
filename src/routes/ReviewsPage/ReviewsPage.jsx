@@ -33,7 +33,6 @@ const ReviewsPage = () => {
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
     const [restaurant, setRestaurant] = useState(null);
-    const [hasMatches, setHasMatches] = useState(true);
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [searchHasMatches, setSearchHasMatches] = useState(true);
@@ -54,11 +53,11 @@ const ReviewsPage = () => {
             ));
 
         if (!searchResults.length) {
-            setHasMatches(false);
+            // setSearchHasMatches(false);
             setDisplayedReviews(reviews);
         } else {
             setDisplayedReviews(searchResults);
-            setHasMatches(true);
+            // setSearchHasMatches(true);
         }
     }, [searchQuery, reviews]);
 

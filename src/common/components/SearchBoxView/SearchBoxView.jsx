@@ -27,7 +27,7 @@ const SearchBoxView = ({handleInputChange, hasMatches}) => {
                 />
             </div>
 
-            <SearchFeedback hasMatches={hasMatches} searchQuery={searchQuery}/>
+            {!hasMatches && <SearchFeedback/>}
         </div>
     );
 };

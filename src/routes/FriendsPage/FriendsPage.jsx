@@ -49,13 +49,19 @@ const FriendsPage = () => {
     const [displayedFriendRequests, setDisplayedFriendRequests] = useState([]);
 
     useEffect(() => {
-        if (!friends?.length) return;
+        if (!friends?.length) {
+            setDisplayedFriends([]);
+            return;
+        }
 
         setDisplayedFriends(friends);
     }, [friends]);
 
     useEffect(() => {
-        if (!friendRequests?.length) return;
+        if (!friendRequests?.length) {
+            setDisplayedFriendRequests([]);
+            return;
+        }
 
         setDisplayedFriendRequests(friendRequests);
     }, [friendRequests]);

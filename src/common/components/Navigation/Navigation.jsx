@@ -19,6 +19,7 @@ import LocationButton from "../../../features/location/LocationButton/LocationBu
 import LocationOptions from "../../../features/location/LocationButton/LocationOptions/LocationOptions";
 import {selectLocationOptionsOpen} from "../../../features/location/locationSlice";
 import {showOverlay} from "../../../features/overlay/overlaySlice";
+import SearchBoxView from "../SearchBoxView/SearchBoxView";
 
 const Navigation = ({view}) => {
 
@@ -44,7 +45,7 @@ const Navigation = ({view}) => {
                     </Link>
 
                     <div className="search-and-filters">
-                        <SearchBox/>
+                        <SearchBoxView/>
 
                         <button
                             className="button filter-button"

@@ -11,7 +11,7 @@ import {faArrowUpRightFromSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
 
-const CheckInsMap = ({checkIns}) => {
+const CheckInsMap = ({checkIns, onViewDetails}) => {
 
     const dispatch = useDispatch();
 
@@ -113,7 +113,7 @@ const CheckInsMap = ({checkIns}) => {
                                             {/*    </p>*/}
                                             {/*)}*/}
 
-                                            <button>View details</button>
+                                            <button onClick={onViewDetails}>View details</button>
                                         </div>
                                     </Popup>
                                 )}

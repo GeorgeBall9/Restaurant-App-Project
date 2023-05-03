@@ -39,35 +39,11 @@ const ReviewsPage = () => {
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [searchHasMatches, setSearchHasMatches] = useState(true);
     const [sortFilters, setSortFilters] = useState([
-        {text: "Highest rated", active: false},
+        {text: "Highest rated", active: true},
         {text: "Lowest rated", active: false},
         {text: "Most recent", active: false},
         {text: "Oldest", active: false}
     ]);
-
-    useEffect(() => {
-        if (!reviews) return;
-
-        if (!searchQuery) {
-            setDisplayedReviews(reviews);
-            return;
-        }
-
-        const query = searchQuery.toLowerCase();
-
-        const searchResults = reviews
-            .filter(({title, content}) => (
-                title.toLowerCase().includes(query) || content.toLowerCase().includes(query)
-            ));
-
-        if (!searchResults.length) {
-            // setSearchHasMatches(false);
-            setDisplayedReviews(reviews);
-        } else {
-            setDisplayedReviews(searchResults);
-            // setSearchHasMatches(true);
-        }
-    }, [searchQuery, reviews]);
 
     useEffect(() => {
         if (!restaurant) {
@@ -166,39 +142,7 @@ const ReviewsPage = () => {
             />
 
             {sortFiltersVisible && (
-                <SortFiltersView filters={} handleClick={() => console.log("click")}/>
-            )}
-
-            {sortFiltersVisible && (
-                <div className="sort-filters">
-                    <SortFilterButton
-                        text="Highest rated"
-                        filter="rating"
-                        multiplier={-1}
-                        active={sortFilterSelected === "Highest rated"}
-                    />
-
-                    <SortFilterButton
-                        text="Lowest rated"
-                        filter="rating"
-                        multiplier={1}
-                        active={sortFilterSelected === "Lowest rated"}
-                    />
-
-                    <SortFilterButton
-                        text="Most recent"
-                        filter="visitDate"
-                        multiplier={-1}
-                        active={sortFilterSelected === "Most recent"}
-                    />
-
-                    <SortFilterButton
-                        text="Oldest"
-                        filter="visitDate"
-                        multiplier={1}
-                        active={sortFilterSelected === "Oldest"}
-                    />
-                </div>
+                <SortFiltersView filters={sortFilters} handleClick={() => console.log("click")}/>
             )}
 
             <main className="container">

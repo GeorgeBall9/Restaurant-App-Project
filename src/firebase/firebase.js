@@ -759,6 +759,8 @@ export const getFriendsByUserId = async (userId) => {
 
     const userData = await getUserFromUserId(userId);
 
+    if (!userData) return;
+
     const friends = userData.friends;
 
     if (!friends) {

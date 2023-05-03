@@ -1,7 +1,7 @@
 .sort-filters {
     position: absolute;
     z-index: 10000;
-    top: 2em;
+    top: 4em;
     left: 0;
     right: 0;
     margin: var(--margin-align-center);
@@ -10,7 +10,7 @@
     flex-direction: column;
     background-color: white;
     border-radius: var(--border-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
     overflow: hidden;
 }
 

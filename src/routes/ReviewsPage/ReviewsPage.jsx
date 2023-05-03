@@ -35,6 +35,7 @@ const ReviewsPage = () => {
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [searchHasMatches, setSearchHasMatches] = useState(true);
+    const [activeFilter, setActiveFilter] = useState("Highest rated");
     const [sortFilters, setSortFilters] = useState([
         {text: "Highest rated", active: true, type: "rating", multiplier: -1},
         {text: "Lowest rated", active: false, type: "rating", multiplier: 1},
@@ -79,7 +80,7 @@ const ReviewsPage = () => {
     useEffect(() => {
         if (!reviews) return;
 
-        setDisplayedReviews(reviews);
+        setDisplayedReviews([...reviews].sort((a, b) => b.rating - a.rating));
     }, [reviews]);
 
     const handleWriteReviewClick = () => {
@@ -115,6 +116,8 @@ const ReviewsPage = () => {
     };
 
     const handleSortFilterClick = (text, type, multiplier) => {
+        setActiveFilter(text);
+
         const changeFilterStatus = (filter, active) => {
             const updatedFilter = {...filter};
             updatedFilter.active = active;
@@ -150,7 +153,7 @@ const ReviewsPage = () => {
                     handler: handleWriteReviewClick
                 }}
                 button4={{
-                    text: "Sort",
+                    text: activeFilter,
                     icon: faChevronDown,
                     handler: handleSortClick
                 }}

@@ -1,13 +1,14 @@
 import "./Bookmarks.css";
-import {useSelector} from "react-redux";
-import {selectBookmarks, selectUserId} from "../../features/user/userSlice";
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBan} from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { selectBookmarks, selectUserId } from "../../features/user/userSlice";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBan } from "@fortawesome/free-solid-svg-icons";
 import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCard";
-import {getRestaurantById} from "../../firebase/firebase";
+import { getRestaurantById } from "../../firebase/firebase";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import NoResults from "../../common/components/NoResults/NoResults";
 
 export const checkIsOpen = (restaurant) => {
     if (!restaurant) return false;
@@ -55,7 +56,7 @@ const Bookmarks = () => {
         }
     }, [userId]);
 
-    const setBookmarkData = async ()  => {
+    const setBookmarkData = async () => {
         const data = await Promise.all(userBookmarks
             .map(async (bookmark) => await getRestaurantById(bookmark)));
 
@@ -67,7 +68,7 @@ const Bookmarks = () => {
 
         setBookmarkData().then(() => {
             setBookmarkedRestaurants(bookmarkedRestaurants => bookmarkedRestaurants.map(bookmark => {
-                const updatedBookmark = {...bookmark};
+                const updatedBookmark = { ...bookmark };
                 updatedBookmark.isOpen = checkIsOpen(bookmark);
                 return updatedBookmark;
             }));
@@ -79,20 +80,24 @@ const Bookmarks = () => {
             <ProfileNavigationView pageTitle="Bookmarks"/>
 
             <main className="container">
-                {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants
-                    .sort(a => a.isOpen ? -1 : 1)
-                    .map(restaurant => (
-                    <div key={restaurant.id} className="bookmark">
-                        {!restaurant.isOpen && (
-                            <div className="closed-sign">
-                                Closed
-                                <FontAwesomeIcon className="icon" icon={faBan}/>
-                            </div>
-                        )}
+                {bookmarkedRestaurants.length > 0 ? (
+                    bookmarkedRestaurants
+                        .sort(a => a.isOpen ? -1 : 1)
+                        .map(restaurant => (
+                            <div key={restaurant.id} className="bookmark">
+                                {!restaurant.isOpen && (
+                                    <div className="closed-sign">
+                                        Closed
+                                        <FontAwesomeIcon className="icon" icon={faBan} />
+                                    </div>
+                                )}
 
-                        <RestaurantCard restaurant={restaurant}/>
-                    </div>
-                ))}
+                                <RestaurantCard restaurant={restaurant} />
+                            </div>
+                        ))
+                ) : (
+                    <NoResults mainText="You haven't bookmarked any restaurants yet." subText="Bookmarked restaurants will appear here!" />
+                )}
             </main>
         </div>
     );

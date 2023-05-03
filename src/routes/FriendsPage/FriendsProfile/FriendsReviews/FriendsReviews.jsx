@@ -9,7 +9,7 @@ import {selectReview} from "../../../../features/reviews/reviewsSlice";
 import RestaurantImage from "../../../../common/components/RestaurantImage/RestaurantImage";
 import StarRating from "../../../../common/components/StarRating/StarRating";
 import {selectDisplayedFriend} from "../../../../features/user/userSlice";
-import ProfileNavigation from "../../../../common/components/ProfileNavigation/ProfileNavigation";
+import ProfileNavigationView from "../../../../common/components/ProfileNavigationView/ProfileNavigationView";
 
 const FriendsReviews = () => {
 
@@ -37,7 +37,7 @@ const FriendsReviews = () => {
         <div className="preview-reviews-container">
             {displayedFriend && (
                 <>
-                    <ProfileNavigation pageTitle={`${displayedFriend.displayName}'s Reviews`}/>
+                    <ProfileNavigationView pageTitle={`${displayedFriend.displayName}'s Reviews`}/>
 
                     <main className="reviews-container container">
                         {friendReviews && friendReviews

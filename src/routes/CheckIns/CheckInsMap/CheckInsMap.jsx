@@ -68,7 +68,7 @@ const CheckInsMap = ({checkIns}) => {
         <div id="check-ins-map" className="map-container check-ins-map">
             <ReactMapGl
                 {...viewState}
-                style={{width: "100%", height: "240px"}}
+                style={{width: "100%", height: "260px"}}
                 mapStyle="mapbox://styles/mapbox/streets-v12"
                 onMove={handleMapMove}
                 onLoad={handleMapLoad}
@@ -95,25 +95,16 @@ const CheckInsMap = ({checkIns}) => {
                                         anchor="bottom"
                                         closeButton={false}
                                         closeOnClick={false}
-                                        offset={40}
+                                        offset={45}
                                     >
                                         <div className="content">
-                                            <Link to={`/details/${restaurantId}`}>
-                                                <h3>
-                                                    {name}
-                                                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
-                                                </h3>
-                                            </Link>
-
-                                            <p>Visited on {new Date(date).toLocaleDateString()}</p>
+                                            <h3>{name}</h3>
 
                                             {/*{friendData.length > 0 && (*/}
                                             {/*    <p>*/}
                                             {/*        With {friendData.map(friend => friend.displayName).join(", ")}*/}
                                             {/*    </p>*/}
                                             {/*)}*/}
-
-                                            <button>View details</button>
                                         </div>
                                     </Popup>
                                 )}

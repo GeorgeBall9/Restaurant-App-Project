@@ -22,7 +22,7 @@ import {
 import {showOverlay} from "../../features/overlay/overlaySlice";
 import FormField from "../../common/components/FormField/FormField";
 import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
-import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
+import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 
 const EditProfilePage = () => {
 
@@ -116,7 +116,7 @@ const EditProfilePage = () => {
 
     return (
         <div className="profile-container">
-            <ProfileNavigation pageTitle="Edit Profile"/>
+            <ProfileNavigationView pageTitle="Edit Profile"/>
 
            <main className="container">
                <section className="change-icon-section">

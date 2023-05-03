@@ -7,9 +7,11 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBan} from "@fortawesome/free-solid-svg-icons";
 import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCard";
 import {getRestaurantById} from "../../firebase/firebase";
-import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
+import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 
 export const checkIsOpen = (restaurant) => {
+    if (!restaurant) return false;
+
     let {minutes} = restaurant;
     const now = new Date();
     const day = now.getDay();
@@ -74,7 +76,7 @@ const Bookmarks = () => {
 
     return (
         <div className="bookmarks-page-container">
-            <ProfileNavigation pageTitle="Bookmarks"/>
+            <ProfileNavigationView pageTitle="Bookmarks"/>
 
             <main className="container">
                 {bookmarkedRestaurants.length > 0 && bookmarkedRestaurants

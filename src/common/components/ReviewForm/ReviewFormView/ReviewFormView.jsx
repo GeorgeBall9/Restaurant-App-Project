@@ -30,20 +30,6 @@ const ReviewFormView = ({
     const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
     const {rating, visitDate, title, content} = formData;
 
-    const formRef = useRef(null);
-
-    useEffect(() => {
-        if (formRef?.current) {
-            const bannerHeight = document.getElementById("banner").getBoundingClientRect().height;
-            const navHeight = document.getElementById("details-page-nav").getBoundingClientRect().height;
-
-            window.scrollTo({
-                top: formRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (bannerHeight + navHeight),
-                behavior: "smooth"
-            });
-        }
-    }, []);
-
     const handleChange = ({target}) => {
         const {name, value} = target;
         setFormData({...formData, [name]: value});
@@ -72,7 +58,7 @@ const ReviewFormView = ({
 
     return (
         <div className="review-form">
-            <form onSubmit={handleFormSubmit} ref={formRef}>
+            <form onSubmit={handleFormSubmit}>
                 {edit && (
                     <h2 style={{margin: 0}}>
                         Editing

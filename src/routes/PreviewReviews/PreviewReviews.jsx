@@ -9,7 +9,7 @@ import {deleteRestaurantReview, getReviewsByUserId} from "../../firebase/firebas
 import {deleteReview, selectReview, selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
 import RestaurantImage from "../../common/components/RestaurantImage/RestaurantImage";
 import StarRating from "../../common/components/StarRating/StarRating";
-import ProfileNavigation from "../../common/components/ProfileNavigation/ProfileNavigation";
+import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 
 const PreviewReviews = () => {
 
@@ -50,7 +50,7 @@ const PreviewReviews = () => {
 
     return (
         <div className="preview-reviews-container">
-            <ProfileNavigation pageTitle="Reviews"/>
+            <ProfileNavigationView pageTitle="Reviews"/>
 
             <main className="reviews-container container">
                 {reviews && reviews.map(({id, rating, title, content, restaurantId, restaurantName, photoUrl}) => (

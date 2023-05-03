@@ -5,15 +5,14 @@ import Calendar from "react-calendar";
 import CheckInsCollage from "../../../CheckIns/CheckInsCollage/CheckInsCollage";
 
 import {getCheckInsAndRestaurantDataByUserId} from "../../../../firebase/firebase";
-import {getUserFromUserId} from '../../../../firebase/firebase';
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFire, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import CheckInsMap from "../../../CheckIns/CheckInsMap/CheckInsMap";
 import {displayRestaurant} from "../../../../features/map/mapSlice";
-import ProfileNavigation from "../../../../common/components/ProfileNavigation/ProfileNavigation";
+import ProfileNavigationView from "../../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import {selectDisplayedFriend} from "../../../../features/user/userSlice";
 
 const currentDate = new Date();
@@ -35,7 +34,11 @@ const FriendsCheckIns = () => {
         if (!displayedFriend) return;
 
         getCheckInsAndRestaurantDataByUserId(displayedFriend.id)
-            .then(data => setFriendCheckedInRestaurants(data));
+            .then(data => {
+                if (data) {
+                    setFriendCheckedInRestaurants(data);
+                }
+            });
     }, [displayedFriend]);
 
     const getFriendCheckedInRestaurant = (id) => {
@@ -151,7 +154,7 @@ const FriendsCheckIns = () => {
         <div className="check-ins-page-container">
             {displayedFriend && (
                 <>
-                    <ProfileNavigation pageTitle={`${displayedFriend.displayName}'s Check-ins`}/>
+                    <ProfileNavigationView pageTitle={`${displayedFriend.displayName}'s Check-ins`}/>
 
                     <div className="check-ins-page">
                         <div className="check-ins-map-container">

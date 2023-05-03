@@ -4,7 +4,7 @@ import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import SearchFeedback from "./SearchFeedback/SearchFeedback";
 import {useState} from "react";
 
-const SearchBoxView = ({handleInputChange, hasMatches}) => {
+const SearchBoxView = ({handleInputChange, hasMatches = true}) => {
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -27,7 +27,7 @@ const SearchBoxView = ({handleInputChange, hasMatches}) => {
                 />
             </div>
 
-            {!hasMatches && <SearchFeedback/>}
+            {searchQuery && !hasMatches && <SearchFeedback/>}
         </div>
     );
 };

@@ -31,6 +31,7 @@ import {getRestaurantById} from "../../firebase/firebase";
 import ReviewsSection from "./ReviewsSection/ReviewsSection";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
 import {faBookmark, faHeart, faCheckCircle, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
+import AdditionalDetailsView from "./AdditionalDetailsView/AdditionalDetailsView";
 
 const navLinksText = ["Interactions", "Website", "About", "Photos", "Hours", "Details", "Reviews"];
 
@@ -311,7 +312,7 @@ const DetailsPage = () => {
             </div>
 
             <div className="details-container">
-                <div id="Interactions" ref={interactionsRef} className="interactions">
+                <section id="Interactions" ref={interactionsRef} className="interactions">
                     <h2>Interactions</h2>
 
                     <div>
@@ -330,21 +331,21 @@ const DetailsPage = () => {
                             {interactions?.checkIns || "0"}
                         </div>
                     </div>
-                </div>
+                </section>
 
                 {website && (
-                    <div id="Website" ref={websiteRef} className="website">
+                    <section id="Website" ref={websiteRef} className="website">
                         <h2>Website</h2>
 
                         <Link to={website}>
                             {getDomainName(website)}
                             <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
                         </Link>
-                    </div>
+                    </section>
                 )}
 
 
-                <div id="About" ref={aboutRef} className="description">
+                <section id="About" ref={aboutRef} className="description">
                     <h2>About</h2>
 
                     <p>
@@ -367,57 +368,35 @@ const DetailsPage = () => {
                             {toggleLabel}
                         </button>
                     )}
-                </div>
+                </section>
 
 
-                <div id="Photos" ref={photosRef} className="pictures">
+                <section id="Photos" ref={photosRef} className="pictures">
                     <h2>Photos</h2>
                     <p>No photos available.</p>
-                </div>
+                </section>
 
-                <div id="Hours" ref={hoursRef} className="hours">
+                <section id="Hours" ref={hoursRef} className="hours">
                     <h2>Opening Times</h2>
 
                     {displayedHours.map((hour, index) => (
                         <p key={index}>{hour}</p>
                     ))}
-                </div>
+                </section>
 
-                <div id="Details" ref={detailsRef} className="more-details">
-                    <h2>More Details</h2>
+                <section id="Details" ref={detailsRef}>
+                    <AdditionalDetailsView
+                        formattedAddress={formattedAddress}
+                        price={price}
+                        priceLevel={priceLevel}
+                        primaryCuisine={primaryCuisine}
+                        dietaryRestrictions={dietaryRestrictions}
+                    />
+                </section>
 
-                    <div>
-                        <AdditionalDetail
-                            icon={faLocationDot}
-                            name="Location"
-                            content={formattedAddress}
-                        />
-
-                        <AdditionalDetail
-                            icon={faMoneyBillWave}
-                            name="Price"
-                            content={price || priceLevel || 'N/A'
-                            }/>
-
-                        <AdditionalDetail
-                            icon={faUtensils}
-                            name="Cuisine"
-                            content={primaryCuisine || 'N/A'}
-                        />
-
-                        {dietaryRestrictions && (
-                            <AdditionalDetail
-                                icon={faLeaf}
-                                name="Dietary Restrictions"
-                                content={dietaryRestrictions.join(', ')}
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div id="Reviews" ref={reviewsRef}>
+                <section id="Reviews" ref={reviewsRef}>
                     <ReviewsSection userId={userId} restaurant={restaurant}/>
-                </div>
+                </section>
             </div>
         </div>
     );

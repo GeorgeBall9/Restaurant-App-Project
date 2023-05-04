@@ -42,6 +42,12 @@ const ReviewsSection = ({userId, restaurant}) => {
         setDisplayedReviews(sortedReviews.slice(0, 3));
     }, [reviews]);
 
+    useEffect(() => {
+        if (!displayedReviews?.length) {
+            setReviewsHistogram(null);
+        }
+    }, [displayedReviews])
+
     const handleWriteReviewClick = () => {
         if (!userId) {
             navigate("/sign-in");

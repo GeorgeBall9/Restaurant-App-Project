@@ -39,13 +39,24 @@ const HomePage = () => {
         }
     }, [restaurants]);
 
+    const checkHighlyRecommended = async (id) => {
+        const restaurantData = await getRestaurantById(id);
+        return restaurantData && restaurantData.recommendations >= 10;
+    };
+
     return (
         <div className="home container">
             <Navigation view="home"/>
 
             <div className="restaurant-cards-container">
                 {restaurants ? (
-                    restaurants.map(restaurant => <HomeCard key={restaurant.id} restaurant={restaurant}/>)
+                    restaurants.map(restaurant => (
+                        <HomeCard
+                            key={restaurant.id}
+                            restaurant={restaurant}
+                            highlyRecommended={checkHighlyRecommended(restaurant.id)}
+                        />
+                    ))
                 ) : (
                     <NoResults
                         mainText="No restaurants found."

@@ -7,23 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { getRestaurantById } from "../../../firebase/firebase";
 import { useEffect, useState } from "react";
 
-const HomeCard = ({ restaurant }) => {
+const HomeCard = ({ restaurant, highlyRecommended }) => {
 
     const { id, name, rating, distance, price, primaryCuisine, photoUrl } = restaurant;
 
     const [isHighlyRecommended, setIsHighlyRecommended] = useState(false);
-
-    const checkHighlyRecommended = async (id) => {
-        const restaurantData = await getRestaurantById(id);
-        if (restaurantData && restaurantData.recommendations >= 10) {
-            setIsHighlyRecommended(true);
-        }
-    };
-
-    useEffect(() => {
-        checkHighlyRecommended(id);
-    }, [id]);
-
 
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
@@ -38,7 +26,7 @@ const HomeCard = ({ restaurant }) => {
 
     return (
         <div className="home-card" onClick={showRestaurantDetails}>
-            {isHighlyRecommended && (
+            {highlyRecommended && (
                 <div className="highlight-banner">Highly recommended</div>
             )}
 

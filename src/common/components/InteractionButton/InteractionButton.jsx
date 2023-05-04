@@ -1,8 +1,9 @@
+import "./InteractionButton.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const InteractionButton = ({icon, solidIcon, isSolid, handleClick, style}) => {
     return (
-        <button className="recommend-button" onClick={handleClick}>
+        <button className="interaction-button" onClick={handleClick}>
             {isSolid ? (
                 <FontAwesomeIcon icon={solidIcon} className="icon" style={style}/>
             ) : (

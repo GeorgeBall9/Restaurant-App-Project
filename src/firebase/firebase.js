@@ -996,7 +996,5 @@ const getQueriedPhotos = async (q) => {
         results.push({id: doc.id, ...doc.data()});
     });
 
-    console.log({results})
-
     return results;
 };

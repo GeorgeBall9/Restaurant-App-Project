@@ -1,6 +1,5 @@
 import "./Button.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useEffect, useState} from "react";
 
 const defaultStyles = {
     small: {
@@ -17,9 +16,9 @@ const defaultStyles = {
     }
 };
 
-const Button = ({className, handleClick, text, icon, size = "medium", active = true, type}) => {
+const Button = ({className, handleClick, text, icon, size = "medium", active = true, type, width, margin}) => {
 
-    const style = defaultStyles[size];
+    const style = {...defaultStyles[size], width, margin};
 
     const clickHandler = () => {
         if (active) {

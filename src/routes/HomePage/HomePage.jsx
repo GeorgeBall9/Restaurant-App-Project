@@ -24,10 +24,12 @@ const HomePage = () => {
     useEffect(() => {
         if (fetchStatus === "pending") {
             dispatch(showSpinner());
-        } else {
-            dispatch(hideSpinner());
+        } else if (fetchStatus === "idle") {
+            if (!restaurants || displayedRestaurants) {
+                dispatch(hideSpinner());
+            }
         }
-    }, [fetchStatus]);
+    }, [fetchStatus, restaurants, displayedRestaurants]);
 
     const fetchRestaurantDataFromDB = async () => {
         return Promise.all(restaurants
@@ -50,7 +52,7 @@ const HomePage = () => {
             <Navigation view="home"/>
 
             <div className="restaurant-cards-container">
-                {displayedRestaurants ? (
+                {displayedRestaurants && (
                     displayedRestaurants.map(restaurant => (
                         <HomeCard
                             key={restaurant.id}
@@ -58,7 +60,9 @@ const HomePage = () => {
                             highlyRecommended={checkHighlyRecommended(restaurant)}
                         />
                     ))
-                ) : (
+                )}
+
+                {fetchStatus === "idle" && !restaurants && (
                     <NoResults
                         mainText="No restaurants found."
                         subText="Why not try looking for something else?"

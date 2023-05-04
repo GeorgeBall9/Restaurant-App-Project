@@ -42,6 +42,12 @@ const ReviewsSection = ({userId, restaurant}) => {
         setDisplayedReviews(sortedReviews.slice(0, 3));
     }, [reviews]);
 
+    useEffect(() => {
+        if (!displayedReviews?.length) {
+            setReviewsHistogram(null);
+        }
+    }, [displayedReviews])
+
     const handleWriteReviewClick = () => {
         if (!userId) {
             navigate("/sign-in");
@@ -101,11 +107,15 @@ const ReviewsSection = ({userId, restaurant}) => {
                 <PrimaryButton
                     text={isReviewFormVisible ? "Close Review Form" : "Write a Review"}
                     handleClick={handleWriteReviewClick}
+                    width="fit-content"
+                    margin="1em auto"
                 />
             ) : (
                 <PrimaryButton
                     text={"See all reviews"}
                     handleClick={handleAllReviewsClick}
+                    width="fit-content"
+                    margin="1em auto"
                 />
             )}
 

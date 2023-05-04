@@ -15,7 +15,7 @@ const HomeCard = ({restaurant, highlyRecommended}) => {
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
 
     const showRestaurantDetails = (event) => {
-        if (event.target.closest(".bookmark-button")) return;
+        if (event.target.closest(".interaction-button")) return;
 
         navigate(`/details/${restaurant.id}`);
     };

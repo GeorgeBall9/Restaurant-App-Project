@@ -7,6 +7,8 @@ import {useNavigate} from "react-router-dom";
 
 const HomeCard = ({restaurant, highlyRecommended}) => {
 
+    console.log(highlyRecommended)
+
     const {name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
 
     const navigate = useNavigate();

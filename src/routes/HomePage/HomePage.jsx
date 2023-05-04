@@ -37,13 +37,15 @@ const HomePage = () => {
     useEffect(() => {
         if (restaurants) {
             fetchRestaurantDataFromDB()
-                .then(results => setDisplayedRestaurants(results));
+                .then(results => {
+                    setDisplayedRestaurants(results)
+                    console.log({results})
+                });
         }
     }, [restaurants]);
 
-    const checkHighlyRecommended = async (id) => {
-        const restaurantData = await getRestaurantById(id);
-        return restaurantData && restaurantData.recommendations >= 10;
+    const checkHighlyRecommended = (restaurant) => {
+        return restaurant.recommendations >= 10;
     };
 
     return (
@@ -56,7 +58,7 @@ const HomePage = () => {
                         <HomeCard
                             key={restaurant.id}
                             restaurant={restaurant}
-                            highlyRecommended={checkHighlyRecommended(restaurant.id)}
+                            highlyRecommended={checkHighlyRecommended(restaurant)}
                         />
                     ))
                 ) : (

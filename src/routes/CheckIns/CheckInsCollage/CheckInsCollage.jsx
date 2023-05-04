@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { selectUserId } from "../../../features/user/userSlice";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
+import { getUserFromUserId, getCheckInsAndRestaurantDataByUserId } from "../../../firebase/firebase";
 
 export const getPhotoUrls = async (photoPaths) => {
     if (!photoPaths?.length) return [];
@@ -27,6 +28,9 @@ export const getPhotoUrls = async (photoPaths) => {
 const CheckInsCollage = ({ checkIn, onClose }) => {
 
     const userId = useSelector(selectUserId);
+
+    const [checkInsData, setCheckInsData] = useState([]);
+    const [userData, setUserData] = useState(null);
 
     const [restaurant, setRestaurant] = useState(null);
     const [photos, setPhotos] = useState([]);
@@ -51,6 +55,18 @@ const CheckInsCollage = ({ checkIn, onClose }) => {
                 }
             });
     }, [checkIn]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const user = await getUserFromUserId(userId);
+            setUserData(user);
+
+            const checkIns = await getCheckInsAndRestaurantDataByUserId(userId);
+            setCheckInsData(checkIns);
+        };
+
+        fetchData();
+    }, [userId]);
 
     const handleBackClick = () => {
         setIsVisible(false);
@@ -104,6 +120,8 @@ const CheckInsCollage = ({ checkIn, onClose }) => {
         }
     };
 
+    console.log("Friend data (in CheckInsCollage):", checkIn?.friendData);
+
     return (
         <div className={`collage-popup ${isVisible ? "visible" : ""} ${isExpanded ? "expanded" : ""}`}>
             <div>
@@ -140,7 +158,7 @@ const CheckInsCollage = ({ checkIn, onClose }) => {
                             <CheckInsCard
                                 restaurant={restaurant?.name}
                                 date={checkIn?.date}
-                                userData={userId}
+                                userData={userData}
                                 friendData={checkIn?.friendData}
                             />
                         )}

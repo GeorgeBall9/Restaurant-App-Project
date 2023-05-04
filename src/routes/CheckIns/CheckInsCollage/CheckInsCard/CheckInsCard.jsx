@@ -3,9 +3,11 @@ import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import { useEffect, useState } from "react";
 
 const CheckInsCard = ({ restaurant, date, userData, friendData }) => {
+    
     const [allUsers, setAllUsers] = useState([]);
-
+    
     useEffect(() => {
+        if (!userData || !friendData) return;
         setAllUsers([userData, ...friendData]);
     }, [userData, friendData]);
 
@@ -16,16 +18,20 @@ const CheckInsCard = ({ restaurant, date, userData, friendData }) => {
     });
 
     const renderUserIcon = (user) => {
+        console.log("Rendering user icon for:", user);
         return (
             <div className="user-icon-wrapper">
                 <UserIcon
                     size="small"
-                    colour={user.iconColor}
+                    colour={user.iconColour}
                     imageUrl={user.profilePhotoUrl}
                 />
             </div>
         );
     };
+
+    console.log("User data:", userData);
+    console.log("Friend data:", friendData);
 
     return (
         <div className="check-ins-card">

@@ -1,4 +1,4 @@
-import "./ReviewsSection.css";
+import "./ReviewsView.css";
 import ReviewsList from "../../../common/components/ReviewsList/ReviewsList";
 import ReviewForm from "../../../common/components/ReviewForm/ReviewForm";
 import {useNavigate} from "react-router-dom";
@@ -13,7 +13,7 @@ import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronRight, faXmark} from "@fortawesome/free-solid-svg-icons";
 
-const ReviewsSection = ({userId, restaurant}) => {
+const ReviewsView = ({userId, restaurant}) => {
 
     const restaurantId = restaurant?.id;
 
@@ -172,4 +172,4 @@ const ReviewsSection = ({userId, restaurant}) => {
     );
 };
 
-export default ReviewsSection;
+export default ReviewsView;

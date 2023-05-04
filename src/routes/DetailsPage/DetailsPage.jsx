@@ -11,7 +11,7 @@ import {
     faArrowUpRightFromSquare, faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import CheckInButton from "./CheckInButton/CheckInButton";
+import CheckInButton from "./ImageAndInfoView/CheckInButton/CheckInButton";
 import CheckInConfirmationPopup
     from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import {
@@ -24,12 +24,13 @@ import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectUserId} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
 import {getRestaurantById} from "../../firebase/firebase";
-import ReviewsSection from "./ReviewsSection/ReviewsSection";
+import ReviewsView from "./ReviewsView/ReviewsView";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
 import {faBookmark, faHeart, faCheckCircle, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import AdditionalDetailsView from "./AdditionalDetailsView/AdditionalDetailsView";
 import HoursView from "./HoursView/HoursView";
 import ImageAndInfoView from "./ImageAndInfoView/ImageAndInfoView";
+import InteractionsView from "./InteractionsView/InteractionsView";
 
 const navLinksText = ["Interactions", "Website", "About", "Hours", "Details", "Reviews"];
 
@@ -290,25 +291,8 @@ const DetailsPage = () => {
             </div>
 
             <div className="details-container">
-                <section id="Interactions" ref={interactionsRef} className="interactions">
-                    <h2>Interactions</h2>
-
-                    <div>
-                        <div className="stat-container">
-                            <FontAwesomeIcon icon={faHeart} className="icon"/>
-                            {interactions?.recommendations || "0"}
-                        </div>
-
-                        <div className="stat-container">
-                            <FontAwesomeIcon icon={faBookmark} className="icon"/>
-                            {interactions?.bookmarks || "0"}
-                        </div>
-
-                        <div className="stat-container">
-                            <FontAwesomeIcon icon={faCheckCircle} className="icon"/>
-                            {interactions?.checkIns || "0"}
-                        </div>
-                    </div>
+                <section id="Interactions" ref={interactionsRef}>
+                    <InteractionsView {...interactions}/>
                 </section>
 
                 {website && (
@@ -363,7 +347,7 @@ const DetailsPage = () => {
                 </section>
 
                 <section id="Reviews" ref={reviewsRef}>
-                    <ReviewsSection userId={userId} restaurant={restaurant}/>
+                    <ReviewsView userId={userId} restaurant={restaurant}/>
                 </section>
             </div>
         </div>

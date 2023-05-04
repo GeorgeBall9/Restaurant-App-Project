@@ -1,5 +1,5 @@
 import "./ImageAndInfoView.css";
-import CheckInButton from "../CheckInButton/CheckInButton";
+import CheckInButton from "./CheckInButton/CheckInButton";
 import StarRating from "../../../common/components/StarRating/StarRating";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationDot, faPhone} from "@fortawesome/free-solid-svg-icons";

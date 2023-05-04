@@ -3,16 +3,16 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleCheck as faSolidCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
-import {selectUserId} from "../../../features/user/userSlice";
+import {selectUserId} from "../../../../features/user/userSlice";
 import {useEffect, useState} from "react";
-import {showOverlay} from "../../../features/overlay/overlaySlice";
+import {showOverlay} from "../../../../features/overlay/overlaySlice";
 import {
     selectCheckedIn,
     setCheckedInStatus,
     showCheckInConfirmation
-} from "../../../features/checkInConfirmation/checkInConfirmationSlice";
+} from "../../../../features/checkInConfirmation/checkInConfirmationSlice";
 import {useNavigate} from "react-router-dom";
-import {getLastCheckInToRestaurantByUserId} from "../../../firebase/firebase";
+import {getLastCheckInToRestaurantByUserId} from "../../../../firebase/firebase";
 
 const CheckInButton = ({restaurantId}) => {
 

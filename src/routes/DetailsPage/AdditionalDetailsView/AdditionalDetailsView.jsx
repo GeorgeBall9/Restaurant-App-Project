@@ -1,5 +1,5 @@
 import "./AdditionalDetailsView.css";
-import AdditionalDetail from "../AdditionalDetail/AdditionalDetail";
+import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
 import {faLeaf, faLocationDot, faMoneyBillWave, faUtensils} from "@fortawesome/free-solid-svg-icons";
 
 const AdditionalDetailsView = ({formattedAddress, price, priceLevel, primaryCuisine, dietaryRestrictions}) => {

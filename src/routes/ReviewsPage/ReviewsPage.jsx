@@ -9,10 +9,7 @@ import {getRestaurantById, getReviewsByRestaurantId} from "../../firebase/fireba
 import {selectUserId} from "../../features/user/userSlice";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice";
-import {
-    faChevronDown,
-    faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
+import {faChevronDown, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import SortFiltersView from "./SortFiltersView/SortFiltersView";
 import Overlay from "../../common/components/Overlay/Overlay";

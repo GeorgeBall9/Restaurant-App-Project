@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectFriendRequests, selectFriends, selectUserId, setFriends} from "../../../features/user/userSlice";
 import {getUserFromUserId, sendFriendRequestToUser} from "../../../firebase/firebase";
 
-const AddFriendPopupView = ({handleNoClick, closePopup}) => {
+const AddFriendPopupView = ({closePopup}) => {
 
     const dispatch = useDispatch();
 
@@ -22,6 +22,13 @@ const AddFriendPopupView = ({handleNoClick, closePopup}) => {
         const updatedFriends = await sendFriendRequestToUser(userId, addFriendId);
         dispatch(setFriends(updatedFriends));
         setAddFriendId("");
+        closePopup();
+    };
+
+    const handleNoClick = () => {
+        setAddFriendId("");
+        setFeedback("");
+        setFoundUser(null);
         closePopup();
     };
 

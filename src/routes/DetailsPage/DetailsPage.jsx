@@ -29,6 +29,7 @@ import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
 import {faBookmark, faHeart, faCheckCircle, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import AdditionalDetailsView from "./AdditionalDetailsView/AdditionalDetailsView";
 import HoursView from "./HoursView/HoursView";
+import ImageAndInfoView from "./ImageAndInfoView/ImageAndInfoView";
 
 const navLinksText = ["Interactions", "Website", "About", "Hours", "Details", "Reviews"];
 
@@ -264,38 +265,18 @@ const DetailsPage = () => {
                 showName={showNameInBanner}
             />
 
-            <div className="image-and-info-container">
-                <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
-
-                <div className="restaurant-info">
-                    <div className="title-container">
-                        <h1 ref={nameRef}>{name}</h1>
-
-                        <CheckInButton restaurantId={id}/>
-                    </div>
-
-                    <StarRating rating={starRating}/>
-
-                    <div className="price">
-                        <p>{priceLevel !== null ? priceLevel : price}</p>
-                    </div>
-
-                    <div className="address info">
-                        <FontAwesomeIcon icon={faLocationDot} className="icon"/>
-                        <p>{formattedAddress}</p>
-                    </div>
-
-                    {phone && (
-                        <div className="phone info">
-                            <FontAwesomeIcon icon={faPhone} className="icon"/>
-                            <p>{phone}</p>
-                        </div>
-                    )}
-
-                    <div className="open-status">{isOpen ? 'Open Now' : 'Closed'}</div>
-
-                </div>
-            </div>
+            <ImageAndInfoView
+                ref={nameRef}
+                id={id}
+                name={name}
+                photoUrl={photoUrl}
+                starRating={starRating}
+                price={price}
+                priceLevel={priceLevel}
+                formattedAddress={formattedAddress}
+                phone={phone}
+                isOpen={isOpen}
+            />
 
             <div id="details-page-nav" className="details-page-navigation" style={navigationStyle}>
                 {navLinksText.map((text, i) => (

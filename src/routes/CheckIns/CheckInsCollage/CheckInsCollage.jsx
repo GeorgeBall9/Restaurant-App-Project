@@ -140,8 +140,8 @@ const CheckInsCollage = ({ checkIn, onClose }) => {
                             <CheckInsCard
                                 restaurant={restaurant?.name}
                                 date={checkIn?.date}
-                            // userIcon=
-                            // friendsIcons=
+                                userData={userId}
+                                friendData={checkIn?.friendData}
                             />
                         )}
                         <CustomCollage

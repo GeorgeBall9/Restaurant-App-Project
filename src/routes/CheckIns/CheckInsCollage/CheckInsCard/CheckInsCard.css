@@ -6,7 +6,6 @@
     background-color: white;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    margin-bottom: 16px;
   }
   
   .check-ins-card .card-header {
@@ -36,6 +35,7 @@
   
   .check-ins-card .visit-date {
     font-size: var(--font-size-smaller);
+    font-weight: var(--font-weight-bold-1);
     color: var(--dark-theme);
   }
   

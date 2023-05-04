@@ -136,6 +136,7 @@ const CheckIns = () => {
         return <TileContent date={date} />;
     };
 
+
     return (
         <div className="check-ins-page-container">
             <ProfileNavigationView pageTitle="Check-ins" />

@@ -3,7 +3,7 @@ import ReviewForm from "../ReviewForm/ReviewForm";
 import ReviewCard from "./ReviewCard/ReviewCard";
 import {useState} from "react";
 
-const ReviewsList = ({reviews, userId}) => {
+const ReviewsList = ({restaurant, reviews, userId}) => {
 
     const [editingReviewId, setEditingReviewId] = useState(null);
 
@@ -25,6 +25,7 @@ const ReviewsList = ({reviews, userId}) => {
 
                         return <ReviewForm
                             key={id}
+                            restaurant={restaurant}
                             userId={authorId}
                             edit={true}
                             reviewId={id}

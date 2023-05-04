@@ -447,7 +447,8 @@ export const addRestaurantReview = async (userId, restaurant, formData, photoId)
     const review = {id: reviewDocRef.id, ...newReview};
 
     const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
-    return {...review, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
+    const photoUrl = review.photoId ? await getPhotoUrlFromId(review.photoId) : null;
+    return {...review, photoUrl, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
 };
 
 // delete restaurant review
@@ -473,7 +474,13 @@ export const updateRestaurantReview = async (reviewId, updatedData) => {
 
     const docSnap = await getDoc(docRef);
 
-    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
+    const review = docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
+
+    if (!review) return null;
+
+    const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
+    const photoUrl = review.photoId ? await getPhotoUrlFromId(review.photoId) : null;
+    return {...review, photoUrl, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
 };
 
 // report restaurant review

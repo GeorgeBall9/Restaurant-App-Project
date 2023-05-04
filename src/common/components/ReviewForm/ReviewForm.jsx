@@ -1,5 +1,5 @@
 import './ReviewForm.css';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
     addRestaurantReview,
     createNewRestaurantPhotoDoc,
@@ -32,6 +32,10 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     const [uploadedPhotoId, setUploadedPhotoId] = useState(null);
     const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
     const {rating, visitDate, title, content} = formData;
+
+    useEffect(() => {
+        console.log("review form", {restaurant})
+    }, [restaurant]);
 
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
         const photoId = await createNewRestaurantPhotoDoc(userId, restaurant.id, photoStoragePath);
@@ -71,7 +75,9 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
             const data = {rating: +rating, visitDate: +new Date(visitDate), title, content};
 
             if (edit) {
-                const updatedReview = await updateRestaurantReview(reviewId, data);
+                const updatedData = {...data, photoId: uploadedPhotoId};
+                const updatedReview = await updateRestaurantReview(reviewId, updatedData);
+                console.log({updatedReview})
                 dispatch(updateReview({reviewId, updatedReview: {...updatedReview}}));
                 handleCancel();
             } else {

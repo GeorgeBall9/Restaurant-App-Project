@@ -138,6 +138,10 @@ const ReviewsPage = () => {
         setSortFiltersVisible(false);
     };
 
+    useEffect(() => {
+        console.log("review page", {restaurant})
+    }, [restaurant]);
+
     return (
         <div className="reviews-page">
             <ProfileNavigationView
@@ -174,7 +178,7 @@ const ReviewsPage = () => {
                     <ReviewForm restaurant={restaurant} userId={userId}/>
                 )}
 
-                <ReviewsList reviews={displayedReviews} userId={userId}/>
+                <ReviewsList restaurant={restaurant} reviews={displayedReviews} userId={userId}/>
             </main>
         </div>
     );

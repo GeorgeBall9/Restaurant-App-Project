@@ -1,5 +1,5 @@
-.bookmarks-page-container {
+.bookmarks-view {
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 1.5em;
 }

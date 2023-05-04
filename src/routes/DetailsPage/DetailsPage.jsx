@@ -26,6 +26,7 @@ import HoursView from "./HoursView/HoursView";
 import ImageAndInfoView from "./ImageAndInfoView/ImageAndInfoView";
 import InteractionsView from "./InteractionsView/InteractionsView";
 import WebsiteView from "./WebsiteView/WebsiteView";
+import AboutView from "./AboutView/AboutView";
 
 const navLinksText = ["Interactions", "Website", "About", "Hours", "Details", "Reviews"];
 
@@ -55,8 +56,6 @@ const DetailsPage = () => {
     const reviewsRef = useRef(null);
 
     const [restaurant, setRestaurant] = useState(null);
-    const [isExpanded, setIsExpanded] = useState(false);
-    const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
     const [activeNavLink, setActiveNavLink] = useState("Interactions");
     const [navigationStyle, setNavigationStyle] = useState({top: 0});
@@ -227,11 +226,6 @@ const DetailsPage = () => {
     const displayedHours = groupDaysWithSameHours(hours);
     const isOpen = checkIsOpen(restaurant);
 
-    const handleToggleDescription = () => {
-        setIsExpanded(!isExpanded);
-        setToggleLabel(isExpanded ? 'Read More' : 'Read Less');
-    };
-
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
     const handleNavLinkClick = (text) => {
@@ -301,28 +295,7 @@ const DetailsPage = () => {
 
 
                 <section id="About" ref={aboutRef} className="description">
-                    <h2>About</h2>
-
-                    <p>
-                        {description ? (
-                            isExpanded ? (
-                                description
-                            ) : (
-                                description.slice(0, 200) + (description.length > 100 ? '...' : '')
-                            )
-                        ) : (
-                            'No description available.'
-                        )}
-                    </p>
-
-                    {description.length > 200 && (
-                        <button
-                            className="read-more-button"
-                            onClick={handleToggleDescription}
-                        >
-                            {toggleLabel}
-                        </button>
-                    )}
+                    <AboutView description={description}/>
                 </section>
 
                 <section id="Hours" ref={hoursRef} className="hours">

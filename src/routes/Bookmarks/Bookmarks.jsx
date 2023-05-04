@@ -47,6 +47,7 @@ const Bookmarks = () => {
     const userBookmarks = useSelector(selectBookmarks);
 
     const [bookmarkedRestaurants, setBookmarkedRestaurants] = useState([]);
+    const [fetchStatus, setFetchStatus] = useState("pending");
 
     useEffect(() => {
         if (!userId) {
@@ -73,6 +74,8 @@ const Bookmarks = () => {
         setBookmarkData().then(() => {
             setBookmarkedRestaurants(bookmarkedRestaurants => bookmarkedRestaurants
                 .sort(a => a.isOpen ? -1 : 1));
+
+            setFetchStatus("idle");
         });
     }, [userBookmarks]);
 
@@ -80,9 +83,11 @@ const Bookmarks = () => {
         <div className="bookmarks-page-container">
             <ProfileNavigationView pageTitle="Bookmarks"/>
 
-            {bookmarkedRestaurants.length > 0 ? (
+            {bookmarkedRestaurants.length > 0 && (
                 <BookmarksView bookmarkedRestaurants={bookmarkedRestaurants}/>
-            ) : (
+            )}
+
+            {!bookmarkedRestaurants.length && fetchStatus === "idle" && (
                 <NoResults
                     mainText="You haven't bookmarked any restaurants yet."
                     subText="Bookmarked restaurants will appear here!"

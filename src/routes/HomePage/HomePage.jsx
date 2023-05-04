@@ -39,7 +39,9 @@ const HomePage = () => {
 
             <div className="restaurant-cards-container">
                 <RestaurantsList />
-                {restaurants && restaurants.length === 0 && <NoResults mainText="No restaurants found." subText="Why not try looking for something else?" />}
+                {restaurants && restaurants.length === 0 && (
+                    <NoResults mainText="No restaurants found." subText="Why not try looking for something else?" />
+                )}
             </div>
         </div>
     );

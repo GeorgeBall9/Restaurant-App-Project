@@ -31,6 +31,7 @@ import AdditionalDetailsView from "./AdditionalDetailsView/AdditionalDetailsView
 import HoursView from "./HoursView/HoursView";
 import ImageAndInfoView from "./ImageAndInfoView/ImageAndInfoView";
 import InteractionsView from "./InteractionsView/InteractionsView";
+import {deselectReview} from "../../features/reviews/reviewsSlice";
 
 const navLinksText = ["Interactions", "Website", "About", "Hours", "Details", "Reviews"];
 
@@ -49,6 +50,7 @@ const DetailsPage = () => {
     const checkInFeedbackIsVisible = useSelector(selectCheckInFeedbackIsVisible);
     const addedCheckIn = useSelector(selectAddedCheckIn);
 
+    const bannerRef = useRef(null);
     const nameRef = useRef(null);
     const interactionsRef = useRef(null);
     const websiteRef = useRef(null);
@@ -105,6 +107,16 @@ const DetailsPage = () => {
                 setInteractions(foundInteractions);
             });
     }, [restaurant]);
+
+    useEffect(() => {
+        if (!bannerRef.current) return;
+
+        setNavigationStyle(navigationStyle => {
+            const style = {...navigationStyle};
+            style.top = bannerRef.current.offsetHeight - 2;
+            return style;
+        });
+    }, [bannerRef.current]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -242,12 +254,9 @@ const DetailsPage = () => {
         });
     };
 
-    const setNavTopPosition = (top) => {
-        setNavigationStyle(navigationStyle => {
-            const style = {...navigationStyle};
-            style.top = top;
-            return style;
-        });
+    const handleBackClick = () => {
+        dispatch(deselectReview());
+        navigate("/");
     };
 
     return (
@@ -260,10 +269,11 @@ const DetailsPage = () => {
             </div>
 
             <Banner
+                ref={bannerRef}
                 restaurant={restaurant}
                 scrollPosition={scrollPosition}
-                setNavTopPosition={setNavTopPosition}
                 showName={showNameInBanner}
+                handleBackClick={handleBackClick}
             />
 
             <ImageAndInfoView

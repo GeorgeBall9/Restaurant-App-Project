@@ -3,7 +3,7 @@ import ReviewForm from "../../ReviewForm/ReviewForm";
 import ReviewCard from "./ReviewCard/ReviewCard";
 import {useState} from "react";
 
-const ReviewsListView = ({reviews, userId, preview = false}) => {
+const ReviewsListView = ({reviews, userId}) => {
 
     const [editingReviewId, setEditingReviewId] = useState(null);
 
@@ -13,9 +13,7 @@ const ReviewsListView = ({reviews, userId, preview = false}) => {
                 <p>No reviews available</p>
             )}
 
-            {reviews && [...reviews]
-                .slice(0, (preview ? 3 : reviews.length))
-                .map(review => {
+            {reviews && reviews.map(review => {
                     let {id, authorId, title, rating, content, visitDate} = review;
 
                     if (editingReviewId === id) {

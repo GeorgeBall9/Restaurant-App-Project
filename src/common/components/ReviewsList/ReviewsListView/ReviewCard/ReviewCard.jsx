@@ -1,10 +1,10 @@
 import "./ReviewCard.css";
 import UserIcon from "../../../UserIcon/UserIcon";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleUp as faSolidCircleUp, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import ReportButton from "../../ReportButton/ReportButton";
 import StarRating from "../../../StarRating/StarRating";
-import {faCircleUp, faImages} from "@fortawesome/free-regular-svg-icons";
+import {faImages} from "@fortawesome/free-regular-svg-icons";
 import {useState} from "react";
 import {addUserReactionToReview, deleteRestaurantReview} from "../../../../../firebase/firebase";
 import {deleteReview, selectReviews, updateReview} from "../../../../../features/reviews/reviewsSlice";
@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import PrimaryButton from "../../../PrimaryButton/PrimaryButton";
 import InversePrimaryButton from "../../../InversePrimaryButton/InversePrimaryButton";
 import VoteButton from "./VoteButton/VoteButton";
+import InteractionButton from "../../../InteractionButton/InteractionButton";
 
 const ReviewCard = ({review, userId, handleEditClick}) => {
 
@@ -100,13 +101,12 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
 
                 {authorId === userId && (
                     <div className="buttons-container">
-                        <button onClick={() => handleEditClick(id)}>
-                            <FontAwesomeIcon icon={faPen} className="icon"/>
-                        </button>
+                        <InteractionButton icon={faPen} handleClick={() => handleEditClick(id)}/>
 
-                        <button onClick={() => setConfirmationPopupIsVisible(true)}>
-                            <FontAwesomeIcon icon={faTrash} className="icon"/>
-                        </button>
+                        <InteractionButton
+                            icon={faTrash}
+                            handleClick={() => setConfirmationPopupIsVisible(true)}
+                        />
                     </div>
                 )}
 
@@ -148,6 +148,7 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
                         </button>
                     )}
                 </div>
+
                 {showReviewPhotos && (
                     <div className={`review-photos${showReviewPhotos ? " visible" : ""}`}>
                         <div onClick={() => handlePhotoClick(photoUrl)}>

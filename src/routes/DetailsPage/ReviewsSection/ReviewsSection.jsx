@@ -1,19 +1,19 @@
-import "./ReviewsView.css";
+import "./ReviewsSection.css";
 import ReviewsList from "../../../common/components/ReviewsList/ReviewsList";
 import ReviewForm from "../../../common/components/ReviewForm/ReviewForm";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getReviewsByRestaurantId} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
-import {selectReviews, setReviews, sortReviews} from "../../../features/reviews/reviewsSlice";
+import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
 import StarRating from "../../../common/components/StarRating/StarRating";
 import ReviewsGraph from "./ReviewsGraph/ReviewsGraph";
-import {options} from "../../../features/restaurants/restaurantsSlice";
 import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronRight, faXmark} from "@fortawesome/free-solid-svg-icons";
+import ReviewsListView from "../../../common/components/ReviewsList/ReviewsListView/ReviewsListView";
 
-const ReviewsView = ({userId, restaurant}) => {
+const ReviewsSection = ({userId, restaurant}) => {
 
     const restaurantId = restaurant?.id;
 
@@ -144,11 +144,7 @@ const ReviewsView = ({userId, restaurant}) => {
                 </div>
             )}
 
-            <ReviewsList
-                reviews={displayedReviews}
-                userId={userId}
-                preview={true}
-            />
+            <ReviewsListView reviews={displayedReviews} userId={userId}/>
 
             {allReviewsVisible && (
                 <button
@@ -172,4 +168,4 @@ const ReviewsView = ({userId, restaurant}) => {
     );
 };
 
-export default ReviewsView;
+export default ReviewsSection;

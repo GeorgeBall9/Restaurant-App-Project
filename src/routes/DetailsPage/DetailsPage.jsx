@@ -18,7 +18,7 @@ import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectUserId} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
 import {getRestaurantById} from "../../firebase/firebase";
-import ReviewsView from "./ReviewsView/ReviewsView";
+import ReviewsSection from "./ReviewsSection/ReviewsSection";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import AdditionalDetailsView from "./AdditionalDetailsView/AdditionalDetailsView";
@@ -50,7 +50,6 @@ const DetailsPage = () => {
     const interactionsRef = useRef(null);
     const websiteRef = useRef(null);
     const aboutRef = useRef(null);
-    const photosRef = useRef(null);
     const hoursRef = useRef(null);
     const detailsRef = useRef(null);
     const reviewsRef = useRef(null);
@@ -122,7 +121,7 @@ const DetailsPage = () => {
             const navHeight = document.getElementById("details-page-nav")?.getBoundingClientRect().height;
             const adjustment = bannerHeight + navHeight;
 
-            const activeSection = [interactionsRef, websiteRef, aboutRef, photosRef, hoursRef, detailsRef, reviewsRef]
+            const activeSection = [interactionsRef, websiteRef, aboutRef, hoursRef, detailsRef, reviewsRef]
                 .find(({current}) => {
                     if (!current) return false;
 
@@ -229,8 +228,10 @@ const DetailsPage = () => {
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
     const handleNavLinkClick = (text) => {
-        const elementRef = [interactionsRef, websiteRef, aboutRef, photosRef, hoursRef, detailsRef, reviewsRef]
+        const elementRef = [interactionsRef, websiteRef, aboutRef, hoursRef, detailsRef, reviewsRef]
             .find(({current}) => current.id === text)?.current;
+
+        if (!elementRef) return;
 
         const elementPosition = elementRef.offsetTop;
         const bannerHeight = document.getElementById("banner").getBoundingClientRect().height;
@@ -313,7 +314,7 @@ const DetailsPage = () => {
                 </section>
 
                 <section id="Reviews" ref={reviewsRef}>
-                    <ReviewsView userId={userId} restaurant={restaurant}/>
+                    <ReviewsSection userId={userId} restaurant={restaurant}/>
                 </section>
             </div>
         </div>

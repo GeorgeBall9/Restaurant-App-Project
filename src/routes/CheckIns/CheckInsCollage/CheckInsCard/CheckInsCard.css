@@ -38,4 +38,5 @@
   
   .check-ins-card .visit-date span {
     font-weight: var(--font-weight-bold-2);
+    margin-left: 0.25em;
   }

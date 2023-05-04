@@ -6,7 +6,7 @@ import {
     getUserFromUserId, rejectFriendRequest,
     sendFriendRequestToUser
 } from "../../firebase/firebase";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
     removeFriend,
     removeFriendRequest,
@@ -19,14 +19,9 @@ import {
 import {resetSearchQuery} from "../../features/filters/filtersSlice";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import {faCircleCheck, faLink, faMagnifyingGlass, faPlus} from "@fortawesome/free-solid-svg-icons";
-import FormField from "../../common/components/FormField/FormField";
-import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
-import SecondaryButton from "../../common/components/SecondaryButton/SecondaryButton";
 import FriendRequestCard from "./FriendCards/FriendRequestCard/FriendRequestCard";
 import PendingFriendCard from "./FriendCards/PendingFriendCard/PendingFriendCard";
 import ConfirmedFriendCard from "./FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
-import FriendRequestsView from "./FriendRequestsView/FriendRequestsView";
-import FriendsView from "./FriendsView/FriendsView";
 import AddFriendPopupView from "./AddFriendPopupView/AddFriendPopupView";
 import NoResults from "../../common/components/NoResults/NoResults";
 
@@ -146,7 +141,7 @@ const FriendsPage = () => {
     const calculateMutualFriends = (userFriends) => {
         let mutualFriends = 0;
 
-        userFriends?.forEach(({ userId: friendId, status }) => {
+        userFriends?.forEach(({userId: friendId, status}) => {
             if (status === "confirmed" && friends.some(f => f.id === friendId)) {
                 mutualFriends++;
             }
@@ -250,25 +245,68 @@ const FriendsPage = () => {
                     />
                 )}
 
-                {display === "requests" && (
-                    <FriendRequestsView
-                        friendRequests={displayedFriendRequests}
-                        calculateMutualFriends={calculateMutualFriends}
-                        handleConfirmClick={handleConfirmClick}
-                        handleDeleteClick={handleDeleteClick}
-                    />
-                )}
+                {display === "requests" && (displayedFriendRequests?.length ? (
+                    displayedFriendRequests
+                        .map(({id, displayName, iconColour, profilePhotoUrl, friends: userFriends}) => (
+                        <FriendRequestCard
+                            key={id}
+                            displayName={displayName}
+                            iconColour={iconColour}
+                            profilePhotoUrl={profilePhotoUrl}
+                            mutualFriends={calculateMutualFriends(userFriends)}
+                            handleConfirm={() => handleConfirmClick(id)}
+                            handleDelete={() => handleDeleteClick(id)}
+                        />
+                    ))) : (
+                    <NoResults mainText="You do not currently have any friend requests" />
+                ))}
 
 
-                {display === "friends" && (
-                    <FriendsView
-                        friends={displayedFriends}
-                        calculateMutualFriends={calculateMutualFriends}
-                        handleCancelClick={handleCancelClick}
-                        handleProfileClick={handleProfileClick}
-                        handleRemoveClick={handleRemoveClick}
+                {display === "friends" && (displayedFriends?.length ? (
+                    <div className="friend-icons-container">
+                        {[...displayedFriends]
+                            .sort((a, b) => {
+                                if (a.status === "pending") {
+                                    return -1;
+                                } else if (b.status === "pending") {
+                                    return 1;
+                                } else {
+                                    return 0;
+                                }
+                            })
+                            .map(({id, displayName, iconColour, profilePhotoUrl, status, friends: userFriends}) => {
+                                if (status === "pending") {
+                                    return (
+                                        <PendingFriendCard
+                                            key={id}
+                                            displayName={displayName}
+                                            iconColour={iconColour}
+                                            profilePhotoUrl={profilePhotoUrl}
+                                            mutualFriends={calculateMutualFriends(userFriends)}
+                                            handleCancelClick={() => handleCancelClick(id)}
+                                        />
+                                    )
+                                } else {
+                                    return (
+                                        <ConfirmedFriendCard
+                                            key={id}
+                                            displayName={displayName}
+                                            iconColour={iconColour}
+                                            profilePhotoUrl={profilePhotoUrl}
+                                            mutualFriends={calculateMutualFriends(userFriends)}
+                                            handleProfileClick={() => handleProfileClick(id)}
+                                            handleRemoveClick={() => handleRemoveClick(id)}
+                                        />
+                                    )
+                                }
+                            })}
+                    </div>
+                ) : (
+                    <NoResults
+                        mainText="You do not currently have any friends"
+                        subText="Ask a friend to send you their user ID and use the add button above to add them"
                     />
-                )}
+                ))}
             </main>
         </div>
     );

@@ -9,7 +9,7 @@ import {
     updateRestaurant
 } from "../../features/restaurants/restaurantsSlice";
 import {getRestaurantById} from "../../firebase/firebase";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import HomeCard from "./HomeCard/HomeCard";
 
@@ -18,6 +18,8 @@ const HomePage = () => {
     const dispatch = useDispatch();
     const fetchStatus = useSelector(selectRestaurantsFetchStatus);
     const restaurants = useSelector(selectRestaurants);
+
+    const [displayedRestaurants, setDisplayedRestaurants] = useState(null);
 
     useEffect(() => {
         if (fetchStatus === "pending") {
@@ -35,7 +37,7 @@ const HomePage = () => {
     useEffect(() => {
         if (restaurants) {
             fetchRestaurantDataFromDB()
-                .then(results => dispatch(setRestaurants(results)));
+                .then(results => setDisplayedRestaurants(results));
         }
     }, [restaurants]);
 
@@ -49,8 +51,8 @@ const HomePage = () => {
             <Navigation view="home"/>
 
             <div className="restaurant-cards-container">
-                {restaurants ? (
-                    restaurants.map(restaurant => (
+                {displayedRestaurants ? (
+                    displayedRestaurants.map(restaurant => (
                         <HomeCard
                             key={restaurant.id}
                             restaurant={restaurant}

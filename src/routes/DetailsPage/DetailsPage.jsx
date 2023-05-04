@@ -2,16 +2,10 @@ import './DetailsPage.css';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
-import StarRating from '../../common/components/StarRating/StarRating';
 import {useState, useEffect, useRef} from 'react';
 
-import {
-    faLocationDot,
-    faPhone,
-    faArrowUpRightFromSquare, faXmark,
-} from '@fortawesome/free-solid-svg-icons';
+import {faArrowUpRightFromSquare, faXmark,} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import CheckInButton from "./ImageAndInfoView/CheckInButton/CheckInButton";
 import CheckInConfirmationPopup
     from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import {
@@ -21,22 +15,16 @@ import {
 } from "../../features/checkInConfirmation/checkInConfirmationSlice";
 import BannerView from "./BannerView/BannerView";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
-import {
-    addRecommendation,
-    removeRecommendation,
-    selectRecommendations,
-    selectUserId
-} from "../../features/user/userSlice";
+import {selectUserId} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
-import {addUserRecommendation, getRestaurantById, removeUserRecommendation} from "../../firebase/firebase";
+import {getRestaurantById} from "../../firebase/firebase";
 import ReviewsView from "./ReviewsView/ReviewsView";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
-import {faBookmark, faHeart, faCheckCircle, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
+import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import AdditionalDetailsView from "./AdditionalDetailsView/AdditionalDetailsView";
 import HoursView from "./HoursView/HoursView";
 import ImageAndInfoView from "./ImageAndInfoView/ImageAndInfoView";
 import InteractionsView from "./InteractionsView/InteractionsView";
-import {deselectReview} from "../../features/reviews/reviewsSlice";
 
 const navLinksText = ["Interactions", "Website", "About", "Hours", "Details", "Reviews"];
 

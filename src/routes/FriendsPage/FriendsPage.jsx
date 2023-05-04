@@ -106,38 +106,6 @@ const FriendsPage = () => {
         setAddPopupIsVisible(false);
     };
 
-    const handleCancelClick = async (id) => {
-        const updatedFriends = await cancelFriendRequest(userId, id);
-        dispatch(setFriends(updatedFriends));
-    };
-
-    const handleConfirmClick = async (id) => {
-        console.log("confirm friend");
-        const updatedFriends = await acceptFriendRequest(userId, id);
-        dispatch(setFriends(updatedFriends));
-        dispatch(removeFriendRequest(id));
-        console.log("friend request accepted");
-    };
-
-    const handleDeleteClick = async (id) => {
-        console.log("delete friend request");
-        const updatedRequests = await rejectFriendRequest(userId, id);
-        dispatch(setFriendRequests(updatedRequests));
-        console.log("friend request deleted");
-    };
-
-    const handleProfileClick = async (userId) => {
-        const friendData = await getUserFromUserId(userId);
-        dispatch(setDisplayedFriend(friendData))
-        navigate(`/view-profile/${userId}`);
-    };
-
-    const handleRemoveClick = async (id) => {
-        console.log("show remove friend confirmation popup");
-        await deleteFriend(userId, id);
-        dispatch(removeFriend(id));
-    };
-
     const calculateMutualFriends = (userFriends) => {
         let mutualFriends = 0;
 
@@ -250,12 +218,11 @@ const FriendsPage = () => {
                         .map(({id, displayName, iconColour, profilePhotoUrl, friends: userFriends}) => (
                         <FriendRequestCard
                             key={id}
+                            id={id}
                             displayName={displayName}
                             iconColour={iconColour}
                             profilePhotoUrl={profilePhotoUrl}
                             mutualFriends={calculateMutualFriends(userFriends)}
-                            handleConfirm={() => handleConfirmClick(id)}
-                            handleDelete={() => handleDeleteClick(id)}
                         />
                     ))) : (
                     <NoResults mainText="You do not currently have any friend requests" />
@@ -279,23 +246,22 @@ const FriendsPage = () => {
                                     return (
                                         <PendingFriendCard
                                             key={id}
+                                            id={id}
                                             displayName={displayName}
                                             iconColour={iconColour}
                                             profilePhotoUrl={profilePhotoUrl}
                                             mutualFriends={calculateMutualFriends(userFriends)}
-                                            handleCancelClick={() => handleCancelClick(id)}
                                         />
                                     )
                                 } else {
                                     return (
                                         <ConfirmedFriendCard
                                             key={id}
+                                            id={id}
                                             displayName={displayName}
                                             iconColour={iconColour}
                                             profilePhotoUrl={profilePhotoUrl}
                                             mutualFriends={calculateMutualFriends(userFriends)}
-                                            handleProfileClick={() => handleProfileClick(id)}
-                                            handleRemoveClick={() => handleRemoveClick(id)}
                                         />
                                     )
                                 }

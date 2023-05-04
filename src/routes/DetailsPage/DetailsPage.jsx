@@ -178,51 +178,6 @@ const DetailsPage = () => {
 
     const starRating = Math.round(rating * 2) / 2;
 
-    const groupDaysWithSameHours = (hours) => {
-        const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        let groupedHours = [];
-        let currentGroup = [daysOfWeek[0]];
-        let currentHours = hours[0];
-
-        for (let i = 1; i < hours.length; i++) {
-            if (hours[i] === currentHours) {
-                currentGroup.push(daysOfWeek[i]);
-            } else {
-                groupedHours.push({
-                    days: currentGroup,
-                    hours: currentHours,
-                });
-
-                currentGroup = [daysOfWeek[i]];
-                currentHours = hours[i];
-            }
-        }
-
-        groupedHours.push({
-            days: currentGroup,
-            hours: currentHours,
-        });
-
-        return groupedHours.map(
-            (group) => `${group.days[0]}${group.days.length > 1
-                ?
-                `-${group.days[group.days.length - 1]}`
-                :
-                ""}: ${group.hours}`
-        );
-    };
-
-    const getDomainName = (url) => {
-        try {
-            const {hostname} = new URL(url);
-            return hostname;
-        } catch (error) {
-            console.error('Error parsing URL', error);
-            return url;
-        }
-    };
-
-    const displayedHours = groupDaysWithSameHours(hours);
     const isOpen = checkIsOpen(restaurant);
 
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
@@ -290,17 +245,16 @@ const DetailsPage = () => {
 
                 {website && (
                     <section id="Website" ref={websiteRef} className="website">
-                        <WebsiteView url={website} domainName={getDomainName(website)}/>
+                        <WebsiteView url={website}/>
                     </section>
                 )}
-
 
                 <section id="About" ref={aboutRef} className="description">
                     <AboutView description={description}/>
                 </section>
 
                 <section id="Hours" ref={hoursRef} className="hours">
-                    <HoursView hours={displayedHours}/>
+                    <HoursView hours={hours}/>
                 </section>
 
                 <section id="Details" ref={detailsRef}>

@@ -3,7 +3,6 @@ import "./CheckInsCalendar/CheckInsCalendar.css";
 
 import Calendar from "react-calendar";
 import CheckInsCollage from "./CheckInsCollage/CheckInsCollage.jsx";
-import CheckInsDetails from "./CheckInsDetails/CheckInsDetails";
 
 import NoResults from "../../common/components/NoResults/NoResults";
 
@@ -180,10 +179,6 @@ const CheckIns = () => {
 
                     {showCollagePopup && (
                         <CheckInsCollage checkIn={selectedCheckIn} onClose={handleCollagePopupClose} />
-                    )}
-
-                    {showDetailsPopup && (
-                        <CheckInsDetails checkIn={selectedCheckIn} onClose={() => setShowDetailsPopup(false)} />
                     )}
                 </div>
             </div>

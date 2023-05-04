@@ -5,19 +5,14 @@ import {faCircleCheck, faHeart} from "@fortawesome/free-regular-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addBookmark, addRecommendation,
-    removeBookmark, removeRecommendation,
-    selectBookmarks,
+    addRecommendation,
+    removeRecommendation,
     selectRecommendations,
     selectUserId
 } from "../../../../features/user/userSlice";
 import {useEffect, useState} from "react";
-import {
-    addUserBookmark,
-    addUserRecommendation,
-    removeUserBookmark,
-    removeUserRecommendation
-} from "../../../../firebase/firebase";
+import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
+import {addUserRecommendation, removeUserRecommendation} from "../../../../firebase/firebase";
 
 const RecommendButton = ({restaurant, style}) => {
 
@@ -28,7 +23,6 @@ const RecommendButton = ({restaurant, style}) => {
     const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
-
     const recommendations = useSelector(selectRecommendations);
 
     const [isRecommended, setIsRecommended] = useState(false);
@@ -36,12 +30,12 @@ const RecommendButton = ({restaurant, style}) => {
     const [feedbackIsVisible, setFeedbackIsVisible] = useState(false);
 
     useEffect(() => {
-        if (!recommendations || !id) return;
+        if (!restaurant || !recommendations) return;
 
         setIsRecommended(recommendations.some(recommendation => recommendation === id));
-    }, [recommendations, id]);
+    }, [restaurant, recommendations]);
 
-    const handleRecommendClick = async () => {
+    const handleRecommendClick = () => {
         if (!userId) {
             navigate("/sign-in");
         } else {
@@ -66,11 +60,13 @@ const RecommendButton = ({restaurant, style}) => {
 
     return (
         <>
-            <button className="recommend-button" onClick={handleRecommendClick}>
-                {isRecommended && <FontAwesomeIcon icon={faSolidHeart} className="icon" style={style}/>}
-
-                {!isRecommended && <FontAwesomeIcon icon={faHeart} className="icon" style={style}/>}
-            </button>
+            <InteractionButton
+                icon={faHeart}
+                solidIcon={faSolidHeart}
+                isSolid={isRecommended}
+                handleClick={handleRecommendClick}
+                style={style}
+            />
 
             {confirmationIsVisible && (
                 <div className="confirm-checkin-popup">

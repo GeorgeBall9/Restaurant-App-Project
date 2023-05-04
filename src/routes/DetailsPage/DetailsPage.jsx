@@ -19,11 +19,16 @@ import {
     selectCheckedIn,
     selectCheckInConfirmationIsVisible, selectCheckInFeedbackIsVisible
 } from "../../features/checkInConfirmation/checkInConfirmationSlice";
-import Banner from "./Banner/Banner";
+import BannerView from "./BannerView/BannerView";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
-import {selectUserId} from "../../features/user/userSlice";
+import {
+    addRecommendation,
+    removeRecommendation,
+    selectRecommendations,
+    selectUserId
+} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
-import {getRestaurantById} from "../../firebase/firebase";
+import {addUserRecommendation, getRestaurantById, removeUserRecommendation} from "../../firebase/firebase";
 import ReviewsView from "./ReviewsView/ReviewsView";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
 import {faBookmark, faHeart, faCheckCircle, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
@@ -254,11 +259,6 @@ const DetailsPage = () => {
         });
     };
 
-    const handleBackClick = () => {
-        dispatch(deselectReview());
-        navigate("/");
-    };
-
     return (
         <div className="details-page container">
             {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn}/>}
@@ -268,12 +268,11 @@ const DetailsPage = () => {
                 <FontAwesomeIcon icon={addedCheckIn ? faCircleCheck : faXmark} className="bookmark-feedback-icon"/>
             </div>
 
-            <Banner
+            <BannerView
                 ref={bannerRef}
                 restaurant={restaurant}
                 scrollPosition={scrollPosition}
                 showName={showNameInBanner}
-                handleBackClick={handleBackClick}
             />
 
             <ImageAndInfoView

@@ -1,17 +1,20 @@
-import "./Banner.css";
+import "./BannerView.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import BookmarkButton from "../../../common/components/BookmarkButton/BookmarkButton";
-import {useNavigate} from "react-router-dom";
 import ShareButton from "./ShareButton/ShareButton";
 import {forwardRef} from "react";
 import RecommendButton from "./RecommendButton/RecommendButton";
+import {deselectReview} from "../../../features/reviews/reviewsSlice";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
-const Banner = forwardRef((props, ref) => {
+const BannerView = forwardRef((props, ref) => {
 
-    const {restaurant, scrollPosition, showName, handleBackClick} = props;
+    const {restaurant, scrollPosition, showName} = props;
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const style = scrollPosition > 20
         ? {position: 'fixed', backgroundColor: '#4c4c4c'}
@@ -20,6 +23,11 @@ const Banner = forwardRef((props, ref) => {
     const bannerButtonsStyle = scrollPosition > 20
         ? {color: "#F49D1A"}
         : {color: "white"};
+
+    const handleBackClick = () => {
+        dispatch(deselectReview());
+        navigate("/");
+    };
 
     return (
         <div id="banner" ref={ref} className="banner container" style={style}>
@@ -41,4 +49,4 @@ const Banner = forwardRef((props, ref) => {
     );
 });
 
-export default Banner;
+export default BannerView;

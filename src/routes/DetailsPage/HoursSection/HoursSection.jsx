@@ -1,6 +1,6 @@
-import "./HoursView.css";
+import "./HoursSection.css";
 
-const HoursView = ({hours}) => {
+const HoursSection = ({hours}) => {
 
     const groupDaysWithSameHours = (hours) => {
         const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -47,4 +47,4 @@ const HoursView = ({hours}) => {
     );
 };
 
-export default HoursView;
+export default HoursSection;

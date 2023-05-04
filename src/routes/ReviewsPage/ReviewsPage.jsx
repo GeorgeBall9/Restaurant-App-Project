@@ -14,6 +14,10 @@ import SortFiltersView from "./SortFiltersView/SortFiltersView";
 import Overlay from "../../common/components/Overlay/Overlay";
 import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
 
+export const sortReviewsByMostRecentVisitDate = (reviews) => {
+    return [...reviews].sort((a, b) => b.visitDate - a.visitDate);
+};
+
 const ReviewsPage = () => {
 
     const {id: restaurantId} = useParams();
@@ -32,11 +36,11 @@ const ReviewsPage = () => {
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [searchHasMatches, setSearchHasMatches] = useState(true);
-    const [activeFilter, setActiveFilter] = useState("Highest rated");
+    const [activeFilter, setActiveFilter] = useState("Most recent");
     const [sortFilters, setSortFilters] = useState([
-        {text: "Highest rated", active: true, type: "rating", multiplier: -1},
+        {text: "Highest rated", active: false, type: "rating", multiplier: -1},
         {text: "Lowest rated", active: false, type: "rating", multiplier: 1},
-        {text: "Most recent", active: false, type: "visitDate", multiplier: -1},
+        {text: "Most recent", active: true, type: "visitDate", multiplier: -1},
         {text: "Oldest", active: false, type: "visitDate", multiplier: 1}
     ]);
 
@@ -71,13 +75,13 @@ const ReviewsPage = () => {
         if (!restaurantId || reviews?.length) return;
 
         getReviewsByRestaurantId(restaurantId)
-            .then(reviewsFound => dispatch(setReviews(reviewsFound)));
+            .then(reviewsFound => dispatch(setReviews(sortReviewsByMostRecentVisitDate(reviewsFound))));
     }, [restaurantId, reviews]);
 
     useEffect(() => {
         if (!reviews) return;
 
-        setDisplayedReviews([...reviews].sort((a, b) => b.rating - a.rating));
+        setDisplayedReviews(sortReviewsByMostRecentVisitDate(reviews));
     }, [reviews]);
 
     const handleWriteReviewClick = () => {

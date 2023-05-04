@@ -22,7 +22,7 @@ import ReviewsSection from "./ReviewsSection/ReviewsSection";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import AdditionalDetailsView from "./AdditionalDetailsView/AdditionalDetailsView";
-import HoursView from "./HoursView/HoursView";
+import HoursSection from "./HoursSection/HoursSection";
 import ImageAndInfoView from "./ImageAndInfoView/ImageAndInfoView";
 import InteractionsView from "./InteractionsView/InteractionsView";
 import WebsiteView from "./WebsiteView/WebsiteView";
@@ -254,7 +254,7 @@ const DetailsPage = () => {
                 </section>
 
                 <section id="Hours" ref={hoursRef} className="hours">
-                    <HoursView hours={hours}/>
+                    <HoursSection hours={hours}/>
                 </section>
 
                 <section id="Details" ref={detailsRef}>

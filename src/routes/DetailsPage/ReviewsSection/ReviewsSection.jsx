@@ -8,6 +8,7 @@ import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice"
 import ReviewsList from "../../../common/components/ReviewsList/ReviewsList";
 import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
 import ReviewsStatsView from "./ReviewsStatsView/ReviewsStatsView";
+import {sortReviewsByMostRecentVisitDate} from "../../ReviewsPage/ReviewsPage";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -25,10 +26,6 @@ const ReviewsSection = ({userId, restaurant}) => {
     const [allReviewsVisible, setAllReviewsVisible] = useState(true);
 
     useEffect(() => {
-        setAllReviewsVisible(displayedReviews?.length <= 3);
-    }, [displayedReviews]);
-
-    useEffect(() => {
         if (!restaurantId) return;
 
         getReviewsByRestaurantId(restaurantId)
@@ -38,7 +35,11 @@ const ReviewsSection = ({userId, restaurant}) => {
     useEffect(() => {
         if (!reviews) return;
 
-        setDisplayedReviews(reviews);
+        setAllReviewsVisible(reviews?.length <= 3);
+
+        const sortedReviews = sortReviewsByMostRecentVisitDate(reviews);
+
+        setDisplayedReviews(sortedReviews.slice(0, 3));
     }, [reviews]);
 
     const handleWriteReviewClick = () => {

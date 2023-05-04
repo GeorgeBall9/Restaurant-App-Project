@@ -112,7 +112,7 @@
     gap: 1em;
 }
 
-.details-page .details-container > div:not(:last-child) {
+.details-page .details-container > section:not(:last-child) {
     border-bottom: solid 2px lightgrey;
     padding-bottom: 1rem;
 }
@@ -128,30 +128,6 @@
     font-size: var(--font-size-sub-heading);
     font-weight: var(--font-weight-bold-1);
     margin: 0;
-}
-
-.details-page .details-container .interactions > div {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.details-page .details-container .interactions > div .stat-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-bold-1);
-}
-
-.details-page .details-container .interactions > div .icon {
-    color: black;
-    font-size: var(--font-size-icon-large);
-}
-
-.details-page .details-container .hours {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25em;
 }
 
 .details-page .details-container .website a {
@@ -182,25 +158,4 @@
     padding: 0.25rem 0;
     text-decoration: none;
     outline: none;
-}
-
-.details-page .details-container .more-details {
-    text-align: left;
-}
-
-.details-page .details-container .more-details > div {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75em;
-}
-
-.details-page .details-container .more-details span {
-    font-size: var(--font-size-sub-heading);
-    font-weight: var(--font-weight-bold-2);
-    padding: 0 0.5rem;
-}
-
-.details-page .details-container .more-details p {
-    padding: 0.25rem 1.75rem;
-    font-size: var(--font-size-sub-heading);
 }

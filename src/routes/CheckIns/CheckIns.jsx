@@ -31,6 +31,7 @@ const CheckIns = () => {
     const [selectedCheckIn, setSelectedCheckIn] = useState(null);
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
+    const [showDetailsPopup, setShowDetailsPopup] = useState(false);
 
     useEffect(() => {
         if (!allCheckIns?.length) return;
@@ -50,6 +51,10 @@ const CheckIns = () => {
 
     const handleCollagePopupClose = () => {
         setShowCollagePopup(false);
+    };
+
+    const handleDetailsPopupOpen = () => {
+        setShowDetailsPopup(true);
     };
 
     useEffect(() => {
@@ -131,6 +136,7 @@ const CheckIns = () => {
         return <TileContent date={date} />;
     };
 
+
     return (
         <div className="check-ins-page-container">
             <ProfileNavigationView pageTitle="Check-ins" />
@@ -138,7 +144,7 @@ const CheckIns = () => {
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
                     {allCheckIns?.length > 0 ? (
-                        <CheckInsMap checkIns={allCheckIns} />
+                        <CheckInsMap checkIns={allCheckIns} onViewDetails={handleDetailsPopupOpen} />
                     ) : (
                         <NoResults
                             mainText="You haven't checked in anywhere yet."

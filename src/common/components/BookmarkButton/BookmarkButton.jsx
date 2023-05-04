@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addUserBookmark, removeUserBookmark} from "../../../firebase/firebase";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
+import InteractionButton from "../InteractionButton/InteractionButton";
 
 const BookmarkButton = ({restaurant, style}) => {
 
@@ -54,15 +55,13 @@ const BookmarkButton = ({restaurant, style}) => {
 
     return (
         <>
-            <button className="bookmark-button" onClick={handleBookmarkClick}>
-                {isBookmarked && (
-                    <FontAwesomeIcon icon={faBookmarkSolid} className="icon" style={style}/>
-                )}
-
-                {!isBookmarked && (
-                    <FontAwesomeIcon icon={faBookmark} className="icon" style={style}/>
-                )}
-            </button>
+            <InteractionButton
+                icon={faBookmark}
+                solidIcon={faBookmarkSolid}
+                isSolid={isBookmarked}
+                handleClick={handleBookmarkClick}
+                style={style}
+            />
 
             <div className="bookmark-feedback" style={{opacity: feedbackIsVisible ? 1 : 0}}>
                 {isBookmarked ? "Saved to" : "Removed from"} bookmarks

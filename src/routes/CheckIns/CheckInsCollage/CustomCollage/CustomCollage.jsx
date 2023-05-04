@@ -103,7 +103,7 @@ const CustomCollage = ({
             )}
 
             <div
-                className="collage-container"
+                className={`collage-container ${isExpanded ? "" : "non-expanded"}`}
                 style={{gridTemplateRows: `repeat(${rows}, 1fr)`, gridTemplateColumns: `repeat(${columns}, 1fr)`}}
             >
                 {addFunctionality && isExpanded && !selectMode && (

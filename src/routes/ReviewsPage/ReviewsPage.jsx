@@ -1,5 +1,4 @@
 import "./ReviewsPage.css";
-import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
 import ReviewForm from "../../common/components/ReviewForm/ReviewForm";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -9,13 +8,15 @@ import {getRestaurantById, getReviewsByRestaurantId} from "../../firebase/fireba
 import {selectUserId} from "../../features/user/userSlice";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice";
-import {
-    faChevronDown,
-    faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
+import {faChevronDown, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import SortFiltersView from "./SortFiltersView/SortFiltersView";
 import Overlay from "../../common/components/Overlay/Overlay";
+import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
+
+export const sortReviewsByMostRecentVisitDate = (reviews) => {
+    return [...reviews].sort((a, b) => b.visitDate - a.visitDate);
+};
 
 const ReviewsPage = () => {
 
@@ -35,12 +36,12 @@ const ReviewsPage = () => {
     const [sortFiltersVisible, setSortFiltersVisible] = useState(false);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [searchHasMatches, setSearchHasMatches] = useState(true);
-    const [activeFilter, setActiveFilter] = useState("Highest rated");
+    const [activeFilter, setActiveFilter] = useState("Most recent");
     const [sortFilters, setSortFilters] = useState([
-        {text: "Highest rated", active: true, type: "rating", multiplier: -1},
+        {text: "Highest rated", active: false, type: "rating", multiplier: -1},
         {text: "Lowest rated", active: false, type: "rating", multiplier: 1},
-        {text: "Most recent", active: false, type: "date", multiplier: -1},
-        {text: "Oldest", active: false, type: "date", multiplier: 1}
+        {text: "Most recent", active: true, type: "visitDate", multiplier: -1},
+        {text: "Oldest", active: false, type: "visitDate", multiplier: 1}
     ]);
 
     useEffect(() => {
@@ -74,13 +75,13 @@ const ReviewsPage = () => {
         if (!restaurantId || reviews?.length) return;
 
         getReviewsByRestaurantId(restaurantId)
-            .then(reviewsFound => dispatch(setReviews(reviewsFound)));
+            .then(reviewsFound => dispatch(setReviews(sortReviewsByMostRecentVisitDate(reviewsFound))));
     }, [restaurantId, reviews]);
 
     useEffect(() => {
         if (!reviews) return;
 
-        setDisplayedReviews([...reviews].sort((a, b) => b.rating - a.rating));
+        setDisplayedReviews(sortReviewsByMostRecentVisitDate(reviews));
     }, [reviews]);
 
     const handleWriteReviewClick = () => {
@@ -137,6 +138,10 @@ const ReviewsPage = () => {
         setSortFiltersVisible(false);
     };
 
+    useEffect(() => {
+        console.log("review page", {restaurant})
+    }, [restaurant]);
+
     return (
         <div className="reviews-page">
             <ProfileNavigationView
@@ -173,7 +178,7 @@ const ReviewsPage = () => {
                     <ReviewForm restaurant={restaurant} userId={userId}/>
                 )}
 
-                <ReviewsList reviews={displayedReviews} userId={userId}/>
+                <ReviewsList restaurant={restaurant} reviews={displayedReviews} userId={userId}/>
             </main>
         </div>
     );

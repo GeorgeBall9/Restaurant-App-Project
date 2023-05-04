@@ -13,7 +13,7 @@
     transition: opacity 0.3s ease-in-out;
 }
 
-.collage-popup > div {
+.collage-popup>div {
     position: relative;
     width: 100%;
     height: 100%;
@@ -46,7 +46,7 @@
     width: 100%;
 }
 
-.collage-popup-header > div {
+.collage-popup-header>div {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -90,8 +90,21 @@
 
 .collage-popup-photos-expanded {
     height: calc(100vh - 60px);
-    /* Adjust this value based on your header height */
     overflow-y: auto;
+}
+
+.collage-popup-content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    overflow-y: auto;
+}
+
+.collage-popup-content-expanded {
+    top: 0;
+    height: calc(100% - 60px);
 }
 
 .collage-container-expanded {

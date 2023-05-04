@@ -1,0 +1,4 @@
+.interactions-view > div {
+    display: flex;
+    justify-content: space-evenly;
+}

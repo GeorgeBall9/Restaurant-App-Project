@@ -1,12 +1,12 @@
 import "./FriendsOfFriend.css";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faArrowLeft, faCircleCheck, faLink,
     faMagnifyingGlass, faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchBox from "../../../../common/components/SearchBox/SearchBox";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import {
     acceptFriendRequest,
     cancelFriendRequest, deleteFriend,
@@ -14,7 +14,7 @@ import {
     getUserFromUserId, rejectFriendRequest,
     sendFriendRequestToUser
 } from "../../../../firebase/firebase";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     removeFriend, removeFriendRequest,
     selectDisplayedFriend, selectFriendRequests,
@@ -29,6 +29,7 @@ import FriendOfFriendCard from "../../FriendCards/FriendOfFriendCard/FriendOfFri
 import ConfirmedFriendCard from "../../FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
 import PendingFriendCard from "../../FriendCards/PendingFriendCard/PendingFriendCard";
 import FriendRequestCard from "../../FriendCards/FriendRequestCard/FriendRequestCard";
+import NoResults from "../../../../common/components/NoResults/NoResults";
 
 const FriendsOfFriendsPage = () => {
 
@@ -75,7 +76,7 @@ const FriendsOfFriendsPage = () => {
         let searchResults;
 
         if (display === "friends") {
-            searchResults = friendsOfFriend.filter(({displayName}) => displayName.toLowerCase().includes(query));
+            searchResults = friendsOfFriend.filter(({ displayName }) => displayName.toLowerCase().includes(query));
         }
 
         if (!searchResults.length) {
@@ -101,7 +102,7 @@ const FriendsOfFriendsPage = () => {
         // Update displayedFriends
         setDisplayedFriends(displayedFriends.map(friend => {
             if (friend.id === id) {
-                return {...friend, status: "pending"};
+                return { ...friend, status: "pending" };
             }
             return friend;
         }));
@@ -142,7 +143,7 @@ const FriendsOfFriendsPage = () => {
     const calculateMutualFriends = (userFriends) => {
         let mutualFriends = 0;
 
-        userFriends.friends?.forEach(({userId: friendId, status}) => {
+        userFriends.friends?.forEach(({ userId: friendId, status }) => {
             if (status === "confirmed" && friends.some(f => f.id === friendId)) {
                 mutualFriends++;
             }
@@ -186,73 +187,78 @@ const FriendsOfFriendsPage = () => {
 
                     <main className="container">
                         <div className="friend-icons-container">
-                            {displayedFriends && [...displayedFriends]
-                                .sort((a, b) => {
-                                    if (a.status === "pending") {
-                                        return -1;
-                                    } else if (b.status === "pending") {
-                                        return 1;
-                                    } else {
-                                        return 0;
-                                    }
-                                })
-                                .map(({id, displayName, iconColour, profilePhotoUrl, friends}) => {
-                                    const status = getFriendOfFriendStatusForCurrentUser(id);
+                            {displayedFriends.length === 0 ? (
+                                <NoResults mainText="No friends found." subText={`${displayedFriend.displayName} has no friends other than you!`} />
+                            ) : (
+                                [...displayedFriends]
+                                    .sort((a, b) => {
+                                        if (a.status === "pending") {
+                                            return -1;
+                                        } else if (b.status === "pending") {
+                                            return 1;
+                                        } else {
+                                            return 0;
+                                        }
+                                    })
+                                    .map(({ id, displayName, iconColour, profilePhotoUrl, friends }) => {
+                                        const status = getFriendOfFriendStatusForCurrentUser(id);
 
-                                    if (status === "confirmed") {
-                                        return (
-                                            <ConfirmedFriendCard
-                                                key={id}
-                                                displayName={displayName}
-                                                iconColour={iconColour}
-                                                profilePhotoUrl={profilePhotoUrl}
-                                                mutualFriends={calculateMutualFriends(friends)}
-                                                handleProfileClick={() => handleProfileClick(id)}
-                                                handleRemoveClick={() => handleRemoveClick(id)}
-                                            />
-                                        );
-                                    } else if (status === "pending") {
-                                        return (
-                                            <PendingFriendCard
-                                                key={id}
-                                                displayName={displayName}
-                                                iconColour={iconColour}
-                                                profilePhotoUrl={profilePhotoUrl}
-                                                mutualFriends={calculateMutualFriends(friends)}
-                                                handleCancelClick={() => handleCancelClick(id)}
-                                            />
-                                        );
-                                    } else if (status === "request") {
-                                        return (
-                                            <FriendRequestCard
-                                                key={id}
-                                                displayName={displayName}
-                                                iconColour={iconColour}
-                                                profilePhotoUrl={profilePhotoUrl}
-                                                mutualFriends={calculateMutualFriends(friends)}
-                                                handleConfirm={() => handleConfirmClick(id)}
-                                                handleDelete={() => handleDeleteClick(id)}
-                                            />
-                                        );
-                                    } else {
-                                        return (
-                                            <FriendOfFriendCard
-                                                key={id}
-                                                displayName={displayName}
-                                                iconColour={iconColour}
-                                                profilePhotoUrl={profilePhotoUrl}
-                                                mutualFriends={calculateMutualFriends(friends)}
-                                                handleAddClick={() => handleAddFriendClick(id)}
-                                            />
-                                        );
-                                    }
-                                })}
+                                        if (status === "confirmed") {
+                                            return (
+                                                <ConfirmedFriendCard
+                                                    key={id}
+                                                    displayName={displayName}
+                                                    iconColour={iconColour}
+                                                    profilePhotoUrl={profilePhotoUrl}
+                                                    mutualFriends={calculateMutualFriends(friends)}
+                                                    handleProfileClick={() => handleProfileClick(id)}
+                                                    handleRemoveClick={() => handleRemoveClick(id)}
+                                                />
+                                            );
+                                        } else if (status === "pending") {
+                                            return (
+                                                <PendingFriendCard
+                                                    key={id}
+                                                    displayName={displayName}
+                                                    iconColour={iconColour}
+                                                    profilePhotoUrl={profilePhotoUrl}
+                                                    mutualFriends={calculateMutualFriends(friends)}
+                                                    handleCancelClick={() => handleCancelClick(id)}
+                                                />
+                                            );
+                                        } else if (status === "request") {
+                                            return (
+                                                <FriendRequestCard
+                                                    key={id}
+                                                    displayName={displayName}
+                                                    iconColour={iconColour}
+                                                    profilePhotoUrl={profilePhotoUrl}
+                                                    mutualFriends={calculateMutualFriends(friends)}
+                                                    handleConfirm={() => handleConfirmClick(id)}
+                                                    handleDelete={() => handleDeleteClick(id)}
+                                                />
+                                            );
+                                        } else {
+                                            return (
+                                                <FriendOfFriendCard
+                                                    key={id}
+                                                    displayName={displayName}
+                                                    iconColour={iconColour}
+                                                    profilePhotoUrl={profilePhotoUrl}
+                                                    mutualFriends={calculateMutualFriends(friends)}
+                                                    handleAddClick={() => handleAddFriendClick(id)}
+                                                />
+                                            );
+                                        }
+                                    })
+                            )}
                         </div>
                     </main>
                 </>
             )}
         </div>
     );
+
 };
 
 export default FriendsOfFriendsPage;

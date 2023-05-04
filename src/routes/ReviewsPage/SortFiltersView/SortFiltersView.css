@@ -1,4 +1,4 @@
-.sort-filters {
+.sort-filters-view {
     position: absolute;
     z-index: 10000;
     top: 4em;
@@ -14,7 +14,7 @@
     overflow: hidden;
 }
 
-.sort-filters button {
+.sort-filters-view button {
     border: none;
     background: none;
     text-align: left;
@@ -24,11 +24,11 @@
     color: black;
 }
 
-.sort-filters button.active {
+.sort-filters-view button.active {
     background: var(--primary-theme);
     color: white;
 }
 
-.sort-filters button:hover:not(.active) {
+.sort-filters-view button:hover:not(.active) {
     background: var(--background-theme);
 }

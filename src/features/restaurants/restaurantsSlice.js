@@ -6,6 +6,7 @@ Contact: ryan.henzell-hill@outlook.com
 
 // dependencies
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {getRestaurantById} from "../../firebase/firebase";
 
 // initial state configuration
 const initialState = {
@@ -260,17 +261,14 @@ export const restaurantsSlice = createSlice({
             state.hasMatches = hasMatches;
             state.restaurantResults = hasMatches ? results : state.allRestaurants;
         },
+        setRestaurants: (state, action) => {
+            const restaurants = action.payload;
+            state.allRestaurants = restaurants;
+            state.restaurantResults = restaurants;
+        },
         resetRestaurantResults: state => {
             state.restaurantResults = state.allRestaurants;
-        },
-        updateRestaurant: (state, action) => {
-            const updatedRestaurant = action.payload;
-            const index = state.allRestaurants.findIndex(restaurant => restaurant.id === updatedRestaurant.id);
-            if (index !== -1) {
-                state.allRestaurants[index] = updatedRestaurant;
-            }
         }
-
     },
     extraReducers: builder => {
         builder
@@ -284,7 +282,7 @@ export const restaurantsSlice = createSlice({
                 const {data, position} = action.payload;
                 const processedData = processData(data);
 
-                state.allRestaurants = processedData; // set restaurants to data returned
+                state.allRestaurants = processedData;
                 state.restaurantResults = processedData;
                 state.status = "idle";
                 state.lastPositionQueried = position;
@@ -301,7 +299,7 @@ export const {
     filterRestaurantResultsByCuisine,
     resetRestaurantResults,
     filterResultsBySearchQuery,
-    updateRestaurant
+    setRestaurants
 } = restaurantsSlice.actions;
 export const selectRestaurants = state => state.restaurants.restaurantResults;
 export const selectAllRestaurants = state => state.restaurants.allRestaurants;

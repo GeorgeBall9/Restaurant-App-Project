@@ -932,7 +932,7 @@ export const addPhotoToCheckIn = async (userId, checkIn, path) => {
 
     const friendIds = userIds.filter(id => id !== userId);
 
-    const photoId = await createNewRestaurantPhotoDoc(userId, friendIds, restaurantId, path);
+    const photoId = await createNewRestaurantPhotoDoc(userId, restaurantId, path, friendIds);
 
     const checkInDocRef = await doc(db, "check-ins", checkInId);
 

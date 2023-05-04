@@ -21,7 +21,7 @@ import RestaurantImage from "../RestaurantImage/RestaurantImage";
 import RecommendButton from "../../../routes/DetailsPage/BannerView/RecommendButton/RecommendButton";
 
 // A card component for displaying restaurant information
-const RestaurantCard = ({restaurant, view, ranking, open}) => {
+const RestaurantCard = ({restaurant, view, ranking, open = true}) => {
 
     const {name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
 
@@ -31,15 +31,19 @@ const RestaurantCard = ({restaurant, view, ranking, open}) => {
     const navigate = useNavigate();
 
     const handlers = useSwipeable({
-        onTap: () => navigate(`/details/${restaurant.id}`),
+        onTap: ({event}) => {
+            if (event.target.closest(".interaction-button")) return;
+
+            navigate(`/details/${restaurant.id}`)
+        },
         preventScrollOnSwipe: true,
         trackMouse: true
     });
 
     // Render the component
     return (
-        <div className={`restaurant-card ${open ? "" : "closed"}`}>
-            <div className="details-container" {...handlers}>
+        <div className={`restaurant-card ${open ? "" : "closed"}`} {...handlers}>
+            <div className="details-container">
                 <h3>
                     {ranking && (
                         <div className="ranking">{ranking}</div>

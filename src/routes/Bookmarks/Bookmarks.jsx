@@ -5,8 +5,8 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {getRestaurantById} from "../../firebase/firebase";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
-import BookmarksView from "./BookmarksView/BookmarksView";
 import NoResults from "../../common/components/NoResults/NoResults";
+import BookmarkCard from "./BookmarkCard/BookmarkCard";
 
 export const checkIsOpen = (restaurant) => {
     if (!restaurant) return false;
@@ -84,7 +84,11 @@ const Bookmarks = () => {
             <ProfileNavigationView pageTitle="Bookmarks"/>
 
             {bookmarkedRestaurants.length > 0 && (
-                <BookmarksView bookmarkedRestaurants={bookmarkedRestaurants}/>
+                <div className="bookmarks-view container">
+                    {bookmarkedRestaurants.map(restaurant => (
+                        <BookmarkCard key={restaurant.id} restaurant={restaurant}/>
+                    ))}
+                </div>
             )}
 
             {!bookmarkedRestaurants.length && fetchStatus === "idle" && (

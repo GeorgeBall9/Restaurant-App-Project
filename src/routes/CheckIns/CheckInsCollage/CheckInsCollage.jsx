@@ -2,9 +2,10 @@ import "./CheckInsCollage.css";
 import NoResults from "../../../common/components/NoResults/NoResults";
 import CustomCollage from "./CustomCollage/CustomCollage.jsx";
 import CheckInsCard from "./CheckInsCard/CheckInsCard";
+import CheckInConfirmationPopup from "../../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
 
 import { useEffect, useState } from "react";
-import { faArrowLeft, faUpRightAndDownLeftFromCenter } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faUpRightAndDownLeftFromCenter, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     addPhotoToCheckIn, deleteCheckInPhoto,
@@ -15,6 +16,8 @@ import { useSelector } from "react-redux";
 import { selectUserId } from "../../../features/user/userSlice";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
+import { getUserFromUserId, getCheckInsAndRestaurantDataByUserId } from "../../../firebase/firebase";
+import { removeRestaurantCheckIn } from "../../../firebase/firebase";
 
 export const getPhotoUrls = async (photoPaths) => {
     if (!photoPaths?.length) return [];
@@ -28,12 +31,16 @@ const CheckInsCollage = ({ checkIn, onClose }) => {
 
     const userId = useSelector(selectUserId);
 
+    const [checkInsData, setCheckInsData] = useState([]);
+    const [userData, setUserData] = useState(null);
+
     const [restaurant, setRestaurant] = useState(null);
     const [photos, setPhotos] = useState([]);
     const [isVisible, setIsVisible] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
     const [addPhotoPopupIsVisible, setAddPhotoPopupIsVisible] = useState(false);
     const [selectMode, setSelectMode] = useState(false);
+    const [showConfirmPopup, setShowConfirmPopup] = useState(false);
 
     useEffect(() => {
         if (!checkIn) return;
@@ -51,6 +58,18 @@ const CheckInsCollage = ({ checkIn, onClose }) => {
                 }
             });
     }, [checkIn]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const user = await getUserFromUserId(userId);
+            setUserData(user);
+
+            const checkIns = await getCheckInsAndRestaurantDataByUserId(userId);
+            setCheckInsData(checkIns);
+        };
+
+        fetchData();
+    }, [userId]);
 
     const handleBackClick = () => {
         setIsVisible(false);
@@ -104,6 +123,14 @@ const CheckInsCollage = ({ checkIn, onClose }) => {
         }
     };
 
+    const handleDeleteCheckIn = () => {
+        setShowConfirmPopup(true);
+    };
+
+    const handleCloseConfirmPopup = () => {
+        setShowConfirmPopup(false);
+    };
+
     return (
         <div className={`collage-popup ${isVisible ? "visible" : ""} ${isExpanded ? "expanded" : ""}`}>
             <div>
@@ -127,6 +154,10 @@ const CheckInsCollage = ({ checkIn, onClose }) => {
 
                             <h2>{restaurant?.name}</h2>
 
+                            <button onClick={handleDeleteCheckIn}>
+                                <FontAwesomeIcon className="icon" icon={faTrashAlt} />
+                            </button>
+
                             <button onClick={handleExpand}>
                                 <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter} />
                             </button>
@@ -134,13 +165,23 @@ const CheckInsCollage = ({ checkIn, onClose }) => {
                     </div>
                 )}
 
+                {showConfirmPopup && (
+                    <CheckInConfirmationPopup
+                        restaurant={restaurant}
+                        name={restaurant?.name}
+                        checkedIn
+                        onClose={handleCloseConfirmPopup}
+                    />
+                )}
+
                 <div className={`collage-popup-photos ${isExpanded ? "collage-popup-photos-expanded" : ""}`}>
                     <div className={`collage-popup-content ${isExpanded ? "collage-popup-content-expanded" : ""}`}>
+
                         {!isExpanded && (
                             <CheckInsCard
                                 restaurant={restaurant?.name}
                                 date={checkIn?.date}
-                                userData={userId}
+                                userData={userData}
                                 friendData={checkIn?.friendData}
                             />
                         )}

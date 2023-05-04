@@ -25,6 +25,7 @@ import AdditionalDetailsView from "./AdditionalDetailsView/AdditionalDetailsView
 import HoursView from "./HoursView/HoursView";
 import ImageAndInfoView from "./ImageAndInfoView/ImageAndInfoView";
 import InteractionsView from "./InteractionsView/InteractionsView";
+import WebsiteView from "./WebsiteView/WebsiteView";
 
 const navLinksText = ["Interactions", "Website", "About", "Hours", "Details", "Reviews"];
 
@@ -294,12 +295,7 @@ const DetailsPage = () => {
 
                 {website && (
                     <section id="Website" ref={websiteRef} className="website">
-                        <h2>Website</h2>
-
-                        <Link to={website}>
-                            {getDomainName(website)}
-                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
-                        </Link>
+                        <WebsiteView url={website} domainName={getDomainName(website)}/>
                     </section>
                 )}
 

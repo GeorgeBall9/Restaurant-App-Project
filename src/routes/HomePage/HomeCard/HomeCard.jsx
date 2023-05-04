@@ -1,11 +1,10 @@
 import "./HomeCard.css";
-import StarRating from "../../../../common/components/StarRating/StarRating";
+import StarRating from "../../../common/components/StarRating/StarRating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationArrow, faUtensils } from "@fortawesome/free-solid-svg-icons";
-import BookmarkButton from "../../../../common/components/BookmarkButton/BookmarkButton";
+import BookmarkButton from "../../../common/components/BookmarkButton/BookmarkButton";
 import { useNavigate } from "react-router-dom";
-import { useSwipeable } from "react-swipeable";
-import { getRestaurantById } from "../../../../firebase/firebase";
+import { getRestaurantById } from "../../../firebase/firebase";
 import { useEffect, useState } from "react";
 
 const HomeCard = ({ restaurant }) => {

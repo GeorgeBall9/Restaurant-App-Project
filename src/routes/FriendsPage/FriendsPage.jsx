@@ -6,7 +6,7 @@ import {
     getUserFromUserId, rejectFriendRequest,
     sendFriendRequestToUser
 } from "../../firebase/firebase";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     removeFriend,
     removeFriendRequest,
@@ -28,6 +28,7 @@ import ConfirmedFriendCard from "./FriendCards/ConfirmedFriendCard/ConfirmedFrie
 import FriendRequestsView from "./FriendRequestsView/FriendRequestsView";
 import FriendsView from "./FriendsView/FriendsView";
 import AddFriendPopupView from "./AddFriendPopupView/AddFriendPopupView";
+import NoResults from "../../common/components/NoResults/NoResults";
 
 const FriendsPage = () => {
 
@@ -145,7 +146,7 @@ const FriendsPage = () => {
     const calculateMutualFriends = (userFriends) => {
         let mutualFriends = 0;
 
-        userFriends?.forEach(({userId: friendId, status}) => {
+        userFriends?.forEach(({ userId: friendId, status }) => {
             if (status === "confirmed" && friends.some(f => f.id === friendId)) {
                 mutualFriends++;
             }
@@ -257,6 +258,7 @@ const FriendsPage = () => {
                         handleDeleteClick={handleDeleteClick}
                     />
                 )}
+
 
                 {display === "friends" && (
                     <FriendsView

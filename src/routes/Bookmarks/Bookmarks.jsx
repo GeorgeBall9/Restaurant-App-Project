@@ -1,15 +1,12 @@
-import "./BookmarkCard/BookmarkCard.css";
+import "./Bookmarks.css";
 import {useSelector} from "react-redux";
 import {selectBookmarks, selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBan} from "@fortawesome/free-solid-svg-icons";
-import RestaurantCard from "../../common/components/RestaurantCard/RestaurantCard";
 import {getRestaurantById} from "../../firebase/firebase";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
-import BookmarkCard from "./BookmarkCard/BookmarkCard";
 import BookmarksView from "./BookmarksView/BookmarksView";
+import NoResults from "../../common/components/NoResults/NoResults";
 
 export const checkIsOpen = (restaurant) => {
     if (!restaurant) return false;
@@ -57,7 +54,7 @@ const Bookmarks = () => {
         }
     }, [userId]);
 
-    const setBookmarkData = async ()  => {
+    const setBookmarkData = async () => {
         const data = await Promise.all(userBookmarks
             .map(async (bookmark) => await getRestaurantById(bookmark)));
 
@@ -83,8 +80,13 @@ const Bookmarks = () => {
         <div className="bookmarks-page-container">
             <ProfileNavigationView pageTitle="Bookmarks"/>
 
-            {bookmarkedRestaurants.length > 0 && (
+            {bookmarkedRestaurants.length > 0 ? (
                 <BookmarksView bookmarkedRestaurants={bookmarkedRestaurants}/>
+            ) : (
+                <NoResults
+                    mainText="You haven't bookmarked any restaurants yet."
+                    subText="Bookmarked restaurants will appear here!"
+                />
             )}
         </div>
     );

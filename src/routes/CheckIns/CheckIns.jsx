@@ -3,6 +3,7 @@ import "./CheckInsCalendar/CheckInsCalendar.css";
 
 import Calendar from "react-calendar";
 import CheckInsCollage from "./CheckInsCollage/CheckInsCollage.jsx";
+import CheckInsDetails from "./CheckInsDetails/CheckInsDetails";
 
 import NoResults from "../../common/components/NoResults/NoResults";
 
@@ -31,6 +32,7 @@ const CheckIns = () => {
     const [selectedCheckIn, setSelectedCheckIn] = useState(null);
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
+    const [showDetailsPopup, setShowDetailsPopup] = useState(false);
 
     useEffect(() => {
         if (!allCheckIns?.length) return;
@@ -50,6 +52,10 @@ const CheckIns = () => {
 
     const handleCollagePopupClose = () => {
         setShowCollagePopup(false);
+    };
+
+    const handleDetailsPopupOpen = () => {
+        setShowDetailsPopup(true);
     };
 
     useEffect(() => {
@@ -138,7 +144,7 @@ const CheckIns = () => {
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
                     {allCheckIns?.length > 0 ? (
-                        <CheckInsMap checkIns={allCheckIns} />
+                        <CheckInsMap checkIns={allCheckIns} onViewDetails={handleDetailsPopupOpen} />
                     ) : (
                         <NoResults
                             mainText="You haven't checked in anywhere yet."
@@ -174,6 +180,10 @@ const CheckIns = () => {
 
                     {showCollagePopup && (
                         <CheckInsCollage checkIn={selectedCheckIn} onClose={handleCollagePopupClose} />
+                    )}
+
+                    {showDetailsPopup && (
+                        <CheckInsDetails checkIn={selectedCheckIn} onClose={() => setShowDetailsPopup(false)} />
                     )}
                 </div>
             </div>

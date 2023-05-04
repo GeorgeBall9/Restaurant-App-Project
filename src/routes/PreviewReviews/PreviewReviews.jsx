@@ -42,7 +42,7 @@ const PreviewReviews = () => {
                     ))
                 )}
 
-                {!reviews?.length && (
+                {!reviews?.length && fetchStatus === "idle" && (
                     <NoResults
                         mainText="You haven't written any reviews yet."
                         subText="Write some restaurant reviews, and view them here!"

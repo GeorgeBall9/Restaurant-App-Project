@@ -6,7 +6,6 @@ import {
     removeRestaurantCheckIn
 } from "../../../firebase/firebase";
 import {selectFriends, selectUserId,} from "../../user/userSlice";
-import {hideOverlay} from "../../overlay/overlaySlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {
@@ -71,12 +70,10 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
         setTimeout(() => dispatch(resetCheckInFeedback()), 2000);
 
-        dispatch(hideOverlay());
         dispatch(hideCheckInConfirmation());
     };
 
     const handleNoClick = () => {
-        dispatch(hideOverlay());
         dispatch(hideCheckInConfirmation());
     };
 
@@ -135,13 +132,11 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
             {selectFriendsIsVisible && (
                 <div className="select-friends">
-                    {friends.map(({id, displayName, iconColour, profilePhotoUrl}) => (
+                    {friends.map(({id, displayName, profilePhotoUrl}) => (
                         <div key={id} className="select-friend-card" onClick={() => handleFriendCardClick(id)}>
                             <div className="icon-container">
                                 <UserIcon
                                     size="small"
-                                    colour={iconColour}
-                                    skeleton={!iconColour && !profilePhotoUrl}
                                     imageUrl={profilePhotoUrl}
                                 />
 

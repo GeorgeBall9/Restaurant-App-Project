@@ -1,9 +1,7 @@
 import "./UserIcon.css";
-
-import userIconImageSrc from "../../images/errorImage.png";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 const sizesMap = {
     small: "40px",
@@ -13,27 +11,26 @@ const sizesMap = {
     xLarge: "100px",
 };
 
-const UserIcon = ({size, colour = "#C23B22", skeleton = false, imageUrl = null}) => {
+const UserIcon = ({size, imageUrl = null}) => {
 
     const [imageIsLoaded, setImageIsLoaded] = useState(false);
 
     const dimensions = sizesMap[size];
-    let backgroundColor = (skeleton || imageUrl) ? "rgba(211, 211, 211, 0.3)" : colour;
 
     return (
-        <div className="user-icon" style={{height: dimensions, width: dimensions, backgroundColor}}>
-            {!skeleton && (
+        <div className="user-icon" style={{height: dimensions, width: dimensions}}>
+            {imageUrl ? (
                 <img
                     className={imageUrl ? "custom-image" : "avatar"}
-                    src={imageUrl ? imageUrl : userIconImageSrc}
+                    src={imageUrl}
                     alt="user-icon"
                     loading="lazy"
                     onLoad={() => setImageIsLoaded(true)}
                     style={{visibility: imageIsLoaded ? "visible" : "hidden"}}
                 />
+            ) : (
+                <FontAwesomeIcon className="icon" icon={faUser}/>
             )}
-
-            {skeleton && <FontAwesomeIcon className="icon" icon={faUser}/>}
         </div>
     );
 };

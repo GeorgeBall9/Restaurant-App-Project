@@ -69,8 +69,6 @@ const ProfilePage = () => {
                     <div className="user-icon-container">
                         <UserIcon
                             size="xLarge"
-                            colour={iconColour}
-                            skeleton={!iconColour && !profilePhotoUrl}
                             imageUrl={profilePhotoUrl}
                         />
                     </div>

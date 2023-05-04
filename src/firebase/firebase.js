@@ -112,21 +112,10 @@ export const createNewUserInDatabase = async (user) => {
         return userData;
     }
 
-    const iconColour = getRandomColour();
-
-    const data = {displayName, email, iconColour, bookmarks: [], checkedIn: []};
+    const data = {displayName, email};
     await createUserDoc(data, uid);
 
     return {...data, id: uid};
-};
-
-// helper function to generate random icon colour for user
-const getRandomColour = () => {
-    const colours = ["#FF2E63", "#B3E5BE", "#AA77FF", "#19A7CE", "#FE6244", "#FFDD83", "#E6A4B4", "#5D9C59",
-        "#E21818"];
-
-    const randomIndex = Math.floor(Math.random() * colours.length);
-    return colours[randomIndex];
 };
 
 // get user details from db

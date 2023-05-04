@@ -1,12 +1,10 @@
 import "./EditProfilePage.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {selectChangeIconPopupIsVisible, showChangeIconPopup} from "../../features/changeIconPopup/changeIconPopupSlice";
-import ChangeIconPopup from "../../features/changeIconPopup/ChangeIconPopup/ChangeIconPopup";
+import ChangeProfilePhotoPopup from "./ChangeProfilePhotoPopup/ChangeProfilePhotoPopup";
 import {
     selectDisplayName, selectEmail,
     selectIconColour, selectPhone, selectProfilePhotoUrl,
@@ -19,14 +17,11 @@ import {
     updateUserEmailAddress,
     updateUserPhoneNumber
 } from "../../firebase/firebase";
-import {showOverlay} from "../../features/overlay/overlaySlice";
 import FormField from "../../common/components/FormField/FormField";
 import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 
 const EditProfilePage = () => {
-
-    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
@@ -40,7 +35,7 @@ const EditProfilePage = () => {
     const [name, setName] = useState("");
     const [emailAddress, setEmailAddress] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-
+    const [changeIconPopupIsVisible, setChangeIconPopupIsVisible] = useState(false);
     const [buttonText, setButtonText] = useState("Save");
 
     useEffect(() => {
@@ -60,10 +55,6 @@ const EditProfilePage = () => {
 
         setPhoneNumber(phone);
     }, [phone]);
-
-    const handleBackClick = () => {
-        navigate("/profile");
-    };
 
     const handleSaveClick = async () => {
         // update user doc to have new fields
@@ -107,13 +98,6 @@ const EditProfilePage = () => {
         setPhoneNumber(value);
     };
 
-    const popupVisible = useSelector(selectChangeIconPopupIsVisible);
-
-    const handleChangeIconClick = () => {
-        dispatch(showOverlay());
-        dispatch(showChangeIconPopup());
-    };
-
     return (
         <div className="profile-container">
             <ProfileNavigationView pageTitle="Edit Profile"/>
@@ -123,17 +107,17 @@ const EditProfilePage = () => {
                    <div className="user-icon-container">
                        <UserIcon
                            size="xLarge"
-                           colour={iconColour}
-                           skeleton={!iconColour && !profilePhotoUrl}
                            imageUrl={profilePhotoUrl}
                        />
 
-                       <button onClick={handleChangeIconClick}>
+                       <button onClick={() => setChangeIconPopupIsVisible(true)}>
                            <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
                        </button>
                    </div>
 
-                   {popupVisible && <ChangeIconPopup/>}
+                   {changeIconPopupIsVisible && (
+                       <ChangeProfilePhotoPopup closePopup={() => setChangeIconPopupIsVisible(false)}/>
+                   )}
                </section>
 
                <section className="change-details-section">

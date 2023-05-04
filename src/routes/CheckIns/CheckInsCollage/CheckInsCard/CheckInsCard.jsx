@@ -20,7 +20,6 @@ const CheckInsCard = ({ restaurant, date, userData, friendData }) => {
             <div className="user-icon-wrapper">
                 <UserIcon
                     size="small"
-                    colour={user.iconColor}
                     imageUrl={user.profilePhotoUrl}
                 />
             </div>

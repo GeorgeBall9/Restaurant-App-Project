@@ -5,7 +5,6 @@ import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../../../features/user/userSlice";
 import {useEffect, useState} from "react";
-import {showOverlay} from "../../../../features/overlay/overlaySlice";
 import {
     selectCheckedIn,
     setCheckedInStatus,
@@ -45,7 +44,6 @@ const CheckInButton = ({restaurantId}) => {
         if (!userId) {
             navigate("/sign-in");
         } else {
-            dispatch(showOverlay());
             dispatch(showCheckInConfirmation());
         }
     };

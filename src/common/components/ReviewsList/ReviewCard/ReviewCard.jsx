@@ -1,18 +1,18 @@
 import "./ReviewCard.css";
-import UserIcon from "../../../UserIcon/UserIcon";
+import UserIcon from "../../UserIcon/UserIcon";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
-import ReportButton from "../../ReportButton/ReportButton";
-import StarRating from "../../../StarRating/StarRating";
+import ReportButton from "../ReportButton/ReportButton";
+import StarRating from "../../StarRating/StarRating";
 import {faImages} from "@fortawesome/free-regular-svg-icons";
 import {useState} from "react";
-import {addUserReactionToReview, deleteRestaurantReview} from "../../../../../firebase/firebase";
-import {deleteReview, selectReviews, updateReview} from "../../../../../features/reviews/reviewsSlice";
+import {addUserReactionToReview, deleteRestaurantReview} from "../../../../firebase/firebase";
+import {deleteReview, selectReviews, updateReview} from "../../../../features/reviews/reviewsSlice";
 import {useDispatch, useSelector} from "react-redux";
-import PrimaryButton from "../../../PrimaryButton/PrimaryButton";
-import InversePrimaryButton from "../../../InversePrimaryButton/InversePrimaryButton";
+import PrimaryButton from "../../PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../../InversePrimaryButton/InversePrimaryButton";
 import VoteButton from "./VoteButton/VoteButton";
-import InteractionButton from "../../../InteractionButton/InteractionButton";
+import InteractionButton from "../../InteractionButton/InteractionButton";
 
 const ReviewCard = ({review, userId, handleEditClick}) => {
 

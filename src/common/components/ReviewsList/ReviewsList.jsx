@@ -1,40 +1,48 @@
-import {useEffect} from "react";
-import {addUserReactionToReview, deleteRestaurantReview} from "../../../firebase/firebase";
-import {useDispatch, useSelector} from "react-redux";
-import {
-    deleteReview,
-    deselectReview,
-    selectSelectedReviewId,
-    updateReview
-} from "../../../features/reviews/reviewsSlice";
-import ReviewsListView from "./ReviewsListView/ReviewsListView";
+import "./ReviewsList.css";
+import ReviewForm from "../ReviewForm/ReviewForm";
+import ReviewCard from "./ReviewCard/ReviewCard";
+import {useState} from "react";
 
-const ReviewsList = ({reviews, userId, preview}) => {
+const ReviewsList = ({reviews, userId}) => {
 
-    const dispatch = useDispatch();
-
-    const selectedReviewId = useSelector(selectSelectedReviewId);
-
-    useEffect(() => {
-        if (!reviews || !selectedReviewId) return;
-
-        const review = document.getElementById("review-" + selectedReviewId);
-
-        if (!review) {
-            dispatch(deselectReview());
-        } else {
-            review.scrollIntoView({
-                behavior: "smooth"
-            });
-        }
-    }, [selectedReviewId, reviews]);
+    const [editingReviewId, setEditingReviewId] = useState(null);
 
     return (
-        <ReviewsListView
-            reviews={reviews}
-            userId={userId}
-            preview={preview}
-        />
+        <div className="reviews-container">
+            {!reviews?.length && (
+                <p>No reviews available</p>
+            )}
+
+            {reviews && reviews.map(review => {
+                    let {id, authorId, title, rating, content, visitDate} = review;
+
+                    if (editingReviewId === id) {
+                        visitDate = new Date(visitDate)
+                            .toISOString()
+                            .replaceAll("/", "-")
+                            .split("T")
+                            .at(0);
+
+                        return <ReviewForm
+                            key={id}
+                            userId={authorId}
+                            edit={true}
+                            reviewId={id}
+                            reviewData={{rating, visitDate, title, content}}
+                            handleCancel={() => setEditingReviewId(null)}
+                        />
+                    }
+
+                    return (
+                        <ReviewCard
+                            key={id}
+                            review={review}
+                            userId={userId}
+                            handleEditClick={() => setEditingReviewId(id)}
+                        />
+                    )
+                })}
+        </div>
     );
 };
 

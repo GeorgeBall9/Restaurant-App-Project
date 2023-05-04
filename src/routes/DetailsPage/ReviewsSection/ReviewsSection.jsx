@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import {getReviewsByRestaurantId} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
-import ReviewsListView from "../../../common/components/ReviewsList/ReviewsListView/ReviewsListView";
+import ReviewsList from "../../../common/components/ReviewsList/ReviewsList";
 import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
 import ReviewsStatsView from "./ReviewsStatsView/ReviewsStatsView";
 
@@ -94,7 +94,7 @@ const ReviewsSection = ({userId, restaurant}) => {
                 />
             )}
 
-            <ReviewsListView reviews={displayedReviews} userId={userId}/>
+            <ReviewsList reviews={displayedReviews} userId={userId}/>
 
             {allReviewsVisible ? (
                 <PrimaryButton

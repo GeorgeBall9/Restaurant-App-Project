@@ -3,9 +3,8 @@
     text-decoration: none;
 }
 
-
-
 .review-photos {
+    display: flex;
     width: 100px; /* Set the desired width */
     height: 100px; /* Set the desired height */
     object-fit: cover; /* Maintain aspect ratio while filling the container */

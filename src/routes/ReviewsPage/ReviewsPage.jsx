@@ -1,5 +1,4 @@
 import "./ReviewsPage.css";
-import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
 import ReviewForm from "../../common/components/ReviewForm/ReviewForm";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -13,6 +12,7 @@ import {faChevronDown, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icon
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import SortFiltersView from "./SortFiltersView/SortFiltersView";
 import Overlay from "../../common/components/Overlay/Overlay";
+import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
 
 const ReviewsPage = () => {
 
@@ -36,8 +36,8 @@ const ReviewsPage = () => {
     const [sortFilters, setSortFilters] = useState([
         {text: "Highest rated", active: true, type: "rating", multiplier: -1},
         {text: "Lowest rated", active: false, type: "rating", multiplier: 1},
-        {text: "Most recent", active: false, type: "date", multiplier: -1},
-        {text: "Oldest", active: false, type: "date", multiplier: 1}
+        {text: "Most recent", active: false, type: "visitDate", multiplier: -1},
+        {text: "Oldest", active: false, type: "visitDate", multiplier: 1}
     ]);
 
     useEffect(() => {

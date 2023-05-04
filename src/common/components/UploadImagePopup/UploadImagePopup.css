@@ -40,9 +40,19 @@
 }
 
 .uploaded-image-popup .uploaded-image-container {
-    width: 180px;
-    height: 120px;
     border: solid 4px lightgrey;
     margin: var(--margin-align-center);
     margin-bottom: 1em;
+    overflow: hidden;
+}
+
+.uploaded-image-popup .uploaded-image-container.rectangle {
+    width: 180px;
+    height: 120px;
+}
+
+.uploaded-image-popup .uploaded-image-container.round {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
 }

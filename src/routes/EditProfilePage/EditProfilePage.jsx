@@ -4,22 +4,23 @@ import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import ChangeProfilePhotoPopup from "./ChangeProfilePhotoPopup/ChangeProfilePhotoPopup";
 import {
     selectDisplayName, selectEmail,
-    selectIconColour, selectPhone, selectProfilePhotoUrl,
+    selectPhone, selectProfilePhotoUrl,
     selectUserId,
-    setDisplayName, setEmail, setPhone
+    setDisplayName, setEmail, setPhone, setProfilePhotoUrl
 } from "../../features/user/userSlice";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {
+    addPhotoToCheckIn,
     updateUserDisplayName,
     updateUserEmailAddress,
-    updateUserPhoneNumber
+    updateUserPhoneNumber, updateUserProfilePhoto
 } from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
 import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import UploadImagePopup from "../../common/components/UploadImagePopup/UploadImagePopup";
 
 const EditProfilePage = () => {
 
@@ -29,14 +30,14 @@ const EditProfilePage = () => {
     const displayName = useSelector(selectDisplayName);
     const email = useSelector(selectEmail);
     const phone = useSelector(selectPhone);
-    const iconColour = useSelector(selectIconColour);
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
 
     const [name, setName] = useState("");
     const [emailAddress, setEmailAddress] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    const [changeIconPopupIsVisible, setChangeIconPopupIsVisible] = useState(false);
+    const [uploadImagePopupIsVisible, setUploadImagePopupIsVisible] = useState(false);
     const [buttonText, setButtonText] = useState("Save");
+    const [uploadedPhotoUrl, setUploadedPhotoUrl] = useState("");
 
     useEffect(() => {
         if (!displayName) return;
@@ -98,6 +99,18 @@ const EditProfilePage = () => {
         setPhoneNumber(value);
     };
 
+    const handleCloseUploadImagePopup = () => {
+        setUploadImagePopupIsVisible(false)
+        document.querySelector(".file-upload-input").value = "";
+    };
+
+    const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
+        await updateUserProfilePhoto(userId, photoStoragePath);
+        dispatch(setProfilePhotoUrl(photoUrl));
+        document.querySelector(".file-upload-input").value = "";
+        handleCloseUploadImagePopup();
+    };
+
     return (
         <div className="profile-container">
             <ProfileNavigationView pageTitle="Edit Profile"/>
@@ -107,16 +120,20 @@ const EditProfilePage = () => {
                    <div className="user-icon-container">
                        <UserIcon
                            size="xLarge"
-                           imageUrl={profilePhotoUrl}
+                           imageUrl={uploadedPhotoUrl || profilePhotoUrl}
                        />
 
-                       <button onClick={() => setChangeIconPopupIsVisible(true)}>
+                       <button onClick={() => setUploadImagePopupIsVisible(true)}>
                            <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
                        </button>
                    </div>
 
-                   {changeIconPopupIsVisible && (
-                       <ChangeProfilePhotoPopup closePopup={() => setChangeIconPopupIsVisible(false)}/>
+                   {uploadImagePopupIsVisible && (
+                       <UploadImagePopup
+                           handleCloseClick={handleCloseUploadImagePopup}
+                           handleUploadClick={handleUploadPhotoClick}
+                           shape="round"
+                       />
                    )}
                </section>
 

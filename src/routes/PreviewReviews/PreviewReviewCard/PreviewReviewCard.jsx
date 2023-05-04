@@ -5,23 +5,40 @@ import StarRating from "../../../common/components/StarRating/StarRating";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
+import {deleteRestaurantReview} from "../../../firebase/firebase";
+import {deleteReview, selectReview} from "../../../features/reviews/reviewsSlice";
+import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {selectUserId} from "../../../features/user/userSlice";
 
-const PreviewReviewCard = ({review, handleDelete, handleExpandClick}) => {
+const PreviewReviewCard = ({review}) => {
 
     const {id, rating, title, content, restaurantId, restaurantName, photoUrl} = review;
 
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
+    const userId = useSelector(selectUserId);
+
     const [confirmDeleteReviewId, setConfirmDeleteReviewId] = useState(null);
 
-    const handleConfirmDelete = () => {
-        handleDelete(confirmDeleteReviewId);
+    const handleDeleteClick = async () => {
+        await deleteRestaurantReview(userId, id);
+        dispatch(deleteReview(id));
         setConfirmDeleteReviewId(null);
+    };
+
+    const handleExpandClick = (reviewId, restaurantId) => {
+        dispatch(selectReview(reviewId));
+        navigate("/details/" + restaurantId);
     };
 
     return (
         <div className="preview-review-card">
             {confirmDeleteReviewId === id && (
                 <ConfirmDeletePopup
-                    handleConfirmDelete={handleConfirmDelete}
+                    handleConfirmDelete={handleDeleteClick}
                     handleCancelDelete={() => setConfirmDeleteReviewId(null)}
                 />
             )}

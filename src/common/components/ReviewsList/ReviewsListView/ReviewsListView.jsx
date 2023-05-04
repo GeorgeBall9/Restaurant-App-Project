@@ -3,21 +3,9 @@ import ReviewForm from "../../ReviewForm/ReviewForm";
 import ReviewCard from "./ReviewCard/ReviewCard";
 import {useState} from "react";
 
-const ReviewsListView = ({
-                             reviews,
-                             userId,
-                             preview = false,
-                             handleVoteClick,
-                             handleDeleteReview,
-                         }) => {
+const ReviewsListView = ({reviews, userId, preview = false}) => {
 
-    const [confirmDeleteReviewId, setConfirmDeleteReviewId] = useState(null);
     const [editingReviewId, setEditingReviewId] = useState(null);
-
-    const handleConfirmDelete = () => {
-        handleDeleteReview(confirmDeleteReviewId);
-        setConfirmDeleteReviewId(null);
-    };
 
     return (
         <div className="reviews-container">
@@ -52,12 +40,7 @@ const ReviewsListView = ({
                             key={id}
                             review={review}
                             userId={userId}
-                            handleVoteClick={handleVoteClick}
-                            confirmDeleteReviewId={confirmDeleteReviewId}
-                            handleNoClick={() => setConfirmDeleteReviewId(null)}
-                            handleConfirmDelete={handleConfirmDelete}
                             handleEditClick={() => setEditingReviewId(id)}
-                            handleDeleteClick={() => setConfirmDeleteReviewId(id)}
                         />
                     )
                 })}

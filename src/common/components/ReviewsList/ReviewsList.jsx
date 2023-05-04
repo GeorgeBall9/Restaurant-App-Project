@@ -15,21 +15,6 @@ const ReviewsList = ({reviews, userId, preview}) => {
 
     const selectedReviewId = useSelector(selectSelectedReviewId);
 
-    const handleVoteClick = async (reviewId, voteType) => {
-        if (!reviews || !userId) return;
-
-        const reactions = await addUserReactionToReview(userId, reviewId, voteType);
-
-        const updatedReview = {...reviews.find(review => review.id === reviewId)};
-        updatedReview.reactions = reactions;
-        dispatch(updateReview({reviewId, updatedReview}));
-    };
-
-    const handleDeleteReview = async (confirmDeleteReviewId) => {
-        await deleteRestaurantReview(userId, confirmDeleteReviewId);
-        dispatch(deleteReview(confirmDeleteReviewId));
-    };
-
     useEffect(() => {
         if (!reviews || !selectedReviewId) return;
 
@@ -49,8 +34,6 @@ const ReviewsList = ({reviews, userId, preview}) => {
             reviews={reviews}
             userId={userId}
             preview={preview}
-            handleVoteClick={handleVoteClick}
-            handleYesClick={handleDeleteReview}
         />
     );
 };

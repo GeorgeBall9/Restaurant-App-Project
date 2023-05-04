@@ -8,9 +8,6 @@ import {useState, useEffect, useRef} from 'react';
 import {
     faLocationDot,
     faPhone,
-    faUtensils,
-    faMoneyBillWave,
-    faLeaf,
     faArrowUpRightFromSquare, faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -23,7 +20,6 @@ import {
     selectCheckInConfirmationIsVisible, selectCheckInFeedbackIsVisible
 } from "../../features/checkInConfirmation/checkInConfirmationSlice";
 import Banner from "./Banner/Banner";
-import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectUserId} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
@@ -34,7 +30,7 @@ import {faBookmark, faHeart, faCheckCircle, faCircleCheck} from "@fortawesome/fr
 import AdditionalDetailsView from "./AdditionalDetailsView/AdditionalDetailsView";
 import HoursView from "./HoursView/HoursView";
 
-const navLinksText = ["Interactions", "Website", "About", "Photos", "Hours", "Details", "Reviews"];
+const navLinksText = ["Interactions", "Website", "About", "Hours", "Details", "Reviews"];
 
 const DetailsPage = () => {
 
@@ -369,12 +365,6 @@ const DetailsPage = () => {
                             {toggleLabel}
                         </button>
                     )}
-                </section>
-
-
-                <section id="Photos" ref={photosRef} className="pictures">
-                    <h2>Photos</h2>
-                    <p>No photos available.</p>
                 </section>
 
                 <section id="Hours" ref={hoursRef} className="hours">

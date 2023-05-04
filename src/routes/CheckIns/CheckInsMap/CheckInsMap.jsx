@@ -11,7 +11,7 @@ import {faArrowUpRightFromSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
 
-const CheckInsMap = ({checkIns, onViewDetails}) => {
+const CheckInsMap = ({checkIns}) => {
 
     const dispatch = useDispatch();
 
@@ -105,8 +105,6 @@ const CheckInsMap = ({checkIns, onViewDetails}) => {
                                             {/*        With {friendData.map(friend => friend.displayName).join(", ")}*/}
                                             {/*    </p>*/}
                                             {/*)}*/}
-
-                                            <button onClick={onViewDetails}>View details</button>
                                         </div>
                                     </Popup>
                                 )}

@@ -1,0 +1,41 @@
+.check-ins-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--padding-content);
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
+  
+  .check-ins-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .check-ins-card .user-icons {
+    display: flex;
+    gap: 4px;
+  }
+  
+  .check-ins-card .user-icons img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .check-ins-card .restaurant-name {
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    margin-top: 8px;
+  }
+  
+  .check-ins-card .visit-date {
+    font-size: var(--font-size-smaller);
+    font-weight: var(--font-weight-bold-1);
+    color: var(--dark-theme);
+  }
+  

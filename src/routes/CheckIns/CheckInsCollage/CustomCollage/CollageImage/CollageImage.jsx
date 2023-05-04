@@ -1,10 +1,16 @@
-const CollageImage = ({id, url, alt, loadHandler}) => {
+import {useState} from "react";
+
+const CollageImage = ({id, url, alt}) => {
+
+    const [loaded, setLoaded] = useState(false);
+
     return (
         <img
+            style={{visibility: loaded ? "visible" : "hidden"}}
             src={url}
             alt={alt}
             className="collage-image"
-            onLoad={() => loadHandler(id)}
+            onLoad={() => setLoaded(true)}
         />
     );
 };

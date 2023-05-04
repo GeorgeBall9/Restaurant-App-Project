@@ -148,12 +148,6 @@
     font-size: var(--font-size-icon-large);
 }
 
-.details-page .details-container .hours {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25em;
-}
-
 .details-page .details-container .website a {
     text-decoration: none;
     color: black;

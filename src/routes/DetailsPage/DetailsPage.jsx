@@ -32,6 +32,7 @@ import ReviewsSection from "./ReviewsSection/ReviewsSection";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
 import {faBookmark, faHeart, faCheckCircle, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import AdditionalDetailsView from "./AdditionalDetailsView/AdditionalDetailsView";
+import HoursView from "./HoursView/HoursView";
 
 const navLinksText = ["Interactions", "Website", "About", "Photos", "Hours", "Details", "Reviews"];
 
@@ -377,11 +378,7 @@ const DetailsPage = () => {
                 </section>
 
                 <section id="Hours" ref={hoursRef} className="hours">
-                    <h2>Opening Times</h2>
-
-                    {displayedHours.map((hour, index) => (
-                        <p key={index}>{hour}</p>
-                    ))}
+                    <HoursView hours={displayedHours}/>
                 </section>
 
                 <section id="Details" ref={detailsRef}>

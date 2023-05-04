@@ -1,27 +1,20 @@
-import "./Banner.css";
+import "./BannerView.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import BookmarkButton from "../../../common/components/BookmarkButton/BookmarkButton";
-import {useNavigate} from "react-router-dom";
 import ShareButton from "./ShareButton/ShareButton";
-import {deselectReview} from "../../../features/reviews/reviewsSlice";
-import {useDispatch} from "react-redux";
-import {useEffect, useRef} from "react";
+import {forwardRef} from "react";
 import RecommendButton from "./RecommendButton/RecommendButton";
+import {deselectReview} from "../../../features/reviews/reviewsSlice";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
-const Banner = ({restaurant, scrollPosition, setNavTopPosition, showName}) => {
+const BannerView = forwardRef((props, ref) => {
+
+    const {restaurant, scrollPosition, showName} = props;
 
     const navigate = useNavigate();
-
     const dispatch = useDispatch();
-
-    const ref = useRef(null);
-
-    useEffect(() => {
-        if (!ref) return;
-
-        setNavTopPosition(ref.current.offsetHeight - 2);
-    }, [ref]);
 
     const style = scrollPosition > 20
         ? {position: 'fixed', backgroundColor: '#4c4c4c'}
@@ -54,6 +47,6 @@ const Banner = ({restaurant, scrollPosition, setNavTopPosition, showName}) => {
             </div>
         </div>
     );
-};
+});
 
-export default Banner;
+export default BannerView;

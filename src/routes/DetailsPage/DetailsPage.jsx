@@ -2,19 +2,10 @@ import './DetailsPage.css';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
-import StarRating from '../../common/components/StarRating/StarRating';
 import {useState, useEffect, useRef} from 'react';
 
-import {
-    faLocationDot,
-    faPhone,
-    faUtensils,
-    faMoneyBillWave,
-    faLeaf,
-    faArrowUpRightFromSquare, faXmark,
-} from '@fortawesome/free-solid-svg-icons';
+import {faArrowUpRightFromSquare, faXmark,} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import CheckInButton from "./CheckInButton/CheckInButton";
 import CheckInConfirmationPopup
     from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import {
@@ -22,17 +13,22 @@ import {
     selectCheckedIn,
     selectCheckInConfirmationIsVisible, selectCheckInFeedbackIsVisible
 } from "../../features/checkInConfirmation/checkInConfirmationSlice";
-import Banner from "./Banner/Banner";
-import AdditionalDetail from "./AdditionalDetail/AdditionalDetail";
+import BannerView from "./BannerView/BannerView";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectUserId} from "../../features/user/userSlice";
 import {checkIsOpen} from "../Bookmarks/Bookmarks";
 import {getRestaurantById} from "../../firebase/firebase";
 import ReviewsSection from "./ReviewsSection/ReviewsSection";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
-import {faBookmark, faHeart, faCheckCircle, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
+import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
+import AdditionalDetailsView from "./AdditionalDetailsView/AdditionalDetailsView";
+import HoursSection from "./HoursSection/HoursSection";
+import ImageAndInfoView from "./ImageAndInfoView/ImageAndInfoView";
+import InteractionsView from "./InteractionsView/InteractionsView";
+import WebsiteView from "./WebsiteView/WebsiteView";
+import AboutView from "./AboutView/AboutView";
 
-const navLinksText = ["Interactions", "Website", "About", "Photos", "Hours", "Details", "Reviews"];
+const navLinksText = ["Interactions", "Website", "About", "Hours", "Details", "Reviews"];
 
 const DetailsPage = () => {
 
@@ -49,18 +45,16 @@ const DetailsPage = () => {
     const checkInFeedbackIsVisible = useSelector(selectCheckInFeedbackIsVisible);
     const addedCheckIn = useSelector(selectAddedCheckIn);
 
+    const bannerRef = useRef(null);
     const nameRef = useRef(null);
     const interactionsRef = useRef(null);
     const websiteRef = useRef(null);
     const aboutRef = useRef(null);
-    const photosRef = useRef(null);
     const hoursRef = useRef(null);
     const detailsRef = useRef(null);
     const reviewsRef = useRef(null);
 
     const [restaurant, setRestaurant] = useState(null);
-    const [isExpanded, setIsExpanded] = useState(false);
-    const [toggleLabel, setToggleLabel] = useState('Read More');
     const [scrollPosition, setScrollPosition] = useState(0);
     const [activeNavLink, setActiveNavLink] = useState("Interactions");
     const [navigationStyle, setNavigationStyle] = useState({top: 0});
@@ -107,6 +101,16 @@ const DetailsPage = () => {
     }, [restaurant]);
 
     useEffect(() => {
+        if (!bannerRef.current) return;
+
+        setNavigationStyle(navigationStyle => {
+            const style = {...navigationStyle};
+            style.top = bannerRef.current.offsetHeight - 2;
+            return style;
+        });
+    }, [bannerRef.current]);
+
+    useEffect(() => {
         const handleScroll = () => {
             const {scrollY} = window;
             setScrollPosition(scrollY);
@@ -117,7 +121,7 @@ const DetailsPage = () => {
             const navHeight = document.getElementById("details-page-nav")?.getBoundingClientRect().height;
             const adjustment = bannerHeight + navHeight;
 
-            const activeSection = [interactionsRef, websiteRef, aboutRef, photosRef, hoursRef, detailsRef, reviewsRef]
+            const activeSection = [interactionsRef, websiteRef, aboutRef, hoursRef, detailsRef, reviewsRef]
                 .find(({current}) => {
                     if (!current) return false;
 
@@ -174,63 +178,15 @@ const DetailsPage = () => {
 
     const starRating = Math.round(rating * 2) / 2;
 
-    const groupDaysWithSameHours = (hours) => {
-        const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        let groupedHours = [];
-        let currentGroup = [daysOfWeek[0]];
-        let currentHours = hours[0];
-
-        for (let i = 1; i < hours.length; i++) {
-            if (hours[i] === currentHours) {
-                currentGroup.push(daysOfWeek[i]);
-            } else {
-                groupedHours.push({
-                    days: currentGroup,
-                    hours: currentHours,
-                });
-
-                currentGroup = [daysOfWeek[i]];
-                currentHours = hours[i];
-            }
-        }
-
-        groupedHours.push({
-            days: currentGroup,
-            hours: currentHours,
-        });
-
-        return groupedHours.map(
-            (group) => `${group.days[0]}${group.days.length > 1
-                ?
-                `-${group.days[group.days.length - 1]}`
-                :
-                ""}: ${group.hours}`
-        );
-    };
-
-    const getDomainName = (url) => {
-        try {
-            const {hostname} = new URL(url);
-            return hostname;
-        } catch (error) {
-            console.error('Error parsing URL', error);
-            return url;
-        }
-    };
-
-    const displayedHours = groupDaysWithSameHours(hours);
     const isOpen = checkIsOpen(restaurant);
-
-    const handleToggleDescription = () => {
-        setIsExpanded(!isExpanded);
-        setToggleLabel(isExpanded ? 'Read More' : 'Read Less');
-    };
 
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
     const handleNavLinkClick = (text) => {
-        const elementRef = [interactionsRef, websiteRef, aboutRef, photosRef, hoursRef, detailsRef, reviewsRef]
+        const elementRef = [interactionsRef, websiteRef, aboutRef, hoursRef, detailsRef, reviewsRef]
             .find(({current}) => current.id === text)?.current;
+
+        if (!elementRef) return;
 
         const elementPosition = elementRef.offsetTop;
         const bannerHeight = document.getElementById("banner").getBoundingClientRect().height;
@@ -239,14 +195,6 @@ const DetailsPage = () => {
         window.scrollTo({
             top: elementPosition - (bannerHeight + navHeight + 5),
             behavior: "smooth"
-        });
-    };
-
-    const setNavTopPosition = (top) => {
-        setNavigationStyle(navigationStyle => {
-            const style = {...navigationStyle};
-            style.top = top;
-            return style;
         });
     };
 
@@ -259,45 +207,25 @@ const DetailsPage = () => {
                 <FontAwesomeIcon icon={addedCheckIn ? faCircleCheck : faXmark} className="bookmark-feedback-icon"/>
             </div>
 
-            <Banner
+            <BannerView
+                ref={bannerRef}
                 restaurant={restaurant}
                 scrollPosition={scrollPosition}
-                setNavTopPosition={setNavTopPosition}
                 showName={showNameInBanner}
             />
 
-            <div className="image-and-info-container">
-                <div className="backdrop" style={{backgroundImage: `url(${photoUrl})`}}></div>
-
-                <div className="restaurant-info">
-                    <div className="title-container">
-                        <h1 ref={nameRef}>{name}</h1>
-
-                        <CheckInButton restaurantId={id}/>
-                    </div>
-
-                    <StarRating rating={starRating}/>
-
-                    <div className="price">
-                        <p>{priceLevel !== null ? priceLevel : price}</p>
-                    </div>
-
-                    <div className="address info">
-                        <FontAwesomeIcon icon={faLocationDot} className="icon"/>
-                        <p>{formattedAddress}</p>
-                    </div>
-
-                    {phone && (
-                        <div className="phone info">
-                            <FontAwesomeIcon icon={faPhone} className="icon"/>
-                            <p>{phone}</p>
-                        </div>
-                    )}
-
-                    <div className="open-status">{isOpen ? 'Open Now' : 'Closed'}</div>
-
-                </div>
-            </div>
+            <ImageAndInfoView
+                ref={nameRef}
+                id={id}
+                name={name}
+                photoUrl={photoUrl}
+                starRating={starRating}
+                price={price}
+                priceLevel={priceLevel}
+                formattedAddress={formattedAddress}
+                phone={phone}
+                isOpen={isOpen}
+            />
 
             <div id="details-page-nav" className="details-page-navigation" style={navigationStyle}>
                 {navLinksText.map((text, i) => (
@@ -311,113 +239,37 @@ const DetailsPage = () => {
             </div>
 
             <div className="details-container">
-                <div id="Interactions" ref={interactionsRef} className="interactions">
-                    <h2>Interactions</h2>
-
-                    <div>
-                        <div className="stat-container">
-                            <FontAwesomeIcon icon={faHeart} className="icon"/>
-                            {interactions?.recommendations || "0"}
-                        </div>
-
-                        <div className="stat-container">
-                            <FontAwesomeIcon icon={faBookmark} className="icon"/>
-                            {interactions?.bookmarks || "0"}
-                        </div>
-
-                        <div className="stat-container">
-                            <FontAwesomeIcon icon={faCheckCircle} className="icon"/>
-                            {interactions?.checkIns || "0"}
-                        </div>
-                    </div>
-                </div>
+                <section id="Interactions" ref={interactionsRef}>
+                    <InteractionsView {...interactions}/>
+                </section>
 
                 {website && (
-                    <div id="Website" ref={websiteRef} className="website">
-                        <h2>Website</h2>
-
-                        <Link to={website}>
-                            {getDomainName(website)}
-                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="icon"/>
-                        </Link>
-                    </div>
+                    <section id="Website" ref={websiteRef} className="website">
+                        <WebsiteView url={website}/>
+                    </section>
                 )}
 
+                <section id="About" ref={aboutRef} className="description">
+                    <AboutView description={description}/>
+                </section>
 
-                <div id="About" ref={aboutRef} className="description">
-                    <h2>About</h2>
+                <section id="Hours" ref={hoursRef} className="hours">
+                    <HoursSection hours={hours}/>
+                </section>
 
-                    <p>
-                        {description ? (
-                            isExpanded ? (
-                                description
-                            ) : (
-                                description.slice(0, 200) + (description.length > 100 ? '...' : '')
-                            )
-                        ) : (
-                            'No description available.'
-                        )}
-                    </p>
+                <section id="Details" ref={detailsRef}>
+                    <AdditionalDetailsView
+                        formattedAddress={formattedAddress}
+                        price={price}
+                        priceLevel={priceLevel}
+                        primaryCuisine={primaryCuisine}
+                        dietaryRestrictions={dietaryRestrictions}
+                    />
+                </section>
 
-                    {description.length > 200 && (
-                        <button
-                            className="read-more-button"
-                            onClick={handleToggleDescription}
-                        >
-                            {toggleLabel}
-                        </button>
-                    )}
-                </div>
-
-
-                <div id="Photos" ref={photosRef} className="pictures">
-                    <h2>Photos</h2>
-                    <p>No photos available.</p>
-                </div>
-
-                <div id="Hours" ref={hoursRef} className="hours">
-                    <h2>Opening Times</h2>
-
-                    {displayedHours.map((hour, index) => (
-                        <p key={index}>{hour}</p>
-                    ))}
-                </div>
-
-                <div id="Details" ref={detailsRef} className="more-details">
-                    <h2>More Details</h2>
-
-                    <div>
-                        <AdditionalDetail
-                            icon={faLocationDot}
-                            name="Location"
-                            content={formattedAddress}
-                        />
-
-                        <AdditionalDetail
-                            icon={faMoneyBillWave}
-                            name="Price"
-                            content={price || priceLevel || 'N/A'
-                            }/>
-
-                        <AdditionalDetail
-                            icon={faUtensils}
-                            name="Cuisine"
-                            content={primaryCuisine || 'N/A'}
-                        />
-
-                        {dietaryRestrictions && (
-                            <AdditionalDetail
-                                icon={faLeaf}
-                                name="Dietary Restrictions"
-                                content={dietaryRestrictions.join(', ')}
-                            />
-                        )}
-                    </div>
-                </div>
-
-                <div id="Reviews" ref={reviewsRef}>
+                <section id="Reviews" ref={reviewsRef}>
                     <ReviewsSection userId={userId} restaurant={restaurant}/>
-                </div>
+                </section>
             </div>
         </div>
     );

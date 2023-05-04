@@ -37,10 +37,7 @@ const HomePage = () => {
     useEffect(() => {
         if (restaurants) {
             fetchRestaurantDataFromDB()
-                .then(results => {
-                    setDisplayedRestaurants(results)
-                    console.log({results})
-                });
+                .then(results => setDisplayedRestaurants(results));
         }
     }, [restaurants]);
 

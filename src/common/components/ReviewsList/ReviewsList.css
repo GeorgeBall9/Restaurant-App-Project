@@ -35,11 +35,6 @@
     color: white;
 }
 
-.reviews-container .review .review-header .author-details .user-icon-container {
-    border: solid 3px lightgrey;
-    border-radius: 50%;
-}
-
 .reviews-container .review .review-header .author-details div .display-name {
     font-size: var(--font-size-smaller);
     font-weight: var(--font-weight-bold-1);

@@ -121,7 +121,7 @@ const CheckInConfirmationPopup = ({restaurant, checkedIn, closePopup, setChecked
                         <div key={id} className="select-friend-card" onClick={() => handleFriendCardClick(id)}>
                             <div>
                                 <UserIcon
-                                    size="small"
+                                    size="xSmall"
                                     imageUrl={profilePhotoUrl}
                                 />
 

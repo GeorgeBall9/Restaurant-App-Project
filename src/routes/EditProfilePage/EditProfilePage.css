@@ -13,8 +13,6 @@
 }
 
 .profile-container .change-icon-section > .user-icon-container {
-    border: solid 4px lightgrey;
-    border-radius: 50%;
     position: relative;
 }
 

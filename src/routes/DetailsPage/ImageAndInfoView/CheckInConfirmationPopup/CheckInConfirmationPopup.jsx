@@ -9,11 +9,13 @@ import {selectFriends, selectUserId,} from "../../../../features/user/userSlice"
 import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import FormField from "../../../../common/components/FormField/FormField";
-import {faCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCircleCheck as solidCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryButton";
 import InversePrimaryButton from "../../../../common/components/InversePrimaryButton/InversePrimaryButton";
+import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
 
 const CheckInConfirmationPopup = ({restaurant, checkedIn, closePopup, setCheckedIn}) => {
 
@@ -115,18 +117,20 @@ const CheckInConfirmationPopup = ({restaurant, checkedIn, closePopup, setChecked
                 <div className="select-friends">
                     {friends.map(({id, displayName, profilePhotoUrl}) => (
                         <div key={id} className="select-friend-card" onClick={() => handleFriendCardClick(id)}>
-                            <div className="icon-container">
+                            <div>
                                 <UserIcon
                                     size="small"
                                     imageUrl={profilePhotoUrl}
                                 />
 
-                                {selectedFriends.includes(id) && (
-                                    <FontAwesomeIcon icon={faCircleCheck} className="icon"/>
-                                )}
+                                <p>{displayName}</p>
                             </div>
 
-                            <p>{displayName}</p>
+                            <InteractionButton
+                                icon={faCircleCheck}
+                                solidIcon={solidCircleCheck}
+                                isSolid={selectedFriends.includes(id)}
+                            />
                         </div>
                     ))}
                 </div>

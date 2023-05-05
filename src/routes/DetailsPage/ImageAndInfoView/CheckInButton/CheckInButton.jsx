@@ -50,7 +50,7 @@ const CheckInButton = ({restaurant}) => {
     const handleClick = () => {
         if (!userId) {
             navigate("/sign-in");
-        } else {
+        } else if (!feedbackIsVisible) {
             setCheckInConfirmationIsVisible(true);
         }
     };
@@ -72,7 +72,7 @@ const CheckInButton = ({restaurant}) => {
                 />
             )}
 
-            {feedbackIsVisible && <InteractionFeedback change={checkInChange} interaction="check-in"/>}
+            <InteractionFeedback isVisible={feedbackIsVisible} change={checkInChange} interaction="check-in"/>
         </>
     );
 };

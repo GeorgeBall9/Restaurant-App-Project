@@ -1,11 +1,11 @@
 import "./Slider.css";
-import RestaurantsList from "../../restaurants/RestaurantsList/RestaurantsList";
+import RestaurantsList from "../../../features/restaurants/RestaurantsList/RestaurantsList";
 import {useSwipeable} from "react-swipeable";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {changeSlide, selectActiveSlide, selectLastSlide, selectSliderIsActive} from "../sliderSlice";
-import {displayRestaurant} from "../../map/mapSlice";
-import {selectRestaurants} from "../../restaurants/restaurantsSlice";
+import {changeSlide, selectActiveSlide, selectLastSlide, selectSliderIsActive} from "../../../features/slider/sliderSlice";
+import {displayRestaurant} from "../../../features/map/mapSlice";
+import {selectRestaurants} from "../../../features/restaurants/restaurantsSlice";
 
 const Slider = () => {
 

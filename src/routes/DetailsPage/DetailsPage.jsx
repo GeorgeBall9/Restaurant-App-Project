@@ -3,16 +3,6 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
 import {useState, useEffect, useRef} from 'react';
-
-import {faXmark} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import CheckInConfirmationPopup
-    from "../../common/components/CheckInConfirmationPopup/CheckInConfirmationPopup";
-import {
-    selectAddedCheckIn,
-    selectCheckedIn,
-    selectCheckInConfirmationIsVisible, selectCheckInFeedbackIsVisible
-} from "../../features/checkInConfirmation/checkInConfirmationSlice";
 import BannerView from "./BannerView/BannerView";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectUserId} from "../../features/user/userSlice";
@@ -20,7 +10,6 @@ import {checkIsOpen} from "../Bookmarks/Bookmarks";
 import {getRestaurantById} from "../../firebase/firebase";
 import ReviewsSection from "./ReviewsSection/ReviewsSection";
 import DetailsNavLink from "./DetailsNavLink/DetailsNavLink";
-import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import AdditionalDetailsView from "./AdditionalDetailsView/AdditionalDetailsView";
 import HoursSection from "./HoursSection/HoursSection";
 import ImageAndInfoView from "./ImageAndInfoView/ImageAndInfoView";
@@ -40,8 +29,6 @@ const DetailsPage = () => {
 
     const userId = useSelector(selectUserId);
     const allRestaurants = useSelector(selectAllRestaurants);
-    const checkedIn = useSelector(selectCheckedIn);
-    const addedCheckIn = useSelector(selectAddedCheckIn);
 
     const bannerRef = useRef(null);
     const nameRef = useRef(null);

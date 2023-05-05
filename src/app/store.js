@@ -7,7 +7,6 @@ import sliderReducer from "../features/slider/sliderSlice";
 import locationReducer from "../features/location/locationSlice";
 import spinnerReducer from "../features/spinner/spinnerSlice";
 import userReducer from "../features/user/userSlice";
-import checkInConfirmationReducer from "../features/checkInConfirmation/checkInConfirmationSlice";
 import reviewsReducer from "../features/reviews/reviewsSlice";
 
 export default configureStore({
@@ -19,7 +18,6 @@ export default configureStore({
         location: locationReducer,
         spinner: spinnerReducer,
         user: userReducer,
-        checkInConfirmation: checkInConfirmationReducer,
         reviews: reviewsReducer,
     }
 });

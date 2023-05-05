@@ -42,7 +42,7 @@ const RestaurantCard = ({restaurant, view, ranking, open = true}) => {
 
     // Render the component
     return (
-        <div className={`restaurant-card ${open ? "" : "closed"}`} {...handlers}>
+        <div className={`restaurant-card ${open ? "open" : "closed"}`} {...handlers}>
             <div className="details-container">
                 <h3>
                     {ranking && (

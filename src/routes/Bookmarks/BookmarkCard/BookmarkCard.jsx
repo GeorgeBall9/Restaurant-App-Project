@@ -12,7 +12,7 @@ const BookmarkCard = ({restaurant}) => {
         <div className="bookmark-card">
             {!isOpen && <ClosedSign/>}
 
-            <RestaurantCard restaurant={restaurant} active={isOpen}/>
+            <RestaurantCard restaurant={restaurant} open={isOpen}/>
         </div>
     );
 };

@@ -15,7 +15,7 @@ import InteractionButton from "../../../../common/components/InteractionButton/I
 import {addUserRecommendation, removeUserRecommendation} from "../../../../firebase/firebase";
 import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
 
-const RecommendButton = ({restaurant, style}) => {
+const RecommendButton = ({restaurant, style, updateInteractions}) => {
 
     const id = restaurant?.id;
 
@@ -50,9 +50,11 @@ const RecommendButton = ({restaurant, style}) => {
         if (isRecommended) {
             dispatch(removeRecommendation(id));
             await removeUserRecommendation(userId, id);
+            updateInteractions("recommendations", -1);
         } else {
             dispatch(addRecommendation(id));
             await addUserRecommendation(userId, restaurant);
+            updateInteractions("recommendations", 1);
         }
 
         setFeedbackIsVisible(true);

@@ -183,6 +183,14 @@ const DetailsPage = () => {
         });
     };
 
+    const updateInteractions = (interaction, change) => {
+        setInteractions(interactions => {
+           const updatedInteractions = {...interactions};
+           updatedInteractions[interaction] += change;
+           return updatedInteractions;
+        });
+    };
+
     return (
         <div className="details-page container">
             <BannerView
@@ -190,6 +198,7 @@ const DetailsPage = () => {
                 restaurant={restaurant}
                 scrollPosition={scrollPosition}
                 showName={showNameInBanner}
+                updateInteractions={updateInteractions}
             />
 
             <ImageAndInfoView
@@ -204,6 +213,7 @@ const DetailsPage = () => {
                 phone={phone}
                 isOpen={isOpen}
                 restaurant={restaurant}
+                updateInteractions={updateInteractions}
             />
 
             <div id="details-page-nav" className="details-page-navigation" style={navigationStyle}>

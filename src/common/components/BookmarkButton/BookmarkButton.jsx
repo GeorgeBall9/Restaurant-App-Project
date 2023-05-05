@@ -13,7 +13,7 @@ import {useEffect, useState} from "react";
 import InteractionButton from "../InteractionButton/InteractionButton";
 import InteractionFeedback from "../InteractionFeedback/InteractionFeedback";
 
-const BookmarkButton = ({restaurant, style}) => {
+const BookmarkButton = ({restaurant, style, updateInteractions}) => {
 
     const id = restaurant?.id;
 
@@ -45,9 +45,17 @@ const BookmarkButton = ({restaurant, style}) => {
         if (isBookmarked) {
             dispatch(removeBookmark(id));
             await removeUserBookmark(userId, id);
+
+            if (updateInteractions) {
+                updateInteractions("bookmarks", -1);
+            }
         } else {
             dispatch(addBookmark(id));
             await addUserBookmark(userId, restaurant);
+
+            if (updateInteractions) {
+                updateInteractions("bookmarks", 1);
+            }
         }
 
         setFeedbackIsVisible(true);

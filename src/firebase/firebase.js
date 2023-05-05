@@ -305,7 +305,7 @@ export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) 
     try {
         const checkInId = await createNewCheckInDoc(date, restaurant, [...friendIds, userId], []);
         await createRestaurantDoc(restaurant);
-        await addInteractionToRestaurantDoc(restaurant, "check-ins");
+        await addInteractionToRestaurantDoc(restaurant, "checkIns");
         return await getCheckInDocFromId(checkInId);
     } catch (error) {
         console.log(error);
@@ -343,6 +343,8 @@ export const removeRestaurantCheckIn = async (checkInId) => {
         if (!checkInData) return null;
 
         await deleteCheckInDoc(checkInId);
+
+        await removeInteractionFromRestaurantDoc(checkInData.restaurantId, "checkIns");
 
         const {photoIds} = checkInData;
 

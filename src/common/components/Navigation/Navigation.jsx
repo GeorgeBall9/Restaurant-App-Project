@@ -14,11 +14,11 @@ import {
     showFilters,
 } from "../../../features/filters/filtersSlice";
 import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
-import LocationButton from "../../../features/location/LocationButton/LocationButton";
-import LocationOptions from "../../../features/location/LocationButton/LocationOptions/LocationOptions";
-import {selectLocationOptionsOpen} from "../../../features/location/locationSlice";
+import LocationButton from "./LocationButton/LocationButton";
+import LocationOptions from "../../../features/location/LocationOptions/LocationOptions";
 import SearchBoxView from "../SearchBoxView/SearchBoxView";
 import {filterResultsBySearchQuery, selectHasMatches} from "../../../features/restaurants/restaurantsSlice";
+import {useState} from "react";
 
 const Navigation = ({view}) => {
 
@@ -26,8 +26,9 @@ const Navigation = ({view}) => {
 
     const appliedSortFilter = useSelector(selectAppliedSortFilter);
     const appliedCuisineFilter = useSelector(selectAppliedCuisineFilter);
-    const locationOptionsOpen = useSelector(selectLocationOptionsOpen);
     const searchHasMatches = useSelector(selectHasMatches);
+
+    const [locationOptionsAreVisible, setLocationOptionsAreVisible] = useState(false);
 
     const icon = view === "home" ? faMapLocationDot : faArrowLeft;
 
@@ -63,7 +64,10 @@ const Navigation = ({view}) => {
                 </div>
 
                 <div className="lower">
-                    <LocationButton/>
+                    <LocationButton
+                        handleClick={() => setLocationOptionsAreVisible(locationOptionsAreVisible => !locationOptionsAreVisible)}
+                        optionsOpen={locationOptionsAreVisible}
+                    />
 
                     {appliedSortFilter && (
                         <AppliedFilterButton type="sortBy" filter={appliedSortFilter}/>
@@ -75,7 +79,9 @@ const Navigation = ({view}) => {
                 </div>
             </div>
 
-            {locationOptionsOpen && <LocationOptions/>}
+            {locationOptionsAreVisible && (
+                <LocationOptions closePopup={() => setLocationOptionsAreVisible(false)}/>
+            )}
         </div>
     );
 };

@@ -2,17 +2,19 @@ import "./LocationOptions.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationArrow, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import {
-    selectUsingCurrentLocation, setLocationDescription, setUsingCurrentLocation, setUsingCustomLocation,
-    toggleLocationOptions,
-    updateUserPosition,
-} from "../../locationSlice";
+    selectUsingCurrentLocation,
+    setLocationDescription,
+    setUsingCurrentLocation,
+    setUsingCustomLocation,
+    updateUserPosition
+} from "../locationSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
-import {hideSpinner, showSpinner} from "../../../spinner/spinnerSlice";
-import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryButton";
-import FormField from "../../../../common/components/FormField/FormField";
+import {hideSpinner, showSpinner} from "../../spinner/spinnerSlice";
+import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
+import FormField from "../../../common/components/FormField/FormField";
 
-const LocationOptions = () => {
+const LocationOptions = ({closePopup}) => {
 
     const dispatch = useDispatch();
 
@@ -43,7 +45,7 @@ const LocationOptions = () => {
 
     const handleUseLocationClick = () => {
         if (usingCurrentLocation) {
-            dispatch(toggleLocationOptions());
+            closePopup();
             return;
         }
 
@@ -53,6 +55,7 @@ const LocationOptions = () => {
             const {longitude, latitude} = position.coords;
             dispatch(updateUserPosition({latitude, longitude}));
             dispatch(setUsingCurrentLocation());
+            closePopup();
         };
 
         const error = (error) => {
@@ -68,8 +71,6 @@ const LocationOptions = () => {
             console.log("location not available")
         }
     };
-
-    const handlePostCodeChange = ({target}) => setPostcode(target.value.toUpperCase());
 
     const handlePostcodeSubmit = ({code}) => {
         if (code !== "Enter") return;
@@ -89,6 +90,8 @@ const LocationOptions = () => {
                 dispatch(updateUserPosition({longitude, latitude}));
                 dispatch(setUsingCustomLocation());
                 dispatch(setLocationDescription(postcode));
+                console.log("closing popup")
+                closePopup();
             })
             .catch(error => {
                 console.error(error);
@@ -96,10 +99,6 @@ const LocationOptions = () => {
                 updateErrorFeedback("postcode");
                 setShowErrorPopup(true);
             });
-    };
-
-    const closeErrorPopup = () => {
-        setShowErrorPopup(false);
     };
 
     return (
@@ -111,7 +110,7 @@ const LocationOptions = () => {
 
                         <p className="location-error-message">{errorFeedback.message}</p>
 
-                        <PrimaryButton text="Close" handleClick={closeErrorPopup}/>
+                        <PrimaryButton text="Close" handleClick={() => setShowErrorPopup(false)}/>
                     </div>
                 )}
 
@@ -122,7 +121,7 @@ const LocationOptions = () => {
                         type="text"
                         placeholder="Enter postcode"
                         value={postcode}
-                        onChangeHandler={handlePostCodeChange}
+                        onChangeHandler={({target}) => setPostcode(target.value.toUpperCase())}
                         onKeyDown={handlePostcodeSubmit}
                         padding="0"
                     />

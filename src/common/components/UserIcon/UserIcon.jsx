@@ -4,7 +4,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useState} from "react";
 
 const stylesMap = {
-    small: {height: "30px", width: "30px", borderWidth: "2px"},
+    xSmall: {height: "30px", width: "30px", borderWidth: "2px"},
+    small: {height: "40px", width: "40px", borderWidth: "2px"},
     medium: {height: "50px", width: "50px", borderWidth: "2px"},
     large: {height: "60px", width: "60px", borderWidth: "3px"},
     larger: {height: "70px", width: "70px", borderWidth: "4px"},

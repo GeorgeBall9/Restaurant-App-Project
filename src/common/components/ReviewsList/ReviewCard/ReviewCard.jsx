@@ -81,12 +81,10 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
 
             <div className="review-header">
                 <div className="author-details">
-                    <div className="user-icon-container">
-                        <UserIcon
-                            size="medium"
-                            imageUrl={profilePhotoUrl}
-                        />
-                    </div>
+                    <UserIcon
+                        size="medium"
+                        imageUrl={profilePhotoUrl}
+                    />
 
                     <div>
                         <p className="display-name">{displayName}</p>

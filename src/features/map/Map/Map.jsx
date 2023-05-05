@@ -63,7 +63,6 @@ const Map = () => {
     });
 
     // handler functions
-
     // handler function to change the view state when the user moves the map
     const handleMapMove = (e) => setViewState(e.viewState);
 

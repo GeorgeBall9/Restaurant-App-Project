@@ -17,6 +17,8 @@ export const sliderSlice = createSlice({
             state.lastSlide = action.payload - 1;
         },
         changeSlide: (state, action) => {
+            if (!state.isActive) return;
+
             const direction = action.payload;
 
             if (direction === "forward") {
@@ -40,6 +42,5 @@ export const sliderSlice = createSlice({
 
 export const {setActiveSlide, setLastSlide, changeSlide, activateSlider, deactivateSlider} = sliderSlice.actions
 export const selectActiveSlide = state => state.slider.activeSlide;
-export const selectLastSlide = state => state.slider.lastSlide;
 export const selectSliderIsActive = state => state.slider.isActive;
 export default sliderSlice.reducer

@@ -3,7 +3,7 @@ import RestaurantsList from "../../../features/restaurants/RestaurantsList/Resta
 import {useSwipeable} from "react-swipeable";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {changeSlide, selectActiveSlide, selectLastSlide, selectSliderIsActive} from "../../../features/slider/sliderSlice";
+import {changeSlide, selectActiveSlide, selectSliderIsActive} from "../../../features/slider/sliderSlice";
 import {displayRestaurant} from "../../../features/map/mapSlice";
 import {selectRestaurants} from "../../../features/restaurants/restaurantsSlice";
 
@@ -12,15 +12,13 @@ const Slider = () => {
     const dispatch = useDispatch();
 
     const activeSlide = useSelector(selectActiveSlide);
-    const lastSlide = useSelector(selectLastSlide);
-    const restaurants = useSelector(selectRestaurants);
     const sliderIsActive = useSelector(selectSliderIsActive);
+    const restaurants = useSelector(selectRestaurants);
 
     const positionRef = useRef(window.innerWidth > 500 ? 500 : window.innerWidth);
     const offsetRef = useRef((window.innerWidth - positionRef.current) / 2);
 
     const [xPosition, setXPosition] = useState(offsetRef.current);
-    const [offsetX, setOffsetX] = useState(0);
     const [style, setStyle] = useState({});
 
     const updateStyle = useCallback(() => {
@@ -37,18 +35,22 @@ const Slider = () => {
 
     const handlers = useSwipeable({
         onSwipedRight: () => {
+            if (!sliderIsActive) return;
+
             dispatch(changeSlide("backward"));
         },
         onSwipedLeft: () => {
+            if (!sliderIsActive) return;
+
             dispatch(changeSlide("forward"));
         },
         onSwiping: ({deltaX}) => {
+            if (!sliderIsActive) return;
+
             requestAnimationFrame(() => {
                 setStyle(style => {
                     const updatedStyle = {...style};
-                    const translateX = xPosition + deltaX;
-                    setOffsetX(deltaX);
-                    updatedStyle.transform = `translateX(${translateX}px)`;
+                    updatedStyle.transform = `translateX(${xPosition + deltaX}px)`;
                     return updatedStyle;
                 });
             });

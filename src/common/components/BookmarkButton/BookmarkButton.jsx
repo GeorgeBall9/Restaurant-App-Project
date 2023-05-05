@@ -40,7 +40,7 @@ const BookmarkButton = ({restaurant, style}) => {
             return;
         }
 
-        if (feedbackIsVisible ) return;
+        if (feedbackIsVisible) return;
 
         if (isBookmarked) {
             dispatch(removeBookmark(id));
@@ -51,7 +51,7 @@ const BookmarkButton = ({restaurant, style}) => {
         }
 
         setFeedbackIsVisible(true);
-        setTimeout(() => setFeedbackIsVisible(false), 1500);
+        setTimeout(() => setFeedbackIsVisible(false), 2000);
     };
 
     return (

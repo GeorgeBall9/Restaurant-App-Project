@@ -1,10 +1,10 @@
-import "./SearchBoxView.css";
+import "./SearchBox.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import SearchFeedback from "./SearchFeedback/SearchFeedback";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
-const SearchBoxView = ({handleInputChange, hasMatches = true}) => {
+const SearchBox = ({handleInputChange, hasMatches = true, handleFocus, focused}) => {
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -13,6 +13,12 @@ const SearchBoxView = ({handleInputChange, hasMatches = true}) => {
         setSearchQuery(value);
         handleInputChange(value);
     };
+
+    useEffect(() => {
+        if (!focused) {
+            setSearchQuery("");
+        }
+    }, [focused]);
 
     return (
         <div className="search-box">
@@ -24,6 +30,7 @@ const SearchBoxView = ({handleInputChange, hasMatches = true}) => {
                     placeholder="Search"
                     onChange={handleChange}
                     value={searchQuery}
+                    onFocus={handleFocus}
                 />
             </div>
 
@@ -32,4 +39,4 @@ const SearchBoxView = ({handleInputChange, hasMatches = true}) => {
     );
 };
 
-export default SearchBoxView;
+export default SearchBox;

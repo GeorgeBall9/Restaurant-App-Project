@@ -6,24 +6,16 @@ import {
     removeRestaurantCheckIn
 } from "../../../../firebase/firebase";
 import {selectFriends, selectUserId,} from "../../../../features/user/userSlice";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {
-    hideCheckInConfirmation,
-    resetCheckInFeedback,
-    setCheckedInStatus,
-    showCheckInFeedback
-} from "../../../../features/checkInConfirmation/checkInConfirmationSlice";
 import FormField from "../../../../common/components/FormField/FormField";
 import {faCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
+import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../../../../common/components/InversePrimaryButton/InversePrimaryButton";
 
-const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
-
-    const restaurantId = restaurant?.id;
-
-    const dispatch = useDispatch();
+const CheckInConfirmationPopup = ({restaurant, checkedIn, closePopup, setCheckedIn}) => {
 
     const userId = useSelector(selectUserId);
     const friends = useSelector(selectFriends);
@@ -36,24 +28,23 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     const [addFriendsButtonText, setAddFriendsButtonText] = useState("Add friends");
 
     useEffect(() => {
-        if (!restaurantId || !userId) return;
+        if (!restaurant || !userId) return;
 
-        getLastCheckInToRestaurantByUserId(userId, restaurantId)
+        getLastCheckInToRestaurantByUserId(userId, restaurant.id)
             .then(data => setLastCheckIn(data));
-    }, [restaurantId, userId]);
+    }, [restaurant, userId]);
 
     const handleYesClick = async () => {
         if (checkedIn) {
             await removeRestaurantCheckIn(lastCheckIn.id);
-            dispatch(setCheckedInStatus(false));
-            dispatch(showCheckInFeedback("remove"));
+            setCheckedIn(false);
         } else {
             if (+new Date() < +new Date(checkInDate)) {
                 setFeedback("You can only check in today or earlier!");
                 return;
             }
 
-            const checkedInOnDate = await checkInExists(userId, checkInDate, restaurantId);
+            const checkedInOnDate = await checkInExists(userId, checkInDate, restaurant.id);
 
             if (checkedInOnDate) {
                 setFeedback("You already checked in on this date!");
@@ -61,17 +52,10 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
             }
 
             await addRestaurantCheckIn(userId, checkInDate, restaurant, selectedFriends);
-            dispatch(setCheckedInStatus(true));
-            dispatch(showCheckInFeedback("add"));
+            setCheckedIn(true);
         }
 
-        setTimeout(() => dispatch(resetCheckInFeedback()), 2000);
-
-        dispatch(hideCheckInConfirmation());
-    };
-
-    const handleNoClick = () => {
-        dispatch(hideCheckInConfirmation());
+        closePopup();
     };
 
     const handleDateChange = ({target}) => {
@@ -154,11 +138,11 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
                 </p>
             )}
 
-            <p><span>Check {checkedIn ? "out" : "in"}</span> at {name}?</p>
+            <p><span>Check {checkedIn ? "out" : "in"}</span> at {restaurant.name}?</p>
 
             <div className="buttons-container">
-                <button onClick={handleYesClick}>Yes</button>
-                <button onClick={handleNoClick}>No</button>
+                <PrimaryButton text="Yes" handleClick={handleYesClick}/>
+                <InversePrimaryButton text="No" handleClick={closePopup}/>
             </div>
         </div>
     );

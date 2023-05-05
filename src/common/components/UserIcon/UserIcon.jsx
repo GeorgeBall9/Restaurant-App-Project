@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useState} from "react";
 
 const sizesMap = {
-    small: "40px",
+    small: "30px",
     medium: "50px",
     large: "60px",
     larger: "70px",
@@ -21,7 +21,6 @@ const UserIcon = ({size, imageUrl = null}) => {
         <div className="user-icon" style={{height: dimensions, width: dimensions}}>
             {imageUrl ? (
                 <img
-                    className={imageUrl ? "custom-image" : "avatar"}
                     src={imageUrl}
                     alt="user-icon"
                     loading="lazy"

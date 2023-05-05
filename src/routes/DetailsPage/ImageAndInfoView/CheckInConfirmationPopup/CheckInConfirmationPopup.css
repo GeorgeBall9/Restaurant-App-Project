@@ -1,9 +1,9 @@
 .confirm-checkin-popup {
     background-color: white;
-    position: absolute;
-    z-index: 15000;
+    position: fixed;
     color: black;
-    top: 7em;
+    z-index: 1000;
+    top: 4em;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -73,10 +73,10 @@
     position: relative;
 }
 
-.confirm-checkin-popup .select-friends .select-friend-card .icon-container .icon {
+.confirm-checkin-popup .select-friends .select-friend-card .icon-container > .icon {
     position: absolute;
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     top: 0;
     left: 0;
     opacity: 0.8;

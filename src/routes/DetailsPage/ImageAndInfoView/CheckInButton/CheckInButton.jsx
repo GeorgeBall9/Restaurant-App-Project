@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../../features/user/userSlice";
 import CheckInConfirmationPopup from "../CheckInConfirmationPopup/CheckInConfirmationPopup";
+import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
 
 const CheckInButton = ({restaurant}) => {
 
@@ -71,14 +72,7 @@ const CheckInButton = ({restaurant}) => {
                 />
             )}
 
-            <div className="bookmark-feedback" style={{opacity: feedbackIsVisible ? 1 : 0}}>
-                {checkInChange} check-in
-
-                <FontAwesomeIcon
-                    icon={checkInChange === "Saved" ? faCircleCheck : faXmark}
-                    className="bookmark-feedback-icon"
-                />
-            </div>
+            <InteractionFeedback isVisible={feedbackIsVisible} change={checkInChange} interaction="check-in"/>
         </>
     );
 };

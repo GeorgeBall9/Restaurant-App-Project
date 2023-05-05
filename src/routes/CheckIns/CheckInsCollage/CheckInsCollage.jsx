@@ -2,30 +2,30 @@ import "./CheckInsCollage.css";
 import CustomCollage from "../../../common/components/CustomCollage/CustomCollage.jsx";
 import CheckInsCard from "./CheckInsCard/CheckInsCard";
 
-import {useEffect, useState} from "react";
-import {faArrowLeft, faUpRightAndDownLeftFromCenter, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
+import { faArrowLeft, faUpRightAndDownLeftFromCenter, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     addPhotoToCheckIn, deleteCheckInPhoto,
     getImageDownloadUrl,
     getPhotoUrlsFromPhotoIds,
 } from "../../../firebase/firebase";
-import {useSelector} from "react-redux";
-import {selectUserId} from "../../../features/user/userSlice";
+import { useSelector } from "react-redux";
+import { selectUserId } from "../../../features/user/userSlice";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
-import {getUserFromUserId, getCheckInsAndRestaurantDataByUserId} from "../../../firebase/firebase";
+import { getUserFromUserId, getCheckInsAndRestaurantDataByUserId } from "../../../firebase/firebase";
 import CheckInConfirmationPopup from "../../../common/components/CheckInConfirmationPopup/CheckInConfirmationPopup";
 
 export const getPhotoUrls = async (photoPaths) => {
     if (!photoPaths?.length) return [];
 
     return await Promise.all(photoPaths.map(async (path, i) => {
-        return {src: await getImageDownloadUrl(path), alt: "Photo " + (i + 1)};
+        return { src: await getImageDownloadUrl(path), alt: "Photo " + (i + 1) };
     }));
 };
 
-const CheckInsCollage = ({checkIn, onClose}) => {
+const CheckInsCollage = ({ checkIn, onClose, isFriendsPage = false }) => {
 
     const userId = useSelector(selectUserId);
 
@@ -91,7 +91,7 @@ const CheckInsCollage = ({checkIn, onClose}) => {
 
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
         const newPhotoId = await addPhotoToCheckIn(userId, checkIn, photoStoragePath);
-        const newPhotoData = {id: newPhotoId, url: photoUrl, alt: "Photo " + (photos.length + 1)};
+        const newPhotoData = { id: newPhotoId, url: photoUrl, alt: "Photo " + (photos.length + 1) };
         setPhotos(photos => [...photos, newPhotoData]);
         document.querySelector(".file-upload-input").value = "";
         handleClosePopupClick();
@@ -131,8 +131,8 @@ const CheckInsCollage = ({checkIn, onClose}) => {
                 {isExpanded && (
                     <ProfileNavigationView
                         pageTitle={restaurant?.name}
-                        button2={{
-                            text: photos.length > 0 && (selectMode ? "Cancel" : "Select"),
+                        button2={(!isFriendsPage && photos.length > 0) && {
+                            text: selectMode ? "Cancel" : "Select",
                             handler: handleSelectClick
                         }}
                     />
@@ -142,18 +142,20 @@ const CheckInsCollage = ({checkIn, onClose}) => {
                     <div className={`collage-popup-header ${isExpanded ? "collage-header-sticky" : ""}`}>
                         <div className="container">
                             <button onClick={handleBackClick}>
-                                <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
+                                <FontAwesomeIcon className="icon" icon={faArrowLeft} />
                                 Back
                             </button>
 
                             <h2>{restaurant?.name}</h2>
 
-                            <button onClick={handleDeleteCheckIn}>
-                                <FontAwesomeIcon className="icon" icon={faTrashAlt}/>
-                            </button>
+                        {!isFriendsPage && ( 
 
+                            <button onClick={handleDeleteCheckIn}>
+                                <FontAwesomeIcon className="icon" icon={faTrashAlt} />
+                            </button>
+                        )}
                             <button onClick={handleExpand}>
-                                <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
+                                <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter} />
                             </button>
                         </div>
                     </div>
@@ -183,9 +185,10 @@ const CheckInsCollage = ({checkIn, onClose}) => {
                             columns={isExpanded ? 2 : 3}
                             isExpanded={isExpanded}
                             onExpand={handleExpand}
-                            handleAddClick={handleAddClick}
+                            handleAddClick={!isFriendsPage ? handleAddClick : null}
                             selectMode={selectMode}
-                            handleDeleteSelected={handleDeleteSelected}
+                            handleDeleteSelected={!isFriendsPage ? handleDeleteSelected : null}
+                            isFriendsPage={isFriendsPage}
                         />
                     </div>
 

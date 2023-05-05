@@ -9,6 +9,8 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {hideSpinner, showSpinner} from "../../../spinner/spinnerSlice";
+import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryButton";
+import FormField from "../../../../common/components/FormField/FormField";
 
 const LocationOptions = () => {
 
@@ -106,20 +108,23 @@ const LocationOptions = () => {
                 {showErrorPopup && (
                     <div className="location-error-popup">
                         <p className="location-error-title">{errorFeedback.title}</p>
+
                         <p className="location-error-message">{errorFeedback.message}</p>
-                        <button onClick={closeErrorPopup}>Close</button>
+
+                        <PrimaryButton text="Close" handleClick={closeErrorPopup}/>
                     </div>
                 )}
 
                 <label className="postcode-input-container">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
 
-                    <input
+                    <FormField
                         type="text"
                         placeholder="Enter postcode"
                         value={postcode}
-                        onChange={handlePostCodeChange}
+                        onChangeHandler={handlePostCodeChange}
                         onKeyDown={handlePostcodeSubmit}
+                        padding="0"
                     />
                 </label>
 

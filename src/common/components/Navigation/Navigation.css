@@ -30,6 +30,13 @@
     display: flex;
     justify-content: center;
     width: 100%;
+    gap: 0.5em;
+}
+
+.navigation .upper .search-and-filters .cancel {
+    background: none;
+    border: none;
+    color: var(--primary-theme);
 }
 
 .navigation .upper > .button {
@@ -48,7 +55,6 @@
 .navigation .upper .filter-button {
     background: none;
     border: none;
-    padding: 0 0.5em;
     font-size: var(--font-size-icon-small);
 }
 

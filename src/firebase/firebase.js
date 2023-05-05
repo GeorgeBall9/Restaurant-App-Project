@@ -141,6 +141,17 @@ export const getUserFromUserId = async (userId) => {
     }
 };
 
+export const updateUserProfile = async (userId, data) => {
+    try {
+        const docSnap = await doc(db, "users", userId);
+        await updateDoc(docSnap, {
+            ...data
+        });
+    } catch (error) {
+        throw new Error("Document does not exist");
+    }
+};
+
 // update user display name
 export const updateUserDisplayName = async (userId, displayName) => {
     try {

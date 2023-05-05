@@ -15,12 +15,18 @@ import {
     addPhotoToCheckIn,
     updateUserDisplayName,
     updateUserEmailAddress,
-    updateUserPhoneNumber, updateUserProfilePhoto
+    updateUserPhoneNumber, updateUserProfile, updateUserProfilePhoto
 } from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
 import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../common/components/UploadImagePopup/UploadImagePopup";
+
+const defaultProfileFields = {
+    displayName: "",
+    email: "",
+    phone: ""
+};
 
 const EditProfilePage = () => {
 
@@ -32,71 +38,53 @@ const EditProfilePage = () => {
     const phone = useSelector(selectPhone);
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
 
-    const [name, setName] = useState("");
-    const [emailAddress, setEmailAddress] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [profileFields, setProfileFields] = useState(defaultProfileFields);
     const [uploadImagePopupIsVisible, setUploadImagePopupIsVisible] = useState(false);
     const [buttonText, setButtonText] = useState("Save");
     const [uploadedPhotoUrl, setUploadedPhotoUrl] = useState("");
+    const [photoStoragePath, setPhotoStoragePath] = useState("");
 
     useEffect(() => {
         if (!displayName) return;
 
-        setName(displayName);
+        handleChange({target: {name: "displayName", value: displayName}});
     }, [displayName]);
 
     useEffect(() => {
         if (!email) return;
 
-        setEmailAddress(email);
+        handleChange({target: {name: "email", value: email}});
     }, [email]);
 
     useEffect(() => {
         if (!phone) return;
 
-        setPhoneNumber(phone);
+        handleChange({target: {name: "phone", value: phone}});
     }, [phone]);
 
     const handleSaveClick = async () => {
-        // update user doc to have new fields
-        if (name !== displayName) {
-            setButtonText("Saving...");
-            await updateUserDisplayName(userId, name);
-            dispatch(setDisplayName(name));
-            setButtonText("Saved");
+        setButtonText("Saving...");
+
+        if (uploadedPhotoUrl && photoStoragePath) {
+            await updateUserProfilePhoto(userId, photoStoragePath);
+            dispatch(setProfilePhotoUrl(profileFields.profilePhotoUrl));
         }
 
-        if (emailAddress !== email) {
-            setButtonText("Saving...");
-            await updateUserEmailAddress(userId, emailAddress);
-            dispatch(setEmail(emailAddress));
-            setButtonText("Saved");
-        }
+        await updateUserProfile(userId, profileFields);
 
-        if (phoneNumber !== phone) {
-            setButtonText("Saving...");
-            await updateUserPhoneNumber(userId, phoneNumber);
-            dispatch(setPhone(phoneNumber));
-            setButtonText("Saved");
-        }
+        setButtonText("Saved");
     };
 
-    const handleDisplayNameChange = ({target}) => {
-        setButtonText("Save");
-        const {value} = target;
-        setDisplayName(value);
-    };
+    const handleChange = ({target}) => {
+        const {name, value} = target;
 
-    const handleEmailAddressChange = ({target}) => {
-        setButtonText("Save");
-        const {value} = target;
-        setEmailAddress(value);
-    };
+        setProfileFields(profileFields => {
+            const updatedFields = {...profileFields};
+            updatedFields[name] = value;
+            return updatedFields;
+        });
 
-    const handlePhoneNumberChange = ({target}) => {
         setButtonText("Save");
-        const {value} = target;
-        setPhoneNumber(value);
     };
 
     const handleCloseUploadImagePopup = () => {
@@ -105,10 +93,11 @@ const EditProfilePage = () => {
     };
 
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
-        await updateUserProfilePhoto(userId, photoStoragePath);
-        dispatch(setProfilePhotoUrl(photoUrl));
+        setUploadedPhotoUrl(photoUrl);
+        setPhotoStoragePath(photoStoragePath);
         document.querySelector(".file-upload-input").value = "";
         handleCloseUploadImagePopup();
+        setButtonText("Save");
     };
 
     return (
@@ -141,22 +130,25 @@ const EditProfilePage = () => {
                    <FormField
                        label="Display name"
                        type="text"
-                       value={name}
-                       onChangeHandler={handleDisplayNameChange}
+                       name="displayName"
+                       value={profileFields.displayName}
+                       onChangeHandler={handleChange}
                    />
 
                    <FormField
                        label="Email address"
                        type="email"
-                       value={emailAddress}
-                       onChangeHandler={handleEmailAddressChange}
+                       name="email"
+                       value={profileFields.email}
+                       onChangeHandler={handleChange}
                    />
 
                    <FormField
                        label="Phone number"
                        type="text"
-                       value={phoneNumber}
-                       onChangeHandler={handlePhoneNumberChange}
+                       name="phone"
+                       value={profileFields.phone}
+                       onChangeHandler={handleChange}
                    />
 
                    <PrimaryButton

@@ -33,10 +33,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
     const {rating, visitDate, title, content} = formData;
 
-    useEffect(() => {
-        console.log("review form", {restaurant})
-    }, [restaurant]);
-
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
         const photoId = await createNewRestaurantPhotoDoc(userId, restaurant.id, photoStoragePath);
         setUploadedPhotoId(photoId);

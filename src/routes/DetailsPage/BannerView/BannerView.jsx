@@ -11,7 +11,7 @@ import {useDispatch} from "react-redux";
 
 const BannerView = forwardRef((props, ref) => {
 
-    const {restaurant, scrollPosition, showName} = props;
+    const {restaurant, scrollPosition, showName, updateInteractions} = props;
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -39,9 +39,17 @@ const BannerView = forwardRef((props, ref) => {
             <h1 style={{opacity: showName ? 1 : 0}}>{restaurant?.name}</h1>
 
             <div className="action-button-container">
-                <RecommendButton restaurant={restaurant} style={bannerButtonsStyle}/>
+                <RecommendButton
+                    restaurant={restaurant}
+                    style={bannerButtonsStyle}
+                    updateInteractions={updateInteractions}
+                />
 
-                <BookmarkButton restaurant={restaurant} style={bannerButtonsStyle}/>
+                <BookmarkButton
+                    restaurant={restaurant}
+                    style={bannerButtonsStyle}
+                    updateInteractions={updateInteractions}
+                />
 
                 <ShareButton id={restaurant?.id} style={bannerButtonsStyle}/>
             </div>

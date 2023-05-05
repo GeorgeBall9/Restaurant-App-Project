@@ -10,7 +10,7 @@ import {selectUserId} from "../../../../features/user/userSlice";
 import CheckInConfirmationPopup from "../../../../common/components/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
 
-const CheckInButton = ({restaurant}) => {
+const CheckInButton = ({restaurant, updateInteractions}) => {
 
     const navigate = useNavigate();
 
@@ -26,8 +26,6 @@ const CheckInButton = ({restaurant}) => {
 
         const today = new Date().toLocaleDateString();
 
-        console.log("updating checked in status")
-
         getLastCheckInToRestaurantByUserId(userId, restaurant.id)
             .then(data => {
                 if (data) {
@@ -41,6 +39,9 @@ const CheckInButton = ({restaurant}) => {
 
     useEffect(() => {
         if (!checkInChange) return;
+
+        const change = checkInChange === "Saved" ? 1 : -1;
+        updateInteractions("checkIns", change);
 
         setFeedbackIsVisible(true);
 

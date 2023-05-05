@@ -177,6 +177,7 @@ const CheckInsCollage = ({ checkIn, onClose, isFriendsPage = false }) => {
                                 date={checkIn?.date}
                                 userData={userData}
                                 friendData={checkIn?.friendData}
+                                isFriendsPage={isFriendsPage}
                             />
                         )}
                         <CustomCollage

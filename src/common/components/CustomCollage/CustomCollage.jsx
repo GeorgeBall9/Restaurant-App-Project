@@ -2,8 +2,8 @@ import "./CustomCollage.css";
 import {faCircleCheck, faCirclePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
-import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryButton";
-import InversePrimaryButton from "../../../../common/components/InversePrimaryButton/InversePrimaryButton";
+import PrimaryButton from "../PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../InversePrimaryButton/InversePrimaryButton";
 import CollageImage from "./CollageImage/CollageImage";
 
 const CustomCollage = ({
@@ -67,20 +67,6 @@ const CustomCollage = ({
         handleDeleteSelected(selectedImages);
     };
 
-    const handleImageLoad = (imageId) => {
-        setAllImages(allImages => allImages.map(image => {
-            if (image.id === imageId) {
-                image.loaded = true;
-            }
-
-            return image;
-        }));
-    };
-
-    const imageIsLoaded = (image) => {
-        return allImages.find(({id}) => id === image.id).loaded;
-    };
-
     return (
         <>
             {selectMode && (
@@ -116,12 +102,11 @@ const CustomCollage = ({
                     .slice(0, rows * columns - 1)
                     .map(image => (
                         <div
-                            style={{visibility: imageIsLoaded(image) ? "visible" : "hidden"}}
                             key={image.id}
                             className={`collage-image-wrapper ${selectMode ? "clickable" : ""}`}
                             onClick={() => handleImageClick(image)}
                         >
-                            <CollageImage {...image} loadHandler={handleImageLoad}/>
+                            <CollageImage {...image}/>
 
                             {selectMode && (
                                 <button
@@ -141,7 +126,7 @@ const CustomCollage = ({
 
                 {image4 && (
                     <div className="collage-image-wrapper">
-                        <CollageImage {...image4} loadHandler={handleImageLoad}/>
+                        <CollageImage {...image4}/>
 
                         {showMore && (
                             <div className="collage-image-overlay" onClick={onExpand}>

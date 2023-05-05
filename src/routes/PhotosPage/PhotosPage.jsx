@@ -1,5 +1,5 @@
 import "./PhotosPage.css";
-import CustomCollage from "../CheckIns/CheckInsCollage/CustomCollage/CustomCollage";
+import CustomCollage from "../../common/components/CustomCollage/CustomCollage";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";

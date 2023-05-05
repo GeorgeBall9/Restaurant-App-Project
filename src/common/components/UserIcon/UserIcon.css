@@ -4,25 +4,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-shrink: 0;
-}
-
-.user-icon .avatar {
-    height: 80%;
-    width: 80%;
-}
-
-.user-icon .custom-image {
-    height: 100%;
-    width: 100%;
+    background-color: lightgrey;
 }
 
 .user-icon img {
     border-radius: 50%;
+    height: 100%;
+    width: 100%;
 }
 
 .user-icon .icon {
-    color: lightgrey;
+    border-radius: 50%;
     height: 100%;
     width: 100%;
+    color: grey;
 }

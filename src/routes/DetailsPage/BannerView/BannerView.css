@@ -47,6 +47,7 @@
 .banner .action-button-container {
     display: flex;
     gap: 0.75em;
+    justify-content: flex-end;
 }
 
 .banner .action-button-container > button {

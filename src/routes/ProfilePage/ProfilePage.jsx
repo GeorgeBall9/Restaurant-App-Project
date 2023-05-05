@@ -5,10 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     resetDisplayedFriend,
     selectDisplayName,
-    selectIconColour,
     selectProfilePhotoUrl,
     selectUserId,
-    setProfilePhotoUrl
 } from "../../features/user/userSlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
@@ -17,7 +15,7 @@ import {
     faCircleCheck,
     faComment, faCopy, faPen, faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
-import {getProfilePhotoUrlByUserId, signOutAuthUser} from "../../firebase/firebase";
+import {signOutAuthUser} from "../../firebase/firebase";
 import {useEffect, useState} from "react";
 import ContributionsButton from "./ContributionsButton/ContributionsButton";
 import {hideSpinner} from "../../features/spinner/spinnerSlice";
@@ -32,7 +30,6 @@ const ProfilePage = () => {
 
     const userId = useSelector(selectUserId);
     const displayName = useSelector(selectDisplayName);
-    const iconColour = useSelector(selectIconColour);
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
 
     const [idCopied, setIdCopied] = useState(false);
@@ -69,18 +66,20 @@ const ProfilePage = () => {
                     <div className="user-icon-container">
                         <UserIcon
                             size="xLarge"
-                            colour={iconColour}
-                            skeleton={!iconColour && !profilePhotoUrl}
                             imageUrl={profilePhotoUrl}
                         />
                     </div>
 
                     <p style={{visibility: displayName ? "visible" : "hidden"}}>{displayName || "display name"}</p>
 
-                    <button className="copy-id-button" onClick={handleCopyIdClick}>
-                        {idCopied ? "Copied" :"Copy user ID"}
-                        <FontAwesomeIcon className="icon" icon={idCopied ? faCircleCheck : faCopy}/>
-                    </button>
+                    <PrimaryButton
+                        text={idCopied ? "Copied" :"Copy user ID"}
+                        handleClick={handleCopyIdClick}
+                        width="fit-content"
+                        icon={idCopied ? faCircleCheck : faCopy}
+                        size="small"
+                        margin="1em auto 0"
+                    />
                 </section>
 
                 <section className="contributions-container">

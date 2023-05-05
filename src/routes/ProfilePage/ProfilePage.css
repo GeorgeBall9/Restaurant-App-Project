@@ -1,40 +1,11 @@
-.profile-page-container button {
-    background: none;
-    border: none;
-}
-
-.profile-page-container header {
-    background-color: var(--dark-theme);
-    border-bottom: solid 1px lightgrey;
-    margin-bottom: 1em;
-}
-
-.profile-page-container header > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.profile-page-container header h1 {
-    font-size: 1rem;
-    font-weight: 500;
-    color: white;
-}
-
-.profile-page-container header button {
-    color: var(--secondary-theme);
-    font-weight: var(--font-weight-bold-2);
-    font-size: var(--font-size-smaller);
-}
-
-.profile-page-container header button .icon {
-    margin-right: 0.5em;
-}
-
 .profile-page-container main {
     display: flex;
     flex-direction: column;
     gap: 1.5em;
+}
+
+.profile-page-container .profile-info-container {
+    margin-top: 1em;
 }
 
 .profile-page-container .profile-info-container p {
@@ -51,6 +22,7 @@
     background-color: var(--secondary-theme);
     padding: 0.5em 0.75em;
     border-radius: var(--border-radius);
+    border: none;
 }
 
 .profile-page-container .profile-info-container .copy-id-button .icon {
@@ -70,36 +42,6 @@
     gap: 1em;
 }
 
-.profile-page-container .contributions-container a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75em;
-    color: black;
-    text-decoration: none;
-    font-weight: var(--font-weight-bold-1);
-    font-size: var(--font-size-sub-heading);
-    background-color: white;
-    width: 100%;
-    padding: 1em 0.5em;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-}
-
-.profile-page-container .contributions-container button {
-    background-color: var(--primary-theme);
-    color: white;
-}
-
-.profile-page-container .contributions-container a .icon {
-    font-size: 1.5rem;
-    color: black;
-}
-
-.profile-page-container .contributions-container button .icon {
-    color: white;
-}
-
 .profile-page-container .options-container {
     display: flex;
     flex-direction: column;
@@ -112,13 +54,13 @@
 .profile-page-container .options-container a {
     text-align: left;
     text-decoration: none;
-    color: black;
+    color: var(--dark-theme);
     font-weight: var(--font-weight-bold-1);
     padding: 1em 0;
 }
 
 .profile-page-container .options-container a .icon {
-    color: black;
+    color: var(--dark-theme);
     margin-right: 0.5em;
     width: 20px;
 }

@@ -7,7 +7,17 @@ import {forwardRef} from "react";
 
 const ImageAndInfoView = forwardRef((props, ref) => {
 
-    const {id, name, photoUrl, starRating, price, priceLevel, formattedAddress, phone, isOpen} = props;
+    const {
+        name,
+        photoUrl,
+        starRating,
+        price,
+        priceLevel,
+        formattedAddress,
+        phone,
+        isOpen,
+        restaurant
+    } = props;
 
     return (
         <div className="image-and-info-container">
@@ -17,7 +27,7 @@ const ImageAndInfoView = forwardRef((props, ref) => {
                 <div className="title-container">
                     <h1 ref={ref}>{name}</h1>
 
-                    <CheckInButton restaurantId={id}/>
+                    <CheckInButton restaurant={restaurant}/>
                 </div>
 
                 <StarRating rating={starRating}/>

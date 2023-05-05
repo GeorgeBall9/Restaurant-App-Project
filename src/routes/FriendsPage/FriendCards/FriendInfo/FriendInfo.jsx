@@ -5,7 +5,6 @@ import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryBu
 
 const FriendInfo = ({
                         displayName,
-                        iconColour,
                         profilePhotoUrl,
                         mutualFriends,
                         status,
@@ -17,8 +16,6 @@ const FriendInfo = ({
         <div className="friend-info">
             <UserIcon
                 size="larger"
-                colour={iconColour}
-                skeleton={!iconColour && !profilePhotoUrl}
                 imageUrl={profilePhotoUrl}
             />
 

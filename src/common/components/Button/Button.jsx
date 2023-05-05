@@ -16,7 +16,18 @@ const defaultStyles = {
     }
 };
 
-const Button = ({className, handleClick, text, icon, size = "medium", active = true, type, width, margin}) => {
+const Button = ({
+                    className,
+                    children,
+                    handleClick,
+                    text,
+                    icon,
+                    size = "medium",
+                    active = true,
+                    type,
+                    width,
+                    margin
+                }) => {
 
     const style = {...defaultStyles[size], width, margin};
 
@@ -34,6 +45,8 @@ const Button = ({className, handleClick, text, icon, size = "medium", active = t
             type={type}
         >
             {text}
+
+            {children}
 
             {icon && (
                 <FontAwesomeIcon className="icon" icon={icon}/>

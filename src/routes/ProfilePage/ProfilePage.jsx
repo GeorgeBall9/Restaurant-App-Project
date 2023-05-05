@@ -72,10 +72,14 @@ const ProfilePage = () => {
 
                     <p style={{visibility: displayName ? "visible" : "hidden"}}>{displayName || "display name"}</p>
 
-                    <button className="copy-id-button" onClick={handleCopyIdClick}>
-                        {idCopied ? "Copied" :"Copy user ID"}
-                        <FontAwesomeIcon className="icon" icon={idCopied ? faCircleCheck : faCopy}/>
-                    </button>
+                    <PrimaryButton
+                        text={idCopied ? "Copied" :"Copy user ID"}
+                        handleClick={handleCopyIdClick}
+                        width="fit-content"
+                        icon={idCopied ? faCircleCheck : faCopy}
+                        size="small"
+                        margin="1em auto 0"
+                    />
                 </section>
 
                 <section className="contributions-container">

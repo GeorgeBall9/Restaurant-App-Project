@@ -1,38 +1,3 @@
-.profile-container header button {
-    font-size: var(--font-size-smaller);
-    border: none;
-    background: none;
-    color: #EBB02D;
-}
-
-.profile-container header {
-    background-color: var(--dark-theme);
-    border-bottom: solid 1px lightgrey;
-    margin-bottom: 1em;
-}
-
-.profile-container header > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.profile-container header h1 {
-    font-size: 1rem;
-    font-weight: 500;
-    color: white;
-}
-
-.profile-container header button {
-    color: var(--secondary-theme);
-    font-weight: var(--font-weight-bold-2);
-    font-size: var(--font-size-smaller);
-}
-
-.profile-container header button .icon {
-    margin-right: 0.5em;
-}
-
 .profile-container section {
     width: 100%;
     display: flex;
@@ -44,6 +9,7 @@
 .profile-container .change-icon-section {
     align-items: center;
     position: relative;
+    margin-top: 1em;
 }
 
 .profile-container .change-icon-section > .user-icon-container {

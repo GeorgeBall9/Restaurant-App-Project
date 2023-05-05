@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 const ContributionsButton = ({route, icon, name}) => {
     return (
-        <Link to={route}>
+        <Link to={route} className="contributions-button">
             <FontAwesomeIcon className="icon" icon={icon}/>
             {name}
         </Link>

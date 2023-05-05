@@ -1,13 +1,13 @@
 import './DetailsPage.css';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
 import {useState, useEffect, useRef} from 'react';
 
-import {faArrowUpRightFromSquare, faXmark,} from '@fortawesome/free-solid-svg-icons';
+import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import CheckInConfirmationPopup
-    from "../../features/checkInConfirmation/CheckInConfirmationPopup/CheckInConfirmationPopup";
+    from "./ImageAndInfoView/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import {
     selectAddedCheckIn,
     selectCheckedIn,
@@ -40,9 +40,7 @@ const DetailsPage = () => {
 
     const userId = useSelector(selectUserId);
     const allRestaurants = useSelector(selectAllRestaurants);
-    const popupIsVisible = useSelector(selectCheckInConfirmationIsVisible);
     const checkedIn = useSelector(selectCheckedIn);
-    const checkInFeedbackIsVisible = useSelector(selectCheckInFeedbackIsVisible);
     const addedCheckIn = useSelector(selectAddedCheckIn);
 
     const bannerRef = useRef(null);
@@ -200,12 +198,10 @@ const DetailsPage = () => {
 
     return (
         <div className="details-page container">
-            {popupIsVisible && <CheckInConfirmationPopup restaurant={restaurant} name={name} checkedIn={checkedIn}/>}
-
-            <div className="bookmark-feedback" style={{opacity: checkInFeedbackIsVisible ? 1 : 0}}>
-                {addedCheckIn ? "Saved " : "Removed "} check-in
-                <FontAwesomeIcon icon={addedCheckIn ? faCircleCheck : faXmark} className="bookmark-feedback-icon"/>
-            </div>
+            {/*<div className="bookmark-feedback" style={{opacity: checkInFeedbackIsVisible ? 1 : 0}}>*/}
+            {/*    {addedCheckIn ? "Saved " : "Removed "} check-in*/}
+            {/*    <FontAwesomeIcon icon={addedCheckIn ? faCircleCheck : faXmark} className="bookmark-feedback-icon"/>*/}
+            {/*</div>*/}
 
             <BannerView
                 ref={bannerRef}
@@ -225,6 +221,7 @@ const DetailsPage = () => {
                 formattedAddress={formattedAddress}
                 phone={phone}
                 isOpen={isOpen}
+                restaurant={restaurant}
             />
 
             <div id="details-page-nav" className="details-page-navigation" style={navigationStyle}>

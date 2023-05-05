@@ -4,8 +4,8 @@ import {
     checkInExists,
     getLastCheckInToRestaurantByUserId,
     removeRestaurantCheckIn
-} from "../../../firebase/firebase";
-import {selectFriends, selectUserId,} from "../../user/userSlice";
+} from "../../../../firebase/firebase";
+import {selectFriends, selectUserId,} from "../../../../features/user/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {
@@ -13,11 +13,11 @@ import {
     resetCheckInFeedback,
     setCheckedInStatus,
     showCheckInFeedback
-} from "../checkInConfirmationSlice";
-import FormField from "../../../common/components/FormField/FormField";
+} from "../../../../features/checkInConfirmation/checkInConfirmationSlice";
+import FormField from "../../../../common/components/FormField/FormField";
 import {faCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import UserIcon from "../../../common/components/UserIcon/UserIcon";
+import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 
 const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
@@ -39,10 +39,7 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
         if (!restaurantId || !userId) return;
 
         getLastCheckInToRestaurantByUserId(userId, restaurantId)
-            .then(data => {
-                setLastCheckIn(data);
-                console.log(data)
-            });
+            .then(data => setLastCheckIn(data));
     }, [restaurantId, userId]);
 
     const handleYesClick = async () => {

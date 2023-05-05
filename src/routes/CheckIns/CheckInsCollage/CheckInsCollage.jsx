@@ -1,6 +1,6 @@
 import "./CheckInsCollage.css";
 import NoResults from "../../../common/components/NoResults/NoResults";
-import CustomCollage from "./CustomCollage/CustomCollage.jsx";
+import CustomCollage from "../../../common/components/CustomCollage/CustomCollage.jsx";
 import CheckInsCard from "./CheckInsCard/CheckInsCard";
 
 import { useEffect, useState } from "react";

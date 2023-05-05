@@ -78,7 +78,7 @@ button.react-calendar__tile > div {
     width: 100%;
 }
 
-.check-ins-streak,
+.check-ins-unique-restaurants,
 .check-ins-total {
   flex: 1;
   padding: var(--padding-content);
@@ -94,13 +94,13 @@ button.react-calendar__tile > div {
     color: var(--primary-theme);
 }
 
-.check-ins-streak span,
+.check-ins-unique-restaurants span,
 .check-ins-total span {
     font-weight: var(--font-weight-bold-2);
     padding-left: 0.25rem;
 }
 
-.check-ins-streak p,
+.check-ins-unique-restaurants p,
 .check-ins-total p {
     font-size: var(--font-size-smaller);
     color: grey;

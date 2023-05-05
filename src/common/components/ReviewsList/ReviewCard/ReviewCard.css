@@ -5,13 +5,12 @@
 
 .review-photos {
     display: flex;
-    width: 100px; /* Set the desired width */
-    height: 100px; /* Set the desired height */
+    width: 100px; 
+    height: 100px; 
     overflow: hidden;
 }
 
 .review-photos.visible {
-    /* max-height: 500px; Adjust this value according to your desired maximum height */
     opacity: 1;
 }
 

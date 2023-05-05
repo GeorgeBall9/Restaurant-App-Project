@@ -72,7 +72,7 @@ const CheckInButton = ({restaurant}) => {
                 />
             )}
 
-            <InteractionFeedback isVisible={feedbackIsVisible} change={checkInChange} interaction="check-in"/>
+            {feedbackIsVisible && <InteractionFeedback change={checkInChange} interaction="check-in"/>}
         </>
     );
 };

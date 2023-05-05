@@ -38,6 +38,8 @@ const Navigation = ({view, setNavHeight}) => {
     const icon = view === "home" ? faMapLocationDot : faArrowLeft;
 
     useEffect(() => {
+        if (!setNavHeight) return;
+
         setNavHeight(ref.current?.offsetHeight);
     }, [searchIsFocused]);
 

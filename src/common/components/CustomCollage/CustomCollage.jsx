@@ -1,22 +1,22 @@
 import "./CustomCollage.css";
-import {faCircleCheck, faCirclePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useEffect, useState} from "react";
+import { faCircleCheck, faCirclePlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import InversePrimaryButton from "../InversePrimaryButton/InversePrimaryButton";
 import CollageImage from "./CollageImage/CollageImage";
 
 const CustomCollage = ({
-                           images,
-                           rows,
-                           columns,
-                           isExpanded,
-                           onExpand,
-                           handleAddClick,
-                           addFunctionality = true,
-                           selectMode = false,
-                           handleDeleteSelected
-                       }) => {
+    images,
+    rows,
+    columns,
+    isExpanded,
+    onExpand,
+    handleAddClick,
+    addFunctionality = true,
+    selectMode = false,
+    handleDeleteSelected
+}) => {
 
     const showMore = images.length > rows * columns;
     const image4 = images[rows * columns - 1];
@@ -25,6 +25,7 @@ const CustomCollage = ({
     const [allImages, setAllImages] = useState(images);
     const [selectedImages, setSelectedImages] = useState([]);
     const [selectButtonText, setSelectButtonText] = useState("Select all");
+    const [fullScreenImage, setFullScreenImage] = useState(null);
 
     useEffect(() => {
         setAllImages(images);
@@ -37,12 +38,20 @@ const CustomCollage = ({
     }, [selectMode]);
 
     const handleImageClick = (image) => {
-        if (selectedImages.some(({id}) => id === image.id)) {
+        if (selectedImages.some(({ id }) => id === image.id)) {
             setSelectedImages(selectedImages => selectedImages
-                .filter(({id}) => id !== image.id));
+                .filter(({ id }) => id !== image.id));
         } else {
             setSelectedImages([...selectedImages, image]);
         }
+    };
+
+    const handleFullScreenClick = (image) => {
+        setFullScreenImage(image);
+    };
+
+    const closeFullScreenPhoto = () => {
+        setFullScreenImage("");
     };
 
     const handleSelectAllClick = () => {
@@ -90,11 +99,11 @@ const CustomCollage = ({
 
             <div
                 className={`collage-container ${isExpanded ? "" : "non-expanded"}`}
-                style={{gridTemplateRows: `repeat(${rows}, 1fr)`, gridTemplateColumns: `repeat(${columns}, 1fr)`}}
+                style={{ gridTemplateRows: `repeat(${rows}, 1fr)`, gridTemplateColumns: `repeat(${columns}, 1fr)` }}
             >
                 {addFunctionality && isExpanded && !selectMode && (
                     <button className="add-photo-button" onClick={handleAddClick}>
-                        <FontAwesomeIcon className="icon" icon={faCirclePlus}/>
+                        <FontAwesomeIcon className="icon" icon={faCirclePlus} />
                     </button>
                 )}
 
@@ -104,20 +113,25 @@ const CustomCollage = ({
                         <div
                             key={image.id}
                             className={`collage-image-wrapper ${selectMode ? "clickable" : ""}`}
-                            onClick={() => handleImageClick(image)}
+                            onClick={() => {
+                                handleImageClick(image);
+                                if (!selectMode) {
+                                    handleFullScreenClick(image);
+                                }
+                            }}
                         >
-                            <CollageImage {...image}/>
+                            <CollageImage {...image} />
 
                             {selectMode && (
                                 <button
                                     className={`select-image-button 
-                                    ${selectedImages.some(({alt}) => alt === image.alt) ?
-                                        "selected"
-                                        :
-                                        ""}`
+                                    ${selectedImages.some(({ alt }) => alt === image.alt) ?
+                                            "selected"
+                                            :
+                                            ""}`
                                     }
                                 >
-                                    <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
+                                    <FontAwesomeIcon className="icon" icon={faCircleCheck} />
                                 </button>
                             )}
                         </div>
@@ -126,13 +140,19 @@ const CustomCollage = ({
 
                 {image4 && (
                     <div className="collage-image-wrapper">
-                        <CollageImage {...image4}/>
+                        <CollageImage {...image4} />
 
                         {showMore && (
                             <div className="collage-image-overlay" onClick={onExpand}>
                                 Show more +{remainingImages}
                             </div>
                         )}
+                    </div>
+                )}
+
+                {fullScreenImage && (
+                    <div className="full-screen-image-wrapper" onClick={closeFullScreenPhoto}>
+                        <img src={fullScreenImage.url} alt="Full screen check-in image" />
                     </div>
                 )}
             </div>

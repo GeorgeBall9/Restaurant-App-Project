@@ -16,6 +16,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
 import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
+import Overlay from "../../../common/components/Overlay/Overlay";
 
 const FiltersDropdown = () => {
 
@@ -53,47 +54,51 @@ const FiltersDropdown = () => {
     }, [sortFilter, cuisineFilter]);
 
     return (
-        <div className="filters-dropdown-container container">
-            <div className="filters-dropdown">
-                <div className="filters-header">
-                    <div className="action-buttons-container container">
-                        <button onClick={handleBackClick}>
-                            <FontAwesomeIcon icon={faArrowLeft} className="icon"/>
-                            Back
-                        </button>
+        <>
+            <div className="filters-dropdown-container container">
+                <div className="filters-dropdown">
+                    <div className="filters-header">
+                        <div className="action-buttons-container container">
+                            <button onClick={handleBackClick}>
+                                <FontAwesomeIcon icon={faArrowLeft} className="icon"/>
+                                Back
+                            </button>
 
-                        <h2>Filters</h2>
+                            <h2>Filters</h2>
 
-                        <button onClick={handleResetClick}>
-                            <FontAwesomeIcon icon={faBan} className="ban-icon"/>
-                            Reset
-                        </button>
-                    </div>
-                </div>
-
-                <div className="filters container">
-                    <div className="sort-options-container">
-                        <h3>Sort by</h3>
-
-                        <SortByOptions/>
+                            <button onClick={handleResetClick}>
+                                <FontAwesomeIcon icon={faBan} className="ban-icon"/>
+                                Reset
+                            </button>
+                        </div>
                     </div>
 
-                    <div className="cuisine-filters">
-                        <h3>Cuisine</h3>
+                    <div className="filters container">
+                        <div className="sort-options-container">
+                            <h3>Sort by</h3>
 
-                        <CuisineOptions/>
+                            <SortByOptions/>
+                        </div>
+
+                        <div className="cuisine-filters">
+                            <h3>Cuisine</h3>
+
+                            <CuisineOptions/>
+                        </div>
+
+                        <PrimaryButton
+                            text="Apply"
+                            handleClick={handleApplyClick}
+                            children={filtersAppliedCount > 0 && (
+                                <span className="filters-applied-count">({filtersAppliedCount})</span>
+                            )}
+                        />
                     </div>
-
-                    <PrimaryButton
-                        text="Apply"
-                        handleClick={handleApplyClick}
-                        children={filtersAppliedCount > 0 && (
-                            <span className="filters-applied-count">({filtersAppliedCount})</span>
-                        )}
-                    />
                 </div>
             </div>
-        </div>
+
+            <Overlay/>
+        </>
     );
 };
 

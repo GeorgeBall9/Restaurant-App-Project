@@ -6,16 +6,22 @@ import CheckInsCollage from "./CheckInsCollage/CheckInsCollage.jsx";
 
 import NoResults from "../../common/components/NoResults/NoResults";
 
-import { useDispatch, useSelector } from "react-redux";
-import { selectUserId } from "../../features/user/userSlice";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUtensils, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getCheckInsAndRestaurantDataByUserId } from "../../firebase/firebase";
+import {useDispatch, useSelector} from "react-redux";
+import {selectProfilePhotoUrl, selectUserId} from "../../features/user/userSlice";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {
+    faUtensils,
+    faCircleCheck,
+    faArrowLeft,
+    faUpRightAndDownLeftFromCenter
+} from "@fortawesome/free-solid-svg-icons";
+import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {getCheckInsAndRestaurantDataByUserId} from "../../firebase/firebase";
 import CheckInsMap from "./CheckInsMap/CheckInsMap";
-import { displayRestaurant } from "../../features/map/mapSlice";
+import {displayRestaurant} from "../../features/map/mapSlice";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import DetailsPopup from "./DetailsPopup/DetailsPopup";
 
 const currentDate = new Date();
 
@@ -26,6 +32,7 @@ const CheckIns = () => {
     const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
+    const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
 
     const [allCheckIns, setAllCheckIns] = useState([]);
     const [selectedCheckIn, setSelectedCheckIn] = useState(null);
@@ -33,6 +40,8 @@ const CheckIns = () => {
     const [showCollagePopup, setShowCollagePopup] = useState(false);
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
     const [fetchStatus, setFetchStatus] = useState("pending");
+    const [detailsPopupIsVisible, setDetailsPopupIsVisible] = useState(false);
+    const [checkInsOnDate, setCheckInsOnDate] = useState(null);
 
     useEffect(() => {
         if (!allCheckIns?.length) return;
@@ -82,7 +91,7 @@ const CheckIns = () => {
     useEffect(() => {
         if (!selectedCheckIn) return;
 
-        dispatch(displayRestaurant({ ...selectedCheckIn.restaurant, checkInId: selectedCheckIn.id }));
+        dispatch(displayRestaurant({...selectedCheckIn.restaurant, checkInId: selectedCheckIn.id}));
     }, [selectedCheckIn]);
 
     const handleCalendarChange = (value) => {
@@ -90,19 +99,23 @@ const CheckIns = () => {
         // Fetch and display the check-ins for the selected date
     };
 
-    const handleTileClick = (checkIn) => {
-        setSelectedCheckIn(checkIn);
-        setShowCollagePopup(true);
+    const handleTileClick = (checkIns) => {
+        setCheckInsOnDate(checkIns.map(checkIn => {
+            const updatedCheckIn = {...checkIn};
+            updatedCheckIn.userData = {profilePhotoUrl};
+            return updatedCheckIn;
+        }));
+
+        setDetailsPopupIsVisible(true);
     };
 
     const handleBackToCalendar = () => {
-        setShowCollagePopup(false);
+        setDetailsPopupIsVisible(false);
     };
 
-    const TileContent = ({ date }) => {
-        if (!allCheckIns || allCheckIns.length === 0) {
-            return null;
-        }
+    const TileContent = ({date}) => {
+        if (!allCheckIns?.length) return null;
+
         const checkInsForDate = allCheckIns.filter((checkIn) => {
             const checkInDate = new Date(checkIn.date).toLocaleDateString();
             return checkInDate === date.toLocaleDateString();
@@ -111,11 +124,9 @@ const CheckIns = () => {
         return checkInsForDate.map((checkIn, index) => {
             const foundCheckIn = getCheckedInRestaurant(checkIn.restaurant.id);
 
-            if (!foundCheckIn) {
-                return null;
-            }
+            if (!foundCheckIn) return null;
 
-            const { restaurant } = foundCheckIn;
+            const {restaurant} = foundCheckIn;
 
             const tileContentStyle = {
                 backgroundImage: `url(${restaurant.photoUrl})`,
@@ -131,28 +142,28 @@ const CheckIns = () => {
                     key={index}
                     style={tileContentStyle}
                     title={restaurant.name}
-                    onClick={() => handleTileClick(foundCheckIn)}
+                    onClick={() => handleTileClick(checkInsForDate)}
                 ></div>
             );
         });
     };
 
-    const renderTileContent = ({ date, view }) => {
+    const renderTileContent = ({date, view}) => {
         if (view !== "month") {
             return null;
         }
 
-        return <TileContent date={date} />;
+        return <TileContent date={date}/>;
     };
 
     return (
         <div className="check-ins-page-container">
-            <ProfileNavigationView pageTitle="Check-ins" />
+            <ProfileNavigationView pageTitle="Check-ins"/>
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
                     {allCheckIns?.length > 0 && (
-                        <CheckInsMap checkIns={allCheckIns} onViewDetails={handleDetailsPopupOpen} />
+                        <CheckInsMap checkIns={allCheckIns} onViewDetails={handleDetailsPopupOpen}/>
                     )}
 
                     {!allCheckIns?.length && fetchStatus === "idle" && (
@@ -165,13 +176,13 @@ const CheckIns = () => {
 
                 <div className="check-ins-stats">
                     <div className="check-ins-unique-restaurants">
-                        <FontAwesomeIcon className="icon" icon={faUtensils} />
+                        <FontAwesomeIcon className="icon" icon={faUtensils}/>
                         <span>{countUniqueRestaurants(allCheckIns) || "0"}</span>
                         <p>Unique Restaurants</p>
                     </div>
 
                     <div className="check-ins-total">
-                        <FontAwesomeIcon className="icon" icon={faCircleCheck} />
+                        <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
                         <span>{allCheckIns?.length || "0"}</span>
                         <p>Check-ins</p>
                     </div>
@@ -188,8 +199,12 @@ const CheckIns = () => {
                         tileContent={renderTileContent}
                     />
 
-                    {showCollagePopup && (
-                        <CheckInsCollage checkIn={selectedCheckIn} onClose={handleCollagePopupClose} />
+                    {/*{showCollagePopup && (*/}
+                    {/*    <CheckInsCollage checkIn={selectedCheckIn} onClose={handleCollagePopupClose}/>*/}
+                    {/*)}*/}
+
+                    {detailsPopupIsVisible && (
+                        <DetailsPopup checkIns={checkInsOnDate} date={calendarValue.toLocaleDateString()}/>
                     )}
                 </div>
             </div>

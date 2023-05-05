@@ -1,6 +1,6 @@
 import {useSelector} from "react-redux";
 import {selectRestaurants} from "../restaurantsSlice";
-import MapRestaurantCard from "../../slider/Slider/MapRestaurantCard/MapRestaurantCard";
+import MapRestaurantCard from "../../../routes/MapPage/Slider/MapRestaurantCard/MapRestaurantCard";
 
 const RestaurantsList = ({view}) => {
 

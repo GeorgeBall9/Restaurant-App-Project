@@ -5,7 +5,7 @@ import {useState} from "react";
 import {uploadImage} from "../../../firebase/firebase";
 import Overlay from "../Overlay/Overlay";
 
-const UploadImagePopup = ({handleCloseClick, handleUploadClick}) => {
+const UploadImagePopup = ({handleCloseClick, handleUploadClick, shape = "rectangle"}) => {
 
     const [uploadButtonText, setUploadButtonText] = useState("Loading...");
     const [photoStoragePath, setPhotoStoragePath] = useState(null);
@@ -44,7 +44,7 @@ const UploadImagePopup = ({handleCloseClick, handleUploadClick}) => {
                 <h3>Select an image</h3>
 
                 <div>
-                    <div className="uploaded-image-container">
+                    <div className={`uploaded-image-container ${shape}`}>
                         {photoUrl && (
                             <img
                                 src={photoUrl}

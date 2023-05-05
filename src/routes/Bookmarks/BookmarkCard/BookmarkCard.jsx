@@ -6,11 +6,13 @@ const BookmarkCard = ({restaurant}) => {
 
     const {isOpen} = restaurant;
 
+    console.log({isOpen})
+
     return (
         <div className="bookmark-card">
             {!isOpen && <ClosedSign/>}
 
-            <RestaurantCard restaurant={restaurant} active={isOpen}/>
+            <RestaurantCard restaurant={restaurant} open={isOpen}/>
         </div>
     );
 };

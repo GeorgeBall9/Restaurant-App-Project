@@ -41,8 +41,6 @@ const FriendsProfile = () => {
                             <div className="user-icon-container">
                                 <UserIcon
                                     size="xLarge"
-                                    colour={displayedFriend.iconColour}
-                                    skeleton={!displayedFriend.iconColour && !displayedFriend.profilePhotoUrl}
                                     imageUrl={displayedFriend.profilePhotoUrl}
                                 />
                             </div>

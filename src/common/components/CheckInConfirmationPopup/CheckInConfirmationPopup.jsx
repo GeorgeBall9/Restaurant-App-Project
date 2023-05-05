@@ -5,26 +5,19 @@ import {
     getLastCheckInToRestaurantByUserId,
     removeRestaurantCheckIn
 } from "../../../firebase/firebase";
-import {selectFriends, selectUserId,} from "../../user/userSlice";
-import {hideOverlay} from "../../overlay/overlaySlice";
-import {useDispatch, useSelector} from "react-redux";
+import {selectFriends, selectUserId,} from "../../../features/user/userSlice";
+import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {
-    hideCheckInConfirmation,
-    resetCheckInFeedback,
-    setCheckedInStatus,
-    showCheckInFeedback
-} from "../checkInConfirmationSlice";
-import FormField from "../../../common/components/FormField/FormField";
-import {faCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
+import FormField from "../FormField/FormField";
+import {faCircleCheck as solidCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import UserIcon from "../../../common/components/UserIcon/UserIcon";
+import UserIcon from "../UserIcon/UserIcon";
+import PrimaryButton from "../PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../InversePrimaryButton/InversePrimaryButton";
+import InteractionButton from "../InteractionButton/InteractionButton";
 
-const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
-
-    const restaurantId = restaurant?.id;
-
-    const dispatch = useDispatch();
+const CheckInConfirmationPopup = ({restaurant, checkedIn, closePopup, setCheckedIn, setCheckInChange}) => {
 
     const userId = useSelector(selectUserId);
     const friends = useSelector(selectFriends);
@@ -37,27 +30,24 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
     const [addFriendsButtonText, setAddFriendsButtonText] = useState("Add friends");
 
     useEffect(() => {
-        if (!restaurantId || !userId) return;
+        if (!restaurant || !userId) return;
 
-        getLastCheckInToRestaurantByUserId(userId, restaurantId)
-            .then(data => {
-                setLastCheckIn(data);
-                console.log(data)
-            });
-    }, [restaurantId, userId]);
+        getLastCheckInToRestaurantByUserId(userId, restaurant.id)
+            .then(data => setLastCheckIn(data));
+    }, [restaurant, userId]);
 
     const handleYesClick = async () => {
         if (checkedIn) {
             await removeRestaurantCheckIn(lastCheckIn.id);
-            dispatch(setCheckedInStatus(false));
-            dispatch(showCheckInFeedback("remove"));
+            setCheckInChange("Removed");
+            setCheckedIn(false);
         } else {
             if (+new Date() < +new Date(checkInDate)) {
                 setFeedback("You can only check in today or earlier!");
                 return;
             }
 
-            const checkedInOnDate = await checkInExists(userId, checkInDate, restaurantId);
+            const checkedInOnDate = await checkInExists(userId, checkInDate, restaurant.id);
 
             if (checkedInOnDate) {
                 setFeedback("You already checked in on this date!");
@@ -65,19 +55,11 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
             }
 
             await addRestaurantCheckIn(userId, checkInDate, restaurant, selectedFriends);
-            dispatch(setCheckedInStatus(true));
-            dispatch(showCheckInFeedback("add"));
+            setCheckInChange("Saved");
+            setCheckedIn(new Date().toLocaleDateString() === new Date(checkInDate).toLocaleDateString());
         }
 
-        setTimeout(() => dispatch(resetCheckInFeedback()), 2000);
-
-        dispatch(hideOverlay());
-        dispatch(hideCheckInConfirmation());
-    };
-
-    const handleNoClick = () => {
-        dispatch(hideOverlay());
-        dispatch(hideCheckInConfirmation());
+        closePopup();
     };
 
     const handleDateChange = ({target}) => {
@@ -135,22 +117,22 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
 
             {selectFriendsIsVisible && (
                 <div className="select-friends">
-                    {friends.map(({id, displayName, iconColour, profilePhotoUrl}) => (
+                    {friends.map(({id, displayName, profilePhotoUrl}) => (
                         <div key={id} className="select-friend-card" onClick={() => handleFriendCardClick(id)}>
-                            <div className="icon-container">
+                            <div>
                                 <UserIcon
                                     size="small"
-                                    colour={iconColour}
-                                    skeleton={!iconColour && !profilePhotoUrl}
                                     imageUrl={profilePhotoUrl}
                                 />
 
-                                {selectedFriends.includes(id) && (
-                                    <FontAwesomeIcon icon={faCircleCheck} className="icon"/>
-                                )}
+                                <p>{displayName}</p>
                             </div>
 
-                            <p>{displayName}</p>
+                            <InteractionButton
+                                icon={faCircleCheck}
+                                solidIcon={solidCircleCheck}
+                                isSolid={selectedFriends.includes(id)}
+                            />
                         </div>
                     ))}
                 </div>
@@ -162,11 +144,11 @@ const CheckInConfirmationPopup = ({restaurant, name, checkedIn}) => {
                 </p>
             )}
 
-            <p><span>Check {checkedIn ? "out" : "in"}</span> at {name}?</p>
+            <p><span>Check {checkedIn ? "out" : "in"}</span> at {restaurant.name}?</p>
 
             <div className="buttons-container">
-                <button onClick={handleYesClick}>Yes</button>
-                <button onClick={handleNoClick}>No</button>
+                <PrimaryButton text="Yes" handleClick={handleYesClick}/>
+                <InversePrimaryButton text="No" handleClick={closePopup}/>
             </div>
         </div>
     );

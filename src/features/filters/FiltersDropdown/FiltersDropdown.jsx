@@ -15,7 +15,6 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
-import {hideOverlay} from "../../overlay/overlaySlice";
 
 const FiltersDropdown = () => {
 
@@ -29,7 +28,6 @@ const FiltersDropdown = () => {
         dispatch(sortRestaurants(sortFilter));
         dispatch(applyFilters());
         dispatch(hideFilters());
-        dispatch(hideOverlay());
     };
 
     const handleResetClick = () => {
@@ -38,9 +36,7 @@ const FiltersDropdown = () => {
     };
 
     const handleBackClick = () => {
-        dispatch(hideOverlay());
         dispatch(hideFilters());
-        dispatch(hideOverlay());
     };
 
     const [filtersAppliedCount, setFiltersAppliedCount] = useState(0);

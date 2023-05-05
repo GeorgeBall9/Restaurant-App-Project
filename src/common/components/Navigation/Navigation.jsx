@@ -6,7 +6,6 @@ import {
     faSliders,
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import SearchBox from "../SearchBox/SearchBox";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -18,7 +17,6 @@ import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
 import LocationButton from "../../../features/location/LocationButton/LocationButton";
 import LocationOptions from "../../../features/location/LocationButton/LocationOptions/LocationOptions";
 import {selectLocationOptionsOpen} from "../../../features/location/locationSlice";
-import {showOverlay} from "../../../features/overlay/overlaySlice";
 import SearchBoxView from "../SearchBoxView/SearchBoxView";
 
 const Navigation = ({view}) => {
@@ -32,7 +30,6 @@ const Navigation = ({view}) => {
     const icon = view === "home" ? faMapLocationDot : faArrowLeft;
 
     const handleFilterButtonClicked = () => {
-        dispatch(showOverlay());
         dispatch(showFilters());
     };
 

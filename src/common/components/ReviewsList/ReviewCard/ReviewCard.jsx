@@ -18,7 +18,6 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
 
     const {
         id,
-        iconColour,
         profilePhotoUrl,
         displayName,
         numberOfReviews,
@@ -85,8 +84,6 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
                     <div className="user-icon-container">
                         <UserIcon
                             size="medium"
-                            colour={iconColour}
-                            skeleton={!iconColour && !profilePhotoUrl}
                             imageUrl={profilePhotoUrl}
                         />
                     </div>

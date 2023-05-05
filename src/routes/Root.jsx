@@ -20,7 +20,6 @@ import {
     setUserId
 } from "../features/user/userSlice";
 import Overlay from "../common/components/Overlay/Overlay";
-import {selectOverlayIsVisible} from "../features/overlay/overlaySlice";
 
 const Root = () => {
 
@@ -30,7 +29,6 @@ const Root = () => {
     useFilterRestaurants();
     useInitialiseSlider();
 
-    const overlayIsVisible = useSelector(selectOverlayIsVisible);
     const spinnerIsVisible = useSelector(selectSpinnerIsVisible);
     const filtersVisible = useSelector(selectFiltersAreVisible);
 
@@ -76,12 +74,11 @@ const Root = () => {
     }, [userId]);
 
     useEffect(() => {
-        document.body.style.overflow = (overlayIsVisible || spinnerIsVisible) ? "hidden" : "visible";
-    }, [overlayIsVisible, spinnerIsVisible]);
+        document.body.style.overflow = (spinnerIsVisible) ? "hidden" : "visible";
+    }, [spinnerIsVisible]);
 
     return (
         <>
-            {overlayIsVisible && <Overlay/>}
             {spinnerIsVisible && <Spinner/>}
             {filtersVisible && <FiltersDropdown/>}
             <Outlet/>

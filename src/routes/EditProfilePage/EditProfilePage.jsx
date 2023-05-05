@@ -1,32 +1,34 @@
 import "./EditProfilePage.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {selectChangeIconPopupIsVisible, showChangeIconPopup} from "../../features/changeIconPopup/changeIconPopupSlice";
-import ChangeIconPopup from "../../features/changeIconPopup/ChangeIconPopup/ChangeIconPopup";
 import {
     selectDisplayName, selectEmail,
-    selectIconColour, selectPhone, selectProfilePhotoUrl,
+    selectPhone, selectProfilePhotoUrl,
     selectUserId,
-    setDisplayName, setEmail, setPhone
+    setDisplayName, setEmail, setPhone, setProfilePhotoUrl
 } from "../../features/user/userSlice";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {
+    addPhotoToCheckIn,
     updateUserDisplayName,
     updateUserEmailAddress,
-    updateUserPhoneNumber
+    updateUserPhoneNumber, updateUserProfile, updateUserProfilePhoto
 } from "../../firebase/firebase";
-import {showOverlay} from "../../features/overlay/overlaySlice";
 import FormField from "../../common/components/FormField/FormField";
 import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import UploadImagePopup from "../../common/components/UploadImagePopup/UploadImagePopup";
+
+const defaultProfileFields = {
+    displayName: "",
+    email: "",
+    phone: ""
+};
 
 const EditProfilePage = () => {
-
-    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
@@ -34,84 +36,68 @@ const EditProfilePage = () => {
     const displayName = useSelector(selectDisplayName);
     const email = useSelector(selectEmail);
     const phone = useSelector(selectPhone);
-    const iconColour = useSelector(selectIconColour);
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
 
-    const [name, setName] = useState("");
-    const [emailAddress, setEmailAddress] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-
+    const [profileFields, setProfileFields] = useState(defaultProfileFields);
+    const [uploadImagePopupIsVisible, setUploadImagePopupIsVisible] = useState(false);
     const [buttonText, setButtonText] = useState("Save");
+    const [uploadedPhotoUrl, setUploadedPhotoUrl] = useState("");
+    const [photoStoragePath, setPhotoStoragePath] = useState("");
 
     useEffect(() => {
         if (!displayName) return;
 
-        setName(displayName);
+        handleChange({target: {name: "displayName", value: displayName}});
     }, [displayName]);
 
     useEffect(() => {
         if (!email) return;
 
-        setEmailAddress(email);
+        handleChange({target: {name: "email", value: email}});
     }, [email]);
 
     useEffect(() => {
         if (!phone) return;
 
-        setPhoneNumber(phone);
+        handleChange({target: {name: "phone", value: phone}});
     }, [phone]);
 
-    const handleBackClick = () => {
-        navigate("/profile");
-    };
-
     const handleSaveClick = async () => {
-        // update user doc to have new fields
-        if (name !== displayName) {
-            setButtonText("Saving...");
-            await updateUserDisplayName(userId, name);
-            dispatch(setDisplayName(name));
-            setButtonText("Saved");
+        setButtonText("Saving...");
+
+        if (uploadedPhotoUrl && photoStoragePath) {
+            await updateUserProfilePhoto(userId, photoStoragePath);
+            dispatch(setProfilePhotoUrl(profileFields.profilePhotoUrl));
         }
 
-        if (emailAddress !== email) {
-            setButtonText("Saving...");
-            await updateUserEmailAddress(userId, emailAddress);
-            dispatch(setEmail(emailAddress));
-            setButtonText("Saved");
-        }
+        await updateUserProfile(userId, profileFields);
 
-        if (phoneNumber !== phone) {
-            setButtonText("Saving...");
-            await updateUserPhoneNumber(userId, phoneNumber);
-            dispatch(setPhone(phoneNumber));
-            setButtonText("Saved");
-        }
+        setButtonText("Saved");
     };
 
-    const handleDisplayNameChange = ({target}) => {
+    const handleChange = ({target}) => {
+        const {name, value} = target;
+
+        setProfileFields(profileFields => {
+            const updatedFields = {...profileFields};
+            updatedFields[name] = value;
+            return updatedFields;
+        });
+
         setButtonText("Save");
-        const {value} = target;
-        setDisplayName(value);
     };
 
-    const handleEmailAddressChange = ({target}) => {
+    const handleCloseUploadImagePopup = () => {
+        setUploadImagePopupIsVisible(false)
+        document.querySelector(".file-upload-input").value = "";
+    };
+
+    const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
+        setUploadedPhotoUrl(photoUrl);
+        setPhotoStoragePath(photoStoragePath);
+        document.querySelector(".file-upload-input").value = "";
+        handleCloseUploadImagePopup();
         setButtonText("Save");
-        const {value} = target;
-        setEmailAddress(value);
-    };
-
-    const handlePhoneNumberChange = ({target}) => {
-        setButtonText("Save");
-        const {value} = target;
-        setPhoneNumber(value);
-    };
-
-    const popupVisible = useSelector(selectChangeIconPopupIsVisible);
-
-    const handleChangeIconClick = () => {
-        dispatch(showOverlay());
-        dispatch(showChangeIconPopup());
     };
 
     return (
@@ -123,39 +109,46 @@ const EditProfilePage = () => {
                    <div className="user-icon-container">
                        <UserIcon
                            size="xLarge"
-                           colour={iconColour}
-                           skeleton={!iconColour && !profilePhotoUrl}
-                           imageUrl={profilePhotoUrl}
+                           imageUrl={uploadedPhotoUrl || profilePhotoUrl}
                        />
 
-                       <button onClick={handleChangeIconClick}>
+                       <button onClick={() => setUploadImagePopupIsVisible(true)}>
                            <FontAwesomeIcon className="icon" icon={faPenToSquare}/>
                        </button>
                    </div>
 
-                   {popupVisible && <ChangeIconPopup/>}
+                   {uploadImagePopupIsVisible && (
+                       <UploadImagePopup
+                           handleCloseClick={handleCloseUploadImagePopup}
+                           handleUploadClick={handleUploadPhotoClick}
+                           shape="round"
+                       />
+                   )}
                </section>
 
                <section className="change-details-section">
                    <FormField
                        label="Display name"
                        type="text"
-                       value={name}
-                       onChangeHandler={handleDisplayNameChange}
+                       name="displayName"
+                       value={profileFields.displayName}
+                       onChangeHandler={handleChange}
                    />
 
                    <FormField
                        label="Email address"
                        type="email"
-                       value={emailAddress}
-                       onChangeHandler={handleEmailAddressChange}
+                       name="email"
+                       value={profileFields.email}
+                       onChangeHandler={handleChange}
                    />
 
                    <FormField
                        label="Phone number"
                        type="text"
-                       value={phoneNumber}
-                       onChangeHandler={handlePhoneNumberChange}
+                       name="phone"
+                       value={profileFields.phone}
+                       onChangeHandler={handleChange}
                    />
 
                    <PrimaryButton

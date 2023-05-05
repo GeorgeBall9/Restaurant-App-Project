@@ -13,6 +13,7 @@ import {
 import {useEffect, useState} from "react";
 import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
 import {addUserRecommendation, removeUserRecommendation} from "../../../../firebase/firebase";
+import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
 
 const RecommendButton = ({restaurant, style}) => {
 
@@ -38,7 +39,7 @@ const RecommendButton = ({restaurant, style}) => {
     const handleRecommendClick = () => {
         if (!userId) {
             navigate("/sign-in");
-        } else {
+        } else if (!feedbackIsVisible) {
             setConfirmationIsVisible(true);
         }
     };
@@ -85,10 +86,11 @@ const RecommendButton = ({restaurant, style}) => {
                 </div>
             )}
 
-            <div className="bookmark-feedback" style={{opacity: feedbackIsVisible ? 1 : 0}}>
-                {isRecommended ? "Added " : "Removed "}recommendation
-                <FontAwesomeIcon icon={isRecommended ? faCircleCheck : faXmark} className="bookmark-feedback-icon"/>
-            </div>
+            <InteractionFeedback
+                isVisible={feedbackIsVisible}
+                change={isRecommended ? "Added" : "Removed"}
+                interaction={"recommendation"}
+            />
         </>
     );
 };

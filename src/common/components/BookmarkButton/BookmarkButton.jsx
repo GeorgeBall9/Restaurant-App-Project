@@ -1,7 +1,5 @@
-import "./BookmarkButton.css";
-import {faBookmark, faCircleCheck} from "@fortawesome/free-regular-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBookmark as faBookmarkSolid, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faBookmark} from "@fortawesome/free-regular-svg-icons";
+import {faBookmark as faBookmarkSolid} from "@fortawesome/free-solid-svg-icons";
 import {
     addBookmark,
     removeBookmark,
@@ -13,6 +11,7 @@ import {addUserBookmark, removeUserBookmark} from "../../../firebase/firebase";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import InteractionButton from "../InteractionButton/InteractionButton";
+import InteractionFeedback from "../InteractionFeedback/InteractionFeedback";
 
 const BookmarkButton = ({restaurant, style}) => {
 
@@ -41,6 +40,8 @@ const BookmarkButton = ({restaurant, style}) => {
             return;
         }
 
+        if (feedbackIsVisible) return;
+
         if (isBookmarked) {
             dispatch(removeBookmark(id));
             await removeUserBookmark(userId, id);
@@ -63,10 +64,11 @@ const BookmarkButton = ({restaurant, style}) => {
                 style={style}
             />
 
-            <div className="bookmark-feedback" style={{opacity: feedbackIsVisible ? 1 : 0}}>
-                {isBookmarked ? "Saved to" : "Removed from"} bookmarks
-                <FontAwesomeIcon icon={isBookmarked ? faCircleCheck : faXmark} className="bookmark-feedback-icon"/>
-            </div>
+            <InteractionFeedback
+                isVisible={feedbackIsVisible}
+                change={isBookmarked ? "Saved to" : "Removed from"}
+                interaction="bookmarks"
+            />
         </>
     );
 };

@@ -45,11 +45,17 @@ const BookmarkButton = ({restaurant, style, updateInteractions}) => {
         if (isBookmarked) {
             dispatch(removeBookmark(id));
             await removeUserBookmark(userId, id);
-            updateInteractions("bookmarks", -1);
+
+            if (updateInteractions) {
+                updateInteractions("bookmarks", -1);
+            }
         } else {
             dispatch(addBookmark(id));
             await addUserBookmark(userId, restaurant);
-            updateInteractions("bookmarks", 1);
+
+            if (updateInteractions) {
+                updateInteractions("bookmarks", 1);
+            }
         }
 
         setFeedbackIsVisible(true);

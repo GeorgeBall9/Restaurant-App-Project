@@ -198,11 +198,6 @@ const DetailsPage = () => {
 
     return (
         <div className="details-page container">
-            {/*<div className="bookmark-feedback" style={{opacity: checkInFeedbackIsVisible ? 1 : 0}}>*/}
-            {/*    {addedCheckIn ? "Saved " : "Removed "} check-in*/}
-            {/*    <FontAwesomeIcon icon={addedCheckIn ? faCircleCheck : faXmark} className="bookmark-feedback-icon"/>*/}
-            {/*</div>*/}
-
             <BannerView
                 ref={bannerRef}
                 restaurant={restaurant}

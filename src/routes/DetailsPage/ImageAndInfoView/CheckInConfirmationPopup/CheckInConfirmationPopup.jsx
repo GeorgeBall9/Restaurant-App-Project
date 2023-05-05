@@ -17,7 +17,7 @@ import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryBu
 import InversePrimaryButton from "../../../../common/components/InversePrimaryButton/InversePrimaryButton";
 import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
 
-const CheckInConfirmationPopup = ({restaurant, checkedIn, closePopup, setCheckedIn}) => {
+const CheckInConfirmationPopup = ({restaurant, checkedIn, closePopup, setCheckedIn, setCheckInChange}) => {
 
     const userId = useSelector(selectUserId);
     const friends = useSelector(selectFriends);
@@ -39,6 +39,7 @@ const CheckInConfirmationPopup = ({restaurant, checkedIn, closePopup, setChecked
     const handleYesClick = async () => {
         if (checkedIn) {
             await removeRestaurantCheckIn(lastCheckIn.id);
+            setCheckInChange("Removed");
             setCheckedIn(false);
         } else {
             if (+new Date() < +new Date(checkInDate)) {
@@ -54,7 +55,8 @@ const CheckInConfirmationPopup = ({restaurant, checkedIn, closePopup, setChecked
             }
 
             await addRestaurantCheckIn(userId, checkInDate, restaurant, selectedFriends);
-            setCheckedIn(true);
+            setCheckInChange("Saved");
+            setCheckedIn(new Date().toLocaleDateString() === new Date(checkInDate).toLocaleDateString());
         }
 
         closePopup();

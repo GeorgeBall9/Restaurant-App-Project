@@ -1,6 +1,6 @@
 import "./CheckInButton.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleCheck as faSolidCircleCheck} from "@fortawesome/free-solid-svg-icons";
+import {faCircleCheck as faSolidCircleCheck, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useEffect, useState} from "react";
 import {getLastCheckInToRestaurantByUserId} from "../../../../firebase/firebase";
@@ -17,11 +17,15 @@ const CheckInButton = ({restaurant}) => {
 
     const [checkInConfirmationIsVisible, setCheckInConfirmationIsVisible] = useState(false);
     const [checkedIn, setCheckedIn] = useState(false);
+    const [checkInChange, setCheckInChange] = useState(null);
+    const [feedbackIsVisible, setFeedbackIsVisible] = useState(false);
 
     useEffect(() => {
         if (!restaurant || !userId) return;
 
         const today = new Date().toLocaleDateString();
+
+        console.log("updating checked in status")
 
         getLastCheckInToRestaurantByUserId(userId, restaurant.id)
             .then(data => {
@@ -33,6 +37,14 @@ const CheckInButton = ({restaurant}) => {
                 }
             });
     }, [restaurant, userId]);
+
+    useEffect(() => {
+        if (!checkInChange) return;
+
+        setFeedbackIsVisible(true);
+
+        setTimeout(() =>  setFeedbackIsVisible(false), 2000);
+    }, [checkInChange]);
 
     const handleClick = () => {
         if (!userId) {
@@ -55,8 +67,18 @@ const CheckInButton = ({restaurant}) => {
                     checkedIn={checkedIn}
                     closePopup={() => setCheckInConfirmationIsVisible(false)}
                     setCheckedIn={setCheckedIn}
+                    setCheckInChange={setCheckInChange}
                 />
             )}
+
+            <div className="bookmark-feedback" style={{opacity: feedbackIsVisible ? 1 : 0}}>
+                {checkInChange} check-in
+
+                <FontAwesomeIcon
+                    icon={checkInChange === "Saved" ? faCircleCheck : faXmark}
+                    className="bookmark-feedback-icon"
+                />
+            </div>
         </>
     );
 };

@@ -4,7 +4,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: lightgrey;
+    flex-shrink: 0;
+    background-color: grey;
+    border: solid lightgrey;
 }
 
 .user-icon img {
@@ -14,8 +16,7 @@
 }
 
 .user-icon .icon {
-    border-radius: 50%;
-    height: 100%;
-    width: 100%;
-    color: grey;
+    height: 50%;
+    width: 50%;
+    color: lightgrey;
 }

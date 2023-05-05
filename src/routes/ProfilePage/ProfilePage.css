@@ -30,8 +30,6 @@
 }
 
 .profile-page-container .profile-info-container .user-icon-container {
-    border: solid 4px lightgrey;
-    border-radius: 50%;
     position: relative;
     width: fit-content;
     margin: 0 auto 0.5em;

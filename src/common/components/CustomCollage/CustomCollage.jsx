@@ -15,7 +15,8 @@ const CustomCollage = ({
     handleAddClick,
     addFunctionality = true,
     selectMode = false,
-    handleDeleteSelected
+    handleDeleteSelected,
+    isFriendsPage = false
 }) => {
 
     const showMore = images.length > rows * columns;
@@ -101,7 +102,7 @@ const CustomCollage = ({
                 className={`collage-container ${isExpanded ? "" : "non-expanded"}`}
                 style={{ gridTemplateRows: `repeat(${rows}, 1fr)`, gridTemplateColumns: `repeat(${columns}, 1fr)` }}
             >
-                {addFunctionality && isExpanded && !selectMode && (
+                {addFunctionality && isExpanded && !selectMode && !isFriendsPage && (
                     <button className="add-photo-button" onClick={handleAddClick}>
                         <FontAwesomeIcon className="icon" icon={faCirclePlus} />
                     </button>

@@ -3,8 +3,8 @@ import "./MapRestaurantCard.css";
 import RestaurantCard from "../../../../common/components/RestaurantCard/RestaurantCard";
 
 import {useSelector} from "react-redux";
-import {selectActiveSlide} from "../../../../features/slider/sliderSlice";
-import {selectRouteDetails} from "../../../../features/map/mapSlice";
+import {selectActiveSlide} from "../../sliderSlice";
+import {selectRouteDetails} from "../../../map/mapSlice";
 
 const MapRestaurantCard = ({restaurant, index}) => {
 

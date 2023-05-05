@@ -8,17 +8,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    selectAppliedCuisineFilter,
-    selectAppliedSortFilter,
-    showFilters,
-} from "../../../features/filters/filtersSlice";
+import {selectAppliedCuisineFilter, selectAppliedSortFilter} from "../../../features/filters/filtersSlice";
 import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
 import LocationButton from "./LocationButton/LocationButton";
 import LocationOptions from "../../../features/location/LocationOptions/LocationOptions";
 import SearchBoxView from "../SearchBoxView/SearchBoxView";
 import {filterResultsBySearchQuery, selectHasMatches} from "../../../features/restaurants/restaurantsSlice";
 import {useState} from "react";
+import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
 
 const Navigation = ({view}) => {
 
@@ -29,12 +26,9 @@ const Navigation = ({view}) => {
     const searchHasMatches = useSelector(selectHasMatches);
 
     const [locationOptionsAreVisible, setLocationOptionsAreVisible] = useState(false);
+    const [filtersAreVisible, setFiltersAreVisible] = useState(false);
 
     const icon = view === "home" ? faMapLocationDot : faArrowLeft;
-
-    const handleFilterButtonClicked = () => {
-        dispatch(showFilters());
-    };
 
     return (
         <div className="navigation-container">
@@ -52,7 +46,7 @@ const Navigation = ({view}) => {
 
                         <button
                             className="button filter-button"
-                            onClick={handleFilterButtonClicked}
+                            onClick={() => setFiltersAreVisible(true)}
                         >
                             <FontAwesomeIcon className="icon" icon={faSliders}/>
                         </button>
@@ -78,6 +72,8 @@ const Navigation = ({view}) => {
                     )}
                 </div>
             </div>
+
+            {filtersAreVisible && <FiltersDropdown closePopup={() => setFiltersAreVisible(false)}/>}
 
             {locationOptionsAreVisible && (
                 <LocationOptions closePopup={() => setLocationOptionsAreVisible(false)}/>

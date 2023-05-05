@@ -1,18 +1,8 @@
 import "./FriendsPage.css";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {
-    getUserFromUserId,
-    sendFriendRequestToUser
-} from "../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    selectFriendRequests,
-    selectFriends,
-    selectUserId,
-    setFriends
-} from "../../features/user/userSlice";
-import {resetSearchQuery} from "../../features/filters/filtersSlice";
+import {selectFriendRequests, selectFriends} from "../../features/user/userSlice";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import {faCircleCheck, faLink, faMagnifyingGlass, faPlus} from "@fortawesome/free-solid-svg-icons";
 import FriendRequestCard from "./FriendCards/FriendRequestCard/FriendRequestCard";
@@ -94,7 +84,6 @@ const FriendsPage = () => {
     };
 
     const handleSearchClick = () => {
-        dispatch(resetSearchQuery());
         setDisplayedFriends(friends);
         setDisplayedFriendRequests(friendRequests);
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
@@ -131,7 +120,6 @@ const FriendsPage = () => {
 
     const handleChangeDisplay = () => {
         setDisplay(display => display === "friends" ? "requests" : "friends");
-        dispatch(resetSearchQuery());
     };
 
     return (

@@ -10,7 +10,7 @@ import "./MapPage.css";
 // imported components
 import Map from "../../features/map/Map/Map";
 import Navigation from "../../common/components/Navigation/Navigation";
-import Slider from "./Slider/Slider";
+import Slider from "../../features/slider/Slider/Slider";
 
 const MapPage = () => {
 

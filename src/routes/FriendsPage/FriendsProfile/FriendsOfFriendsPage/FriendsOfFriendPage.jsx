@@ -1,11 +1,6 @@
 import "./FriendsOfFriend.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faArrowLeft, faCircleCheck, faLink,
-    faMagnifyingGlass, faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import SearchBox from "../../../../common/components/SearchBox/SearchBox";
 import { useEffect, useState } from "react";
 import {
     acceptFriendRequest,
@@ -22,8 +17,6 @@ import {
     selectUserId, setDisplayedFriend, setFriendRequests,
     setFriends
 } from "../../../../features/user/userSlice";
-import FriendCard from "../../FriendCards/FriendCard/FriendCard";
-import {resetSearchQuery, selectSearchQuery} from "../../../../features/filters/filtersSlice";
 import ProfileNavigationView from "../../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import FriendOfFriendCard from "../../FriendCards/FriendOfFriendCard/FriendOfFriendCard";
 import ConfirmedFriendCard from "../../FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
@@ -43,14 +36,11 @@ const FriendsOfFriendsPage = () => {
     const currentUserFriendRequests = useSelector(selectFriendRequests);
 
     const friends = useSelector(selectFriends);
-    const searchQuery = useSelector(selectSearchQuery);
 
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [display, setDisplay] = useState("friends");
     const [addFriendId, setAddFriendId] = useState("");
-    const [addFriendFeedback, setAddFriendFeedback] = useState("");
     const [displayedFriends, setDisplayedFriends] = useState([]);
-    const [hasMatches, setHasMatches] = useState(false);
 
     const [friendsOfFriend, setFriendsOfFriend] = useState([]);
 
@@ -60,39 +50,6 @@ const FriendsOfFriendsPage = () => {
         getFriendsByUserId(displayedFriend.id)
             .then(friends => setFriendsOfFriend(friends.filter(friend => friend.id !== currentUserId)));
     }, [displayedFriend]);
-
-    useEffect(() => {
-        if (display === "friends" && !friendsOfFriend) return;
-
-        if (!searchQuery) {
-            if (display === "friends") {
-                setDisplayedFriends(friendsOfFriend);
-            }
-            return;
-        }
-
-        const query = searchQuery.toLowerCase();
-
-        let searchResults;
-
-        if (display === "friends") {
-            searchResults = friendsOfFriend.filter(({ displayName }) => displayName.toLowerCase().includes(query));
-        }
-
-        if (!searchResults.length) {
-            setHasMatches(false);
-
-            if (display === "friends") {
-                setDisplayedFriends(friendsOfFriend);
-            }
-
-        } else {
-            if (display === "friends") {
-                setDisplayedFriends(searchResults);
-            }
-            setHasMatches(true);
-        }
-    }, [searchQuery, friendsOfFriend]);
 
     const handleAddFriendClick = async (id) => {
         const updatedFriends = await sendFriendRequestToUser(currentUserId, id);
@@ -153,7 +110,6 @@ const FriendsOfFriendsPage = () => {
     };
 
     const handleSearchClick = () => {
-        dispatch(resetSearchQuery());
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 

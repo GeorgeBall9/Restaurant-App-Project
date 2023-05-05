@@ -1,11 +1,11 @@
 import "./Slider.css";
-import RestaurantsList from "../../../features/restaurants/RestaurantsList/RestaurantsList";
+import RestaurantsList from "../../restaurants/RestaurantsList/RestaurantsList";
 import {useSwipeable} from "react-swipeable";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {changeSlide, selectActiveSlide, selectSliderIsActive} from "../../../features/slider/sliderSlice";
-import {displayRestaurant} from "../../../features/map/mapSlice";
-import {selectRestaurants} from "../../../features/restaurants/restaurantsSlice";
+import {changeSlide, selectActiveSlide, selectSliderIsActive} from "../sliderSlice";
+import {displayRestaurant} from "../../map/mapSlice";
+import {selectRestaurants} from "../../restaurants/restaurantsSlice";
 
 const Slider = () => {
 
@@ -66,7 +66,6 @@ const Slider = () => {
         if (!restaurants) return;
 
         dispatch(displayRestaurant(restaurants[activeSlide]));
-        console.log("updating active slide")
     }, [activeSlide]);
 
     return (

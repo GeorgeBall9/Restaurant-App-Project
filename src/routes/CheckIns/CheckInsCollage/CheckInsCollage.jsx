@@ -15,6 +15,7 @@ import {selectUserId} from "../../../features/user/userSlice";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
 import {getUserFromUserId, getCheckInsAndRestaurantDataByUserId} from "../../../firebase/firebase";
+import CheckInConfirmationPopup from "../../../common/components/CheckInConfirmationPopup/CheckInConfirmationPopup";
 
 export const getPhotoUrls = async (photoPaths) => {
     if (!photoPaths?.length) return [];
@@ -24,7 +25,7 @@ export const getPhotoUrls = async (photoPaths) => {
     }));
 };
 
-const CheckInsCollage = ({restaurant, checkIn, onClose}) => {
+const CheckInsCollage = ({checkIn, onClose}) => {
 
     const userId = useSelector(selectUserId);
 
@@ -124,10 +125,6 @@ const CheckInsCollage = ({restaurant, checkIn, onClose}) => {
         setShowConfirmPopup(true);
     };
 
-    const handleCloseConfirmPopup = () => {
-        setShowConfirmPopup(false);
-    };
-
     return (
         <div className={`collage-popup ${isVisible ? "visible" : ""} ${isExpanded ? "expanded" : ""}`}>
             <div>
@@ -162,14 +159,12 @@ const CheckInsCollage = ({restaurant, checkIn, onClose}) => {
                     </div>
                 )}
 
-                {/*{showConfirmPopup && (*/}
-                {/*    <CheckInConfirmationPopup*/}
-                {/*        restaurant={restaurant}*/}
-                {/*        name={restaurant?.name}*/}
-                {/*        checkedIn*/}
-                {/*        onClose={handleCloseConfirmPopup}*/}
-                {/*    />*/}
-                {/*)}*/}
+                {showConfirmPopup && (
+                    <CheckInConfirmationPopup
+                        restaurant={restaurant}
+                        closePopup={() => setShowConfirmPopup(false)}
+                    />
+                )}
 
                 <div className={`collage-popup-photos ${isExpanded ? "collage-popup-photos-expanded" : ""}`}>
                     <div className={`collage-popup-content ${isExpanded ? "collage-popup-content-expanded" : ""}`}>

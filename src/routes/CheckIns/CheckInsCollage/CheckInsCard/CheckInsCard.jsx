@@ -1,15 +1,16 @@
 import "./CheckInsCard.css";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
-import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import {useEffect, useState} from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCalendarAlt} from "@fortawesome/free-solid-svg-icons";
 
-const CheckInsCard = ({date, userData, friendData }) => {
+const CheckInsCard = ({date, userData, friendData}) => {
 
     const [allUsers, setAllUsers] = useState([]);
 
     useEffect(() => {
         if (!userData || !friendData) return;
+
         setAllUsers([userData, ...friendData]);
     }, [userData, friendData]);
 
@@ -23,7 +24,7 @@ const CheckInsCard = ({date, userData, friendData }) => {
         <div className="check-ins-card">
             <div className="card-header">
                 <div className="visit-date">
-                    <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
+                    <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon"/>
                     <span>{formattedDate}</span>
                 </div>
 

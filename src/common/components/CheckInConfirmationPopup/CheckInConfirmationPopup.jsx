@@ -4,18 +4,18 @@ import {
     checkInExists,
     getLastCheckInToRestaurantByUserId,
     removeRestaurantCheckIn
-} from "../../../../firebase/firebase";
-import {selectFriends, selectUserId,} from "../../../../features/user/userSlice";
+} from "../../../firebase/firebase";
+import {selectFriends, selectUserId,} from "../../../features/user/userSlice";
 import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import FormField from "../../../../common/components/FormField/FormField";
+import FormField from "../FormField/FormField";
 import {faCircleCheck as solidCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import UserIcon from "../../../../common/components/UserIcon/UserIcon";
-import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryButton";
-import InversePrimaryButton from "../../../../common/components/InversePrimaryButton/InversePrimaryButton";
-import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
+import UserIcon from "../UserIcon/UserIcon";
+import PrimaryButton from "../PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../InversePrimaryButton/InversePrimaryButton";
+import InteractionButton from "../InteractionButton/InteractionButton";
 
 const CheckInConfirmationPopup = ({restaurant, checkedIn, closePopup, setCheckedIn, setCheckInChange}) => {
 

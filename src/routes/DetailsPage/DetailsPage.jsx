@@ -7,7 +7,7 @@ import {useState, useEffect, useRef} from 'react';
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import CheckInConfirmationPopup
-    from "./ImageAndInfoView/CheckInConfirmationPopup/CheckInConfirmationPopup";
+    from "../../common/components/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import {
     selectAddedCheckIn,
     selectCheckedIn,

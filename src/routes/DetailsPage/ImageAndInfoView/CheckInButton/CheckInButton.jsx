@@ -7,7 +7,7 @@ import {getLastCheckInToRestaurantByUserId} from "../../../../firebase/firebase"
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../../features/user/userSlice";
-import CheckInConfirmationPopup from "../CheckInConfirmationPopup/CheckInConfirmationPopup";
+import CheckInConfirmationPopup from "../../../../common/components/CheckInConfirmationPopup/CheckInConfirmationPopup";
 import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
 
 const CheckInButton = ({restaurant}) => {

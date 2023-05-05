@@ -87,7 +87,7 @@
     gap: 0.5em;
 }
 
-.full-screen-image-wrapper {
+.collage-container .full-screen-image-wrapper {
     position: fixed;
     top: 0;
     left: 0;
@@ -100,7 +100,7 @@
     z-index: 100;
 }
 
-.full-screen-image-wrapper img {
+.collage-container .full-screen-image-wrapper img {
     max-width: 90%;
     max-height: 90%;
     object-fit: contain;

@@ -4,8 +4,6 @@
     align-items: center;
     padding: var(--padding-content);
     background-color: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
   }
   
   .check-ins-card .card-header {
@@ -34,8 +32,11 @@
   }
   
   .check-ins-card .visit-date {
-    font-size: var(--font-size-smaller);
-    font-weight: var(--font-weight-bold-1);
+    font-size: var(--font-size-sub-heading);
     color: var(--dark-theme);
   }
   
+  .check-ins-card .visit-date span {
+    font-weight: var(--font-weight-bold-2);
+    margin-left: 0.25em;
+  }

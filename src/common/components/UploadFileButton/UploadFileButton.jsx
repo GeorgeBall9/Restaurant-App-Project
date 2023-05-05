@@ -4,7 +4,7 @@ const UploadFileButton = ({handleFileChange}) => {
     return (
         <input
             type="file"
-            accept=".png,.jpeg"
+            accept=".png,.jpeg,.jpg"
             onChange={handleFileChange}
             className="file-upload-input"
         />

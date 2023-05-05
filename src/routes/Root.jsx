@@ -5,7 +5,6 @@ import {selectSpinnerIsVisible} from "../features/spinner/spinnerSlice";
 import useFetchRestaurants from "../common/hooks/useFetchRestaurants";
 import useFilterRestaurants from "../common/hooks/useFilterRestaurants";
 import FiltersDropdown from "../features/filters/FiltersDropdown/FiltersDropdown";
-import {selectFiltersAreVisible} from "../features/filters/filtersSlice";
 import useInitialiseSlider from "../common/hooks/useInitialiseSlider";
 
 import {onAuthStateChanged} from "firebase/auth";
@@ -19,7 +18,6 @@ import {
     setUserDetails,
     setUserId
 } from "../features/user/userSlice";
-import Overlay from "../common/components/Overlay/Overlay";
 
 const Root = () => {
 
@@ -30,7 +28,6 @@ const Root = () => {
     useInitialiseSlider();
 
     const spinnerIsVisible = useSelector(selectSpinnerIsVisible);
-    const filtersVisible = useSelector(selectFiltersAreVisible);
 
     const userId = useSelector(selectUserId);
 
@@ -80,7 +77,6 @@ const Root = () => {
     return (
         <>
             {spinnerIsVisible && <Spinner/>}
-            {filtersVisible && <FiltersDropdown/>}
             <Outlet/>
         </>
     );

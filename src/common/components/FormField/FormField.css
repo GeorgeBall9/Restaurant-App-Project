@@ -5,10 +5,9 @@
     font-size: var(--font-size-sub-heading);
 }
 
-.form-field input:not(.file-upload-input) {
+.form-field input {
     border: 1px solid #ccc;
     border-radius: var(--border-radius);
-    padding: 0.5rem;
     font-size: 1rem;
     outline: none;
     background-color: white;

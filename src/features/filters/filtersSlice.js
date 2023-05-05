@@ -1,10 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-    filtersVisible: false,
     sortBy: null,
     cuisine: "Any",
-    searchQuery: "",
     appliedSortByFilter: null,
     appliedCuisineFilter: null
 };
@@ -13,12 +11,6 @@ export const filtersSlice = createSlice({
     name: 'filters',
     initialState,
     reducers: {
-        updateSearchQuery: (state, action) => {
-            state.searchQuery = action.payload;
-        },
-        resetSearchQuery: state => {
-            state.searchQuery = "";
-        },
         updateSortFilter: (state, action) => {
             state.sortBy = action.payload;
         },
@@ -30,12 +22,6 @@ export const filtersSlice = createSlice({
         },
         resetCuisineFilter: state => {
             state.cuisine = "Any";
-        },
-        showFilters: state => {
-            state.dropdownVisible = true;
-        },
-        hideFilters: state => {
-            state.dropdownVisible = false;
         },
         applyFilters: state => {
             state.appliedSortByFilter = state.sortBy ? state.sortBy : null;
@@ -66,18 +52,13 @@ export const {
     resetSortFilter,
     updateCuisineFilter,
     resetCuisineFilter,
-    showFilters,
-    hideFilters,
-    updateSearchQuery,
-    resetSearchQuery,
     applyFilters,
     removedAppliedFilter,
     resetFilters
 } = filtersSlice.actions;
+
 export const selectSortFilter = state => state.filters.sortBy;
 export const selectCuisineFilter = state => state.filters.cuisine;
-export const selectSearchQuery = state => state.filters.searchQuery;
-export const selectFiltersAreVisible = state => state.filters.dropdownVisible;
 export const selectAppliedSortFilter = state => state.filters.appliedSortByFilter;
 export const selectAppliedCuisineFilter = state => state.filters.appliedCuisineFilter;
 export default filtersSlice.reducer;

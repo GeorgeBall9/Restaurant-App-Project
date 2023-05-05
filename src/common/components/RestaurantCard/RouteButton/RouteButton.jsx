@@ -5,6 +5,7 @@ import {fetchRoute, resetRoute, selectDisplayedRestaurant, selectRouteDetails} f
 import {selectUserPosition} from "../../../../features/location/locationSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {activateSlider, deactivateSlider} from "../../../../features/slider/sliderSlice";
+import InteractionButton from "../../InteractionButton/InteractionButton";
 
 const RouteButton = () => {
 
@@ -14,28 +15,30 @@ const RouteButton = () => {
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
     const userPosition = useSelector(selectUserPosition);
 
-    const handleRouteClick = () => {
-        const coordinates1 = userPosition;
+    const handleClick = () => {
+        if (routeCoordinates) {
+            dispatch(resetRoute());
+            dispatch(activateSlider());
+        } else {
+            const coordinates1 = userPosition;
 
-        const {latitude: rLat, longitude: rLon} = displayedRestaurant;
-        const coordinates2 = {latitude: rLat, longitude: rLon};
+            const {latitude: rLat, longitude: rLon} = displayedRestaurant;
+            const coordinates2 = {latitude: rLat, longitude: rLon};
 
-        // fetches route from redux map slice
-        dispatch(fetchRoute({coordinates1, coordinates2}));
+            // fetches route from redux map slice
+            dispatch(fetchRoute({coordinates1, coordinates2}));
 
-        dispatch(deactivateSlider());
-    };
-
-    const handleCloseClick = () => {
-        dispatch(resetRoute());
-        dispatch(activateSlider());
+            dispatch(deactivateSlider());
+        }
     };
 
     return (
-        <>
-            {!routeCoordinates && <FontAwesomeIcon icon={faRoute} className="icon" onClick={handleRouteClick}/>}
-            {routeCoordinates && <FontAwesomeIcon icon={faCircleXmark} className="icon" onClick={handleCloseClick}/>}
-        </>
+        <InteractionButton
+            icon={faRoute}
+            solidIcon={faCircleXmark}
+            isSolid={routeCoordinates}
+            handleClick={handleClick}
+        />
     );
 };
 

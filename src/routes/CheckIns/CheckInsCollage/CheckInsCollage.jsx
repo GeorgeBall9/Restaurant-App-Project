@@ -25,7 +25,7 @@ export const getPhotoUrls = async (photoPaths) => {
     }));
 };
 
-const CheckInsCollage = ({checkIn, onClose}) => {
+const CheckInsCollage = ({checkIn, onClose, isFriendsPage = false}) => {
 
     const userId = useSelector(selectUserId);
 
@@ -131,8 +131,8 @@ const CheckInsCollage = ({checkIn, onClose}) => {
                 {isExpanded && (
                     <ProfileNavigationView
                         pageTitle={restaurant?.name}
-                        button2={{
-                            text: photos.length > 0 && (selectMode ? "Cancel" : "Select"),
+                        button2={(!isFriendsPage && photos.length > 0) && {
+                            text: selectMode ? "Cancel" : "Select",
                             handler: handleSelectClick
                         }}
                     />
@@ -148,10 +148,12 @@ const CheckInsCollage = ({checkIn, onClose}) => {
 
                             <h2>{restaurant?.name}</h2>
 
-                            <button onClick={handleDeleteCheckIn}>
-                                <FontAwesomeIcon className="icon" icon={faTrashAlt}/>
-                            </button>
+                            {!isFriendsPage && (
 
+                                <button onClick={handleDeleteCheckIn}>
+                                    <FontAwesomeIcon className="icon" icon={faTrashAlt}/>
+                                </button>
+                            )}
                             <button onClick={handleExpand}>
                                 <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
                             </button>
@@ -175,17 +177,20 @@ const CheckInsCollage = ({checkIn, onClose}) => {
                                 date={checkIn?.date}
                                 userData={userData}
                                 friendData={checkIn?.friendData}
+                                isFriendsPage={isFriendsPage}
                             />
                         )}
+
                         <CustomCollage
                             images={photos}
                             rows={isExpanded ? 100 : 1}
                             columns={isExpanded ? 2 : 3}
                             isExpanded={isExpanded}
                             onExpand={handleExpand}
-                            handleAddClick={handleAddClick}
+                            handleAddClick={!isFriendsPage ? handleAddClick : null}
                             selectMode={selectMode}
-                            handleDeleteSelected={handleDeleteSelected}
+                            handleDeleteSelected={!isFriendsPage ? handleDeleteSelected : null}
+                            isFriendsPage={isFriendsPage}
                         />
                     </div>
 

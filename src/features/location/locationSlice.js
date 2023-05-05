@@ -6,8 +6,7 @@ const initialState = {
         longitude: -1.605
     },
     locationDescription: "Newcastle upon Tyne",
-    usingCurrentLocation: false,
-    locationOptionsOpen: false,
+    usingCurrentLocation: false
 };
 
 export const locationSlice = createSlice({
@@ -21,9 +20,6 @@ export const locationSlice = createSlice({
         },
         setLocationDescription: (state, action) => {
             state.locationDescription = action.payload;
-        },
-        toggleLocationOptions: state => {
-            state.locationOptionsOpen = !state.locationOptionsOpen;
         },
         setUsingCurrentLocation: state => {
             state.usingCurrentLocation = true;
@@ -41,10 +37,8 @@ export const {
     setLocationDescription,
     setUsingCurrentLocation,
     setUsingCustomLocation,
-    toggleLocationOptions
 } = locationSlice.actions
 export const selectUserPosition = state => state.location.userPosition;
 export const selectLocationDescription = state => state.location.locationDescription;
 export const selectUsingCurrentLocation = state => state.location.usingCurrentLocation;
-export const selectLocationOptionsOpen = state => state.location.locationOptionsOpen;
 export default locationSlice.reducer

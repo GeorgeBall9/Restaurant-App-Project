@@ -197,7 +197,7 @@ const FriendsCheckIns = () => {
                             />
 
                             {showCollagePopup && (
-                                <CheckInsCollage checkIn={selectedCheckIn} onClose={handleCollagePopupClose} />
+                                <CheckInsCollage checkIn={selectedCheckIn} onClose={handleCollagePopupClose} isFriendsPage={true}/>
                             )}
                         </div>
                     </div>

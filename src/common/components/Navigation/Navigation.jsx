@@ -8,16 +8,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    selectAppliedCuisineFilter,
-    selectAppliedSortFilter,
-    showFilters,
-} from "../../../features/filters/filtersSlice";
+import {selectAppliedCuisineFilter, selectAppliedSortFilter} from "../../../features/filters/filtersSlice";
 import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
-import LocationButton from "../../../features/location/LocationButton/LocationButton";
-import LocationOptions from "../../../features/location/LocationButton/LocationOptions/LocationOptions";
-import {selectLocationOptionsOpen} from "../../../features/location/locationSlice";
-import SearchBoxView from "../SearchBoxView/SearchBoxView";
+import LocationButton from "./LocationButton/LocationButton";
+import LocationOptions from "../../../features/location/LocationOptions/LocationOptions";
+import SearchBox from "../SearchBox/SearchBox";
+import {
+    filterResultsBySearchQuery,
+    resetRestaurantResults,
+    selectHasMatches
+} from "../../../features/restaurants/restaurantsSlice";
+import {useState} from "react";
+import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
 
 const Navigation = ({view}) => {
 
@@ -25,52 +27,85 @@ const Navigation = ({view}) => {
 
     const appliedSortFilter = useSelector(selectAppliedSortFilter);
     const appliedCuisineFilter = useSelector(selectAppliedCuisineFilter);
-    const locationOptionsOpen = useSelector(selectLocationOptionsOpen);
+    const searchHasMatches = useSelector(selectHasMatches);
+
+    const [locationOptionsAreVisible, setLocationOptionsAreVisible] = useState(false);
+    const [filtersAreVisible, setFiltersAreVisible] = useState(false);
+    const [searchIsFocused, setSearchIsFocused] = useState(false);
 
     const icon = view === "home" ? faMapLocationDot : faArrowLeft;
 
-    const handleFilterButtonClicked = () => {
-        dispatch(showFilters());
+    const handleCancelClick = () => {
+        setSearchIsFocused(false);
+        dispatch(resetRestaurantResults());
     };
 
     return (
         <div className="navigation-container">
             <div className="navigation">
                 <div className="upper">
-                    <Link to={view === "home" ? "/map" : "/"} className="button">
-                        <FontAwesomeIcon className="icon" icon={icon}/>
-                    </Link>
+                    {!searchIsFocused && (
+                        <Link to={view === "home" ? "/map" : "/"} className="button">
+                            <FontAwesomeIcon className="icon" icon={icon}/>
+                        </Link>
+                    )}
 
                     <div className="search-and-filters">
-                        <SearchBoxView/>
+                        <SearchBox
+                            handleInputChange={(query) => dispatch(filterResultsBySearchQuery(query))}
+                            hasMatches={searchHasMatches}
+                            handleFocus={() => setSearchIsFocused(true)}
+                            focused={searchIsFocused}
+                        />
 
-                        <button
-                            className="button filter-button"
-                            onClick={handleFilterButtonClicked}
-                        >
-                            <FontAwesomeIcon className="icon" icon={faSliders}/>
-                        </button>
+                        {!searchIsFocused && (
+                            <button
+                                className="button filter-button"
+                                onClick={() => setFiltersAreVisible(true)}
+                            >
+                                <FontAwesomeIcon className="icon" icon={faSliders}/>
+                            </button>
+                        )}
+
+                        {searchIsFocused && (
+                            <button className="cancel" onClick={handleCancelClick}>
+                                Cancel
+                            </button>
+                        )}
                     </div>
 
-                    <Link to="/profile" className="button">
-                        <FontAwesomeIcon className="icon" icon={faUser}/>
-                    </Link>
-                </div>
-
-                <div className="lower">
-                    <LocationButton/>
-
-                    {appliedSortFilter && (
-                        <AppliedFilterButton type="sortBy" filter={appliedSortFilter}/>
-                    )}
-
-                    {appliedCuisineFilter && (
-                        <AppliedFilterButton type="cuisine" filter={appliedCuisineFilter}/>
+                    {!searchIsFocused && (
+                        <Link to="/profile" className="button">
+                            <FontAwesomeIcon className="icon" icon={faUser}/>
+                        </Link>
                     )}
                 </div>
+
+                {!searchIsFocused && (
+                    <div className="lower">
+                        <LocationButton
+                            handleClick={() => setLocationOptionsAreVisible(locationOptionsAreVisible => !locationOptionsAreVisible)}
+                            optionsOpen={locationOptionsAreVisible}
+                        />
+
+                        {appliedSortFilter && (
+                            <AppliedFilterButton type="sortBy" filter={appliedSortFilter}/>
+                        )}
+
+                        {appliedCuisineFilter && (
+                            <AppliedFilterButton type="cuisine" filter={appliedCuisineFilter}/>
+                        )}
+                    </div>
+                )}
             </div>
 
-            {locationOptionsOpen && <LocationOptions/>}
+            {!searchIsFocused && filtersAreVisible && (
+                <FiltersDropdown closePopup={() => setFiltersAreVisible(false)}/>
+            )}
+
+            {!searchIsFocused && locationOptionsAreVisible && (
+                <LocationOptions closePopup={() => setLocationOptionsAreVisible(false)}/>
+            )}
         </div>
     );
 };

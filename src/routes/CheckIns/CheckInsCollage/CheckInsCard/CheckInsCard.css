@@ -1,42 +1,44 @@
 .check-ins-card {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 0.75em;
     padding: var(--padding-content);
     background-color: white;
-  }
-  
-  .check-ins-card .card-header {
+}
+
+.check-ins-card .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-  }
-  
-  .check-ins-card .user-icons {
+}
+
+.check-ins-card .card-header .buttons-container {
     display: flex;
-    gap: 4px;
-  }
-  
-  .check-ins-card .user-icons img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .check-ins-card .restaurant-name {
-    font-size: var(--font-size-sub-heading);
-    font-weight: var(--font-weight-bold-1);
-    margin-top: 8px;
-  }
-  
-  .check-ins-card .visit-date {
+    gap: 0.5em;
+}
+
+.check-ins-card .card-header .interaction-button .icon {
+    color: var(--dark-theme-contrast);
+    font-size: var(--font-size-heading);
+}
+
+.check-ins-card .card-header h3 {
+    font: var(--font-size-heading);
+    font-weight: var(--font-weight-bold-2);
+}
+
+.check-ins-card .user-icons {
+    display: flex;
+    gap: 0.25em;
+}
+
+.check-ins-card .visit-date {
     font-size: var(--font-size-sub-heading);
     color: var(--dark-theme);
-  }
-  
-  .check-ins-card .visit-date span {
-    font-weight: var(--font-weight-bold-2);
+}
+
+.check-ins-card .visit-date span {
+    font-weight: var(--font-weight-bold-1);
     margin-left: 0.25em;
-  }
+}

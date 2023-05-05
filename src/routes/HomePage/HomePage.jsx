@@ -1,12 +1,11 @@
 import "./HomePage.css";
 import Navigation from "../../common/components/Navigation/Navigation";
-import RestaurantsList from "../../features/restaurants/RestaurantsList/RestaurantsList";
 import NoResults from "../../common/components/NoResults/NoResults";
 import {useDispatch, useSelector} from "react-redux";
 import {
     selectRestaurants,
-    selectRestaurantsFetchStatus, setRestaurants,
-    updateRestaurant
+    selectRestaurantsFetchStatus,
+    setRestaurants
 } from "../../features/restaurants/restaurantsSlice";
 import {getRestaurantById} from "../../firebase/firebase";
 import {useEffect, useState} from "react";
@@ -19,17 +18,15 @@ const HomePage = () => {
     const fetchStatus = useSelector(selectRestaurantsFetchStatus);
     const restaurants = useSelector(selectRestaurants);
 
-    const [displayedRestaurants, setDisplayedRestaurants] = useState(null);
+    const [restaurantsUpdatedByDB, setRestaurantsUpdatedByDB] = useState(false);
 
     useEffect(() => {
         if (fetchStatus === "pending") {
             dispatch(showSpinner());
         } else if (fetchStatus === "idle") {
-            if (!restaurants || displayedRestaurants) {
-                dispatch(hideSpinner());
-            }
+            dispatch(hideSpinner());
         }
-    }, [fetchStatus, restaurants, displayedRestaurants]);
+    }, [fetchStatus, restaurants]);
 
     const fetchRestaurantDataFromDB = async () => {
         return Promise.all(restaurants
@@ -37,10 +34,13 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        if (restaurants) {
-            fetchRestaurantDataFromDB()
-                .then(results => setDisplayedRestaurants(results));
-        }
+        if (restaurantsUpdatedByDB || !restaurants) return;
+
+        fetchRestaurantDataFromDB()
+            .then(results => {
+                dispatch(setRestaurants(results));
+                setRestaurantsUpdatedByDB(true);
+            });
     }, [restaurants]);
 
     const checkHighlyRecommended = (restaurant) => {
@@ -52,8 +52,8 @@ const HomePage = () => {
             <Navigation view="home"/>
 
             <div className="restaurant-cards-container">
-                {displayedRestaurants && (
-                    displayedRestaurants.map(restaurant => (
+                {restaurants && (
+                    restaurants.map(restaurant => (
                         <HomeCard
                             key={restaurant.id}
                             restaurant={restaurant}

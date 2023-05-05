@@ -3,7 +3,7 @@ import SortByOptions from "./SortByOptions/SortByOptions";
 import CuisineOptions from "./CuisineOptions/CuisineOptions";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    applyFilters, hideFilters, resetFilters,
+    applyFilters, resetFilters,
     selectCuisineFilter,
     selectSortFilter,
 } from "../filtersSlice";
@@ -18,7 +18,7 @@ import {useEffect, useState} from "react";
 import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
 import Overlay from "../../../common/components/Overlay/Overlay";
 
-const FiltersDropdown = () => {
+const FiltersDropdown = ({closePopup}) => {
 
     const dispatch = useDispatch();
 
@@ -29,16 +29,12 @@ const FiltersDropdown = () => {
         dispatch(filterRestaurantResultsByCuisine(cuisineFilter));
         dispatch(sortRestaurants(sortFilter));
         dispatch(applyFilters());
-        dispatch(hideFilters());
+        closePopup();
     };
 
     const handleResetClick = () => {
         dispatch(resetFilters());
         dispatch(resetRestaurantResults());
-    };
-
-    const handleBackClick = () => {
-        dispatch(hideFilters());
     };
 
     const [filtersAppliedCount, setFiltersAppliedCount] = useState(0);
@@ -59,7 +55,7 @@ const FiltersDropdown = () => {
                 <div className="filters-dropdown">
                     <div className="filters-header">
                         <div className="action-buttons-container container">
-                            <button onClick={handleBackClick}>
+                            <button onClick={() => closePopup()}>
                                 <FontAwesomeIcon icon={faArrowLeft} className="icon"/>
                                 Back
                             </button>

@@ -255,7 +255,7 @@ export const restaurantsSlice = createSlice({
                     .find(cuisine => cuisine.name.toLowerCase().includes(cuisineFilter)));
         },
         filterResultsBySearchQuery: (state, action) => {
-            const query = action.payload.trim(); // removes all spaces from the search query
+            const query = action.payload.trim().toLowerCase(); // removes all spaces from the search query
             const results = getSearchResults(query, state.allRestaurants);
             const hasMatches = results.length > 0;
             state.hasMatches = hasMatches;

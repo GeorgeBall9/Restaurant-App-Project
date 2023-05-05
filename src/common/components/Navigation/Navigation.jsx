@@ -18,6 +18,7 @@ import LocationButton from "../../../features/location/LocationButton/LocationBu
 import LocationOptions from "../../../features/location/LocationButton/LocationOptions/LocationOptions";
 import {selectLocationOptionsOpen} from "../../../features/location/locationSlice";
 import SearchBoxView from "../SearchBoxView/SearchBoxView";
+import {filterResultsBySearchQuery, selectHasMatches} from "../../../features/restaurants/restaurantsSlice";
 
 const Navigation = ({view}) => {
 
@@ -26,6 +27,7 @@ const Navigation = ({view}) => {
     const appliedSortFilter = useSelector(selectAppliedSortFilter);
     const appliedCuisineFilter = useSelector(selectAppliedCuisineFilter);
     const locationOptionsOpen = useSelector(selectLocationOptionsOpen);
+    const searchHasMatches = useSelector(selectHasMatches);
 
     const icon = view === "home" ? faMapLocationDot : faArrowLeft;
 
@@ -42,7 +44,10 @@ const Navigation = ({view}) => {
                     </Link>
 
                     <div className="search-and-filters">
-                        <SearchBoxView/>
+                        <SearchBoxView
+                            handleInputChange={(query) => dispatch(filterResultsBySearchQuery(query))}
+                            hasMatches={searchHasMatches}
+                        />
 
                         <button
                             className="button filter-button"

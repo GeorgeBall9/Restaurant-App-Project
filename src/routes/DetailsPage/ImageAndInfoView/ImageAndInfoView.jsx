@@ -16,7 +16,8 @@ const ImageAndInfoView = forwardRef((props, ref) => {
         formattedAddress,
         phone,
         isOpen,
-        restaurant
+        restaurant,
+        updateInteractions
     } = props;
 
     return (
@@ -27,7 +28,7 @@ const ImageAndInfoView = forwardRef((props, ref) => {
                 <div className="title-container">
                     <h1 ref={ref}>{name}</h1>
 
-                    <CheckInButton restaurant={restaurant}/>
+                    <CheckInButton restaurant={restaurant} updateInteractions={updateInteractions}/>
                 </div>
 
                 <StarRating rating={starRating}/>

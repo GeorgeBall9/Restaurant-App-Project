@@ -18,10 +18,10 @@ import {
     resetRestaurantResults,
     selectHasMatches
 } from "../../../features/restaurants/restaurantsSlice";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
 
-const Navigation = ({view}) => {
+const Navigation = ({view, setNavHeight}) => {
 
     const dispatch = useDispatch();
 
@@ -29,11 +29,21 @@ const Navigation = ({view}) => {
     const appliedCuisineFilter = useSelector(selectAppliedCuisineFilter);
     const searchHasMatches = useSelector(selectHasMatches);
 
+    const ref = useRef();
+
     const [locationOptionsAreVisible, setLocationOptionsAreVisible] = useState(false);
     const [filtersAreVisible, setFiltersAreVisible] = useState(false);
     const [searchIsFocused, setSearchIsFocused] = useState(false);
 
     const icon = view === "home" ? faMapLocationDot : faArrowLeft;
+
+    useEffect(() => {
+        setNavHeight(ref.current?.offsetHeight);
+    }, [searchIsFocused]);
+
+    const handleFocus = () => {
+        setSearchIsFocused(true);
+    };
 
     const handleCancelClick = () => {
         setSearchIsFocused(false);
@@ -41,7 +51,7 @@ const Navigation = ({view}) => {
     };
 
     return (
-        <div className="navigation-container">
+        <div ref={ref} className="navigation-container">
             <div className="navigation">
                 <div className="upper">
                     {!searchIsFocused && (
@@ -54,7 +64,7 @@ const Navigation = ({view}) => {
                         <SearchBox
                             handleInputChange={(query) => dispatch(filterResultsBySearchQuery(query))}
                             hasMatches={searchHasMatches}
-                            handleFocus={() => setSearchIsFocused(true)}
+                            handleFocus={handleFocus}
                             focused={searchIsFocused}
                         />
 

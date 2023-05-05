@@ -8,7 +8,7 @@ import {
     setRestaurants
 } from "../../features/restaurants/restaurantsSlice";
 import {getRestaurantById} from "../../firebase/firebase";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import HomeCard from "./HomeCard/HomeCard";
 
@@ -18,7 +18,10 @@ const HomePage = () => {
     const fetchStatus = useSelector(selectRestaurantsFetchStatus);
     const restaurants = useSelector(selectRestaurants);
 
+    const cardsContainerRef = useRef();
+
     const [restaurantsUpdatedByDB, setRestaurantsUpdatedByDB] = useState(false);
+    const [navHeight, setNavHeight] = useState(null);
 
     useEffect(() => {
         if (fetchStatus === "pending") {
@@ -47,11 +50,17 @@ const HomePage = () => {
         return restaurant.recommendations >= 10;
     };
 
+    useEffect(() => {
+        if (!cardsContainerRef || !navHeight) return;
+
+        cardsContainerRef.current.style.marginTop = 16 + navHeight + "px";
+    }, [navHeight]);
+
     return (
         <div className="home container">
-            <Navigation view="home"/>
+            <Navigation view="home" setNavHeight={setNavHeight}/>
 
-            <div className="restaurant-cards-container">
+            <div ref={cardsContainerRef} className="restaurant-cards-container">
                 {restaurants && (
                     restaurants.map(restaurant => (
                         <HomeCard

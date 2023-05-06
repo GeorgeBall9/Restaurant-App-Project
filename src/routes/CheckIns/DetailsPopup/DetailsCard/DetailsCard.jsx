@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendarAlt, faCamera, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
-import CheckInPopupView from "../../../../common/CheckInPopupView/CheckInPopupView";
+import CheckInPopupView from "../../../../common/components/CheckInPopupView/CheckInPopupView";
 import {useSelector} from "react-redux";
 import {selectFriends} from "../../../../features/user/userSlice";
 import {updateCheckInDoc} from "../../../../firebase/firebase";
@@ -20,7 +20,8 @@ const DetailsCard = ({
                          showPhotos,
                          closePopup,
                          setSelectedCheckIn,
-                         updateCheckIn
+                         updateCheckIn,
+                         expandPopup
                      }) => {
 
     const allFriends = useSelector(selectFriends);
@@ -49,6 +50,11 @@ const DetailsCard = ({
         setSelectedCheckIn();
         showPhotos();
         closePopup();
+    };
+
+    const handleEditClick = () => {
+        expandPopup();
+        setEditPopupIsVisible(true);
     };
 
     const confirmEditCheckIn = async (date, friends) => {
@@ -88,7 +94,7 @@ const DetailsCard = ({
 
                 {!isFriendsPage && (
                     <div className="buttons-container">
-                        <InteractionButton icon={faPen} handleClick={() => setEditPopupIsVisible(true)}/>
+                        <InteractionButton icon={faPen} handleClick={handleEditClick}/>
 
                         <InteractionButton icon={faTrash} handleClick={handleDeleteClick}/>
                     </div>

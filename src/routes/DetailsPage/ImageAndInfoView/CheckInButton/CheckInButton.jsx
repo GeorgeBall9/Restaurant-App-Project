@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectFriends, selectUserId} from "../../../../features/user/userSlice";
 import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
-import CheckInPopupView from "../../../../common/CheckInPopupView/CheckInPopupView";
+import CheckInPopupView from "../../../../common/components/CheckInPopupView/CheckInPopupView";
 
 const CheckInButton = ({restaurant, updateInteractions}) => {
 

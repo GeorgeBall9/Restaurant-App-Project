@@ -5,9 +5,10 @@ import {useState} from "react";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import DetailsCard from "./DetailsCard/DetailsCard";
 
-const DetailsPopup = ({checkIns, date, closePopup, isExpanded = false, handleExpand}) => {
+const DetailsPopup = ({checkIns, date, closePopup}) => {
 
     const [isVisible, setIsVisible] = useState(true);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const handleBackClick = () => {
         setIsVisible(false);
@@ -23,6 +24,7 @@ const DetailsPopup = ({checkIns, date, closePopup, isExpanded = false, handleExp
                 {isExpanded && (
                     <ProfileNavigationView
                         pageTitle={date}
+                        button1={{handler: handleBackClick}}
                     />
                 )}
 
@@ -36,7 +38,7 @@ const DetailsPopup = ({checkIns, date, closePopup, isExpanded = false, handleExp
 
                             <h2>{date}</h2>
 
-                            <button onClick={handleExpand}>
+                            <button onClick={() => setIsExpanded(true)}>
                                 <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
                             </button>
                         </div>

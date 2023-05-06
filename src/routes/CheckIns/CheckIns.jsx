@@ -203,12 +203,12 @@ const CheckIns = () => {
                         tileContent={renderTileContent}
                     />
 
-                    {/*{showCollagePopup && (*/}
-                    {/*    <CheckInsCollage checkIn={selectedCheckIn} onClose={handleCollagePopupClose}/>*/}
-                    {/*)}*/}
-
                     {detailsPopupIsVisible && (
-                        <DetailsPopup checkIns={checkInsOnDate} date={calendarValue.toLocaleDateString()}/>
+                        <DetailsPopup
+                            checkIns={checkInsOnDate}
+                            date={calendarValue.toLocaleDateString()}
+                            closePopup={() => setDetailsPopupIsVisible(false)}
+                        />
                     )}
                 </div>
             </div>

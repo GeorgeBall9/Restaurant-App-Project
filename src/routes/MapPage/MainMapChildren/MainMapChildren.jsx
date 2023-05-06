@@ -5,7 +5,7 @@ Contact: ryan.henzell-hill@outlook.com
 */
 
 // styles files
-import "../../../features/map/Map/Map.css";
+import "../../../common/components/MapView/MapView.css";
 
 // redux hooks
 import {useSelector} from "react-redux";

@@ -22,6 +22,7 @@ import CheckInsMapChildren from "./CheckInsMapChildren/CheckInsMapChildren";
 import {displayRestaurant} from "../../features/map/mapSlice";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import DetailsPopup from "./DetailsPopup/DetailsPopup";
+import MapView from "../../common/components/MapView/MapView";
 
 const currentDate = new Date();
 
@@ -163,7 +164,7 @@ const CheckIns = () => {
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
                     {allCheckIns?.length > 0 && (
-                        <CheckInsMapChildren checkIns={allCheckIns} onViewDetails={handleDetailsPopupOpen}/>
+                        <MapView height={260} zoom={13.5} checkIns={allCheckIns}/>
                     )}
 
                     {!allCheckIns?.length && fetchStatus === "idle" && (

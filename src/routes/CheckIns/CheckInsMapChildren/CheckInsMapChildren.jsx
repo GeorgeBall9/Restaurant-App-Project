@@ -5,7 +5,6 @@ import RestaurantMarker from "../../../features/map/Map/RestaurantMarker/Restaur
 
 const CheckInsMapChildren = ({checkIns, displayedRestaurant}) => {
 
-    // component returned to MapPage route
     return (
         <>
             {checkIns && checkIns.map(({id, restaurant}) => {
@@ -16,7 +15,8 @@ const CheckInsMapChildren = ({checkIns, displayedRestaurant}) => {
                         <RestaurantMarker
                             restaurant={{...restaurant, checkInId: id}}
                             visible={true}
-                            type="check-ins"
+                            type="check-in"
+                            selected={displayedRestaurant.id === restaurantId}
                         />
 
                         {displayedRestaurant?.id === restaurantId && (
@@ -26,7 +26,8 @@ const CheckInsMapChildren = ({checkIns, displayedRestaurant}) => {
                                 anchor="bottom"
                                 closeButton={false}
                                 closeOnClick={false}
-                                offset={45}
+                                offset={60}
+                                className="check-ins-map-popup"
                             >
                                 <div className="content">
                                     <h3>{name}</h3>

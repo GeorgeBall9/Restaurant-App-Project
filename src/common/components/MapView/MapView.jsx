@@ -53,7 +53,7 @@ const MapView = ({zoom, height, restaurants, checkIns}) => {
                 center: [longitude, latitude],
                 essential: true,
                 speed: 0.5,
-                zoom: 14
+                zoom
             });
         });
     }, [userPosition]);

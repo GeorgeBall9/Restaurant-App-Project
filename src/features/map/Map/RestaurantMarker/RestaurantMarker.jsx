@@ -4,7 +4,7 @@ import {displayRestaurant} from "../../mapSlice";
 import {setActiveSlide} from "../../../slider/sliderSlice";
 import {useDispatch} from "react-redux";
 
-const RestaurantMarker = ({restaurant, index, selected, visible, type = "map"}) => {
+const RestaurantMarker = ({restaurant, index, selected, visible, type = "main"}) => {
 
     const {id, name, longitude, latitude, photoUrl} = restaurant;
 
@@ -21,7 +21,7 @@ const RestaurantMarker = ({restaurant, index, selected, visible, type = "map"}) 
             throw new Error("No id provided");
         }
 
-        if (type === "check-ins") {
+        if (type === "check-in") {
             dispatch(displayRestaurant(restaurant));
         } else {
             dispatch(displayRestaurant(restaurant));
@@ -37,7 +37,7 @@ const RestaurantMarker = ({restaurant, index, selected, visible, type = "map"}) 
             style={style}
         >
             <div
-                className={`restaurant-marker-container ${selected ? "selected" : ""}`}
+                className={`restaurant-marker-container ${selected ? "selected" : ""} ${type}`}
                 onClick={() => handleClick(id)}
             >
                 <div className="marker">

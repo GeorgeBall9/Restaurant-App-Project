@@ -7,11 +7,12 @@ import {selectUserPosition} from "../../../features/location/locationSlice";
 import MainMapChildren from "../../../routes/MapPage/MainMapChildren/MainMapChildren";
 import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
 import mapboxgl from "mapbox-gl";
+import CheckInsMapChildren from "../../../routes/CheckIns/CheckInsMapChildren/CheckInsMapChildren";
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
-const MapView = ({zoom, height, view}) => {
+const MapView = ({zoom, height, restaurants, checkIns}) => {
 
     const dispatch = useDispatch();
 
@@ -78,7 +79,17 @@ const MapView = ({zoom, height, view}) => {
                 mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
                 onRender={({target}) => target.resize()}
             >
-                {view === "main" && <MainMapChildren/>}
+                {restaurants && (
+                    <MainMapChildren
+                        userPosition={userPosition}
+                        restaurants={restaurants}
+                        displayedRestaurant={displayedRestaurant}
+                    />
+                )}
+
+                {checkIns && (
+                    <CheckInsMapChildren checkIns={checkIns} displayedRestaurant={displayedRestaurant}/>
+                )}
             </ReactMapGl>
         </div>
     );

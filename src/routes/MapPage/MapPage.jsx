@@ -12,8 +12,12 @@ import Navigation from "../../common/components/Navigation/Navigation";
 import Slider from "../../features/slider/Slider/Slider";
 import MapView from "../../common/components/MapView/MapView";
 import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
+import {selectRestaurants} from "../../features/restaurants/restaurantsSlice";
 
 const MapPage = () => {
+
+    const restaurants = useSelector(selectRestaurants);
 
     const [windowHeight, setWindowHeight] = useState(+window.innerHeight);
 
@@ -25,7 +29,7 @@ const MapPage = () => {
         <div className="map-page-container">
             <Navigation view="map"/>
 
-            <MapView zoom={14} height={windowHeight} view="main"/>
+            <MapView zoom={14} height={windowHeight} restaurants={restaurants}/>
 
             <Slider/>
         </div>

@@ -5,7 +5,16 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendarAlt, faCirclePlus, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
 
-const DetailsCard = ({restaurantName, date, userData, friendData, isFriendsPage}) => {
+const DetailsCard = ({
+                         restaurantName,
+                         date,
+                         userData,
+                         friendData,
+                         isFriendsPage,
+                         showPhotos,
+                         closePopup,
+                         setSelectedCheckIn
+                     }) => {
 
     const [allUsers, setAllUsers] = useState([]);
 
@@ -24,6 +33,12 @@ const DetailsCard = ({restaurantName, date, userData, friendData, isFriendsPage}
         month: "2-digit",
         year: "numeric",
     });
+
+    const handleAddPhotoClick = () => {
+        setSelectedCheckIn();
+        showPhotos();
+        closePopup();
+    };
 
     return (
         <div className="check-ins-card">
@@ -54,8 +69,8 @@ const DetailsCard = ({restaurantName, date, userData, friendData, isFriendsPage}
             </div>
 
             <div className="photo-previews-container">
-                <button className="add-photo-button" onClick={() => console.log("add")}>
-                    <FontAwesomeIcon className="icon" icon={faCirclePlus} />
+                <button className="add-photo-button" onClick={handleAddPhotoClick}>
+                    <FontAwesomeIcon className="icon" icon={faCirclePlus}/>
                 </button>
             </div>
         </div>

@@ -5,7 +5,7 @@ import {useState} from "react";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import DetailsCard from "./DetailsCard/DetailsCard";
 
-const DetailsPopup = ({checkIns, date, closePopup}) => {
+const DetailsPopup = ({checkIns, date, closePopup, showPhotos, setSelectedCheckIn}) => {
 
     const [isVisible, setIsVisible] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -55,7 +55,8 @@ const DetailsPopup = ({checkIns, date, closePopup}) => {
                                 restaurantName={restaurant?.name}
                                 date={date}
                                 userData={userData}
-                                friendData={friendData}
+                                friendData={friendData} closePopup={closePopup} showPhotos={showPhotos}
+                                setSelectedCheckIn={() => setSelectedCheckIn(checkIn)}
                             />
                         );
                     })}

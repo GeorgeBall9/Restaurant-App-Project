@@ -1,6 +1,6 @@
 import "./CheckInsCollage.css";
 import CustomCollage from "../../../common/components/CustomCollage/CustomCollage.jsx";
-import CheckInsCard from "./CheckInsCard/CheckInsCard";
+import DetailsCard from "../DetailsPopup/DetailsCard/DetailsCard";
 
 import {useEffect, useState} from "react";
 import {faArrowLeft, faUpRightAndDownLeftFromCenter, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
@@ -172,7 +172,7 @@ const CheckInsCollage = ({checkIn, onClose, isFriendsPage = false}) => {
                     <div className={`collage-popup-content ${isExpanded ? "collage-popup-content-expanded" : ""}`}>
 
                         {!isExpanded && (
-                            <CheckInsCard
+                            <DetailsCard
                                 restaurant={restaurant?.name}
                                 date={checkIn?.date}
                                 userData={userData}

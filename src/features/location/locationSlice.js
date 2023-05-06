@@ -2,10 +2,19 @@ import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
     userPosition: {
-        latitude: 54.972,
-        longitude: -1.605
+        latitude: localStorage.getItem("latitude") ?
+            JSON.parse(localStorage.getItem("latitude"))
+            :
+            54.972,
+        longitude: localStorage.getItem("longitude") ?
+            JSON.parse(localStorage.getItem("longitude"))
+            :
+            -1.605
     },
-    locationDescription: "Newcastle upon Tyne",
+    locationDescription: localStorage.getItem("locationDescription") ?
+        JSON.parse(localStorage.getItem("locationDescription"))
+        :
+        "Newcastle upon Tyne",
     usingCurrentLocation: false
 };
 

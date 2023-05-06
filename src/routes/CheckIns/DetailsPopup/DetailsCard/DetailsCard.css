@@ -43,6 +43,11 @@
     margin-left: 0.25em;
 }
 
+.check-ins-card .photo-previews-container {
+    display: flex;
+    gap: 0.5em;
+}
+
 .check-ins-card .photo-previews-container > * {
     display: flex;
     justify-content: center;

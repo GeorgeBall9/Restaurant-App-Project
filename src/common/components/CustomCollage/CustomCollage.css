@@ -7,9 +7,6 @@
     height: 100%;
     padding: var(--padding-content);
 }
-.non-expanded {
-    height: 30%;
-}
 
 .collage-container > * {
     min-height: 120px;

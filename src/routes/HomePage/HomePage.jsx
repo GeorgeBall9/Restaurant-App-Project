@@ -1,16 +1,16 @@
 import "./HomePage.css";
 import Navigation from "../../common/components/Navigation/Navigation";
 import NoResults from "../../common/components/NoResults/NoResults";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     resetRestaurantResults,
     selectRestaurants,
     selectRestaurantsFetchStatus,
     setRestaurants
 } from "../../features/restaurants/restaurantsSlice";
-import {getRestaurantById} from "../../firebase/firebase";
-import {useEffect, useRef, useState} from "react";
-import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
+import { getRestaurantById } from "../../firebase/firebase";
+import { useEffect, useRef, useState } from "react";
+import { hideSpinner, showSpinner } from "../../features/spinner/spinnerSlice";
 import HomeCard from "./HomeCard/HomeCard";
 
 const HomePage = () => {
@@ -59,7 +59,7 @@ const HomePage = () => {
 
     return (
         <div className="home container">
-            <Navigation view="home" setNavHeight={setNavHeight}/>
+            <Navigation view="home" setNavHeight={setNavHeight} />
 
             <div ref={cardsContainerRef} className="restaurant-cards-container">
                 {restaurants && (
@@ -72,7 +72,7 @@ const HomePage = () => {
                     ))
                 )}
 
-                {fetchStatus === "idle" && !restaurants && (
+                {fetchStatus === "idle" && restaurants && restaurants.length === 0 && (
                     <NoResults
                         mainText="No restaurants found."
                         subText="Why not try looking for something else?"

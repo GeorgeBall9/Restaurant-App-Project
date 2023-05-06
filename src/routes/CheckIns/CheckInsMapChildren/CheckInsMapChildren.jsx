@@ -1,4 +1,4 @@
-import "./CheckInsMap.css";
+import "./CheckInsMapChildren.css";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserPosition} from "../../../features/location/locationSlice";
 import {useEffect, useState} from "react";
@@ -6,12 +6,9 @@ import {hideSpinner, showSpinner} from "../../../features/spinner/spinnerSlice";
 import ReactMapGl, {FullscreenControl} from "react-map-gl";
 import {Popup} from "react-map-gl";
 import RestaurantMarker from "../../../features/map/Map/RestaurantMarker/RestaurantMarker";
-import {Link} from "react-router-dom";
-import {faArrowUpRightFromSquare} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
 
-const CheckInsMap = ({checkIns}) => {
+const CheckInsMapChildren = ({checkIns}) => {
 
     const dispatch = useDispatch();
 
@@ -36,14 +33,6 @@ const CheckInsMap = ({checkIns}) => {
     const handleMapLoad = ({target}) => {
         setMap(target);
     };
-
-    // fly to new marker if user updates their position
-    useEffect(() => {
-        if (!userPosition || !map) return;
-
-        const {longitude, latitude} = userPosition;
-        map.flyTo({center: [longitude, latitude], zoom: 14});
-    }, [userPosition]);
 
     useEffect(() => {
         if (!map) {
@@ -76,41 +65,34 @@ const CheckInsMap = ({checkIns}) => {
                 onRender={({target}) => target.resize()}
             >
 
-                {checkIns && checkIns
-                    .map(({id, restaurant, date, friendData}) => {
-                        const {id: restaurantId, longitude, latitude, name} = restaurant;
+                {checkIns && checkIns.map(({id, restaurant}) => {
+                    const {id: restaurantId, longitude, latitude, name} = restaurant;
 
-                        return (
-                            <div key={id}>
-                                <RestaurantMarker
-                                    restaurant={{...restaurant, checkInId: id}}
-                                    visible={true}
-                                    type="check-ins"
-                                />
+                    return (
+                        <div key={id}>
+                            <RestaurantMarker
+                                restaurant={{...restaurant, checkInId: id}}
+                                visible={true}
+                                type="check-ins"
+                            />
 
-                                {displayedRestaurant?.id === restaurantId && (
-                                    <Popup
-                                        longitude={longitude}
-                                        latitude={latitude}
-                                        anchor="bottom"
-                                        closeButton={false}
-                                        closeOnClick={false}
-                                        offset={45}
-                                    >
-                                        <div className="content">
-                                            <h3>{name}</h3>
-
-                                            {/*{friendData.length > 0 && (*/}
-                                            {/*    <p>*/}
-                                            {/*        With {friendData.map(friend => friend.displayName).join(", ")}*/}
-                                            {/*    </p>*/}
-                                            {/*)}*/}
-                                        </div>
-                                    </Popup>
-                                )}
-                            </div>
-                        )
-                    })}
+                            {displayedRestaurant?.id === restaurantId && (
+                                <Popup
+                                    longitude={longitude}
+                                    latitude={latitude}
+                                    anchor="bottom"
+                                    closeButton={false}
+                                    closeOnClick={false}
+                                    offset={45}
+                                >
+                                    <div className="content">
+                                        <h3>{name}</h3>
+                                    </div>
+                                </Popup>
+                            )}
+                        </div>
+                    );
+                })}
 
                 <FullscreenControl position="bottom-right"/>
             </ReactMapGl>
@@ -118,4 +100,4 @@ const CheckInsMap = ({checkIns}) => {
     );
 };
 
-export default CheckInsMap;
+export default CheckInsMapChildren;

@@ -10,7 +10,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFire, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import CheckInsMap from "../../../CheckIns/CheckInsMap/CheckInsMap";
+import CheckInsMapChildren from "../../../CheckIns/CheckInsMapChildren/CheckInsMapChildren";
 import {displayRestaurant} from "../../../../features/map/mapSlice";
 import ProfileNavigationView from "../../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import {selectDisplayedFriend} from "../../../../features/user/userSlice";
@@ -168,7 +168,7 @@ const FriendsCheckIns = () => {
 
                     <div className="check-ins-page">
                         <div className="check-ins-map-container">
-                            {friendCheckedInRestaurants && <CheckInsMap checkIns={friendCheckedInRestaurants} />}
+                            {friendCheckedInRestaurants && <CheckInsMapChildren checkIns={friendCheckedInRestaurants} />}
                         </div>
 
                         <div className="check-ins-stats">

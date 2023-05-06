@@ -18,7 +18,7 @@ import {
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getCheckInsAndRestaurantDataByUserId} from "../../firebase/firebase";
-import CheckInsMap from "./CheckInsMap/CheckInsMap";
+import CheckInsMapChildren from "./CheckInsMapChildren/CheckInsMapChildren";
 import {displayRestaurant} from "../../features/map/mapSlice";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import DetailsPopup from "./DetailsPopup/DetailsPopup";
@@ -163,7 +163,7 @@ const CheckIns = () => {
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
                     {allCheckIns?.length > 0 && (
-                        <CheckInsMap checkIns={allCheckIns} onViewDetails={handleDetailsPopupOpen}/>
+                        <CheckInsMapChildren checkIns={allCheckIns} onViewDetails={handleDetailsPopupOpen}/>
                     )}
 
                     {!allCheckIns?.length && fetchStatus === "idle" && (

@@ -2,9 +2,11 @@ import "./DetailsCard.css";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCalendarAlt, faCamera, faCirclePlus, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faCalendarAlt, faCamera, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
-import CheckInConfirmationPopup from "../../../../common/components/CheckInConfirmationPopup/CheckInConfirmationPopup";
+import CheckInPopupView from "../../../../common/CheckInPopupView/CheckInPopupView";
+import {useSelector} from "react-redux";
+import {selectFriends} from "../../../../features/user/userSlice";
 
 const DetailsCard = ({
                          restaurant,
@@ -17,6 +19,8 @@ const DetailsCard = ({
                          closePopup,
                          setSelectedCheckIn
                      }) => {
+
+    const allFriends = useSelector(selectFriends);
 
     const [allUsers, setAllUsers] = useState([]);
     const [editPopupIsVisible, setEditPopupIsVisible] = useState(false);
@@ -52,9 +56,11 @@ const DetailsCard = ({
     return (
         <div className="check-ins-card">
             {editPopupIsVisible && (
-                <CheckInConfirmationPopup
+                <CheckInPopupView
                     restaurant={restaurant}
                     closePopup={() => setEditPopupIsVisible(false)}
+                    friends={allFriends}
+                    friendsSelected={friendData}
                 />
             )}
 

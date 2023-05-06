@@ -1,5 +1,5 @@
 /*
-Description: Map component to be displayed in MapPage route
+Description: MainMapChildren component to be displayed in MapPage route
 Author: Ryan Henzell-Hill
 Contact: ryan.henzell-hill@outlook.com
 */
@@ -8,17 +8,28 @@ Contact: ryan.henzell-hill@outlook.com
 import "./MapPage.css";
 
 // imported components
-import Map from "../../features/map/Map/Map";
 import Navigation from "../../common/components/Navigation/Navigation";
-import Slider from "../../features/slider/Slider/Slider";
+import Slider from "./Slider/Slider";
+import MapView from "../../common/components/MapView/MapView";
+import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
+import {selectRestaurants} from "../../features/restaurants/restaurantsSlice";
 
 const MapPage = () => {
+
+    const restaurants = useSelector(selectRestaurants);
+
+    const [windowHeight, setWindowHeight] = useState(+window.innerHeight);
+
+    useEffect(() => {
+        setWindowHeight(+window.innerHeight)
+    }, [window.innerHeight]);
 
     return (
         <div className="map-page-container">
             <Navigation view="map"/>
 
-            <Map/>
+            <MapView zoom={14} height={windowHeight} restaurants={restaurants}/>
 
             <Slider/>
         </div>

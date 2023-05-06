@@ -1,5 +1,5 @@
 /*
-Description: Route component to be displayed on Map component - consists of route between markers and a popup
+Description: Route component to be displayed on MainMapChildren component - consists of route between markers and a popup
 Author: Ryan Henzell-Hill
 Contact: ryan.henzell-hill@outlook.com
 */

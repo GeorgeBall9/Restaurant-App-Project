@@ -45,35 +45,6 @@ const CheckIns = () => {
     const [checkInsOnDate, setCheckInsOnDate] = useState(null);
 
     useEffect(() => {
-        if (!allCheckIns?.length) return;
-
-        const lastCheckIn = allCheckIns[allCheckIns.length - 1];
-        const lastCheckInDate = new Date(lastCheckIn.date).toLocaleDateString();
-        const dateNow = new Date().toLocaleDateString();
-
-        if (lastCheckInDate === dateNow) {
-            setSelectedCheckIn(lastCheckIn);
-        }
-    }, [allCheckIns]);
-
-    const getCheckedInRestaurant = (restaurantId) => {
-        return allCheckIns.find(checkIn => checkIn.restaurant.id === restaurantId);
-    };
-
-    const countUniqueRestaurants = (checkIns) => {
-        const uniqueRestaurantIds = new Set(checkIns.map((checkIn) => checkIn.restaurant.id));
-        return uniqueRestaurantIds.size;
-    };
-
-    const handleCollagePopupClose = () => {
-        setShowCollagePopup(false);
-    };
-
-    const handleDetailsPopupOpen = () => {
-        setShowDetailsPopup(true);
-    };
-
-    useEffect(() => {
         if (!userId) {
             navigate("/profile");
         }
@@ -94,6 +65,38 @@ const CheckIns = () => {
 
         dispatch(displayRestaurant({...selectedCheckIn.restaurant, checkInId: selectedCheckIn.id}));
     }, [selectedCheckIn]);
+
+    useEffect(() => {
+        if (!allCheckIns?.length) return;
+
+        const lastCheckIn = allCheckIns[0];
+        const lastCheckInDate = new Date(lastCheckIn.date).toLocaleDateString();
+        const dateNow = new Date().toLocaleDateString();
+
+        console.log({lastCheckInDate, dateNow, allCheckIns})
+
+        if (lastCheckInDate === dateNow) {
+            setSelectedCheckIn(lastCheckIn);
+            console.log({lastCheckIn})
+        }
+    }, [allCheckIns]);
+
+    const getCheckedInRestaurant = (restaurantId) => {
+        return allCheckIns.find(checkIn => checkIn.restaurant.id === restaurantId);
+    };
+
+    const countUniqueRestaurants = (checkIns) => {
+        const uniqueRestaurantIds = new Set(checkIns.map((checkIn) => checkIn.restaurant.id));
+        return uniqueRestaurantIds.size;
+    };
+
+    const handleCollagePopupClose = () => {
+        setShowCollagePopup(false);
+    };
+
+    const handleDetailsPopupOpen = () => {
+        setShowDetailsPopup(true);
+    };
 
     const handleCalendarChange = (value) => {
         setCalendarValue(value);

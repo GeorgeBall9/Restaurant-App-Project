@@ -14,9 +14,9 @@ import {useSelector} from "react-redux";
 import {selectRouteDetails} from "../../../features/map/mapSlice";
 
 // imported components
-import Route from "../../../features/map/Map/Route/Route";
-import RestaurantMarker from "../../../features/map/Map/RestaurantMarker/RestaurantMarker";
-import LocationMarker from "../../../features/map/Map/LocationMarker/LocationMarker";
+import Route from "../../../common/components/Route/Route";
+import RestaurantMarker from "../../../common/components/RestaurantMarker/RestaurantMarker";
+import LocationMarker from "./LocationMarker/LocationMarker";
 
 const MainMapChildren = ({userPosition, restaurants, displayedRestaurant}) => {
 

@@ -1,7 +1,7 @@
 import "./RestaurantMarker.css";
 import {Marker} from "react-map-gl";
-import {displayRestaurant} from "../../mapSlice";
-import {setActiveSlide} from "../../../slider/sliderSlice";
+import {displayRestaurant} from "../../../features/map/mapSlice";
+import {setActiveSlide} from "../../../features/slider/sliderSlice";
 import {useDispatch} from "react-redux";
 
 const RestaurantMarker = ({restaurant, index, selected, visible, type = "main"}) => {

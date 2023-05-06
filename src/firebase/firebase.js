@@ -407,13 +407,16 @@ export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
 
     if (!checkInData) return null;
 
-    return await Promise.all(checkInData
+    const checkIns = await Promise.all(checkInData
         .map(async (checkIn) => {
             const restaurant = await getRestaurantById(checkIn.restaurantId);
             const friendIds = checkIn.userIds.filter(id => id !== userId);
             const friendData = await getUsersFromUserIds(friendIds);
             return {restaurant, ...checkIn, friendData};
         }));
+
+    checkIns.sort((a, b) => b.date - a.date);
+    return checkIns;
 };
 
 const getUsersFromUserIds = async (userIds) => {

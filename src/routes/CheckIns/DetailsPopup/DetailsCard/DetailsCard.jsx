@@ -1,11 +1,11 @@
-import "./CheckInsCard.css";
+import "./DetailsCard.css";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCalendarAlt, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faCalendarAlt, faCirclePlus, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
 
-const CheckInsCard = ({restaurantName, date, userData, friendData, isFriendsPage}) => {
+const DetailsCard = ({restaurantName, date, userData, friendData, isFriendsPage}) => {
 
     const [allUsers, setAllUsers] = useState([]);
 
@@ -52,8 +52,14 @@ const CheckInsCard = ({restaurantName, date, userData, friendData, isFriendsPage
                     </div>
                 ))}
             </div>
+
+            <div className="photo-previews-container">
+                <button className="add-photo-button" onClick={() => console.log("add")}>
+                    <FontAwesomeIcon className="icon" icon={faCirclePlus} />
+                </button>
+            </div>
         </div>
     );
 };
 
-export default CheckInsCard;
+export default DetailsCard;

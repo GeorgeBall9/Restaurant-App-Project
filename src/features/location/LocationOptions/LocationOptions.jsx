@@ -24,6 +24,22 @@ const LocationOptions = ({closePopup}) => {
     const [showErrorPopup, setShowErrorPopup] = useState(false);
     const [errorFeedback, setErrorFeedback] = useState({title: "", message: ""});
 
+    const updateLocalStorageValue = (name, value) => {
+        localStorage.setItem(name, JSON.stringify(value));
+    };
+
+    const saveLocationDetails = (longitude, latitude, description) => {
+        updateLocalStorageValue("longitude", longitude);
+        updateLocalStorageValue("latitude", latitude);
+        updateLocalStorageValue("locationDescription", description);
+
+        if (description === "Current location") {
+            updateLocalStorageValue(usingCurrentLocation, true);
+        } else {
+            updateLocalStorageValue(usingCurrentLocation, false);
+        }
+    };
+
     const updateErrorFeedback = (type) => {
         const newTitle = type === "postcode" ?
             "Unable to find results for that postcode."
@@ -55,6 +71,7 @@ const LocationOptions = ({closePopup}) => {
             const {longitude, latitude} = position.coords;
             dispatch(updateUserPosition({latitude, longitude}));
             dispatch(setUsingCurrentLocation());
+            saveLocationDetails(longitude, latitude, "Current location");
             closePopup();
         };
 
@@ -90,7 +107,7 @@ const LocationOptions = ({closePopup}) => {
                 dispatch(updateUserPosition({longitude, latitude}));
                 dispatch(setUsingCustomLocation());
                 dispatch(setLocationDescription(postcode));
-                console.log("closing popup")
+                saveLocationDetails(longitude, latitude, postcode);
                 closePopup();
             })
             .catch(error => {

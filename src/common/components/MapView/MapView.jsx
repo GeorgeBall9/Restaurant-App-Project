@@ -8,6 +8,7 @@ import MainMapChildren from "../../../routes/MapPage/MainMapChildren/MainMapChil
 import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
 import mapboxgl from "mapbox-gl";
 import CheckInsMapChildren from "../../../routes/CheckIns/CheckInsMapChildren/CheckInsMapChildren";
+import {selectRestaurantsFetchStatus} from "../../../features/restaurants/restaurantsSlice";
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
@@ -18,6 +19,8 @@ const MapView = ({zoom, height, restaurants, checkIns}) => {
 
     const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
+    const restaurantsFetchStatus = useSelector(selectRestaurantsFetchStatus);
+    const [displayedRestaurantName, setDisplayedRestaurantName] = useState(null);
 
     const [map, setMap] = useState(null);
 
@@ -26,6 +29,14 @@ const MapView = ({zoom, height, restaurants, checkIns}) => {
         latitude: userPosition.latitude,
         zoom
     });
+
+    useEffect(() => {
+        if (restaurantsFetchStatus === "pending") {
+            dispatch(showSpinner());
+        } else if (map) {
+            dispatch(hideSpinner());
+        }
+    }, [restaurantsFetchStatus]);
 
     useEffect(() => {
         if (!map) {
@@ -42,31 +53,31 @@ const MapView = ({zoom, height, restaurants, checkIns}) => {
     // handler function to set the map held in the component state to the map when it is loaded
     const handleMapLoad = ({target}) => setMap(target);
 
+    useEffect(() => {
+        if (!displayedRestaurant || !map) return;
+
+        const {longitude, latitude, name} = displayedRestaurant;
+
+        if (name === displayedRestaurantName) return;
+
+        map.flyTo({center: [longitude, latitude], essential: true, speed: 0.5});
+
+        setDisplayedRestaurantName(name);
+    }, [displayedRestaurant]);
+
     // fly to new marker if user updates their position
     useEffect(() => {
         if (!userPosition || !map) return;
 
         const {longitude, latitude} = userPosition;
 
-        requestAnimationFrame(() => {
-            map.flyTo({
-                center: [longitude, latitude],
-                essential: true,
-                speed: 0.5,
-                zoom
-            });
+        map.flyTo({
+            center: [longitude, latitude],
+            essential: true,
+            speed: 0.75,
+            zoom
         });
-    }, [userPosition]);
-
-    useEffect(() => {
-        if (!displayedRestaurant || !map) return;
-
-        const {longitude, latitude} = displayedRestaurant;
-
-        requestAnimationFrame(() => {
-            map.flyTo({center: [longitude, latitude], essential: true, speed: 0.5});
-        });
-    }, [displayedRestaurant]);
+    }, [userPosition, map]);
 
     return (
         <div className="map-container">

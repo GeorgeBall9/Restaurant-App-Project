@@ -7,8 +7,10 @@ import InteractionButton from "../../../../common/components/InteractionButton/I
 import CheckInPopupView from "../../../../common/CheckInPopupView/CheckInPopupView";
 import {useSelector} from "react-redux";
 import {selectFriends} from "../../../../features/user/userSlice";
+import {updateCheckInDoc} from "../../../../firebase/firebase";
 
 const DetailsCard = ({
+                         id,
                          restaurant,
                          date,
                          userData,
@@ -17,13 +19,15 @@ const DetailsCard = ({
                          isFriendsPage,
                          showPhotos,
                          closePopup,
-                         setSelectedCheckIn
+                         setSelectedCheckIn,
+                         updateCheckIn
                      }) => {
 
     const allFriends = useSelector(selectFriends);
 
     const [allUsers, setAllUsers] = useState([]);
     const [editPopupIsVisible, setEditPopupIsVisible] = useState(false);
+    const [editPopupFeedback, setEditPopupFeedback] = useState("");
 
     useEffect(() => {
         if (!userData || !friendData) return;
@@ -47,11 +51,23 @@ const DetailsCard = ({
         closePopup();
     };
 
-    const handleEditClick = () => {
-        setEditPopupIsVisible(true);
+    const confirmEditCheckIn = async (date, friends) => {
+        if (+new Date() < +new Date(date)) {
+            setEditPopupFeedback("You can only check in today or earlier!");
+            return;
+        }
+
+        const photoIds = photoData.map(({id}) => id);
+
+        const updatedCheckIn = await updateCheckInDoc(id, date, userData.id, friends, photoIds);
+        console.log({updatedCheckIn})
+        updateCheckIn(updatedCheckIn);
+
+        setEditPopupIsVisible(false);
     };
 
-    const handleDeleteClick = () => {};
+    const handleDeleteClick = () => {
+    };
 
     return (
         <div className="check-ins-card">
@@ -61,6 +77,9 @@ const DetailsCard = ({
                     closePopup={() => setEditPopupIsVisible(false)}
                     friends={allFriends}
                     friendsSelected={friendData}
+                    confirmCheckIn={confirmEditCheckIn}
+                    feedback={editPopupFeedback}
+                    resetFeedback={() => setEditPopupFeedback("")}
                 />
             )}
 
@@ -69,7 +88,7 @@ const DetailsCard = ({
 
                 {!isFriendsPage && (
                     <div className="buttons-container">
-                        <InteractionButton icon={faPen} handleClick={handleEditClick}/>
+                        <InteractionButton icon={faPen} handleClick={() => setEditPopupIsVisible(true)}/>
 
                         <InteractionButton icon={faTrash} handleClick={handleDeleteClick}/>
                     </div>

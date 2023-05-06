@@ -64,7 +64,7 @@ const CheckIns = () => {
     useEffect(() => {
         if (!allCheckIns?.length) return;
 
-        const checkIns = getCheckInsOnDate(new Date());
+        const checkIns = getCheckInsOnDate(calendarValue);
         setCheckInsOnDate(checkIns);
     }, [allCheckIns]);
 
@@ -139,6 +139,18 @@ const CheckIns = () => {
         return <TileContent date={date}/>;
     };
 
+    const updateCheckIn = (updatedCheckIn) => {
+        setAllCheckIns(allCheckIns => allCheckIns.map(checkIn => {
+            if (checkIn.id === updatedCheckIn.id) {
+                const update = {...updatedCheckIn};
+                update.userData = {id: userId, profilePhotoUrl};
+                return update;
+            }
+
+            return checkIn;
+        }));
+    };
+
     return (
         <div className="check-ins-page-container">
             <ProfileNavigationView pageTitle="Check-ins"/>
@@ -193,6 +205,7 @@ const CheckIns = () => {
                             closePopup={() => setDetailsPopupIsVisible(false)}
                             showPhotos={() => setShowCollagePopup(true)}
                             setSelectedCheckIn={setSelectedCheckIn}
+                            updateCheckIn={updateCheckIn}
                         />
                     )}
                 </div>

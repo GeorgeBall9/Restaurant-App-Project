@@ -1,11 +1,11 @@
 import "./DetailsPopup.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import DetailsCard from "./DetailsCard/DetailsCard";
 
-const DetailsPopup = ({checkIns, date, closePopup, showPhotos, setSelectedCheckIn}) => {
+const DetailsPopup = ({checkIns, date, closePopup, showPhotos, setSelectedCheckIn, updateCheckIn}) => {
 
     const [isVisible, setIsVisible] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -52,6 +52,7 @@ const DetailsPopup = ({checkIns, date, closePopup, showPhotos, setSelectedCheckI
                         return (
                             <DetailsCard
                                 key={id}
+                                id={id}
                                 restaurant={restaurant}
                                 date={date}
                                 userData={userData}
@@ -60,6 +61,7 @@ const DetailsPopup = ({checkIns, date, closePopup, showPhotos, setSelectedCheckI
                                 closePopup={closePopup}
                                 showPhotos={showPhotos}
                                 setSelectedCheckIn={() => setSelectedCheckIn(checkIn)}
+                                updateCheckIn={updateCheckIn}
                             />
                         );
                     })}

@@ -32,6 +32,7 @@ import {
 
 // storage imports
 import {getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
+import {merge} from "chart.js/helpers";
 
 // firebase config
 const firebaseConfig = {
@@ -299,7 +300,7 @@ const getCheckInDocFromId = async (checkInId) => {
     return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
 };
 
-// add checked in restaurant to user doc
+// add checked in restaurant
 export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) => {
     try {
         const checkInId = await createNewCheckInDoc(date, restaurant, [...friendIds, userId], []);
@@ -310,6 +311,22 @@ export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) 
         console.log(error);
         throw new Error("Document does not exist");
     }
+};
+
+export const updateCheckInDoc = async (checkInId, date, userId, friendIds, photoIds) => {
+    const checkInDoc = doc(db, "check-ins", checkInId);
+
+    await updateDoc(checkInDoc, {
+        date,
+        userIds: [...friendIds, userId],
+        photoIds
+    });
+
+    const checkIn = await getCheckInDocFromId(checkInId);
+    const restaurant = await getRestaurantById(checkIn.restaurantId);
+    const friendData = await getUsersFromUserIds(friendIds);
+    const photoData = await getPhotoDataFromPhotoIds(checkIn.photoIds);
+    return {restaurant, ...checkIn, friendData, photoData};
 };
 
 // validate restaurant check in

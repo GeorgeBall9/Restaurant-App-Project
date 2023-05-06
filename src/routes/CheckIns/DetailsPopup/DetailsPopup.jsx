@@ -1,6 +1,6 @@
 import "./DetailsPopup.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faTrashAlt, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import DetailsCard from "./DetailsCard/DetailsCard";
@@ -47,15 +47,18 @@ const DetailsPopup = ({checkIns, date, closePopup, showPhotos, setSelectedCheckI
 
                 <div className="details-popup-content">
                     {checkIns.map(checkIn => {
-                        const {id, restaurant, date, userData, friendData} = checkIn;
+                        const {id, restaurant, date, userData, friendData, photoData} = checkIn;
 
                         return (
                             <DetailsCard
                                 key={id}
-                                restaurantName={restaurant?.name}
+                                restaurant={restaurant}
                                 date={date}
                                 userData={userData}
-                                friendData={friendData} closePopup={closePopup} showPhotos={showPhotos}
+                                friendData={friendData}
+                                photoData={photoData}
+                                closePopup={closePopup}
+                                showPhotos={showPhotos}
                                 setSelectedCheckIn={() => setSelectedCheckIn(checkIn)}
                             />
                         );

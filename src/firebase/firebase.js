@@ -32,7 +32,6 @@ import {
 
 // storage imports
 import {getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
-import {getPhotoUrls} from "../routes/CheckIns/CheckInsCollage/CheckInsCollage";
 
 // firebase config
 const firebaseConfig = {
@@ -412,7 +411,8 @@ export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
             const restaurant = await getRestaurantById(checkIn.restaurantId);
             const friendIds = checkIn.userIds.filter(id => id !== userId);
             const friendData = await getUsersFromUserIds(friendIds);
-            return {restaurant, ...checkIn, friendData};
+            const photoData = await getPhotoDataFromPhotoIds(checkIn.photoIds);
+            return {restaurant, ...checkIn, friendData, photoData};
         }));
 
     checkIns.sort((a, b) => b.date - a.date);
@@ -951,7 +951,7 @@ const getPhotoUrlFromId = async (photoId) => {
     return await getImageDownloadUrl(photoStoragePath);
 };
 
-export const getPhotoUrlsFromPhotoIds = async (photoIds) => {
+export const getPhotoDataFromPhotoIds = async (photoIds) => {
     if (!photoIds) return null;
 
     return await Promise.all(photoIds.map(async (id, i) => {
@@ -986,8 +986,8 @@ export const getAllRestaurantPhotosByUserId = async (userId) => {
     const uploadedPhotoDocs = await getQueriedPhotos(uploadedQuery);
     const taggedPhotoDocs = await getQueriedPhotos(taggedQuery);
 
-    const uploadedPhotos = await getPhotoUrlsFromPhotoIds(uploadedPhotoDocs.map(doc => doc.id));
-    const taggedPhotos = await getPhotoUrlsFromPhotoIds(taggedPhotoDocs.map(doc => doc.id));
+    const uploadedPhotos = await getPhotoDataFromPhotoIds(uploadedPhotoDocs.map(doc => doc.id));
+    const taggedPhotos = await getPhotoDataFromPhotoIds(taggedPhotoDocs.map(doc => doc.id));
 
     return {uploadedPhotos, taggedPhotos};
 };

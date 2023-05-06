@@ -2,14 +2,16 @@ import "./DetailsCard.css";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCalendarAlt, faCirclePlus, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faCalendarAlt, faCamera, faCirclePlus, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
+import CheckInConfirmationPopup from "../../../../common/components/CheckInConfirmationPopup/CheckInConfirmationPopup";
 
 const DetailsCard = ({
-                         restaurantName,
+                         restaurant,
                          date,
                          userData,
                          friendData,
+                         photoData,
                          isFriendsPage,
                          showPhotos,
                          closePopup,
@@ -17,6 +19,7 @@ const DetailsCard = ({
                      }) => {
 
     const [allUsers, setAllUsers] = useState([]);
+    const [editPopupIsVisible, setEditPopupIsVisible] = useState(false);
 
     useEffect(() => {
         if (!userData || !friendData) return;
@@ -40,16 +43,31 @@ const DetailsCard = ({
         closePopup();
     };
 
+    const handleEditClick = () => {
+        setEditPopupIsVisible(true);
+    };
+
+    const handleDeleteClick = () => {};
+
     return (
         <div className="check-ins-card">
+            {editPopupIsVisible && (
+                <CheckInConfirmationPopup
+                    restaurant={restaurant}
+                    closePopup={() => setEditPopupIsVisible(false)}
+                />
+            )}
+
             <div className="card-header">
-                <h3>{restaurantName}</h3>
+                <h3>{restaurant.name}</h3>
 
-                <div className="buttons-container">
-                    <InteractionButton icon={faPen}/>
+                {!isFriendsPage && (
+                    <div className="buttons-container">
+                        <InteractionButton icon={faPen} handleClick={handleEditClick}/>
 
-                    <InteractionButton icon={faTrash}/>
-                </div>
+                        <InteractionButton icon={faTrash} handleClick={handleDeleteClick}/>
+                    </div>
+                )}
             </div>
 
             <div className="visit-date">
@@ -69,8 +87,14 @@ const DetailsCard = ({
             </div>
 
             <div className="photo-previews-container">
+                {photoData.map(({id, url, alt}) => (
+                    <div key={id} className="image-preview-container">
+                        <img src={url} alt={alt}/>
+                    </div>
+                ))}
+
                 <button className="add-photo-button" onClick={handleAddPhotoClick}>
-                    <FontAwesomeIcon className="icon" icon={faCirclePlus}/>
+                    <FontAwesomeIcon className="icon" icon={faCamera}/>
                 </button>
             </div>
         </div>

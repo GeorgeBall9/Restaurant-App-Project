@@ -1,21 +1,15 @@
 import "./CheckInsCollage.css";
 import CustomCollage from "../../../common/components/CustomCollage/CustomCollage.jsx";
-import DetailsCard from "../DetailsPopup/DetailsCard/DetailsCard";
 
 import {useEffect, useState} from "react";
-import {faArrowLeft, faUpRightAndDownLeftFromCenter, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     addPhotoToCheckIn, deleteCheckInPhoto,
-    getImageDownloadUrl,
-    getPhotoUrlsFromPhotoIds,
+    getImageDownloadUrl, getPhotoDataFromPhotoIds,
 } from "../../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
-import {getUserFromUserId, getCheckInsAndRestaurantDataByUserId} from "../../../firebase/firebase";
-import CheckInConfirmationPopup from "../../../common/components/CheckInConfirmationPopup/CheckInConfirmationPopup";
 
 export const getPhotoUrls = async (photoPaths) => {
     if (!photoPaths?.length) return [];
@@ -44,10 +38,10 @@ const CheckInsCollage = ({checkIn, onClose, isFriendsPage = false}) => {
     useEffect(() => {
         if (!checkIn) return;
 
-        getPhotoUrlsFromPhotoIds(checkIn.photoIds)
-            .then(urls => {
-                if (urls) {
-                    setPhotos(urls);
+        getPhotoDataFromPhotoIds(checkIn.photoIds)
+            .then(data => {
+                if (data) {
+                    setPhotos(data);
                 }
             });
     }, [checkIn]);

@@ -80,10 +80,9 @@
 .details-popup-content {
     width: 100%;
     position: absolute;
-    top: 2em;
+    top: 3em;
     left: 0;
     overflow-y: auto;
-    padding: var(--padding-content);
 }
 
 .details-popup-content .check-ins-card:not(:last-child) {

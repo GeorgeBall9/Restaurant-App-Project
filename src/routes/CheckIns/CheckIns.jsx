@@ -92,7 +92,7 @@ const CheckIns = () => {
     const handleTileClick = (checkIns) => {
         setCheckInsOnDate(checkIns.map(checkIn => {
             const updatedCheckIn = {...checkIn};
-            updatedCheckIn.userData = {profilePhotoUrl};
+            updatedCheckIn.userData = {id: userId, profilePhotoUrl};
             return updatedCheckIn;
         }));
 

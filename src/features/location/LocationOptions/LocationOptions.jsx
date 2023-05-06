@@ -1,6 +1,6 @@
 import "./LocationOptions.css";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faLocationArrow, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationArrow, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import {
     selectUsingCurrentLocation,
     setLocationDescription,
@@ -8,13 +8,13 @@ import {
     setUsingCustomLocation,
     updateUserPosition
 } from "../locationSlice";
-import {useDispatch, useSelector} from "react-redux";
-import {useState} from "react";
-import {hideSpinner, showSpinner} from "../../spinner/spinnerSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { hideSpinner, showSpinner } from "../../spinner/spinnerSlice";
 import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
 import FormField from "../../../common/components/FormField/FormField";
 
-const LocationOptions = ({closePopup}) => {
+const LocationOptions = ({ closePopup }) => {
 
     const dispatch = useDispatch();
 
@@ -22,7 +22,19 @@ const LocationOptions = ({closePopup}) => {
 
     const [postcode, setPostcode] = useState("");
     const [showErrorPopup, setShowErrorPopup] = useState(false);
-    const [errorFeedback, setErrorFeedback] = useState({title: "", message: ""});
+    const [errorFeedback, setErrorFeedback] = useState({ title: "", message: "" });
+    const [inputPlaceholder, setInputPlaceholder] = useState("Enter postcode");
+
+    const handleInputFocus = () => {
+        setInputPlaceholder("");
+    };
+
+    const handleInputBlur = () => {
+        if (!postcode) {
+            setInputPlaceholder("Enter postcode");
+        }
+    };
+
 
     const updateLocalStorageValue = (name, value) => {
         localStorage.setItem(name, JSON.stringify(value));
@@ -52,7 +64,7 @@ const LocationOptions = ({closePopup}) => {
             "Please try again or enter a postcode manually.";
 
         setErrorFeedback(errorFeedback => {
-            const updatedFeedback = {...errorFeedback};
+            const updatedFeedback = { ...errorFeedback };
             updatedFeedback.title = newTitle;
             updatedFeedback.message = newMessage;
             return updatedFeedback;
@@ -68,8 +80,8 @@ const LocationOptions = ({closePopup}) => {
         dispatch(showSpinner());
 
         const success = (position) => {
-            const {longitude, latitude} = position.coords;
-            dispatch(updateUserPosition({latitude, longitude}));
+            const { longitude, latitude } = position.coords;
+            dispatch(updateUserPosition({ latitude, longitude }));
             dispatch(setUsingCurrentLocation());
             saveLocationDetails(longitude, latitude, "Current location");
             closePopup();
@@ -80,16 +92,16 @@ const LocationOptions = ({closePopup}) => {
             dispatch(hideSpinner());
             updateErrorFeedback("gps");
             setShowErrorPopup(true);
-        }
+        };
 
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(success, error);
         } else {
-            console.log("location not available")
+            console.log("location not available");
         }
     };
 
-    const handlePostcodeSubmit = ({code}) => {
+    const handlePostcodeSubmit = ({ code }) => {
         if (code !== "Enter") return;
 
         dispatch(showSpinner());
@@ -103,8 +115,8 @@ const LocationOptions = ({closePopup}) => {
                 return response.json();
             })
             .then(data => {
-                const {longitude, latitude} = data.result;
-                dispatch(updateUserPosition({longitude, latitude}));
+                const { longitude, latitude } = data.result;
+                dispatch(updateUserPosition({ longitude, latitude }));
                 dispatch(setUsingCustomLocation());
                 dispatch(setLocationDescription(postcode));
                 saveLocationDetails(longitude, latitude, postcode);
@@ -127,25 +139,27 @@ const LocationOptions = ({closePopup}) => {
 
                         <p className="location-error-message">{errorFeedback.message}</p>
 
-                        <PrimaryButton text="Close" handleClick={() => setShowErrorPopup(false)}/>
+                        <PrimaryButton text="Close" handleClick={() => setShowErrorPopup(false)} />
                     </div>
                 )}
 
                 <label className="postcode-input-container">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />
 
                     <FormField
                         type="text"
-                        placeholder="Enter postcode"
+                        placeholder={inputPlaceholder}
                         value={postcode}
-                        onChangeHandler={({target}) => setPostcode(target.value.toUpperCase())}
+                        onChangeHandler={({ target }) => setPostcode(target.value.toUpperCase())}
                         onKeyDown={handlePostcodeSubmit}
+                        onFocus={handleInputFocus}
+                        onBlur={handleInputBlur}
                         padding="0"
                     />
                 </label>
 
                 <button className="use-geolocation-button" onClick={handleUseLocationClick}>
-                    <FontAwesomeIcon icon={faLocationArrow} className="icon"/>
+                    <FontAwesomeIcon icon={faLocationArrow} className="icon" />
                     Current location
                 </button>
             </div>

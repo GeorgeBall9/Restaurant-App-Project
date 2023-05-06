@@ -9,7 +9,7 @@ import "./MapPage.css";
 
 // imported components
 import Navigation from "../../common/components/Navigation/Navigation";
-import Slider from "../../features/slider/Slider/Slider";
+import Slider from "./Slider/Slider";
 import MapView from "../../common/components/MapView/MapView";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";

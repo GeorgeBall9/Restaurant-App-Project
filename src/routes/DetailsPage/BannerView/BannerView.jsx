@@ -8,6 +8,7 @@ import RecommendButton from "./RecommendButton/RecommendButton";
 import {deselectReview} from "../../../features/reviews/reviewsSlice";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
+import {resetRestaurantResults} from "../../../features/restaurants/restaurantsSlice";
 
 const BannerView = forwardRef((props, ref) => {
 
@@ -26,7 +27,8 @@ const BannerView = forwardRef((props, ref) => {
 
     const handleBackClick = () => {
         dispatch(deselectReview());
-        navigate("/");
+        dispatch(resetRestaurantResults());
+        navigate(-1);
     };
 
     return (

@@ -9,11 +9,6 @@
     transition-duration: 0.5s;
 }
 
-.restaurant-marker-container.selected .marker {
-    height: 85px;
-    width: 85px;
-}
-
 .restaurant-marker-container .marker img {
     width: 100%;
     height: 100%;
@@ -36,18 +31,20 @@
     border-radius: 2px;
 }
 
-.restaurant-marker-container.selected .triangle::after {
+.restaurant-marker-container.selected:not(.check-in) .marker {
+    height: 85px;
+    width: 85px;
+}
+
+.restaurant-marker-container.selected:not(.check-in) .triangle::after {
     left: 44.8%;
 }
 
-/* ANIMATIONS */
-@keyframes grow {
-    0% {
-        width: 50px;
-        height: 50px;
-    }
-    100% {
-        width: 75px;
-        height: 75px;
-    }
+.restaurant-marker-container.selected.check-in .marker {
+    height: 65px;
+    width: 65px;
+}
+
+.restaurant-marker-container.selected.check-in .triangle::after {
+    left: 43.8%;
 }

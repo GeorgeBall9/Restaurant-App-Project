@@ -27,7 +27,7 @@ const DetailsPopup = ({checkIns, date, closePopup, isExpanded = false, handleExp
                 )}
 
                 {!isExpanded && (
-                    <div className={`details-popup-header ${isExpanded ? "details-header-sticky" : ""}`}>
+                    <div className="details-popup-header">
                         <div className="container">
                             <button onClick={handleBackClick}>
                                 <FontAwesomeIcon className="icon" icon={faArrowLeft}/>

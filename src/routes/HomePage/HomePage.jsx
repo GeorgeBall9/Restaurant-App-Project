@@ -3,6 +3,7 @@ import Navigation from "../../common/components/Navigation/Navigation";
 import NoResults from "../../common/components/NoResults/NoResults";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    resetRestaurantResults,
     selectRestaurants,
     selectRestaurantsFetchStatus,
     setRestaurants
@@ -29,7 +30,7 @@ const HomePage = () => {
         } else if (fetchStatus === "idle") {
             dispatch(hideSpinner());
         }
-    }, [fetchStatus, restaurants]);
+    }, [fetchStatus]);
 
     const fetchRestaurantDataFromDB = async () => {
         return Promise.all(restaurants

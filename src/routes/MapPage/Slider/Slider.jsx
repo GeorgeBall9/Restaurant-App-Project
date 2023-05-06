@@ -1,11 +1,11 @@
 import "./Slider.css";
-import RestaurantsList from "../../restaurants/RestaurantsList/RestaurantsList";
 import {useSwipeable} from "react-swipeable";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {changeSlide, selectActiveSlide, selectSliderIsActive} from "../sliderSlice";
-import {displayRestaurant} from "../../map/mapSlice";
-import {selectRestaurants} from "../../restaurants/restaurantsSlice";
+import {changeSlide, selectActiveSlide, selectSliderIsActive} from "../../../features/slider/sliderSlice";
+import {displayRestaurant} from "../../../features/map/mapSlice";
+import {selectRestaurants} from "../../../features/restaurants/restaurantsSlice";
+import MapRestaurantCard from "./MapRestaurantCard/MapRestaurantCard";
 
 const Slider = () => {
 
@@ -55,6 +55,9 @@ const Slider = () => {
                 });
             });
         },
+        onTouchEndOrOnMouseUp: () => {
+            updateStyle();
+        },
         preventScrollOnSwipe: true,
         trackMouse: true,
         trackTouch: true
@@ -71,7 +74,13 @@ const Slider = () => {
     return (
         <div className="slider" {...handlers} style={style}>
             <div className="restaurant-cards-container">
-                <RestaurantsList view="map"/>
+                {restaurants && restaurants.map((restaurant, i) => (
+                    <MapRestaurantCard
+                        key={restaurant.id}
+                        restaurant={restaurant}
+                        index={i}
+                    />
+                ))}
             </div>
         </div>
     );

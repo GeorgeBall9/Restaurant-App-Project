@@ -42,3 +42,23 @@
     font-weight: var(--font-weight-bold-1);
     margin-left: 0.25em;
 }
+
+.check-ins-card .photo-previews-container > * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+}
+
+.check-ins-card .add-photo-button {
+    border: none;
+    background-color: lightgrey;
+}
+
+.check-ins-card .add-photo-button .icon {
+    color: white;
+    width: 30%;
+    height: 30%;
+}

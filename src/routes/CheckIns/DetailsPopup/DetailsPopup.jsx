@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faTrashAlt, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
-import CheckInsCard from "../CheckInsCollage/CheckInsCard/CheckInsCard";
+import DetailsCard from "./DetailsCard/DetailsCard";
 
 const DetailsPopup = ({checkIns, date, closePopup, isExpanded = false, handleExpand}) => {
 
@@ -48,7 +48,7 @@ const DetailsPopup = ({checkIns, date, closePopup, isExpanded = false, handleExp
                         const {id, restaurant, date, userData, friendData} = checkIn;
 
                         return (
-                            <CheckInsCard
+                            <DetailsCard
                                 key={id}
                                 restaurantName={restaurant?.name}
                                 date={date}

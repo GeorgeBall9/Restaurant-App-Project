@@ -1,13 +1,14 @@
 import "./DetailsPopup.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faTrashAlt, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
-import {useState} from "react";
+import {faArrowLeft, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
+import {useEffect, useState} from "react";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import DetailsCard from "./DetailsCard/DetailsCard";
 
-const DetailsPopup = ({checkIns, date, closePopup, isExpanded = false, handleExpand}) => {
+const DetailsPopup = ({checkIns, date, closePopup, showPhotos, setSelectedCheckIn, updateCheckIn}) => {
 
     const [isVisible, setIsVisible] = useState(true);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const handleBackClick = () => {
         setIsVisible(false);
@@ -23,6 +24,7 @@ const DetailsPopup = ({checkIns, date, closePopup, isExpanded = false, handleExp
                 {isExpanded && (
                     <ProfileNavigationView
                         pageTitle={date}
+                        button1={{handler: handleBackClick}}
                     />
                 )}
 
@@ -36,7 +38,7 @@ const DetailsPopup = ({checkIns, date, closePopup, isExpanded = false, handleExp
 
                             <h2>{date}</h2>
 
-                            <button onClick={handleExpand}>
+                            <button onClick={() => setIsExpanded(true)}>
                                 <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
                             </button>
                         </div>
@@ -45,15 +47,21 @@ const DetailsPopup = ({checkIns, date, closePopup, isExpanded = false, handleExp
 
                 <div className="details-popup-content">
                     {checkIns.map(checkIn => {
-                        const {id, restaurant, date, userData, friendData} = checkIn;
+                        const {id, restaurant, date, userData, friendData, photoData} = checkIn;
 
                         return (
                             <DetailsCard
                                 key={id}
-                                restaurantName={restaurant?.name}
+                                id={id}
+                                restaurant={restaurant}
                                 date={date}
                                 userData={userData}
                                 friendData={friendData}
+                                photoData={photoData}
+                                closePopup={closePopup}
+                                showPhotos={showPhotos}
+                                setSelectedCheckIn={() => setSelectedCheckIn(checkIn)}
+                                updateCheckIn={updateCheckIn}
                             />
                         );
                     })}

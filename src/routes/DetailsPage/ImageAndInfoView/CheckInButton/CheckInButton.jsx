@@ -1,59 +1,87 @@
 import "./CheckInButton.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleCheck as faSolidCircleCheck, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCircleCheck as faSolidCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useEffect, useState} from "react";
-import {getLastCheckInToRestaurantByUserId} from "../../../../firebase/firebase";
+import {addRestaurantCheckIn, checkInExists, getLastCheckInToRestaurantByUserId} from "../../../../firebase/firebase";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {selectUserId} from "../../../../features/user/userSlice";
-import CheckInConfirmationPopup from "../../../../common/components/CheckInConfirmationPopup/CheckInConfirmationPopup";
+import {selectFriends, selectUserId} from "../../../../features/user/userSlice";
 import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
+import CheckInPopupView from "../../../../common/CheckInPopupView/CheckInPopupView";
 
 const CheckInButton = ({restaurant, updateInteractions}) => {
 
     const navigate = useNavigate();
 
     const userId = useSelector(selectUserId);
+    const friends = useSelector(selectFriends);
 
-    const [checkInConfirmationIsVisible, setCheckInConfirmationIsVisible] = useState(false);
     const [checkedIn, setCheckedIn] = useState(false);
-    const [checkInChange, setCheckInChange] = useState(null);
+    const [checkInPopupIsVisible, setCheckInPopupIsVisible] = useState(false);
+    const [checkInFeedback, setCheckInFeedback] = useState("");
     const [feedbackIsVisible, setFeedbackIsVisible] = useState(false);
 
-    useEffect(() => {
-        if (!restaurant || !userId) return;
+    const getLastCheckInDate = async () => {
+        const lastCheckIn = await getLastCheckInToRestaurantByUserId(userId, restaurant.id);
 
+        return lastCheckIn ? new Date(lastCheckIn.date).toLocaleDateString() : null;
+    };
+
+    const updateCheckedIn = () => {
         const today = new Date().toLocaleDateString();
 
-        getLastCheckInToRestaurantByUserId(userId, restaurant.id)
-            .then(data => {
-                if (data) {
-                    const dateString = new Date(data.date).toLocaleDateString();
-                    setCheckedIn(today === dateString);
+        getLastCheckInDate()
+            .then(date => {
+                if (date) {
+                    setCheckedIn(today === date);
                 } else {
                     setCheckedIn(false);
                 }
             });
-    }, [restaurant, userId]);
+    };
 
     useEffect(() => {
-        if (!checkInChange) return;
+        if (!restaurant || !userId) return;
 
-        const change = checkInChange === "Saved" ? 1 : -1;
-        updateInteractions("checkIns", change);
-
-        setFeedbackIsVisible(true);
-
-        setTimeout(() =>  setFeedbackIsVisible(false), 2000);
-    }, [checkInChange]);
+        updateCheckedIn();
+    }, [restaurant, userId]);
 
     const handleClick = () => {
         if (!userId) {
             navigate("/sign-in");
         } else if (!feedbackIsVisible) {
-            setCheckInConfirmationIsVisible(true);
+            setCheckInPopupIsVisible(true);
         }
+    };
+
+    const confirmCheckIn = async (date, friends) => {
+        if (+new Date() < +new Date(date)) {
+            setCheckInFeedback("You can only check in today or earlier!");
+            return;
+        }
+
+        const checkedInOnDate = await checkInExists(userId, date, restaurant.id);
+
+        if (checkedInOnDate) {
+            setCheckInFeedback("You already checked in on this date!");
+            return;
+        }
+
+        await addRestaurantCheckIn(userId, date, restaurant, friends);
+        updateCheckedIn();
+
+        updateInteractions("checkIns", 1);
+
+        setFeedbackIsVisible(true);
+
+        setTimeout(() => setFeedbackIsVisible(false), 2000);
+
+        closeCheckInPopup();
+    };
+
+    const closeCheckInPopup = () => {
+        setCheckInPopupIsVisible(false);
     };
 
     return (
@@ -63,17 +91,18 @@ const CheckInButton = ({restaurant, updateInteractions}) => {
                 <FontAwesomeIcon icon={checkedIn ? faSolidCircleCheck : faCircleCheck} className="icon"/>
             </button>
 
-            {checkInConfirmationIsVisible && (
-                <CheckInConfirmationPopup
+            {checkInPopupIsVisible && (
+                <CheckInPopupView
                     restaurant={restaurant}
-                    checkedIn={checkedIn}
-                    closePopup={() => setCheckInConfirmationIsVisible(false)}
-                    setCheckedIn={setCheckedIn}
-                    setCheckInChange={setCheckInChange}
+                    feedback={checkInFeedback}
+                    confirmCheckIn={confirmCheckIn}
+                    friends={friends}
+                    closePopup={closeCheckInPopup}
+                    resetFeedback={() => setCheckInFeedback("")}
                 />
             )}
 
-            <InteractionFeedback isVisible={feedbackIsVisible} change={checkInChange} interaction="check-in"/>
+            <InteractionFeedback isVisible={feedbackIsVisible} change="Saved" interaction="check-in"/>
         </>
     );
 };

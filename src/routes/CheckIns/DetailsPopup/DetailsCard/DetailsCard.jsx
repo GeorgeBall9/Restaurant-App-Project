@@ -2,12 +2,32 @@ import "./DetailsCard.css";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCalendarAlt, faCirclePlus, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faCalendarAlt, faCamera, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
+import CheckInPopupView from "../../../../common/CheckInPopupView/CheckInPopupView";
+import {useSelector} from "react-redux";
+import {selectFriends} from "../../../../features/user/userSlice";
+import {updateCheckInDoc} from "../../../../firebase/firebase";
 
-const DetailsCard = ({restaurantName, date, userData, friendData, isFriendsPage}) => {
+const DetailsCard = ({
+                         id,
+                         restaurant,
+                         date,
+                         userData,
+                         friendData,
+                         photoData,
+                         isFriendsPage,
+                         showPhotos,
+                         closePopup,
+                         setSelectedCheckIn,
+                         updateCheckIn
+                     }) => {
+
+    const allFriends = useSelector(selectFriends);
 
     const [allUsers, setAllUsers] = useState([]);
+    const [editPopupIsVisible, setEditPopupIsVisible] = useState(false);
+    const [editPopupFeedback, setEditPopupFeedback] = useState("");
 
     useEffect(() => {
         if (!userData || !friendData) return;
@@ -25,16 +45,54 @@ const DetailsCard = ({restaurantName, date, userData, friendData, isFriendsPage}
         year: "numeric",
     });
 
+    const handleAddPhotoClick = () => {
+        setSelectedCheckIn();
+        showPhotos();
+        closePopup();
+    };
+
+    const confirmEditCheckIn = async (date, friends) => {
+        if (+new Date() < +new Date(date)) {
+            setEditPopupFeedback("You can only check in today or earlier!");
+            return;
+        }
+
+        const photoIds = photoData.map(({id}) => id);
+
+        const updatedCheckIn = await updateCheckInDoc(id, date, userData.id, friends, photoIds);
+        console.log({updatedCheckIn})
+        updateCheckIn(updatedCheckIn);
+
+        setEditPopupIsVisible(false);
+    };
+
+    const handleDeleteClick = () => {
+    };
+
     return (
         <div className="check-ins-card">
+            {editPopupIsVisible && (
+                <CheckInPopupView
+                    restaurant={restaurant}
+                    closePopup={() => setEditPopupIsVisible(false)}
+                    friends={allFriends}
+                    friendsSelected={friendData}
+                    confirmCheckIn={confirmEditCheckIn}
+                    feedback={editPopupFeedback}
+                    resetFeedback={() => setEditPopupFeedback("")}
+                />
+            )}
+
             <div className="card-header">
-                <h3>{restaurantName}</h3>
+                <h3>{restaurant.name}</h3>
 
-                <div className="buttons-container">
-                    <InteractionButton icon={faPen}/>
+                {!isFriendsPage && (
+                    <div className="buttons-container">
+                        <InteractionButton icon={faPen} handleClick={() => setEditPopupIsVisible(true)}/>
 
-                    <InteractionButton icon={faTrash}/>
-                </div>
+                        <InteractionButton icon={faTrash} handleClick={handleDeleteClick}/>
+                    </div>
+                )}
             </div>
 
             <div className="visit-date">
@@ -54,8 +112,14 @@ const DetailsCard = ({restaurantName, date, userData, friendData, isFriendsPage}
             </div>
 
             <div className="photo-previews-container">
-                <button className="add-photo-button" onClick={() => console.log("add")}>
-                    <FontAwesomeIcon className="icon" icon={faCirclePlus} />
+                {photoData.map(({id, url, alt}) => (
+                    <div key={id} className="image-preview-container">
+                        <img src={url} alt={alt}/>
+                    </div>
+                ))}
+
+                <button className="add-photo-button" onClick={handleAddPhotoClick}>
+                    <FontAwesomeIcon className="icon" icon={faCamera}/>
                 </button>
             </div>
         </div>

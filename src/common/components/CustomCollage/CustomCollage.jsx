@@ -1,23 +1,20 @@
 import "./CustomCollage.css";
-import { faCircleCheck, faCirclePlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import {faCircleCheck, faCirclePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useEffect, useState} from "react";
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import InversePrimaryButton from "../InversePrimaryButton/InversePrimaryButton";
 import CollageImage from "./CollageImage/CollageImage";
 
 const CustomCollage = ({
-    images,
-    rows,
-    columns,
-    isExpanded,
-    onExpand,
-    handleAddClick,
-    addFunctionality = true,
-    selectMode = false,
-    handleDeleteSelected,
-    isFriendsPage = false
-}) => {
+                           images,
+                           rows,
+                           columns,
+                           handleAddClick,
+                           addFunctionality = true,
+                           selectMode = false,
+                           handleDeleteSelected
+                       }) => {
 
     const showMore = images.length > rows * columns;
     const image4 = images[rows * columns - 1];
@@ -39,9 +36,9 @@ const CustomCollage = ({
     }, [selectMode]);
 
     const handleImageClick = (image) => {
-        if (selectedImages.some(({ id }) => id === image.id)) {
+        if (selectedImages.some(({id}) => id === image.id)) {
             setSelectedImages(selectedImages => selectedImages
-                .filter(({ id }) => id !== image.id));
+                .filter(({id}) => id !== image.id));
         } else {
             setSelectedImages([...selectedImages, image]);
         }
@@ -64,8 +61,6 @@ const CustomCollage = ({
     };
 
     useEffect(() => {
-        if (!isExpanded) return;
-
         if (selectedImages.length === images.length) {
             setSelectButtonText("Deselect all");
         } else {
@@ -99,12 +94,12 @@ const CustomCollage = ({
             )}
 
             <div
-                className={`collage-container ${isExpanded ? "" : "non-expanded"}`}
-                style={{ gridTemplateRows: `repeat(${rows}, 1fr)`, gridTemplateColumns: `repeat(${columns}, 1fr)` }}
+                className="collage-container"
+                style={{gridTemplateRows: `repeat(${rows}, 1fr)`, gridTemplateColumns: `repeat(${columns}, 1fr)`}}
             >
-                {addFunctionality && isExpanded && !selectMode && !isFriendsPage && (
+                {addFunctionality && !selectMode && (
                     <button className="add-photo-button" onClick={handleAddClick}>
-                        <FontAwesomeIcon className="icon" icon={faCirclePlus} />
+                        <FontAwesomeIcon className="icon" icon={faCirclePlus}/>
                     </button>
                 )}
 
@@ -126,34 +121,34 @@ const CustomCollage = ({
                             {selectMode && (
                                 <button
                                     className={`select-image-button 
-                                    ${selectedImages.some(({ alt }) => alt === image.alt) ?
-                                            "selected"
-                                            :
-                                            ""}`
+                                    ${selectedImages.some(({alt}) => alt === image.alt) ?
+                                        "selected"
+                                        :
+                                        ""}`
                                     }
                                 >
-                                    <FontAwesomeIcon className="icon" icon={faCircleCheck} />
+                                    <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
                                 </button>
                             )}
                         </div>
                     ))
                 }
 
-                {image4 && (
-                    <div className="collage-image-wrapper">
-                        <CollageImage {...image4} />
+                {/*{image4 && (*/}
+                {/*    <div className="collage-image-wrapper">*/}
+                {/*        <CollageImage {...image4} />*/}
 
-                        {showMore && (
-                            <div className="collage-image-overlay" onClick={onExpand}>
-                                Show more +{remainingImages}
-                            </div>
-                        )}
-                    </div>
-                )}
+                {/*        {showMore && (*/}
+                {/*            <div className="collage-image-overlay" onClick={onExpand}>*/}
+                {/*                Show more +{remainingImages}*/}
+                {/*            </div>*/}
+                {/*        )}*/}
+                {/*    </div>*/}
+                {/*)}*/}
 
                 {fullScreenImage && (
                     <div className="full-screen-image-wrapper" onClick={closeFullScreenPhoto}>
-                        <img src={fullScreenImage.url} alt="Full screen check-in image" />
+                        <img src={fullScreenImage.url} alt="Full screen check-in image"/>
                     </div>
                 )}
             </div>

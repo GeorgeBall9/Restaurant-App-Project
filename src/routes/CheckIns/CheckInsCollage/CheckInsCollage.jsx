@@ -1,21 +1,15 @@
 import "./CheckInsCollage.css";
 import CustomCollage from "../../../common/components/CustomCollage/CustomCollage.jsx";
-import DetailsCard from "../DetailsPopup/DetailsCard/DetailsCard";
 
 import {useEffect, useState} from "react";
-import {faArrowLeft, faUpRightAndDownLeftFromCenter, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     addPhotoToCheckIn, deleteCheckInPhoto,
-    getImageDownloadUrl,
-    getPhotoUrlsFromPhotoIds,
+    getImageDownloadUrl, getPhotoDataFromPhotoIds,
 } from "../../../firebase/firebase";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
-import {getUserFromUserId, getCheckInsAndRestaurantDataByUserId} from "../../../firebase/firebase";
-import CheckInConfirmationPopup from "../../../common/components/CheckInConfirmationPopup/CheckInConfirmationPopup";
 
 export const getPhotoUrls = async (photoPaths) => {
     if (!photoPaths?.length) return [];
@@ -29,16 +23,11 @@ const CheckInsCollage = ({checkIn, onClose, isFriendsPage = false}) => {
 
     const userId = useSelector(selectUserId);
 
-    const [checkInsData, setCheckInsData] = useState([]);
-    const [userData, setUserData] = useState(null);
-
     const [restaurant, setRestaurant] = useState(null);
     const [photos, setPhotos] = useState([]);
     const [isVisible, setIsVisible] = useState(true);
-    const [isExpanded, setIsExpanded] = useState(false);
     const [addPhotoPopupIsVisible, setAddPhotoPopupIsVisible] = useState(false);
     const [selectMode, setSelectMode] = useState(false);
-    const [showConfirmPopup, setShowConfirmPopup] = useState(false);
 
     useEffect(() => {
         if (!checkIn) return;
@@ -49,35 +38,19 @@ const CheckInsCollage = ({checkIn, onClose, isFriendsPage = false}) => {
     useEffect(() => {
         if (!checkIn) return;
 
-        getPhotoUrlsFromPhotoIds(checkIn.photoIds)
-            .then(urls => {
-                if (urls) {
-                    setPhotos(urls);
+        getPhotoDataFromPhotoIds(checkIn.photoIds)
+            .then(data => {
+                if (data) {
+                    setPhotos(data);
                 }
             });
     }, [checkIn]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const user = await getUserFromUserId(userId);
-            setUserData(user);
-
-            const checkIns = await getCheckInsAndRestaurantDataByUserId(userId);
-            setCheckInsData(checkIns);
-        };
-
-        fetchData();
-    }, [userId]);
 
     const handleBackClick = () => {
         setIsVisible(false);
         setTimeout(() => {
             onClose();
         }, 300);
-    };
-
-    const handleExpand = () => {
-        setIsExpanded(true);
     };
 
     const handleAddClick = () => {
@@ -121,72 +94,23 @@ const CheckInsCollage = ({checkIn, onClose, isFriendsPage = false}) => {
         }
     };
 
-    const handleDeleteCheckIn = () => {
-        setShowConfirmPopup(true);
-    };
-
     return (
-        <div className={`collage-popup ${isVisible ? "visible" : ""} ${isExpanded ? "expanded" : ""}`}>
+        <div className={`collage-popup ${isVisible ? "visible" : ""}`}>
             <div>
-                {isExpanded && (
-                    <ProfileNavigationView
-                        pageTitle={restaurant?.name}
-                        button2={(!isFriendsPage && photos.length > 0) && {
-                            text: selectMode ? "Cancel" : "Select",
-                            handler: handleSelectClick
-                        }}
-                    />
-                )}
+                <ProfileNavigationView
+                    pageTitle={restaurant?.name}
+                    button2={(!isFriendsPage && photos.length > 0) && {
+                        text: selectMode ? "Cancel" : "Select",
+                        handler: handleSelectClick
+                    }}
+                />
 
-                {!isExpanded && (
-                    <div className={`collage-popup-header ${isExpanded ? "collage-header-sticky" : ""}`}>
-                        <div className="container">
-                            <button onClick={handleBackClick}>
-                                <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                                Back
-                            </button>
-
-                            <h2>{restaurant?.name}</h2>
-
-                            {!isFriendsPage && (
-
-                                <button onClick={handleDeleteCheckIn}>
-                                    <FontAwesomeIcon className="icon" icon={faTrashAlt}/>
-                                </button>
-                            )}
-                            <button onClick={handleExpand}>
-                                <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
-                            </button>
-                        </div>
-                    </div>
-                )}
-
-                {showConfirmPopup && (
-                    <CheckInConfirmationPopup
-                        restaurant={restaurant}
-                        closePopup={() => setShowConfirmPopup(false)}
-                    />
-                )}
-
-                <div className={`collage-popup-photos ${isExpanded ? "collage-popup-photos-expanded" : ""}`}>
-                    <div className={`collage-popup-content ${isExpanded ? "collage-popup-content-expanded" : ""}`}>
-
-                        {!isExpanded && (
-                            <DetailsCard
-                                restaurant={restaurant?.name}
-                                date={checkIn?.date}
-                                userData={userData}
-                                friendData={checkIn?.friendData}
-                                isFriendsPage={isFriendsPage}
-                            />
-                        )}
-
+                <div className="collage-popup-photos">
+                    <div className="collage-popup-content">
                         <CustomCollage
                             images={photos}
-                            rows={isExpanded ? 100 : 1}
-                            columns={isExpanded ? 2 : 3}
-                            isExpanded={isExpanded}
-                            onExpand={handleExpand}
+                            rows={100}
+                            columns={2}
                             handleAddClick={!isFriendsPage ? handleAddClick : null}
                             selectMode={selectMode}
                             handleDeleteSelected={!isFriendsPage ? handleDeleteSelected : null}

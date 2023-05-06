@@ -62,6 +62,7 @@ const DetailsPopup = ({checkIns, date, closePopup, showPhotos, setSelectedCheckI
                                 showPhotos={showPhotos}
                                 setSelectedCheckIn={() => setSelectedCheckIn(checkIn)}
                                 updateCheckIn={updateCheckIn}
+                                expandPopup={() => setIsExpanded(true)}
                             />
                         );
                     })}

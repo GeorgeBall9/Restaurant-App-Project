@@ -81,8 +81,11 @@
     width: 100%;
     position: absolute;
     top: 3em;
+    right: 0;
     left: 0;
     overflow-y: auto;
+    margin: 0 auto;
+    max-width: 500px;
 }
 
 .details-popup-content .check-ins-card:not(:last-child) {

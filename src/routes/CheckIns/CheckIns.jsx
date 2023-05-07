@@ -94,6 +94,9 @@ const CheckIns = () => {
     };
 
     const countUniqueRestaurants = (checkIns) => {
+        if (!checkIns) {
+            return 0;
+        }
         const uniqueRestaurantIds = new Set(checkIns.map((checkIn) => checkIn.restaurant.id));
         return uniqueRestaurantIds.size;
     };
@@ -113,7 +116,7 @@ const CheckIns = () => {
         setDetailsPopupIsVisible(true);
     };
 
-    const TileContent = ({date}) => {
+    const TileContent = ({ date }) => {
         if (!allCheckIns?.length) return null;
 
         const checkInsForDate = getCheckInsOnDate(date);
@@ -123,7 +126,7 @@ const CheckIns = () => {
 
             if (!foundCheckIn) return null;
 
-            const {restaurant} = foundCheckIn;
+            const { restaurant } = foundCheckIn;
 
             const tileContentStyle = {
                 backgroundImage: `url(${restaurant.photoUrl})`,
@@ -145,12 +148,12 @@ const CheckIns = () => {
         });
     };
 
-    const renderTileContent = ({date, view}) => {
+    const renderTileContent = ({ date, view }) => {
         if (view !== "month") {
             return null;
         }
 
-        return <TileContent date={date}/>;
+        return <TileContent date={date} />;
     };
 
     const handleStartDateChange = ({activeStartDate}) => {
@@ -159,7 +162,7 @@ const CheckIns = () => {
 
     return (
         <div className="check-ins-page-container">
-            <ProfileNavigationView pageTitle="Check-ins"/>
+            <ProfileNavigationView pageTitle="Check-ins" />
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
@@ -185,13 +188,13 @@ const CheckIns = () => {
 
                 <div className="check-ins-stats">
                     <div className="check-ins-unique-restaurants">
-                        <FontAwesomeIcon className="icon" icon={faUtensils}/>
+                        <FontAwesomeIcon className="icon" icon={faUtensils} />
                         <span>{countUniqueRestaurants(allCheckIns) || "0"}</span>
                         <p>Unique Restaurants</p>
                     </div>
 
                     <div className="check-ins-total">
-                        <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
+                        <FontAwesomeIcon className="icon" icon={faCircleCheck} />
                         <span>{allCheckIns?.length || "0"}</span>
                         <p>Check-ins</p>
                     </div>

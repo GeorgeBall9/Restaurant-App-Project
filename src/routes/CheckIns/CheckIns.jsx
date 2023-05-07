@@ -12,7 +12,7 @@ import {faUtensils, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getCheckInsAndRestaurantDataByUserId} from "../../firebase/firebase";
-import {displayRestaurant} from "../../features/map/mapSlice";
+import {displayRestaurant, selectDisplayedRestaurant} from "../../features/map/mapSlice";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import DetailsPopup from "./DetailsPopup/DetailsPopup";
 import MapView from "../../common/components/MapView/MapView";
@@ -36,7 +36,6 @@ const CheckIns = () => {
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
     const allCheckIns = useSelector(selectCheckIns);
     const selectedCheckIns = useSelector(selectSelectedCheckIns);
-    const selectedCheckIn = useSelector(selectSelectedCheckIn);
 
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
@@ -64,7 +63,9 @@ const CheckIns = () => {
 
         const checkIn = selectedCheckIns[0];
 
-        dispatch(displayRestaurant({...checkIn.restaurant, checkInId: checkIn.id}));
+        // dispatch(displayRestaurant({...checkIn.restaurant, checkInId: checkIn.id}));
+
+        setCalendarValue(new Date(checkIn.date));
     }, [selectedCheckIns]);
 
     useEffect(() => {
@@ -145,9 +146,6 @@ const CheckIns = () => {
         }
 
         return <TileContent date={date}/>;
-    };
-
-    const updateCheckIn = (updatedCheckIn) => {
     };
 
     return (

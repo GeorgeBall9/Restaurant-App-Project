@@ -25,6 +25,10 @@ export const checkInsSlice = createSlice({
         setSelectedCheckIns: (state, action) => {
             state.selectedCheckIns = action.payload;
         },
+        setSelectedCheckInsById: (state, action) => {
+            const {date: checkInDate} = state.checkIns.find(({id}) => id === action.payload);
+            state.selectedCheckIns = state.checkIns.filter(({date}) => date === checkInDate);
+        },
         setSelectedCheckIn: (state, action) => {
             state.selectedCheckIn = action.payload;
         },
@@ -36,7 +40,8 @@ export const {
     removeCheckIn,
     updateCheckIn,
     setSelectedCheckIns,
-    setSelectedCheckIn
+    setSelectedCheckIn,
+    setSelectedCheckInsById
 } = checkInsSlice.actions;
 
 export const selectCheckIns = state => state.checkIns.checkIns;

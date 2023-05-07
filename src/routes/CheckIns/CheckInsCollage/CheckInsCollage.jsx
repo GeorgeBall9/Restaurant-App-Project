@@ -10,6 +10,7 @@ import {selectUserId} from "../../../features/user/userSlice";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
 import {selectSelectedCheckIn, setSelectedCheckIn, updateCheckIn} from "../../../features/checkIns/checkInsSlice";
+import {faDownLeftAndUpRightToCenter, faUpRightAndDownLeftFromCenter, faXmark} from "@fortawesome/free-solid-svg-icons";
 
 const CheckInsCollage = ({closePopup}) => {
 
@@ -84,7 +85,7 @@ const CheckInsCollage = ({closePopup}) => {
             <div>
                 <ProfileNavigationView
                     pageTitle={restaurant?.name}
-                    button1={{handler: handleBackClick}}
+                    button1={{text: "Close", icon: faXmark, handler: handleBackClick}}
                     button2={checkIn.photoData?.length > 0 && {
                         text: selectMode ? "Cancel" : "Select",
                         handler: handleSelectClick

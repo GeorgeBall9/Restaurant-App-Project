@@ -11,15 +11,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUtensils, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getCheckInsAndRestaurantDataByUserId} from "../../firebase/firebase";
-import {displayRestaurant, selectDisplayedRestaurant} from "../../features/map/mapSlice";
+import {getCheckInsAndRestaurantDataByUserIdForMonth} from "../../firebase/firebase";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import DetailsPopup from "./DetailsPopup/DetailsPopup";
 import MapView from "../../common/components/MapView/MapView";
 import CheckInsCollage from "./CheckInsCollage/CheckInsCollage";
 import {
     selectCheckIns,
-    selectSelectedCheckIn,
     selectSelectedCheckIns,
     setCheckIns, setSelectedCheckIns
 } from "../../features/checkIns/checkInsSlice";
@@ -38,6 +36,7 @@ const CheckIns = () => {
     const selectedCheckIns = useSelector(selectSelectedCheckIns);
 
     const [calendarValue, setCalendarValue] = useState(new Date());
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
     const [fetchStatus, setFetchStatus] = useState("pending");
     const [detailsPopupIsVisible, setDetailsPopupIsVisible] = useState(false);
@@ -51,12 +50,14 @@ const CheckIns = () => {
     useEffect(() => {
         if (!userId) return;
 
-        getCheckInsAndRestaurantDataByUserId(userId)
+        const month = calendarValue.getMonth();
+
+        getCheckInsAndRestaurantDataByUserIdForMonth(userId, selectedMonth)
             .then(data => {
                 dispatch(setCheckIns(data));
                 setFetchStatus("idle");
             });
-    }, [userId]);
+    }, [userId, selectedMonth]);
 
     useEffect(() => {
         if (!selectedCheckIns?.length) return;
@@ -89,11 +90,6 @@ const CheckIns = () => {
     const countUniqueRestaurants = (checkIns) => {
         const uniqueRestaurantIds = new Set(checkIns.map((checkIn) => checkIn.restaurant.id));
         return uniqueRestaurantIds.size;
-    };
-
-    const handleCalendarChange = (value) => {
-        setCalendarValue(value);
-        // Fetch and display the check-ins for the selected date
     };
 
     const handleTileClick = (checkIns) => {
@@ -148,6 +144,10 @@ const CheckIns = () => {
         return <TileContent date={date}/>;
     };
 
+    const handleStartDateChange = ({activeStartDate}) => {
+        setSelectedMonth(activeStartDate.getMonth());
+    };
+
     return (
         <div className="check-ins-page-container">
             <ProfileNavigationView pageTitle="Check-ins"/>
@@ -160,7 +160,7 @@ const CheckIns = () => {
 
                     {!allCheckIns?.length && fetchStatus === "idle" && (
                         <NoResults
-                            mainText="You haven't checked in anywhere yet."
+                            mainText="You haven't checked in anywhere this month."
                             subText="Head to a restaurant page to check-in!"
                         />
                     )}
@@ -182,13 +182,14 @@ const CheckIns = () => {
 
                 <div className="check-ins-calendar">
                     <Calendar
-                        onChange={handleCalendarChange}
+                        onChange={(value) => setCalendarValue(value)}
                         value={calendarValue}
                         maxDate={currentDate}
                         minDate={new Date(2023, 0, 1)}
                         maxDetail="month"
                         minDetail="month"
                         tileContent={renderTileContent}
+                        onActiveStartDateChange={handleStartDateChange}
                     />
 
                     {showCollagePopup && (

@@ -442,6 +442,12 @@ export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
     return checkIns;
 };
 
+export const getCheckInsAndRestaurantDataByUserIdForMonth = async (userId, month) => {
+    const checkInData = await getCheckInsAndRestaurantDataByUserId(userId);
+
+    return checkInData.filter(({date}) => new Date(date).getMonth() === month);
+};
+
 const getUsersFromUserIds = async (userIds) => {
     return await Promise.all(userIds
         .map(async (id) => await getUserFromUserId(id)));

@@ -38,7 +38,9 @@ const FriendsReviews = () => {
         <div className="preview-reviews-container">
             {displayedFriend && (
                 <>
-                    <ProfileNavigationView pageTitle={`${displayedFriend.displayName}'s Reviews`}/>
+                    <ProfileNavigationView
+                        pageTitle={`${displayedFriend.displayName.split(" ")[0]}'s Reviews`}
+                    />
 
                     <main className="reviews-container container">
                         {friendReviews && friendReviews.length === 0 ? (

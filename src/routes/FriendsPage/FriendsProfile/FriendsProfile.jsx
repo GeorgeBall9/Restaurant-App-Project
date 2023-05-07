@@ -1,15 +1,11 @@
 import './FriendsProfile.css';
-
 import FriendContributionsButton from './FriendContributionsButton/FriendContributionsButton';
 import {useNavigate} from "react-router-dom";
 import UserIcon from '../../../common/components/UserIcon/UserIcon';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faCircleCheck,
-    faComment, faCopy,
+    faComment,
     faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
-import {useState} from "react";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import {useSelector} from "react-redux";
 import {selectDisplayedFriend} from "../../../features/user/userSlice";
@@ -25,7 +21,7 @@ const FriendsProfile = () => {
             {displayedFriend && (
                 <>
                     <ProfileNavigationView
-                        pageTitle={`${displayedFriend.displayName}'s Profile`}
+                        pageTitle={`${displayedFriend.displayName.split(" ")[0]}'s Profile`}
                         button1={{handler: () => navigate("/friends")}}
                     />
 

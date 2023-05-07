@@ -105,7 +105,7 @@ const FriendsOfFriendsPage = () => {
             {displayedFriend && (
                 <>
                     <ProfileNavigationView
-                        pageTitle={`${displayedFriend.displayName}'s Friends`}
+                        pageTitle={`${displayedFriend.displayName.split(" ")[0]}'s Friends`}
                         button2={{
                             text: searchIsVisible ? "Cancel" : "Search",
                             icon: !searchIsVisible ? faMagnifyingGlass : null,

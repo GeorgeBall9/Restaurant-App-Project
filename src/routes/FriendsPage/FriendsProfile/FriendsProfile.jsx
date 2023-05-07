@@ -1,7 +1,7 @@
 import './FriendsProfile.css';
 
 import FriendContributionsButton from './FriendContributionsButton/FriendContributionsButton';
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import UserIcon from '../../../common/components/UserIcon/UserIcon';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
@@ -19,13 +19,6 @@ const FriendsProfile = () => {
     const navigate = useNavigate();
 
     const displayedFriend = useSelector(selectDisplayedFriend);
-
-    const [idCopied, setIdCopied] = useState(false);
-
-    const handleCopyIdClick = () => {
-        navigator.clipboard.writeText(displayedFriend.id + "")
-            .then(() => setIdCopied(true));
-    };
 
     return (
         <div className="friends-profile-page-container">
@@ -50,19 +43,14 @@ const FriendsProfile = () => {
                             >
                                 {displayedFriend.displayName || "display name"}
                             </p>
-
-                            <button className="copy-id-button" onClick={handleCopyIdClick}>
-                                {idCopied ? "Copied" : "Copy user ID"}
-                                <FontAwesomeIcon className="icon" icon={idCopied ? faCircleCheck : faCopy}/>
-                            </button>
                         </section>
 
                         <section className="contributions-container">
                             <FriendContributionsButton
                                 userId={displayedFriend.id}
-                                route="/view-check-ins/:userId"
-                                icon={faCircleCheck}
-                                name="Check ins"
+                                route={`/view-friends/${displayedFriend.id}`}
+                                icon={faUserGroup}
+                                name="Friends"
                             />
 
                             <FriendContributionsButton
@@ -71,13 +59,6 @@ const FriendsProfile = () => {
                                 icon={faComment}
                                 name="Reviews"
                             />
-                        </section>
-
-                        <section className="options-container">
-                            <Link to={`/view-friends/${displayedFriend.id}`}>
-                                <FontAwesomeIcon className="icon" icon={faUserGroup}/>
-                                Friends
-                            </Link>
                         </section>
                     </main>
                 </>

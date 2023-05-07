@@ -19,29 +19,31 @@ const initialState = {
     }
 };
 
+const fetchRouteBetweenTwoMarkers = async (data) => {
+    const {coordinates1, coordinates2} = data;
+    const {latitude: lat1, longitude: lon1} = coordinates1;
+    const {latitude: lat2, longitude: lon2} = coordinates2;
+
+    const query = fetchRouteUrl + lon1 + "," + lat1 + ";" + lon2 + "," + lat2 +
+        "?alternatives=true&continue_straight=true&geometries=geojson&language=en&overview=simplified&steps=true&" +
+        "access_token=" + process.env.REACT_APP_MAPBOX_TOKEN;
+
+    const response = await fetch(query);
+
+    if (!response.ok) {
+        throw new Error("The requested resource is not available. Check the URL is correct.");
+    }
+
+    return await response.json();
+};
+
 // url to fetch route data between two markers on the map
 const fetchRouteUrl = "https://api.mapbox.com/directions/v5/mapbox/walking/";
 
 // async function to fetch route data
 export const fetchRoute = createAsyncThunk(
     "map/fetchRoute",
-    async (data) => {
-        const {coordinates1, coordinates2} = data;
-        const {latitude: lat1, longitude: lon1} = coordinates1;
-        const {latitude: lat2, longitude: lon2} = coordinates2;
-
-        const query = fetchRouteUrl + lon1 + "," + lat1 + ";" + lon2 + "," + lat2 +
-            "?alternatives=true&continue_straight=true&geometries=geojson&language=en&overview=simplified&steps=true&" +
-            "access_token=" + process.env.REACT_APP_MAPBOX_TOKEN;
-
-        const response = await fetch(query);
-
-        if (!response.ok) {
-            throw new Error("The requested resource is not available. Check the URL is correct.");
-        }
-
-        return await response.json();
-    }
+    fetchRouteBetweenTwoMarkers
 );
 
 // map slice

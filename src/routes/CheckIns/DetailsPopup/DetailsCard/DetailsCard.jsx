@@ -3,53 +3,41 @@ import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendarAlt, faCamera, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
-import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
+import InteractionButton from "../../../../common/components/ButtonViews/InteractionButton/InteractionButton";
 import CheckInPopupView from "../../../../common/components/CheckInPopupView/CheckInPopupView";
-import {useSelector} from "react-redux";
-import {selectFriends} from "../../../../features/user/userSlice";
-import {updateCheckInDoc} from "../../../../firebase/firebase";
+import {useDispatch, useSelector} from "react-redux";
+import {selectFriends, selectProfilePhotoUrl} from "../../../../features/user/userSlice";
+import {removeRestaurantCheckIn, updateCheckInDoc} from "../../../../firebase/firebase";
+import {removeCheckIn, setSelectedCheckIn, updateCheckIn} from "../../../../features/checkIns/checkInsSlice";
+import ConfirmationPopupView from "../../../../common/components/ConfirmationPopupView/ConfirmationPopupView";
 
 const DetailsCard = ({
-                         id,
-                         restaurant,
-                         date,
-                         userData,
-                         friendData,
-                         photoData,
+                         checkIn,
                          isFriendsPage,
                          showPhotos,
                          closePopup,
-                         setSelectedCheckIn,
-                         updateCheckIn,
                          expandPopup
                      }) => {
 
-    const allFriends = useSelector(selectFriends);
+    const dispatch = useDispatch();
 
-    const [allUsers, setAllUsers] = useState([]);
+    const allFriends = useSelector(selectFriends);
+    const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
+
     const [editPopupIsVisible, setEditPopupIsVisible] = useState(false);
     const [editPopupFeedback, setEditPopupFeedback] = useState("");
+    const [confirmDeletePopupIsVisible, setConfirmDeletePopupIsVisible] = useState(false);
 
-    useEffect(() => {
-        if (!userData || !friendData) return;
-
-        if (isFriendsPage) {
-            setAllUsers([...friendData]);
-        } else {
-            setAllUsers([userData, ...friendData]);
-        }
-    }, [userData, friendData, isFriendsPage]);
-
-    const formattedDate = new Date(date).toLocaleDateString("en-GB", {
+    const formattedDate = new Date(checkIn.date).toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
     });
 
     const handleAddPhotoClick = () => {
-        setSelectedCheckIn();
+        dispatch(setSelectedCheckIn(checkIn))
         showPhotos();
-        closePopup();
+        // closePopup();
     };
 
     const handleEditClick = () => {
@@ -63,34 +51,52 @@ const DetailsCard = ({
             return;
         }
 
-        const photoIds = photoData.map(({id}) => id);
+        const photoIds = checkIn.photoData.map(({id}) => id);
 
-        const updatedCheckIn = await updateCheckInDoc(id, date, userData.id, friends, photoIds);
-        console.log({updatedCheckIn})
-        updateCheckIn(updatedCheckIn);
+        const updatedCheckIn = await updateCheckInDoc(checkIn.id, date, checkIn.userData.id, friends, photoIds);
+        dispatch(updateCheckIn(updatedCheckIn));
 
         setEditPopupIsVisible(false);
     };
 
     const handleDeleteClick = () => {
+        expandPopup();
+        setConfirmDeletePopupIsVisible(true);
+    };
+
+    const confirmDelete = async () => {
+        const checkInId = checkIn.id;
+
+        await removeRestaurantCheckIn(checkIn.id);
+
+        dispatch(removeCheckIn(checkInId));
     };
 
     return (
         <div className="check-ins-card">
             {editPopupIsVisible && (
                 <CheckInPopupView
-                    restaurant={restaurant}
+                    restaurant={checkIn.restaurant}
+                    date={checkIn.date}
                     closePopup={() => setEditPopupIsVisible(false)}
                     friends={allFriends}
-                    friendsSelected={friendData}
+                    friendsSelected={checkIn.friendData}
                     confirmCheckIn={confirmEditCheckIn}
                     feedback={editPopupFeedback}
                     resetFeedback={() => setEditPopupFeedback("")}
                 />
             )}
 
+            {confirmDeletePopupIsVisible && (
+                <ConfirmationPopupView
+                    message="Delete this check-in?"
+                    handleYesClick={confirmDelete}
+                    handleNoClick={() => setConfirmDeletePopupIsVisible(false)}
+                />
+            )}
+
             <div className="card-header">
-                <h3>{restaurant.name}</h3>
+                <h3>{checkIn.restaurant.name}</h3>
 
                 {!isFriendsPage && (
                     <div className="buttons-container">
@@ -107,18 +113,22 @@ const DetailsCard = ({
             </div>
 
             <div className="user-icons">
-                {allUsers.map((user, index) => (
-                    <div key={index}>
-                        <UserIcon
-                            size="small"
-                            imageUrl={user.profilePhotoUrl}
-                        />
-                    </div>
+                <UserIcon
+                    size="small"
+                    imageUrl={profilePhotoUrl}
+                />
+
+                {checkIn.friendData.map(user => (
+                    <UserIcon
+                        key={user.id + checkIn.id}
+                        size="small"
+                        imageUrl={user.profilePhotoUrl}
+                    />
                 ))}
             </div>
 
             <div className="photo-previews-container">
-                {photoData.map(({id, url, alt}) => (
+                {checkIn.photoData.map(({id, url, alt}) => (
                     <div key={id} className="image-preview-container">
                         <img src={url} alt={alt}/>
                     </div>

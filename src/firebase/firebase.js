@@ -313,6 +313,16 @@ export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) 
     }
 };
 
+export const getCheckInDataById = async (checkInId, userId) => {
+    const checkIn = await getCheckInDocFromId(checkInId);
+    const {restaurantId, userIds, photoIds} = checkIn;
+    const restaurant = await getRestaurantById(restaurantId);
+    const friendIds = userIds.filter(id => id !== userId);
+    const friendData = await getUsersFromUserIds(friendIds);
+    const photoData = await getPhotoDataFromPhotoIds(photoIds);
+    return {restaurant, ...checkIn, friendData, photoData};
+};
+
 export const updateCheckInDoc = async (checkInId, date, userId, friendIds, photoIds) => {
     const checkInDoc = doc(db, "check-ins", checkInId);
 
@@ -322,11 +332,7 @@ export const updateCheckInDoc = async (checkInId, date, userId, friendIds, photo
         photoIds
     });
 
-    const checkIn = await getCheckInDocFromId(checkInId);
-    const restaurant = await getRestaurantById(checkIn.restaurantId);
-    const friendData = await getUsersFromUserIds(friendIds);
-    const photoData = await getPhotoDataFromPhotoIds(checkIn.photoIds);
-    return {restaurant, ...checkIn, friendData, photoData};
+    return await getCheckInDataById(checkInId, userId);
 };
 
 // validate restaurant check in
@@ -434,6 +440,12 @@ export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
 
     checkIns.sort((a, b) => b.date - a.date);
     return checkIns;
+};
+
+export const getCheckInsAndRestaurantDataByUserIdForMonth = async (userId, month) => {
+    const checkInData = await getCheckInsAndRestaurantDataByUserId(userId);
+
+    return checkInData.filter(({date}) => new Date(date).getMonth() === month);
 };
 
 const getUsersFromUserIds = async (userIds) => {
@@ -960,7 +972,7 @@ export const addPhotoToCheckIn = async (userId, checkIn, path) => {
 
     await updateDoc(checkInDocRef, {photoIds: arrayUnion(photoId)});
 
-    return photoId;
+    return await getCheckInDataById(checkInId, userId);
 };
 
 const getPhotoUrlFromId = async (photoId) => {

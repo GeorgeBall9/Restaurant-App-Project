@@ -3,28 +3,23 @@ import CustomCollage from "../../../common/components/CustomCollage/CustomCollag
 
 import {useEffect, useState} from "react";
 import {
-    addPhotoToCheckIn, deleteCheckInPhoto,
-    getImageDownloadUrl, getPhotoDataFromPhotoIds,
+    addPhotoToCheckIn, deleteCheckInPhoto
 } from "../../../firebase/firebase";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
+import {selectSelectedCheckIn, setSelectedCheckIn, updateCheckIn} from "../../../features/checkIns/checkInsSlice";
+import {faDownLeftAndUpRightToCenter, faUpRightAndDownLeftFromCenter, faXmark} from "@fortawesome/free-solid-svg-icons";
 
-export const getPhotoUrls = async (photoPaths) => {
-    if (!photoPaths?.length) return [];
+const CheckInsCollage = ({closePopup}) => {
 
-    return await Promise.all(photoPaths.map(async (path, i) => {
-        return {src: await getImageDownloadUrl(path), alt: "Photo " + (i + 1)};
-    }));
-};
-
-const CheckInsCollage = ({checkIn, onClose, isFriendsPage = false}) => {
+    const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
+    const checkIn = useSelector(selectSelectedCheckIn);
 
     const [restaurant, setRestaurant] = useState(null);
-    const [photos, setPhotos] = useState([]);
     const [isVisible, setIsVisible] = useState(true);
     const [addPhotoPopupIsVisible, setAddPhotoPopupIsVisible] = useState(false);
     const [selectMode, setSelectMode] = useState(false);
@@ -32,24 +27,17 @@ const CheckInsCollage = ({checkIn, onClose, isFriendsPage = false}) => {
     useEffect(() => {
         if (!checkIn) return;
 
+        if (checkIn.photoData.length === 0) {
+            setSelectMode(false);
+        }
+
         setRestaurant(checkIn.restaurant);
-    }, [checkIn]);
-
-    useEffect(() => {
-        if (!checkIn) return;
-
-        getPhotoDataFromPhotoIds(checkIn.photoIds)
-            .then(data => {
-                if (data) {
-                    setPhotos(data);
-                }
-            });
     }, [checkIn]);
 
     const handleBackClick = () => {
         setIsVisible(false);
         setTimeout(() => {
-            onClose();
+            closePopup();
         }, 300);
     };
 
@@ -63,9 +51,10 @@ const CheckInsCollage = ({checkIn, onClose, isFriendsPage = false}) => {
     };
 
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
-        const newPhotoId = await addPhotoToCheckIn(userId, checkIn, photoStoragePath);
-        const newPhotoData = {id: newPhotoId, url: photoUrl, alt: "Photo " + (photos.length + 1)};
-        setPhotos(photos => [...photos, newPhotoData]);
+        const updatedCheckIn = await addPhotoToCheckIn(userId, checkIn, photoStoragePath);
+        dispatch(updateCheckIn(updatedCheckIn));
+        dispatch(setSelectedCheckIn(updatedCheckIn));
+
         document.querySelector(".file-upload-input").value = "";
         handleClosePopupClick();
     };
@@ -77,21 +66,18 @@ const CheckInsCollage = ({checkIn, onClose, isFriendsPage = false}) => {
     const handleDeleteSelected = async (selectedImages) => {
         if (!selectedImages?.length) return;
 
-        let updatedPhotos = [...photos];
+        const updatedCheckIn = {...checkIn};
 
         for (const image of selectedImages) {
             const deleted = await deleteCheckInPhoto(userId, image.id, checkIn.id);
 
             if (deleted) {
-                updatedPhotos = updatedPhotos.filter(photo => photo.id !== image.id);
+                updatedCheckIn.photoData = updatedCheckIn.photoData.filter(photo => photo.id !== image.id);
             }
         }
 
-        setPhotos(updatedPhotos);
-
-        if (!updatedPhotos.length) {
-            handleSelectClick();
-        }
+        dispatch(updateCheckIn(updatedCheckIn));
+        dispatch(setSelectedCheckIn(updatedCheckIn));
     };
 
     return (
@@ -99,7 +85,8 @@ const CheckInsCollage = ({checkIn, onClose, isFriendsPage = false}) => {
             <div>
                 <ProfileNavigationView
                     pageTitle={restaurant?.name}
-                    button2={(!isFriendsPage && photos.length > 0) && {
+                    button1={{text: "Close", icon: faXmark, handler: handleBackClick}}
+                    button2={checkIn.photoData?.length > 0 && {
                         text: selectMode ? "Cancel" : "Select",
                         handler: handleSelectClick
                     }}
@@ -108,16 +95,14 @@ const CheckInsCollage = ({checkIn, onClose, isFriendsPage = false}) => {
                 <div className="collage-popup-photos">
                     <div className="collage-popup-content">
                         <CustomCollage
-                            images={photos}
+                            images={checkIn.photoData}
                             rows={100}
                             columns={2}
-                            handleAddClick={!isFriendsPage ? handleAddClick : null}
+                            handleAddClick={handleAddClick}
                             selectMode={selectMode}
-                            handleDeleteSelected={!isFriendsPage ? handleDeleteSelected : null}
-                            isFriendsPage={isFriendsPage}
+                            handleDeleteSelected={handleDeleteSelected}
                         />
                     </div>
-
                 </div>
 
                 {addPhotoPopupIsVisible && (

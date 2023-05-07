@@ -12,7 +12,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPen} from "@fortawesome/free-solid-svg-icons";
 import UploadImagePopup from "../UploadImagePopup/UploadImagePopup";
 import InteractiveStarRating from "../StarRating/IntearactiveStarRating/InteractiveStarRating";
-import InversePrimaryButton from "../InversePrimaryButton/InversePrimaryButton";
+import InversePrimaryButton from "../ButtonViews/InversePrimaryButton/InversePrimaryButton";
 import FormField from "../FormField/FormField";
 
 const defaultFormFields = {

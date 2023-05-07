@@ -13,20 +13,18 @@ import {selectRestaurantsFetchStatus} from "../../../features/restaurants/restau
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
-const MapView = ({zoom, height, restaurants, checkIns}) => {
+const MapView = ({centrePosition, zoom, height, restaurants, checkIns}) => {
 
     const dispatch = useDispatch();
 
-    const userPosition = useSelector(selectUserPosition);
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
     const restaurantsFetchStatus = useSelector(selectRestaurantsFetchStatus);
-    const [displayedRestaurantName, setDisplayedRestaurantName] = useState(null);
 
     const [map, setMap] = useState(null);
 
     const [viewState, setViewState] = useState({
-        longitude: userPosition.longitude,
-        latitude: userPosition.latitude,
+        longitude: centrePosition.longitude,
+        latitude: centrePosition.latitude,
         zoom
     });
 
@@ -56,20 +54,16 @@ const MapView = ({zoom, height, restaurants, checkIns}) => {
     useEffect(() => {
         if (!displayedRestaurant || !map) return;
 
-        const {longitude, latitude, name} = displayedRestaurant;
-
-        if (name === displayedRestaurantName) return;
+        const {longitude, latitude} = displayedRestaurant;
 
         map.flyTo({center: [longitude, latitude], essential: true, speed: 0.5});
-
-        setDisplayedRestaurantName(name);
     }, [displayedRestaurant]);
 
     // fly to new marker if user updates their position
     useEffect(() => {
-        if (!userPosition || !map) return;
+        if (!centrePosition || !map) return;
 
-        const {longitude, latitude} = userPosition;
+        const {longitude, latitude} = centrePosition;
 
         map.flyTo({
             center: [longitude, latitude],
@@ -77,7 +71,7 @@ const MapView = ({zoom, height, restaurants, checkIns}) => {
             speed: 0.75,
             zoom
         });
-    }, [userPosition, map]);
+    }, [centrePosition, map]);
 
     return (
         <div className="map-container">
@@ -92,7 +86,7 @@ const MapView = ({zoom, height, restaurants, checkIns}) => {
             >
                 {restaurants && (
                     <MainMapChildren
-                        userPosition={userPosition}
+                        userPosition={centrePosition}
                         restaurants={restaurants}
                         displayedRestaurant={displayedRestaurant}
                     />

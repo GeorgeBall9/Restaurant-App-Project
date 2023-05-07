@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { hideSpinner, showSpinner } from "../../spinner/spinnerSlice";
-import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
+import PrimaryButton from "../../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
 import FormField from "../../../common/components/FormField/FormField";
 
 const LocationOptions = ({ closePopup }) => {
@@ -146,17 +146,18 @@ const LocationOptions = ({ closePopup }) => {
                 <label className="postcode-input-container">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />
 
-                    <FormField
+                    <input
                         type="text"
                         placeholder={inputPlaceholder}
                         value={postcode}
-                        onChangeHandler={({ target }) => setPostcode(target.value.toUpperCase())}
+                        onChange={({ target }) => setPostcode(target.value.toUpperCase())}
                         onKeyDown={handlePostcodeSubmit}
                         onFocus={handleInputFocus}
                         onBlur={handleInputBlur}
-                        padding="0"
+                        style={{ padding: "0" }} // Set padding to 0
                     />
                 </label>
+
 
                 <button className="use-geolocation-button" onClick={handleUseLocationClick}>
                     <FontAwesomeIcon icon={faLocationArrow} className="icon" />

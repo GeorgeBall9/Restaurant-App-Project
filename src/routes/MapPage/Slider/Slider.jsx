@@ -71,6 +71,10 @@ const Slider = () => {
         dispatch(displayRestaurant(restaurants[activeSlide]));
     }, [activeSlide]);
 
+    if (!restaurants?.length) {
+        return <></>;
+    }
+
     return (
         <div className="slider" {...handlers} style={style}>
             <div className="restaurant-cards-container">

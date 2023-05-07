@@ -19,7 +19,6 @@ const useFetchRestaurants = () => {
     useEffect(() => {
         if (restaurantsStatus !== "idle" || !userPosition
             || positionsAreEqual(userPosition, lastPositionQueried)) {
-            console.log("hiding spinner after position change")
             dispatch(hideSpinner());
             return;
         }

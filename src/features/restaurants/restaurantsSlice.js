@@ -30,7 +30,8 @@ export const options = {
     headers: {
         'X-RapidAPI-Key': process.env.REACT_APP_TRAVEL_ADVISOR_API_KEY,
         'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
-    }
+    },
+    signal: AbortSignal.timeout(5000)
 };
 
 // async function to fetch restaurants data
@@ -44,7 +45,11 @@ export const fetchRestaurants = createAsyncThunk(
         const query = fetchUrl + "?latitude=" + latitude + "&longitude=" + longitude +
             "&limit=20&currency=GBP&distance=1&open_now=true&lunit=km&lang=en_US";
 
+        console.log({query})
+
         const response = await fetch(query, options);
+
+        console.log({response})
 
         // const response = await fetch(fetchUrl);
 
@@ -140,7 +145,7 @@ const formatData = (data) => {
                 city: city ? city : "",
                 postalcode: postalcode ? postalcode : ""
             },
-            dietaryRestrictions: dietary_restrictions.map(({name: dietaryType }) => dietaryType),
+            dietaryRestrictions: dietary_restrictions.map(({name: dietaryType}) => dietaryType),
         };
     });
 };
@@ -275,8 +280,10 @@ export const restaurantsSlice = createSlice({
             .addCase(fetchRestaurants.pending, (state, action) => {
                 state.status = "pending"; // indicates fetch request has begun
                 state.error = null; // reset error
+                console.log("pending fetch")
             })
             .addCase(fetchRestaurants.fulfilled, (state, action) => {
+                console.log("success")
                 state.status = "success"; // indicates fetch was successful
 
                 const {data, position} = action.payload;
@@ -288,6 +295,7 @@ export const restaurantsSlice = createSlice({
                 state.lastPositionQueried = position;
             })
             .addCase(fetchRestaurants.rejected, (state, action) => {
+                console.log("fail")
                 state.status = "fail"; // indicates fetch failed
                 state.error = action.error.message; // sets error to error message returned
             });

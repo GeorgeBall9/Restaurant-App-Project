@@ -1,7 +1,7 @@
 import "./FriendInfo.css";
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
-import SecondaryButton from "../../../../common/components/SecondaryButton/SecondaryButton";
-import PrimaryButton from "../../../../common/components/PrimaryButton/PrimaryButton";
+import SecondaryButton from "../../../../common/components/ButtonViews/SecondaryButton/SecondaryButton";
+import PrimaryButton from "../../../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
 
 const FriendInfo = ({
                         displayName,

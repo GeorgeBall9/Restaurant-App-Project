@@ -4,6 +4,7 @@
     gap: 0.75em;
     padding: var(--padding-content);
     background-color: white;
+    position: relative;
 }
 
 .check-ins-card .card-header {

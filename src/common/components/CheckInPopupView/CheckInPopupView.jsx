@@ -3,24 +3,27 @@ import FormField from "../FormField/FormField";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleCheck as solidCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import UserIcon from "../UserIcon/UserIcon";
-import InteractionButton from "../InteractionButton/InteractionButton";
+import InteractionButton from "../ButtonViews/InteractionButton/InteractionButton";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
-import PrimaryButton from "../PrimaryButton/PrimaryButton";
-import InversePrimaryButton from "../InversePrimaryButton/InversePrimaryButton";
+import PrimaryButton from "../ButtonViews/PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../ButtonViews/InversePrimaryButton/InversePrimaryButton";
 import {useEffect, useState} from "react";
 import Overlay from "../Overlay/Overlay";
 
 const CheckInPopupView = ({
-                              feedback,
+                              restaurant,
+                              date,
                               friends,
                               friendsSelected,
-                              restaurant,
                               closePopup,
                               confirmCheckIn,
+                              feedback,
                               resetFeedback
                           }) => {
 
-    const [checkInDate, setCheckInDate] = useState(new Date().toISOString().split("T")[0]);
+    const [checkInDate, setCheckInDate] = useState((date ? new Date(date) : new Date())
+        .toISOString()
+        .split("T")[0]);
     const [selectFriendsIsVisible, setSelectFriendIsVisible] = useState(false);
     const [selectedFriends, setSelectedFriends] = useState([]);
     const [addFriendsButtonText, setAddFriendsButtonText] = useState("Add friends");

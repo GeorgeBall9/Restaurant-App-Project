@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addUserBookmark, removeUserBookmark} from "../../../firebase/firebase";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import InteractionButton from "../InteractionButton/InteractionButton";
+import InteractionButton from "../ButtonViews/InteractionButton/InteractionButton";
 import InteractionFeedback from "../InteractionFeedback/InteractionFeedback";
 
 const BookmarkButton = ({restaurant, style, updateInteractions}) => {

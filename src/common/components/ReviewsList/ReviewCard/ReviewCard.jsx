@@ -9,10 +9,11 @@ import {useState} from "react";
 import {addUserReactionToReview, deleteRestaurantReview} from "../../../../firebase/firebase";
 import {deleteReview, selectReviews, updateReview} from "../../../../features/reviews/reviewsSlice";
 import {useDispatch, useSelector} from "react-redux";
-import PrimaryButton from "../../PrimaryButton/PrimaryButton";
-import InversePrimaryButton from "../../InversePrimaryButton/InversePrimaryButton";
+import PrimaryButton from "../../ButtonViews/PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../../ButtonViews/InversePrimaryButton/InversePrimaryButton";
 import VoteButton from "./VoteButton/VoteButton";
-import InteractionButton from "../../InteractionButton/InteractionButton";
+import InteractionButton from "../../ButtonViews/InteractionButton/InteractionButton";
+import ConfirmationPopupView from "../../ConfirmationPopupView/ConfirmationPopupView";
 
 const ReviewCard = ({review, userId, handleEditClick}) => {
 
@@ -65,18 +66,11 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
     return (
         <div id={"review-" + id} className="review">
             {confirmationPopupIsVisible && (
-                <div className="confirm-delete-popup">
-                    <p>Delete this review?</p>
-
-                    <div className="buttons-container">
-                        <PrimaryButton text="Yes" handleClick={handleYesClick}/>
-
-                        <InversePrimaryButton
-                            text="No"
-                            handleClick={() => setConfirmationPopupIsVisible(false)}
-                        />
-                    </div>
-                </div>
+                <ConfirmationPopupView
+                    message="Delete this review?"
+                    handleYesClick={handleYesClick}
+                    handleNoClick={() => setConfirmationPopupIsVisible(false)}
+                />
             )}
 
             <div className="review-header">

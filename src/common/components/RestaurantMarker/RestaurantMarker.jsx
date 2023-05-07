@@ -3,6 +3,7 @@ import {Marker} from "react-map-gl";
 import {displayRestaurant} from "../../../features/map/mapSlice";
 import {setActiveSlide} from "../../../features/slider/sliderSlice";
 import {useDispatch} from "react-redux";
+import {setSelectedCheckInsById} from "../../../features/checkIns/checkInsSlice";
 
 const RestaurantMarker = ({restaurant, index, selected, visible, type = "main"}) => {
 
@@ -23,6 +24,7 @@ const RestaurantMarker = ({restaurant, index, selected, visible, type = "main"})
 
         if (type === "check-in") {
             dispatch(displayRestaurant(restaurant));
+            dispatch(setSelectedCheckInsById(restaurant.checkInId));
         } else {
             dispatch(displayRestaurant(restaurant));
             dispatch(setActiveSlide(index));

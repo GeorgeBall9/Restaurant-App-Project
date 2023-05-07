@@ -5,24 +5,25 @@ import {useNavigate} from "react-router-dom";
 import SearchBox from "../SearchBox/SearchBox";
 
 const ProfileNavigationView = ({
-                               pageTitle,
-                               button1,
-                               button2,
-                               lowerNav,
-                               toggleDisplayText,
-                               toggleHandler,
-                               count,
-                               searchFunctionality,
-                               button3,
-                               button4,
-                               handleSearchInputChange,
-                               hasMatches
-                           }) => {
+                                   pageTitle,
+                                   style,
+                                   button1,
+                                   button2,
+                                   lowerNav,
+                                   toggleDisplayText,
+                                   toggleHandler,
+                                   count,
+                                   searchFunctionality,
+                                   button3,
+                                   button4,
+                                   handleSearchInputChange,
+                                   hasMatches
+                               }) => {
 
     const navigate = useNavigate();
 
     return (
-        <header className="profile-navigation">
+        <header className="profile-navigation" style={style}>
             <div className="container">
                 <div className="upper-nav">
                     {searchFunctionality && (

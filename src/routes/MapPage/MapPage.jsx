@@ -34,7 +34,7 @@ const MapPage = () => {
 
     useEffect(() => {
         if (mapIsLoaded && restaurantsFetchStatus === "idle" && !restaurants?.length) {
-            setErrorPopupIsVisible(true);
+            setTimeout(() => setErrorPopupIsVisible(true), 2000);
         } else {
             setErrorPopupIsVisible(false);
         }

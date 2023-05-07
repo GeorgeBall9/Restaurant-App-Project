@@ -30,8 +30,7 @@ export const options = {
     headers: {
         'X-RapidAPI-Key': process.env.REACT_APP_TRAVEL_ADVISOR_API_KEY,
         'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
-    },
-    signal: AbortSignal.timeout(5000)
+    }
 };
 
 // async function to fetch restaurants data
@@ -286,11 +285,19 @@ export const restaurantsSlice = createSlice({
                 console.log("success")
                 state.status = "success"; // indicates fetch was successful
 
-                const {data, position} = action.payload;
-                const processedData = processData(data);
 
-                state.allRestaurants = processedData;
-                state.restaurantResults = processedData;
+                const {data, position} = action.payload;
+
+                if (data?.length) {
+                    const processedData = processData(data);
+
+                    state.allRestaurants = processedData;
+                    state.restaurantResults = processedData;
+                } else {
+                    state.allRestaurants = [];
+                    state.restaurantResults = [];
+                }
+
                 state.status = "idle";
                 state.lastPositionQueried = position;
             })

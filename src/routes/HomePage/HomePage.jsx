@@ -71,7 +71,7 @@ const HomePage = () => {
                     ))
                 )}
 
-                {fetchStatus === "idle" && restaurants && restaurants.length === 0 && (
+                {fetchStatus === "idle" && !restaurants?.length && (
                     <NoResults
                         mainText="No restaurants found."
                         subText="Why not try looking for something else?"

@@ -31,10 +31,10 @@ const MapView = ({centrePosition, zoom, height, restaurants, checkIns, handleLoa
     useEffect(() => {
         if (restaurantsFetchStatus === "pending") {
             dispatch(showSpinner());
-        } else if (map) {
+        } else if (restaurantsFetchStatus === "idle" && map) {
             dispatch(hideSpinner());
         }
-    }, [restaurantsFetchStatus]);
+    }, [restaurantsFetchStatus, map]);
 
     useEffect(() => {
         if (!map) {

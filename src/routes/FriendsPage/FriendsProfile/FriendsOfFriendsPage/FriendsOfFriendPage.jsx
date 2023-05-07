@@ -26,8 +26,6 @@ import NoResults from "../../../../common/components/NoResults/NoResults";
 
 const FriendsOfFriendsPage = () => {
 
-    const navigate = useNavigate();
-
     const dispatch = useDispatch();
 
     const displayedFriend = useSelector(selectDisplayedFriend);
@@ -36,7 +34,6 @@ const FriendsOfFriendsPage = () => {
     const currentUserFriendRequests = useSelector(selectFriendRequests);
 
     const [searchIsVisible, setSearchIsVisible] = useState(false);
-    const [displayedFriends, setDisplayedFriends] = useState([]);
     const [friendsOfFriend, setFriendsOfFriend] = useState([]);
 
     useEffect(() => {
@@ -47,20 +44,6 @@ const FriendsOfFriendsPage = () => {
                 setFriendsOfFriend(data.filter(({id}) => id !== currentUserId))
             });
     }, [displayedFriend]);
-
-    const handleAddFriendClick = async (id) => {
-        const updatedFriends = await sendFriendRequestToUser(currentUserId, id);
-        dispatch(setFriends(updatedFriends));
-
-        // Update displayedFriends
-        setDisplayedFriends(displayedFriends.map(friend => {
-            if (friend.id === id) {
-                return {...friend, status: "pending"};
-            }
-
-            return friend;
-        }));
-    };
 
     const calculateMutualFriends = (userFriends) => {
         let mutualFriends = 0;
@@ -170,7 +153,6 @@ const FriendsOfFriendsPage = () => {
                                                     iconColour={iconColour}
                                                     profilePhotoUrl={profilePhotoUrl}
                                                     mutualFriends={calculateMutualFriends(friends)}
-                                                    handleAddClick={() => handleAddFriendClick(id)}
                                                 />
                                             );
                                         }

@@ -37,7 +37,7 @@ const DetailsCard = ({
     const handleAddPhotoClick = () => {
         dispatch(setSelectedCheckIn(checkIn))
         showPhotos();
-        closePopup();
+        // closePopup();
     };
 
     const handleEditClick = () => {

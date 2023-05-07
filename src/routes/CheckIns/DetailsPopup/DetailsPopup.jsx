@@ -1,5 +1,4 @@
 import "./DetailsPopup.css";
-
 import {
     faDownLeftAndUpRightToCenter,
     faUpRightAndDownLeftFromCenter,

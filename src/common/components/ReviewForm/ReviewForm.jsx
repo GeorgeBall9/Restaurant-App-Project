@@ -59,6 +59,8 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
         setErrors(newErrors);
 
+        console.log(Object.keys(newErrors).length === 0)
+
         return Object.keys(newErrors).length === 0;
     };
 
@@ -75,15 +77,14 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                 const updatedReview = await updateRestaurantReview(reviewId, updatedData);
                 console.log({updatedReview})
                 dispatch(updateReview({reviewId, updatedReview: {...updatedReview}}));
+                setFormData(defaultFormFields);
+                setIsSubmitted(true);
                 handleCancel();
             } else {
                 const newReview = await addRestaurantReview(userId, restaurant, data, uploadedPhotoId);
                 dispatch(addReview({...newReview}));
             }
         }
-
-        setFormData(defaultFormFields);
-        setIsSubmitted(true);
     };
 
     const handleChange = ({target}) => {

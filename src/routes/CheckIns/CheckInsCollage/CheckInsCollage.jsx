@@ -49,6 +49,7 @@ const CheckInsCollage = ({closePopup}) => {
         const updatedCheckIn = await addPhotoToCheckIn(userId, checkIn, photoStoragePath);
         dispatch(updateCheckIn(updatedCheckIn));
         dispatch(setSelectedCheckIn(updatedCheckIn));
+
         document.querySelector(".file-upload-input").value = "";
         handleClosePopupClick();
     };
@@ -60,8 +61,14 @@ const CheckInsCollage = ({closePopup}) => {
     const handleDeleteSelected = async (selectedImages) => {
         if (!selectedImages?.length) return;
 
+        const updatedCheckIn = {...checkIn};
+
         for (const image of selectedImages) {
             const deleted = await deleteCheckInPhoto(userId, image.id, checkIn.id);
+
+            if (deleted) {
+
+            }
         }
     };
 

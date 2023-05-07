@@ -74,8 +74,14 @@
     border-radius: var(--border-radius);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 100;
+    width: 85%;
     max-width: 300px;
     text-align: center;
+}
+
+.location-error-popup .no-results {
+    padding: 0;
+    margin-bottom: 1em;
 }
 
 .location-error-popup p {

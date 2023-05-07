@@ -164,7 +164,15 @@ const CheckIns = () => {
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
                     {allCheckIns?.length > 0 && (
-                        <MapView height={260} zoom={14} checkIns={allCheckIns}/>
+                        <MapView
+                            centrePosition={{
+                                longitude: displayedRestaurant.longitude,
+                                latitude: displayedRestaurant.latitude
+                            }}
+                            height={260}
+                            zoom={14}
+                            checkIns={allCheckIns}
+                        />
                     )}
 
                     {!allCheckIns?.length && fetchStatus === "idle" && (

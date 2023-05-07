@@ -417,6 +417,8 @@ export const getCheckInsByUserId = async (userId) => {
             foundCheckIns.push({id: doc.id, ...doc.data()})
         });
 
+        console.log({foundCheckIns})
+
         return foundCheckIns?.length ? foundCheckIns : null;
     } catch (error) {
         console.error(error);
@@ -444,6 +446,8 @@ export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
 
 export const getCheckInsAndRestaurantDataByUserIdForMonth = async (userId, month) => {
     const checkInData = await getCheckInsAndRestaurantDataByUserId(userId);
+
+    if (!checkInData) return;
 
     return checkInData.filter(({date}) => new Date(date).getMonth() === month);
 };

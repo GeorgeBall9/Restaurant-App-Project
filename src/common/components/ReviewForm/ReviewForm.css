@@ -39,6 +39,14 @@
     flex-basis: 100%;
 }
 
+.review-form .error {
+    color: red;
+}
+
+.review-form .rating-error {
+    margin-top: -1em;
+}
+
 .review-form .interactive-star-rating .icon {
     font-size: 1rem;
     cursor: pointer;

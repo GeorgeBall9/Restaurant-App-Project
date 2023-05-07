@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { hideSpinner, showSpinner } from "../../spinner/spinnerSlice";
 import PrimaryButton from "../../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
-import FormField from "../../../common/components/FormField/FormField";
 
 const LocationOptions = ({ closePopup }) => {
 

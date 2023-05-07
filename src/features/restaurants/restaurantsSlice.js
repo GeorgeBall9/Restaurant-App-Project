@@ -140,7 +140,7 @@ const formatData = (data) => {
                 city: city ? city : "",
                 postalcode: postalcode ? postalcode : ""
             },
-            dietaryRestrictions: dietary_restrictions.map(({name: dietaryType }) => dietaryType),
+            dietaryRestrictions: dietary_restrictions.map(({name: dietaryType}) => dietaryType),
         };
     });
 };
@@ -275,19 +275,30 @@ export const restaurantsSlice = createSlice({
             .addCase(fetchRestaurants.pending, (state, action) => {
                 state.status = "pending"; // indicates fetch request has begun
                 state.error = null; // reset error
+                console.log("pending fetch")
             })
             .addCase(fetchRestaurants.fulfilled, (state, action) => {
+                console.log("success")
                 state.status = "success"; // indicates fetch was successful
 
-                const {data, position} = action.payload;
-                const processedData = processData(data);
 
-                state.allRestaurants = processedData;
-                state.restaurantResults = processedData;
+                const {data, position} = action.payload;
+
+                if (data?.length) {
+                    const processedData = processData(data);
+
+                    state.allRestaurants = processedData;
+                    state.restaurantResults = processedData;
+                } else {
+                    state.allRestaurants = [];
+                    state.restaurantResults = [];
+                }
+
                 state.status = "idle";
                 state.lastPositionQueried = position;
             })
             .addCase(fetchRestaurants.rejected, (state, action) => {
+                console.log("fail")
                 state.status = "fail"; // indicates fetch failed
                 state.error = action.error.message; // sets error to error message returned
             });

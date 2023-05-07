@@ -11,16 +11,19 @@ import {useEffect, useState} from "react";
 import Overlay from "../Overlay/Overlay";
 
 const CheckInPopupView = ({
-                              feedback,
+                              restaurant,
+                              date,
                               friends,
                               friendsSelected,
-                              restaurant,
                               closePopup,
                               confirmCheckIn,
+                              feedback,
                               resetFeedback
                           }) => {
 
-    const [checkInDate, setCheckInDate] = useState(new Date().toISOString().split("T")[0]);
+    const [checkInDate, setCheckInDate] = useState((date ? new Date(date) : new Date())
+        .toISOString()
+        .split("T")[0]);
     const [selectFriendsIsVisible, setSelectFriendIsVisible] = useState(false);
     const [selectedFriends, setSelectedFriends] = useState([]);
     const [addFriendsButtonText, setAddFriendsButtonText] = useState("Add friends");

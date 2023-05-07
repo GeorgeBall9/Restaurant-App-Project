@@ -65,6 +65,7 @@ const DetailsCard = ({
             {editPopupIsVisible && (
                 <CheckInPopupView
                     restaurant={checkIn.restaurant}
+                    date={checkIn.date}
                     closePopup={() => setEditPopupIsVisible(false)}
                     friends={allFriends}
                     friendsSelected={checkIn.friendData}

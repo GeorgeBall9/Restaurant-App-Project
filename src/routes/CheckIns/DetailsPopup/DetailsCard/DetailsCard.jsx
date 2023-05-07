@@ -3,12 +3,13 @@ import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendarAlt, faCamera, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
-import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
+import InteractionButton from "../../../../common/components/ButtonViews/InteractionButton/InteractionButton";
 import CheckInPopupView from "../../../../common/components/CheckInPopupView/CheckInPopupView";
 import {useDispatch, useSelector} from "react-redux";
 import {selectFriends, selectProfilePhotoUrl} from "../../../../features/user/userSlice";
-import {updateCheckInDoc} from "../../../../firebase/firebase";
-import {setSelectedCheckIn, updateCheckIn} from "../../../../features/checkIns/checkInsSlice";
+import {removeRestaurantCheckIn, updateCheckInDoc} from "../../../../firebase/firebase";
+import {removeCheckIn, setSelectedCheckIn, updateCheckIn} from "../../../../features/checkIns/checkInsSlice";
+import ConfirmationPopupView from "../../../../common/components/ConfirmationPopupView/ConfirmationPopupView";
 
 const DetailsCard = ({
                          checkIn,
@@ -25,6 +26,7 @@ const DetailsCard = ({
 
     const [editPopupIsVisible, setEditPopupIsVisible] = useState(false);
     const [editPopupFeedback, setEditPopupFeedback] = useState("");
+    const [confirmDeletePopupIsVisible, setConfirmDeletePopupIsVisible] = useState(false);
 
     const formattedDate = new Date(checkIn.date).toLocaleDateString("en-GB", {
         day: "2-digit",
@@ -58,6 +60,16 @@ const DetailsCard = ({
     };
 
     const handleDeleteClick = () => {
+        expandPopup();
+        setConfirmDeletePopupIsVisible(true);
+    };
+
+    const confirmDelete = async () => {
+        const checkInId = checkIn.id;
+
+        await removeRestaurantCheckIn(checkIn.id);
+
+        dispatch(removeCheckIn(checkInId));
     };
 
     return (
@@ -72,6 +84,14 @@ const DetailsCard = ({
                     confirmCheckIn={confirmEditCheckIn}
                     feedback={editPopupFeedback}
                     resetFeedback={() => setEditPopupFeedback("")}
+                />
+            )}
+
+            {confirmDeletePopupIsVisible && (
+                <ConfirmationPopupView
+                    message="Delete this check-in?"
+                    handleYesClick={confirmDelete}
+                    handleNoClick={() => setConfirmDeletePopupIsVisible(false)}
                 />
             )}
 

@@ -18,7 +18,7 @@ import {
     updateUserPhoneNumber, updateUserProfile, updateUserProfilePhoto
 } from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
-import PrimaryButton from "../../common/components/PrimaryButton/PrimaryButton";
+import PrimaryButton from "../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../common/components/UploadImagePopup/UploadImagePopup";
 

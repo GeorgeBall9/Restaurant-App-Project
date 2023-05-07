@@ -1,6 +1,6 @@
 import FormField from "../../../common/components/FormField/FormField";
-import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
-import SecondaryButton from "../../../common/components/SecondaryButton/SecondaryButton";
+import PrimaryButton from "../../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
+import SecondaryButton from "../../../common/components/ButtonViews/SecondaryButton/SecondaryButton";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {selectFriendRequests, selectFriends, selectUserId, setFriends} from "../../../features/user/userSlice";

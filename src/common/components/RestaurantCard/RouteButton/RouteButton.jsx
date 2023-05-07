@@ -5,7 +5,7 @@ import {fetchRoute, resetRoute, selectDisplayedRestaurant, selectRouteDetails} f
 import {selectUserPosition} from "../../../../features/location/locationSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {activateSlider, deactivateSlider} from "../../../../features/slider/sliderSlice";
-import InteractionButton from "../../InteractionButton/InteractionButton";
+import InteractionButton from "../../ButtonViews/InteractionButton/InteractionButton";
 
 const RouteButton = () => {
 

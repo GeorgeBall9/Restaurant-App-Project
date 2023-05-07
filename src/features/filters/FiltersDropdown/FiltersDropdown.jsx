@@ -15,7 +15,7 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
-import PrimaryButton from "../../../common/components/PrimaryButton/PrimaryButton";
+import PrimaryButton from "../../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
 import Overlay from "../../../common/components/Overlay/Overlay";
 
 const FiltersDropdown = ({closePopup}) => {

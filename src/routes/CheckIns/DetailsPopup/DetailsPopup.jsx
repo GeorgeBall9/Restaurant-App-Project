@@ -1,6 +1,10 @@
 import "./DetailsPopup.css";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
+
+import {
+    faDownLeftAndUpRightToCenter,
+    faUpRightAndDownLeftFromCenter,
+    faXmark
+} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import DetailsCard from "./DetailsCard/DetailsCard";
@@ -14,6 +18,10 @@ const DetailsPopup = ({date, closePopup, showPhotos}) => {
     const [isVisible, setIsVisible] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
 
+    const handleExpandClick = () => {
+        setIsExpanded(isExpanded => !isExpanded);
+    };
+
     const handleBackClick = () => {
         setIsVisible(false);
 
@@ -25,29 +33,17 @@ const DetailsPopup = ({date, closePopup, showPhotos}) => {
     return (
         <div className={`details-popup ${isVisible ? "visible" : ""} ${isExpanded ? "expanded" : ""}`}>
             <div>
-                {isExpanded && (
-                    <ProfileNavigationView
-                        pageTitle={date}
-                        button1={{handler: handleBackClick}}
-                    />
-                )}
-
-                {!isExpanded && (
-                    <div className="details-popup-header">
-                        <div className="container">
-                            <button onClick={handleBackClick}>
-                                <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
-                                Back
-                            </button>
-
-                            <h2>{date}</h2>
-
-                            <button onClick={() => setIsExpanded(true)}>
-                                <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
-                            </button>
-                        </div>
-                    </div>
-                )}
+                <ProfileNavigationView
+                    pageTitle={date}
+                    style={
+                        isExpanded ? {} : {backgroundColor: "rgba(0, 0, 0, 0.7)"}
+                    }
+                    button1={{text: "Close", icon: faXmark, handler: handleBackClick}}
+                    button2={{
+                        icon: isExpanded ? faDownLeftAndUpRightToCenter : faUpRightAndDownLeftFromCenter,
+                        handler: handleExpandClick
+                    }}
+                />
 
                 <div className="details-popup-content">
                     {checkIns.map(checkIn => (

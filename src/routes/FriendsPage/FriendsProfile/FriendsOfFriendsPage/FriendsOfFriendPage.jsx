@@ -33,8 +33,10 @@ const FriendsOfFriendsPage = () => {
     const currentUserFriends = useSelector(selectFriends);
     const currentUserFriendRequests = useSelector(selectFriendRequests);
 
-    const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [friendsOfFriend, setFriendsOfFriend] = useState([]);
+    const [displayedFriends, setDisplayedFriends] = useState([]);
+    const [searchIsVisible, setSearchIsVisible] = useState(false);
+    const [searchHasMatches, setSearchHasMatches] = useState(true);
 
     useEffect(() => {
         if (!displayedFriend) return;
@@ -44,6 +46,12 @@ const FriendsOfFriendsPage = () => {
                 setFriendsOfFriend(data.filter(({id}) => id !== currentUserId))
             });
     }, [displayedFriend]);
+
+    useEffect(() => {
+        if (!friendsOfFriend?.length) return;
+
+        setDisplayedFriend(friendsOfFriend);
+    }, [friendsOfFriend]);
 
     const calculateMutualFriends = (userFriends) => {
         let mutualFriends = 0;
@@ -58,11 +66,27 @@ const FriendsOfFriendsPage = () => {
     };
 
     const handleSearchClick = () => {
+        setDisplayedFriends(friendsOfFriend);
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 
+    const handleSearchInputChange = (query) => {
+        const lowerCaseQuery = query.toLowerCase();
+
+        const searchResults = displayedFriends
+            .filter(({displayName}) => displayName.toLowerCase().includes(lowerCaseQuery));
+
+        if (searchResults.length) {
+            setDisplayedFriends(searchResults);
+            setSearchHasMatches(true);
+        } else {
+            console.log("no results")
+            setDisplayedFriends(friendsOfFriend);
+            setSearchHasMatches(false);
+        }
+    };
+
     const getFriendOfFriendStatusForCurrentUser = (id) => {
-        console.log({currentUserFriends})
         const foundFriend = currentUserFriends.find(friend => friend.id === id);
         if (foundFriend) {
             return foundFriend.status;
@@ -87,7 +111,9 @@ const FriendsOfFriendsPage = () => {
                             icon: !searchIsVisible ? faMagnifyingGlass : null,
                             handler: handleSearchClick
                         }}
+                        handleSearchInputChange={handleSearchInputChange}
                         searchFunctionality={searchIsVisible}
+                        hasMatches={searchHasMatches}
                     />
 
                     <main className="container">

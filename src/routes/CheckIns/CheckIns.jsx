@@ -21,7 +21,7 @@ import {
     selectSelectedCheckIns,
     setCheckIns, setSelectedCheckIns
 } from "../../features/checkIns/checkInsSlice";
-import {displayRestaurant} from "../../features/map/mapSlice";
+import {displayRestaurant, selectDisplayedRestaurant} from "../../features/map/mapSlice";
 
 const currentDate = new Date();
 
@@ -36,11 +36,20 @@ const CheckIns = () => {
     const allCheckIns = useSelector(selectCheckIns);
     const selectedCheckIns = useSelector(selectSelectedCheckIns);
 
+    const displayedRestaurant = useSelector(selectDisplayedRestaurant);
+
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
     const [fetchStatus, setFetchStatus] = useState("pending");
     const [detailsPopupIsVisible, setDetailsPopupIsVisible] = useState(false);
+
+    useEffect(() => {
+        if (!selectedCheckIns?.length || displayedRestaurant.checkInId) return;
+
+        const checkIn = selectedCheckIns[0];
+        dispatch(displayRestaurant({...checkIn.restaurant, checkInId: checkIn.id}));
+    }, [displayedRestaurant, selectedCheckIns])
 
     useEffect(() => {
         if (!userId) {

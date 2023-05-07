@@ -28,7 +28,6 @@ import PreviewReviews from "./routes/PreviewReviews/PreviewReviews";
 import ReviewsPage from "./routes/ReviewsPage/ReviewsPage";
 import FriendsPage from "./routes/FriendsPage/FriendsPage";
 import FriendsProfile from "./routes/FriendsPage/FriendsProfile/FriendsProfile";
-import FriendsCheckIns from "./routes/FriendsPage/FriendsProfile/FriendsCheckIns/FriendsCheckIns";
 import FriendsReviews from './routes/FriendsPage/FriendsProfile/FriendsReviews/FriendsReviews';
 import FriendsOfFriendsPage from './routes/FriendsPage/FriendsProfile/FriendsOfFriendsPage/FriendsOfFriendPage';
 import PhotosPage from "./routes/PhotosPage/PhotosPage";
@@ -101,10 +100,6 @@ const router = createBrowserRouter([
                     {
                         path: "view-friends/:userId",
                         element: <FriendsOfFriendsPage/>,
-                    },
-                    {
-                        path: "view-check-ins/:userId",
-                        element: <FriendsCheckIns/>,
                     },
                     {
                         path: "view-reviews/:userId",

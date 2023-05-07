@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-const CollageImage = ({id, url, alt}) => {
+const CollageImage = ({url, alt}) => {
 
     const [loaded, setLoaded] = useState(false);
 

@@ -10,6 +10,7 @@ import {selectFriends, selectProfilePhotoUrl} from "../../../../features/user/us
 import {removeRestaurantCheckIn, updateCheckInDoc} from "../../../../firebase/firebase";
 import {removeCheckIn, setSelectedCheckIn, updateCheckIn} from "../../../../features/checkIns/checkInsSlice";
 import ConfirmationPopupView from "../../../../common/components/ConfirmationPopupView/ConfirmationPopupView";
+import CollageImage from "../../../../common/components/CustomCollage/CollageImage/CollageImage";
 
 const DetailsCard = ({
                          checkIn,
@@ -37,7 +38,6 @@ const DetailsCard = ({
     const handleAddPhotoClick = () => {
         dispatch(setSelectedCheckIn(checkIn))
         showPhotos();
-        // closePopup();
     };
 
     const handleEditClick = () => {
@@ -128,9 +128,9 @@ const DetailsCard = ({
             </div>
 
             <div className="photo-previews-container">
-                {checkIn.photoData.map(({id, url, alt}) => (
+                {[...checkIn.photoData].slice(0, 3).map(({id, url, alt}) => (
                     <div key={id} className="image-preview-container">
-                        <img src={url} alt={alt}/>
+                        <CollageImage url={url} alt={alt}/>
                     </div>
                 ))}
 

@@ -1,39 +1,8 @@
-.friends-profile-page-container button {
-    background: none;
-    border: none;
-}
-
-.friends-profile-page-container header {
-    background-color: white;
-    border-bottom: solid 1px lightgrey;
-    margin-bottom: 1em;
-}
-
-.friends-profile-page-container header>div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.friends-profile-page-container header h1 {
-    font-size: 1rem;
-    font-weight: 500;
-}
-
-.friends-profile-page-container header button {
-    color: var(--secondary-theme);
-    font-weight: var(--font-weight-bold-2);
-    font-size: var(--font-size-smaller);
-}
-
-.friends-profile-page-container header button .icon {
-    margin-right: 0.5em;
-}
-
 .friends-profile-page-container main {
     display: flex;
     flex-direction: column;
     gap: 1.5em;
+    margin-top: 1em;
 }
 
 .friends-profile-page-container .friends-profile-info-container p {
@@ -57,11 +26,8 @@
 }
 
 .friends-profile-page-container .friends-profile-info-container .user-icon-container {
-    border: solid 4px lightgrey;
-    border-radius: 50%;
-    position: relative;
-    width: fit-content;
     margin: 0 auto 0.5em;
+    width: fit-content;
 }
 
 .friends-profile-page-container .contributions-container {

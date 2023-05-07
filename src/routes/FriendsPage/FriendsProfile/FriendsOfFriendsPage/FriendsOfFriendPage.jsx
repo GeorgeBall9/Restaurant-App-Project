@@ -1,7 +1,7 @@
 import "./FriendsOfFriend.css";
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 import {
     acceptFriendRequest,
     cancelFriendRequest, deleteFriend,
@@ -9,7 +9,7 @@ import {
     getUserFromUserId, rejectFriendRequest,
     sendFriendRequestToUser
 } from "../../../../firebase/firebase";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
     removeFriend, removeFriendRequest,
     selectDisplayedFriend, selectFriendRequests,
@@ -35,73 +35,38 @@ const FriendsOfFriendsPage = () => {
     const currentUserFriends = useSelector(selectFriends);
     const currentUserFriendRequests = useSelector(selectFriendRequests);
 
-    const friends = useSelector(selectFriends);
-
     const [searchIsVisible, setSearchIsVisible] = useState(false);
-    const [display, setDisplay] = useState("friends");
-    const [addFriendId, setAddFriendId] = useState("");
     const [displayedFriends, setDisplayedFriends] = useState([]);
-
     const [friendsOfFriend, setFriendsOfFriend] = useState([]);
 
     useEffect(() => {
         if (!displayedFriend) return;
 
         getFriendsByUserId(displayedFriend.id)
-            .then(friends => setFriendsOfFriend(friends.filter(friend => friend.id !== currentUserId)));
+            .then(data => {
+                setFriendsOfFriend(data.filter(({id}) => id !== currentUserId))
+            });
     }, [displayedFriend]);
 
     const handleAddFriendClick = async (id) => {
         const updatedFriends = await sendFriendRequestToUser(currentUserId, id);
         dispatch(setFriends(updatedFriends));
-        setAddFriendId("");
 
         // Update displayedFriends
         setDisplayedFriends(displayedFriends.map(friend => {
             if (friend.id === id) {
-                return { ...friend, status: "pending" };
+                return {...friend, status: "pending"};
             }
+
             return friend;
         }));
-    };
-
-    const handleCancelClick = async (id) => {
-        const updatedFriends = await cancelFriendRequest(currentUserId, id);
-        dispatch(setFriends(updatedFriends));
-    };
-
-    const handleProfileClick = async (userId) => {
-        const friendData = await getUserFromUserId(userId);
-        dispatch(setDisplayedFriend(friendData))
-        navigate(`/view-profile/${userId}`);
-    };
-
-    const handleRemoveClick = async (id) => {
-        console.log("show remove friend confirmation popup");
-        await deleteFriend(currentUserId, id);
-        dispatch(removeFriend(id));
-    };
-
-    const handleConfirmClick = async (id) => {
-        console.log("confirm friend");
-        const updatedFriends = await acceptFriendRequest(currentUserId, id);
-        dispatch(setFriends(updatedFriends));
-        dispatch(removeFriendRequest(id));
-        console.log("friend request accepted");
-    };
-
-    const handleDeleteClick = async (id) => {
-        console.log("delete friend request");
-        const updatedRequests = await rejectFriendRequest(currentUserId, id);
-        dispatch(setFriendRequests(updatedRequests));
-        console.log("friend request deleted");
     };
 
     const calculateMutualFriends = (userFriends) => {
         let mutualFriends = 0;
 
-        userFriends.friends?.forEach(({ userId: friendId, status }) => {
-            if (status === "confirmed" && friends.some(f => f.id === friendId)) {
+        userFriends.friends?.forEach(({userId: friendId, status}) => {
+            if (status === "confirmed" && currentUserFriends.some(f => f.id === friendId)) {
                 mutualFriends++;
             }
         });
@@ -114,6 +79,7 @@ const FriendsOfFriendsPage = () => {
     };
 
     const getFriendOfFriendStatusForCurrentUser = (id) => {
+        console.log({currentUserFriends})
         const foundFriend = currentUserFriends.find(friend => friend.id === id);
         if (foundFriend) {
             return foundFriend.status;
@@ -143,10 +109,13 @@ const FriendsOfFriendsPage = () => {
 
                     <main className="container">
                         <div className="friend-icons-container">
-                            {displayedFriends.length === 0 ? (
-                                <NoResults mainText="No friends found." subText={`${displayedFriend.displayName} has no friends other than you!`} />
+                            {!friendsOfFriend?.length ? (
+                                <NoResults
+                                    mainText="No friends found."
+                                    subText={`${displayedFriend.displayName} has no friends other than you!`}
+                                />
                             ) : (
-                                [...displayedFriends]
+                                [...friendsOfFriend]
                                     .sort((a, b) => {
                                         if (a.status === "pending") {
                                             return -1;
@@ -156,48 +125,47 @@ const FriendsOfFriendsPage = () => {
                                             return 0;
                                         }
                                     })
-                                    .map(({ id, displayName, iconColour, profilePhotoUrl, friends }) => {
+                                    .map(({id, displayName, iconColour, profilePhotoUrl, friends}) => {
                                         const status = getFriendOfFriendStatusForCurrentUser(id);
 
                                         if (status === "confirmed") {
                                             return (
                                                 <ConfirmedFriendCard
                                                     key={id}
+                                                    id={id}
                                                     displayName={displayName}
                                                     iconColour={iconColour}
                                                     profilePhotoUrl={profilePhotoUrl}
                                                     mutualFriends={calculateMutualFriends(friends)}
-                                                    handleProfileClick={() => handleProfileClick(id)}
-                                                    handleRemoveClick={() => handleRemoveClick(id)}
                                                 />
                                             );
                                         } else if (status === "pending") {
                                             return (
                                                 <PendingFriendCard
                                                     key={id}
+                                                    id={id}
                                                     displayName={displayName}
                                                     iconColour={iconColour}
                                                     profilePhotoUrl={profilePhotoUrl}
                                                     mutualFriends={calculateMutualFriends(friends)}
-                                                    handleCancelClick={() => handleCancelClick(id)}
                                                 />
                                             );
                                         } else if (status === "request") {
                                             return (
                                                 <FriendRequestCard
                                                     key={id}
+                                                    id={id}
                                                     displayName={displayName}
                                                     iconColour={iconColour}
                                                     profilePhotoUrl={profilePhotoUrl}
                                                     mutualFriends={calculateMutualFriends(friends)}
-                                                    handleConfirm={() => handleConfirmClick(id)}
-                                                    handleDelete={() => handleDeleteClick(id)}
                                                 />
                                             );
                                         } else {
                                             return (
                                                 <FriendOfFriendCard
                                                     key={id}
+                                                    id={id}
                                                     displayName={displayName}
                                                     iconColour={iconColour}
                                                     profilePhotoUrl={profilePhotoUrl}

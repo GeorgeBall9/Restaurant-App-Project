@@ -194,7 +194,7 @@ const CheckIns = () => {
                     />
 
                     {showCollagePopup && (
-                        <CheckInsCollage checkIn={selectedCheckIn} onClose={() => setShowCollagePopup(false)}/>
+                        <CheckInsCollage closePopup={() => setShowCollagePopup(false)}/>
                     )}
 
                     {detailsPopupIsVisible && (

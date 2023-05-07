@@ -8,6 +8,7 @@ import locationReducer from "../features/location/locationSlice";
 import spinnerReducer from "../features/spinner/spinnerSlice";
 import userReducer from "../features/user/userSlice";
 import reviewsReducer from "../features/reviews/reviewsSlice";
+import checkInsReducer from "../features/checkIns/checkInsSlice";
 
 export default configureStore({
     reducer: {
@@ -19,5 +20,6 @@ export default configureStore({
         spinner: spinnerReducer,
         user: userReducer,
         reviews: reviewsReducer,
+        checkIns: checkInsReducer,
     }
 });

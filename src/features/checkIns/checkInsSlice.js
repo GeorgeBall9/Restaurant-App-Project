@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
     checkIns: [],
     selectedCheckIns: [],
-    selectedCheckIn: {}
+    selectedCheckIn: {},
 };
 
 export const checkInsSlice = createSlice({
@@ -32,7 +32,10 @@ export const checkInsSlice = createSlice({
         setSelectedCheckIn: (state, action) => {
             state.selectedCheckIn = action.payload;
         },
-    }
+        addCheckInsRouteCoordinates: (state, action) => {
+            state.routeCoordinates = [...state.routeCoordinates, ...action.payload];
+        }
+    },
 })
 
 export const {
@@ -41,7 +44,7 @@ export const {
     updateCheckIn,
     setSelectedCheckIns,
     setSelectedCheckIn,
-    setSelectedCheckInsById
+    setSelectedCheckInsById,
 } = checkInsSlice.actions;
 
 export const selectCheckIns = state => state.checkIns.checkIns;

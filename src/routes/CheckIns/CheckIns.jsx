@@ -45,13 +45,6 @@ const CheckIns = () => {
     const [detailsPopupIsVisible, setDetailsPopupIsVisible] = useState(false);
 
     useEffect(() => {
-        if (!selectedCheckIns?.length || displayedRestaurant.checkInId) return;
-
-        const checkIn = selectedCheckIns[0];
-        dispatch(displayRestaurant({...checkIn.restaurant, checkInId: checkIn.id}));
-    }, [displayedRestaurant, selectedCheckIns])
-
-    useEffect(() => {
         if (!userId) {
             navigate("/profile");
         }
@@ -81,6 +74,13 @@ const CheckIns = () => {
         const checkIns = getCheckInsOnDate(calendarValue);
         dispatch(setSelectedCheckIns(checkIns));
     }, [allCheckIns]);
+
+    useEffect(() => {
+        if (!selectedCheckIns?.length || displayedRestaurant.checkInId) return;
+
+        const checkIn = selectedCheckIns[0];
+        dispatch(displayRestaurant({...checkIn.restaurant, checkInId: checkIn.id}));
+    }, [displayedRestaurant, selectedCheckIns]);
 
     const getCheckInsOnDate = (date) => {
         return allCheckIns.filter((checkIn) => {
@@ -171,7 +171,7 @@ const CheckIns = () => {
                             }}
                             height={260}
                             zoom={14}
-                            checkIns={allCheckIns}
+                            checkIns={detailsPopupIsVisible ? selectedCheckIns : allCheckIns}
                         />
                     )}
 

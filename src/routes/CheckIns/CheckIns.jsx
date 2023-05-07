@@ -21,6 +21,7 @@ import {
     selectSelectedCheckIns,
     setCheckIns, setSelectedCheckIns
 } from "../../features/checkIns/checkInsSlice";
+import {displayRestaurant} from "../../features/map/mapSlice";
 
 const currentDate = new Date();
 
@@ -50,8 +51,6 @@ const CheckIns = () => {
     useEffect(() => {
         if (!userId) return;
 
-        const month = calendarValue.getMonth();
-
         getCheckInsAndRestaurantDataByUserIdForMonth(userId, selectedMonth)
             .then(data => {
                 dispatch(setCheckIns(data));
@@ -63,8 +62,6 @@ const CheckIns = () => {
         if (!selectedCheckIns?.length) return;
 
         const checkIn = selectedCheckIns[0];
-
-        // dispatch(displayRestaurant({...checkIn.restaurant, checkInId: checkIn.id}));
 
         setCalendarValue(new Date(checkIn.date));
     }, [selectedCheckIns]);
@@ -100,6 +97,9 @@ const CheckIns = () => {
         });
 
         dispatch(setSelectedCheckIns(checkInsOnDate));
+
+        const checkIn = checkInsOnDate[0];
+        dispatch(displayRestaurant({...checkIn.restaurant, checkInId: checkIn.id}));
 
         setDetailsPopupIsVisible(true);
     };

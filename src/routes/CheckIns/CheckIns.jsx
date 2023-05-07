@@ -5,14 +5,14 @@ import Calendar from "react-calendar";
 
 import NoResults from "../../common/components/NoResults/NoResults";
 
-import {useDispatch, useSelector} from "react-redux";
-import {selectProfilePhotoUrl, selectUserId} from "../../features/user/userSlice";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faUtensils, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
-import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {getCheckInsAndRestaurantDataByUserId} from "../../firebase/firebase";
-import {displayRestaurant} from "../../features/map/mapSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectProfilePhotoUrl, selectUserId } from "../../features/user/userSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUtensils, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getCheckInsAndRestaurantDataByUserId } from "../../firebase/firebase";
+import { displayRestaurant } from "../../features/map/mapSlice";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import DetailsPopup from "./DetailsPopup/DetailsPopup";
 import MapView from "../../common/components/MapView/MapView";
@@ -54,11 +54,11 @@ const CheckIns = () => {
     }, [userId]);
 
     useEffect(() => {
-        if (!checkInsOnDate) return;
+        if (!checkInsOnDate || checkInsOnDate.length === 0) return;
 
         const checkIn = checkInsOnDate[0];
 
-        dispatch(displayRestaurant({...checkIn.restaurant, checkInId: checkIn.id}));
+        dispatch(displayRestaurant({ ...checkIn.restaurant, checkInId: checkIn.id }));
     }, [checkInsOnDate]);
 
     useEffect(() => {
@@ -80,6 +80,9 @@ const CheckIns = () => {
     };
 
     const countUniqueRestaurants = (checkIns) => {
+        if (!checkIns) {
+            return 0;
+        }
         const uniqueRestaurantIds = new Set(checkIns.map((checkIn) => checkIn.restaurant.id));
         return uniqueRestaurantIds.size;
     };
@@ -91,15 +94,15 @@ const CheckIns = () => {
 
     const handleTileClick = (checkIns) => {
         setCheckInsOnDate(checkIns.map(checkIn => {
-            const updatedCheckIn = {...checkIn};
-            updatedCheckIn.userData = {id: userId, profilePhotoUrl};
+            const updatedCheckIn = { ...checkIn };
+            updatedCheckIn.userData = { id: userId, profilePhotoUrl };
             return updatedCheckIn;
         }));
 
         setDetailsPopupIsVisible(true);
     };
 
-    const TileContent = ({date}) => {
+    const TileContent = ({ date }) => {
         if (!allCheckIns?.length) return null;
 
         const checkInsForDate = getCheckInsOnDate(date);
@@ -109,7 +112,7 @@ const CheckIns = () => {
 
             if (!foundCheckIn) return null;
 
-            const {restaurant} = foundCheckIn;
+            const { restaurant } = foundCheckIn;
 
             const tileContentStyle = {
                 backgroundImage: `url(${restaurant.photoUrl})`,
@@ -131,19 +134,19 @@ const CheckIns = () => {
         });
     };
 
-    const renderTileContent = ({date, view}) => {
+    const renderTileContent = ({ date, view }) => {
         if (view !== "month") {
             return null;
         }
 
-        return <TileContent date={date}/>;
+        return <TileContent date={date} />;
     };
 
     const updateCheckIn = (updatedCheckIn) => {
         setAllCheckIns(allCheckIns => allCheckIns.map(checkIn => {
             if (checkIn.id === updatedCheckIn.id) {
-                const update = {...updatedCheckIn};
-                update.userData = {id: userId, profilePhotoUrl};
+                const update = { ...updatedCheckIn };
+                update.userData = { id: userId, profilePhotoUrl };
                 return update;
             }
 
@@ -153,12 +156,12 @@ const CheckIns = () => {
 
     return (
         <div className="check-ins-page-container">
-            <ProfileNavigationView pageTitle="Check-ins"/>
+            <ProfileNavigationView pageTitle="Check-ins" />
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
                     {allCheckIns?.length > 0 && (
-                        <MapView height={260} zoom={14} checkIns={allCheckIns}/>
+                        <MapView height={260} zoom={14} checkIns={allCheckIns} />
                     )}
 
                     {!allCheckIns?.length && fetchStatus === "idle" && (
@@ -171,13 +174,13 @@ const CheckIns = () => {
 
                 <div className="check-ins-stats">
                     <div className="check-ins-unique-restaurants">
-                        <FontAwesomeIcon className="icon" icon={faUtensils}/>
+                        <FontAwesomeIcon className="icon" icon={faUtensils} />
                         <span>{countUniqueRestaurants(allCheckIns) || "0"}</span>
                         <p>Unique Restaurants</p>
                     </div>
 
                     <div className="check-ins-total">
-                        <FontAwesomeIcon className="icon" icon={faCircleCheck}/>
+                        <FontAwesomeIcon className="icon" icon={faCircleCheck} />
                         <span>{allCheckIns?.length || "0"}</span>
                         <p>Check-ins</p>
                     </div>
@@ -195,7 +198,7 @@ const CheckIns = () => {
                     />
 
                     {showCollagePopup && (
-                        <CheckInsCollage checkIn={selectedCheckIn} onClose={() => setShowCollagePopup(false)}/>
+                        <CheckInsCollage checkIn={selectedCheckIn} onClose={() => setShowCollagePopup(false)} />
                     )}
 
                     {detailsPopupIsVisible && (

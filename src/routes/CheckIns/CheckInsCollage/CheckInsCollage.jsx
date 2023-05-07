@@ -26,6 +26,10 @@ const CheckInsCollage = ({closePopup}) => {
     useEffect(() => {
         if (!checkIn) return;
 
+        if (checkIn.photoData.length === 0) {
+            setSelectMode(false);
+        }
+
         setRestaurant(checkIn.restaurant);
     }, [checkIn]);
 
@@ -67,9 +71,12 @@ const CheckInsCollage = ({closePopup}) => {
             const deleted = await deleteCheckInPhoto(userId, image.id, checkIn.id);
 
             if (deleted) {
-
+                updatedCheckIn.photoData = updatedCheckIn.photoData.filter(photo => photo.id !== image.id);
             }
         }
+
+        dispatch(updateCheckIn(updatedCheckIn));
+        dispatch(setSelectedCheckIn(updatedCheckIn));
     };
 
     return (

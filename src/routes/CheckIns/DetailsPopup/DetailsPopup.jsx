@@ -1,11 +1,15 @@
 import "./DetailsPopup.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
 import DetailsCard from "./DetailsCard/DetailsCard";
+import {useSelector} from "react-redux";
+import {selectSelectedCheckIns} from "../../../features/checkIns/checkInsSlice";
 
-const DetailsPopup = ({checkIns, date, closePopup, showPhotos, setSelectedCheckIn, updateCheckIn}) => {
+const DetailsPopup = ({date, closePopup, showPhotos}) => {
+
+    const checkIns = useSelector(selectSelectedCheckIns);
 
     const [isVisible, setIsVisible] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -46,26 +50,15 @@ const DetailsPopup = ({checkIns, date, closePopup, showPhotos, setSelectedCheckI
                 )}
 
                 <div className="details-popup-content">
-                    {checkIns.map(checkIn => {
-                        const {id, restaurant, date, userData, friendData, photoData} = checkIn;
-
-                        return (
-                            <DetailsCard
-                                key={id}
-                                id={id}
-                                restaurant={restaurant}
-                                date={date}
-                                userData={userData}
-                                friendData={friendData}
-                                photoData={photoData}
-                                closePopup={closePopup}
-                                showPhotos={showPhotos}
-                                setSelectedCheckIn={() => setSelectedCheckIn(checkIn)}
-                                updateCheckIn={updateCheckIn}
-                                expandPopup={() => setIsExpanded(true)}
-                            />
-                        );
-                    })}
+                    {checkIns.map(checkIn => (
+                        <DetailsCard
+                            key={checkIn.id}
+                            checkIn={checkIn}
+                            closePopup={closePopup}
+                            showPhotos={showPhotos}
+                            expandPopup={() => setIsExpanded(true)}
+                        />
+                    ))}
                 </div>
             </div>
         </div>

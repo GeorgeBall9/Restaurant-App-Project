@@ -17,6 +17,12 @@ import ProfileNavigationView from "../../common/components/ProfileNavigationView
 import DetailsPopup from "./DetailsPopup/DetailsPopup";
 import MapView from "../../common/components/MapView/MapView";
 import CheckInsCollage from "./CheckInsCollage/CheckInsCollage";
+import {
+    selectCheckIns,
+    selectSelectedCheckIn,
+    selectSelectedCheckIns,
+    setCheckIns, setSelectedCheckIns
+} from "../../features/checkIns/checkInsSlice";
 
 const currentDate = new Date();
 
@@ -28,14 +34,14 @@ const CheckIns = () => {
 
     const userId = useSelector(selectUserId);
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
+    const allCheckIns = useSelector(selectCheckIns);
+    const selectedCheckIns = useSelector(selectSelectedCheckIns);
+    const selectedCheckIn = useSelector(selectSelectedCheckIn);
 
-    const [allCheckIns, setAllCheckIns] = useState([]);
-    const [selectedCheckIn, setSelectedCheckIn] = useState(null);
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
     const [fetchStatus, setFetchStatus] = useState("pending");
     const [detailsPopupIsVisible, setDetailsPopupIsVisible] = useState(false);
-    const [checkInsOnDate, setCheckInsOnDate] = useState(null);
 
     useEffect(() => {
         if (!userId) {
@@ -48,24 +54,24 @@ const CheckIns = () => {
 
         getCheckInsAndRestaurantDataByUserId(userId)
             .then(data => {
-                setAllCheckIns(data);
+                dispatch(setCheckIns(data));
                 setFetchStatus("idle");
             });
     }, [userId]);
 
     useEffect(() => {
-        if (!checkInsOnDate) return;
+        if (!selectedCheckIns?.length) return;
 
-        const checkIn = checkInsOnDate[0];
+        const checkIn = selectedCheckIns[0];
 
         dispatch(displayRestaurant({...checkIn.restaurant, checkInId: checkIn.id}));
-    }, [checkInsOnDate]);
+    }, [selectedCheckIns]);
 
     useEffect(() => {
         if (!allCheckIns?.length) return;
 
         const checkIns = getCheckInsOnDate(calendarValue);
-        setCheckInsOnDate(checkIns);
+        dispatch(setSelectedCheckIns(checkIns));
     }, [allCheckIns]);
 
     const getCheckInsOnDate = (date) => {
@@ -90,11 +96,13 @@ const CheckIns = () => {
     };
 
     const handleTileClick = (checkIns) => {
-        setCheckInsOnDate(checkIns.map(checkIn => {
+        const checkInsOnDate = checkIns.map(checkIn => {
             const updatedCheckIn = {...checkIn};
             updatedCheckIn.userData = {id: userId, profilePhotoUrl};
             return updatedCheckIn;
-        }));
+        });
+
+        dispatch(setSelectedCheckIns(checkInsOnDate));
 
         setDetailsPopupIsVisible(true);
     };
@@ -140,15 +148,6 @@ const CheckIns = () => {
     };
 
     const updateCheckIn = (updatedCheckIn) => {
-        setAllCheckIns(allCheckIns => allCheckIns.map(checkIn => {
-            if (checkIn.id === updatedCheckIn.id) {
-                const update = {...updatedCheckIn};
-                update.userData = {id: userId, profilePhotoUrl};
-                return update;
-            }
-
-            return checkIn;
-        }));
     };
 
     return (
@@ -200,12 +199,9 @@ const CheckIns = () => {
 
                     {detailsPopupIsVisible && (
                         <DetailsPopup
-                            checkIns={checkInsOnDate}
                             date={calendarValue.toLocaleDateString()}
                             closePopup={() => setDetailsPopupIsVisible(false)}
                             showPhotos={() => setShowCollagePopup(true)}
-                            setSelectedCheckIn={setSelectedCheckIn}
-                            updateCheckIn={updateCheckIn}
                         />
                     )}
                 </div>

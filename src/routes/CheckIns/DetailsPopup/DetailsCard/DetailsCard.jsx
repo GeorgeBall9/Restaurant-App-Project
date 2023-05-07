@@ -5,49 +5,35 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendarAlt, faCamera, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import InteractionButton from "../../../../common/components/InteractionButton/InteractionButton";
 import CheckInPopupView from "../../../../common/components/CheckInPopupView/CheckInPopupView";
-import {useSelector} from "react-redux";
-import {selectFriends} from "../../../../features/user/userSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {selectFriends, selectProfilePhotoUrl} from "../../../../features/user/userSlice";
 import {updateCheckInDoc} from "../../../../firebase/firebase";
+import {setSelectedCheckIn, updateCheckIn} from "../../../../features/checkIns/checkInsSlice";
 
 const DetailsCard = ({
-                         id,
-                         restaurant,
-                         date,
-                         userData,
-                         friendData,
-                         photoData,
+                         checkIn,
                          isFriendsPage,
                          showPhotos,
                          closePopup,
-                         setSelectedCheckIn,
-                         updateCheckIn,
                          expandPopup
                      }) => {
 
-    const allFriends = useSelector(selectFriends);
+    const dispatch = useDispatch();
 
-    const [allUsers, setAllUsers] = useState([]);
+    const allFriends = useSelector(selectFriends);
+    const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
+
     const [editPopupIsVisible, setEditPopupIsVisible] = useState(false);
     const [editPopupFeedback, setEditPopupFeedback] = useState("");
 
-    useEffect(() => {
-        if (!userData || !friendData) return;
-
-        if (isFriendsPage) {
-            setAllUsers([...friendData]);
-        } else {
-            setAllUsers([userData, ...friendData]);
-        }
-    }, [userData, friendData, isFriendsPage]);
-
-    const formattedDate = new Date(date).toLocaleDateString("en-GB", {
+    const formattedDate = new Date(checkIn.date).toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
     });
 
     const handleAddPhotoClick = () => {
-        setSelectedCheckIn();
+        dispatch(setSelectedCheckIn(checkIn))
         showPhotos();
         closePopup();
     };
@@ -63,11 +49,10 @@ const DetailsCard = ({
             return;
         }
 
-        const photoIds = photoData.map(({id}) => id);
+        const photoIds = checkIn.photoData.map(({id}) => id);
 
-        const updatedCheckIn = await updateCheckInDoc(id, date, userData.id, friends, photoIds);
-        console.log({updatedCheckIn})
-        updateCheckIn(updatedCheckIn);
+        const updatedCheckIn = await updateCheckInDoc(checkIn.id, date, checkIn.userData.id, friends, photoIds);
+        dispatch(updateCheckIn(updatedCheckIn));
 
         setEditPopupIsVisible(false);
     };
@@ -79,10 +64,10 @@ const DetailsCard = ({
         <div className="check-ins-card">
             {editPopupIsVisible && (
                 <CheckInPopupView
-                    restaurant={restaurant}
+                    restaurant={checkIn.restaurant}
                     closePopup={() => setEditPopupIsVisible(false)}
                     friends={allFriends}
-                    friendsSelected={friendData}
+                    friendsSelected={checkIn.friendData}
                     confirmCheckIn={confirmEditCheckIn}
                     feedback={editPopupFeedback}
                     resetFeedback={() => setEditPopupFeedback("")}
@@ -90,7 +75,7 @@ const DetailsCard = ({
             )}
 
             <div className="card-header">
-                <h3>{restaurant.name}</h3>
+                <h3>{checkIn.restaurant.name}</h3>
 
                 {!isFriendsPage && (
                     <div className="buttons-container">
@@ -107,18 +92,22 @@ const DetailsCard = ({
             </div>
 
             <div className="user-icons">
-                {allUsers.map((user, index) => (
-                    <div key={index}>
-                        <UserIcon
-                            size="small"
-                            imageUrl={user.profilePhotoUrl}
-                        />
-                    </div>
+                <UserIcon
+                    size="small"
+                    imageUrl={profilePhotoUrl}
+                />
+
+                {checkIn.friendData.map(user => (
+                    <UserIcon
+                        key={user.id + checkIn.id}
+                        size="small"
+                        imageUrl={user.profilePhotoUrl}
+                    />
                 ))}
             </div>
 
             <div className="photo-previews-container">
-                {photoData.map(({id, url, alt}) => (
+                {checkIn.photoData.map(({id, url, alt}) => (
                     <div key={id} className="image-preview-container">
                         <img src={url} alt={alt}/>
                     </div>

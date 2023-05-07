@@ -188,14 +188,18 @@ const CheckIns = () => {
 
                 <div className="check-ins-stats">
                     <div className="check-ins-unique-restaurants">
-                        <FontAwesomeIcon className="icon" icon={faUtensils} />
-                        <span>{countUniqueRestaurants(allCheckIns) || "0"}</span>
-                        <p>Unique Restaurants</p>
+                        <div className="icon-container">
+                            <FontAwesomeIcon className="icon" icon={faUtensils} />
+                            <span>{countUniqueRestaurants(allCheckIns) || "0"}</span>
+                        </div>
+                        <p>Unique restaurants</p>
                     </div>
 
                     <div className="check-ins-total">
-                        <FontAwesomeIcon className="icon" icon={faCircleCheck} />
-                        <span>{allCheckIns?.length || "0"}</span>
+                        <div className="icon-container">
+                            <FontAwesomeIcon className="icon" icon={faCircleCheck} />
+                            <span>{allCheckIns?.length || "0"}</span>
+                        </div>
                         <p>Check-ins</p>
                     </div>
                 </div>

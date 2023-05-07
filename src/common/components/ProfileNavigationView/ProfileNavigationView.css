@@ -5,6 +5,10 @@
     z-index: 100;
 }
 
+.profile-navigation button {
+    white-space: nowrap;
+}
+
 .profile-navigation > div {
     display: flex;
     flex-direction: column;
@@ -29,6 +33,14 @@
     font-weight: var(--font-weight-bold-1);
     color: white;
     text-transform: capitalize;
+    width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-align: center;
 }
 
 .profile-navigation .upper-nav button {

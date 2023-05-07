@@ -127,7 +127,6 @@
 .details-page .details-container p {
     font-size: var(--font-size-sub-heading);
     font-weight: var(--font-weight-bold-1);
-    margin: 0;
 }
 
 .details-page .details-container .website a {

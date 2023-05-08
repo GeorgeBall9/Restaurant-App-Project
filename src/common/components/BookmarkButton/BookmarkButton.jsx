@@ -54,6 +54,7 @@ const BookmarkButton = ({restaurant, style, updateInteractions}) => {
         }
 
         setFeedbackIsVisible(true);
+        console.log("feedback is visible")
         setTimeout(() => setFeedbackIsVisible(false), 2000);
     };
 

@@ -4,10 +4,9 @@
 .react-calendar {
     width: 100%;
     border: none;
-    border-top: solid 1px lightgrey;
-    border-bottom: solid 1px lightgrey;
-    margin-top: 1em;
     position: relative;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px lightgrey;
 }
 
 /* -------------------- NAVIGATION -------------------- */
@@ -70,6 +69,10 @@
 .react-calendar__month-view__weekdays__weekday abbr {
     font-weight: var(--font-weight-bold-1);
     text-decoration: none;
+}
+
+.react-calendar__viewContainer {
+    padding: 0 0.5em;
 }
 
 /* Selected date */

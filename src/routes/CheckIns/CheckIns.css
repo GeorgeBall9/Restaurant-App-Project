@@ -7,7 +7,7 @@
     margin: var(--margin-align-center);
     padding: var(--padding-content);
     position: relative;
-    background-color: white;
+    /*background-color: white;*/
 }
 
 button.react-calendar__tile {
@@ -73,21 +73,20 @@ button.react-calendar__tile > div {
 
 .check-ins-stats {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
 }
 
 .check-ins-unique-restaurants,
 .check-ins-total {
-  flex: 1;
-  padding: var(--padding-content);
-  margin: 1em 1em;
-  border: solid 1px lightgrey;
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 4px lightgrey;
-  box-sizing: border-box;
-  text-align: left;
+    flex: 1;
+    padding: var(--padding-content);
+    margin: 1em 1em;
+    border: solid 1px lightgrey;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px lightgrey;
+    box-sizing: border-box;
+    text-align: left;
+    background-color: white;
 }
 
 .check-ins-total .icon {
@@ -109,4 +108,8 @@ button.react-calendar__tile > div {
 
 .check-ins-calendar {
     position: relative;
+}
+
+.check-ins-map-container .no-results {
+    background-color: white;
 }

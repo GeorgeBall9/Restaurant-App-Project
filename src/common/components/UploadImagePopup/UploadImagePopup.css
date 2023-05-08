@@ -44,6 +44,23 @@
     margin: var(--margin-align-center);
     margin-bottom: 1em;
     overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.uploaded-image-popup .uploaded-image-container .progress-display {
+    background-color: white;
+    border-radius: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+    width: inherit;
+    color: var(--primary-theme);
+    font-weight: var(--font-weight-bold-2);
+    position: absolute;
 }
 
 .uploaded-image-popup .uploaded-image-container.rectangle {

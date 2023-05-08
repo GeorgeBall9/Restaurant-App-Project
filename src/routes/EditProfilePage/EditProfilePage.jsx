@@ -8,15 +8,10 @@ import {
     selectDisplayName, selectEmail,
     selectPhone, selectProfilePhotoUrl,
     selectUserId,
-    setDisplayName, setEmail, setPhone, setProfilePhotoUrl
+    setProfilePhotoUrl
 } from "../../features/user/userSlice";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
-import {
-    addPhotoToCheckIn,
-    updateUserDisplayName,
-    updateUserEmailAddress,
-    updateUserPhoneNumber, updateUserProfile, updateUserProfilePhoto
-} from "../../firebase/firebase";
+import {updateUserProfile, updateUserProfilePhoto} from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
 import PrimaryButton from "../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
@@ -67,7 +62,7 @@ const EditProfilePage = () => {
 
         if (uploadedPhotoUrl && photoStoragePath) {
             await updateUserProfilePhoto(userId, photoStoragePath);
-            dispatch(setProfilePhotoUrl(profileFields.profilePhotoUrl));
+            dispatch(setProfilePhotoUrl(uploadedPhotoUrl));
         }
 
         await updateUserProfile(userId, profileFields);

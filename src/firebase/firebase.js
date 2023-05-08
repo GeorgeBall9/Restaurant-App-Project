@@ -822,7 +822,7 @@ export const getFriendsByUserId = async (userId) => {
 };
 
 // photo storage functions
-export const uploadImage = (imageFile, downloadUrlSetter) => {
+export const uploadImage = (imageFile, downloadUrlSetter, progressSetter) => {
     if (!imageFile) {
         alert("Please choose a file first!");
         return;
@@ -836,6 +836,7 @@ export const uploadImage = (imageFile, downloadUrlSetter) => {
         (snapshot) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log('Upload is ' + progress + '% done');
+            progressSetter(Math.round(progress));
             switch (snapshot.state) {
                 case 'paused':
                     console.log('Upload is paused');

@@ -5,6 +5,7 @@ import {signUpAuthUserWithEmailAndPassword} from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
 import {setUserDetails} from "../../features/user/userSlice";
 import {useDispatch} from "react-redux";
+import PrimaryButton from "../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
 
 const SignUpPage = () => {
 
@@ -16,6 +17,7 @@ const SignUpPage = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [passwordMismatch, setPasswordMismatch] = useState(false);
+    const [signUpButtonText, setSignUpButtonText] = useState("Sign up");
 
     useEffect(() => {
         if (password && confirmPassword) {
@@ -23,9 +25,7 @@ const SignUpPage = () => {
         }
     }, [password, confirmPassword]);
 
-    const handleSignUp = async (event) => {
-        event.preventDefault();
-
+    const handleSignUp = async () => {
         if (!displayName) {
             setErrorMessage("You must have a display name");
             return;
@@ -40,6 +40,11 @@ const SignUpPage = () => {
             setErrorMessage("You must have a password");
             return;
         }
+
+        if (password.length < 6) {
+            setErrorMessage("Passwords must contain at least 6 characters");
+            return;
+        }
         
         if (password !== confirmPassword) {
             setErrorMessage("Passwords do not match");
@@ -50,42 +55,52 @@ const SignUpPage = () => {
         setPasswordMismatch(false);
 
         try {
+            setSignUpButtonText("Signing up...");
             const userDetails = await signUpAuthUserWithEmailAndPassword(displayName, email, password);
             dispatch(setUserDetails(userDetails));
         } catch (error) {
             console.error("Error signing up with email and password: ", error);
-            setErrorMessage("Error signing up. Please try again.")
+            setErrorMessage("Error signing up. Please try again.");
+        } finally {
+            setSignUpButtonText("Sign up");
         }
     };
 
     const handleDisplayNameChange = ({target}) => {
+        setErrorMessage("");
         setDisplayName(target.value);
     };
 
     const handleEmailChange = ({target}) => {
+        setErrorMessage("");
         setEmail(target.value);
     };
 
     const handlePasswordChange = ({target}) => {
+        setErrorMessage("");
         setPassword(target.value);
     };
 
     const handleConfirmPasswordChange = ({target}) => {
-        setConfirmPassword(target.value);
+        const {value} = target;
+
+        setErrorMessage("");
+        setConfirmPassword(value);
     
         // Clear the error message when confirm password input is changed
         if (errorMessage) {
             setErrorMessage("");
         }
 
-        setPasswordMismatch(false);
+        console.log(value !== password)
+        setPasswordMismatch(value !== password);
     };
 
     return (
         <div className="signup-container">
             <h1>Sign Up</h1>
 
-            <form onSubmit={handleSignUp} className="signup-form">
+            <form className="signup-form">
                 <FormField
                     label="Display name"
                     type="text"
@@ -113,9 +128,9 @@ const SignUpPage = () => {
                     className={`signup-input ${
                         passwordMismatch 
                         ? "error-border" 
-                        : confirmPassword && !passwordMismatch ?
+                        : (confirmPassword && !passwordMismatch ?
                          "success-border"
-                        : ""
+                        : "")
                     }`}
                     value={confirmPassword}
                     onChangeHandler={handleConfirmPasswordChange}
@@ -123,9 +138,11 @@ const SignUpPage = () => {
 
                 {errorMessage && <div className="signup-error-message">{errorMessage}</div>}
 
-                <button className="signup-button" type="submit">
-                    Sign up
-                </button>
+                <PrimaryButton
+                    text={signUpButtonText}
+                    type="button"
+                    handleClick={handleSignUp}
+                />
             </form>
 
             <div className="signup-page-signin">

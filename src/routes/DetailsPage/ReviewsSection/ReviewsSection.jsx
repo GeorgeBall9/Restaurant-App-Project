@@ -1,7 +1,7 @@
 import "./ReviewsSection.css";
 import ReviewForm from "../../../common/components/ReviewForm/ReviewForm";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {getReviewsByRestaurantId} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
@@ -9,6 +9,7 @@ import ReviewsList from "../../../common/components/ReviewsList/ReviewsList";
 import PrimaryButton from "../../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
 import ReviewsStatsView from "./ReviewsStatsView/ReviewsStatsView";
 import {sortReviewsByMostRecentVisitDate} from "../../ReviewsPage/ReviewsPage";
+import {options} from "../../../features/restaurants/restaurantsSlice";
 
 const ReviewsSection = ({userId, restaurant}) => {
 
@@ -19,6 +20,8 @@ const ReviewsSection = ({userId, restaurant}) => {
     const dispatch = useDispatch();
 
     const reviews = useSelector(selectReviews);
+
+    const formRef = useRef();
 
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
@@ -36,9 +39,7 @@ const ReviewsSection = ({userId, restaurant}) => {
         if (!reviews) return;
 
         setAllReviewsVisible(reviews?.length <= 3);
-
         const sortedReviews = sortReviewsByMostRecentVisitDate(reviews);
-
         setDisplayedReviews(sortedReviews.slice(0, 3));
     }, [reviews]);
 
@@ -46,7 +47,16 @@ const ReviewsSection = ({userId, restaurant}) => {
         if (!displayedReviews?.length) {
             setReviewsHistogram(null);
         }
-    }, [displayedReviews])
+    }, [displayedReviews]);
+
+
+    useEffect(() => {
+        if (!isReviewFormVisible || !formRef?.current) return;
+
+        console.log("scrolling to ref")
+
+        formRef.current.scrollIntoView({behavior: "smooth"});
+    }, [isReviewFormVisible, formRef]);
 
     const handleWriteReviewClick = () => {
         if (!userId) {
@@ -59,27 +69,16 @@ const ReviewsSection = ({userId, restaurant}) => {
     useEffect(() => {
         if (!restaurant || !displayedReviews?.length) return;
 
-        // const url = "https://travel-advisor.p.rapidapi.com/restaurants/get-details?location_id=" + restaurant.id +
-        //     "&currency=USD&lang=en_US";
-        //
-        // fetch(url, options)
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         const histogram = data.rating_histogram;
-        //         setReviewsHistogram({...histogram, totalReviews: +data.num_reviews})
-        //     })
-        //     .catch(err => console.error(err));
+        const url = "https://travel-advisor.p.rapidapi.com/restaurants/get-details?location_id=" + restaurant.id +
+            "&currency=USD&lang=en_US";
 
-        const reviewsData = {
-            count_1: "34",
-            count_2: "71",
-            count_3: "165",
-            count_4: "449",
-            count_5: "1213",
-            totalReviews: 1932 + displayedReviews.length
-        };
-
-        setReviewsHistogram({...reviewsData});
+        fetch(url, options)
+            .then(response => response.json())
+            .then(data => {
+                const histogram = data.rating_histogram;
+                setReviewsHistogram({...histogram, totalReviews: +data.num_reviews})
+            })
+            .catch(err => console.error(err));
     }, [restaurant, displayedReviews]);
 
     const handleAllReviewsClick = () => {
@@ -101,7 +100,7 @@ const ReviewsSection = ({userId, restaurant}) => {
                 />
             )}
 
-            <ReviewsList reviews={displayedReviews} userId={userId}/>
+            <ReviewsList restaurant={restaurant} reviews={displayedReviews} userId={userId}/>
 
             {allReviewsVisible ? (
                 <PrimaryButton
@@ -120,7 +119,12 @@ const ReviewsSection = ({userId, restaurant}) => {
             )}
 
             {allReviewsVisible && isReviewFormVisible && (
-                <ReviewForm restaurant={restaurant} userId={userId}/>
+                <ReviewForm
+                    ref={formRef}
+                    restaurant={restaurant}
+                    userId={userId}
+                    closeForm={() => setIsReviewFormVisible(false)}
+                />
             )}
         </div>
     );

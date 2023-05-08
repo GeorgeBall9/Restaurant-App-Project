@@ -21,12 +21,12 @@
     width: 100%;
 }
 
-.error-border {
+.form-field input.error-border {
     border: red 2px solid;
     background-color: rgba(255, 153, 153, 0.2);
 }
 
-.success-border {
+.form-field input.success-border {
   border: 2px solid green;
   background-color: rgba(153, 255, 153, 0.2);
 }
@@ -34,7 +34,6 @@
 .signup-error-message {
     color: red;
     margin: var(--margin-align-center);
-    padding: 0.5rem;
 }
 
 .signup-button {
@@ -60,4 +59,8 @@
 .signin-link {
     text-decoration: none;
     color: var(--primary-theme);
+}
+
+.signin-link:hover {
+    color: grey;
 }

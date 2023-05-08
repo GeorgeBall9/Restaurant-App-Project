@@ -25,7 +25,7 @@ const SearchBox = ({handleInputChange, hasMatches = true, handleFocus, focused})
             <div className="input-container">
                 <FontAwesomeIcon className="icon" icon={faMagnifyingGlass}/>
                 <input
-                    type="text"
+                    type="search"
                     className="search-input"
                     placeholder="Search"
                     onChange={handleChange}

@@ -35,12 +35,6 @@ const ReviewForm = forwardRef((props, ref) => {
     const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
     const {rating, visitDate, title, content} = formData;
 
-    useEffect(() => {
-        if (!ref?.current) return;
-
-        ref.current.scrollIntoView({behavior: "smooth"});
-    }, [ref]);
-
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
         const photoId = await createNewRestaurantPhotoDoc(userId, restaurant.id, photoStoragePath);
         setUploadedPhotoId(photoId);

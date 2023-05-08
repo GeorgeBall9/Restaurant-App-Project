@@ -1,51 +1,51 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200&display=swap");
 .signin-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
+    padding: 2rem 1em;
     max-width: var(--max-width-content);
     margin: var(--margin-align-center);
-  }
-  
+}
+
 .signin-container h1 {
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-bold-1);
     color: black;
     margin-bottom: 1.5rem;
-  }
-  
+}
+
 .signin-form {
     display: flex;
     flex-direction: column;
     width: 100%;
-  }
+    gap: 1em;
+}
 
 .signin-error-message {
-  color: red;
-  margin: var(--margin-align-center);
-  padding: 0.5rem;
+    color: red;
+    margin: var(--margin-align-center);
+    text-align: center;
 }
 
 .signin-button {
-  background-color: var(--secondary-theme);
-  color: #fff;
-  border: none;
-  border-radius: var(--border-radius);
-  padding: 0.75rem;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  margin-top: 1rem;
+    background-color: var(--secondary-theme);
+    color: #fff;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 1rem;
 }
 
 .signin-button:hover {
-  background-color: var(--secondary-theme);
+    background-color: var(--secondary-theme);
 }
 
 .signin-page-signup {
-  margin: var(--margin-align-center);
-  padding: var(--padding-content);
+    margin: var(--margin-align-center);
+    padding: var(--padding-content);
 }
 
 .signup-link {
@@ -53,68 +53,71 @@
     color: var(--primary-theme);
 }
 
+.signup-link:hover {
+    color: grey;
+}
+
 .signin-page-separator {
-  margin: var(--margin-align-center);
-  padding: 0.5rem;
+    margin: var(--margin-align-center);
+    padding: 0.5rem;
 }
 
 .signin-page-separator span {
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-bold-2);
-  color: #ccc;
-  text-transform: uppercase;
-  letter-spacing: 0.1rem;
+    font-weight: var(--font-weight-bold-2);
+    color: rgba(128, 128, 128, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
 }
 
 .signin-google, .signin-facebook {
     margin: var(--margin-align-center);
     padding: var(--padding-content);
     text-align: center;
-  }
-  
+}
+
+.signin-google .icon {
+    font-size: 1.5rem;
+    margin-right: 0.5em;
+    color: white;
+}
+
 .auth-button-google, .auth-button-facebook {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-sub-heading);
-  font-weight: var(--font-weight-bold-1);
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  width: 240px;
-  height: 5rem;
-  padding: var(--padding-content);
-  text-align: left;
-  transition: background-color 0.2s, box-shadow 0.2s;
-  outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sub-heading);
+    font-weight: var(--font-weight-bold-1);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    width: 240px;
+    height: 5rem;
+    padding: var(--padding-content);
+    text-align: left;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    outline: none;
 }
 
 .auth-button:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .auth-button-google {
-  background-color: #4285F4;
-  color: #fff;
+    background-color: #4285F4;
+    color: #fff;
 }
 
 .auth-button-google:hover {
-  background-color: #357AE8;
-  transform: scale(1.05);
+    background-color: #357AE8;
+    transform: scale(1.05);
 }
 
 .auth-button-facebook {
-  background-color: #3B5998;
-  color: #fff;
+    background-color: #3B5998;
+    color: #fff;
 }
 
 .auth-button-facebook:hover {
-  background-color: #2D4373;
-  transform: scale(1.05);
-}
-
-.auth-button-google img, .auth-button-facebook img {
-    width: 30px;
-    height: 30px;
-    margin-right: 0.5rem;
+    background-color: #2D4373;
+    transform: scale(1.05);
 }

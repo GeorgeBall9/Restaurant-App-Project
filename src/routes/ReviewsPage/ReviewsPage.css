@@ -1,12 +1,4 @@
 .reviews-page {
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-}
-
-.reviews-page {
-    background-color: white;
     display: flex;
     flex-direction: column;
     gap: 1em;

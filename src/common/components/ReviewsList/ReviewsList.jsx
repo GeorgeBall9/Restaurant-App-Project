@@ -7,6 +7,10 @@ const ReviewsList = ({restaurant, reviews, userId}) => {
 
     const [editingReviewId, setEditingReviewId] = useState(null);
 
+    const handleCancel = () => {
+        setEditingReviewId(null);
+    };
+
     return (
         <div className="reviews-container">
             {!reviews?.length && (
@@ -30,7 +34,7 @@ const ReviewsList = ({restaurant, reviews, userId}) => {
                             edit={true}
                             reviewId={id}
                             reviewData={{rating, visitDate, title, content}}
-                            handleCancel={() => setEditingReviewId(null)}
+                            closeForm={handleCancel}
                         />
                     }
 

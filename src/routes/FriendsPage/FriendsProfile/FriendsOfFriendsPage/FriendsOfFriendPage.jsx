@@ -26,8 +26,6 @@ import NoResults from "../../../../common/components/NoResults/NoResults";
 
 const FriendsOfFriendsPage = () => {
 
-    const dispatch = useDispatch();
-
     const displayedFriend = useSelector(selectDisplayedFriend);
     const currentUserId = useSelector(selectUserId);
     const currentUserFriends = useSelector(selectFriends);
@@ -37,14 +35,19 @@ const FriendsOfFriendsPage = () => {
     const [displayedFriends, setDisplayedFriends] = useState([]);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const [searchHasMatches, setSearchHasMatches] = useState(true);
+    const [fetchStatus, setFetchStatus] = useState("pending");
 
     useEffect(() => {
         if (!displayedFriend) return;
 
         getFriendsByUserId(displayedFriend.id)
             .then(data => {
-                setFriendsOfFriend(data.filter(({id}) => id !== currentUserId))
-            });
+                setFriendsOfFriend(data.filter(({id}) => id !== currentUserId));
+            })
+            .catch(error => {
+                console.error(error);
+            })
+            .finally(() => setFetchStatus("idle"));
     }, [displayedFriend]);
 
     useEffect(() => {
@@ -118,12 +121,14 @@ const FriendsOfFriendsPage = () => {
 
                     <main className="container">
                         <div className="friend-icons-container">
-                            {!friendsOfFriend?.length ? (
+                            {fetchStatus === "idle" && !friendsOfFriend?.length && (
                                 <NoResults
                                     mainText="No friends found."
                                     subText={`${displayedFriend.displayName} has no friends other than you!`}
                                 />
-                            ) : (
+                            )}
+
+                            {friendsOfFriend?.length > 0 && (
                                 [...friendsOfFriend]
                                     .sort((a, b) => {
                                         if (a.status === "pending") {

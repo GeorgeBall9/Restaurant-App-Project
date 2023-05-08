@@ -11,15 +11,19 @@ const UploadImagePopup = ({handleCloseClick, handleUploadClick, shape = "rectang
     const [photoStoragePath, setPhotoStoragePath] = useState(null);
     const [photoUrl, setPhotoUrl] = useState("");
     const [previewLoaded, setPreviewLoaded] = useState(false);
+    const [uploadPercentageIsVisible, setUploadPercentageIsVisible] = useState(false);
+    const [uploadPercentage, setUploadPercentage] = useState(0);
 
     const handlePreviewLoad = () => {
+        setUploadPercentageIsVisible(false);
         setPreviewLoaded(true);
         setUploadButtonText("Upload");
     };
 
     const handleFileChange = ({target}) => {
         const file = target.files[0];
-        const storageRef = uploadImage(file, setPhotoUrl);
+        setUploadPercentageIsVisible(true);
+        const storageRef = uploadImage(file, setPhotoUrl, setUploadPercentage);
         setPhotoStoragePath(storageRef._location.path);
     };
 
@@ -52,6 +56,10 @@ const UploadImagePopup = ({handleCloseClick, handleUploadClick, shape = "rectang
                                 style={{visibility: previewLoaded ? "visible" : "hidden"}}
                                 onLoad={handlePreviewLoad}
                             />
+                        )}
+
+                        {uploadPercentageIsVisible && (
+                            <div className="progress-display">{uploadPercentage} %</div>
                         )}
                     </div>
 

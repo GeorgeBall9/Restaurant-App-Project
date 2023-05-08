@@ -1,5 +1,5 @@
 import './ReviewForm.css';
-import {useEffect, useState} from 'react';
+import {forwardRef, useEffect, useRef, useState} from 'react';
 import {
     addRestaurantReview,
     createNewRestaurantPhotoDoc,
@@ -22,7 +22,9 @@ const defaultFormFields = {
     content: "",
 };
 
-const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCancel}) => {
+const ReviewForm = forwardRef((props, ref) => {
+
+    const {restaurant, userId, edit, reviewId, reviewData, closeForm} = props;
 
     const dispatch = useDispatch();
 
@@ -34,6 +36,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     const {rating, visitDate, title, content} = formData;
 
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
+        console.log({restaurant})
         const photoId = await createNewRestaurantPhotoDoc(userId, restaurant.id, photoStoragePath);
         setUploadedPhotoId(photoId);
     };
@@ -59,8 +62,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
         setErrors(newErrors);
 
-        console.log(Object.keys(newErrors).length === 0)
-
         return Object.keys(newErrors).length === 0;
     };
 
@@ -78,12 +79,14 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                 console.log({updatedReview})
                 dispatch(updateReview({reviewId, updatedReview: {...updatedReview}}));
                 setFormData(defaultFormFields);
-                setIsSubmitted(true);
-                handleCancel();
             } else {
                 const newReview = await addRestaurantReview(userId, restaurant, data, uploadedPhotoId);
                 dispatch(addReview({...newReview}));
             }
+
+            setIsSubmitted(true);
+
+            setTimeout(closeForm, 2000);
         }
     };
 
@@ -113,7 +116,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     };
 
     return (
-        <div className="review-form">
+        <div ref={ref} className="review-form">
             <form onSubmit={handleSubmit}>
                 {edit && (
                     <h2 style={{margin: 0}}>
@@ -195,7 +198,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                 {edit && (
                     <div className="buttons-container">
                         <button className="review-submit" type="submit">Save</button>
-                        <button onClick={handleCancel} type="button" className="cancel">Cancel</button>
+                        <button onClick={closeForm} type="button" className="cancel">Cancel</button>
                     </div>
                 )}
             </form>
@@ -208,6 +211,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
             )}
         </div>
     );
-};
+});
 
 export default ReviewForm;

@@ -1,5 +1,5 @@
 import './ReviewForm.css';
-import {useEffect, useRef, useState} from 'react';
+import {forwardRef, useEffect, useRef, useState} from 'react';
 import {
     addRestaurantReview,
     createNewRestaurantPhotoDoc,
@@ -22,11 +22,11 @@ const defaultFormFields = {
     content: "",
 };
 
-const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCancel}) => {
+const ReviewForm = forwardRef((props, ref) => {
+
+    const {restaurant, userId, edit, reviewId, reviewData, handleCancel} = props;
 
     const dispatch = useDispatch();
-
-    const ref = useRef();
 
     const [addImagesPopUpIsVisible, setAddImagesPopupIsVisible] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -36,7 +36,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     const {rating, visitDate, title, content} = formData;
 
     useEffect(() => {
-        if (!ref.current) return;
+        if (!ref?.current) return;
 
         ref.current.scrollIntoView({behavior: "smooth"});
     }, [ref]);
@@ -84,12 +84,13 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                 console.log({updatedReview})
                 dispatch(updateReview({reviewId, updatedReview: {...updatedReview}}));
                 setFormData(defaultFormFields);
-                setIsSubmitted(true);
-                handleCancel();
             } else {
                 const newReview = await addRestaurantReview(userId, restaurant, data, uploadedPhotoId);
                 dispatch(addReview({...newReview}));
             }
+
+            setIsSubmitted(true);
+            handleCancel();
         }
     };
 
@@ -214,6 +215,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
             )}
         </div>
     );
-};
+});
 
 export default ReviewForm;

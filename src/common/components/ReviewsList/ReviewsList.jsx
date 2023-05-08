@@ -1,7 +1,7 @@
 import "./ReviewsList.css";
 import ReviewForm from "../ReviewForm/ReviewForm";
 import ReviewCard from "./ReviewCard/ReviewCard";
-import {useRef, useState} from "react";
+import {useState} from "react";
 
 const ReviewsList = ({restaurant, reviews, userId}) => {
 

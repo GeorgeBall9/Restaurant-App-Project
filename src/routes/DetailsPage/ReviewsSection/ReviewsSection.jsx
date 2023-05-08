@@ -1,7 +1,7 @@
 import "./ReviewsSection.css";
 import ReviewForm from "../../../common/components/ReviewForm/ReviewForm";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {getReviewsByRestaurantId} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
@@ -19,6 +19,8 @@ const ReviewsSection = ({userId, restaurant}) => {
     const dispatch = useDispatch();
 
     const reviews = useSelector(selectReviews);
+
+    const formRef = useRef();
 
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
@@ -120,7 +122,7 @@ const ReviewsSection = ({userId, restaurant}) => {
             )}
 
             {allReviewsVisible && isReviewFormVisible && (
-                <ReviewForm restaurant={restaurant} userId={userId}/>
+                <ReviewForm ref={formRef} restaurant={restaurant} userId={userId}/>
             )}
         </div>
     );

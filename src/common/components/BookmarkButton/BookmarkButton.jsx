@@ -12,6 +12,7 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import InteractionButton from "../ButtonViews/InteractionButton/InteractionButton";
 import InteractionFeedback from "../InteractionFeedback/InteractionFeedback";
+import {addBookmarkInteraction, removeBookmarkInteraction} from "../../../features/interactions/interactionsSlice";
 
 const BookmarkButton = ({restaurant, style, updateInteractions}) => {
 
@@ -43,19 +44,13 @@ const BookmarkButton = ({restaurant, style, updateInteractions}) => {
         if (feedbackIsVisible) return;
 
         if (isBookmarked) {
-            dispatch(removeBookmark(id));
             await removeUserBookmark(userId, id);
-
-            if (updateInteractions) {
-                updateInteractions("bookmarks", -1);
-            }
+            dispatch(removeBookmark(id));
+            dispatch(removeBookmarkInteraction());
         } else {
-            dispatch(addBookmark(id));
             await addUserBookmark(userId, restaurant);
-
-            if (updateInteractions) {
-                updateInteractions("bookmarks", 1);
-            }
+            dispatch(addBookmark(id));
+            dispatch(addBookmarkInteraction());
         }
 
         setFeedbackIsVisible(true);

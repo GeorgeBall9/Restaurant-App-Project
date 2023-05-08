@@ -9,6 +9,7 @@ import {deselectReview} from "../../../features/reviews/reviewsSlice";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {resetRestaurantResults} from "../../../features/restaurants/restaurantsSlice";
+import {resetInteractions} from "../../../features/interactions/interactionsSlice";
 
 const BannerView = forwardRef((props, ref) => {
 
@@ -28,6 +29,7 @@ const BannerView = forwardRef((props, ref) => {
     const handleBackClick = () => {
         dispatch(deselectReview());
         dispatch(resetRestaurantResults());
+        dispatch(resetInteractions());
         navigate(-1);
     };
 

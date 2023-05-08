@@ -9,6 +9,7 @@ import spinnerReducer from "../features/spinner/spinnerSlice";
 import userReducer from "../features/user/userSlice";
 import reviewsReducer from "../features/reviews/reviewsSlice";
 import checkInsReducer from "../features/checkIns/checkInsSlice";
+import interactionsReducer from "../features/interactions/interactionsSlice";
 
 export default configureStore({
     reducer: {
@@ -21,5 +22,6 @@ export default configureStore({
         user: userReducer,
         reviews: reviewsReducer,
         checkIns: checkInsReducer,
+        interactions: interactionsReducer,
     }
 });

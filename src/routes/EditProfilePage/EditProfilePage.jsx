@@ -7,15 +7,17 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     selectDisplayName, selectEmail,
     selectPhone, selectProfilePhotoUrl,
-    selectUserId,
+    selectUserId, setDisplayName, setEmail, setPhone,
     setProfilePhotoUrl
 } from "../../features/user/userSlice";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
-import {updateUserProfile, updateUserProfilePhoto} from "../../firebase/firebase";
+import {deleteUserDocAndSignOut, updateUserProfile, updateUserProfilePhoto} from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
 import PrimaryButton from "../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../common/components/UploadImagePopup/UploadImagePopup";
+import SecondaryButton from "../../common/components/ButtonViews/SecondaryButton/SecondaryButton";
+import ConfirmationPopupView from "../../common/components/ConfirmationPopupView/ConfirmationPopupView";
 
 const defaultProfileFields = {
     displayName: "",
@@ -38,26 +40,50 @@ const EditProfilePage = () => {
     const [buttonText, setButtonText] = useState("Save");
     const [uploadedPhotoUrl, setUploadedPhotoUrl] = useState("");
     const [photoStoragePath, setPhotoStoragePath] = useState("");
+    const [confirmDeletePopupIsVisible, setConfirmDeletePopupIsVisible] = useState(false);
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        if (!displayName) return;
+        if (!displayName || profileFields.displayName) return;
 
         handleChange({target: {name: "displayName", value: displayName}});
     }, [displayName]);
 
     useEffect(() => {
-        if (!email) return;
+        if (!email || profileFields.email) return;
 
         handleChange({target: {name: "email", value: email}});
     }, [email]);
 
     useEffect(() => {
-        if (!phone) return;
+        if (!phone || profileFields.phone) return;
 
         handleChange({target: {name: "phone", value: phone}});
     }, [phone]);
 
+    const validateFields = () => {
+        const newErrors = {};
+
+        if (!(/^[A-Za-z0-9]*$/.test(profileFields.displayName))) {
+            newErrors.displayName = "Display names can only contain letters and numbers.";
+        }
+
+        if (!(/^\S+@\S+\.\S+$/.test(profileFields.email))) {
+            newErrors.email = "Invalid email format.";
+        }
+
+        if (!(/^\d+$/.test(profileFields.phone))) {
+            newErrors.phone = "Phone number must contain only numbers."
+        }
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSaveClick = async () => {
+        if (!validateFields()) return;
+
         setButtonText("Saving...");
 
         if (uploadedPhotoUrl && photoStoragePath) {
@@ -67,10 +93,16 @@ const EditProfilePage = () => {
 
         await updateUserProfile(userId, profileFields);
 
+        dispatch(setDisplayName(profileFields.displayName));
+        dispatch(setEmail(profileFields.email));
+        dispatch(setPhone(profileFields.phone));
+
         setButtonText("Saved");
     };
 
     const handleChange = ({target}) => {
+        setErrors({});
+
         const {name, value} = target;
 
         setProfileFields(profileFields => {
@@ -93,6 +125,10 @@ const EditProfilePage = () => {
         document.querySelector(".file-upload-input").value = "";
         handleCloseUploadImagePopup();
         setButtonText("Save");
+    };
+
+    const deleteAccount = async () => {
+        await deleteUserDocAndSignOut(userId);
     };
 
     return (
@@ -130,6 +166,8 @@ const EditProfilePage = () => {
                        onChangeHandler={handleChange}
                    />
 
+                   {errors.displayName && <p className="error-message">{errors.displayName}</p>}
+
                    <FormField
                        label="Email address"
                        type="email"
@@ -137,6 +175,8 @@ const EditProfilePage = () => {
                        value={profileFields.email}
                        onChangeHandler={handleChange}
                    />
+
+                   {errors.email && <p className="error-message">{errors.email}</p>}
 
                    <FormField
                        label="Phone number"
@@ -146,12 +186,28 @@ const EditProfilePage = () => {
                        onChangeHandler={handleChange}
                    />
 
+                   {errors.phone && <p className="error-message">{errors.phone}</p>}
+
                    <PrimaryButton
                        handleClick={handleSaveClick}
                        text={buttonText}
                        icon={buttonText === "Saved" ? faCircleCheck : null}
                        size="large"
                    />
+
+                   <SecondaryButton
+                       handleClick={() => setConfirmDeletePopupIsVisible(true)}
+                       text="Delete account"
+                       size="large"
+                   />
+
+                   {confirmDeletePopupIsVisible && (
+                       <ConfirmationPopupView
+                           message="Are you sure you want to delete your account?"
+                           handleYesClick={deleteAccount}
+                           handleNoClick={() => setConfirmDeletePopupIsVisible(false)}
+                       />
+                   )}
                </section>
            </main>
         </div>

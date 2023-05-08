@@ -35,9 +35,14 @@
 .profile-container .change-details-section {
     border-radius: var(--border-radius);
     margin-top: 2em;
+    position: relative;
 }
 
 .profile-container .change-details-section .form-field {
     font-weight: var(--font-weight-bold-2);
     font-size: var(--font-size-sub-heading);
+}
+
+.profile-container .error-message {
+    color: red;
 }

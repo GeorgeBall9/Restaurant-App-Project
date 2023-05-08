@@ -15,7 +15,7 @@ const SignUpPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errors, setErrors] = useState({}); // finish implementation
     const [passwordMismatch, setPasswordMismatch] = useState(false);
     const [signUpButtonText, setSignUpButtonText] = useState("Sign up");
 
@@ -25,33 +25,34 @@ const SignUpPage = () => {
         }
     }, [password, confirmPassword]);
 
-    const handleSignUp = async () => {
+    const validateFields = () => {
+        const newErrors = {};
+
         if (!displayName) {
-            setErrorMessage("You must have a display name");
-            return;
+            newErrors.displayName = "You must have a display name";
         }
 
-        if (!email) {
-            setErrorMessage("You must have an email");
-            return;
-        }
-
-        if (!password) {
-            setErrorMessage("You must have a password");
-            return;
+        if (!(/^\S+@\S+\.\S+$/.test(email))) {
+            newErrors.email = "Invalid email format";
         }
 
         if (password.length < 6) {
-            setErrorMessage("Passwords must contain at least 6 characters");
-            return;
+            newErrors.password = "Passwords must contain at least 6 characters";
         }
-        
+
         if (password !== confirmPassword) {
-            setErrorMessage("Passwords do not match");
+            newErrors.confirmPassword = "Passwords do not match";
             setPasswordMismatch(true);
-            return;
-        } 
-        
+        }
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSignUp = async () => {
+        if (!validateFields()) return;
+
         setPasswordMismatch(false);
 
         try {
@@ -59,40 +60,43 @@ const SignUpPage = () => {
             const userDetails = await signUpAuthUserWithEmailAndPassword(displayName, email, password);
             dispatch(setUserDetails(userDetails));
         } catch (error) {
-            console.error("Error signing up with email and password: ", error);
-            setErrorMessage("Error signing up. Please try again.");
+            let errorMessage;
+            if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+                errorMessage = "That email address is already registered to an account. Try signing in instead.";
+            } else {
+                errorMessage = "Error signing up. Please try again.";
+            }
+
+            setErrors(errors => {
+                const updatedErrors = {...errors};
+                updatedErrors.email = errorMessage;
+                return updatedErrors;
+            });
         } finally {
             setSignUpButtonText("Sign up");
         }
     };
 
     const handleDisplayNameChange = ({target}) => {
-        setErrorMessage("");
+        setErrors({});
         setDisplayName(target.value);
     };
 
     const handleEmailChange = ({target}) => {
-        setErrorMessage("");
+        setErrors({});
         setEmail(target.value);
     };
 
     const handlePasswordChange = ({target}) => {
-        setErrorMessage("");
+        setErrors({});
         setPassword(target.value);
     };
 
     const handleConfirmPasswordChange = ({target}) => {
         const {value} = target;
 
-        setErrorMessage("");
+        setErrors({});
         setConfirmPassword(value);
-    
-        // Clear the error message when confirm password input is changed
-        if (errorMessage) {
-            setErrorMessage("");
-        }
-
-        console.log(value !== password)
         setPasswordMismatch(value !== password);
     };
 
@@ -108,6 +112,8 @@ const SignUpPage = () => {
                     onChangeHandler={handleDisplayNameChange}
                 />
 
+                {errors.displayName && <p className="error-message">{errors.displayName}</p>}
+
                 <FormField
                     label="Email"
                     type="email"
@@ -115,12 +121,16 @@ const SignUpPage = () => {
                     onChangeHandler={handleEmailChange}
                 />
 
+                {errors.email && <p className="error-message">{errors.email}</p>}
+
                 <FormField
                     label="Password"
                     type="password"
                     value={password}
                     onChangeHandler={handlePasswordChange}
                 />
+
+                {errors.password && <p className="error-message">{errors.password}</p>}
 
                 <FormField
                     label="Confirm password"
@@ -136,7 +146,7 @@ const SignUpPage = () => {
                     onChangeHandler={handleConfirmPasswordChange}
                 />
 
-                {errorMessage && <div className="signup-error-message">{errorMessage}</div>}
+                {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
 
                 <PrimaryButton
                     text={signUpButtonText}

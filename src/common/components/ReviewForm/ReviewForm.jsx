@@ -24,7 +24,7 @@ const defaultFormFields = {
 
 const ReviewForm = forwardRef((props, ref) => {
 
-    const {restaurant, userId, edit, reviewId, reviewData, handleCancel} = props;
+    const {restaurant, userId, edit, reviewId, reviewData, closeForm} = props;
 
     const dispatch = useDispatch();
 
@@ -90,7 +90,8 @@ const ReviewForm = forwardRef((props, ref) => {
             }
 
             setIsSubmitted(true);
-            handleCancel();
+
+            setTimeout(closeForm, 2000);
         }
     };
 
@@ -202,7 +203,7 @@ const ReviewForm = forwardRef((props, ref) => {
                 {edit && (
                     <div className="buttons-container">
                         <button className="review-submit" type="submit">Save</button>
-                        <button onClick={handleCancel} type="button" className="cancel">Cancel</button>
+                        <button onClick={closeForm} type="button" className="cancel">Cancel</button>
                     </div>
                 )}
             </form>

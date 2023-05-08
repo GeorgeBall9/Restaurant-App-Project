@@ -37,7 +37,7 @@ const ReviewsSection = ({userId, restaurant}) => {
     useEffect(() => {
         if (!reviews) return;
 
-        setAllReviewsVisible(reviews?.length <= 3);
+        setAllReviewsVisible(reviews?.length < 3);
 
         const sortedReviews = sortReviewsByMostRecentVisitDate(reviews);
 
@@ -122,7 +122,12 @@ const ReviewsSection = ({userId, restaurant}) => {
             )}
 
             {allReviewsVisible && isReviewFormVisible && (
-                <ReviewForm ref={formRef} restaurant={restaurant} userId={userId}/>
+                <ReviewForm
+                    ref={formRef}
+                    restaurant={restaurant}
+                    userId={userId}
+                    closeForm={() => setIsReviewFormVisible(false)}
+                />
             )}
         </div>
     );

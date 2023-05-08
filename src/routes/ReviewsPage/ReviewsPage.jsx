@@ -126,7 +126,7 @@ const ReviewsPage = () => {
         };
 
         setSortFilters(sortFilters => sortFilters
-            .map(filter => changeFilterStatus(filter,filter.text === text)));
+            .map(filter => changeFilterStatus(filter, filter.text === text)));
 
         setDisplayedReviews(displayedReviews => [...displayedReviews]
             .sort((a, b) => multiplier * (a[type] - b[type])));
@@ -175,7 +175,11 @@ const ReviewsPage = () => {
 
             <main className="container">
                 {isReviewFormVisible && (
-                    <ReviewForm restaurant={restaurant} userId={userId}/>
+                    <ReviewForm
+                        restaurant={restaurant}
+                        userId={userId}
+                        closeForm={() => setIsReviewFormVisible(false)}
+                    />
                 )}
 
                 <ReviewsList restaurant={restaurant} reviews={displayedReviews} userId={userId}/>

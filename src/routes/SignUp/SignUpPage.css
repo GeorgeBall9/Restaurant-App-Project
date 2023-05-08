@@ -31,7 +31,7 @@
   background-color: rgba(153, 255, 153, 0.2);
 }
 
-.signup-error-message {
+.signup-container .error-message {
     color: red;
     margin: var(--margin-align-center);
     text-align: center;

@@ -59,8 +59,11 @@ const SignUpPage = () => {
             const userDetails = await signUpAuthUserWithEmailAndPassword(displayName, email, password);
             dispatch(setUserDetails(userDetails));
         } catch (error) {
-            console.error("Error signing up with email and password: ", error);
-            setErrorMessage("Error signing up. Please try again.");
+            if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+                setErrorMessage("That email address is already registered to an account. Try signing in instead.");
+            } else {
+                setErrorMessage("Error signing up. Please try again.");
+            }
         } finally {
             setSignUpButtonText("Sign up");
         }

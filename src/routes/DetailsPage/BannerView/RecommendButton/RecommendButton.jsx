@@ -14,6 +14,10 @@ import {useEffect, useState} from "react";
 import InteractionButton from "../../../../common/components/ButtonViews/InteractionButton/InteractionButton";
 import {addUserRecommendation, removeUserRecommendation} from "../../../../firebase/firebase";
 import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
+import {
+    addRecommendationInteraction,
+    removeRecommendationInteraction
+} from "../../../../features/interactions/interactionsSlice";
 
 const RecommendButton = ({restaurant, style, updateInteractions}) => {
 
@@ -49,13 +53,14 @@ const RecommendButton = ({restaurant, style, updateInteractions}) => {
         console.log("yes clicked")
 
         if (isRecommended) {
-            dispatch(removeRecommendation(id));
             await removeUserRecommendation(userId, id);
+            dispatch(removeRecommendation(id));
+            dispatch(removeRecommendationInteraction());
             updateInteractions("recommendations", -1);
         } else {
-            dispatch(addRecommendation(id));
             await addUserRecommendation(userId, restaurant);
-            updateInteractions("recommendations", 1);
+            dispatch(addRecommendation(id));
+            dispatch(addRecommendationInteraction());
         }
 
         setFeedbackIsVisible(true);

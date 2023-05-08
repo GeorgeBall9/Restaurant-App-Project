@@ -16,6 +16,11 @@ import ImageAndInfoView from "./ImageAndInfoView/ImageAndInfoView";
 import InteractionsView from "./InteractionsView/InteractionsView";
 import WebsiteView from "./WebsiteView/WebsiteView";
 import AboutView from "./AboutView/AboutView";
+import {
+    selectBookmarkInteractions, selectCheckInInteractions,
+    selectRecommendationInteractions,
+    setInteractions
+} from "../../features/interactions/interactionsSlice";
 
 const navLinksText = ["Interactions", "Website", "About", "Hours", "Details", "Reviews"];
 
@@ -43,7 +48,6 @@ const DetailsPage = () => {
     const [scrollPosition, setScrollPosition] = useState(0);
     const [activeNavLink, setActiveNavLink] = useState("Interactions");
     const [navigationStyle, setNavigationStyle] = useState({top: 0});
-    const [interactions, setInteractions] = useState(null);
     const [showNameInBanner, setShowNameInBanner] = useState(false);
 
     useEffect(() => {
@@ -79,9 +83,9 @@ const DetailsPage = () => {
         getRestaurantById(restaurant.id)
             .then(data => {
                 if (!data) return;
-                const {bookmarks, checkIns, recommendations} = data;
-                const foundInteractions = {bookmarks, checkIns, recommendations};
-                setInteractions(foundInteractions);
+
+                const {recommendations, bookmarks, checkIns} = data;
+                dispatch(setInteractions({recommendations, bookmarks, checkIns}));
             });
     }, [restaurant]);
 
@@ -230,7 +234,7 @@ const DetailsPage = () => {
 
             <div className="details-container">
                 <section id="Interactions" ref={interactionsRef}>
-                    <InteractionsView {...interactions}/>
+                    <InteractionsView/>
                 </section>
 
                 {website && (

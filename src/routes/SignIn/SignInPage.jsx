@@ -1,12 +1,10 @@
 import "./SignInPage.css";
-import React from "react";
 import FormField from "../../common/components/FormField/FormField";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
     signInAuthUserWithEmailAndPassword,
-    signInWithGooglePopup,
-    signInWithFacebookPopup,
+    signInWithGooglePopup
 } from "../../firebase/firebase";
 import {setUserDetails} from "../../features/user/userSlice";
 import { useState } from "react";

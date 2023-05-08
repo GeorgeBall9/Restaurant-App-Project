@@ -1,5 +1,5 @@
 import './ReviewForm.css';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {
     addRestaurantReview,
     createNewRestaurantPhotoDoc,
@@ -26,12 +26,20 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
     const dispatch = useDispatch();
 
+    const ref = useRef();
+
     const [addImagesPopUpIsVisible, setAddImagesPopupIsVisible] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [errors, setErrors] = useState({});
     const [uploadedPhotoId, setUploadedPhotoId] = useState(null);
     const [formData, setFormData] = useState(reviewData ? reviewData : defaultFormFields);
     const {rating, visitDate, title, content} = formData;
+
+    useEffect(() => {
+        if (!ref.current) return;
+
+        ref.current.scrollIntoView({behavior: "smooth"});
+    }, [ref]);
 
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
         const photoId = await createNewRestaurantPhotoDoc(userId, restaurant.id, photoStoragePath);
@@ -58,8 +66,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
         }
 
         setErrors(newErrors);
-
-        console.log(Object.keys(newErrors).length === 0)
 
         return Object.keys(newErrors).length === 0;
     };
@@ -113,7 +119,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
     };
 
     return (
-        <div className="review-form">
+        <div ref={ref} className="review-form">
             <form onSubmit={handleSubmit}>
                 {edit && (
                     <h2 style={{margin: 0}}>

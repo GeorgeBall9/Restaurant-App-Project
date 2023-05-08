@@ -10,6 +10,8 @@ import {
 } from "../../firebase/firebase";
 import {setUserDetails} from "../../features/user/userSlice";
 import { useState } from "react";
+import {faGoogle} from "@fortawesome/free-brands-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const SignInPage = () => {
 
@@ -85,17 +87,17 @@ const SignInPage = () => {
 
             <div className="signin-google">
                 <button className="auth-button-google" onClick={handleGoogleSignInClick}>
-                    <img src="/google.png" alt="Google logo"/>
+                    <FontAwesomeIcon icon={faGoogle} className="icon"/>
                     <span className="google">Sign in with Google</span>
                 </button>
             </div>
 
-            <div className="signin-facebook">
-                <button className="auth-button-facebook" onClick={handleFacebookSignInClick}>
-                    <img src="/facebook.png" alt="Facebook logo"/>
-                    <span>Sign in with Facebook</span>
-                </button>
-            </div>
+            {/*<div className="signin-facebook">*/}
+            {/*    <button className="auth-button-facebook" onClick={handleFacebookSignInClick}>*/}
+            {/*        <img src="/facebook.png" alt="Facebook logo"/>*/}
+            {/*        <span>Sign in with Facebook</span>*/}
+            {/*    </button>*/}
+            {/*</div>*/}
         </div>
     );
 }

@@ -35,6 +35,7 @@
 .profile-container .change-details-section {
     border-radius: var(--border-radius);
     margin-top: 2em;
+    position: relative;
 }
 
 .profile-container .change-details-section .form-field {

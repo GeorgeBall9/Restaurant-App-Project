@@ -11,11 +11,13 @@ import {
     setProfilePhotoUrl
 } from "../../features/user/userSlice";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
-import {updateUserProfile, updateUserProfilePhoto} from "../../firebase/firebase";
+import {deleteUserDocAndSignOut, updateUserProfile, updateUserProfilePhoto} from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
 import PrimaryButton from "../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
 import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
 import UploadImagePopup from "../../common/components/UploadImagePopup/UploadImagePopup";
+import SecondaryButton from "../../common/components/ButtonViews/SecondaryButton/SecondaryButton";
+import ConfirmationPopupView from "../../common/components/ConfirmationPopupView/ConfirmationPopupView";
 
 const defaultProfileFields = {
     displayName: "",
@@ -38,6 +40,7 @@ const EditProfilePage = () => {
     const [buttonText, setButtonText] = useState("Save");
     const [uploadedPhotoUrl, setUploadedPhotoUrl] = useState("");
     const [photoStoragePath, setPhotoStoragePath] = useState("");
+    const [confirmDeletePopupIsVisible, setConfirmDeletePopupIsVisible] = useState(false);
 
     useEffect(() => {
         if (!displayName) return;
@@ -93,6 +96,10 @@ const EditProfilePage = () => {
         document.querySelector(".file-upload-input").value = "";
         handleCloseUploadImagePopup();
         setButtonText("Save");
+    };
+
+    const deleteAccount = async () => {
+        await deleteUserDocAndSignOut(userId);
     };
 
     return (
@@ -152,6 +159,20 @@ const EditProfilePage = () => {
                        icon={buttonText === "Saved" ? faCircleCheck : null}
                        size="large"
                    />
+
+                   <SecondaryButton
+                       handleClick={() => setConfirmDeletePopupIsVisible(true)}
+                       text="Delete account"
+                       size="large"
+                   />
+
+                   {confirmDeletePopupIsVisible && (
+                       <ConfirmationPopupView
+                           message="Are you sure you want to delete your account?"
+                           handleYesClick={deleteAccount}
+                           handleNoClick={() => setConfirmDeletePopupIsVisible(false)}
+                       />
+                   )}
                </section>
            </main>
         </div>

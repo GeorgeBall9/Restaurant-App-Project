@@ -1037,3 +1037,8 @@ const getQueriedPhotos = async (q) => {
 
     return results;
 };
+
+export const deleteUserDocAndSignOut = async (userId) => {
+    await deleteDoc(doc(db, "users", userId));
+    await signOutAuthUser();
+};

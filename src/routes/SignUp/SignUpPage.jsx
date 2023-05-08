@@ -62,7 +62,7 @@ const SignUpPage = () => {
         } catch (error) {
             let errorMessage;
             if (error.message === "Firebase: Error (auth/email-already-in-use).") {
-                errorMessage = "That email address is already registered to an account. Try signing in instead.";
+                errorMessage = "That email address is already registered to another account. Try signing in instead.";
             } else {
                 errorMessage = "Error signing up. Please try again.";
             }

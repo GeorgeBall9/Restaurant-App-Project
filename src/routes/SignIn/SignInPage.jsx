@@ -12,6 +12,7 @@ import {setUserDetails} from "../../features/user/userSlice";
 import { useState } from "react";
 import {faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import PrimaryButton from "../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
 
 const SignInPage = () => {
 
@@ -22,15 +23,17 @@ const SignInPage = () => {
     const [signInButtonText, setSignInButtonText] = useState("Sign in");
     const [googleSignInText, setGoogleSignInText] = useState("Sign in with Google");
 
-    const handleEmailAndPasswordSignIn = async (event) => {
-        event.preventDefault();
-
+    const handleEmailAndPasswordSignIn = async () => {
         try {
             setSignInButtonText("Signing in...");
             const userDetails = await signInAuthUserWithEmailAndPassword(email, password);
             dispatch(setUserDetails(userDetails));
         } catch (error) {
             console.error("Error signing in with email and password", error);
+            setErrorMessage("The account with that email and password could not be found. " +
+                "Please check your details and try again.");
+        } finally {
+            setSignInButtonText("Sign in");
         }
     };
 
@@ -53,29 +56,42 @@ const SignInPage = () => {
     //     }
     // };
 
+    const handleEmailChange = ({target}) => {
+        setErrorMessage("");
+        setEmail(target.value);
+    };
+
+    const handlePasswordChange = ({target}) => {
+        setErrorMessage("");
+        setPassword(target.value);
+    };
+
     return (
         <div className="signin-container">
             <h1>Sign In</h1>
 
-            <form onSubmit={handleEmailAndPasswordSignIn} className="signin-form">
+            <form className="signin-form">
                 <FormField 
                     label="Email"
                     type="email"
                     value={email}
-                    onChangeHandler={(e) => setEmail(e.target.value)}
+                    onChangeHandler={handleEmailChange}
                 />
 
                 <FormField 
                     label="Password"
                     type="password"
                     value={password}
-                    onChangeHandler={(e) => setPassword(e.target.value)}
+                    onChangeHandler={handlePasswordChange}
                 />
+
                 {errorMessage && <div className="signin-error-message">{errorMessage}</div>}
 
-                <button className="signin-button" type="submit">
-                    {signInButtonText}
-                </button>
+                <PrimaryButton
+                    text={signInButtonText}
+                    type="button"
+                    handleClick={handleEmailAndPasswordSignIn}
+                />
             </form>
 
             <div className="signin-page-signup">

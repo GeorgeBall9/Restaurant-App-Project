@@ -1,7 +1,19 @@
 import "./FormField.css";
 import React from "react";
 
-const FormField = ({label, placeholder, name, type, value, onChangeHandler, className, onKeyDown, padding, onFocus, onBlur}) => {
+const FormField = ({
+                       label,
+                       placeholder,
+                       name,
+                       type,
+                       value,
+                       onChangeHandler,
+                       className,
+                       onKeyDown,
+                       padding,
+                       onFocus,
+                       onBlur,
+                   }) => {
 
     const style = {
         padding: padding || "0.5em"

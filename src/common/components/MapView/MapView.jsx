@@ -51,6 +51,9 @@ const MapView = ({centrePosition, zoom, height, restaurants, checkIns, handleLoa
     // handler function to set the map held in the component state to the map when it is loaded
     const handleMapLoad = ({target}) => {
         setMap(target);
+
+        if (!handleLoad) return;
+
         handleLoad();
     }
 

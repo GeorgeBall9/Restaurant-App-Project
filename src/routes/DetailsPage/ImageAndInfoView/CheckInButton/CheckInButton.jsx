@@ -5,14 +5,17 @@ import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {useEffect, useState} from "react";
 import {addRestaurantCheckIn, checkInExists, getLastCheckInToRestaurantByUserId} from "../../../../firebase/firebase";
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectFriends, selectUserId} from "../../../../features/user/userSlice";
 import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
 import CheckInPopupView from "../../../../common/components/CheckInPopupView/CheckInPopupView";
+import {addCheckInInteraction} from "../../../../features/interactions/interactionsSlice";
 
-const CheckInButton = ({restaurant, updateInteractions}) => {
+const CheckInButton = ({restaurant}) => {
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const userId = useSelector(selectUserId);
     const friends = useSelector(selectFriends);
@@ -71,7 +74,7 @@ const CheckInButton = ({restaurant, updateInteractions}) => {
         await addRestaurantCheckIn(userId, date, restaurant, friends);
         updateCheckedIn();
 
-        updateInteractions("checkIns", 1);
+        dispatch(addCheckInInteraction());
 
         setFeedbackIsVisible(true);
 

@@ -100,7 +100,7 @@ const ReviewsSection = ({userId, restaurant}) => {
                 />
             )}
 
-            <ReviewsList reviews={displayedReviews} userId={userId}/>
+            <ReviewsList restaurant={restaurant} reviews={displayedReviews} userId={userId}/>
 
             {allReviewsVisible ? (
                 <PrimaryButton

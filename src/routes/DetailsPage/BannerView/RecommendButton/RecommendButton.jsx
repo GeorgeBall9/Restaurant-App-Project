@@ -46,6 +46,7 @@ const RecommendButton = ({restaurant, style, updateInteractions}) => {
 
     const handleYesClick = async () => {
         setConfirmationIsVisible(false);
+        console.log("yes clicked")
 
         if (isRecommended) {
             dispatch(removeRecommendation(id));

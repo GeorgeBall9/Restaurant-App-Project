@@ -17,10 +17,7 @@
     flex-direction: column;
     gap: 0.5em;
     border-bottom: solid 6px var(--primary-theme);
-}
-
-.confirmation-popup p {
-    align-self: center;
+    text-align: center;
 }
 
 .confirmation-popup .buttons-container {

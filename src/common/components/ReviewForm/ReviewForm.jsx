@@ -59,6 +59,8 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
 
         setErrors(newErrors);
 
+        console.log(Object.keys(newErrors).length === 0)
+
         return Object.keys(newErrors).length === 0;
     };
 
@@ -75,15 +77,14 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                 const updatedReview = await updateRestaurantReview(reviewId, updatedData);
                 console.log({updatedReview})
                 dispatch(updateReview({reviewId, updatedReview: {...updatedReview}}));
+                setFormData(defaultFormFields);
+                setIsSubmitted(true);
                 handleCancel();
             } else {
                 const newReview = await addRestaurantReview(userId, restaurant, data, uploadedPhotoId);
                 dispatch(addReview({...newReview}));
             }
         }
-
-        setFormData(defaultFormFields);
-        setIsSubmitted(true);
     };
 
     const handleChange = ({target}) => {
@@ -138,8 +139,6 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                                 interactive={true}
                             />
                         </label>
-
-                        {errors.rating && <p>{errors.rating}</p>}
                     </div>
 
                     {uploadedPhotoId ? (
@@ -156,6 +155,8 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                     )}
                 </div>
 
+                {errors.rating && <p className="rating-error error">{errors.rating}</p>}
+
                 <div>
                     <FormField
                         label="Date of Visit:"
@@ -165,7 +166,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                         onChangeHandler={handleChange}
                     />
 
-                    {errors.visitDate && <p>{errors.visitDate}</p>}
+                    {errors.visitDate && <p className="error">{errors.visitDate}</p>}
                 </div>
 
                 <div>
@@ -177,7 +178,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                         onChangeHandler={handleChange}
                     />
 
-                    {errors.title && <p>{errors.title}</p>}
+                    {errors.title && <p className="error">{errors.title}</p>}
                 </div>
 
                 <div>
@@ -186,7 +187,7 @@ const ReviewForm = ({restaurant, userId, edit, reviewId, reviewData, handleCance
                         <textarea name="content" value={content} onChange={handleChange}/>
                     </label>
 
-                    {errors.review && <p>{errors.review}</p>}
+                    {errors.review && <p className="error">{errors.review}</p>}
                 </div>
 
                 {!edit && <button className="review-submit" type="submit">Submit review</button>}

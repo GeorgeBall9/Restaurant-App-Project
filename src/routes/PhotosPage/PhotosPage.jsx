@@ -12,8 +12,6 @@ const PhotosPage = () => {
 
     const [allPhotos, setAllPhotos] = useState(null);
     const [display, setDisplay] = useState("Uploaded");
-    const [selectMode, setSelectMode] = useState(false);
-    const [button2Text, setButton2Text] = useState(null);
 
     useEffect(() => {
         if (!userId) return;
@@ -22,20 +20,8 @@ const PhotosPage = () => {
             .then(data => setAllPhotos(data))
     }, [userId]);
 
-    useEffect(() => {
-        if (!allPhotos || display === "Tagged") {
-            setButton2Text(null);
-        } else {
-            setButton2Text(selectMode ? "Cancel" : "Select");
-        }
-    }, [allPhotos, selectMode, display]);
-
     const changeDisplay = () => {
         setDisplay(display => display === "Uploaded" ? "Tagged" : "Uploaded");
-    };
-
-    const handleSelectClick = () => {
-        setSelectMode(selectMode => !selectMode);
     };
 
     const handleDeleteSelected = async (selectedImages) => {
@@ -46,20 +32,12 @@ const PhotosPage = () => {
         // find check in and delete photo
 
         setAllPhotos(updatedPhotos);
-
-        if (!updatedPhotos.length) {
-            handleSelectClick();
-        }
     };
 
     return (
         <div className="photos-page-container">
             <ProfileNavigationView
                 pageTitle="Photos"
-                button2={{
-                    text: button2Text,
-                    handler: handleSelectClick
-                }}
                 lowerNav={true}
                 toggleDisplayText={display === "Tagged" ? "Uploaded" : "Tagged"}
                 toggleHandler={changeDisplay}
@@ -78,7 +56,6 @@ const PhotosPage = () => {
                             rows={100}
                             columns={2}
                             addFunctionality={false}
-                            selectMode={selectMode}
                             handleDeleteSelected={handleDeleteSelected()}
                         />
                     </div>

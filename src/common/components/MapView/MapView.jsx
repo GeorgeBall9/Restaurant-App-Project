@@ -13,7 +13,7 @@ import {selectRestaurantsFetchStatus} from "../../../features/restaurants/restau
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
-const MapView = ({centrePosition, zoom, height, restaurants, checkIns}) => {
+const MapView = ({centrePosition, zoom, height, restaurants, checkIns, handleLoad}) => {
 
     const dispatch = useDispatch();
 
@@ -31,10 +31,10 @@ const MapView = ({centrePosition, zoom, height, restaurants, checkIns}) => {
     useEffect(() => {
         if (restaurantsFetchStatus === "pending") {
             dispatch(showSpinner());
-        } else if (map) {
+        } else if (restaurantsFetchStatus === "idle" && map) {
             dispatch(hideSpinner());
         }
-    }, [restaurantsFetchStatus]);
+    }, [restaurantsFetchStatus, map]);
 
     useEffect(() => {
         if (!map) {
@@ -49,7 +49,13 @@ const MapView = ({centrePosition, zoom, height, restaurants, checkIns}) => {
     const handleMapMove = (e) => setViewState(e.viewState);
 
     // handler function to set the map held in the component state to the map when it is loaded
-    const handleMapLoad = ({target}) => setMap(target);
+    const handleMapLoad = ({target}) => {
+        setMap(target);
+
+        if (!handleLoad) return;
+
+        handleLoad();
+    }
 
     useEffect(() => {
         if (!displayedRestaurant || !map) return;

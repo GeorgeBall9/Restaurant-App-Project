@@ -42,3 +42,7 @@
     font-weight: var(--font-weight-bold-2);
     font-size: var(--font-size-sub-heading);
 }
+
+.profile-container .error-message {
+    color: red;
+}

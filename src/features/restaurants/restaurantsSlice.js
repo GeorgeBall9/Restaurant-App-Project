@@ -39,8 +39,6 @@ export const fetchRestaurants = createAsyncThunk(
     async (data) => {
         const {latitude, longitude} = data;
 
-        console.log("fetching restaurant data")
-
         const query = fetchUrl + "?latitude=" + latitude + "&longitude=" + longitude +
             "&limit=20&currency=GBP&distance=1&open_now=true&lunit=km&lang=en_US";
 
@@ -275,12 +273,9 @@ export const restaurantsSlice = createSlice({
             .addCase(fetchRestaurants.pending, (state, action) => {
                 state.status = "pending"; // indicates fetch request has begun
                 state.error = null; // reset error
-                console.log("pending fetch")
             })
             .addCase(fetchRestaurants.fulfilled, (state, action) => {
-                console.log("success")
                 state.status = "success"; // indicates fetch was successful
-
 
                 const {data, position} = action.payload;
 
@@ -298,7 +293,6 @@ export const restaurantsSlice = createSlice({
                 state.lastPositionQueried = position;
             })
             .addCase(fetchRestaurants.rejected, (state, action) => {
-                console.log("fail")
                 state.status = "fail"; // indicates fetch failed
                 state.error = action.error.message; // sets error to error message returned
             });

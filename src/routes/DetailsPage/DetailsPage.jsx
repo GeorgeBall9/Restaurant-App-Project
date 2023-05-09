@@ -16,11 +16,7 @@ import ImageAndInfoView from "./ImageAndInfoView/ImageAndInfoView";
 import InteractionsView from "./InteractionsView/InteractionsView";
 import WebsiteView from "./WebsiteView/WebsiteView";
 import AboutView from "./AboutView/AboutView";
-import {
-    selectBookmarkInteractions, selectCheckInInteractions,
-    selectRecommendationInteractions,
-    setInteractions
-} from "../../features/interactions/interactionsSlice";
+import {setInteractions} from "../../features/interactions/interactionsSlice";
 
 const navLinksText = ["Interactions", "Website", "About", "Hours", "Details", "Reviews"];
 

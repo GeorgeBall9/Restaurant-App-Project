@@ -99,8 +99,6 @@ export const createUserDoc = async (userData, userId) => {
     const userDocRef = doc(db, "users", userId);
 
     await setDoc(userDocRef, {...userData}, {merge: true});
-
-    console.log("User document written with ID: ", userDocRef.id);
 };
 
 // create user doc in db after successful sign up
@@ -137,7 +135,6 @@ export const getUserFromUserId = async (userId) => {
         return {...data, profilePhotoUrl};
     } catch (error) {
         console.error(error);
-        console.log("blue");
     }
 };
 
@@ -207,7 +204,6 @@ export const addUserRecommendation = async (userId, restaurant) => {
 
         await addInteractionToRestaurantDoc(restaurant, "recommendations");
     } catch (error) {
-        console.log(error);
         throw new Error("Document does not exist");
     }
 };
@@ -240,7 +236,6 @@ export const addUserBookmark = async (userId, restaurant) => {
 
         await addInteractionToRestaurantDoc(restaurant, "bookmarks");
     } catch (error) {
-        console.log(error);
         throw new Error("Document does not exist");
     }
 };
@@ -271,10 +266,7 @@ const createNewCheckInDoc = async (date, restaurant, userIds, photoIds) => {
         photoIds
     };
 
-    console.log({newCheckIn})
-
     const checkInDocRef = await addDoc(checkInsCollectionRef, newCheckIn);
-    console.log("Check in document created with id:", checkInDocRef.id);
 
     return checkInDocRef.id;
 };
@@ -298,7 +290,6 @@ export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) 
         await addInteractionToRestaurantDoc(restaurant, "checkIns");
         return await getCheckInDocFromId(checkInId);
     } catch (error) {
-        console.log(error);
         throw new Error("Document does not exist");
     }
 };
@@ -364,7 +355,6 @@ export const removeRestaurantCheckIn = async (checkInId) => {
             await deleteRestaurantPhotoDoc(photoId);
         }
     } catch (error) {
-        console.log(error);
         throw new Error("Document does not exist");
     }
 };
@@ -406,8 +396,6 @@ export const getCheckInsByUserId = async (userId) => {
         querySnapshot.forEach((doc) => {
             foundCheckIns.push({id: doc.id, ...doc.data()})
         });
-
-        console.log({foundCheckIns})
 
         return foundCheckIns?.length ? foundCheckIns : null;
     } catch (error) {
@@ -466,7 +454,6 @@ export const addRestaurantReview = async (userId, restaurant, formData, photoId)
     };
 
     const reviewDocRef = await addDoc(reviewsCollectionRef, newReview);
-    console.log("Review document created with id:", reviewDocRef.id);
 
     await addInteractionToRestaurantDoc(restaurant, "reviews");
 
@@ -611,8 +598,6 @@ export const createRestaurantDoc = async (restaurant) => {
     const docRef = await doc(db, "restaurants", restaurant.id);
 
     await setDoc(docRef, {...restaurant}, {merge: true});
-
-    console.log("User document written with ID: ", docRef.id);
 };
 
 // get restaurant by id
@@ -683,8 +668,6 @@ const removeFriendRequest = async (userId, friendId) => {
     const userData = await getUserFromUserId(userId);
     const requests = userData.friendRequests;
     const updatedRequests = requests.filter(request => request.userId !== friendId);
-
-    console.log({userId, friendId, updatedRequests});
 
     await updateDoc(userDocRef, {friendRequests: updatedRequests});
 };
@@ -825,16 +808,7 @@ export const uploadImage = (imageFile, downloadUrlSetter, progressSetter) => {
     uploadTask.on('state_changed',
         (snapshot) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
             progressSetter(Math.round(progress));
-            switch (snapshot.state) {
-                case 'paused':
-                    console.log('Upload is paused');
-                    break;
-                case 'running':
-                    console.log('Upload is running');
-                    break;
-            }
         },
         (error) => {
             switch (error.code) {
@@ -874,7 +848,6 @@ const createNewProfilePhotoDoc = async (userId, path) => {
     };
 
     const photoDocRef = await addDoc(photosCollectionRef, newPhoto);
-    console.log("Photo document created with id:", photoDocRef.id);
 
     return photoDocRef.id;
 };
@@ -939,13 +912,11 @@ export const createNewRestaurantPhotoDoc = async (userId, restaurantId, path, fr
     };
 
     const photoDocRef = await addDoc(photosCollectionRef, newPhoto);
-    console.log("Photo document created with id:", photoDocRef.id);
 
     return photoDocRef.id;
 };
 
 export const deleteRestaurantPhotoDoc = async (photoId) => {
-    console.log(photoId)
     await deleteDoc(doc(db, "restaurant-photos", photoId));
 };
 

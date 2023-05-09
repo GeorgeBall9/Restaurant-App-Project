@@ -22,8 +22,8 @@ const initialState = {
 };
 
 // url to fetch restaurants data - held on json server atm - must later be changed to API endpoint
-// const fetchUrl = "http://localhost:8000/data";
-const fetchUrl = "https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng";
+const fetchUrl = "http://localhost:8000/data";
+// const fetchUrl = "https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng";
 
 export const options = {
     method: 'GET',
@@ -44,9 +44,9 @@ export const fetchRestaurants = createAsyncThunk(
         const query = fetchUrl + "?latitude=" + latitude + "&longitude=" + longitude +
             "&limit=20&currency=GBP&distance=1&open_now=true&lunit=km&lang=en_US";
 
-        const response = await fetch(query, options);
+        // const response = await fetch(query, options);
 
-        // const response = await fetch(fetchUrl);
+        const response = await fetch(fetchUrl);
 
         if (!response.ok) {
             throw new Error("The requested resource is not available. Check the URL is correct.");
@@ -55,7 +55,7 @@ export const fetchRestaurants = createAsyncThunk(
         const jsonData = await response.json();
 
         return {
-            data: jsonData.data,
+            data: jsonData,
             position: {longitude, latitude},
         }
     }

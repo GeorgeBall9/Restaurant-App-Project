@@ -16,10 +16,6 @@ const CustomCollage = ({
                            handleDeleteSelected
                        }) => {
 
-    const showMore = images.length > rows * columns;
-    const image4 = images[rows * columns - 1];
-    const remainingImages = showMore ? images.length - rows * columns : 0;
-
     const [allImages, setAllImages] = useState(images);
     const [selectedImages, setSelectedImages] = useState([]);
     const [selectButtonText, setSelectButtonText] = useState("Select all");
@@ -68,8 +64,9 @@ const CustomCollage = ({
         }
     }, [selectedImages]);
 
-    const handleDeleteClick = () => {
-        handleDeleteSelected(selectedImages);
+    const handleDeleteClick = async () => {
+        await handleDeleteSelected(selectedImages);
+        setSelectedImages([]);
     };
 
     return (
@@ -133,18 +130,6 @@ const CustomCollage = ({
                         </div>
                     ))
                 }
-
-                {/*{image4 && (*/}
-                {/*    <div className="collage-image-wrapper">*/}
-                {/*        <CollageImage {...image4} />*/}
-
-                {/*        {showMore && (*/}
-                {/*            <div className="collage-image-overlay" onClick={onExpand}>*/}
-                {/*                Show more +{remainingImages}*/}
-                {/*            </div>*/}
-                {/*        )}*/}
-                {/*    </div>*/}
-                {/*)}*/}
 
                 {fullScreenImage && (
                     <div className="full-screen-image-wrapper" onClick={closeFullScreenPhoto}>

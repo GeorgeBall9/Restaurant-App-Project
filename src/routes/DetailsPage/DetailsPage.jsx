@@ -16,7 +16,11 @@ import ImageAndInfoView from "./ImageAndInfoView/ImageAndInfoView";
 import InteractionsView from "./InteractionsView/InteractionsView";
 import WebsiteView from "./WebsiteView/WebsiteView";
 import AboutView from "./AboutView/AboutView";
-import {setInteractions} from "../../features/interactions/interactionsSlice";
+import {
+    selectBookmarkInteractions, selectCheckInInteractions,
+    selectRecommendationInteractions,
+    setInteractions
+} from "../../features/interactions/interactionsSlice";
 
 const navLinksText = ["Interactions", "Website", "About", "Hours", "Details", "Reviews"];
 
@@ -30,6 +34,9 @@ const DetailsPage = () => {
 
     const userId = useSelector(selectUserId);
     const allRestaurants = useSelector(selectAllRestaurants);
+    const recommendations = useSelector(selectRecommendationInteractions);
+    const bookmarks = useSelector(selectBookmarkInteractions);
+    const checkIns = useSelector(selectCheckInInteractions);
 
     const bannerRef = useRef(null);
     const nameRef = useRef(null);
@@ -229,7 +236,11 @@ const DetailsPage = () => {
 
             <div className="details-container">
                 <section id="Interactions" ref={interactionsRef}>
-                    <InteractionsView/>
+                    <InteractionsView
+                        recommendations={recommendations}
+                        bookmarks={bookmarks}
+                        checkIns={checkIns}
+                    />
                 </section>
 
                 {website && (

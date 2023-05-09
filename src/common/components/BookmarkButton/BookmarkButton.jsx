@@ -14,7 +14,7 @@ import InteractionButton from "../buttonViews/InteractionButton/InteractionButto
 import InteractionFeedback from "../InteractionFeedback/InteractionFeedback";
 import {addBookmarkInteraction, removeBookmarkInteraction} from "../../../features/interactions/interactionsSlice";
 
-const BookmarkButton = ({restaurant, style, updateInteractions}) => {
+const BookmarkButton = ({restaurant, style}) => {
 
     const id = restaurant?.id;
 

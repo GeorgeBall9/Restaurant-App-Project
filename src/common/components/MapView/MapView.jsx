@@ -3,7 +3,6 @@ import ReactMapGl from "react-map-gl";
 import {useEffect, useState} from "react";
 import {hideSpinner, showSpinner} from "../../../features/spinner/spinnerSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {selectUserPosition} from "../../../features/location/locationSlice";
 import MainMapChildren from "../../../routes/MapPage/MainMapChildren/MainMapChildren";
 import {selectDisplayedRestaurant} from "../../../features/map/mapSlice";
 import mapboxgl from "mapbox-gl";

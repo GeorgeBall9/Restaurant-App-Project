@@ -36,7 +36,6 @@ const ReviewForm = forwardRef((props, ref) => {
     const {rating, visitDate, title, content} = formData;
 
     const handleUploadPhotoClick = async (photoUrl, photoStoragePath) => {
-        console.log({restaurant})
         const photoId = await createNewRestaurantPhotoDoc(userId, restaurant.id, photoStoragePath);
         setUploadedPhotoId(photoId);
     };
@@ -76,7 +75,6 @@ const ReviewForm = forwardRef((props, ref) => {
             if (edit) {
                 const updatedData = {...data, photoId: uploadedPhotoId};
                 const updatedReview = await updateRestaurantReview(reviewId, updatedData);
-                console.log({updatedReview})
                 dispatch(updateReview({reviewId, updatedReview: {...updatedReview}}));
                 setFormData(defaultFormFields);
             } else {

@@ -2,10 +2,6 @@ import "./CheckInsMapChildren.css";
 import {FullscreenControl} from "react-map-gl";
 import {Popup} from "react-map-gl";
 import RestaurantMarker from "../../../common/components/RestaurantMarker/RestaurantMarker";
-import {useSelector} from "react-redux";
-import {selectCheckInsRouteCoordinates, selectSelectedCheckIns} from "../../../features/checkIns/checkInsSlice";
-import {useEffect} from "react";
-import Route from "../../../common/components/Route/Route";
 
 const CheckInsMapChildren = ({checkIns, displayedRestaurant}) => {
 

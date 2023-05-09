@@ -24,8 +24,9 @@
     gap: 0.5em;
 }
 
-.profile-navigation .upper-nav button .icon {
+.profile-navigation .upper-nav > button > .icon {
     color: var(--secondary-theme);
+    margin-right: 0.5em;
 }
 
 .profile-navigation .upper-nav h1 {
@@ -43,16 +44,12 @@
     text-align: center;
 }
 
-.profile-navigation .upper-nav button {
+.profile-navigation .upper-nav > button {
     color: var(--secondary-theme);
     font-weight: var(--font-weight-bold-2);
     font-size: var(--font-size-nav-button);
     background: none;
     border: none;
-}
-
-.profile-navigation .upper-nav button .icon {
-    margin-right: 0.5em;
 }
 
 .profile-navigation .lower-nav {

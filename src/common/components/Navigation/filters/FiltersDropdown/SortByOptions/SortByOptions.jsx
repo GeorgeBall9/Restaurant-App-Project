@@ -6,13 +6,13 @@ import {
     selectSortFilter,
     toggleFiltersDropdown,
     updateSortFilter
-} from "../../filtersSlice";
+} from "../../../../../../features/filters/filtersSlice";
 import {
     filterRestaurantResultsByCuisine,
     resetRestaurantResults,
     sortRestaurants
-} from "../../../restaurants/restaurantsSlice";
-import {resetDisplayedRestaurant} from "../../../map/mapSlice";
+} from "../../../../../../features/restaurants/restaurantsSlice";
+import {resetDisplayedRestaurant} from "../../../../../../features/map/mapSlice";
 import {useDispatch, useSelector} from "react-redux";
 
 const sortByOptions = ["Distance", "Rating", "Price"];

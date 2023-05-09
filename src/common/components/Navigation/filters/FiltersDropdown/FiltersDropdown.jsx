@@ -6,17 +6,17 @@ import {
     applyFilters, resetFilters,
     selectCuisineFilter,
     selectSortFilter,
-} from "../filtersSlice";
+} from "../../../../../features/filters/filtersSlice";
 import {
     filterRestaurantResultsByCuisine,
     resetRestaurantResults,
     sortRestaurants
-} from "../../restaurants/restaurantsSlice";
+} from "../../../../../features/restaurants/restaurantsSlice";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
-import PrimaryButton from "../../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
-import Overlay from "../../../common/components/Overlay/Overlay";
+import PrimaryButton from "../../../buttonViews/PrimaryButton/PrimaryButton";
+import Overlay from "../../../Overlay/Overlay";
 
 const FiltersDropdown = ({closePopup}) => {
 

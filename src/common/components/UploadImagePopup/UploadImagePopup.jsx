@@ -1,6 +1,6 @@
 import "./UploadImagePopup.css";
 import UploadFileButton from "../UploadFileButton/UploadFileButton";
-import PrimaryButton from "../ButtonViews/PrimaryButton/PrimaryButton";
+import PrimaryButton from "../buttonViews/PrimaryButton/PrimaryButton";
 import {useState} from "react";
 import {uploadImage} from "../../../firebase/firebase";
 import Overlay from "../Overlay/Overlay";

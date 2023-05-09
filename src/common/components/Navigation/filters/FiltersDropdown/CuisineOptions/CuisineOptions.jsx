@@ -7,13 +7,13 @@ import {
     selectSortFilter,
     toggleFiltersDropdown,
     updateCuisineFilter
-} from "../../filtersSlice";
+} from "../../../../../../features/filters/filtersSlice";
 import {
     filterRestaurantResultsByCuisine,
     resetRestaurantResults,
     sortRestaurants
-} from "../../../restaurants/restaurantsSlice";
-import {resetDisplayedRestaurant} from "../../../map/mapSlice";
+} from "../../../../../../features/restaurants/restaurantsSlice";
+import {resetDisplayedRestaurant} from "../../../../../../features/map/mapSlice";
 
 const cuisineOptions = [
     "Any",

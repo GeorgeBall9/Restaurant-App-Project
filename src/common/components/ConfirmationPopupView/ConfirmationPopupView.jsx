@@ -1,6 +1,6 @@
 import "./ConfirmationPopupView.css";
-import PrimaryButton from "../ButtonViews/PrimaryButton/PrimaryButton";
-import InversePrimaryButton from "../ButtonViews/InversePrimaryButton/InversePrimaryButton";
+import PrimaryButton from "../buttonViews/PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../buttonViews/InversePrimaryButton/InversePrimaryButton";
 import Overlay from "../Overlay/Overlay";
 
 const ConfirmationPopupView = ({message, handleYesClick, handleNoClick}) => {

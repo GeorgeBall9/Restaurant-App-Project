@@ -15,8 +15,9 @@ import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {selectRestaurants, selectRestaurantsFetchStatus} from "../../features/restaurants/restaurantsSlice";
 import {selectUserPosition} from "../../features/location/locationSlice";
-import PrimaryButton from "../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
+import PrimaryButton from "../../common/components/buttonViews/PrimaryButton/PrimaryButton";
 import NoResults from "../../common/components/NoResults/NoResults";
+import ErrorPopupView from "../../common/components/ErrorPopupView/ErrorPopupView";
 
 const MapPage = () => {
 
@@ -53,14 +54,15 @@ const MapPage = () => {
             />
 
             {errorPopupIsVisible && (
-                <div className="location-error-popup">
-                    <NoResults
-                        mainText="No open restaurants nearby!!"
-                        subText="Try entering a different search location or check back later"
-                    />
-
-                    <PrimaryButton text="Close" handleClick={() => setErrorPopupIsVisible(false)}/>
-                </div>
+                <ErrorPopupView
+                    children={
+                        <NoResults
+                            mainText="No open restaurants nearby!!"
+                            subText="Try entering a different search location or check back later"
+                        />
+                    }
+                    closePopup={() => setErrorPopupIsVisible(false)}
+                />
             )}
 
             <Slider/>

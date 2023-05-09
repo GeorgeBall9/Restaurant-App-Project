@@ -5,7 +5,7 @@ import {signUpAuthUserWithEmailAndPassword} from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
 import {setUserDetails} from "../../features/user/userSlice";
 import {useDispatch} from "react-redux";
-import PrimaryButton from "../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
+import PrimaryButton from "../../common/components/buttonViews/PrimaryButton/PrimaryButton";
 
 const SignUpPage = () => {
 

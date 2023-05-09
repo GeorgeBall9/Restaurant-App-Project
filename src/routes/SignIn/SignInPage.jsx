@@ -10,7 +10,7 @@ import {setUserDetails} from "../../features/user/userSlice";
 import { useState } from "react";
 import {faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import PrimaryButton from "../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
+import PrimaryButton from "../../common/components/buttonViews/PrimaryButton/PrimaryButton";
 
 const SignInPage = () => {
 

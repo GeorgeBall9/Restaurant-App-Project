@@ -6,7 +6,7 @@ import {getReviewsByRestaurantId} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
 import ReviewsList from "../../../common/components/ReviewsList/ReviewsList";
-import PrimaryButton from "../../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
+import PrimaryButton from "../../../common/components/buttonViews/PrimaryButton/PrimaryButton";
 import ReviewsStatsView from "./ReviewsStatsView/ReviewsStatsView";
 import {sortReviewsByMostRecentVisitDate} from "../../ReviewsPage/ReviewsPage";
 import {options} from "../../../features/restaurants/restaurantsSlice";

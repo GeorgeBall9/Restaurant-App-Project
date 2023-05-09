@@ -9,7 +9,7 @@ import {addUserReactionToReview, deleteRestaurantReview} from "../../../../fireb
 import {deleteReview, selectReviews, updateReview} from "../../../../features/reviews/reviewsSlice";
 import {useDispatch, useSelector} from "react-redux";
 import VoteButton from "./VoteButton/VoteButton";
-import InteractionButton from "../../ButtonViews/InteractionButton/InteractionButton";
+import InteractionButton from "../../buttonViews/InteractionButton/InteractionButton";
 import ConfirmationPopupView from "../../ConfirmationPopupView/ConfirmationPopupView";
 
 const ReviewCard = ({review, userId, handleEditClick}) => {

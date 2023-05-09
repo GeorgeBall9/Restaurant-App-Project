@@ -1,8 +1,6 @@
 import "./PreviewReviewCard.css";
-import ConfirmDeletePopup from "../ConfirmDeletePopup/ConfirmDeletePopup";
 import RestaurantImage from "../../../common/components/RestaurantImage/RestaurantImage";
 import StarRating from "../../../common/components/StarRating/StarRating";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
 import {deleteRestaurantReview} from "../../../firebase/firebase";
@@ -10,7 +8,8 @@ import {deleteReview, selectReview} from "../../../features/reviews/reviewsSlice
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
-import InteractionButton from "../../../common/components/ButtonViews/InteractionButton/InteractionButton";
+import InteractionButton from "../../../common/components/buttonViews/InteractionButton/InteractionButton";
+import ConfirmationPopupView from "../../../common/components/ConfirmationPopupView/ConfirmationPopupView";
 
 const PreviewReviewCard = ({review, canDelete}) => {
 
@@ -24,7 +23,7 @@ const PreviewReviewCard = ({review, canDelete}) => {
 
     const [confirmDeleteReviewId, setConfirmDeleteReviewId] = useState(null);
 
-    const handleDeleteClick = async () => {
+    const handleDelete = async () => {
         await deleteRestaurantReview(userId, id);
         dispatch(deleteReview(id));
         setConfirmDeleteReviewId(null);
@@ -38,9 +37,10 @@ const PreviewReviewCard = ({review, canDelete}) => {
     return (
         <div className="preview-review-card">
             {confirmDeleteReviewId === id && (
-                <ConfirmDeletePopup
-                    handleConfirmDelete={handleDeleteClick}
-                    handleCancelDelete={() => setConfirmDeleteReviewId(null)}
+                <ConfirmationPopupView
+                    message="Delete this review?"
+                    handleYesClick={handleDelete}
+                    handleNoClick={() => setConfirmDeleteReviewId(null)}
                 />
             )}
 

@@ -2,12 +2,12 @@ import "./AppliedFilterButton.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
-import {removedAppliedFilter, selectCuisineFilter, selectSortFilter} from "../../../../features/filters/filtersSlice";
+import {removedAppliedFilter, selectCuisineFilter, selectSortFilter} from "../../../../../features/filters/filtersSlice";
 import {
     filterRestaurantResultsByCuisine,
     resetRestaurantResults,
     sortRestaurants
-} from "../../../../features/restaurants/restaurantsSlice";
+} from "../../../../../features/restaurants/restaurantsSlice";
 
 const AppliedFilterButton = ({type, filter}) => {
 

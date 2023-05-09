@@ -47,6 +47,10 @@ const ReviewForm = forwardRef((props, ref) => {
             newErrors.visitDate = 'Date of visit is required';
         }
 
+        if (+new Date(visitDate) > +new Date()) {
+            newErrors.visitDate = 'Date of visit cannot be in the future';
+        }
+
         if (!rating || rating < 1 || rating > 10) {
             newErrors.rating = 'Rating is required';
         }

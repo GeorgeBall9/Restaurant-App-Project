@@ -90,7 +90,7 @@ const MapView = ({centrePosition, zoom, height, restaurants, checkIns, handleLoa
                 mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
                 onRender={({target}) => target.resize()}
             >
-                {restaurants && (
+                {map && restaurants && (
                     <MainMapChildren
                         userPosition={centrePosition}
                         restaurants={restaurants}
@@ -98,7 +98,7 @@ const MapView = ({centrePosition, zoom, height, restaurants, checkIns, handleLoa
                     />
                 )}
 
-                {checkIns && (
+                {map && checkIns && (
                     <CheckInsMapChildren checkIns={checkIns} displayedRestaurant={displayedRestaurant}/>
                 )}
             </ReactMapGl>

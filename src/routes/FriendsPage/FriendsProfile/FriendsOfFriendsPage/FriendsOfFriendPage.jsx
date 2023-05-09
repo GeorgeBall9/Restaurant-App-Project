@@ -43,7 +43,6 @@ const FriendsOfFriendsPage = () => {
         getFriendsByUserId(displayedFriend.id)
             .then(data => {
                 setFriendsOfFriend(data.filter(({id, status}) => id !== currentUserId && status !== "pending"));
-                console.log({data})
             })
             .catch(error => {
                 console.error(error);
@@ -84,7 +83,6 @@ const FriendsOfFriendsPage = () => {
             setDisplayedFriends(searchResults);
             setSearchHasMatches(true);
         } else {
-            console.log("no results")
             setDisplayedFriends(friendsOfFriend);
             setSearchHasMatches(false);
         }

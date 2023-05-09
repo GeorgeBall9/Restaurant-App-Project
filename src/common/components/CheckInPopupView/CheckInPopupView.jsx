@@ -3,10 +3,10 @@ import FormField from "../FormField/FormField";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleCheck as solidCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import UserIcon from "../UserIcon/UserIcon";
-import InteractionButton from "../ButtonViews/InteractionButton/InteractionButton";
+import InteractionButton from "../buttonViews/InteractionButton/InteractionButton";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
-import PrimaryButton from "../ButtonViews/PrimaryButton/PrimaryButton";
-import InversePrimaryButton from "../ButtonViews/InversePrimaryButton/InversePrimaryButton";
+import PrimaryButton from "../buttonViews/PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../buttonViews/InversePrimaryButton/InversePrimaryButton";
 import {useEffect, useState} from "react";
 import Overlay from "../Overlay/Overlay";
 

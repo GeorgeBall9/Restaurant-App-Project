@@ -2,7 +2,7 @@ import "./LocationButton.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationDot, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {useSelector} from "react-redux";
-import {selectLocationDescription} from "../../../../features/location/locationSlice";
+import {selectLocationDescription} from "../../../../../features/location/locationSlice";
 
 const LocationButton = ({handleClick, optionsOpen}) => {
 

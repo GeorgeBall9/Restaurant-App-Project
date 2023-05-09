@@ -10,21 +10,21 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import GreyEuropeanImageSrc from "../../../../../common/images/icons-grey/European.png";
-import GreyJapaneseImageSrc from "../../../../../common/images/icons-grey/Japanese.png";
-import GreyMexicanImageSrc from "../../../../../common/images/icons-grey/Mexican.png";
-import GreySpanishImageSrc from "../../../../../common/images/icons-grey/Spanish.png";
-import GreySteakImageSrc from "../../../../../common/images/icons-grey/Steak.png";
-import GreySushiImageSrc from "../../../../../common/images/icons-grey/Sushi.png";
-import GreyThaiImageSrc from "../../../../../common/images/icons-grey/Thai.png";
+import GreyEuropeanImageSrc from "../../../../../../images/icons-grey/European.png";
+import GreyJapaneseImageSrc from "../../../../../../images/icons-grey/Japanese.png";
+import GreyMexicanImageSrc from "../../../../../../images/icons-grey/Mexican.png";
+import GreySpanishImageSrc from "../../../../../../images/icons-grey/Spanish.png";
+import GreySteakImageSrc from "../../../../../../images/icons-grey/Steak.png";
+import GreySushiImageSrc from "../../../../../../images/icons-grey/Sushi.png";
+import GreyThaiImageSrc from "../../../../../../images/icons-grey/Thai.png";
 
-import YellowEuropeanImageSrc from "../../../../../common/images/icons-yellow/European.png";
-import YellowJapaneseImageSrc from "../../../../../common/images/icons-yellow/Japanese.png";
-import YellowMexicanImageSrc from "../../../../../common/images/icons-yellow/Mexican.png";
-import YellowSpanishImageSrc from "../../../../../common/images/icons-yellow/Spanish.png";
-import YellowSteakImageSrc from "../../../../../common/images/icons-yellow/Steak.png";
-import YellowSushiImageSrc from "../../../../../common/images/icons-yellow/Sushi.png";
-import YellowThaiImageSrc from "../../../../../common/images/icons-yellow/Thai.png";
+import YellowEuropeanImageSrc from "../../../../../../images/icons-yellow/European.png";
+import YellowJapaneseImageSrc from "../../../../../../images/icons-yellow/Japanese.png";
+import YellowMexicanImageSrc from "../../../../../../images/icons-yellow/Mexican.png";
+import YellowSpanishImageSrc from "../../../../../../images/icons-yellow/Spanish.png";
+import YellowSteakImageSrc from "../../../../../../images/icons-yellow/Steak.png";
+import YellowSushiImageSrc from "../../../../../../images/icons-yellow/Sushi.png";
+import YellowThaiImageSrc from "../../../../../../images/icons-yellow/Thai.png";
 
 const iconsMap = {
     British: faUtensils,

@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleXmark, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import SearchFeedback from "./SearchFeedback/SearchFeedback";
 import {useEffect, useRef, useState} from "react";
-import InteractionButton from "../ButtonViews/InteractionButton/InteractionButton";
+import InteractionButton from "../buttonViews/InteractionButton/InteractionButton";
 
 const SearchBox = ({handleInputChange, hasMatches = true, handleFocus, focused}) => {
 

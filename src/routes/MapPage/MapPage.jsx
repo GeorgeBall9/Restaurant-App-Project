@@ -15,7 +15,7 @@ import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {selectRestaurants, selectRestaurantsFetchStatus} from "../../features/restaurants/restaurantsSlice";
 import {selectUserPosition} from "../../features/location/locationSlice";
-import PrimaryButton from "../../common/components/ButtonViews/PrimaryButton/PrimaryButton";
+import PrimaryButton from "../../common/components/buttonViews/PrimaryButton/PrimaryButton";
 import NoResults from "../../common/components/NoResults/NoResults";
 
 const MapPage = () => {

@@ -9,9 +9,9 @@ import {
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectAppliedCuisineFilter, selectAppliedSortFilter} from "../../../features/filters/filtersSlice";
-import AppliedFilterButton from "./AppliedFilterButton/AppliedFilterButton";
-import LocationButton from "./LocationButton/LocationButton";
-import LocationOptions from "../../../features/location/LocationOptions/LocationOptions";
+import AppliedFilterButton from "./filters/AppliedFilterButton/AppliedFilterButton";
+import LocationButton from "./location/LocationButton/LocationButton";
+import LocationOptions from "./location/LocationOptions/LocationOptions";
 import SearchBox from "../SearchBox/SearchBox";
 import {
     filterResultsBySearchQuery,
@@ -19,7 +19,7 @@ import {
     selectHasMatches
 } from "../../../features/restaurants/restaurantsSlice";
 import {useEffect, useRef, useState} from "react";
-import FiltersDropdown from "../../../features/filters/FiltersDropdown/FiltersDropdown";
+import FiltersDropdown from "./filters/FiltersDropdown/FiltersDropdown";
 
 const Navigation = ({view, setNavHeight}) => {
 

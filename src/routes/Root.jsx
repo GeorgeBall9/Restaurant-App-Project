@@ -1,10 +1,10 @@
-import Spinner from "../features/spinner/Spinner/Spinner";
+import Spinner from "../common/components/Spinner/Spinner";
 import {Outlet} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectSpinnerIsVisible} from "../features/spinner/spinnerSlice";
 import useFetchRestaurants from "../common/hooks/useFetchRestaurants";
 import useFilterRestaurants from "../common/hooks/useFilterRestaurants";
-import FiltersDropdown from "../features/filters/FiltersDropdown/FiltersDropdown";
+import FiltersDropdown from "../common/components/Navigation/filters/FiltersDropdown/FiltersDropdown";
 import useInitialiseSlider from "../common/hooks/useInitialiseSlider";
 
 import {onAuthStateChanged} from "firebase/auth";

@@ -74,7 +74,7 @@ const FriendsPage = () => {
     };
 
     const handleInviteClick = async () => {
-        await navigator.clipboard.writeText("Hi! I'm using the web app {app_name_goes_here} and would like you " +
+        await navigator.clipboard.writeText("Hi! I'm using the web app FOOD FIESTA and would like you " +
             "to join! \n\nFollow the link below and create an account: " +
             "\nhttps://restaurant-app-team22.netlify.app/sign-in");
 

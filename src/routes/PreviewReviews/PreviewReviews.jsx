@@ -38,6 +38,7 @@ const PreviewReviews = () => {
                         <PreviewReviewCard
                             key={review.id}
                             review={review}
+                            canDelete={true}
                         />
                     ))
                 )}

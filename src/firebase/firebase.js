@@ -182,16 +182,6 @@ export const updateUserPhoneNumber = async (userId, phone) => {
     }
 };
 
-// update user icon colour
-export const updateUserIconColour = async (userId, iconColour) => {
-    try {
-        const docSnap = await doc(db, "users", userId);
-        await updateDoc(docSnap, {iconColour});
-    } catch (error) {
-        throw new Error("Document does not exist");
-    }
-};
-
 // update user review count
 export const updateUserReviewCount = async (userId, amount) => {
     const docData = await getUserFromUserId(userId);
@@ -484,9 +474,9 @@ export const addRestaurantReview = async (userId, restaurant, formData, photoId)
 
     const review = {id: reviewDocRef.id, ...newReview};
 
-    const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
+    const {profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
     const photoUrl = review.photoId ? await getPhotoUrlFromId(review.photoId) : null;
-    return {...review, photoUrl, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
+    return {...review, photoUrl, profilePhotoUrl, displayName, numberOfReviews: reviews};
 };
 
 // delete restaurant review
@@ -516,9 +506,9 @@ export const updateRestaurantReview = async (reviewId, updatedData) => {
 
     if (!review) return null;
 
-    const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
+    const {profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
     const photoUrl = review.photoId ? await getPhotoUrlFromId(review.photoId) : null;
-    return {...review, photoUrl, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
+    return {...review, photoUrl, profilePhotoUrl, displayName, numberOfReviews: reviews};
 };
 
 // report restaurant review
@@ -552,9 +542,9 @@ export const getReviewsByRestaurantId = async (restaurantId) => {
     });
 
     return await Promise.all(reviews.map(async (review) => {
-        const {iconColour, profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
+        const {profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
         const photoUrl = review.photoId? await getPhotoUrlFromId(review.photoId) : null;
-        return {...review, photoUrl, profilePhotoUrl, iconColour, displayName, numberOfReviews: reviews};
+        return {...review, photoUrl, profilePhotoUrl, displayName, numberOfReviews: reviews};
     }));
 };
 

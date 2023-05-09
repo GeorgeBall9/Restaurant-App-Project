@@ -128,7 +128,7 @@ const DetailsCard = ({
             </div>
 
             <div className="photo-previews-container">
-                {[...checkIn.photoData].slice(0, 3).map(({id, url, alt}) => (
+                {[...checkIn.photoData].slice(0, 2).map(({id, url, alt}) => (
                     <div key={id} className="image-preview-container">
                         <CollageImage url={url} alt={alt}/>
                     </div>

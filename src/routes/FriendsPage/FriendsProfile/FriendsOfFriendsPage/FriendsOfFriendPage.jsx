@@ -42,7 +42,8 @@ const FriendsOfFriendsPage = () => {
 
         getFriendsByUserId(displayedFriend.id)
             .then(data => {
-                setFriendsOfFriend(data.filter(({id}) => id !== currentUserId));
+                setFriendsOfFriend(data.filter(({id, status}) => id !== currentUserId && status !== "pending"));
+                console.log({data})
             })
             .catch(error => {
                 console.error(error);

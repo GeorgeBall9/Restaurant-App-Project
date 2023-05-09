@@ -10,8 +10,9 @@ import {deleteReview, selectReview} from "../../../features/reviews/reviewsSlice
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
+import InteractionButton from "../../../common/components/ButtonViews/InteractionButton/InteractionButton";
 
-const PreviewReviewCard = ({review}) => {
+const PreviewReviewCard = ({review, canDelete}) => {
 
     const {id, rating, title, content, restaurantId, restaurantName, photoUrl} = review;
 
@@ -56,13 +57,25 @@ const PreviewReviewCard = ({review}) => {
             </div>
 
             <div className="container-rhs">
-                <button onClick={() => handleExpandClick(id, restaurantId)}>
-                    <FontAwesomeIcon className="icon" icon={faUpRightAndDownLeftFromCenter}/>
-                </button>
+                <InteractionButton
+                    icon={faUpRightAndDownLeftFromCenter}
+                    handleClick={() => handleExpandClick(id, restaurantId)}
+                />
 
-                <button onClick={() => setConfirmDeleteReviewId(id)}>
-                    <FontAwesomeIcon icon={faTrash} className="icon"/>
-                </button>
+                {canDelete && (
+                    <InteractionButton
+                        icon={faTrash}
+                        handleClick={() => setConfirmDeleteReviewId(id)}
+                    />
+                )}
+
+                {!canDelete && (
+                    <InteractionButton
+                        icon={faUpRightAndDownLeftFromCenter}
+                        handleClick={() => handleExpandClick(id, restaurantId)}
+                        style={{visibility: "hidden"}}
+                    />
+                )}
             </div>
         </div>
     );

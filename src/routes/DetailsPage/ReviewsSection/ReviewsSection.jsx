@@ -53,8 +53,6 @@ const ReviewsSection = ({userId, restaurant}) => {
     useEffect(() => {
         if (!isReviewFormVisible || !formRef?.current) return;
 
-        console.log("scrolling to ref")
-
         formRef.current.scrollIntoView({behavior: "smooth"});
     }, [isReviewFormVisible, formRef]);
 

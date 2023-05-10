@@ -86,8 +86,12 @@ const CuisineButton = ({name, selected, handleClick}) => {
             className={`cuisine-option ${selected ? "selected" : ""}`}
             onClick={() => handleClick(name)}
         >
+            {/* conditionally render icon if initialised */}
             {icon && <FontAwesomeIcon className="icon cuisine-icon" icon={icon}/>}
+
+            {/* conditionally render img if initialised */}
             {imgSrc && <img alt={name} className="cuisine-icon" src={imgSrc}/>}
+
             <span className="cuisine-option-name">{name}</span>
         </div>
     );

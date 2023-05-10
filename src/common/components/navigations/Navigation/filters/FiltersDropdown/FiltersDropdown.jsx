@@ -1,6 +1,19 @@
+/*
+Description: Filters dropdown component which overlays homepage and map page when filters button clicked
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./FiltersDropdown.css";
+
+// component imports
 import SortByOptions from "./SortByOptions/SortByOptions";
 import CuisineOptions from "./CuisineOptions/CuisineOptions";
+import PrimaryButton from "../../../../buttons/PrimaryButton/PrimaryButton";
+import Overlay from "../../../../Overlay/Overlay";
+
+// redux imports
 import {useDispatch, useSelector} from "react-redux";
 import {
     applyFilters, resetFilters,
@@ -12,19 +25,25 @@ import {
     resetRestaurantResults,
     sortRestaurants
 } from "../../../../../../features/restaurants/restaurantsSlice";
+
+// fontawesome imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faBan} from "@fortawesome/free-solid-svg-icons";
-import {useEffect, useState} from "react";
-import PrimaryButton from "../../../../buttons/PrimaryButton/PrimaryButton";
-import Overlay from "../../../../Overlay/Overlay";
 
+// react imports
+import {useEffect, useState} from "react";
+
+// FiltersDropdown component
 const FiltersDropdown = ({closePopup}) => {
 
+    // initialise dispatch
     const dispatch = useDispatch();
 
+    // redux selectors
     const sortFilter = useSelector(selectSortFilter);
     const cuisineFilter = useSelector(selectCuisineFilter);
 
+    // handler for when apply filters button clicked
     const handleApplyClick = () => {
         dispatch(filterRestaurantResultsByCuisine(cuisineFilter));
         dispatch(sortRestaurants(sortFilter));
@@ -32,13 +51,16 @@ const FiltersDropdown = ({closePopup}) => {
         closePopup();
     };
 
+    // handler for when reset filters button clicked
     const handleResetClick = () => {
         dispatch(resetFilters());
         dispatch(resetRestaurantResults());
     };
 
+    // state variables
     const [filtersAppliedCount, setFiltersAppliedCount] = useState(0);
 
+    // count number of filters applied when filters changes
     useEffect(() => {
         let count = 0;
 
@@ -93,6 +115,7 @@ const FiltersDropdown = ({closePopup}) => {
                 </div>
             </div>
 
+            {/* overlay component to make underneath UI unclickable */}
             <Overlay/>
         </>
     );

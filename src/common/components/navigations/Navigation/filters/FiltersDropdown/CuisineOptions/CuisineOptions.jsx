@@ -1,20 +1,25 @@
+/*
+Description: Cuisine options component which is on filter dropdown
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./CuisineOptions.css";
+
+// component imports
 import CuisineButton from "./CuisineButton/CuisineButton";
+
+// redux imports
 import {useDispatch, useSelector} from "react-redux";
 import {
     resetCuisineFilter,
     selectCuisineFilter,
-    selectSortFilter,
-    toggleFiltersDropdown,
     updateCuisineFilter
 } from "../../../../../../../features/filters/filtersSlice";
-import {
-    filterRestaurantResultsByCuisine,
-    resetRestaurantResults,
-    sortRestaurants
-} from "../../../../../../../features/restaurants/restaurantsSlice";
-import {resetDisplayedRestaurant} from "../../../../../../../features/map/mapSlice";
 
+
+// cuisine options declared outside component to make sure only declared once
 const cuisineOptions = [
     "Any",
     "British",
@@ -34,16 +39,22 @@ const cuisineOptions = [
     "Thai"
 ];
 
+// CuisineOptions component
 const CuisineOptions = () => {
 
+    // initialise dispatch
     const dispatch = useDispatch();
 
+    // cuisine filter redux selector
     const cuisineFilter = useSelector(selectCuisineFilter);
 
+    // handler function for when cuisine option clicked
     const handleCuisineOptionClick = (name) => {
         if (name === cuisineFilter) {
+            // reset filter if selected filter clicked again
             dispatch(resetCuisineFilter());
         } else {
+            // update cuisine filter to newly clicked filter
             dispatch(updateCuisineFilter(name));
         }
     };

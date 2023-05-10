@@ -1,3 +1,4 @@
+/* styles for sort button */
 .sort-button {
     flex-basis: 100%;
     border: none;
@@ -8,16 +9,19 @@
     font-weight: 500;
 }
 
+/* styles for sort button icon */
 .sort-button .icon {
     margin-right: 0.5em;
     color: grey;
 }
 
+/* styles for selected sort button */
 .sort-button.selected {
     background-color: rgba(244, 157, 26, 0.2);
     color: #F49D1A;
 }
 
+/* styles for selected sort button icon */
 .sort-button.selected .icon {
     color: #F49D1A;
 }

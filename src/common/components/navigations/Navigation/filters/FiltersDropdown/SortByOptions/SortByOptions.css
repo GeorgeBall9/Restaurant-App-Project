@@ -1,3 +1,4 @@
+/* styles for sort buttons container */
 .sort-buttons-container {
     display: flex;
     border: solid 1px lightgrey;
@@ -5,7 +6,7 @@
     overflow: hidden;
 }
 
-.sort-buttons-container button:first-child,
-.sort-buttons-container button:nth-child(2) {
+/* styles for first and second buttons */
+.sort-buttons-container button:not(:last-child) {
     border-right: solid 1px lightgrey;
 }

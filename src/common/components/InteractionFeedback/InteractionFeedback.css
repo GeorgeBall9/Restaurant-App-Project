@@ -1,3 +1,4 @@
+/* styles for the container of the interaction feedback */
 .interaction-feedback {
     position: absolute;
     top: 0.5em;
@@ -20,6 +21,7 @@
     transition: all 0.5s ease-in-out;
 }
 
+/* styles for the icon inside the feedback container */
 .interaction-feedback .icon {
     font-size: var(--font-size-icon-small);
 }

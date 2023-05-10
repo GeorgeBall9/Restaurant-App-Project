@@ -4,7 +4,7 @@
  Contact: georgeball14@hotmail.com
  */
 
-// stylsheet
+// stylesheet
 import "./CheckInsCollage.css";
 // Import comment components and necessary hooks
 import CustomCollage from "../../../common/components/CustomCollage/CustomCollage.jsx";

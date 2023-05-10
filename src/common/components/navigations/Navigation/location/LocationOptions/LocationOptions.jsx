@@ -1,6 +1,17 @@
+/*
+Description: Location options component present on filters dropdown
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./LocationOptions.css";
+
+// fontawesome imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationArrow, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
+
+// redux imports
 import {
     selectUsingCurrentLocation,
     setLocationDescription,
@@ -9,36 +20,48 @@ import {
     updateUserPosition
 } from "../../../../../../features/location/locationSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {useState} from "react";
 import {hideSpinner, showSpinner} from "../../../../../../features/spinner/spinnerSlice";
+
+// react imports
+import {useState} from "react";
+
+// component imports
 import ErrorPopupView from "../../../../popups/ErrorPopupView/ErrorPopupView";
 
+// LocationOptions component
 const LocationOptions = ({closePopup}) => {
 
+    // initialise dispatch
     const dispatch = useDispatch();
 
+    // redux selector - check if user is using their current location
     const usingCurrentLocation = useSelector(selectUsingCurrentLocation);
 
+    // state variables
     const [postcode, setPostcode] = useState("");
     const [showErrorPopup, setShowErrorPopup] = useState(false);
     const [errorFeedback, setErrorFeedback] = useState({title: "", message: ""});
     const {title, message} = errorFeedback;
     const [inputPlaceholder, setInputPlaceholder] = useState("Enter postcode");
 
+    // handler for when input becomes focused
     const handleInputFocus = () => {
         setInputPlaceholder("");
     };
 
+    // handler for when input is blurred
     const handleInputBlur = () => {
         if (!postcode) {
             setInputPlaceholder("Enter postcode");
         }
     };
 
+    // function to save an item to localStorage
     const updateLocalStorageValue = (name, value) => {
         localStorage.setItem(name, JSON.stringify(value));
     };
 
+    // function to save location details to localStorage
     const saveLocationDetails = (longitude, latitude, description) => {
         updateLocalStorageValue("longitude", longitude);
         updateLocalStorageValue("latitude", latitude);
@@ -51,6 +74,7 @@ const LocationOptions = ({closePopup}) => {
         }
     };
 
+    // function to update the feedback shown in the error popup
     const updateErrorFeedback = (type) => {
         const newTitle = type === "postcode" ?
             "Unable to find results for that postcode."
@@ -70,14 +94,18 @@ const LocationOptions = ({closePopup}) => {
         });
     };
 
+    // handler function for when use location button is clicked
     const handleUseLocationClick = () => {
         if (usingCurrentLocation) {
+            // if already using current location, close the popup
             closePopup();
             return;
         }
 
+        // show spinner while retrieving location info
         dispatch(showSpinner());
 
+        // success function - saves location details to redux and localStorage
         const success = (position) => {
             const {longitude, latitude} = position.coords;
             dispatch(updateUserPosition({latitude, longitude}));
@@ -86,25 +114,37 @@ const LocationOptions = ({closePopup}) => {
             closePopup();
         };
 
-        const error = (error) => {
-            console.error(error);
+        // error function - update error feedback and display popup
+        const error = () => {
             dispatch(hideSpinner());
             updateErrorFeedback("gps");
             setShowErrorPopup(true);
         };
 
         if ("geolocation" in navigator) {
+            // checks if browser has access to the geolocation API
             navigator.geolocation.getCurrentPosition(success, error);
         } else {
-            console.log("location not available");
+            dispatch(hideSpinner());
+            setErrorFeedback(errorFeedback => {
+                const updatedFeedback = {...errorFeedback};
+                updatedFeedback.title = "Location not available!";
+                updatedFeedback.message = "Your browser does not currently have access to your location data.";
+                return updatedFeedback;
+            });
+            setShowErrorPopup(true);
         }
     };
 
+    // handler function for submitting postcode
     const handlePostcodeSubmit = ({code}) => {
+        // make sure key down was Enter for submit - return if not
         if (code !== "Enter") return;
 
+        // show spinner while retrieving postcode data for API
         dispatch(showSpinner());
 
+        // fetch data from postcodes API
         fetch("https://api.postcodes.io/postcodes/" + postcode)
             .then(response => {
                 if (!response.ok) {
@@ -114,6 +154,7 @@ const LocationOptions = ({closePopup}) => {
                 return response.json();
             })
             .then(data => {
+                // update location data in redux and localStorage
                 const {longitude, latitude} = data.result;
                 dispatch(updateUserPosition({longitude, latitude}));
                 dispatch(setUsingCustomLocation());
@@ -121,8 +162,8 @@ const LocationOptions = ({closePopup}) => {
                 saveLocationDetails(longitude, latitude, postcode);
                 closePopup();
             })
-            .catch(error => {
-                console.error(error);
+            .catch(() => {
+                // show error
                 dispatch(hideSpinner());
                 updateErrorFeedback("postcode");
                 setShowErrorPopup(true);

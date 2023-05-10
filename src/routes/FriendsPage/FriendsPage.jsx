@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {selectFriendRequests, selectFriends} from "../../features/user/userSlice";
-import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 import {faCircleCheck, faLink, faMagnifyingGlass, faPlus} from "@fortawesome/free-solid-svg-icons";
 import FriendRequestCard from "./FriendCards/FriendRequestCard/FriendRequestCard";
 import PendingFriendCard from "./FriendCards/PendingFriendCard/PendingFriendCard";

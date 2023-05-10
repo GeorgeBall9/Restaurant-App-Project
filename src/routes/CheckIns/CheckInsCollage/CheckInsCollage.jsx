@@ -7,8 +7,8 @@ import {
 } from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
-import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
-import UploadImagePopup from "../../../common/components/UploadImagePopup/UploadImagePopup";
+import ProfileNavigationView from "../../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
+import UploadImagePopup from "../../../common/components/popups/UploadImagePopup/UploadImagePopup";
 import {selectSelectedCheckIn, setSelectedCheckIn, updateCheckIn} from "../../../features/checkIns/checkInsSlice";
 import {faDownLeftAndUpRightToCenter, faUpRightAndDownLeftFromCenter, faXmark} from "@fortawesome/free-solid-svg-icons";
 

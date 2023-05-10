@@ -3,13 +3,13 @@ import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendarAlt, faCamera, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
-import InteractionButton from "../../../../common/components/buttonViews/InteractionButton/InteractionButton";
-import CheckInPopupView from "../../../../common/components/CheckInPopupView/CheckInPopupView";
+import InteractionButton from "../../../../common/components/buttons/InteractionButton/InteractionButton";
+import CheckInPopupView from "../../../../common/components/popups/CheckInPopupView/CheckInPopupView";
 import {useDispatch, useSelector} from "react-redux";
 import {selectFriends, selectProfilePhotoUrl} from "../../../../features/user/userSlice";
 import {removeRestaurantCheckIn, updateCheckInDoc} from "../../../../firebase/firebase";
 import {removeCheckIn, setSelectedCheckIn, updateCheckIn} from "../../../../features/checkIns/checkInsSlice";
-import ConfirmationPopupView from "../../../../common/components/ConfirmationPopupView/ConfirmationPopupView";
+import ConfirmationPopupView from "../../../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
 import CollageImage from "../../../../common/components/CustomCollage/CollageImage/CollageImage";
 
 const DetailsCard = ({

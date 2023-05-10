@@ -5,7 +5,7 @@ import {selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {deleteRestaurantReview, getReviewsByUserId} from "../../firebase/firebase";
 import {deleteReview, selectReview, selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
-import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 import NoResults from "../../common/components/NoResults/NoResults";
 import PreviewReviewCard from "./PreviewReviewCard/PreviewReviewCard";
 

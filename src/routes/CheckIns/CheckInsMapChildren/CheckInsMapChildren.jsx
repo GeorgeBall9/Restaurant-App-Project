@@ -1,7 +1,7 @@
 import "./CheckInsMapChildren.css";
 import {FullscreenControl} from "react-map-gl";
 import {Popup} from "react-map-gl";
-import RestaurantMarker from "../../../common/components/RestaurantMarker/RestaurantMarker";
+import RestaurantMarker from "../../../common/components/map/RestaurantMarker/RestaurantMarker";
 
 const CheckInsMapChildren = ({checkIns, displayedRestaurant}) => {
 

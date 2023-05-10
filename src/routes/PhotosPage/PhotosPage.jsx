@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {getAllRestaurantPhotosByUserId} from "../../firebase/firebase";
-import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 
 const PhotosPage = () => {
 

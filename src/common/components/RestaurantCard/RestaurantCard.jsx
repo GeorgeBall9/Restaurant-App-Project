@@ -15,7 +15,7 @@ import {faFire, faLocationArrow, faUtensils} from "@fortawesome/free-solid-svg-i
 
 import StarRating from "../StarRating/StarRating";
 import RouteButton from "./RouteButton/RouteButton";
-import BookmarkButton from "../BookmarkButton/BookmarkButton";
+import BookmarkButton from "../buttons/BookmarkButton/BookmarkButton";
 import {useSwipeable} from "react-swipeable";
 import RestaurantImage from "../RestaurantImage/RestaurantImage";
 import RecommendButton from "../../../routes/DetailsPage/BannerView/RecommendButton/RecommendButton";

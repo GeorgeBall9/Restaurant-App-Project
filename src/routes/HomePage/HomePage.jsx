@@ -1,5 +1,5 @@
 import "./HomePage.css";
-import Navigation from "../../common/components/Navigation/Navigation";
+import Navigation from "../../common/components/navigations/Navigation/Navigation";
 import NoResults from "../../common/components/NoResults/NoResults";
 import { useDispatch, useSelector } from "react-redux";
 import {

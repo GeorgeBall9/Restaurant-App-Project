@@ -17,7 +17,7 @@ import {
     selectUserId, setDisplayedFriend, setFriendRequests,
     setFriends
 } from "../../../../features/user/userSlice";
-import ProfileNavigationView from "../../../../common/components/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 import FriendOfFriendCard from "../../FriendCards/FriendOfFriendCard/FriendOfFriendCard";
 import ConfirmedFriendCard from "../../FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
 import PendingFriendCard from "../../FriendCards/PendingFriendCard/PendingFriendCard";

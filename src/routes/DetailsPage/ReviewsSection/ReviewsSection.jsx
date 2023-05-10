@@ -1,12 +1,12 @@
 import "./ReviewsSection.css";
-import ReviewForm from "../../../common/components/ReviewForm/ReviewForm";
+import ReviewForm from "../../../common/components/reviews/ReviewForm/ReviewForm";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import {getReviewsByRestaurantId} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
-import ReviewsList from "../../../common/components/ReviewsList/ReviewsList";
-import PrimaryButton from "../../../common/components/buttonViews/PrimaryButton/PrimaryButton";
+import ReviewsList from "../../../common/components/reviews/ReviewsList/ReviewsList";
+import PrimaryButton from "../../../common/components/buttons/PrimaryButton/PrimaryButton";
 import ReviewsStatsView from "./ReviewsStatsView/ReviewsStatsView";
 import {sortReviewsByMostRecentVisitDate} from "../../ReviewsPage/ReviewsPage";
 import {options} from "../../../features/restaurants/restaurantsSlice";

@@ -1,5 +1,5 @@
 import "./ReviewsPage.css";
-import ReviewForm from "../../common/components/ReviewForm/ReviewForm";
+import ReviewForm from "../../common/components/reviews/ReviewForm/ReviewForm";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
@@ -9,10 +9,10 @@ import {selectUserId} from "../../features/user/userSlice";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice";
 import {faChevronDown, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
-import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 import SortFiltersView from "./SortFiltersView/SortFiltersView";
 import Overlay from "../../common/components/Overlay/Overlay";
-import ReviewsList from "../../common/components/ReviewsList/ReviewsList";
+import ReviewsList from "../../common/components/reviews/ReviewsList/ReviewsList";
 
 export const sortReviewsByMostRecentVisitDate = (reviews) => {
     return [...reviews].sort((a, b) => b.visitDate - a.visitDate);

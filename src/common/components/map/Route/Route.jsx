@@ -12,8 +12,6 @@ import {faLocationArrow, faPersonWalking} from "@fortawesome/free-solid-svg-icon
 
 const Route = ({displayedRestaurant, routeCoordinates, travelTime, lineColor, lineWidth}) => {
 
-    console.log("route component", routeCoordinates)
-
     // geojson configuration
     const geojson = {
         "type": "FeatureCollection",

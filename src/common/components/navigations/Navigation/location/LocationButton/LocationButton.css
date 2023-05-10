@@ -1,3 +1,4 @@
+/* styles for location button */
 .navigation .lower .location-button {
     border-radius: var(--border-radius);
     border: none;
@@ -9,6 +10,7 @@
     align-items: center;
 }
 
+/* styles for location description text inside location button */
 .navigation .lower .location-button span {
     text-align: left;
     overflow: hidden;
@@ -19,6 +21,7 @@
     -webkit-box-orient: vertical;
 }
 
+/* styles for icon inside location button */
 .navigation .lower .location-button .icon {
     margin-right: 0.5em;
     font-size: var(--font-size-icon-small);

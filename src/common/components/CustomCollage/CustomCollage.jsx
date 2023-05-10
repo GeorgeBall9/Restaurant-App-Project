@@ -1,7 +1,7 @@
 /*
 Description: Custom collage component used in the photos page and check-ins photos popup
-Author: Ryan Henzell-Hill
-Contact: ryan.henzell-hill@outlook.com
+Author: George Ball
+Contact: georgeball14@hotmail.com
 */
 
 // Stylesheet

@@ -1,3 +1,4 @@
+/* styles for form field label container */
 .form-field {
     display: flex;
     flex-direction: column;
@@ -5,6 +6,7 @@
     font-size: var(--font-size-sub-heading);
 }
 
+/* styles for input enclosed by label */
 .form-field input {
     border: 1px solid #ccc;
     border-radius: var(--border-radius);
@@ -14,6 +16,7 @@
     color: black;
 }
 
+/* styles for when input is focused */
 .form-field input:focus {
     border-color: var(--secondary-theme);
 }

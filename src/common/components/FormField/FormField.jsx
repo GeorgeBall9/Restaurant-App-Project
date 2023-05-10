@@ -1,6 +1,13 @@
-import "./FormField.css";
-import React from "react";
+/*
+Description: Form field component for use throughout the application in all input style components
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
 
+// stylesheet
+import "./FormField.css";
+
+// FormField component
 const FormField = ({
                        label,
                        placeholder,
@@ -15,10 +22,12 @@ const FormField = ({
                        onBlur,
                    }) => {
 
+    // gives default padding if value not provided as prop
     const style = {
         padding: padding || "0.5em"
     };
 
+    // render form field component
     return (
         <label className="form-field">
             {label}

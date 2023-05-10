@@ -1,13 +1,23 @@
+/*
+ Description: Bookmarks component which renders the BookmarkCard on a page
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+// stylesheet
 import "./Bookmarks.css";
+// Import necessary hooks and functions from 'react-redux', 'react-router-dom', and 'firebase'
 import {useSelector} from "react-redux";
 import {selectBookmarks, selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {getRestaurantById} from "../../firebase/firebase";
+// Import common components and subcomponents
 import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 import NoResults from "../../common/components/NoResults/NoResults";
 import BookmarkCard from "./BookmarkCard/BookmarkCard";
 
+// Define the 'checkIsOpen' function to check if a restaurant is open
 export const checkIsOpen = (restaurant) => {
     if (!restaurant) return false;
 
@@ -39,22 +49,27 @@ export const checkIsOpen = (restaurant) => {
     return isOpen;
 };
 
+// Define the 'Bookmarks' component
 const Bookmarks = () => {
 
     const navigate = useNavigate();
 
+    // Get the 'userId' and 'userBookmarks' from the Redux store using selectors
     const userId = useSelector(selectUserId);
     const userBookmarks = useSelector(selectBookmarks);
 
+    // Declare state variables for 'bookmarkedRestaurants' and 'fetchStatus'
     const [bookmarkedRestaurants, setBookmarkedRestaurants] = useState([]);
     const [fetchStatus, setFetchStatus] = useState("pending");
 
+    // Use the 'useEffect' hook to navigate to the '/profile' route if the 'userId' is not available    
     useEffect(() => {
         if (!userId) {
             navigate("/profile");
         }
     }, [userId]);
 
+    // Define the 'setBookmarkData' function to fetch bookmark data and format it
     const setBookmarkData = async () => {
         const data = await Promise.all(userBookmarks
             .map(async (bookmark) => await getRestaurantById(bookmark)));
@@ -68,6 +83,7 @@ const Bookmarks = () => {
         setBookmarkedRestaurants(formattedData);
     };
 
+    // Use the 'useEffect' hook to fetch and set bookmark data when 'userBookmarks' change
     useEffect(() => {
         if (!userId || !userBookmarks) return;
 
@@ -79,10 +95,13 @@ const Bookmarks = () => {
         });
     }, [userBookmarks]);
 
+    // Render the 'Bookmarks' component
     return (
         <div className="bookmarks-page-container">
+            {/* Render the 'ProfileNavigationView' component with the 'pageTitle' prop */}
             <ProfileNavigationView pageTitle="Bookmarks"/>
 
+            {/* Render the list of 'BookmarkCard' components if there are bookmarked restaurants */}
             {bookmarkedRestaurants.length > 0 && (
                 <div className="bookmarks-view container">
                     {bookmarkedRestaurants.map(restaurant => (
@@ -91,6 +110,7 @@ const Bookmarks = () => {
                 </div>
             )}
 
+            {/* Render the 'NoResults' component if there are no bookmarked restaurants and the fetch status is 'idle' */}
             {!bookmarkedRestaurants.length && fetchStatus === "idle" && (
                 <NoResults
                     mainText="You haven't bookmarked any restaurants yet."
@@ -101,4 +121,5 @@ const Bookmarks = () => {
     );
 };
 
+// Export the 'Bookmarks' component as the default export
 export default Bookmarks;

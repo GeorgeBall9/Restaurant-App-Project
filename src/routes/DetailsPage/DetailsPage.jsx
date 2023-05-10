@@ -194,6 +194,7 @@ const DetailsPage = () => {
         setInteractions(interactions => {
            const updatedInteractions = {...interactions};
            updatedInteractions[interaction] += change;
+            console.log({updatedInteractions})
            return updatedInteractions;
         });
     };

@@ -8,8 +8,8 @@ import {deleteReview, selectReview} from "../../../features/reviews/reviewsSlice
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
-import InteractionButton from "../../../common/components/buttonViews/InteractionButton/InteractionButton";
-import ConfirmationPopupView from "../../../common/components/ConfirmationPopupView/ConfirmationPopupView";
+import InteractionButton from "../../../common/components/buttons/InteractionButton/InteractionButton";
+import ConfirmationPopupView from "../../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
 
 const PreviewReviewCard = ({review, canDelete}) => {
 

@@ -2,8 +2,8 @@ import "./CustomCollage.css";
 import {faCircleCheck, faCirclePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
-import PrimaryButton from "../buttonViews/PrimaryButton/PrimaryButton";
-import InversePrimaryButton from "../buttonViews/InversePrimaryButton/InversePrimaryButton";
+import PrimaryButton from "../buttons/PrimaryButton/PrimaryButton";
+import InversePrimaryButton from "../buttons/InversePrimaryButton/InversePrimaryButton";
 import CollageImage from "./CollageImage/CollageImage";
 
 const CustomCollage = ({

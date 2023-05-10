@@ -4,7 +4,7 @@ import {selectBookmarks, selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {getRestaurantById} from "../../firebase/firebase";
-import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 import NoResults from "../../common/components/NoResults/NoResults";
 import BookmarkCard from "./BookmarkCard/BookmarkCard";
 

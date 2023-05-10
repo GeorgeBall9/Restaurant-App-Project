@@ -1,4 +1,12 @@
+/*
+ Description: DetailsPopup component which renders the DetailsCard component on a page
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ // stylesheet
 import "./DetailsPopup.css";
+// Import required dependencies and components
 import {
     faDownLeftAndUpRightToCenter,
     faUpRightAndDownLeftFromCenter,
@@ -11,12 +19,14 @@ import {useSelector} from "react-redux";
 import {selectSelectedCheckIns} from "../../../features/checkIns/checkInsSlice";
 
 const DetailsPopup = ({date, closePopup, showPhotos}) => {
-
+    // Get selected check-ins from the Redux store
     const checkIns = useSelector(selectSelectedCheckIns);
 
+    // Declare state variables for the component
     const [isVisible, setIsVisible] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
 
+    // OnClick event handlers for the component
     const handleExpandClick = () => {
         setIsExpanded(isExpanded => !isExpanded);
     };
@@ -32,6 +42,7 @@ const DetailsPopup = ({date, closePopup, showPhotos}) => {
     return (
         <div className={`details-popup ${isVisible ? "visible" : ""} ${isExpanded ? "expanded" : ""}`}>
             <div>
+                {/* Render the ProfileNavigationView component */}
                 <ProfileNavigationView
                     pageTitle={date}
                     style={
@@ -43,7 +54,7 @@ const DetailsPopup = ({date, closePopup, showPhotos}) => {
                         handler: handleExpandClick
                     }}
                 />
-
+                {/* Render the DetailsCard component */}
                 <div className="details-popup-content">
                     {checkIns.map(checkIn => (
                         <DetailsCard

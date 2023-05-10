@@ -1,3 +1,5 @@
+import './CollageImage.css';
+
 import {useState} from "react";
 
 const CollageImage = ({url, alt}) => {

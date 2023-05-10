@@ -11,7 +11,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {hideSpinner, showSpinner} from "../../../../../../features/spinner/spinnerSlice";
-import ErrorPopupView from "../../../../ErrorPopupView/ErrorPopupView";
+import ErrorPopupView from "../../../../popups/ErrorPopupView/ErrorPopupView";
 
 const LocationOptions = ({closePopup}) => {
 

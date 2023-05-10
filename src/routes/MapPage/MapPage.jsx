@@ -17,7 +17,7 @@ import {selectRestaurants, selectRestaurantsFetchStatus} from "../../features/re
 import {selectUserPosition} from "../../features/location/locationSlice";
 import PrimaryButton from "../../common/components/buttons/PrimaryButton/PrimaryButton";
 import NoResults from "../../common/components/NoResults/NoResults";
-import ErrorPopupView from "../../common/components/ErrorPopupView/ErrorPopupView";
+import ErrorPopupView from "../../common/components/popups/ErrorPopupView/ErrorPopupView";
 
 const MapPage = () => {
 

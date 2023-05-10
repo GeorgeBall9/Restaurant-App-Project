@@ -1,5 +1,5 @@
 /*
-Description: Primary button component built off generic Button component for use throughout application
+Description: Interaction button component used throughout as an icon button with no background and border
 Author: Ryan Henzell-Hill
 Contact: ryan.henzell-hill@outlook.com
 */

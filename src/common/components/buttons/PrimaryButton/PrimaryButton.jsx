@@ -1,5 +1,5 @@
 /*
-Description: Generic button component for use throughout application
+Description: Primary button component built off generic Button component for use throughout application
 Author: Ryan Henzell-Hill
 Contact: ryan.henzell-hill@outlook.com
 */

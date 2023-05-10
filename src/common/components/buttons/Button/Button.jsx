@@ -1,6 +1,16 @@
+/*
+Description: Generic button component for use throughout application
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./Button.css";
+
+// fontawesome import
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
+// Define default styles for different button sizes
 const defaultStyles = {
     small: {
         padding: "0.35em 0.5em",
@@ -16,6 +26,7 @@ const defaultStyles = {
     }
 };
 
+// Button component
 const Button = ({
                     className,
                     children,
@@ -29,9 +40,12 @@ const Button = ({
                     margin
                 }) => {
 
+    // Calculate the button style based on the provided size, width, and margin
     const style = {...defaultStyles[size], width, margin};
 
+    // Click handler for the button
     const clickHandler = () => {
+        // handler only called if button is active
         if (active) {
             handleClick();
         }
@@ -48,9 +62,8 @@ const Button = ({
 
             {children}
 
-            {icon && (
-                <FontAwesomeIcon className="icon" icon={icon}/>
-            )}
+            {/* Render the icon if provided */}
+            {icon && <FontAwesomeIcon className="icon" icon={icon}/>}
         </button>
     );
 };

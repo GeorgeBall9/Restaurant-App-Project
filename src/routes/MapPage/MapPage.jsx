@@ -1,5 +1,5 @@
 /*
-Description: MainMapChildren component to be displayed in MapPage route
+Description: MapPage component to be displayed in MapPage route
 Author: Ryan Henzell-Hill
 Contact: ryan.henzell-hill@outlook.com
 */

@@ -1,6 +1,14 @@
+/*
+ Description: CheckIns component which renders multiple components that make up the CheckIns page
+ Author: George Ball
+ Contact: georgeball14@hotmail.com
+ */
+
+// stylesheets
 import "./CheckIns.css";
 import "./CheckInsCalendar/CheckInsCalendar.css";
 
+// Import required dependencies and components
 import Calendar from "react-calendar";
 
 import NoResults from "../../common/components/NoResults/NoResults";
@@ -26,7 +34,7 @@ import {displayRestaurant, selectDisplayedRestaurant} from "../../features/map/m
 const currentDate = new Date();
 
 const CheckIns = () => {
-
+    // Hooks and selectors
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -38,18 +46,21 @@ const CheckIns = () => {
 
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
 
+    // State variables
     const [calendarValue, setCalendarValue] = useState(new Date());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
     const [showCollagePopup, setShowCollagePopup] = useState(false);
     const [fetchStatus, setFetchStatus] = useState("pending");
     const [detailsPopupIsVisible, setDetailsPopupIsVisible] = useState(false);
 
+    // If user is not logged in, navigate to the profile page
     useEffect(() => {
         if (!userId) {
             navigate("/profile");
         }
     }, [userId]);
 
+    // Fetch check-ins and restaurant data for the selected month
     useEffect(() => {
         if (!userId) return;
 
@@ -60,6 +71,7 @@ const CheckIns = () => {
             });
     }, [userId, selectedMonth]);
 
+    // Set the selected check-ins based on the calendar value
     useEffect(() => {
         if (!selectedCheckIns?.length) return;
 
@@ -68,6 +80,7 @@ const CheckIns = () => {
         setCalendarValue(new Date(checkIn.date));
     }, [selectedCheckIns]);
 
+    // Update selected check-ins when all check-ins change
     useEffect(() => {
         if (!allCheckIns?.length) return;
 
@@ -75,6 +88,7 @@ const CheckIns = () => {
         dispatch(setSelectedCheckIns(checkIns));
     }, [allCheckIns]);
 
+    // Update displayed restaurant when selected check-ins change
     useEffect(() => {
         if (!selectedCheckIns?.length || displayedRestaurant.checkInId) return;
 
@@ -82,6 +96,7 @@ const CheckIns = () => {
         dispatch(displayRestaurant({...checkIn.restaurant, checkInId: checkIn.id}));
     }, [displayedRestaurant, selectedCheckIns]);
 
+    // Helper function to filter check-ins by date
     const getCheckInsOnDate = (date) => {
         return allCheckIns.filter((checkIn) => {
             const checkInDate = new Date(checkIn.date).toLocaleDateString();
@@ -89,10 +104,12 @@ const CheckIns = () => {
         });
     };
 
+    // Helper function to get checked-in restaurant by restaurantId
     const getCheckedInRestaurant = (restaurantId) => {
         return allCheckIns.find(checkIn => checkIn.restaurant.id === restaurantId);
     };
 
+    // Helper function to count unique restaurants in check-ins
     const countUniqueRestaurants = (checkIns) => {
         if (!checkIns) {
             return 0;
@@ -101,6 +118,7 @@ const CheckIns = () => {
         return uniqueRestaurantIds.size;
     };
 
+    // Handle click on a calendar tile
     const handleTileClick = (checkIns) => {
         const checkInsOnDate = checkIns.map(checkIn => {
             const updatedCheckIn = {...checkIn};
@@ -116,6 +134,7 @@ const CheckIns = () => {
         setDetailsPopupIsVisible(true);
     };
 
+    // Render tile content with check-in data for calendar
     const TileContent = ({ date }) => {
         if (!allCheckIns?.length) return null;
 
@@ -148,6 +167,7 @@ const CheckIns = () => {
         });
     };
 
+    // Render tile content for calendar based on view type
     const renderTileContent = ({ date, view }) => {
         if (view !== "month") {
             return null;
@@ -156,6 +176,7 @@ const CheckIns = () => {
         return <TileContent date={date} />;
     };
 
+    // Handle start date change in the calendar
     const handleStartDateChange = ({activeStartDate}) => {
         setSelectedMonth(activeStartDate.getMonth());
     };
@@ -166,6 +187,7 @@ const CheckIns = () => {
 
             <div className="check-ins-page">
                 <div className="check-ins-map-container">
+                    {/* Render the MapView component if there are check-ins*/}
                     {allCheckIns?.length > 0 && (
                         <MapView
                             centrePosition={{
@@ -176,8 +198,8 @@ const CheckIns = () => {
                             zoom={14}
                             checkIns={detailsPopupIsVisible ? selectedCheckIns : allCheckIns}
                         />
-                    )}
-
+                    )}  
+                    {/*Render the NoResults component when a user has no Check-ins in the current month*/}
                     {!allCheckIns?.length && fetchStatus === "idle" && (
                         <NoResults
                             mainText="You haven't checked in anywhere this month."
@@ -189,6 +211,7 @@ const CheckIns = () => {
                 <div className="check-ins-stats">
                     <div className="check-ins-unique-restaurants">
                         <div className="icon-container">
+                            {/* Render the unique restaurants count*/}
                             <FontAwesomeIcon className="icon" icon={faUtensils} />
                             <span>{countUniqueRestaurants(allCheckIns) || "0"}</span>
                         </div>
@@ -197,6 +220,7 @@ const CheckIns = () => {
 
                     <div className="check-ins-total">
                         <div className="icon-container">
+                            {/* Render the total check-ins count*/}
                             <FontAwesomeIcon className="icon" icon={faCircleCheck} />
                             <span>{allCheckIns?.length || "0"}</span>
                         </div>
@@ -205,6 +229,7 @@ const CheckIns = () => {
                 </div>
 
                 <div className="check-ins-calendar">
+                    {/* Render the Calendar component if there are check-ins*/}
                     <Calendar
                         onChange={(value) => setCalendarValue(value)}
                         value={calendarValue}
@@ -215,11 +240,11 @@ const CheckIns = () => {
                         tileContent={renderTileContent}
                         onActiveStartDateChange={handleStartDateChange}
                     />
-
+                    {/* Render the CheckInsCollage component on Calendar tile click*/}
                     {showCollagePopup && (
                         <CheckInsCollage closePopup={() => setShowCollagePopup(false)}/>
                     )}
-
+                    {/* Render the DetailsPopup component on Calendar tile click*/}
                     {detailsPopupIsVisible && (
                         <DetailsPopup
                             date={calendarValue.toLocaleDateString()}

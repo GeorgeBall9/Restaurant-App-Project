@@ -2,7 +2,7 @@ import FriendCard from "../FriendCard/FriendCard";
 import {acceptFriendRequest, rejectFriendRequest} from "../../../../firebase/firebase";
 import {removeFriendRequest, selectUserId, setFriendRequests, setFriends} from "../../../../features/user/userSlice";
 import {useDispatch, useSelector} from "react-redux";
-import ConfirmationPopupView from "../../../../common/components/ConfirmationPopupView/ConfirmationPopupView";
+import ConfirmationPopupView from "../../../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
 import {useState} from "react";
 
 const FriendRequestCard = ({id, displayName, iconColour, profilePhotoUrl, mutualFriends}) => {

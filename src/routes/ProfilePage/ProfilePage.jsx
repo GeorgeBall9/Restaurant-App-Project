@@ -19,8 +19,8 @@ import {signOutAuthUser} from "../../firebase/firebase";
 import {useEffect, useState} from "react";
 import ContributionsButton from "./ContributionsButton/ContributionsButton";
 import {hideSpinner} from "../../features/spinner/spinnerSlice";
-import PrimaryButton from "../../common/components/buttonViews/PrimaryButton/PrimaryButton";
-import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import PrimaryButton from "../../common/components/buttons/PrimaryButton/PrimaryButton";
+import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 
 const ProfilePage = () => {
 

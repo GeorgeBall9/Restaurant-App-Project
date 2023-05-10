@@ -11,7 +11,7 @@ import {
     selectUserId
 } from "../../../../features/user/userSlice";
 import {useEffect, useState} from "react";
-import InteractionButton from "../../../../common/components/buttonViews/InteractionButton/InteractionButton";
+import InteractionButton from "../../../../common/components/buttons/InteractionButton/InteractionButton";
 import {addUserRecommendation, removeUserRecommendation} from "../../../../firebase/firebase";
 import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
 import {
@@ -50,6 +50,7 @@ const RecommendButton = ({restaurant, style, updateInteractions}) => {
 
     const handleYesClick = async () => {
         setConfirmationIsVisible(false);
+        console.log("yes clicked")
 
         if (isRecommended) {
             await removeUserRecommendation(userId, id);

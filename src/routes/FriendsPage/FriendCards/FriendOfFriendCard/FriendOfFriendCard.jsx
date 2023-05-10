@@ -1,5 +1,5 @@
 import FriendCard from "../FriendCard/FriendCard";
-import ConfirmationPopupView from "../../../../common/components/ConfirmationPopupView/ConfirmationPopupView";
+import ConfirmationPopupView from "../../../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
 import {useState} from "react";
 import {sendFriendRequestToUser} from "../../../../firebase/firebase";
 import {selectUserId, setFriends} from "../../../../features/user/userSlice";

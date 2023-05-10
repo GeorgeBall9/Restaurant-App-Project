@@ -1,5 +1,5 @@
 import "./ErrorPopupView.css";
-import PrimaryButton from "../buttonViews/PrimaryButton/PrimaryButton";
+import PrimaryButton from "../buttons/PrimaryButton/PrimaryButton";
 
 const ErrorPopupView = ({title, message, children, closePopup}) => {
     return (

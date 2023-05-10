@@ -13,11 +13,11 @@ import {
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {deleteUserDocAndSignOut, updateUserProfile, updateUserProfilePhoto} from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
-import PrimaryButton from "../../common/components/buttonViews/PrimaryButton/PrimaryButton";
-import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
-import UploadImagePopup from "../../common/components/UploadImagePopup/UploadImagePopup";
-import SecondaryButton from "../../common/components/buttonViews/SecondaryButton/SecondaryButton";
-import ConfirmationPopupView from "../../common/components/ConfirmationPopupView/ConfirmationPopupView";
+import PrimaryButton from "../../common/components/buttons/PrimaryButton/PrimaryButton";
+import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
+import UploadImagePopup from "../../common/components/popups/UploadImagePopup/UploadImagePopup";
+import SecondaryButton from "../../common/components/buttons/SecondaryButton/SecondaryButton";
+import ConfirmationPopupView from "../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
 
 const defaultProfileFields = {
     displayName: "",

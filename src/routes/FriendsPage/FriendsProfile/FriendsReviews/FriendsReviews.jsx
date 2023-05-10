@@ -9,7 +9,7 @@ import {selectReview} from "../../../../features/reviews/reviewsSlice";
 import RestaurantImage from "../../../../common/components/RestaurantImage/RestaurantImage";
 import StarRating from "../../../../common/components/StarRating/StarRating";
 import {selectDisplayedFriend} from "../../../../features/user/userSlice";
-import ProfileNavigationView from "../../../../common/components/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 import NoResults from "../../../../common/components/NoResults/NoResults";
 import PreviewReviewCard from "../../../PreviewReviews/PreviewReviewCard/PreviewReviewCard";
 

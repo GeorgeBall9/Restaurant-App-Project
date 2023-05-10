@@ -12,9 +12,9 @@ import {faUtensils, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getCheckInsAndRestaurantDataByUserIdForMonth} from "../../firebase/firebase";
-import ProfileNavigationView from "../../common/components/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 import DetailsPopup from "./DetailsPopup/DetailsPopup";
-import MapView from "../../common/components/MapView/MapView";
+import MapView from "../../common/components/map/MapView/MapView";
 import CheckInsCollage from "./CheckInsCollage/CheckInsCollage";
 import {
     selectCheckIns,

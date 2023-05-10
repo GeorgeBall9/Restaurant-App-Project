@@ -4,7 +4,7 @@ import {removeFriend, selectUserId, setDisplayedFriend} from "../../../../featur
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-import ConfirmationPopupView from "../../../../common/components/ConfirmationPopupView/ConfirmationPopupView";
+import ConfirmationPopupView from "../../../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
 
 const ConfirmedFriendCard = ({id, displayName, iconColour, profilePhotoUrl, mutualFriends}) => {
 

@@ -6,7 +6,7 @@ import {
     faComment,
     faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
-import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 import {useSelector} from "react-redux";
 import {selectDisplayedFriend} from "../../../features/user/userSlice";
 

@@ -5,7 +5,7 @@ import {
     faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
-import ProfileNavigationView from "../../../common/components/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 import DetailsCard from "./DetailsCard/DetailsCard";
 import {useSelector} from "react-redux";
 import {selectSelectedCheckIns} from "../../../features/checkIns/checkInsSlice";

@@ -5,7 +5,7 @@ Contact: ryan.henzell-hill@outlook.com
 */
 
 // styles files
-import "../../../common/components/MapView/MapView.css";
+import "../../../common/components/map/MapView/MapView.css";
 
 // redux hooks
 import {useSelector} from "react-redux";
@@ -14,8 +14,8 @@ import {useSelector} from "react-redux";
 import {selectRouteDetails} from "../../../features/map/mapSlice";
 
 // imported components
-import Route from "../../../common/components/Route/Route";
-import RestaurantMarker from "../../../common/components/RestaurantMarker/RestaurantMarker";
+import Route from "../../../common/components/map/Route/Route";
+import RestaurantMarker from "../../../common/components/map/RestaurantMarker/RestaurantMarker";
 import LocationMarker from "./LocationMarker/LocationMarker";
 
 const MainMapChildren = ({userPosition, restaurants, displayedRestaurant}) => {

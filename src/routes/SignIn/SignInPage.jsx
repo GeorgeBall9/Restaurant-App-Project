@@ -22,6 +22,7 @@ import PrimaryButton from "../../common/components/buttons/PrimaryButton/Primary
 const SignInPage = () => {
 
     const dispatch = useDispatch();
+    // Declare state variables for the component
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");

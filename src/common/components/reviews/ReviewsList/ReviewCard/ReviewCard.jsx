@@ -1,16 +1,34 @@
+/*
+Description: Review card - used in reviews list
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./ReviewCard.css";
-import UserIcon from "../../../UserIcon/UserIcon";
+
+// fontawesome imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
-import StarRating from "../../../StarRating/StarRating";
 import {faImages} from "@fortawesome/free-regular-svg-icons";
+
+// react imports
 import {useState} from "react";
+
+// firebase imports
 import {addUserReactionToReview, deleteRestaurantReview} from "../../../../../firebase/firebase";
+
+// redux imports
 import {deleteReview, selectReviews, updateReview} from "../../../../../features/reviews/reviewsSlice";
 import {useDispatch, useSelector} from "react-redux";
+
+
+// component imports
+import UserIcon from "../../../UserIcon/UserIcon";
 import VoteButton from "./VoteButton/VoteButton";
 import InteractionButton from "../../../buttons/InteractionButton/InteractionButton";
 import ConfirmationPopupView from "../../../popups/ConfirmationPopupView/ConfirmationPopupView";
+import StarRating from "../../../StarRating/StarRating";
 
 const ReviewCard = ({review, userId, handleEditClick}) => {
 
@@ -28,22 +46,28 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
         photoUrl
     } = review;
 
+    // initialise dispatch
     const dispatch = useDispatch();
 
+    // select reviews from redux store
     const reviews = useSelector(selectReviews);
 
+    // state variables
     const [showReviewPhotos, setShowReviewPhotos] = useState(false);
     const [selectedPhoto, setSelectedPhoto] = useState("");
     const [confirmationPopupIsVisible, setConfirmationPopupIsVisible] = useState(false);
 
+    // handler for when photo is clicked
     const handlePhotoClick = (photoUrl) => {
         setSelectedPhoto(photoUrl);
     };
 
+    // handler to close full screen mode
     const closeFullScreenPhoto = () => {
         setSelectedPhoto("");
     };
 
+    // handler for when vote button clicked
     const handleVoteClick = async (reviewId, voteType) => {
         if (!reviews || !userId) return;
 
@@ -54,6 +78,7 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
         dispatch(updateReview({reviewId, updatedReview}));
     };
 
+    // handler for when yes clicked on popup
     const handleYesClick = async () => {
         await deleteRestaurantReview(userId, id);
         dispatch(deleteReview(id));
@@ -61,7 +86,8 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
     };
 
     return (
-        <div id={"review-" + id} className="review">
+        <div id={"review-" + id} className="review-card">
+            {/* show confirm delete popup conditionally */}
             {confirmationPopupIsVisible && (
                 <ConfirmationPopupView
                     message="Delete this review?"
@@ -85,6 +111,7 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
                     </div>
                 </div>
 
+                {/* show edit and delete buttons only if user is author */}
                 {authorId === userId && (
                     <div className="buttons-container">
                         <InteractionButton icon={faPen} handleClick={() => handleEditClick(id)}/>
@@ -131,6 +158,7 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
                     )}
                 </div>
 
+                {/* show review photos conditionally if photos and if photos button clicked */}
                 {showReviewPhotos && (
                     <div className={`review-photos${showReviewPhotos ? " visible" : ""}`}>
                         <div onClick={() => handlePhotoClick(photoUrl)}>
@@ -139,6 +167,7 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
                     </div>
                 )}
 
+                {/* full screen photo if photo selected */}
                 {selectedPhoto && (
                     <div className="full-screen-photo" onClick={closeFullScreenPhoto}>
                         <img src={selectedPhoto} alt="Full screen review photo"/>

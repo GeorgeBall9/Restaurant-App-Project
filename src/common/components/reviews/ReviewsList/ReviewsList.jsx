@@ -6,20 +6,28 @@ Contact: ryan.henzell-hill@outlook.com
 
 // stylesheet
 import "./ReviewsList.css";
+
+// component imports
 import ReviewForm from "../ReviewForm/ReviewForm";
 import ReviewCard from "./ReviewCard/ReviewCard";
+
+// react imports
 import {useState} from "react";
+import NoResults from "../../NoResults/NoResults";
 
 const ReviewsList = ({restaurant, reviews, userId}) => {
 
+    // state variables - editing review ID
     const [editingReviewId, setEditingReviewId] = useState(null);
 
+    // handler function when cancel edit mode button clicked
     const handleCancel = () => {
         setEditingReviewId(null);
     };
 
     return (
         <div className="reviews-container">
+            {/* show no results when there are no reviews available*/}
             {!reviews?.length && (
                 <p>No reviews available</p>
             )}

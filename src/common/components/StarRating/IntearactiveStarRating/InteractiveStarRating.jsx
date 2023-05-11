@@ -1,9 +1,20 @@
+/*
+Description: Star rating component - used on restaurant cards and details and reviews
+Author: George Ball
+Contact: georgeball14@hotmail.com
+*/
+
+// stylesheet
+import '../StarRating.css';
+
+// fontawesome imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar} from "@fortawesome/free-solid-svg-icons";
 import {faStar as faEmptyStar} from "@fortawesome/free-regular-svg-icons";
-import '../StarRating.css';
 
 const InteractiveStarRating = ({rating, onClick, interactive}) => {
+
+    // handler for when star clicked
     const handleClick = (value) => {
         if (interactive) {
             onClick(value);

@@ -1,3 +1,10 @@
+/*
+Description: Spinner component present when fetching API data - Maps and restaurants
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./Spinner.css";
 
 const Spinner = () => {

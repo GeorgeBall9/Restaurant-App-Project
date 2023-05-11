@@ -23,6 +23,7 @@ const initialState = {
 
 // url to fetch restaurants data - held on json server atm - must later be changed to API endpoint
 // const fetchUrl = "http://localhost:8000/data";
+// fetch 'Travel Advisor' API to gather restaurant data
 const fetchUrl = "https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng";
 
 export const options = {

@@ -1,21 +1,32 @@
+/*
+Description: Root js file
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+// react router imports
 import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
 
-import './style/index.css';
-import HomePage from "./routes/HomePage/HomePage";
-import MapPage from "./routes/MapPage/MapPage";
-import ErrorPage from './routes/ErrorPages/ErrorPage';
-import DetailsPage from './routes/DetailsPage/DetailsPage';
-
+// redux imports
 import store from './app/store'
 import {Provider} from 'react-redux'
 
 import reportWebVitals from './reportWebVitals';
+
+// stylesheet
+import './style/index.css';
+
+// import all components
+import HomePage from "./routes/HomePage/HomePage";
+import MapPage from "./routes/MapPage/MapPage";
+import ErrorPage from './routes/ErrorPages/ErrorPage';
+import DetailsPage from './routes/DetailsPage/DetailsPage';
 import Root from "./routes/Root";
 import EditProfilePage from "./routes/EditProfilePage/EditProfilePage";
 import SignUpPage from './routes/SignUp/SignUpPage';
@@ -32,6 +43,7 @@ import FriendsReviews from './routes/FriendsPage/FriendsProfile/FriendsReviews/F
 import FriendsOfFriendsPage from './routes/FriendsPage/FriendsProfile/FriendsOfFriendsPage/FriendsOfFriendPage';
 import PhotosPage from "./routes/PhotosPage/PhotosPage";
 
+// create routes using react router browser router
 const router = createBrowserRouter([
     {
         path: "/",

@@ -33,11 +33,12 @@ const ReviewsPage = () => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-
+    // Get the 'userId', 'reviews' and 'allRestaurants' from the Redux store
     const userId = useSelector(selectUserId);
     const reviews = useSelector(selectReviews);
     const allRestaurants = useSelector(selectAllRestaurants);
 
+    // Declare state variables for the component
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
     const [restaurant, setRestaurant] = useState(null);

@@ -1,12 +1,8 @@
+/* styles for image container */
 .restaurant-image-container {
     width: 90px;
     height: 80px;
     border-radius: 8px;
     overflow: hidden;
     flex-shrink: 0;
-}
-
-.restaurant-image-container img {
-    width: 100%;
-    height: 100%;
 }

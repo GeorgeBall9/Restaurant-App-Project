@@ -6,7 +6,9 @@
 // stylesheet
 import "./Slider.css";
 // Import dependencies
+// Import 'react-swipeable' for restuarant cards
 import {useSwipeable} from "react-swipeable";
+
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {changeSlide, selectActiveSlide, selectSliderIsActive} from "../../../features/slider/sliderSlice";

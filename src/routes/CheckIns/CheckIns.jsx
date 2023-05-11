@@ -9,6 +9,8 @@ import "./CheckIns.css";
 import "./CheckInsCalendar/CheckInsCalendar.css";
 
 // Import required dependencies and components
+
+// Import Calendar component from 'react'calendar'
 import Calendar from "react-calendar";
 
 import NoResults from "../../common/components/NoResults/NoResults";

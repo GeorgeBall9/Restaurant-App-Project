@@ -1,12 +1,13 @@
 /*
-Description: ErrorPage component
+Description: This file contains the ErrorPage component, which is a sub-component of the App component.
+Renders a page to display when a route error occurs.
 Author: George Ball
 Contact: georgeball14@hotmail.com
 */
-
-
-import React from 'react';
+// stylesheet
 import './ErrorPage.css';
+// Imports
+import React from 'react';
 import { Link, useRouteError } from 'react-router-dom';
 import errorImage from '../../common/images/errorImage.png';
 

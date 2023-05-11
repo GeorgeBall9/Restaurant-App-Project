@@ -1,3 +1,9 @@
+/*
+ Description: This file contains the AdditionalDetailsView component, which is a sub-component of the DetailsPage component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
 // stylesheet
 import "./AdditionalDetailsView.css";
 //Imports

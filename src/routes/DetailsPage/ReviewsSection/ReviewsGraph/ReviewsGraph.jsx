@@ -1,3 +1,11 @@
+/*
+ Description: This file contains the ReviewsGraph component, which is a sub-component of the ReviewsSection component.
+ It displays a bar graph of the number of reviews for each rating.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ // Imports
 import {
     Chart as ChartJS,
     CategoryScale,

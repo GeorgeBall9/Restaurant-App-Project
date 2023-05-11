@@ -1,10 +1,6 @@
-/*
-Description: Restaurant card stylesheet to style the RestaurantCard component
-Author: George Ball
-Contact: georgeball14@hotmail.com
-*/
+/* Styles for HomeCard component */
 
-/* restaurant card container */
+/* Home card container */
 .home-card {
     display: flex;
     flex-direction: column;

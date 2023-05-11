@@ -1,4 +1,12 @@
+/*
+Description: Friends of friend page component.
+Author: George Ball
+Contact: georgeball14@hotmail.com
+*/
+
+// stylesheet
 import "./FriendsOfFriend.css";
+// Import dependencies
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
@@ -37,6 +45,7 @@ const FriendsOfFriendsPage = () => {
     const [searchHasMatches, setSearchHasMatches] = useState(true);
     const [fetchStatus, setFetchStatus] = useState("pending");
 
+    // Fetch friends of the displayed friend
     useEffect(() => {
         if (!displayedFriend) return;
 
@@ -50,12 +59,14 @@ const FriendsOfFriendsPage = () => {
             .finally(() => setFetchStatus("idle"));
     }, [displayedFriend]);
 
+    // Set displayed friends when friends of friend state updates
     useEffect(() => {
         if (!friendsOfFriend?.length) return;
 
         setDisplayedFriend(friendsOfFriend);
     }, [friendsOfFriend]);
 
+    // Calculate mutual friends between current user and a friend of friend
     const calculateMutualFriends = (userFriends) => {
         let mutualFriends = 0;
 
@@ -68,11 +79,13 @@ const FriendsOfFriendsPage = () => {
         return mutualFriends;
     };
 
+    // Handle search button click
     const handleSearchClick = () => {
         setDisplayedFriends(friendsOfFriend);
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 
+    // Handle search input change
     const handleSearchInputChange = (query) => {
         const lowerCaseQuery = query.toLowerCase();
 
@@ -88,6 +101,7 @@ const FriendsOfFriendsPage = () => {
         }
     };
 
+    // Get the friend of friend status for the current user
     const getFriendOfFriendStatusForCurrentUser = (id) => {
         const foundFriend = currentUserFriends.find(friend => friend.id === id);
         if (foundFriend) {

@@ -1,6 +1,6 @@
 /*
 Description: Friend of friend card component. This component is a modified version of the FriendCard component.
-Renders a page to display when a route error occurs.
+
 Author: George Ball
 Contact: georgeball14@hotmail.com
 */

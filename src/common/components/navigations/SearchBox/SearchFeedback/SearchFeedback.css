@@ -1,3 +1,4 @@
+/* styles for feedback container */
 .no-matches-container {
     display: flex;
     flex-direction: column;
@@ -17,25 +18,20 @@
     pointer-events: none;
 }
 
-.fade-in {
-    opacity: 1;
-}
-
-.fade-out {
-    opacity: 0;
-}
-
+/* styles for message inside message container - prevents blocking another element */
 .no-matches-message,
 .try-something-else-message {
     pointer-events: none;
 }
 
+/* styles for message container */
 .no-matches-message {
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--secondary-theme);
 }
 
+/* styles for message inside message container */
 .try-something-else-message {
     font-size: 0.75rem;
     margin-top: 0.5rem;

@@ -19,8 +19,9 @@ const InteractionFeedback = ({isVisible, change, interaction}) => {
         <div className="interaction-feedback" style={{opacity: isVisible ? 1 : 0}}>
             {change} {interaction}
 
+            {/* show a different icon depending on change */}
+
             <FontAwesomeIcon
-                {/* show a different icon depending on change */}
                 icon={change === "Saved" ? faCircleCheck : faXmark}
                 className="feedback-icon"
             />

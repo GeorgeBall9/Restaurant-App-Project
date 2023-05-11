@@ -1,8 +1,20 @@
+/*
+Description: User icon component for use when show user interactions - profile pages, reviews, check-ins
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./UserIcon.css";
+
+// fontawesome imports
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
+// react imports
 import {useState} from "react";
 
+// styles map to get styles based on size prop
 const stylesMap = {
     xSmall: {height: "30px", width: "30px", borderWidth: "2px"},
     small: {height: "40px", width: "40px", borderWidth: "2px"},
@@ -14,12 +26,15 @@ const stylesMap = {
 
 const UserIcon = ({size, imageUrl = null}) => {
 
+    // state variables - check img is loaded
     const [imageIsLoaded, setImageIsLoaded] = useState(false);
 
+    // get style from map based on size prop
     const style = stylesMap[size];
 
     return (
         <div className="user-icon" style={style}>
+            {/* render conditionally if image url passed in */}
             {imageUrl ? (
                 <img
                     src={imageUrl}

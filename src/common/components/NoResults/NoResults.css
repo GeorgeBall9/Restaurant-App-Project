@@ -1,3 +1,4 @@
+/* styles for no results container */
 .no-results {
     display: flex;
     flex-direction: column;
@@ -9,12 +10,14 @@
     height: 100%;
 }
 
+/* styles for no results img */
 .no-results-image {
     width: 100px;
     height: 100px;
 }
 
-.no-results-text-main-text{
+/* styles for main text */
+.no-results-text-main-text {
     margin-top: 10px;
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-bold-2);
@@ -22,7 +25,8 @@
     text-align: center;
 }
 
-.no-results-text-sub-text{
+/* styles for sub text */
+.no-results-text-sub-text {
     margin-top: 10px;
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-bold-1);

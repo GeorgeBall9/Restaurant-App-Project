@@ -1,3 +1,10 @@
+/*
+Description: Restaurant image component for use restaurant cards (not homepage) and review previews
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./RestaurantImage.css";
 
 const RestaurantImage = ({photoUrl, name}) => {

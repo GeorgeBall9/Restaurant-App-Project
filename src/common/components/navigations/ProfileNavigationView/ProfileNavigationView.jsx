@@ -1,7 +1,20 @@
+/*
+Description: Profile Navigation component present on reviews page and all profile pages
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./ProfileNavigationView.css";
+
+// fontawesome imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+
+// react router imports
 import {useNavigate} from "react-router-dom";
+
+// component imports
 import SearchBox from "../SearchBox/SearchBox";
 
 const ProfileNavigationView = ({
@@ -20,16 +33,19 @@ const ProfileNavigationView = ({
                                    hasMatches
                                }) => {
 
+    // initialise navigate
     const navigate = useNavigate();
 
     return (
         <header className="profile-navigation" style={style}>
             <div className="container">
                 <div className="upper-nav">
+                    {/* show if search enabled */}
                     {searchFunctionality && (
                         <SearchBox handleInputChange={handleSearchInputChange} hasMatches={hasMatches}/>
                     )}
 
+                    {/* hide if search enabled */}
                     {!searchFunctionality && (
                         <button onClick={button1?.handler || (() => navigate(-1))}>
                             <FontAwesomeIcon className="icon" icon={button1?.icon || faArrowLeft}/>
@@ -37,8 +53,10 @@ const ProfileNavigationView = ({
                         </button>
                     )}
 
+                    {/* hide if search enabled */}
                     {!searchFunctionality && <h1>{pageTitle}</h1>}
 
+                    {/* hide if search enabled */}
                     {!button2 && (
                         <button style={{visibility: "hidden"}}>
                             <FontAwesomeIcon className="icon" icon={faArrowLeft}/>
@@ -54,6 +72,7 @@ const ProfileNavigationView = ({
                     )}
                 </div>
 
+                {/* hide if search enabled or no lower nav */}
                 {!searchFunctionality && lowerNav && (
                     <div className="lower-nav">
                         {toggleDisplayText && (

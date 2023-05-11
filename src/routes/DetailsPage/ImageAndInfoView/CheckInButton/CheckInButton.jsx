@@ -1,4 +1,13 @@
+/*
+ Description: This file contains the CheckInButton component, which is a sub-component of the ImageAndInfoView component.
+ It handles the check-in functionality for the restaurant.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ //stylesheet
 import "./CheckInButton.css";
+// Imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleCheck as faSolidCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
@@ -19,18 +28,18 @@ const CheckInButton = ({restaurant}) => {
 
     const userId = useSelector(selectUserId);
     const friends = useSelector(selectFriends);
-
+// useState hooks
     const [checkedIn, setCheckedIn] = useState(false);
     const [checkInPopupIsVisible, setCheckInPopupIsVisible] = useState(false);
     const [checkInFeedback, setCheckInFeedback] = useState("");
     const [feedbackIsVisible, setFeedbackIsVisible] = useState(false);
-
+// useEffect hook to check if the user has already checked in to the restaurant
     const getLastCheckInDate = async () => {
         const lastCheckIn = await getLastCheckInToRestaurantByUserId(userId, restaurant.id);
 
         return lastCheckIn ? new Date(lastCheckIn.date).toLocaleDateString() : null;
     };
-
+// Updates the checkedIn state
     const updateCheckedIn = () => {
         const today = new Date().toLocaleDateString();
 
@@ -49,7 +58,7 @@ const CheckInButton = ({restaurant}) => {
 
         updateCheckedIn();
     }, [restaurant, userId]);
-
+// OnClick handle functions
     const handleClick = () => {
         if (!userId) {
             navigate("/sign-in");

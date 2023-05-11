@@ -1,4 +1,13 @@
+/*
+ Description: This file contains the EditProfilePage component, which is a route component.
+    It renders the edit profile page, which allows the user to edit their profile details.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+// stylesheet
 import "./EditProfilePage.css";
+// Imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
@@ -61,6 +70,7 @@ const EditProfilePage = () => {
         handleChange({target: {name: "phone", value: phone}});
     }, [phone]);
 
+    // Function to validate the form fields
     const validateFields = () => {
         const newErrors = {};
 
@@ -80,7 +90,7 @@ const EditProfilePage = () => {
 
         return Object.keys(newErrors).length === 0;
     };
-
+    // OnClick handler functions
     const handleSaveClick = async () => {
         if (!validateFields()) return;
 
@@ -99,7 +109,7 @@ const EditProfilePage = () => {
 
         setButtonText("Saved");
     };
-
+    
     const handleChange = ({target}) => {
         setErrors({});
 

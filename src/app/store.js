@@ -1,5 +1,12 @@
+/*
+Description: Redux store setup
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
 import { configureStore } from '@reduxjs/toolkit';
 
+// import all constructed reducers from slices
 import mapReducer from "../features/map/mapSlice";
 import restaurantsReducer from "../features/restaurants/restaurantsSlice"
 import filtersReducer from "../features/filters/filtersSlice";

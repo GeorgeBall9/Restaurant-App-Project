@@ -1,4 +1,12 @@
+/*
+ Description: This file contains the ReviewsSection component, which is a sub-component of the DetailsPage component.
+ Renders multiple components to make up the reviews section of the DetailsPage component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+// stylesheet
 import "./ReviewsSection.css";
+// Imports
 import ReviewForm from "../../../common/components/reviews/ReviewForm/ReviewForm";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
@@ -27,7 +35,7 @@ const ReviewsSection = ({userId, restaurant}) => {
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
     const [reviewsHistogram, setReviewsHistogram] = useState(null);
     const [allReviewsVisible, setAllReviewsVisible] = useState(true);
-
+// useEffect hook to get the reviews for the restaurant
     useEffect(() => {
         if (!restaurantId) return;
 
@@ -78,7 +86,7 @@ const ReviewsSection = ({userId, restaurant}) => {
             })
             .catch(err => console.error(err));
     }, [restaurant, displayedReviews]);
-
+// OnClick function to handle the all reviews button
     const handleAllReviewsClick = () => {
         navigate("/reviews/" + restaurantId);
     };

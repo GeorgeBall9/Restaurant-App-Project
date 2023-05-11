@@ -18,6 +18,7 @@ const SignUpPage = () => {
 
     const dispatch = useDispatch();
 
+    // Declare state variables for the component
     const [displayName, setDisplayName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

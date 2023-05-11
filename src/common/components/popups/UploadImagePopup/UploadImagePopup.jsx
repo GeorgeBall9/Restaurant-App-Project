@@ -1,12 +1,26 @@
+/*
+Description: upload image popup component - used whenever an image is to be uploaded (reviews, edit profile, check-ins)
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./UploadImagePopup.css";
-import UploadFileButton from "../../buttons/UploadFileButton/UploadFileButton";
-import PrimaryButton from "../../buttons/PrimaryButton/PrimaryButton";
+
+// react imports
 import {useState} from "react";
+
+// firebase imports
 import {uploadImage} from "../../../../firebase/firebase";
+
+// component imports
+import PrimaryButton from "../../buttons/PrimaryButton/PrimaryButton";
+import UploadFileButton from "../../buttons/UploadFileButton/UploadFileButton";
 import Overlay from "../../Overlay/Overlay";
 
 const UploadImagePopup = ({handleCloseClick, handleUploadClick, shape = "rectangle"}) => {
 
+    // state variables
     const [uploadButtonText, setUploadButtonText] = useState("Loading...");
     const [photoStoragePath, setPhotoStoragePath] = useState(null);
     const [photoUrl, setPhotoUrl] = useState("");
@@ -14,21 +28,24 @@ const UploadImagePopup = ({handleCloseClick, handleUploadClick, shape = "rectang
     const [uploadPercentageIsVisible, setUploadPercentageIsVisible] = useState(false);
     const [uploadPercentage, setUploadPercentage] = useState(0);
 
+    // handler function for preview load
     const handlePreviewLoad = () => {
-        setUploadPercentageIsVisible(false);
-        setPreviewLoaded(true);
-        setUploadButtonText("Upload");
+        setUploadPercentageIsVisible(false); // percent completion hidden
+        setPreviewLoaded(true); // preview loaded = true so img is displayed
+        setUploadButtonText("Upload"); // button text now reads upload
     };
 
+    // handler function for file change
     const handleFileChange = ({target}) => {
-        const file = target.files[0];
-        setUploadPercentageIsVisible(true);
+        const file = target.files[0]; // get file path
+        setUploadPercentageIsVisible(true); // show percent completion
         const storageRef = uploadImage(file, setPhotoUrl, setUploadPercentage);
         setPhotoStoragePath(storageRef._location.path);
     };
 
+    // handler for upload button clicked
     const handleUpload = () => {
-        setUploadButtonText("Uploading...");
+        setUploadButtonText("Uploading..."); // show uploading state in button text
         handleUploadClick(photoUrl, photoStoragePath);
     };
 
@@ -49,6 +66,7 @@ const UploadImagePopup = ({handleCloseClick, handleUploadClick, shape = "rectang
 
                 <div>
                     <div className={`uploaded-image-container ${shape}`}>
+                        {/* show once img has loaded */}
                         {photoUrl && (
                             <img
                                 src={photoUrl}
@@ -66,6 +84,7 @@ const UploadImagePopup = ({handleCloseClick, handleUploadClick, shape = "rectang
                     <UploadFileButton handleFileChange={handleFileChange}/>
                 </div>
 
+                {/* show once image has been uploaded to storage */}
                 {photoUrl && (
                     <PrimaryButton
                         handleClick={handleUpload}

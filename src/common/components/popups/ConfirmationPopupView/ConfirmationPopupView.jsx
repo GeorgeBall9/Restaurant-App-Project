@@ -1,4 +1,13 @@
+/*
+Description: Confirmation popup component
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./ConfirmationPopupView.css";
+
+// component imports
 import PrimaryButton from "../../buttons/PrimaryButton/PrimaryButton";
 import InversePrimaryButton from "../../buttons/InversePrimaryButton/InversePrimaryButton";
 import Overlay from "../../Overlay/Overlay";

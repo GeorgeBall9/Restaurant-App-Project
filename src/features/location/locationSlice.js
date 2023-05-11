@@ -1,3 +1,9 @@
+/*
+ Description: Redux slice for location
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
 // Definition of the location slice of the Redux store
 import {createSlice} from '@reduxjs/toolkit'
 

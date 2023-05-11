@@ -1,4 +1,11 @@
+/*
+ Description: Slider component. This component is rendered in the MapPage component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+// stylesheet
 import "./Slider.css";
+// Import dependencies
 import {useSwipeable} from "react-swipeable";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -21,6 +28,7 @@ const Slider = () => {
     const [xPosition, setXPosition] = useState(offsetRef.current);
     const [style, setStyle] = useState({});
 
+    // Update style on active slide change
     const updateStyle = useCallback(() => {
         requestAnimationFrame(() => {
             setStyle(style => {
@@ -33,6 +41,7 @@ const Slider = () => {
         });
     }, [activeSlide, positionRef.current, offsetRef.current]);
 
+    // Update positionRef and offsetRef on window resize
     const handlers = useSwipeable({
         onSwipedRight: () => {
             if (!sliderIsActive) return;
@@ -62,6 +71,7 @@ const Slider = () => {
         trackMouse: true,
         trackTouch: true
     });
+
 
     useEffect(() => {
         updateStyle();

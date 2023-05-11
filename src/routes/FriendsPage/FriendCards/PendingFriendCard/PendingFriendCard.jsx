@@ -1,3 +1,10 @@
+/*
+ Description: Pending friend card component. This component is rendered in the FriendsPage component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ // Import dependencies
 import FriendCard from "../FriendCard/FriendCard";
 import {cancelFriendRequest} from "../../../../firebase/firebase";
 import {selectUserId, setFriends} from "../../../../features/user/userSlice";
@@ -8,11 +15,12 @@ import {useState} from "react";
 const PendingFriendCard = ({id, displayName, iconColour, profilePhotoUrl, mutualFriends}) => {
 
     const dispatch = useDispatch();
-
+    // Get the 'userId' from the Redux store
     const userId = useSelector(selectUserId);
-
+    // useState hooks
     const [confirmACancelPopupIsVisible, setConfirmCancelPopupIsVisible] = useState(false);
 
+    // Function to handle the click on the cancel button
     const handleCancelClick = async () => {
         const updatedFriends = await cancelFriendRequest(userId, id);
         dispatch(setFriends(updatedFriends));

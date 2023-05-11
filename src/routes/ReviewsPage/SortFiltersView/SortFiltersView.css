@@ -1,3 +1,5 @@
+/* Styles for SortFiltersView component */
+/* container */
 .sort-filters-view {
     position: absolute;
     z-index: 10000;
@@ -13,7 +15,7 @@
     box-shadow: var(--box-shadow);
     overflow: hidden;
 }
-
+/* button*/
 .sort-filters-view button {
     border: none;
     background: none;

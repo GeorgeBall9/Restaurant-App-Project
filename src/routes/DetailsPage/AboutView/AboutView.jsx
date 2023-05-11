@@ -1,11 +1,19 @@
+/*
+ Description: This file contains the AboutView component, which is a sub-component of the DetailsPage component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+//stylesheet
 import "./AboutView.css";
+// Imports
 import {useState} from "react";
 
 const AboutView = ({description}) => {
-
+    // Declare state variables for the component
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
-
+    /// OnClick function to toggle the description
     const handleToggleDescription = () => {
         setIsExpanded(!isExpanded);
         setToggleLabel(isExpanded ? 'Read More' : 'Read Less');

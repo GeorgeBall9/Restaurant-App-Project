@@ -1,4 +1,11 @@
+/*
+ Description: This file contains the Interaction component, which is a sub-component of the InteractionsView component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+// stylesheet
 import "./Interaction.css";
+// Imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const Interaction = ({count, icon}) => {

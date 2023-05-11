@@ -1,4 +1,10 @@
-// FriendContributionsButton.js
+/*
+ Description: Friend contributions button component. This component is rendered in the FriendsProfile component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+// Import dependencies
 import "../../../ProfilePage/ContributionsButton/ContributionsButton.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";

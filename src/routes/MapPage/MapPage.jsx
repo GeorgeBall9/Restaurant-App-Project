@@ -20,19 +20,21 @@ import NoResults from "../../common/components/NoResults/NoResults";
 import ErrorPopupView from "../../common/components/popups/ErrorPopupView/ErrorPopupView";
 
 const MapPage = () => {
-
+    // Get the 'restaurants', 'restaurantsFetchStatus' and 'userPosition' from the Redux store
     const restaurants = useSelector(selectRestaurants);
     const restaurantsFetchStatus = useSelector(selectRestaurantsFetchStatus);
     const userPosition = useSelector(selectUserPosition);
-
+    // Declare state variables for the component
     const [windowHeight, setWindowHeight] = useState(+window.innerHeight);
     const [errorPopupIsVisible, setErrorPopupIsVisible] = useState(false);
     const [mapIsLoaded, setMapIsLoaded] = useState(false);
 
+    // Update window height when window is resized
     useEffect(() => {
         setWindowHeight(+window.innerHeight)
     }, [window.innerHeight]);
 
+    // Show error popup if no restaurants are found
     useEffect(() => {
         if (mapIsLoaded && restaurantsFetchStatus === "idle" && !restaurants?.length) {
             setTimeout(() => setErrorPopupIsVisible(true), 2000);

@@ -1,3 +1,5 @@
+/* styling for DetailsCard component */
+/* general styling */
 .check-ins-card {
     display: flex;
     flex-direction: column;
@@ -58,6 +60,7 @@
     overflow: hidden;
 }
 
+/* button styling */
 .check-ins-card .add-photo-button {
     border: none;
     background-color: lightgrey;

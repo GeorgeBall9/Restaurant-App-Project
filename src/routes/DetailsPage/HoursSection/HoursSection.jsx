@@ -1,7 +1,14 @@
+/*
+ Description: This file contains the HoursSection component, which is a sub-component of the DetailsPage component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ //stylesheet
 import "./HoursSection.css";
 
 const HoursSection = ({hours}) => {
-
+    // Function to group days with the same hours, for better readability
     const groupDaysWithSameHours = (hours) => {
         const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
         let groupedHours = [];

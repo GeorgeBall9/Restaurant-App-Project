@@ -1,6 +1,13 @@
-import "./CheckInsCollage.css";
-import CustomCollage from "../../../common/components/CustomCollage/CustomCollage.jsx";
+/*
+ Description: CheckInsCollage component rendered inside the CheckIns component
+ Author: George Ball
+ Contact: georgeball14@hotmail.com
+ */
 
+// stylesheet
+import "./CheckInsCollage.css";
+// Import comment components and necessary hooks
+import CustomCollage from "../../../common/components/CustomCollage/CustomCollage.jsx";
 import {useEffect, useState} from "react";
 import {
     addPhotoToCheckIn, deleteCheckInPhoto
@@ -12,18 +19,21 @@ import UploadImagePopup from "../../../common/components/popups/UploadImagePopup
 import {selectSelectedCheckIn, setSelectedCheckIn, updateCheckIn} from "../../../features/checkIns/checkInsSlice";
 import {faDownLeftAndUpRightToCenter, faUpRightAndDownLeftFromCenter, faXmark} from "@fortawesome/free-solid-svg-icons";
 
+// Define the 'CheckInsCollage' component
 const CheckInsCollage = ({closePopup}) => {
 
     const dispatch = useDispatch();
-
+    // Get the 'userId' and 'checkIn' from the Redux store
     const userId = useSelector(selectUserId);
     const checkIn = useSelector(selectSelectedCheckIn);
 
+    // Declare state variables for the component
     const [restaurant, setRestaurant] = useState(null);
     const [isVisible, setIsVisible] = useState(true);
     const [addPhotoPopupIsVisible, setAddPhotoPopupIsVisible] = useState(false);
     const [selectMode, setSelectMode] = useState(false);
 
+    // Use the 'useEffect' hook to update the component when 'checkIn' changes
     useEffect(() => {
         if (!checkIn) return;
 
@@ -33,6 +43,8 @@ const CheckInsCollage = ({closePopup}) => {
 
         setRestaurant(checkIn.restaurant);
     }, [checkIn]);
+
+    // Define event handlers for various actions in the component
 
     const handleBackClick = () => {
         setIsVisible(false);
@@ -80,9 +92,11 @@ const CheckInsCollage = ({closePopup}) => {
         dispatch(setSelectedCheckIn(updatedCheckIn));
     };
 
+    // Render the 'CheckInsCollage' component
     return (
         <div className={`collage-popup ${isVisible ? "visible" : ""}`}>
             <div>
+                {/* Render the 'ProfileNavigationView' component with appropriate props */}
                 <ProfileNavigationView
                     pageTitle={restaurant?.name}
                     button1={{text: "Close", icon: faXmark, handler: handleBackClick}}
@@ -92,6 +106,7 @@ const CheckInsCollage = ({closePopup}) => {
                     }}
                 />
 
+                {/* Render the 'CustomCollage' component with appropriate props */}
                 <div className="collage-popup-photos">
                     <div className="collage-popup-content">
                         <CustomCollage
@@ -104,7 +119,7 @@ const CheckInsCollage = ({closePopup}) => {
                         />
                     </div>
                 </div>
-
+                {/* Render the 'UploadImagePopup' component if 'addPhotoPopupIsVisible' is true */}
                 {addPhotoPopupIsVisible && (
                     <UploadImagePopup
                         handleCloseClick={handleClosePopupClick}

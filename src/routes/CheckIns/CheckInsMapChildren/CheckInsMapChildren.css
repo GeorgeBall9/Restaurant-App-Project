@@ -1,9 +1,13 @@
+/* styling for CheckInsMapChildren */
+
+/* styling of the popup */
 .check-ins-map-popup {
     text-align: center;
     width: fit-content;
     max-width: 200px;
 }
 
+/* styling of the header */
 .check-ins-map-popup h3 {
     font-size: var(--font-size-sub-heading);
     color: var(--primary-theme);
@@ -14,6 +18,7 @@
     text-decoration: none;
 }
 
+/* styling of icon */
 .check-ins-map-popup a .icon {
     color: var(--primary-theme);
     margin-left: 0.25em;
@@ -30,6 +35,7 @@
     justify-content: center;
 }
 
+/* stlying of the button */
 .check-ins-map-popup button {
     background: none;
     border: none;

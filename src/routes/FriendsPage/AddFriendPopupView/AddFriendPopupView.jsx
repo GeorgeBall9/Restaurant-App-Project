@@ -1,3 +1,9 @@
+/*
+ Description: Add friend popup view component. 
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ // Import dependencies
 import FormField from "../../../common/components/FormField/FormField";
 import PrimaryButton from "../../../common/components/buttons/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../../common/components/buttons/SecondaryButton/SecondaryButton";
@@ -9,15 +15,16 @@ import {getUserFromUserId, sendFriendRequestToUser} from "../../../firebase/fire
 const AddFriendPopupView = ({closePopup}) => {
 
     const dispatch = useDispatch();
-
+    // Get the 'userId', 'friends' and 'friendRequests' from the Redux store
     const userId = useSelector(selectUserId);
     const friends = useSelector(selectFriends);
     const friendRequests = useSelector(selectFriendRequests);
-
+    // useState hooks
     const [addFriendId, setAddFriendId] = useState("");
     const [feedback, setFeedback] = useState("");
     const [foundUser, setFoundUser] = useState(null);
 
+    // Function to handle the click of the Yes button
     const handleYesClick = async () => {
         const updatedFriends = await sendFriendRequestToUser(userId, addFriendId);
         dispatch(setFriends(updatedFriends));
@@ -25,6 +32,7 @@ const AddFriendPopupView = ({closePopup}) => {
         closePopup();
     };
 
+    // Function to handle the click of the No button
     const handleNoClick = () => {
         setAddFriendId("");
         setFeedback("");
@@ -32,6 +40,7 @@ const AddFriendPopupView = ({closePopup}) => {
         closePopup();
     };
 
+    // Function to handle the click of the Find User button
     const handleFindUserClick = async (addFriendId) => {
         if (!addFriendId) {
             setFeedback("Please enter a user ID");

@@ -1,4 +1,11 @@
+/*
+ Description: Reviews page component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+// stylesheet
 import "./ReviewsPage.css";
+// Import dependencies
 import ReviewForm from "../../common/components/reviews/ReviewForm/ReviewForm";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -14,6 +21,7 @@ import SortFiltersView from "./SortFiltersView/SortFiltersView";
 import Overlay from "../../common/components/Overlay/Overlay";
 import ReviewsList from "../../common/components/reviews/ReviewsList/ReviewsList";
 
+// Sort reviews by most recent visit date
 export const sortReviewsByMostRecentVisitDate = (reviews) => {
     return [...reviews].sort((a, b) => b.visitDate - a.visitDate);
 };
@@ -25,11 +33,12 @@ const ReviewsPage = () => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-
+    // Get the 'userId', 'reviews' and 'allRestaurants' from the Redux store
     const userId = useSelector(selectUserId);
     const reviews = useSelector(selectReviews);
     const allRestaurants = useSelector(selectAllRestaurants);
 
+    // Declare state variables for the component
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
     const [restaurant, setRestaurant] = useState(null);
@@ -44,6 +53,7 @@ const ReviewsPage = () => {
         {text: "Oldest", active: false, type: "visitDate", multiplier: 1}
     ]);
 
+    // Show spinner if restaurant is not found
     useEffect(() => {
         if (!restaurant) {
             dispatch(showSpinner());
@@ -52,6 +62,7 @@ const ReviewsPage = () => {
         }
     }, [restaurant]);
 
+    // Get restaurant by id
     useEffect(() => {
         if (!allRestaurants) return;
 
@@ -65,12 +76,14 @@ const ReviewsPage = () => {
         }
     }, [allRestaurants, restaurantId]);
 
+    // Redirect to error page if restaurant is not found
     useEffect(() => {
         if (restaurant === undefined) {
             navigate('/error', {replace: true});
         }
     }, [restaurant, navigate]);
 
+    // Get reviews by restaurant id
     useEffect(() => {
         if (!restaurantId || reviews?.length) return;
 
@@ -78,12 +91,14 @@ const ReviewsPage = () => {
             .then(reviewsFound => dispatch(setReviews(sortReviewsByMostRecentVisitDate(reviewsFound))));
     }, [restaurantId, reviews]);
 
+    // Set displayed reviews to all reviews
     useEffect(() => {
         if (!reviews) return;
 
         setDisplayedReviews(sortReviewsByMostRecentVisitDate(reviews));
     }, [reviews]);
 
+    // Handle write review button click
     const handleWriteReviewClick = () => {
         if (!userId) {
             navigate("/sign-in");
@@ -92,14 +107,17 @@ const ReviewsPage = () => {
         }
     };
 
+    // Handle overlay click
     const handleSortClick = () => {
         setSortFiltersVisible(sortFiltersVisible => !sortFiltersVisible);
     };
 
+    // Handle search click
     const handleSearchClick = () => {
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 
+    // Handle search input change
     const handleSearchInputChange = (query) => {
         const lowerCaseQuery = query.toLowerCase();
 
@@ -116,6 +134,7 @@ const ReviewsPage = () => {
         }
     };
 
+    // Handle sort filter click
     const handleSortFilterClick = (text, type, multiplier) => {
         setActiveFilter(text);
 
@@ -134,10 +153,12 @@ const ReviewsPage = () => {
         setSortFiltersVisible(false);
     };
 
+    // Handle overlay click
     const handleOverlayClick = () => {
         setSortFiltersVisible(false);
     };
 
+    // Log restaurant
     useEffect(() => {
         console.log("review page", {restaurant})
     }, [restaurant]);

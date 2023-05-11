@@ -1,4 +1,13 @@
+/*
+ Description: This file contains the ImageAndInfoView component, which is a sub-component of the DetailsPage component.
+ It displays the restaurant's name, photo, star rating, price, address, phone number, and open status.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ //stylesheet
 import "./ImageAndInfoView.css";
+//Imports
 import CheckInButton from "./CheckInButton/CheckInButton";
 import StarRating from "../../../common/components/StarRating/StarRating";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -6,7 +15,7 @@ import {faLocationDot, faPhone} from "@fortawesome/free-solid-svg-icons";
 import {forwardRef} from "react";
 
 const ImageAndInfoView = forwardRef((props, ref) => {
-
+// Get props
     const {
         name,
         photoUrl,

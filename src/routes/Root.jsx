@@ -1,3 +1,10 @@
+/*
+ Description: Root component of the application.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+// Import dependencies
 import Spinner from "../common/components/Spinner/Spinner";
 import {Outlet} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -22,14 +29,17 @@ const Root = () => {
 
     const dispatch = useDispatch();
 
+    // Fetch and filter restaurants, and initialise slider on component mount
     useFetchRestaurants();
     useFilterRestaurants();
     useInitialiseSlider();
 
+    // Get the 'spinnerIsVisible' and 'userId' from the Redux store
     const spinnerIsVisible = useSelector(selectSpinnerIsVisible);
-
+    // Get the 'userId' from the Redux store
     const userId = useSelector(selectUserId);
 
+    // Function to fetch and store the user's details, friends, and friend requests in the Redux store
     const storeUserDetails = async (id) => {
         const userDetails = await getUserFromUserId(id);
 
@@ -50,6 +60,7 @@ const Root = () => {
         }
     };
 
+    // Check if the user is logged in on component mount and whenever the auth state changes
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (!user) {
@@ -63,12 +74,14 @@ const Root = () => {
         });
     }, []);
 
+    // Fetch and store the user's details whenever the user ID changes
     useEffect(() => {
         if (userId) {
             storeUserDetails(userId);
         }
     }, [userId]);
 
+     // Modify body overflow style based on spinner visibility to prevent scroll when spinner is visible
     useEffect(() => {
         document.body.style.overflow = (spinnerIsVisible) ? "hidden" : "visible";
     }, [spinnerIsVisible]);

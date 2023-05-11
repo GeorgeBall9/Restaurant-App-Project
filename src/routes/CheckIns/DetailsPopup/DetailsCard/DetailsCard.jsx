@@ -1,4 +1,12 @@
+/*
+ Description: DetailsCard component rendered inside the DetailsPopup component
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+// stylesheet
 import "./DetailsCard.css";
+// Import required dependencies and components
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -12,6 +20,7 @@ import {removeCheckIn, setSelectedCheckIn, updateCheckIn} from "../../../../feat
 import ConfirmationPopupView from "../../../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
 import CollageImage from "../../../../common/components/CustomCollage/CollageImage/CollageImage";
 
+// Define the 'DetailsCard' component
 const DetailsCard = ({
                          checkIn,
                          isFriendsPage,
@@ -21,20 +30,23 @@ const DetailsCard = ({
                      }) => {
 
     const dispatch = useDispatch();
-
+    // Get the 'allFriends' and 'profilePhotoUrl' from the Redux store
     const allFriends = useSelector(selectFriends);
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
-
+    
+    // Declare state variables for the component
     const [editPopupIsVisible, setEditPopupIsVisible] = useState(false);
     const [editPopupFeedback, setEditPopupFeedback] = useState("");
     const [confirmDeletePopupIsVisible, setConfirmDeletePopupIsVisible] = useState(false);
-
+    
+    // Format check-in date
     const formattedDate = new Date(checkIn.date).toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
     });
 
+    // OnClick event handlers for the component
     const handleAddPhotoClick = () => {
         dispatch(setSelectedCheckIn(checkIn))
         showPhotos();
@@ -44,7 +56,7 @@ const DetailsCard = ({
         expandPopup();
         setEditPopupIsVisible(true);
     };
-
+    // Confirm edit check-in and update check-in information
     const confirmEditCheckIn = async (date, friends) => {
         if (+new Date() < +new Date(date)) {
             setEditPopupFeedback("You can only check in today or earlier!");
@@ -63,7 +75,8 @@ const DetailsCard = ({
         expandPopup();
         setConfirmDeletePopupIsVisible(true);
     };
-
+    
+    // Confirm check-in deletion and remove check-in
     const confirmDelete = async () => {
         const checkInId = checkIn.id;
 
@@ -74,6 +87,7 @@ const DetailsCard = ({
 
     return (
         <div className="check-ins-card">
+            {/* Render CheckInPopupView component for editing check-ins */}
             {editPopupIsVisible && (
                 <CheckInPopupView
                     restaurant={checkIn.restaurant}
@@ -86,7 +100,7 @@ const DetailsCard = ({
                     resetFeedback={() => setEditPopupFeedback("")}
                 />
             )}
-
+            {/* Render ConfirmationPopupView component for confirming check-in deletion */}
             {confirmDeletePopupIsVisible && (
                 <ConfirmationPopupView
                     message="Delete this check-in?"
@@ -97,7 +111,7 @@ const DetailsCard = ({
 
             <div className="card-header">
                 <h3>{checkIn.restaurant.name}</h3>
-
+                {/* Render edit and delete buttons if not on friends page */}
                 {!isFriendsPage && (
                     <div className="buttons-container">
                         <InteractionButton icon={faPen} handleClick={handleEditClick}/>

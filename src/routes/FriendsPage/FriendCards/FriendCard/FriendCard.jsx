@@ -1,4 +1,11 @@
+/*
+ Description: Friend card component. This component is rendered in the FriendsPage component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+// stylesheet
 import "./FriendCard.css";
+// Import dependencies
 import FriendInfo from "../FriendInfo/FriendInfo";
 import PrimaryButton from "../../../../common/components/buttons/PrimaryButton/PrimaryButton";
 import InversePrimaryButton from "../../../../common/components/buttons/InversePrimaryButton/InversePrimaryButton";

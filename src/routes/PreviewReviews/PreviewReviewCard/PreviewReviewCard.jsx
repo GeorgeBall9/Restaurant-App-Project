@@ -1,4 +1,11 @@
+/*
+ Description: Preview review card component. This component is rendered in the PreviewReviews component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+// stylesheet
 import "./PreviewReviewCard.css";
+// Import dependencies
 import RestaurantImage from "../../../common/components/RestaurantImage/RestaurantImage";
 import StarRating from "../../../common/components/StarRating/StarRating";
 import {faTrash, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
@@ -12,23 +19,25 @@ import InteractionButton from "../../../common/components/buttons/InteractionBut
 import ConfirmationPopupView from "../../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
 
 const PreviewReviewCard = ({review, canDelete}) => {
-
+    // Destructure props
     const {id, rating, title, content, restaurantId, restaurantName, photoUrl} = review;
 
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-
+    // Get the 'userId' from the Redux store
     const userId = useSelector(selectUserId);
-
+    // Declare state variables for the component
     const [confirmDeleteReviewId, setConfirmDeleteReviewId] = useState(null);
 
+    // Delete review
     const handleDelete = async () => {
         await deleteRestaurantReview(userId, id);
         dispatch(deleteReview(id));
         setConfirmDeleteReviewId(null);
     };
 
+    // Expand review
     const handleExpandClick = (reviewId, restaurantId) => {
         dispatch(selectReview(reviewId));
         navigate("/details/" + restaurantId);

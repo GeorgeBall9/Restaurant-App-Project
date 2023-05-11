@@ -1,3 +1,4 @@
+/* Styles for the banner view component */
 .banner {
     top: 0;
     z-index: 100;
@@ -10,7 +11,7 @@
     align-items: center;
     gap: 0.75em;
 }
-
+/* stles for heading */
 .banner h1 {
     color: white;
     overflow: hidden;
@@ -23,7 +24,7 @@
     width: 100%;
     transition: all 0.25s ease;
 }
-
+/* stles for button */
 .banner .back-button {
     display: flex;
     align-items: center;

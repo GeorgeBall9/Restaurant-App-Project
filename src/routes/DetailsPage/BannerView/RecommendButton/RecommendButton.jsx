@@ -1,4 +1,11 @@
+/*
+ Description: ReccomendButton component for the DetailsPage component. Handles a user recommending a restaurant.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+//stylesheet
 import "./RecommendButton.css";
+//Import necessary components, hooks, and functions
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart as faSolidHeart, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck, faHeart} from "@fortawesome/free-regular-svg-icons";
@@ -33,13 +40,13 @@ const RecommendButton = ({restaurant, style, updateInteractions}) => {
     const [isRecommended, setIsRecommended] = useState(false);
     const [confirmationIsVisible, setConfirmationIsVisible] = useState(false);
     const [feedbackIsVisible, setFeedbackIsVisible] = useState(false);
-
+// useEffect hook to check if the user has already recommended the restaurant
     useEffect(() => {
         if (!restaurant || !recommendations) return;
 
         setIsRecommended(recommendations.some(recommendation => recommendation === id));
     }, [restaurant, recommendations]);
-
+// OnClick handle functions
     const handleRecommendClick = () => {
         if (!userId) {
             navigate("/sign-in");
@@ -76,7 +83,7 @@ const RecommendButton = ({restaurant, style, updateInteractions}) => {
                 handleClick={handleRecommendClick}
                 style={style}
             />
-
+{/* Render confirmation popup*/}
             {confirmationIsVisible && (
                 <div className="confirm-checkin-popup">
                     <p>

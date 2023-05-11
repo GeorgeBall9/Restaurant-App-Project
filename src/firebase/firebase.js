@@ -1,3 +1,9 @@
+/*
+Description: Firebase authentication, database management and photo storage functions
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
 // imports
 import {initializeApp} from "firebase/app";
 
@@ -58,24 +64,25 @@ export const auth = getAuth();
 
 // sign up with email and password
 export const signUpAuthUserWithEmailAndPassword = async (displayName, email, password) => {
+    // Create a new auth user with the provided email and password
     const {user} = await createUserWithEmailAndPassword(auth, email, password);
+    // Create a new user in the database and return the result
     return await createNewUserInDatabase({...user, displayName});
 };
 
 // sign in with email and password
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
-    try {
-        await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-        throw new Error("User not found");
-    }
+    // Sign in the user with the provided email and password
+    await signInWithEmailAndPassword(auth, email, password);
 };
 
 // sign in with Google popup
 const googleAuthProvider = new GoogleAuthProvider();
 
 export const signInWithGooglePopup = async () => {
+    // Sign in the user with a Google popup
     const {user} = await signInWithPopup(auth, googleAuthProvider);
+    // Create a new user in the database using the user information obtained from Google and return the result
     return await createNewUserInDatabase(user);
 };
 
@@ -83,7 +90,9 @@ export const signInWithGooglePopup = async () => {
 const facebookAuthProvider = new FacebookAuthProvider();
 
 export const signInWithFacebookPopup = async () => {
+    // Sign in the user with a Facebook popup
     const {user} = await signInWithPopup(auth, facebookAuthProvider);
+    // Create a new user in the database using the user information obtained from Facebook and return the result
     return await createNewUserInDatabase(user);
 };
 
@@ -93,7 +102,6 @@ export const signOutAuthUser = async () => {
 };
 
 // database functions
-
 // create user doc - userData param includes displayName, email
 export const createUserDoc = async (userData, userId) => {
     const userDocRef = doc(db, "users", userId);
@@ -114,6 +122,12 @@ export const createNewUserInDatabase = async (user) => {
     await createUserDoc(data, uid);
 
     return {...data, id: uid};
+};
+
+// function to delete the current user from the db and sign them out
+export const deleteUserDocAndSignOut = async (userId) => {
+    await deleteDoc(doc(db, "users", userId));
+    await signOutAuthUser();
 };
 
 // get user details from db
@@ -138,6 +152,7 @@ export const getUserFromUserId = async (userId) => {
     }
 };
 
+// function to update user profile with new data
 export const updateUserProfile = async (userId, data) => {
     try {
         const docSnap = await doc(db, "users", userId);
@@ -271,10 +286,12 @@ const createNewCheckInDoc = async (date, restaurant, userIds, photoIds) => {
     return checkInDocRef.id;
 };
 
+// function to delete a check in doc by ID
 const deleteCheckInDoc = async (checkInId) => {
     await deleteDoc(doc(db, "check-ins", checkInId));
 };
 
+// function to retrieve the data from a check in doc by ID
 const getCheckInDocFromId = async (checkInId) => {
     const docRef = await doc(db, "check-ins", checkInId);
     const docSnap = await getDoc(docRef);
@@ -294,6 +311,7 @@ export const addRestaurantCheckIn = async (userId, date, restaurant, friendIds) 
     }
 };
 
+// function to get formatted, expanded check in data by user ID and check in ID
 export const getCheckInDataById = async (checkInId, userId) => {
     const checkIn = await getCheckInDocFromId(checkInId);
     const {restaurantId, userIds, photoIds} = checkIn;
@@ -304,6 +322,7 @@ export const getCheckInDataById = async (checkInId, userId) => {
     return {restaurant, ...checkIn, friendData, photoData};
 };
 
+// function to update the user doc
 export const updateCheckInDoc = async (checkInId, date, userId, friendIds, photoIds) => {
     const checkInDoc = doc(db, "check-ins", checkInId);
 
@@ -404,6 +423,7 @@ export const getCheckInsByUserId = async (userId) => {
     }
 };
 
+// function to retrieve all formatted check ins and restaurant data by user, sorted in date order (latest first)
 export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
     const checkInData = await getCheckInsByUserId(userId);
 
@@ -422,6 +442,7 @@ export const getCheckInsAndRestaurantDataByUserId = async (userId) => {
     return checkIns;
 };
 
+// function to retrieve all formatted check ins and restaurant data by user Id for a particular month, date sorted
 export const getCheckInsAndRestaurantDataByUserIdForMonth = async (userId, month) => {
     const checkInData = await getCheckInsAndRestaurantDataByUserId(userId);
 
@@ -430,6 +451,7 @@ export const getCheckInsAndRestaurantDataByUserIdForMonth = async (userId, month
     return checkInData.filter(({date}) => new Date(date).getMonth() === month);
 };
 
+// get user data from an array of user IDs
 const getUsersFromUserIds = async (userIds) => {
     return await Promise.all(userIds
         .map(async (id) => await getUserFromUserId(id)));
@@ -496,21 +518,6 @@ export const updateRestaurantReview = async (reviewId, updatedData) => {
     const {profilePhotoUrl, displayName, reviews} = await getUserFromUserId(review.authorId);
     const photoUrl = review.photoId ? await getPhotoUrlFromId(review.photoId) : null;
     return {...review, photoUrl, profilePhotoUrl, displayName, numberOfReviews: reviews};
-};
-
-// report restaurant review
-export const reportRestaurantReview = async (reviewId, description) => {
-    if (!reviewId) return;
-
-    const docRef = await doc(db, "reviews", reviewId);
-
-    await updateDoc(docRef, {
-        reported: true
-    });
-
-    const docSnap = await getDoc(docRef);
-
-    return docSnap.exists() ? {id: docSnap.id, ...docSnap.data()} : null;
 };
 
 // get all reviews by restaurant ID
@@ -625,6 +632,7 @@ export const addInteractionToRestaurantDoc = async (restaurant, interaction) => 
     }
 };
 
+// remove an interaction from a saved restaurant doc
 export const removeInteractionFromRestaurantDoc = async (restaurantId, interaction) => {
     if (!restaurantId || !interaction) return;
 
@@ -742,6 +750,7 @@ export const deleteFriend = async (userId, friendId) => {
     return await getFriendsByUserId(userId);
 };
 
+// remove a friend request from array in user doc
 const removeFriendFromUserDoc = async (userId, friendId) => {
     const friendData = await getUserFromUserId(userId);
 
@@ -771,7 +780,7 @@ export const getFriendRequestsByUserId = async (userId) => {
             .map(async ({userId: requestId}) => await getUserFromUserId(requestId)));
 };
 
-// get friends
+// get friends by user ID
 export const getFriendsByUserId = async (userId) => {
     if (!userId) return;
 
@@ -795,6 +804,7 @@ export const getFriendsByUserId = async (userId) => {
 };
 
 // photo storage functions
+// upload image to storage
 export const uploadImage = (imageFile, downloadUrlSetter, progressSetter) => {
     if (!imageFile) {
         alert("Please choose a file first!");
@@ -831,6 +841,7 @@ export const uploadImage = (imageFile, downloadUrlSetter, progressSetter) => {
     return storageRef;
 };
 
+// get download url from storage
 export const getImageDownloadUrl = async (path) => {
     if (!path) return null;
 
@@ -839,6 +850,7 @@ export const getImageDownloadUrl = async (path) => {
     return await getDownloadURL(storageRef);
 };
 
+// create new profile photo doc in profile-photos collection
 const createNewProfilePhotoDoc = async (userId, path) => {
     const photosCollectionRef = collection(db, "profile-photos");
 
@@ -850,10 +862,6 @@ const createNewProfilePhotoDoc = async (userId, path) => {
     const photoDocRef = await addDoc(photosCollectionRef, newPhoto);
 
     return photoDocRef.id;
-};
-
-const deleteProfilePhotoDoc = async (photoId) => {
-    await deleteDoc(doc(db, "profile-photos", photoId));
 };
 
 // get profile photo by userId
@@ -872,6 +880,7 @@ export const getProfilePhotoUrlByUserId = async (userId) => {
     return await getImageDownloadUrl(photoPath);
 };
 
+// get profile photo doc by user ID
 const getProfilePhotoDocByUserId = async (userId) => {
     const photosCollectionRef = collection(db, "profile-photos");
     const q = query(photosCollectionRef, where("userId", "==", userId));
@@ -887,6 +896,7 @@ const getProfilePhotoDocByUserId = async (userId) => {
     return photoDoc;
 };
 
+// update the profile photo for a user
 export const updateUserProfilePhoto = async (userId, path) => {
     const photoDoc = await getProfilePhotoDocByUserId(userId);
 
@@ -900,6 +910,7 @@ export const updateUserProfilePhoto = async (userId, path) => {
 };
 
 // restaurant photos
+// create restaurant photo doc in restaurant-photos collection
 export const createNewRestaurantPhotoDoc = async (userId, restaurantId, path, friendIds) => {
     const photosCollectionRef = collection(db, "restaurant-photos");
 
@@ -916,10 +927,12 @@ export const createNewRestaurantPhotoDoc = async (userId, restaurantId, path, fr
     return photoDocRef.id;
 };
 
+// delete restaurant photo doc by photo ID
 export const deleteRestaurantPhotoDoc = async (photoId) => {
     await deleteDoc(doc(db, "restaurant-photos", photoId));
 };
 
+// get the storage ref path for a restaurant photo by the photo ID
 const getRestaurantPhotoPathFromId = async (photoId) => {
     const photoRef = await doc(db, "restaurant-photos", photoId);
     const photoDocSnap = await getDoc(photoRef);
@@ -927,6 +940,7 @@ const getRestaurantPhotoPathFromId = async (photoId) => {
     return photoDocSnap.exists() ? photoDocSnap.data().storageRefPath : null;
 };
 
+// add a photo ID to check in doc
 export const addPhotoToCheckIn = async (userId, checkIn, path) => {
     const {id: checkInId, userIds, restaurantId} = checkIn;
 
@@ -941,11 +955,13 @@ export const addPhotoToCheckIn = async (userId, checkIn, path) => {
     return await getCheckInDataById(checkInId, userId);
 };
 
+// get the download url for a restaurant photo from its photo ID
 const getPhotoUrlFromId = async (photoId) => {
     const photoStoragePath = await getRestaurantPhotoPathFromId(photoId);
     return await getImageDownloadUrl(photoStoragePath);
 };
 
+// get photo data from an array of photo IDs
 export const getPhotoDataFromPhotoIds = async (photoIds) => {
     if (!photoIds) return null;
 
@@ -955,6 +971,7 @@ export const getPhotoDataFromPhotoIds = async (photoIds) => {
     }));
 };
 
+// delete a photoId from the photoIds array of a check in doc
 export const deleteCheckInPhoto = async (userId, photoId, checkInId) => {
     const docRef = await doc(db, "restaurant-photos", photoId);
     const docSnap = await getDoc(docRef);
@@ -973,6 +990,7 @@ export const deleteCheckInPhoto = async (userId, photoId, checkInId) => {
     return true;
 };
 
+// retrieve all restaurant photo urls (tagged and uploaded) by user ID
 export const getAllRestaurantPhotosByUserId = async (userId) => {
     const photosCollectionRef = await collection(db, "restaurant-photos");
     const uploadedQuery = query(photosCollectionRef, where("uploadedBy", "==", userId));
@@ -987,6 +1005,7 @@ export const getAllRestaurantPhotosByUserId = async (userId) => {
     return {uploadedPhotos, taggedPhotos};
 };
 
+// helper function used in above function
 const getQueriedPhotos = async (q) => {
     const querySnapshot = await getDocs(q);
 
@@ -997,9 +1016,4 @@ const getQueriedPhotos = async (q) => {
     });
 
     return results;
-};
-
-export const deleteUserDocAndSignOut = async (userId) => {
-    await deleteDoc(doc(db, "users", userId));
-    await signOutAuthUser();
 };

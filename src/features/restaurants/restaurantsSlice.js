@@ -226,11 +226,12 @@ const getSearchResults = (searchQuery, restaurants) => {
     });
 };
 
-// restaurants slice
+// Create and export the restaurants slice
 export const restaurantsSlice = createSlice({
     name: 'restaurants',
     initialState,
     reducers: {
+        // Sort restaurants based on the provided sort criteria
         sortRestaurants: (state, action) => {
             const sortBy = action.payload?.toLowerCase();
             const results = state.restaurantResults;
@@ -245,6 +246,7 @@ export const restaurantsSlice = createSlice({
                 ));
             }
         },
+        // Filter restaurants based on the provided cuisine filter
         filterRestaurantResultsByCuisine: (state, action) => {
             const cuisineFilter = action.payload.toLowerCase();
 
@@ -252,6 +254,7 @@ export const restaurantsSlice = createSlice({
                 .filter(restaurant => cuisineFilter === "any" || restaurant.cuisines
                     .find(cuisine => cuisine.name.toLowerCase().includes(cuisineFilter)));
         },
+        // Filter restaurants based on the provided search query
         filterResultsBySearchQuery: (state, action) => {
             const query = action.payload.trim().toLowerCase(); // removes all spaces from the search query
             const results = getSearchResults(query, state.allRestaurants);
@@ -259,11 +262,13 @@ export const restaurantsSlice = createSlice({
             state.hasMatches = hasMatches;
             state.restaurantResults = hasMatches ? results : state.allRestaurants;
         },
+        // Set the restaurants in the state
         setRestaurants: (state, action) => {
             const restaurants = action.payload;
             state.allRestaurants = restaurants;
             state.restaurantResults = restaurants;
         },
+        // Reset the restaurant results to the initial state
         resetRestaurantResults: state => {
             state.restaurantResults = state.allRestaurants;
         }
@@ -299,6 +304,7 @@ export const restaurantsSlice = createSlice({
     }
 });
 
+// Export actions from the restaurants slice
 export const {
     sortRestaurants,
     filterRestaurantResultsByCuisine,
@@ -306,6 +312,7 @@ export const {
     filterResultsBySearchQuery,
     setRestaurants
 } = restaurantsSlice.actions;
+// Export selectors for the restaurants slice
 export const selectRestaurants = state => state.restaurants.restaurantResults;
 export const selectAllRestaurants = state => state.restaurants.allRestaurants;
 export const selectHasMatches = state => state.restaurants.hasMatches;

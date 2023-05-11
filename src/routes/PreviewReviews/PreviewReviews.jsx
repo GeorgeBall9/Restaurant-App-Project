@@ -1,4 +1,11 @@
+/*
+ Description: Preview reviews page component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+// stylesheet
 import "./PreviewReviews.css";
+// Import dependencies
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
@@ -18,6 +25,7 @@ const PreviewReviews = () => {
 
     const [fetchStatus, setFetchStatus] = useState("pending");
 
+    // Fetch reviews by user id
     useEffect(() => {
         if (!userId) return;
 

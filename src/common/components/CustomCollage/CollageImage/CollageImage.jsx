@@ -18,12 +18,10 @@ const CollageImage = ({url, alt}) => {
 
     return (
         <img
-            {/* only display the image if it has loaded */}
             style={{visibility: loaded ? "visible" : "hidden"}}
             src={url}
             alt={alt}
             className="collage-image"
-            {/* set state to loaded once img has loaded */}
             onLoad={() => setLoaded(true)}
         />
     );

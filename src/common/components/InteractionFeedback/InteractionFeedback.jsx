@@ -20,7 +20,6 @@ const InteractionFeedback = ({isVisible, change, interaction}) => {
             {change} {interaction}
 
             <FontAwesomeIcon
-                {/* show a different icon depending on change */}
                 icon={change === "Saved" ? faCircleCheck : faXmark}
                 className="feedback-icon"
             />

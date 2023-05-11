@@ -1,3 +1,9 @@
+/*
+Description: Firebase authentication, database management and photo storage functions
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
 // imports
 import {initializeApp} from "firebase/app";
 
@@ -58,24 +64,25 @@ export const auth = getAuth();
 
 // sign up with email and password
 export const signUpAuthUserWithEmailAndPassword = async (displayName, email, password) => {
+    // Create a new auth user with the provided email and password
     const {user} = await createUserWithEmailAndPassword(auth, email, password);
+    // Create a new user in the database and return the result
     return await createNewUserInDatabase({...user, displayName});
 };
 
 // sign in with email and password
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
-    try {
-        await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-        throw new Error("User not found");
-    }
+    // Sign in the user with the provided email and password
+    await signInWithEmailAndPassword(auth, email, password);
 };
 
 // sign in with Google popup
 const googleAuthProvider = new GoogleAuthProvider();
 
 export const signInWithGooglePopup = async () => {
+    // Sign in the user with a Google popup
     const {user} = await signInWithPopup(auth, googleAuthProvider);
+    // Create a new user in the database using the user information obtained from Google and return the result
     return await createNewUserInDatabase(user);
 };
 
@@ -83,7 +90,9 @@ export const signInWithGooglePopup = async () => {
 const facebookAuthProvider = new FacebookAuthProvider();
 
 export const signInWithFacebookPopup = async () => {
+    // Sign in the user with a Facebook popup
     const {user} = await signInWithPopup(auth, facebookAuthProvider);
+    // Create a new user in the database using the user information obtained from Facebook and return the result
     return await createNewUserInDatabase(user);
 };
 
@@ -93,7 +102,6 @@ export const signOutAuthUser = async () => {
 };
 
 // database functions
-
 // create user doc - userData param includes displayName, email
 export const createUserDoc = async (userData, userId) => {
     const userDocRef = doc(db, "users", userId);

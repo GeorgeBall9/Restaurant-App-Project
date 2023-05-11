@@ -1,3 +1,4 @@
+/* styles for filters dropdown container */
 .filters-dropdown-container {
     position: fixed;
     width: 100%;
@@ -11,6 +12,7 @@
     z-index: 15000;
 }
 
+/* styles for filters dropdown */
 .filters-dropdown {
     background-color: white;
     color: #F49D1A;
@@ -21,20 +23,24 @@
     overflow: hidden;
 }
 
+/* styles for filters dropdown header containing back and reset buttons */
 .filters-dropdown .filters-header {
     background-color: var(--dark-theme);
 }
 
+/* styles for filters dropdown header title text */
 .filters-dropdown .filters-header h2 {
     color: white;
     font-size: var(--font-size-heading);
 }
 
+/* styles for filters dropdown header buttons container */
 .filters-dropdown .action-buttons-container {
     display: flex;
     justify-content: space-between;
 }
 
+/* styles for filters dropdown header button */
 .filters-dropdown .action-buttons-container button {
     font-weight: 500;
     border: none;
@@ -46,16 +52,19 @@
     gap: 0.25em;
 }
 
+/* styles for filters dropdown header button icon */
 .filters-dropdown .action-buttons-container button .icon {
     color: var(--secondary-theme);
 }
 
+/* styles for filters dropdown filters */
 .filters-dropdown .filters {
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
 
+/* styles for filters dropdown sub headings */
 .filters-dropdown h3 {
     font-size: var(--font-size-sub-heading);
     font-weight: var(--font-weight-bold-1);
@@ -63,10 +72,12 @@
     color: var(--primary-theme);
 }
 
+/* styles for reset button icon */
 .ban-icon {
     color: var(--primary-theme);
 }
 
+/* styles for apply button */
 .filters-dropdown .apply-button {
     border-radius: var(--border-radius);
     border: none;
@@ -77,6 +88,7 @@
     color: white;
 }
 
+/* styles for selected filters count inside apply button */
 .filters-dropdown .apply-button span {
     font-weight: var(--font-weight-bold-1);
     font-size: var(--font-size-sub-heading);

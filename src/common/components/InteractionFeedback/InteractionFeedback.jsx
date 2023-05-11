@@ -1,8 +1,18 @@
+/*
+Description: Interaction feedback component to appear when a user checks ins, bookmarks or recommends a restaurant
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./InteractionFeedback.css";
+
+// fontawesome imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 
+// InteractionFeedback component
 const InteractionFeedback = ({isVisible, change, interaction}) => {
 
     return (
@@ -10,6 +20,7 @@ const InteractionFeedback = ({isVisible, change, interaction}) => {
             {change} {interaction}
 
             <FontAwesomeIcon
+                {/* show a different icon depending on change */}
                 icon={change === "Saved" ? faCircleCheck : faXmark}
                 className="feedback-icon"
             />

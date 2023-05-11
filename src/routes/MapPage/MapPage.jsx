@@ -29,10 +29,12 @@ const MapPage = () => {
     const [errorPopupIsVisible, setErrorPopupIsVisible] = useState(false);
     const [mapIsLoaded, setMapIsLoaded] = useState(false);
 
+    // Update window height when window is resized
     useEffect(() => {
         setWindowHeight(+window.innerHeight)
     }, [window.innerHeight]);
 
+    // Show error popup if no restaurants are found
     useEffect(() => {
         if (mapIsLoaded && restaurantsFetchStatus === "idle" && !restaurants?.length) {
             setTimeout(() => setErrorPopupIsVisible(true), 2000);

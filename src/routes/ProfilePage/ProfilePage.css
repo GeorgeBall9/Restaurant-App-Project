@@ -1,3 +1,5 @@
+/* Styles for ProfilePage component */
+/* container */
 .profile-page-container main {
     display: flex;
     flex-direction: column;

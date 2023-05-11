@@ -1,3 +1,10 @@
+/*
+Description: Reviews list - used in reviews page and reviews previews on details page
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./ReviewsList.css";
 import ReviewForm from "../ReviewForm/ReviewForm";
 import ReviewCard from "./ReviewCard/ReviewCard";

@@ -1,3 +1,4 @@
+/* styles for popup container */
 .error-popup {
     position: fixed;
     top: 50%;
@@ -14,21 +15,25 @@
     text-align: center;
 }
 
+/* styles for no results component when inside error popup */
 .error-popup .no-results {
     padding: 0;
     margin-bottom: 1em;
 }
 
+/* styles for paragraph tag */
 .error-popup p {
     margin-bottom: 1em;
 }
 
+/* styles for title */
 .error-popup .title {
     color: var(--secondary-theme);
     font-size: 1.2rem;
     font-weight: 700;
 }
 
+/* styles for message */
 .error-popup .message {
     color: grey;
     font-size: var(--font-size-small);

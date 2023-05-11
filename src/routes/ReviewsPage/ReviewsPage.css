@@ -1,9 +1,11 @@
+/* Styles for ReviewsPage component */
+/* container */
 .reviews-page {
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
-
+/* header */
 .reviews-page header button {
     border: none;
     background: none;
@@ -30,6 +32,7 @@
     text-align: center;
 }
 
+/* search container */
 .reviews-page .search-container {
     display: flex;
     justify-content: space-between;
@@ -42,7 +45,7 @@
     width: 100%;
     max-width: 100%;
 }
-
+/* buttons container */
 .reviews-page > .buttons-container {
     display: flex;
     gap: 0.5em;
@@ -69,6 +72,7 @@
     transition: background-color 0.2s;
 }
 
+/* sort button */
 .reviews-sort-button {
     background: none;
     border: solid 2px var(--secondary-theme);

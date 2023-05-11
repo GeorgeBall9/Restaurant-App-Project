@@ -15,9 +15,9 @@ import {getAllRestaurantPhotosByUserId} from "../../firebase/firebase";
 import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
 
 const PhotosPage = () => {
-
+    // Get the 'userId' from the Redux store
     const userId = useSelector(selectUserId);
-
+    // useState hooks
     const [allPhotos, setAllPhotos] = useState(null);
     const [display, setDisplay] = useState("Uploaded");
 

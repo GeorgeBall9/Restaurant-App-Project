@@ -26,9 +26,9 @@ const FriendsReviews = () => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-
+    // Get the 'displayedFriend' from the Redux store
     const displayedFriend = useSelector(selectDisplayedFriend);
-
+    // Declare state variables for the component
     const [friendReviews, setFriendReviews] = useState(null);
     
     // Fetch friends of the displayed friend, and get reviews

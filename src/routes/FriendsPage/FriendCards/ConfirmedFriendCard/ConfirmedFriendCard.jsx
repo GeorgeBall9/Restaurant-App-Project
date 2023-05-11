@@ -18,9 +18,9 @@ const ConfirmedFriendCard = ({id, displayName, iconColour, profilePhotoUrl, mutu
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
-
+    // Get the 'userId' from the Redux store
     const userId = useSelector(selectUserId);
-
+    // useState hooks
     const [confirmRemovePopupIsVisible, setConfirmRemovePopupIsVisible] = useState(false);
 
     // Function to handle the click on the profile button

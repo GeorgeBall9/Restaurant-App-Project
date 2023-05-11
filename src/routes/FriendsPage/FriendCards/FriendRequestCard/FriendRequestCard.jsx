@@ -15,9 +15,9 @@ import {useState} from "react";
 const FriendRequestCard = ({id, displayName, iconColour, profilePhotoUrl, mutualFriends}) => {
 
     const dispatch = useDispatch();
-
+    // Get the 'userId' from the Redux store
     const userId = useSelector(selectUserId);
-
+    // useState hooks
     const [confirmRequestPopupIsVisible, setConfirmRequestPopupIsVisible] = useState(false);
     const [deleteRequestPopupIsVisible, setDeleteRequestPopupIsVisible] = useState(false);
 

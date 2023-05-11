@@ -34,8 +34,9 @@ const Root = () => {
     useFilterRestaurants();
     useInitialiseSlider();
 
+    // Get the 'spinnerIsVisible' and 'userId' from the Redux store
     const spinnerIsVisible = useSelector(selectSpinnerIsVisible);
-
+    // Get the 'userId' from the Redux store
     const userId = useSelector(selectUserId);
 
     // Function to fetch and store the user's details, friends, and friend requests in the Redux store

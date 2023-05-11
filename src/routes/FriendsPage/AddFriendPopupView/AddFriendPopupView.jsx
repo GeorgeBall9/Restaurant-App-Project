@@ -15,11 +15,11 @@ import {getUserFromUserId, sendFriendRequestToUser} from "../../../firebase/fire
 const AddFriendPopupView = ({closePopup}) => {
 
     const dispatch = useDispatch();
-
+    // Get the 'userId', 'friends' and 'friendRequests' from the Redux store
     const userId = useSelector(selectUserId);
     const friends = useSelector(selectFriends);
     const friendRequests = useSelector(selectFriendRequests);
-
+    // useState hooks
     const [addFriendId, setAddFriendId] = useState("");
     const [feedback, setFeedback] = useState("");
     const [foundUser, setFoundUser] = useState(null);

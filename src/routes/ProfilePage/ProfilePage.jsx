@@ -34,11 +34,11 @@ const ProfilePage = () => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-
+    // Get the 'userId', 'displayName', and 'profilePhotoUrl' from the Redux store
     const userId = useSelector(selectUserId);
     const displayName = useSelector(selectDisplayName);
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
-
+    // Declare state variables for the component
     const [idCopied, setIdCopied] = useState(false);
 
     // Reset displayed friend on mount

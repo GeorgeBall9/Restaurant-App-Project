@@ -22,10 +22,11 @@ import NoResults from "../../common/components/NoResults/NoResults";
 const FriendsPage = () => {
 
     const navigate = useNavigate();
-
+    // Get the 'friends' and 'friendRequests' from the Redux store
     const friends = useSelector(selectFriends);
     const friendRequests = useSelector(selectFriendRequests);
 
+    // State variables
     const [display, setDisplay] = useState("friends");
     const [displayedFriends, setDisplayedFriends] = useState([]);
     const [displayedFriendRequests, setDisplayedFriendRequests] = useState([]);

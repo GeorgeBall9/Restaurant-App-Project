@@ -23,7 +23,7 @@ import {faDownLeftAndUpRightToCenter, faUpRightAndDownLeftFromCenter, faXmark} f
 const CheckInsCollage = ({closePopup}) => {
 
     const dispatch = useDispatch();
-
+    // Get the 'userId' and 'checkIn' from the Redux store
     const userId = useSelector(selectUserId);
     const checkIn = useSelector(selectSelectedCheckIn);
 

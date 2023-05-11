@@ -30,7 +30,7 @@ const DetailsCard = ({
                      }) => {
 
     const dispatch = useDispatch();
-
+    // Get the 'allFriends' and 'profilePhotoUrl' from the Redux store
     const allFriends = useSelector(selectFriends);
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
     

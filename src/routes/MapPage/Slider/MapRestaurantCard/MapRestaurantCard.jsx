@@ -13,9 +13,9 @@ import {selectActiveSlide} from "../../../../features/slider/sliderSlice";
 import {selectRouteDetails} from "../../../../features/map/mapSlice";
 
 const MapRestaurantCard = ({restaurant, index}) => {
-
+    // Get the 'activeSlide' from the Redux store
     const activeSlide = useSelector(selectActiveSlide);
-
+    // Get the 'routeDetails' from the Redux store
     const {coordinates: routeCoordinates} = useSelector(selectRouteDetails);
 
     // Hide card if route is active

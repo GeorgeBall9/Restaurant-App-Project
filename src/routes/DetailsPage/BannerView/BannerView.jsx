@@ -21,7 +21,7 @@ import {resetRestaurantResults} from "../../../features/restaurants/restaurantsS
 import {resetInteractions} from "../../../features/interactions/interactionsSlice";
 
 const BannerView = forwardRef((props, ref) => {
-
+    // Get the props passed to the component
     const {restaurant, scrollPosition, showName, updateInteractions} = props;
 
     const navigate = useNavigate();

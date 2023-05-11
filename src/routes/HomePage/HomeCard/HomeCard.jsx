@@ -13,7 +13,7 @@ import BookmarkButton from "../../../common/components/buttons/BookmarkButton/Bo
 import {useNavigate} from "react-router-dom";
 
 const HomeCard = ({restaurant, highlyRecommended}) => {
-
+    // Get props
     const {name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
 
     const navigate = useNavigate();

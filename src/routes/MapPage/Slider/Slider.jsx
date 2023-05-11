@@ -17,14 +17,14 @@ import MapRestaurantCard from "./MapRestaurantCard/MapRestaurantCard";
 const Slider = () => {
 
     const dispatch = useDispatch();
-
+    // Get the 'activeSlide', 'sliderIsActive' and 'restaurants' from the Redux store
     const activeSlide = useSelector(selectActiveSlide);
     const sliderIsActive = useSelector(selectSliderIsActive);
     const restaurants = useSelector(selectRestaurants);
-
+    // Declare a ref for the slider container
     const positionRef = useRef(window.innerWidth > 500 ? 500 : window.innerWidth);
     const offsetRef = useRef((window.innerWidth - positionRef.current) / 2);
-
+    // useState hooks
     const [xPosition, setXPosition] = useState(offsetRef.current);
     const [style, setStyle] = useState({});
 

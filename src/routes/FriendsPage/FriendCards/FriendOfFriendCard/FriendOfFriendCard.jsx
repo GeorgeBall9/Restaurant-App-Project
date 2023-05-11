@@ -15,11 +15,11 @@ import {useDispatch, useSelector} from "react-redux";
 const FriendOfFriendCard = ({id, displayName, iconColour, profilePhotoUrl, mutualFriends}) => {
 
     const dispatch = useDispatch();
-
+    // Get the 'userId' from the Redux store
     const userId = useSelector(selectUserId);
-
+    // useState hooks
     const [confirmAddPopupIsVisible, setConfirmAddPopupIsVisible] = useState(false);
-
+    // Function to handle the click on the add button
     const handleAddClick = async () => {
         const updatedFriends = await sendFriendRequestToUser(userId, id);
         dispatch(setFriends(updatedFriends));

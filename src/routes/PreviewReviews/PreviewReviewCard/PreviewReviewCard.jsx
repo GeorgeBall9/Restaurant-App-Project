@@ -19,15 +19,15 @@ import InteractionButton from "../../../common/components/buttons/InteractionBut
 import ConfirmationPopupView from "../../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
 
 const PreviewReviewCard = ({review, canDelete}) => {
-
+    // Destructure props
     const {id, rating, title, content, restaurantId, restaurantName, photoUrl} = review;
 
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-
+    // Get the 'userId' from the Redux store
     const userId = useSelector(selectUserId);
-
+    // Declare state variables for the component
     const [confirmDeleteReviewId, setConfirmDeleteReviewId] = useState(null);
 
     // Delete review

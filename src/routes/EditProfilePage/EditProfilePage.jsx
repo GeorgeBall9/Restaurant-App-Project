@@ -37,13 +37,13 @@ const defaultProfileFields = {
 const EditProfilePage = () => {
 
     const dispatch = useDispatch();
-
+    // Get the 'userId', 'displayName', 'email', 'phone' and 'profilePhotoUrl' from the Redux store
     const userId = useSelector(selectUserId);
     const displayName = useSelector(selectDisplayName);
     const email = useSelector(selectEmail);
     const phone = useSelector(selectPhone);
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
-
+    // useState hooks
     const [profileFields, setProfileFields] = useState(defaultProfileFields);
     const [uploadImagePopupIsVisible, setUploadImagePopupIsVisible] = useState(false);
     const [buttonText, setButtonText] = useState("Save");
@@ -51,13 +51,14 @@ const EditProfilePage = () => {
     const [photoStoragePath, setPhotoStoragePath] = useState("");
     const [confirmDeletePopupIsVisible, setConfirmDeletePopupIsVisible] = useState(false);
     const [errors, setErrors] = useState({});
-
+    // useEffect hooks
+    // Set the 'profileFields' state to the user's current profile details
     useEffect(() => {
         if (!displayName || profileFields.displayName) return;
 
         handleChange({target: {name: "displayName", value: displayName}});
     }, [displayName]);
-
+    
     useEffect(() => {
         if (!email || profileFields.email) return;
 

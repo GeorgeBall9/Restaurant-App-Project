@@ -15,9 +15,9 @@ import {useState} from "react";
 const PendingFriendCard = ({id, displayName, iconColour, profilePhotoUrl, mutualFriends}) => {
 
     const dispatch = useDispatch();
-
+    // Get the 'userId' from the Redux store
     const userId = useSelector(selectUserId);
-
+    // useState hooks
     const [confirmACancelPopupIsVisible, setConfirmCancelPopupIsVisible] = useState(false);
 
     // Function to handle the click on the cancel button

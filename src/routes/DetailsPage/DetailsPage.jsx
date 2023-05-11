@@ -166,7 +166,7 @@ const DetailsPage = () => {
     if (!restaurant) {
         return <></>;
     }
-
+    // Destructure the restaurant data
     const {
         name,
         photoUrl,

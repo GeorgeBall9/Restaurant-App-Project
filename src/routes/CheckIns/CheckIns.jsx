@@ -38,12 +38,11 @@ const CheckIns = () => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-
+    // Get the 'userId','profilePhotoUrl', 'allCheckIns', 'selectedCheckIns', and 'displayedRestaurant' from the Redux store
     const userId = useSelector(selectUserId);
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
     const allCheckIns = useSelector(selectCheckIns);
     const selectedCheckIns = useSelector(selectSelectedCheckIns);
-
     const displayedRestaurant = useSelector(selectDisplayedRestaurant);
 
     // State variables

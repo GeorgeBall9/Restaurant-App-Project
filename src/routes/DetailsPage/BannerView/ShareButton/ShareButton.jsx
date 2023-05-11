@@ -14,7 +14,7 @@ import {useState} from "react";
 import {Link} from "react-router-dom";
 
 const ShareButton = ({id, style}) => {
-
+    // Declare state variables for the component
     const [popupIsVisible, setPopupIsVisible] = useState(false);
     const [linkCopied, setLinkCopied] = useState(false);
 // OnClick handle functions

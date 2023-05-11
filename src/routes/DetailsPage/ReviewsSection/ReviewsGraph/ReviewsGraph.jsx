@@ -18,7 +18,7 @@ import {
 
 import {Bar} from 'react-chartjs-2';
 import {useEffect, useState} from "react";
-
+// Register ChartJS plugins
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -27,7 +27,7 @@ ChartJS.register(
     Tooltip,
     Legend
 );
-
+// ChartJS options
 const options = {
     indexAxis: 'y',
     elements: {
@@ -74,9 +74,9 @@ const options = {
 const labels = [5, 4, 3, 2, 1];
 
 const ReviewsGraph = ({reviewsHistogram}) => {
-
+    // Declare state variables for the component
     const [maxRating, setMaxRating] = useState(0);
-
+    // Set the maximum rating
     useEffect(() => {
         if (!reviewsHistogram || maxRating) return;
 
@@ -86,7 +86,7 @@ const ReviewsGraph = ({reviewsHistogram}) => {
         options.scales.x.max = max;
         setMaxRating(max);
     }, [reviewsHistogram]);
-
+    // Set the data for the graph
     const data = {
         labels,
         datasets: [

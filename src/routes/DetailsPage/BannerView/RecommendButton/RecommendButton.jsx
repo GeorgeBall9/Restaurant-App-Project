@@ -27,13 +27,13 @@ import {
 } from "../../../../features/interactions/interactionsSlice";
 
 const RecommendButton = ({restaurant, style, updateInteractions}) => {
-
+    // Declare state variables for the component
     const id = restaurant?.id;
 
     const navigate = useNavigate();
-
     const dispatch = useDispatch();
-
+    
+    // Get the 'userId' and 'recommendations' from the Redux store
     const userId = useSelector(selectUserId);
     const recommendations = useSelector(selectRecommendations);
 

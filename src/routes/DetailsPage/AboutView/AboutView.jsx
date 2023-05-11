@@ -10,7 +10,7 @@ import "./AboutView.css";
 import {useState} from "react";
 
 const AboutView = ({description}) => {
-
+    // Declare state variables for the component
     const [isExpanded, setIsExpanded] = useState(false);
     const [toggleLabel, setToggleLabel] = useState('Read More');
     /// OnClick function to toggle the description

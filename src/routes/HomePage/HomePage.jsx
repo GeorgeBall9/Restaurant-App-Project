@@ -22,11 +22,12 @@ import HomeCard from "./HomeCard/HomeCard";
 const HomePage = () => {
 
     const dispatch = useDispatch();
+    // Get the 'restaurants' and 'fetchStatus' from the Redux store
     const fetchStatus = useSelector(selectRestaurantsFetchStatus);
     const restaurants = useSelector(selectRestaurants);
-
+    // Declare a ref for the cards container
     const cardsContainerRef = useRef();
-
+    // Declare state variables for the component
     const [restaurantsUpdatedByDB, setRestaurantsUpdatedByDB] = useState(false);
     const [navHeight, setNavHeight] = useState(null);
 

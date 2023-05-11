@@ -21,7 +21,7 @@ import {selectDisplayedFriend} from "../../../features/user/userSlice";
 const FriendsProfile = () => {
 
     const navigate = useNavigate();
-
+    // Get the 'displayedFriend' from the Redux store
     const displayedFriend = useSelector(selectDisplayedFriend);
 
     return (

@@ -5,41 +5,41 @@
  Contact: ryan.henzell-hill@outlook.com
  */
 
- //stylesheet
+//stylesheet
 import "./CheckInButton.css";
 // Imports
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleCheck as faSolidCircleCheck} from "@fortawesome/free-solid-svg-icons";
-import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
-import {useEffect, useState} from "react";
-import {addRestaurantCheckIn, checkInExists, getLastCheckInToRestaurantByUserId} from "../../../../firebase/firebase";
-import {useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {selectFriends, selectUserId} from "../../../../features/user/userSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck as faSolidCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
+import { useEffect, useState } from "react";
+import { addRestaurantCheckIn, checkInExists, getLastCheckInToRestaurantByUserId } from "../../../../firebase/firebase";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectFriends, selectUserId } from "../../../../features/user/userSlice";
 import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
 import CheckInPopupView from "../../../../common/components/popups/CheckInPopupView/CheckInPopupView";
-import {addCheckInInteraction} from "../../../../features/interactions/interactionsSlice";
+import { addCheckInInteraction } from "../../../../features/interactions/interactionsSlice";
 
-const CheckInButton = ({restaurant}) => {
+const CheckInButton = ({ restaurant }) => {
 
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-
+    // Get the 'userId' and 'friends' from the Redux store
     const userId = useSelector(selectUserId);
     const friends = useSelector(selectFriends);
-// useState hooks
+    // useState hooks
     const [checkedIn, setCheckedIn] = useState(false);
     const [checkInPopupIsVisible, setCheckInPopupIsVisible] = useState(false);
     const [checkInFeedback, setCheckInFeedback] = useState("");
     const [feedbackIsVisible, setFeedbackIsVisible] = useState(false);
-// useEffect hook to check if the user has already checked in to the restaurant
+    // useEffect hook to check if the user has already checked in to the restaurant
     const getLastCheckInDate = async () => {
         const lastCheckIn = await getLastCheckInToRestaurantByUserId(userId, restaurant.id);
 
         return lastCheckIn ? new Date(lastCheckIn.date).toLocaleDateString() : null;
     };
-// Updates the checkedIn state
+    // Updates the checkedIn state
     const updateCheckedIn = () => {
         const today = new Date().toLocaleDateString();
 
@@ -58,7 +58,7 @@ const CheckInButton = ({restaurant}) => {
 
         updateCheckedIn();
     }, [restaurant, userId]);
-// OnClick handle functions
+    // OnClick handle functions
     const handleClick = () => {
         if (!userId) {
             navigate("/sign-in");
@@ -100,7 +100,7 @@ const CheckInButton = ({restaurant}) => {
         <>
             <button className="check-in-button" onClick={handleClick}>
                 {checkedIn ? "Checked in" : "Check in"}
-                <FontAwesomeIcon icon={checkedIn ? faSolidCircleCheck : faCircleCheck} className="icon"/>
+                <FontAwesomeIcon icon={checkedIn ? faSolidCircleCheck : faCircleCheck} className="icon" />
             </button>
 
             {checkInPopupIsVisible && (
@@ -114,7 +114,7 @@ const CheckInButton = ({restaurant}) => {
                 />
             )}
 
-            <InteractionFeedback isVisible={feedbackIsVisible} change="Saved" interaction="check-in"/>
+            <InteractionFeedback isVisible={feedbackIsVisible} change="Saved" interaction="check-in" />
         </>
     );
 };

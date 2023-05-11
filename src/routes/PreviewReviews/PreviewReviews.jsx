@@ -19,10 +19,10 @@ import PreviewReviewCard from "./PreviewReviewCard/PreviewReviewCard";
 const PreviewReviews = () => {
 
     const dispatch = useDispatch();
-
+    // Get the 'userId'and 'reviews' from the Redux store
     const userId = useSelector(selectUserId);
     const reviews = useSelector(selectReviews);
-
+    // Declare state variables for the component
     const [fetchStatus, setFetchStatus] = useState("pending");
 
     // Fetch reviews by user id

@@ -15,7 +15,7 @@ import {faLocationDot, faPhone} from "@fortawesome/free-solid-svg-icons";
 import {forwardRef} from "react";
 
 const ImageAndInfoView = forwardRef((props, ref) => {
-
+// Get props
     const {
         name,
         photoUrl,

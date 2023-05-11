@@ -33,12 +33,13 @@ import FriendRequestCard from "../../FriendCards/FriendRequestCard/FriendRequest
 import NoResults from "../../../../common/components/NoResults/NoResults";
 
 const FriendsOfFriendsPage = () => {
-
+    // Get the 'displayedFriend', 'userId', 'friends', and 'friendRequests' from the Redux store
     const displayedFriend = useSelector(selectDisplayedFriend);
     const currentUserId = useSelector(selectUserId);
     const currentUserFriends = useSelector(selectFriends);
     const currentUserFriendRequests = useSelector(selectFriendRequests);
 
+    // useState hooks
     const [friendsOfFriend, setFriendsOfFriend] = useState([]);
     const [displayedFriends, setDisplayedFriends] = useState([]);
     const [searchIsVisible, setSearchIsVisible] = useState(false);

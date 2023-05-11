@@ -20,11 +20,11 @@ import NoResults from "../../common/components/NoResults/NoResults";
 import ErrorPopupView from "../../common/components/popups/ErrorPopupView/ErrorPopupView";
 
 const MapPage = () => {
-
+    // Get the 'restaurants', 'restaurantsFetchStatus' and 'userPosition' from the Redux store
     const restaurants = useSelector(selectRestaurants);
     const restaurantsFetchStatus = useSelector(selectRestaurantsFetchStatus);
     const userPosition = useSelector(selectUserPosition);
-
+    // Declare state variables for the component
     const [windowHeight, setWindowHeight] = useState(+window.innerHeight);
     const [errorPopupIsVisible, setErrorPopupIsVisible] = useState(false);
     const [mapIsLoaded, setMapIsLoaded] = useState(false);

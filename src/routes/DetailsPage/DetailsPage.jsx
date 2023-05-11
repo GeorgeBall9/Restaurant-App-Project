@@ -1,4 +1,12 @@
+/*
+ Description: This file contains the DetailsPage component, which is a route component.
+ It renders the details page for a restaurant.
+ Author: George Ball
+ Contact: georgeball14@hotmail.com
+ */
+// stylesheet
 import './DetailsPage.css';
+// imports
 import {useNavigate, useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectAllRestaurants} from '../../features/restaurants/restaurantsSlice';
@@ -21,23 +29,24 @@ import {
     selectRecommendationInteractions,
     setInteractions
 } from "../../features/interactions/interactionsSlice";
-
+// Navigation links text
 const navLinksText = ["Interactions", "Website", "About", "Hours", "Details", "Reviews"];
 
 const DetailsPage = () => {
-
+// Get the ID from the URL params
     const {id} = useParams();
 
+    // Use the navigation hook
     const navigate = useNavigate();
-
+    // Use Redux hooks to get data from the store
     const dispatch = useDispatch();
-
     const userId = useSelector(selectUserId);
     const allRestaurants = useSelector(selectAllRestaurants);
     const recommendations = useSelector(selectRecommendationInteractions);
     const bookmarks = useSelector(selectBookmarkInteractions);
     const checkIns = useSelector(selectCheckInInteractions);
 
+    // Refs for different sections of the page
     const bannerRef = useRef(null);
     const nameRef = useRef(null);
     const interactionsRef = useRef(null);
@@ -47,6 +56,7 @@ const DetailsPage = () => {
     const detailsRef = useRef(null);
     const reviewsRef = useRef(null);
 
+    // State variables
     const [restaurant, setRestaurant] = useState(null);
     const [scrollPosition, setScrollPosition] = useState(0);
     const [activeNavLink, setActiveNavLink] = useState("Interactions");
@@ -54,6 +64,7 @@ const DetailsPage = () => {
     const [showNameInBanner, setShowNameInBanner] = useState(false);
 
     useEffect(() => {
+         // Show spinner if restaurant data is not loaded, hide it otherwise
         if (!restaurant) {
             dispatch(showSpinner());
         } else {
@@ -62,6 +73,7 @@ const DetailsPage = () => {
     }, [restaurant]);
 
     useEffect(() => {
+        // Fetch restaurant data if not available in the Redux store
         if (!allRestaurants) return;
 
         let foundRestaurant = allRestaurants.find(restaurant => restaurant.id === id);
@@ -75,12 +87,14 @@ const DetailsPage = () => {
     }, [allRestaurants, id]);
 
     useEffect(() => {
+        // Redirect to error page if the restaurant data is undefined
         if (restaurant === undefined) {
             navigate('/error', {replace: true});
         }
     }, [restaurant, navigate]);
 
     useEffect(() => {
+        // Fetch interactions data for the current restaurant
         if (!restaurant) return;
 
         getRestaurantById(restaurant.id)
@@ -93,6 +107,7 @@ const DetailsPage = () => {
     }, [restaurant]);
 
     useEffect(() => {
+        // Set the navigation style
         if (!bannerRef.current) return;
 
         setNavigationStyle(navigationStyle => {
@@ -103,6 +118,7 @@ const DetailsPage = () => {
     }, [bannerRef.current]);
 
     useEffect(() => {
+        // Set the active navigation link
         const handleScroll = () => {
             const {scrollY} = window;
             setScrollPosition(scrollY);
@@ -175,6 +191,7 @@ const DetailsPage = () => {
     const formattedAddress = `${street1}${city ? `, ${city}` : ""}${postalCode ? `, ${postalCode}` : ""}`;
 
     const handleNavLinkClick = (text) => {
+        // Scroll to the section when the navigation link is clicked
         const elementRef = [interactionsRef, websiteRef, aboutRef, hoursRef, detailsRef, reviewsRef]
             .find(({current}) => current.id === text)?.current;
 
@@ -191,6 +208,7 @@ const DetailsPage = () => {
     };
 
     const updateInteractions = (interaction, change) => {
+        // Update the interactions data in the Redux store
         setInteractions(interactions => {
            const updatedInteractions = {...interactions};
            updatedInteractions[interaction] += change;

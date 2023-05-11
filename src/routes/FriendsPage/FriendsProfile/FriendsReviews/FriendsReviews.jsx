@@ -1,4 +1,12 @@
+/*
+ Description: Friends reviews component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ // stylesheet
 import "../../../PreviewReviews/PreviewReviews.css";
+// Import dependencies
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faExpand} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
@@ -22,7 +30,8 @@ const FriendsReviews = () => {
     const displayedFriend = useSelector(selectDisplayedFriend);
 
     const [friendReviews, setFriendReviews] = useState(null);
-
+    
+    // Fetch friends of the displayed friend, and get reviews
     useEffect(() => {
         if (!displayedFriend) return;
 

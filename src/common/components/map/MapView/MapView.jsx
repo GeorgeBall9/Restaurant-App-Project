@@ -7,7 +7,7 @@ Contact: ryan.henzell-hill@outlook.com
 // stylesheet
 import "./MapView.css";
 
-// mapbox dependencies
+// mapbox dependencies 
 import ReactMapGl from "react-map-gl";
 import mapboxgl from "mapbox-gl";
 

@@ -1,6 +1,5 @@
 /*
- Description: Auth component which renders the Outlet component
- Author: Ryan Henzell-Hill
+ Description: Add friend popup view component. 
  Contact: ryan.henzell-hill@outlook.com
  */
 

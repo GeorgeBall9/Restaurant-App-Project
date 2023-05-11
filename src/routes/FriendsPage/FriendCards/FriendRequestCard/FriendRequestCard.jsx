@@ -1,3 +1,10 @@
+/*
+ Description: Friend request card component. This component is rendered in the FriendCards component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ // Import dependencies
 import FriendCard from "../FriendCard/FriendCard";
 import {acceptFriendRequest, rejectFriendRequest} from "../../../../firebase/firebase";
 import {removeFriendRequest, selectUserId, setFriendRequests, setFriends} from "../../../../features/user/userSlice";
@@ -14,6 +21,7 @@ const FriendRequestCard = ({id, displayName, iconColour, profilePhotoUrl, mutual
     const [confirmRequestPopupIsVisible, setConfirmRequestPopupIsVisible] = useState(false);
     const [deleteRequestPopupIsVisible, setDeleteRequestPopupIsVisible] = useState(false);
 
+    // Function to handle the click on the confirm button
     const handleConfirmClick = async () => {
         console.log("confirm friend");
         const updatedFriends = await acceptFriendRequest(userId, id);
@@ -22,6 +30,7 @@ const FriendRequestCard = ({id, displayName, iconColour, profilePhotoUrl, mutual
         console.log("friend request accepted");
     };
 
+    // Function to handle the click on the delete button
     const handleDeleteClick = async () => {
         console.log("delete friend request");
         const updatedRequests = await rejectFriendRequest(userId, id);

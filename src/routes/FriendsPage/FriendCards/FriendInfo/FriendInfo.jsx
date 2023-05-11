@@ -1,4 +1,12 @@
+/*
+ Description: Friend info component. This component is rendered in the FriendCard component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ // stylesheet
 import "./FriendInfo.css";
+// Import dependencies
 import UserIcon from "../../../../common/components/UserIcon/UserIcon";
 import SecondaryButton from "../../../../common/components/buttons/SecondaryButton/SecondaryButton";
 import PrimaryButton from "../../../../common/components/buttons/PrimaryButton/PrimaryButton";

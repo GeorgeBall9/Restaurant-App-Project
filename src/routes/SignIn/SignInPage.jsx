@@ -1,4 +1,11 @@
+/*
+ Description: Sign in page component. This component is rendered in the SignIn route.
+ Author: George Ball
+ Contact: georgeball14@hotmail.com
+ */
+// stylesheet
 import "./SignInPage.css";
+// Import dependencies
 import FormField from "../../common/components/FormField/FormField";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -21,6 +28,7 @@ const SignInPage = () => {
     const [signInButtonText, setSignInButtonText] = useState("Sign in");
     const [googleSignInText, setGoogleSignInText] = useState("Sign in with Google");
 
+    // Handle sign in button click via Email and Password
     const handleEmailAndPasswordSignIn = async () => {
         try {
             setSignInButtonText("Signing in...");
@@ -35,6 +43,7 @@ const SignInPage = () => {
         }
     };
 
+    // Handle sign in button click via Google
     const handleGoogleSignInClick = async () => {
         try {
             setGoogleSignInText("Signing in...");
@@ -54,11 +63,13 @@ const SignInPage = () => {
     //     }
     // };
 
+    // Handle email input change
     const handleEmailChange = ({target}) => {
         setErrorMessage("");
         setEmail(target.value);
     };
 
+    // Handle password input change
     const handlePasswordChange = ({target}) => {
         setErrorMessage("");
         setPassword(target.value);

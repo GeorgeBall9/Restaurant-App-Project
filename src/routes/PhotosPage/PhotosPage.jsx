@@ -1,4 +1,12 @@
+/*
+ Description: Photos page component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ // stylesheet
 import "./PhotosPage.css";
+// Import dependencies
 import CustomCollage from "../../common/components/CustomCollage/CustomCollage";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
@@ -13,6 +21,7 @@ const PhotosPage = () => {
     const [allPhotos, setAllPhotos] = useState(null);
     const [display, setDisplay] = useState("Uploaded");
 
+    // Get all photos on page load
     useEffect(() => {
         if (!userId) return;
 
@@ -20,10 +29,12 @@ const PhotosPage = () => {
             .then(data => setAllPhotos(data))
     }, [userId]);
 
+    // Change display to uploaded or tagged
     const changeDisplay = () => {
         setDisplay(display => display === "Uploaded" ? "Tagged" : "Uploaded");
     };
 
+    // Delete selected photos
     const handleDeleteSelected = async (selectedImages) => {
         if (!selectedImages?.length) return;
 

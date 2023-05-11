@@ -1,3 +1,9 @@
+/*
+ Description: Redux slice for filters
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
 // Import the necessary function from Redux Toolkit
 import {createSlice} from '@reduxjs/toolkit';
 

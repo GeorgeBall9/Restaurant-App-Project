@@ -1,13 +1,26 @@
+/*
+Description: Check in popup component
+Author: Ryan Henzell-Hill
+Contact: ryan.henzell-hill@outlook.com
+*/
+
+// stylesheet
 import "./CheckInPopupView.css";
-import FormField from "../../FormField/FormField";
+
+// fontawesome imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleCheck as solidCircleCheck, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
+
+// react imports
+import {useEffect, useState} from "react";
+
+// component imports
 import UserIcon from "../../UserIcon/UserIcon";
 import InteractionButton from "../../buttons/InteractionButton/InteractionButton";
-import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
 import PrimaryButton from "../../buttons/PrimaryButton/PrimaryButton";
 import InversePrimaryButton from "../../buttons/InversePrimaryButton/InversePrimaryButton";
-import {useEffect, useState} from "react";
+import FormField from "../../FormField/FormField";
 import Overlay from "../../Overlay/Overlay";
 
 const CheckInPopupView = ({
@@ -21,6 +34,7 @@ const CheckInPopupView = ({
                               resetFeedback
                           }) => {
 
+    // state variables
     const [checkInDate, setCheckInDate] = useState((date ? new Date(date) : new Date())
         .toISOString()
         .split("T")[0]);
@@ -28,17 +42,20 @@ const CheckInPopupView = ({
     const [selectedFriends, setSelectedFriends] = useState([]);
     const [addFriendsButtonText, setAddFriendsButtonText] = useState("Add friends");
 
+    // if friendSelected prop not null set selected friends to input value
     useEffect(() => {
         if (!friendsSelected) return;
 
         setSelectedFriends(friendsSelected.map(({id}) => id));
     }, [friendsSelected]);
 
+    // handler function for when date input changes
     const handleDateChange = ({target}) => {
         setCheckInDate(target.value);
         resetFeedback();
     };
 
+    // handler function for add friends button clicked
     const handleAddFriendsClick = () => {
         if (addFriendsButtonText === "Add friends") {
             setAddFriendsButtonText("Clear");
@@ -50,6 +67,7 @@ const CheckInPopupView = ({
         setSelectFriendIsVisible(selectFriendsIsVisible => !selectFriendsIsVisible);
     };
 
+    // handler function for friend card clicked
     const handleFriendCardClick = (id) => {
         setSelectedFriends(selectedFriends => {
             if (selectedFriends.includes(id)) {
@@ -63,6 +81,7 @@ const CheckInPopupView = ({
     return (
         <>
             <div className="confirm-checkin-popup">
+                {/* conditionally render feedback if present */}
                 {feedback && <p className="feedback">{feedback}</p>}
 
                 <div className="date-container">
@@ -75,6 +94,7 @@ const CheckInPopupView = ({
                     />
                 </div>
 
+                {/* conditionally render add friends button if user has friends */}
                 {friends?.length > 0 && (
                     <button className="add-friend-button" onClick={handleAddFriendsClick}>
                         {addFriendsButtonText}
@@ -82,6 +102,7 @@ const CheckInPopupView = ({
                     </button>
                 )}
 
+                {/* show select friends dropdown once user clicks on add friends button */}
                 {selectFriendsIsVisible && (
                     <div className="select-friends">
                         {friends.map(({id, displayName, profilePhotoUrl}) => (
@@ -105,6 +126,7 @@ const CheckInPopupView = ({
                     </div>
                 )}
 
+                {/* show selected friends count if user has selected at least one friend */}
                 {selectedFriends.length > 0 && (
                     <p className="friends-selected-count">
                         {selectedFriends.length} friend{selectedFriends.length > 1 ? "s" : ""} selected

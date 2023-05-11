@@ -1,3 +1,4 @@
+/* Stylesheet for InteractionsView component*/
 .interactions-view > div {
     display: flex;
     justify-content: space-evenly;

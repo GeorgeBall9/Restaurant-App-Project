@@ -1,3 +1,9 @@
+/*
+ Description: Sort filters view component. This component is rendered in the ReviewsPage component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+// stylesheet
 import "./SortFiltersView.css";
 
 const SortFiltersView = ({filters, handleClick}) => {

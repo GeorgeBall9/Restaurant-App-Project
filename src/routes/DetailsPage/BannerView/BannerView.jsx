@@ -1,4 +1,13 @@
+/*
+ Description: This file contains the BannerView component, which is a sub-component of the DetailsPage component.
+ It represents the banner of the page, which contains the restaurant name, and the buttons for bookmarking, recommending, and sharing.
+ Author: George Ball
+ Contact: georgeball14@hotmail.com
+ */
+
+ //stylesheet
 import "./BannerView.css";
+// Imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import BookmarkButton from "../../../common/components/buttons/BookmarkButton/BookmarkButton";
@@ -12,12 +21,12 @@ import {resetRestaurantResults} from "../../../features/restaurants/restaurantsS
 import {resetInteractions} from "../../../features/interactions/interactionsSlice";
 
 const BannerView = forwardRef((props, ref) => {
-
+    // Get the props passed to the component
     const {restaurant, scrollPosition, showName, updateInteractions} = props;
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+// Styling for the banner based on user scroll position
     const style = scrollPosition > 20
         ? {position: 'fixed', backgroundColor: '#4c4c4c'}
         : {position: 'absolute', backgroundColor: 'transparent'};
@@ -25,7 +34,7 @@ const BannerView = forwardRef((props, ref) => {
     const bannerButtonsStyle = scrollPosition > 20
         ? {color: "#F49D1A"}
         : {color: "white"};
-
+// OnClick handle function for back button
     const handleBackClick = () => {
         dispatch(deselectReview());
         dispatch(resetRestaurantResults());

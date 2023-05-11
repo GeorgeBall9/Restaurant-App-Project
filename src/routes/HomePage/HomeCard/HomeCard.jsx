@@ -1,4 +1,11 @@
+/*
+ Description: Home card component. This component is rendered in the HomePage component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+// stylesheet
 import "./HomeCard.css";
+// Import dependencies
 import StarRating from "../../../common/components/StarRating/StarRating";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationArrow, faUtensils} from "@fortawesome/free-solid-svg-icons";
@@ -6,7 +13,7 @@ import BookmarkButton from "../../../common/components/buttons/BookmarkButton/Bo
 import {useNavigate} from "react-router-dom";
 
 const HomeCard = ({restaurant, highlyRecommended}) => {
-
+    // Get props
     const {name, rating, distance, price, primaryCuisine, photoUrl} = restaurant;
 
     const navigate = useNavigate();
@@ -14,6 +21,7 @@ const HomeCard = ({restaurant, highlyRecommended}) => {
     // Convert number rating into star representation on the restaurant card
     const starRating = Math.round(rating * 2) / 2; // round to nearest half
 
+    // Show restaurant details when the user clicks anywhere on the card except the bookmark button
     const showRestaurantDetails = (event) => {
         if (event.target.closest(".interaction-button")) return;
 

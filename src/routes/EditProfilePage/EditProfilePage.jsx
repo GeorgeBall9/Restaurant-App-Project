@@ -1,4 +1,13 @@
+/*
+ Description: This file contains the EditProfilePage component, which is a route component.
+    It renders the edit profile page, which allows the user to edit their profile details.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+// stylesheet
 import "./EditProfilePage.css";
+// Imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {faCircleCheck} from "@fortawesome/free-regular-svg-icons";
@@ -28,13 +37,13 @@ const defaultProfileFields = {
 const EditProfilePage = () => {
 
     const dispatch = useDispatch();
-
+    // Get the 'userId', 'displayName', 'email', 'phone' and 'profilePhotoUrl' from the Redux store
     const userId = useSelector(selectUserId);
     const displayName = useSelector(selectDisplayName);
     const email = useSelector(selectEmail);
     const phone = useSelector(selectPhone);
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
-
+    // useState hooks
     const [profileFields, setProfileFields] = useState(defaultProfileFields);
     const [uploadImagePopupIsVisible, setUploadImagePopupIsVisible] = useState(false);
     const [buttonText, setButtonText] = useState("Save");
@@ -42,13 +51,14 @@ const EditProfilePage = () => {
     const [photoStoragePath, setPhotoStoragePath] = useState("");
     const [confirmDeletePopupIsVisible, setConfirmDeletePopupIsVisible] = useState(false);
     const [errors, setErrors] = useState({});
-
+    // useEffect hooks
+    // Set the 'profileFields' state to the user's current profile details
     useEffect(() => {
         if (!displayName || profileFields.displayName) return;
 
         handleChange({target: {name: "displayName", value: displayName}});
     }, [displayName]);
-
+    
     useEffect(() => {
         if (!email || profileFields.email) return;
 
@@ -61,6 +71,7 @@ const EditProfilePage = () => {
         handleChange({target: {name: "phone", value: phone}});
     }, [phone]);
 
+    // Function to validate the form fields
     const validateFields = () => {
         const newErrors = {};
 
@@ -80,7 +91,7 @@ const EditProfilePage = () => {
 
         return Object.keys(newErrors).length === 0;
     };
-
+    // OnClick handler functions
     const handleSaveClick = async () => {
         if (!validateFields()) return;
 
@@ -99,7 +110,7 @@ const EditProfilePage = () => {
 
         setButtonText("Saved");
     };
-
+    
     const handleChange = ({target}) => {
         setErrors({});
 

@@ -1,3 +1,4 @@
+/* CheckIns page styling */
 .check-ins-page {
     display: flex;
     flex-direction: column;
@@ -9,6 +10,7 @@
     position: relative;
 }
 
+/* Calendar styling */
 button.react-calendar__tile {
     padding: 0;
     position: relative;
@@ -24,7 +26,7 @@ button.react-calendar__tile > div {
     width: 100%;
     height: 100%;
 }
-
+/* CheckIns page header styling */
 .check-ins-page-container header button {
     background: none;
     border: none;
@@ -55,7 +57,7 @@ button.react-calendar__tile > div {
 .check-ins-page-container header button .icon {
     margin-right: 0.5em;
 }
-
+/* CheckIns page main styling */
 .check-ins-page-container main {
     display: flex;
     flex-direction: column;
@@ -69,7 +71,7 @@ button.react-calendar__tile > div {
     width: 100%;
     height: 260px;
 }
-
+/* CheckIns stats styling */
 .check-ins-stats {
     display: flex;
     width: 100%;
@@ -114,7 +116,7 @@ button.react-calendar__tile > div {
 .check-ins-calendar {
     position: relative;
 }
-
+/* CheckIns page NoResults component container styling */
 .check-ins-map-container .no-results {
     background-color: white;
 }

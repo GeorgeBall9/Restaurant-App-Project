@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from "react";
+/*
+ Description: Sign up page component. This component is rendered in the SignUp route.
+ Author: George Ball
+ Contact: georgeball14@hotmail.com
+ */
+// stylesheet
 import "./SignUpPage.css";
+// Import dependencies
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {signUpAuthUserWithEmailAndPassword} from "../../firebase/firebase";
 import FormField from "../../common/components/FormField/FormField";
@@ -11,6 +18,7 @@ const SignUpPage = () => {
 
     const dispatch = useDispatch();
 
+    // Declare state variables for the component
     const [displayName, setDisplayName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -19,12 +27,14 @@ const SignUpPage = () => {
     const [passwordMismatch, setPasswordMismatch] = useState(false);
     const [signUpButtonText, setSignUpButtonText] = useState("Sign up");
 
+    // Check if passwords match
     useEffect(() => {
         if (password && confirmPassword) {
             setPasswordMismatch(password !== confirmPassword);
         }
     }, [password, confirmPassword]);
 
+    // Validate form fields
     const validateFields = () => {
         const newErrors = {};
 
@@ -50,6 +60,7 @@ const SignUpPage = () => {
         return Object.keys(newErrors).length === 0;
     };
 
+    // Handle sign up button click
     const handleSignUp = async () => {
         if (!validateFields()) return;
 
@@ -77,6 +88,7 @@ const SignUpPage = () => {
         }
     };
 
+    // Event handlers...
     const handleDisplayNameChange = ({target}) => {
         setErrors({});
         setDisplayName(target.value);

@@ -1,4 +1,11 @@
+/*
+ Description:  Profile page component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+// stylesheet
 import "./ProfilePage.css";
+// Import dependencies
 import {Link, useNavigate} from "react-router-dom";
 import UserIcon from "../../common/components/UserIcon/UserIcon";
 import {useDispatch, useSelector} from "react-redux";
@@ -27,13 +34,14 @@ const ProfilePage = () => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-
+    // Get the 'userId', 'displayName', and 'profilePhotoUrl' from the Redux store
     const userId = useSelector(selectUserId);
     const displayName = useSelector(selectDisplayName);
     const profilePhotoUrl = useSelector(selectProfilePhotoUrl);
-
+    // Declare state variables for the component
     const [idCopied, setIdCopied] = useState(false);
 
+    // Reset displayed friend on mount
     useEffect(() => {
         dispatch(resetDisplayedFriend());
 
@@ -44,14 +52,17 @@ const ProfilePage = () => {
         dispatch(hideSpinner());
     }, []);
 
+    // Handle back button click
     const handleBackClick = () => {
         navigate("/");
     };
 
+    // Handle sign out button click
     const handleSignOutClick = async () => {
         await signOutAuthUser();
     };
 
+    // Handle copy user ID button click
     const handleCopyIdClick = () => {
         navigator.clipboard.writeText(userId + "")
             .then(() => setIdCopied(true));

@@ -1,4 +1,12 @@
+/*
+ Description: Friends profile page component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ // stylesheet
 import './FriendsProfile.css';
+// Import dependencies
 import FriendContributionsButton from './FriendContributionsButton/FriendContributionsButton';
 import {useNavigate} from "react-router-dom";
 import UserIcon from '../../../common/components/UserIcon/UserIcon';
@@ -13,7 +21,7 @@ import {selectDisplayedFriend} from "../../../features/user/userSlice";
 const FriendsProfile = () => {
 
     const navigate = useNavigate();
-
+    // Get the 'displayedFriend' from the Redux store
     const displayedFriend = useSelector(selectDisplayedFriend);
 
     return (

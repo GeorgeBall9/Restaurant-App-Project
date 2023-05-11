@@ -1,3 +1,6 @@
+/* DetailsPage CSS */
+
+/* Styles for the main container */
 .details-page {
     display: flex;
     flex-direction: column;
@@ -6,6 +9,7 @@
     position: relative;
 }
 
+/* Styles for the restaurant info container */
 .details-page .image-and-info-container .backdrop {
     position: absolute;
     top: 0;
@@ -48,7 +52,7 @@
 .details-page .image-and-info-container .restaurant-info .title-container h1 {
     color: white;
 }
-
+/* Styles for the main heading */
 .details-page h1 {
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-bold-2);
@@ -58,7 +62,7 @@
     display: flex;
     gap: 0.5em;
 }
-
+/* Styles for specific elements within the restaurant info container */
 .details-page .image-and-info-container .restaurant-info .address p,
 .details-page .image-and-info-container .restaurant-info .phone p,
 .details-page .image-and-info-container .restaurant-info .price p,
@@ -67,7 +71,7 @@
     font-size: var(--font-size-sub-heading);
     font-weight: var(--font-weight-bold-2);
 }
-
+/* Styles for the navigation container */
 .details-page-navigation {
     display: flex;
     position: sticky;
@@ -99,7 +103,7 @@
     color: var(--primary-theme);
     font-weight: var(--font-weight-bold-3);
 }
-
+/* Styles for the details container */
 .details-page .details-container {
     padding: 1rem;
     text-align: center;

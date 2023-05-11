@@ -1,3 +1,4 @@
+/* stlying for DetailsPopup component */
 .details-popup {
     background-color: white;
     width: 100%;
@@ -26,6 +27,7 @@
     opacity: 1;
 }
 
+/* styling for when the popup is expanded */
 .details-popup.expanded {
     position: fixed;
     border: none;

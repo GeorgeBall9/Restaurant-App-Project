@@ -1,3 +1,5 @@
+/* Styles for PreviewReviewCard component */
+/* container */
 .preview-review-card {
     padding: 0.75em;
     background-color: white;
@@ -32,7 +34,7 @@
     width: 60%;
     overflow: hidden;
 }
-
+/* text styling */
 .preview-review-card .container-lhs .preview p {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -60,7 +62,7 @@
     gap: 1em;
     justify-content: space-evenly;
 }
-
+/* button styling */
 .preview-review-card button {
     background: none;
     border: none;

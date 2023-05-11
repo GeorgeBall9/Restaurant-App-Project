@@ -1,3 +1,6 @@
+/* Styles for ReviewSection component*/
+
+/* Styles for the review statistics container */
 .restaurant-reviews .review-stats-container {
     margin-bottom: 1em;
     background-color: white;
@@ -48,6 +51,7 @@
     color: grey;
 }
 
+/* styles for reviews info */
 .restaurant-reviews .review-stats .reviews-info {
     background-color: white;
     display: flex;
@@ -95,6 +99,7 @@
     height: 100px;
 }
 
+/* Buttons styling */
 .restaurant-reviews .review-stats-container button {
     background: none;
     border: none;

@@ -1,4 +1,12 @@
+/*
+ Description: This file contains the ReviewsSection component, which is a sub-component of the DetailsPage component.
+ Renders multiple components to make up the reviews section of the DetailsPage component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+// stylesheet
 import "./ReviewsSection.css";
+// Imports
 import ReviewForm from "../../../common/components/reviews/ReviewForm/ReviewForm";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
@@ -12,29 +20,29 @@ import {sortReviewsByMostRecentVisitDate} from "../../ReviewsPage/ReviewsPage";
 import {options} from "../../../features/restaurants/restaurantsSlice";
 
 const ReviewsSection = ({userId, restaurant}) => {
-
+    
     const restaurantId = restaurant?.id;
 
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-
+    // Get the 'reviews' from the Redux store
     const reviews = useSelector(selectReviews);
-
+    // useRef hook
     const formRef = useRef();
-
+    // useState hooks
     const [displayedReviews, setDisplayedReviews] = useState(null);
     const [isReviewFormVisible, setIsReviewFormVisible] = useState(false);
     const [reviewsHistogram, setReviewsHistogram] = useState(null);
     const [allReviewsVisible, setAllReviewsVisible] = useState(true);
-
+// useEffect hook to get the reviews for the restaurant
     useEffect(() => {
         if (!restaurantId) return;
 
         getReviewsByRestaurantId(restaurantId)
             .then(reviewsFound => dispatch(setReviews(reviewsFound)));
     }, [restaurantId]);
-
+    // useEffect hook to sort the reviews by most recent visit date and set the displayed reviews
     useEffect(() => {
         if (!reviews) return;
 
@@ -42,14 +50,14 @@ const ReviewsSection = ({userId, restaurant}) => {
         const sortedReviews = sortReviewsByMostRecentVisitDate(reviews);
         setDisplayedReviews(sortedReviews.slice(0, 3));
     }, [reviews]);
-
+    
     useEffect(() => {
         if (!displayedReviews?.length) {
             setReviewsHistogram(null);
         }
     }, [displayedReviews]);
 
-
+    // useEffect hook to scroll to the review form when it is visible
     useEffect(() => {
         if (!isReviewFormVisible || !formRef?.current) return;
 
@@ -63,7 +71,7 @@ const ReviewsSection = ({userId, restaurant}) => {
             setIsReviewFormVisible(!isReviewFormVisible);
         }
     };
-
+    // useEffect hook to get the reviews histogram for the restaurant
     useEffect(() => {
         if (!restaurant || !displayedReviews?.length) return;
 
@@ -78,7 +86,7 @@ const ReviewsSection = ({userId, restaurant}) => {
             })
             .catch(err => console.error(err));
     }, [restaurant, displayedReviews]);
-
+// OnClick function to handle the all reviews button
     const handleAllReviewsClick = () => {
         navigate("/reviews/" + restaurantId);
     };

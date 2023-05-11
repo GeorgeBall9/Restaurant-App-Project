@@ -1,4 +1,12 @@
+/*
+ Description: Friends page component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+ // stylesheet
 import "./FriendsPage.css";
+// Import dependencies
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
@@ -14,10 +22,11 @@ import NoResults from "../../common/components/NoResults/NoResults";
 const FriendsPage = () => {
 
     const navigate = useNavigate();
-
+    // Get the 'friends' and 'friendRequests' from the Redux store
     const friends = useSelector(selectFriends);
     const friendRequests = useSelector(selectFriendRequests);
 
+    // State variables
     const [display, setDisplay] = useState("friends");
     const [displayedFriends, setDisplayedFriends] = useState([]);
     const [displayedFriendRequests, setDisplayedFriendRequests] = useState([]);
@@ -27,6 +36,7 @@ const FriendsPage = () => {
     const [addPopupIsVisible, setAddPopupIsVisible] = useState(false);
     const [inviteCopied, setInviteCopied] = useState(false);
 
+    // Set displayed friends
     useEffect(() => {
         if (!friends?.length) {
             setDisplayedFriends([]);
@@ -36,6 +46,7 @@ const FriendsPage = () => {
         setDisplayedFriends(friends);
     }, [friends]);
 
+    // Set displayed friend requests
     useEffect(() => {
         if (!friendRequests?.length) {
             setDisplayedFriendRequests([]);
@@ -45,6 +56,7 @@ const FriendsPage = () => {
         setDisplayedFriendRequests(friendRequests);
     }, [friendRequests]);
 
+    // Set page display
     useEffect(() => {
         if (display === "friends") {
             if (friends.length) {
@@ -61,6 +73,7 @@ const FriendsPage = () => {
         }
     }, [display, friends, friendRequests]);
 
+    // Calculate mutual friends
     const calculateMutualFriends = (userFriends) => {
         let mutualFriends = 0;
 
@@ -73,6 +86,7 @@ const FriendsPage = () => {
         return mutualFriends;
     };
 
+    // Handle invite click
     const handleInviteClick = async () => {
         await navigator.clipboard.writeText("Hi! I'm using the web app FOOD FIESTA and would like you " +
             "to join! \n\nFollow the link below and create an account: " +
@@ -81,12 +95,14 @@ const FriendsPage = () => {
         setInviteCopied(true);
     };
 
+    // Handle search click
     const handleSearchClick = () => {
         setDisplayedFriends(friends);
         setDisplayedFriendRequests(friendRequests);
         setSearchIsVisible(searchIsVisible => !searchIsVisible);
     };
 
+    // Handle search input change
     const handleSearchInputChange = (query) => {
         const lowerCaseQuery = query.toLowerCase();
 
@@ -116,6 +132,7 @@ const FriendsPage = () => {
         }
     };
 
+    // Handle change display
     const handleChangeDisplay = () => {
         setDisplay(display => display === "friends" ? "requests" : "friends");
     };

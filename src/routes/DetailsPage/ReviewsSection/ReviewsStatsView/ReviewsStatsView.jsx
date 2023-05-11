@@ -1,3 +1,10 @@
+/*
+ Description: This file contains the ReviewsStatsView component, which is a sub-component of the DetailsPage component.
+ It renders the ReviewsGraph component and stats.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
 import "./ReviewsStatsView.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";

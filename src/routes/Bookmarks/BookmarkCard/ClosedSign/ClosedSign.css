@@ -1,3 +1,4 @@
+/* styles for the ClosedSign component */
 .closed-sign {
     width: fit-content;
     background-color: white;
@@ -16,6 +17,7 @@
     box-shadow: var(--box-shadow);
 }
 
+/* styles for icon */
 .closed-sign .icon {
     color: var(--primary-theme);
     margin-left: 0.25em;

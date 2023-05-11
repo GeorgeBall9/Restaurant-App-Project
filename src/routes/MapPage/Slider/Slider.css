@@ -1,3 +1,4 @@
+/* Styles for Slider component */
 .slider {
     position: absolute;
     bottom: 0;
@@ -10,6 +11,7 @@
     transition: all 0.3s linear;
 }
 
+/* slider button styles */
 .slider .buttons-container {
     display: flex;
     justify-content: space-between;
@@ -27,6 +29,7 @@
     box-shadow: 0 4px 4px rgba(32, 30, 30, 0.25);
 }
 
+/* slider cards container styles */
 .slider .restaurant-cards-container {
     display: flex;
     width: 100%;

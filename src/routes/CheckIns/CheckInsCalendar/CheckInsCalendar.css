@@ -1,5 +1,5 @@
 @import "react-calendar/dist/Calendar.css";
-
+/* stylesheet which builds upon React Calendar default styles */
 /* -------------------- GLOBAL STYLES -------------------- */
 .react-calendar {
     width: 100%;

@@ -1,3 +1,10 @@
+/*
+ Description: Confirmed friend card component.
+ Author: Ryan Henzell-Hill
+ Contact: ryan.henzell-hill@outlook.com
+ */
+
+// Import dependencies
 import FriendCard from "../FriendCard/FriendCard";
 import {deleteFriend, getUserFromUserId} from "../../../../firebase/firebase";
 import {removeFriend, selectUserId, setDisplayedFriend} from "../../../../features/user/userSlice";
@@ -11,17 +18,19 @@ const ConfirmedFriendCard = ({id, displayName, iconColour, profilePhotoUrl, mutu
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
-
+    // Get the 'userId' from the Redux store
     const userId = useSelector(selectUserId);
-
+    // useState hooks
     const [confirmRemovePopupIsVisible, setConfirmRemovePopupIsVisible] = useState(false);
 
+    // Function to handle the click on the profile button
     const handleProfileClick = async () => {
         const friendData = await getUserFromUserId(id);
         dispatch(setDisplayedFriend(friendData))
         navigate(`/view-profile/${id}`);
     };
 
+    // Function to handle the click on the remove button
     const handleRemoveFriend = async () => {
         console.log("show remove friend confirmation popup");
         await deleteFriend(userId, id);

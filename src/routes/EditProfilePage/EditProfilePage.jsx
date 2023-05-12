@@ -75,7 +75,7 @@ const EditProfilePage = () => {
     const validateFields = () => {
         const newErrors = {};
 
-        if (!(/^[A-Za-z0-9]*$/.test(profileFields.displayName))) {
+        if (!(/^[0-9A-Za-z\s\-]+$/.test(profileFields.displayName))) {
             newErrors.displayName = "Display names can only contain letters and numbers.";
         }
 
@@ -83,7 +83,7 @@ const EditProfilePage = () => {
             newErrors.email = "Invalid email format.";
         }
 
-        if (!(/^\d+$/.test(profileFields.phone))) {
+        if (profileFields.phone && !(/^\d+$/.test(profileFields.phone))) {
             newErrors.phone = "Phone number must contain only numbers."
         }
 

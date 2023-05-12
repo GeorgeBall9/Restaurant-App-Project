@@ -11,13 +11,13 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {selectFriendRequests, selectFriends} from "../../features/user/userSlice";
-import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../common/components/navigations/views/ProfileNavigationView/ProfileNavigationView";
 import {faCircleCheck, faLink, faMagnifyingGlass, faPlus} from "@fortawesome/free-solid-svg-icons";
 import FriendRequestCard from "./FriendCards/FriendRequestCard/FriendRequestCard";
 import PendingFriendCard from "./FriendCards/PendingFriendCard/PendingFriendCard";
 import ConfirmedFriendCard from "./FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
 import AddFriendPopupView from "./AddFriendPopupView/AddFriendPopupView";
-import NoResults from "../../common/components/NoResults/NoResults";
+import NoResultsView from "../../common/components/NoResultsView/NoResultsView";
 
 const FriendsPage = () => {
 
@@ -189,7 +189,7 @@ const FriendsPage = () => {
                             mutualFriends={calculateMutualFriends(userFriends)}
                         />
                     ))) : (
-                    <NoResults mainText="You do not currently have any friend requests" />
+                    <NoResultsView mainText="You do not currently have any friend requests" />
                 ))}
 
 
@@ -232,7 +232,7 @@ const FriendsPage = () => {
                             })}
                     </div>
                 ) : (
-                    <NoResults
+                    <NoResultsView
                         mainText="You do not currently have any friends"
                         subText="Ask a friend to send you their user ID and use the add button above to add them"
                     />

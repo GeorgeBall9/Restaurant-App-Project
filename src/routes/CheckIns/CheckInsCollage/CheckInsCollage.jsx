@@ -7,15 +7,15 @@
 // stylesheet
 import "./CheckInsCollage.css";
 // Import comment components and necessary hooks
-import CustomCollage from "../../../common/components/CustomCollage/CustomCollage.jsx";
+import CustomCollageView from "../../../common/components/CustomCollageView/CustomCollageView.jsx";
 import {useEffect, useState} from "react";
 import {
     addPhotoToCheckIn, deleteCheckInPhoto
 } from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
-import ProfileNavigationView from "../../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
-import UploadImagePopup from "../../../common/components/popups/UploadImagePopup/UploadImagePopup";
+import ProfileNavigationView from "../../../common/components/navigations/views/ProfileNavigationView/ProfileNavigationView";
+import UploadImagePopup from "../../../common/components/popups/containers/UploadImagePopup/UploadImagePopup";
 import {selectSelectedCheckIn, setSelectedCheckIn, updateCheckIn} from "../../../features/checkIns/checkInsSlice";
 import {faDownLeftAndUpRightToCenter, faUpRightAndDownLeftFromCenter, faXmark} from "@fortawesome/free-solid-svg-icons";
 
@@ -106,10 +106,10 @@ const CheckInsCollage = ({closePopup}) => {
                     }}
                 />
 
-                {/* Render the 'CustomCollage' component with appropriate props */}
+                {/* Render the 'CustomCollageView' component with appropriate props */}
                 <div className="collage-popup-photos">
                     <div className="collage-popup-content">
-                        <CustomCollage
+                        <CustomCollageView
                             images={checkIn.photoData}
                             rows={100}
                             columns={2}

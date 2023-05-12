@@ -7,7 +7,7 @@
 import "./ProfilePage.css";
 // Import dependencies
 import {Link, useNavigate} from "react-router-dom";
-import UserIcon from "../../common/components/UserIcon/UserIcon";
+import UserIconView from "../../common/components/UserIconView/UserIconView";
 import {useDispatch, useSelector} from "react-redux";
 import {
     resetDisplayedFriend,
@@ -26,8 +26,8 @@ import {signOutAuthUser} from "../../firebase/firebase";
 import {useEffect, useState} from "react";
 import ContributionsButton from "./ContributionsButton/ContributionsButton";
 import {hideSpinner} from "../../features/spinner/spinnerSlice";
-import PrimaryButton from "../../common/components/buttons/PrimaryButton/PrimaryButton";
-import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
+import PrimaryButtonView from "../../common/components/buttons/views/PrimaryButtonView/PrimaryButtonView";
+import ProfileNavigationView from "../../common/components/navigations/views/ProfileNavigationView/ProfileNavigationView";
 
 const ProfilePage = () => {
 
@@ -75,7 +75,7 @@ const ProfilePage = () => {
             <main className="container">
                 <section className="profile-info-container">
                     <div className="user-icon-container">
-                        <UserIcon
+                        <UserIconView
                             size="xLarge"
                             imageUrl={profilePhotoUrl}
                         />
@@ -83,7 +83,7 @@ const ProfilePage = () => {
 
                     <p style={{visibility: displayName ? "visible" : "hidden"}}>{displayName || "display name"}</p>
 
-                    <PrimaryButton
+                    <PrimaryButtonView
                         text={idCopied ? "Copied" :"Copy user ID"}
                         handleClick={handleCopyIdClick}
                         width="fit-content"
@@ -119,7 +119,7 @@ const ProfilePage = () => {
                 </section>
 
                 <section>
-                    <PrimaryButton handleClick={handleSignOutClick} text="Sign out" size="large"/>
+                    <PrimaryButtonView handleClick={handleSignOutClick} text="Sign out" size="large"/>
                 </section>
             </main>
         </div>

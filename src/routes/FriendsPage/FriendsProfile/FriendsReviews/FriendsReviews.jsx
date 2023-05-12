@@ -14,11 +14,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {getReviewsByUserId} from "../../../../firebase/firebase";
 import {selectReview} from "../../../../features/reviews/reviewsSlice";
-import RestaurantImage from "../../../../common/components/RestaurantImage/RestaurantImage";
-import StarRating from "../../../../common/components/StarRating/StarRating";
+import RestaurantImageView from "../../../../common/components/RestaurantImageView/RestaurantImageView";
+import StarRatingView from "../../../../common/components/StarRatingView/StarRatingView";
 import {selectDisplayedFriend} from "../../../../features/user/userSlice";
-import ProfileNavigationView from "../../../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
-import NoResults from "../../../../common/components/NoResults/NoResults";
+import ProfileNavigationView from "../../../../common/components/navigations/views/ProfileNavigationView/ProfileNavigationView";
+import NoResultsView from "../../../../common/components/NoResultsView/NoResultsView";
 import PreviewReviewCard from "../../../PreviewReviews/PreviewReviewCard/PreviewReviewCard";
 
 const FriendsReviews = () => {
@@ -54,7 +54,7 @@ const FriendsReviews = () => {
 
                     <main className="reviews-container container">
                         {friendReviews && friendReviews.length === 0 ? (
-                            <NoResults
+                            <NoResultsView
                                 mainText="No reviews found."
                                 subText={`${displayedFriend.displayName} hasn't written any reviews yet.`}
                             />

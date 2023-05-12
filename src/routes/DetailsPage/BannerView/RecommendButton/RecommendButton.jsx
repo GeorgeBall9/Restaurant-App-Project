@@ -18,9 +18,9 @@ import {
     selectUserId
 } from "../../../../features/user/userSlice";
 import {useEffect, useState} from "react";
-import InteractionButton from "../../../../common/components/buttons/InteractionButton/InteractionButton";
+import InteractionButtonView from "../../../../common/components/buttons/views/InteractionButtonView/InteractionButtonView";
 import {addUserRecommendation, removeUserRecommendation} from "../../../../firebase/firebase";
-import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
+import InteractionFeedbackView from "../../../../common/components/InteractionFeedbackView/InteractionFeedbackView";
 import {
     addRecommendationInteraction,
     removeRecommendationInteraction
@@ -76,7 +76,7 @@ const RecommendButton = ({restaurant, style, updateInteractions}) => {
 
     return (
         <>
-            <InteractionButton
+            <InteractionButtonView
                 icon={faHeart}
                 solidIcon={faSolidHeart}
                 isSolid={isRecommended}
@@ -101,7 +101,7 @@ const RecommendButton = ({restaurant, style, updateInteractions}) => {
                 </div>
             )}
 
-            <InteractionFeedback
+            <InteractionFeedbackView
                 isVisible={feedbackIsVisible}
                 change={isRecommended ? "Added" : "Removed"}
                 interaction={"recommendation"}

@@ -19,14 +19,14 @@ import {
     selectUserId, setDisplayName, setEmail, setPhone,
     setProfilePhotoUrl
 } from "../../features/user/userSlice";
-import UserIcon from "../../common/components/UserIcon/UserIcon";
+import UserIconView from "../../common/components/UserIconView/UserIconView";
 import {deleteUserDocAndSignOut, updateUserProfile, updateUserProfilePhoto} from "../../firebase/firebase";
-import FormField from "../../common/components/FormField/FormField";
-import PrimaryButton from "../../common/components/buttons/PrimaryButton/PrimaryButton";
-import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
-import UploadImagePopup from "../../common/components/popups/UploadImagePopup/UploadImagePopup";
-import SecondaryButton from "../../common/components/buttons/SecondaryButton/SecondaryButton";
-import ConfirmationPopupView from "../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
+import FormFieldView from "../../common/components/FormFieldView/FormFieldView";
+import PrimaryButtonView from "../../common/components/buttons/views/PrimaryButtonView/PrimaryButtonView";
+import ProfileNavigationView from "../../common/components/navigations/views/ProfileNavigationView/ProfileNavigationView";
+import UploadImagePopup from "../../common/components/popups/containers/UploadImagePopup/UploadImagePopup";
+import SecondaryButtonView from "../../common/components/buttons/views/SecondaryButtonView/SecondaryButtonView";
+import ConfirmationPopupView from "../../common/components/popups/views/ConfirmationPopupView/ConfirmationPopupView";
 
 const defaultProfileFields = {
     displayName: "",
@@ -75,7 +75,7 @@ const EditProfilePage = () => {
     const validateFields = () => {
         const newErrors = {};
 
-        if (!(/^[A-Za-z0-9]*$/.test(profileFields.displayName))) {
+        if (!(/^[0-9A-Za-z\s\-]+$/.test(profileFields.displayName))) {
             newErrors.displayName = "Display names can only contain letters and numbers.";
         }
 
@@ -83,7 +83,7 @@ const EditProfilePage = () => {
             newErrors.email = "Invalid email format.";
         }
 
-        if (!(/^\d+$/.test(profileFields.phone))) {
+        if (profileFields.phone && !(/^\d+$/.test(profileFields.phone))) {
             newErrors.phone = "Phone number must contain only numbers."
         }
 
@@ -149,7 +149,7 @@ const EditProfilePage = () => {
            <main className="container">
                <section className="change-icon-section">
                    <div className="user-icon-container">
-                       <UserIcon
+                       <UserIconView
                            size="xLarge"
                            imageUrl={uploadedPhotoUrl || profilePhotoUrl}
                        />
@@ -169,7 +169,7 @@ const EditProfilePage = () => {
                </section>
 
                <section className="change-details-section">
-                   <FormField
+                   <FormFieldView
                        label="Display name"
                        type="text"
                        name="displayName"
@@ -179,7 +179,7 @@ const EditProfilePage = () => {
 
                    {errors.displayName && <p className="error-message">{errors.displayName}</p>}
 
-                   <FormField
+                   <FormFieldView
                        label="Email address"
                        type="email"
                        name="email"
@@ -189,7 +189,7 @@ const EditProfilePage = () => {
 
                    {errors.email && <p className="error-message">{errors.email}</p>}
 
-                   <FormField
+                   <FormFieldView
                        label="Phone number"
                        type="text"
                        name="phone"
@@ -199,14 +199,14 @@ const EditProfilePage = () => {
 
                    {errors.phone && <p className="error-message">{errors.phone}</p>}
 
-                   <PrimaryButton
+                   <PrimaryButtonView
                        handleClick={handleSaveClick}
                        text={buttonText}
                        icon={buttonText === "Saved" ? faCircleCheck : null}
                        size="large"
                    />
 
-                   <SecondaryButton
+                   <SecondaryButtonView
                        handleClick={() => setConfirmDeletePopupIsVisible(true)}
                        text="Delete account"
                        size="large"

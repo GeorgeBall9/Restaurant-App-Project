@@ -8,7 +8,7 @@
 import "./ReviewsStatsView.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircleQuestion} from "@fortawesome/free-regular-svg-icons";
-import StarRating from "../../../../common/components/StarRating/StarRating";
+import StarRatingView from "../../../../common/components/StarRatingView/StarRatingView";
 import {faChevronRight, faXmark} from "@fortawesome/free-solid-svg-icons";
 import ReviewsGraph from "../ReviewsGraph/ReviewsGraph";
 import {useState} from "react";
@@ -36,7 +36,7 @@ const ReviewsStatsView = ({
                         </button>
                     </p>
 
-                    <StarRating rating={rating} hideNumber={true}/>
+                    <StarRatingView rating={rating} hideNumber={true}/>
 
                     {reviewsHistogram && <span>{reviewsHistogram.totalReviews} reviews</span>}
                 </div>

@@ -16,9 +16,9 @@ import {selectUserId} from "../../features/user/userSlice";
 import {hideSpinner, showSpinner} from "../../features/spinner/spinnerSlice";
 import {selectAllRestaurants} from "../../features/restaurants/restaurantsSlice";
 import {faChevronDown, faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
-import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../common/components/navigations/views/ProfileNavigationView/ProfileNavigationView";
 import SortFiltersView from "./SortFiltersView/SortFiltersView";
-import Overlay from "../../common/components/Overlay/Overlay";
+import OverlayView from "../../common/components/OverlayView/OverlayView";
 import ReviewsList from "../../common/components/reviews/ReviewsList/ReviewsList";
 
 // Sort reviews by most recent visit date
@@ -190,7 +190,7 @@ const ReviewsPage = () => {
             {sortFiltersVisible && (
                 <>
                     <SortFiltersView filters={sortFilters} handleClick={handleSortFilterClick}/>
-                    <Overlay handleClick={handleOverlayClick}/>
+                    <OverlayView handleClick={handleOverlayClick}/>
                 </>
             )}
 

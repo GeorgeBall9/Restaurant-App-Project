@@ -12,8 +12,8 @@ import {selectUserId} from "../../features/user/userSlice";
 import {useEffect, useState} from "react";
 import {deleteRestaurantReview, getReviewsByUserId} from "../../firebase/firebase";
 import {deleteReview, selectReview, selectReviews, setReviews} from "../../features/reviews/reviewsSlice";
-import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
-import NoResults from "../../common/components/NoResults/NoResults";
+import ProfileNavigationView from "../../common/components/navigations/views/ProfileNavigationView/ProfileNavigationView";
+import NoResultsView from "../../common/components/NoResultsView/NoResultsView";
 import PreviewReviewCard from "./PreviewReviewCard/PreviewReviewCard";
 
 const PreviewReviews = () => {
@@ -52,7 +52,7 @@ const PreviewReviews = () => {
                 )}
 
                 {!reviews?.length && fetchStatus === "idle" && (
-                    <NoResults
+                    <NoResultsView
                         mainText="You haven't written any reviews yet."
                         subText="Write some restaurant reviews, and view them here!"
                     />

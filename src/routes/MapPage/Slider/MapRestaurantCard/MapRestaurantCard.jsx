@@ -6,7 +6,7 @@
 // stylesheet
 import "./MapRestaurantCard.css";
 // Import dependencies
-import RestaurantCard from "../../../../common/components/RestaurantCard/RestaurantCard";
+import RestaurantCardView from "../../../../common/components/RestaurantCard/RestaurantCardView";
 
 import {useSelector} from "react-redux";
 import {selectActiveSlide} from "../../../../features/slider/sliderSlice";
@@ -25,7 +25,7 @@ const MapRestaurantCard = ({restaurant, index}) => {
 
     return (
         <div className="map-restaurant-card-container" style={style}>
-            <RestaurantCard
+            <RestaurantCardView
                 restaurant={restaurant}
                 view="map"
                 ranking={index + 1}

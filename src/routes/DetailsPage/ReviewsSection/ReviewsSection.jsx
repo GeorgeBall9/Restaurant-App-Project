@@ -14,7 +14,7 @@ import {getReviewsByRestaurantId} from "../../../firebase/firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {selectReviews, setReviews} from "../../../features/reviews/reviewsSlice";
 import ReviewsList from "../../../common/components/reviews/ReviewsList/ReviewsList";
-import PrimaryButton from "../../../common/components/buttons/PrimaryButton/PrimaryButton";
+import PrimaryButtonView from "../../../common/components/buttons/views/PrimaryButtonView/PrimaryButtonView";
 import ReviewsStatsView from "./ReviewsStatsView/ReviewsStatsView";
 import {sortReviewsByMostRecentVisitDate} from "../../ReviewsPage/ReviewsPage";
 import {options} from "../../../features/restaurants/restaurantsSlice";
@@ -109,14 +109,14 @@ const ReviewsSection = ({userId, restaurant}) => {
             <ReviewsList restaurant={restaurant} reviews={displayedReviews} userId={userId}/>
 
             {allReviewsVisible ? (
-                <PrimaryButton
+                <PrimaryButtonView
                     text={isReviewFormVisible ? "Close Review Form" : "Write a Review"}
                     handleClick={handleWriteReviewClick}
                     width="fit-content"
                     margin="1em auto"
                 />
             ) : (
-                <PrimaryButton
+                <PrimaryButtonView
                     text={"See all reviews"}
                     handleClick={handleAllReviewsClick}
                     width="fit-content"

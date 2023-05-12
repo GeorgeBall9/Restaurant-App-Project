@@ -7,7 +7,7 @@
 // stylesheet
 import "./BookmarkCard.css";
 // Import the 'RestaurantCard' component from the common components folder
-import RestaurantCard from "../../../common/components/RestaurantCard/RestaurantCard";
+import RestaurantCardView from "../../../common/components/RestaurantCard/RestaurantCardView";
 // Import the 'ClosedSign' component
 import ClosedSign from "./ClosedSign/ClosedSign";
 
@@ -23,7 +23,7 @@ const BookmarkCard = ({restaurant}) => {
 
             {/* Render the 'RestaurantCard' component, passing the 'restaurant' object as a prop
           and the 'isOpen' value to the 'open' prop */}
-            <RestaurantCard restaurant={restaurant} open={isOpen}/>
+            <RestaurantCardView restaurant={restaurant} open={isOpen}/>
         </div>
     );
 };

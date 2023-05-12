@@ -25,12 +25,12 @@ import {
     selectUserId, setDisplayedFriend, setFriendRequests,
     setFriends
 } from "../../../../features/user/userSlice";
-import ProfileNavigationView from "../../../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../../../common/components/navigations/views/ProfileNavigationView/ProfileNavigationView";
 import FriendOfFriendCard from "../../FriendCards/FriendOfFriendCard/FriendOfFriendCard";
 import ConfirmedFriendCard from "../../FriendCards/ConfirmedFriendCard/ConfirmedFriendCard";
 import PendingFriendCard from "../../FriendCards/PendingFriendCard/PendingFriendCard";
 import FriendRequestCard from "../../FriendCards/FriendRequestCard/FriendRequestCard";
-import NoResults from "../../../../common/components/NoResults/NoResults";
+import NoResultsView from "../../../../common/components/NoResultsView/NoResultsView";
 
 const FriendsOfFriendsPage = () => {
     // Get the 'displayedFriend', 'userId', 'friends', and 'friendRequests' from the Redux store
@@ -136,7 +136,7 @@ const FriendsOfFriendsPage = () => {
                     <main className="container">
                         <div className="friend-icons-container">
                             {fetchStatus === "idle" && !friendsOfFriend?.length && (
-                                <NoResults
+                                <NoResultsView
                                     mainText="No friends found."
                                     subText={`${displayedFriend.displayName} has no friends other than you!`}
                                 />

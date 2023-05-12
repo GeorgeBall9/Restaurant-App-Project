@@ -9,7 +9,7 @@ import FriendCard from "../FriendCard/FriendCard";
 import {cancelFriendRequest} from "../../../../firebase/firebase";
 import {selectUserId, setFriends} from "../../../../features/user/userSlice";
 import {useDispatch, useSelector} from "react-redux";
-import ConfirmationPopupView from "../../../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
+import ConfirmationPopupView from "../../../../common/components/popups/views/ConfirmationPopupView/ConfirmationPopupView";
 import {useState} from "react";
 
 const PendingFriendCard = ({id, displayName, iconColour, profilePhotoUrl, mutualFriends}) => {

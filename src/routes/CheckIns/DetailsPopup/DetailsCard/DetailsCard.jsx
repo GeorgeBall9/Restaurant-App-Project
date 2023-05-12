@@ -7,18 +7,18 @@
 // stylesheet
 import "./DetailsCard.css";
 // Import required dependencies and components
-import UserIcon from "../../../../common/components/UserIcon/UserIcon";
+import UserIconView from "../../../../common/components/UserIconView/UserIconView";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendarAlt, faCamera, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
-import InteractionButton from "../../../../common/components/buttons/InteractionButton/InteractionButton";
-import CheckInPopupView from "../../../../common/components/popups/CheckInPopupView/CheckInPopupView";
+import InteractionButtonView from "../../../../common/components/buttons/views/InteractionButtonView/InteractionButtonView";
+import CheckInPopupView from "../../../../common/components/popups/views/CheckInPopupView/CheckInPopupView";
 import {useDispatch, useSelector} from "react-redux";
 import {selectFriends, selectProfilePhotoUrl} from "../../../../features/user/userSlice";
 import {removeRestaurantCheckIn, updateCheckInDoc} from "../../../../firebase/firebase";
 import {removeCheckIn, setSelectedCheckIn, updateCheckIn} from "../../../../features/checkIns/checkInsSlice";
-import ConfirmationPopupView from "../../../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
-import CollageImage from "../../../../common/components/CustomCollage/CollageImage/CollageImage";
+import ConfirmationPopupView from "../../../../common/components/popups/views/ConfirmationPopupView/ConfirmationPopupView";
+import CollageImageView from "../../../../common/components/CustomCollageView/CollageImageView/CollageImageView";
 
 // Define the 'DetailsCard' component
 const DetailsCard = ({
@@ -114,9 +114,9 @@ const DetailsCard = ({
                 {/* Render edit and delete buttons if not on friends page */}
                 {!isFriendsPage && (
                     <div className="buttons-container">
-                        <InteractionButton icon={faPen} handleClick={handleEditClick}/>
+                        <InteractionButtonView icon={faPen} handleClick={handleEditClick}/>
 
-                        <InteractionButton icon={faTrash} handleClick={handleDeleteClick}/>
+                        <InteractionButtonView icon={faTrash} handleClick={handleDeleteClick}/>
                     </div>
                 )}
             </div>
@@ -127,13 +127,13 @@ const DetailsCard = ({
             </div>
 
             <div className="user-icons">
-                <UserIcon
+                <UserIconView
                     size="small"
                     imageUrl={profilePhotoUrl}
                 />
 
                 {checkIn.friendData.map(user => (
-                    <UserIcon
+                    <UserIconView
                         key={user.id + checkIn.id}
                         size="small"
                         imageUrl={user.profilePhotoUrl}
@@ -144,7 +144,7 @@ const DetailsCard = ({
             <div className="photo-previews-container">
                 {[...checkIn.photoData].slice(0, 2).map(({id, url, alt}) => (
                     <div key={id} className="image-preview-container">
-                        <CollageImage url={url} alt={alt}/>
+                        <CollageImageView url={url} alt={alt}/>
                     </div>
                 ))}
 

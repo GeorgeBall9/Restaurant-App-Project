@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {activateSlider, deactivateSlider} from "../../../../features/slider/sliderSlice";
 
 // component imports
-import InteractionButton from "../../buttons/InteractionButton/InteractionButton";
+import InteractionButtonView from "../../buttons/views/InteractionButtonView/InteractionButtonView";
 
 const RouteButton = () => {
 
@@ -45,7 +45,7 @@ const RouteButton = () => {
     };
 
     return (
-        <InteractionButton
+        <InteractionButtonView
             icon={faRoute}
             solidIcon={faCircleXmark}
             isSolid={routeCoordinates}

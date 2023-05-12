@@ -9,11 +9,11 @@ import {faCircleUp as faSolidCircleUp} from "@fortawesome/free-solid-svg-icons";
 import {faCircleUp} from "@fortawesome/free-regular-svg-icons";
 
 // component imports
-import InteractionButton from "../../../../buttons/InteractionButton/InteractionButton";
+import InteractionButtonView from "../../../../buttons/views/InteractionButtonView/InteractionButtonView";
 
 const VoteButton = ({isSolid, handleClick}) => {
     return (
-        <InteractionButton
+        <InteractionButtonView
             icon={faCircleUp}
             solidIcon={faSolidCircleUp}
             isSolid={isSolid}

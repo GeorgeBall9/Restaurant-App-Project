@@ -4,9 +4,9 @@
  */
 
  // Import dependencies
-import FormField from "../../../common/components/FormField/FormField";
-import PrimaryButton from "../../../common/components/buttons/PrimaryButton/PrimaryButton";
-import SecondaryButton from "../../../common/components/buttons/SecondaryButton/SecondaryButton";
+import FormFieldView from "../../../common/components/FormFieldView/FormFieldView";
+import PrimaryButtonView from "../../../common/components/buttons/views/PrimaryButtonView/PrimaryButtonView";
+import SecondaryButtonView from "../../../common/components/buttons/views/SecondaryButtonView/SecondaryButtonView";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {selectFriendRequests, selectFriends, selectUserId, setFriends} from "../../../features/user/userSlice";
@@ -68,7 +68,7 @@ const AddFriendPopupView = ({closePopup}) => {
             )}
 
             <div className="date-container">
-                <FormField
+                <FormFieldView
                     label="Friend ID"
                     name="visitDate"
                     type="text"
@@ -83,15 +83,15 @@ const AddFriendPopupView = ({closePopup}) => {
 
             {!foundUser && (
                 <div className="buttons-container">
-                    <PrimaryButton handleClick={() => handleFindUserClick(addFriendId)} text="Find user"/>
-                    <SecondaryButton handleClick={handleNoClick} text="Cancel"/>
+                    <PrimaryButtonView handleClick={() => handleFindUserClick(addFriendId)} text="Find user"/>
+                    <SecondaryButtonView handleClick={handleNoClick} text="Cancel"/>
                 </div>
             )}
 
             {foundUser && (
                 <div className="buttons-container">
-                    <PrimaryButton handleClick={handleYesClick} text="Yes"/>
-                    <SecondaryButton handleClick={handleNoClick} text="No"/>
+                    <PrimaryButtonView handleClick={handleYesClick} text="Yes"/>
+                    <SecondaryButtonView handleClick={handleNoClick} text="No"/>
                 </div>
             )}
         </div>

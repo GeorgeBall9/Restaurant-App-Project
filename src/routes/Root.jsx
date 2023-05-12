@@ -5,7 +5,7 @@
  */
 
 // Import dependencies
-import Spinner from "../common/components/Spinner/Spinner";
+import SpinnerView from "../common/components/SpinnerView/SpinnerView";
 import {Outlet} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectSpinnerIsVisible} from "../features/spinner/spinnerSlice";
@@ -88,7 +88,7 @@ const Root = () => {
 
     return (
         <>
-            {spinnerIsVisible && <Spinner/>}
+            {spinnerIsVisible && <SpinnerView/>}
             <Outlet/>
         </>
     );

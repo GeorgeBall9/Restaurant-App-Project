@@ -6,8 +6,8 @@
 // stylesheet
 import "./HomePage.css";
 // Import dependencies
-import Navigation from "../../common/components/navigations/Navigation/Navigation";
-import NoResults from "../../common/components/NoResults/NoResults";
+import Navigation from "../../common/components/navigations/containers/Navigation/Navigation";
+import NoResultsView from "../../common/components/NoResultsView/NoResultsView";
 import { useDispatch, useSelector } from "react-redux";
 import {
     selectRestaurants,
@@ -85,14 +85,14 @@ const HomePage = () => {
                 )}
 
                 {fetchStatus === "idle" && !restaurants?.length && (
-                    <NoResults
+                    <NoResultsView
                         mainText="No restaurants found."
                         subText="Why not try looking for something else?"
                     />
                 )}
 
                 {fetchStatus === "fail" && (
-                    <NoResults
+                    <NoResultsView
                         mainText="Something went wrong!"
                         subText="Please check back later"
                     />

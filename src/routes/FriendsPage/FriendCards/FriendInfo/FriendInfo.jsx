@@ -7,9 +7,9 @@
  // stylesheet
 import "./FriendInfo.css";
 // Import dependencies
-import UserIcon from "../../../../common/components/UserIcon/UserIcon";
-import SecondaryButton from "../../../../common/components/buttons/SecondaryButton/SecondaryButton";
-import PrimaryButton from "../../../../common/components/buttons/PrimaryButton/PrimaryButton";
+import UserIconView from "../../../../common/components/UserIconView/UserIconView";
+import SecondaryButtonView from "../../../../common/components/buttons/views/SecondaryButtonView/SecondaryButtonView";
+import PrimaryButtonView from "../../../../common/components/buttons/views/PrimaryButtonView/PrimaryButtonView";
 
 const FriendInfo = ({
                         displayName,
@@ -22,7 +22,7 @@ const FriendInfo = ({
 
     return (
         <div className="friend-info">
-            <UserIcon
+            <UserIconView
                 size="larger"
                 imageUrl={profilePhotoUrl}
             />
@@ -35,7 +35,7 @@ const FriendInfo = ({
                 </div>
 
                 {status === "pending" && (
-                    <SecondaryButton
+                    <SecondaryButtonView
                         handleClick={handleCancelClick}
                         text="Cancel request"
                         size="small"
@@ -43,7 +43,7 @@ const FriendInfo = ({
                 )}
 
                 {status === "friendOfFriend" && (
-                    <PrimaryButton
+                    <PrimaryButtonView
                         handleClick={handleAddClick}
                         text="Add friend"
                         size="small"

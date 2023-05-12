@@ -9,7 +9,7 @@
 import "./ImageAndInfoView.css";
 //Imports
 import CheckInButton from "./CheckInButton/CheckInButton";
-import StarRating from "../../../common/components/StarRating/StarRating";
+import StarRatingView from "../../../common/components/StarRatingView/StarRatingView";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationDot, faPhone} from "@fortawesome/free-solid-svg-icons";
 import {forwardRef} from "react";
@@ -40,7 +40,7 @@ const ImageAndInfoView = forwardRef((props, ref) => {
                     <CheckInButton restaurant={restaurant} updateInteractions={updateInteractions}/>
                 </div>
 
-                <StarRating rating={starRating}/>
+                <StarRatingView rating={starRating}/>
 
                 <div className="price">
                     <p>{priceLevel !== null ? priceLevel : price}</p>

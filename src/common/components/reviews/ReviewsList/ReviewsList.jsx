@@ -13,7 +13,7 @@ import ReviewCard from "./ReviewCard/ReviewCard";
 
 // react imports
 import {useState} from "react";
-import NoResults from "../../NoResults/NoResults";
+import NoResultsView from "../../NoResultsView/NoResultsView";
 
 const ReviewsList = ({restaurant, reviews, userId}) => {
 

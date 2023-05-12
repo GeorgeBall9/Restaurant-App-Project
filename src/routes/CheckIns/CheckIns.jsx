@@ -13,7 +13,7 @@ import "./CheckInsCalendar/CheckInsCalendar.css";
 // Import Calendar component from 'react'calendar'
 import Calendar from "react-calendar";
 
-import NoResults from "../../common/components/NoResults/NoResults";
+import NoResultsView from "../../common/components/NoResultsView/NoResultsView";
 
 import {useDispatch, useSelector} from "react-redux";
 import {selectProfilePhotoUrl, selectUserId} from "../../features/user/userSlice";
@@ -22,9 +22,9 @@ import {faUtensils, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getCheckInsAndRestaurantDataByUserIdForMonth} from "../../firebase/firebase";
-import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../common/components/navigations/views/ProfileNavigationView/ProfileNavigationView";
 import DetailsPopup from "./DetailsPopup/DetailsPopup";
-import MapView from "../../common/components/map/MapView/MapView";
+import MapView from "../../common/components/map/views/MapView/MapView";
 import CheckInsCollage from "./CheckInsCollage/CheckInsCollage";
 import {
     selectCheckIns,
@@ -200,9 +200,9 @@ const CheckIns = () => {
                             checkIns={detailsPopupIsVisible ? selectedCheckIns : allCheckIns}
                         />
                     )}  
-                    {/*Render the NoResults component when a user has no Check-ins in the current month*/}
+                    {/*Render the NoResultsView component when a user has no Check-ins in the current month*/}
                     {!allCheckIns?.length && fetchStatus === "idle" && (
-                        <NoResults
+                        <NoResultsView
                             mainText="You haven't checked in anywhere this month."
                             subText="Head to a restaurant page to check-in!"
                         />

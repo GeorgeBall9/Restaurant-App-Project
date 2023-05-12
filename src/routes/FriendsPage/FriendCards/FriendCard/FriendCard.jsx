@@ -7,8 +7,8 @@
 import "./FriendCard.css";
 // Import dependencies
 import FriendInfo from "../FriendInfo/FriendInfo";
-import PrimaryButton from "../../../../common/components/buttons/PrimaryButton/PrimaryButton";
-import InversePrimaryButton from "../../../../common/components/buttons/InversePrimaryButton/InversePrimaryButton";
+import PrimaryButtonView from "../../../../common/components/buttons/views/PrimaryButtonView/PrimaryButtonView";
+import InversePrimaryButtonView from "../../../../common/components/buttons/views/InversePrimaryButtonView/InversePrimaryButtonView";
 
 const FriendCard = ({
                         displayName,
@@ -38,8 +38,8 @@ const FriendCard = ({
 
             {(status === "confirmed" || status === "request") && (
                 <div className="buttons-container">
-                    <PrimaryButton handleClick={button1Handler} text={button1Text} size="small"/>
-                    <InversePrimaryButton handleClick={button2Handler} text={button2Text} size="small"/>
+                    <PrimaryButtonView handleClick={button1Handler} text={button1Text} size="small"/>
+                    <InversePrimaryButtonView handleClick={button2Handler} text={button2Text} size="small"/>
                 </div>
             )}
         </div>

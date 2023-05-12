@@ -6,7 +6,7 @@ Contact: georgeball14@hotmail.com
 */
 // Import dependencies
 import FriendCard from "../FriendCard/FriendCard";
-import ConfirmationPopupView from "../../../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
+import ConfirmationPopupView from "../../../../common/components/popups/views/ConfirmationPopupView/ConfirmationPopupView";
 import {useState} from "react";
 import {sendFriendRequestToUser} from "../../../../firebase/firebase";
 import {selectUserId, setFriends} from "../../../../features/user/userSlice";

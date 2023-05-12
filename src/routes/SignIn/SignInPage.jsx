@@ -6,7 +6,7 @@
 // stylesheet
 import "./SignInPage.css";
 // Import dependencies
-import FormField from "../../common/components/FormField/FormField";
+import FormFieldView from "../../common/components/FormFieldView/FormFieldView";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -17,7 +17,7 @@ import {setUserDetails} from "../../features/user/userSlice";
 import { useState } from "react";
 import {faGoogle} from "@fortawesome/free-brands-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import PrimaryButton from "../../common/components/buttons/PrimaryButton/PrimaryButton";
+import PrimaryButtonView from "../../common/components/buttons/views/PrimaryButtonView/PrimaryButtonView";
 
 const SignInPage = () => {
 
@@ -81,14 +81,14 @@ const SignInPage = () => {
             <h1>Sign In</h1>
 
             <form className="signin-form">
-                <FormField 
+                <FormFieldView
                     label="Email"
                     type="email"
                     value={email}
                     onChangeHandler={handleEmailChange}
                 />
 
-                <FormField 
+                <FormFieldView
                     label="Password"
                     type="password"
                     value={password}
@@ -97,7 +97,7 @@ const SignInPage = () => {
 
                 {errorMessage && <div className="signin-error-message">{errorMessage}</div>}
 
-                <PrimaryButton
+                <PrimaryButtonView
                     text={signInButtonText}
                     type="button"
                     handleClick={handleEmailAndPasswordSignIn}

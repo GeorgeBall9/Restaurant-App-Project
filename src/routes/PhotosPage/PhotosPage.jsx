@@ -7,12 +7,12 @@
  // stylesheet
 import "./PhotosPage.css";
 // Import dependencies
-import CustomCollage from "../../common/components/CustomCollage/CustomCollage";
+import CustomCollageView from "../../common/components/CustomCollageView/CustomCollageView";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {selectUserId} from "../../features/user/userSlice";
 import {getAllRestaurantPhotosByUserId} from "../../firebase/firebase";
-import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../common/components/navigations/views/ProfileNavigationView/ProfileNavigationView";
 
 const PhotosPage = () => {
     // Get the 'userId' from the Redux store
@@ -62,7 +62,7 @@ const PhotosPage = () => {
             <main>
                 {display === "Uploaded" && allPhotos?.uploadedPhotos && (
                     <div className="collage-popup-photos collage-popup-photos-expanded">
-                        <CustomCollage
+                        <CustomCollageView
                             images={allPhotos.uploadedPhotos}
                             rows={100}
                             columns={2}
@@ -74,7 +74,7 @@ const PhotosPage = () => {
 
                 {display === "Tagged" && allPhotos?.taggedPhotos && (
                     <div className="collage-popup-photos collage-popup-photos-expanded">
-                        <CustomCollage
+                        <CustomCollageView
                             images={allPhotos.taggedPhotos}
                             rows={100}
                             columns={2}

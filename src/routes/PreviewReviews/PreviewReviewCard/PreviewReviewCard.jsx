@@ -6,8 +6,8 @@
 // stylesheet
 import "./PreviewReviewCard.css";
 // Import dependencies
-import RestaurantImage from "../../../common/components/RestaurantImage/RestaurantImage";
-import StarRating from "../../../common/components/StarRating/StarRating";
+import RestaurantImageView from "../../../common/components/RestaurantImageView/RestaurantImageView";
+import StarRatingView from "../../../common/components/StarRatingView/StarRatingView";
 import {faTrash, faUpRightAndDownLeftFromCenter} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
 import {deleteRestaurantReview} from "../../../firebase/firebase";
@@ -15,8 +15,8 @@ import {deleteReview, selectReview} from "../../../features/reviews/reviewsSlice
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserId} from "../../../features/user/userSlice";
-import InteractionButton from "../../../common/components/buttons/InteractionButton/InteractionButton";
-import ConfirmationPopupView from "../../../common/components/popups/ConfirmationPopupView/ConfirmationPopupView";
+import InteractionButtonView from "../../../common/components/buttons/views/InteractionButtonView/InteractionButtonView";
+import ConfirmationPopupView from "../../../common/components/popups/views/ConfirmationPopupView/ConfirmationPopupView";
 
 const PreviewReviewCard = ({review, canDelete}) => {
     // Destructure props
@@ -54,32 +54,32 @@ const PreviewReviewCard = ({review, canDelete}) => {
             )}
 
             <div className="container-lhs">
-                <RestaurantImage photoUrl={photoUrl} name={restaurantName}/>
+                <RestaurantImageView photoUrl={photoUrl} name={restaurantName}/>
 
                 <div className="preview">
                     <h3 style={{margin: 0}}>{title}</h3>
 
-                    <StarRating rating={rating}/>
+                    <StarRatingView rating={rating}/>
 
                     <p>{content}</p>
                 </div>
             </div>
 
             <div className="container-rhs">
-                <InteractionButton
+                <InteractionButtonView
                     icon={faUpRightAndDownLeftFromCenter}
                     handleClick={() => handleExpandClick(id, restaurantId)}
                 />
 
                 {canDelete && (
-                    <InteractionButton
+                    <InteractionButtonView
                         icon={faTrash}
                         handleClick={() => setConfirmDeleteReviewId(id)}
                     />
                 )}
 
                 {!canDelete && (
-                    <InteractionButton
+                    <InteractionButtonView
                         icon={faUpRightAndDownLeftFromCenter}
                         handleClick={() => handleExpandClick(id, restaurantId)}
                         style={{visibility: "hidden"}}

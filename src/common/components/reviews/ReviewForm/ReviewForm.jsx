@@ -27,10 +27,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPen} from "@fortawesome/free-solid-svg-icons";
 
 // component imports
-import UploadImagePopup from "../../popups/UploadImagePopup/UploadImagePopup";
-import InteractiveStarRating from "../../StarRating/IntearactiveStarRating/InteractiveStarRating";
-import InversePrimaryButton from "../../buttons/InversePrimaryButton/InversePrimaryButton";
-import FormField from "../../FormField/FormField";
+import UploadImagePopup from "../../popups/containers/UploadImagePopup/UploadImagePopup";
+import InteractiveStarRatingView from "../../StarRatingView/IntearactiveStarRatingView/InteractiveStarRatingView";
+import InversePrimaryButtonView from "../../buttons/views/InversePrimaryButtonView/InversePrimaryButtonView";
+import FormFieldView from "../../FormFieldView/FormFieldView";
 
 // default values for form fields
 const defaultFormFields = {
@@ -177,7 +177,7 @@ const ReviewForm = forwardRef((props, ref) => {
                     <div className="interactive-rating-container">
                         <label>
                             Rating:
-                            <InteractiveStarRating
+                            <InteractiveStarRatingView
                                 rating={rating}
                                 onClick={handleStarRatingClick}
                                 interactive={true}
@@ -193,7 +193,7 @@ const ReviewForm = forwardRef((props, ref) => {
                         </div>
                     ) : (
                         // show add photo button if no photo uploaded
-                        <InversePrimaryButton
+                        <InversePrimaryButtonView
                             text="Add image"
                             type="button"
                             handleClick={() => setAddImagesPopupIsVisible(true)}
@@ -205,7 +205,7 @@ const ReviewForm = forwardRef((props, ref) => {
                 {errors.rating && <p className="rating-error error">{errors.rating}</p>}
 
                 <div>
-                    <FormField
+                    <FormFieldView
                         label="Date of Visit:"
                         name="visitDate"
                         type="date"
@@ -217,7 +217,7 @@ const ReviewForm = forwardRef((props, ref) => {
                 </div>
 
                 <div>
-                    <FormField
+                    <FormFieldView
                         label="Title:"
                         name="title"
                         type="text"

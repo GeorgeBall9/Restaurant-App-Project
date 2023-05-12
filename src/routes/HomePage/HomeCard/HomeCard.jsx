@@ -6,10 +6,10 @@
 // stylesheet
 import "./HomeCard.css";
 // Import dependencies
-import StarRating from "../../../common/components/StarRating/StarRating";
+import StarRatingView from "../../../common/components/StarRatingView/StarRatingView";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationArrow, faUtensils} from "@fortawesome/free-solid-svg-icons";
-import BookmarkButton from "../../../common/components/buttons/BookmarkButton/BookmarkButton";
+import BookmarkButton from "../../../common/components/buttons/containers/BookmarkButton/BookmarkButton";
 import {useNavigate} from "react-router-dom";
 
 const HomeCard = ({restaurant, highlyRecommended}) => {
@@ -43,7 +43,7 @@ const HomeCard = ({restaurant, highlyRecommended}) => {
                     <BookmarkButton restaurant={restaurant}/>
                 </h3>
 
-                <StarRating rating={starRating}/>
+                <StarRatingView rating={starRating}/>
 
                 <div className="price-cuisine-container">
                     <div className="distance-container">

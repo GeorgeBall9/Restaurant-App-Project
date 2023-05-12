@@ -116,7 +116,7 @@ button.react-calendar__tile > div {
 .check-ins-calendar {
     position: relative;
 }
-/* CheckIns page NoResults component container styling */
+/* CheckIns page NoResultsView component container styling */
 .check-ins-map-container .no-results {
     background-color: white;
 }

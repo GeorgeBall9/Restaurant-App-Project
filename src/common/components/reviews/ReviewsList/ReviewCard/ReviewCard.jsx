@@ -24,11 +24,11 @@ import {useDispatch, useSelector} from "react-redux";
 
 
 // component imports
-import UserIcon from "../../../UserIcon/UserIcon";
+import UserIconView from "../../../UserIconView/UserIconView";
 import VoteButton from "./VoteButton/VoteButton";
-import InteractionButton from "../../../buttons/InteractionButton/InteractionButton";
-import ConfirmationPopupView from "../../../popups/ConfirmationPopupView/ConfirmationPopupView";
-import StarRating from "../../../StarRating/StarRating";
+import InteractionButtonView from "../../../buttons/views/InteractionButtonView/InteractionButtonView";
+import ConfirmationPopupView from "../../../popups/views/ConfirmationPopupView/ConfirmationPopupView";
+import StarRatingView from "../../../StarRatingView/StarRatingView";
 
 const ReviewCard = ({review, userId, handleEditClick}) => {
 
@@ -98,7 +98,7 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
 
             <div className="review-header">
                 <div className="author-details">
-                    <UserIcon
+                    <UserIconView
                         size="medium"
                         imageUrl={profilePhotoUrl}
                     />
@@ -114,9 +114,9 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
                 {/* show edit and delete buttons only if user is author */}
                 {authorId === userId && (
                     <div className="buttons-container">
-                        <InteractionButton icon={faPen} handleClick={() => handleEditClick(id)}/>
+                        <InteractionButtonView icon={faPen} handleClick={() => handleEditClick(id)}/>
 
-                        <InteractionButton
+                        <InteractionButtonView
                             icon={faTrash}
                             handleClick={() => setConfirmationPopupIsVisible(true)}
                         />
@@ -126,7 +126,7 @@ const ReviewCard = ({review, userId, handleEditClick}) => {
 
             <div className="review-content">
                 <div className="rating-and-date-container">
-                    <StarRating rating={rating}/>
+                    <StarRatingView rating={rating}/>
 
                     <p>
                         <strong>Visit date: </strong>

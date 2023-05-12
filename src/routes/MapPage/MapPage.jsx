@@ -8,16 +8,16 @@ Contact: ryan.henzell-hill@outlook.com
 import "./MapPage.css";
 
 // imported components
-import Navigation from "../../common/components/navigations/Navigation/Navigation";
+import Navigation from "../../common/components/navigations/containers/Navigation/Navigation";
 import Slider from "./Slider/Slider";
-import MapView from "../../common/components/map/MapView/MapView";
+import MapView from "../../common/components/map/views/MapView/MapView";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {selectRestaurants, selectRestaurantsFetchStatus} from "../../features/restaurants/restaurantsSlice";
 import {selectUserPosition} from "../../features/location/locationSlice";
-import PrimaryButton from "../../common/components/buttons/PrimaryButton/PrimaryButton";
-import NoResults from "../../common/components/NoResults/NoResults";
-import ErrorPopupView from "../../common/components/popups/ErrorPopupView/ErrorPopupView";
+import PrimaryButtonView from "../../common/components/buttons/views/PrimaryButtonView/PrimaryButtonView";
+import NoResultsView from "../../common/components/NoResultsView/NoResultsView";
+import ErrorPopupView from "../../common/components/popups/views/ErrorPopupView/ErrorPopupView";
 
 const MapPage = () => {
     // Get the 'restaurants', 'restaurantsFetchStatus' and 'userPosition' from the Redux store
@@ -58,7 +58,7 @@ const MapPage = () => {
             {errorPopupIsVisible && (
                 <ErrorPopupView
                     children={
-                        <NoResults
+                        <NoResultsView
                             mainText="No open restaurants nearby!!"
                             subText="Try entering a different search location or check back later"
                         />

@@ -16,8 +16,8 @@ import { addRestaurantCheckIn, checkInExists, getLastCheckInToRestaurantByUserId
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFriends, selectUserId } from "../../../../features/user/userSlice";
-import InteractionFeedback from "../../../../common/components/InteractionFeedback/InteractionFeedback";
-import CheckInPopupView from "../../../../common/components/popups/CheckInPopupView/CheckInPopupView";
+import InteractionFeedbackView from "../../../../common/components/InteractionFeedbackView/InteractionFeedbackView";
+import CheckInPopupView from "../../../../common/components/popups/views/CheckInPopupView/CheckInPopupView";
 import { addCheckInInteraction } from "../../../../features/interactions/interactionsSlice";
 
 const CheckInButton = ({ restaurant }) => {
@@ -114,7 +114,7 @@ const CheckInButton = ({ restaurant }) => {
                 />
             )}
 
-            <InteractionFeedback isVisible={feedbackIsVisible} change="Saved" interaction="check-in" />
+            <InteractionFeedbackView isVisible={feedbackIsVisible} change="Saved" interaction="check-in" />
         </>
     );
 };

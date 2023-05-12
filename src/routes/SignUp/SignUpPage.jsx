@@ -9,10 +9,10 @@ import "./SignUpPage.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {signUpAuthUserWithEmailAndPassword} from "../../firebase/firebase";
-import FormField from "../../common/components/FormField/FormField";
+import FormFieldView from "../../common/components/FormFieldView/FormFieldView";
 import {setUserDetails} from "../../features/user/userSlice";
 import {useDispatch} from "react-redux";
-import PrimaryButton from "../../common/components/buttons/PrimaryButton/PrimaryButton";
+import PrimaryButtonView from "../../common/components/buttons/views/PrimaryButtonView/PrimaryButtonView";
 
 const SignUpPage = () => {
 
@@ -117,7 +117,7 @@ const SignUpPage = () => {
             <h1>Sign Up</h1>
 
             <form className="signup-form">
-                <FormField
+                <FormFieldView
                     label="Display name"
                     type="text"
                     value={displayName}
@@ -126,7 +126,7 @@ const SignUpPage = () => {
 
                 {errors.displayName && <p className="error-message">{errors.displayName}</p>}
 
-                <FormField
+                <FormFieldView
                     label="Email"
                     type="email"
                     value={email}
@@ -135,7 +135,7 @@ const SignUpPage = () => {
 
                 {errors.email && <p className="error-message">{errors.email}</p>}
 
-                <FormField
+                <FormFieldView
                     label="Password"
                     type="password"
                     value={password}
@@ -144,7 +144,7 @@ const SignUpPage = () => {
 
                 {errors.password && <p className="error-message">{errors.password}</p>}
 
-                <FormField
+                <FormFieldView
                     label="Confirm password"
                     type="password"
                     className={`signup-input ${
@@ -160,7 +160,7 @@ const SignUpPage = () => {
 
                 {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
 
-                <PrimaryButton
+                <PrimaryButtonView
                     text={signUpButtonText}
                     type="button"
                     handleClick={handleSignUp}

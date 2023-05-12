@@ -13,8 +13,8 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {getRestaurantById} from "../../firebase/firebase";
 // Import common components and subcomponents
-import ProfileNavigationView from "../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
-import NoResults from "../../common/components/NoResults/NoResults";
+import ProfileNavigationView from "../../common/components/navigations/views/ProfileNavigationView/ProfileNavigationView";
+import NoResultsView from "../../common/components/NoResultsView/NoResultsView";
 import BookmarkCard from "./BookmarkCard/BookmarkCard";
 
 // Define the 'checkIsOpen' function to check if a restaurant is open
@@ -110,9 +110,9 @@ const Bookmarks = () => {
                 </div>
             )}
 
-            {/* Render the 'NoResults' component if there are no bookmarked restaurants and the fetch status is 'idle' */}
+            {/* Render the 'NoResultsView' component if there are no bookmarked restaurants and the fetch status is 'idle' */}
             {!bookmarkedRestaurants.length && fetchStatus === "idle" && (
-                <NoResults
+                <NoResultsView
                     mainText="You haven't bookmarked any restaurants yet."
                     subText="Bookmarked restaurants will appear here!"
                 />

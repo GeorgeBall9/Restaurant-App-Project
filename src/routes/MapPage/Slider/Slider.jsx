@@ -6,6 +6,7 @@
 // stylesheet
 import "./Slider.css";
 // Import dependencies
+
 // Import 'react-swipeable' for restuarant cards
 import {useSwipeable} from "react-swipeable";
 

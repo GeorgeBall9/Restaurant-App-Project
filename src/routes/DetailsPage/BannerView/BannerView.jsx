@@ -10,7 +10,7 @@ import "./BannerView.css";
 // Imports
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
-import BookmarkButton from "../../../common/components/buttons/BookmarkButton/BookmarkButton";
+import BookmarkButton from "../../../common/components/buttons/containers/BookmarkButton/BookmarkButton";
 import ShareButton from "./ShareButton/ShareButton";
 import {forwardRef} from "react";
 import RecommendButton from "./RecommendButton/RecommendButton";

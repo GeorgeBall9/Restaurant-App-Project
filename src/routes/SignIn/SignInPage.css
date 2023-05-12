@@ -28,7 +28,7 @@
     margin: var(--margin-align-center);
     text-align: center;
 }
-/* Button styling */
+/* ButtonView styling */
 .signin-button {
     background-color: var(--secondary-theme);
     color: #fff;

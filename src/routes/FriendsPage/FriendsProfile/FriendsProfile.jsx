@@ -9,12 +9,12 @@ import './FriendsProfile.css';
 // Import dependencies
 import FriendContributionsButton from './FriendContributionsButton/FriendContributionsButton';
 import {useNavigate} from "react-router-dom";
-import UserIcon from '../../../common/components/UserIcon/UserIcon';
+import UserIconView from '../../../common/components/UserIconView/UserIconView';
 import {
     faComment,
     faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
-import ProfileNavigationView from "../../../common/components/navigations/ProfileNavigationView/ProfileNavigationView";
+import ProfileNavigationView from "../../../common/components/navigations/views/ProfileNavigationView/ProfileNavigationView";
 import {useSelector} from "react-redux";
 import {selectDisplayedFriend} from "../../../features/user/userSlice";
 
@@ -36,7 +36,7 @@ const FriendsProfile = () => {
                     <main className="container">
                         <section className="friends-profile-info-container">
                             <div className="user-icon-container">
-                                <UserIcon
+                                <UserIconView
                                     size="xLarge"
                                     imageUrl={displayedFriend.profilePhotoUrl}
                                 />
